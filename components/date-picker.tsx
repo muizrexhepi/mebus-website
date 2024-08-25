@@ -12,10 +12,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import useSearchStore from "@/store";
 
 export function DatePicker() {
   const [date, setDate] = React.useState<Date>();
-  console.log({ date });
+  const { departureDate, setDepartureDate } = useSearchStore();
+
+  React.useEffect(() => {
+    if (date) {
+      setDepartureDate(format(date, "P"));
+    }
+  }, [date]);
 
   return (
     <Popover>

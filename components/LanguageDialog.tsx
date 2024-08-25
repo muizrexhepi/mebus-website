@@ -35,7 +35,7 @@ const LanguageDialog = ({ isOpen }: { isOpen: boolean }) => {
           <DialogTitle>Select Your Language</DialogTitle>
           <DialogDescription>Choose a language to continue.</DialogDescription>
         </DialogHeader>
-        <div className="space-y-2">
+        <div className="gap-2 grid grid-cols-2 sm:grid-cols-3">
           {languages.map((language, index) => (
             <Button
               key={index}

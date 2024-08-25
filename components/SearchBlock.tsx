@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import { Switch } from "./ui/switch";
 import { Label } from "./ui/label";
 import { useState } from "react";
+import useSearchStore from "@/store";
 
 const BUS_TYPES = ["Luxury Bus", "Economy Bus", "Sleeper Bus", "Executive Bus"];
 
@@ -56,6 +57,10 @@ const countryOptions = [
 const SearchBlock = () => {
   const [isRoundTrip, setIsRoundTrip] = useState<boolean>(false);
 
+  const { passengers, departureDate, from, to } = useSearchStore();
+
+  console.log({ passengers, departureDate, from, to });
+
   return (
     <div className="bg-white rounded-xl p-7 flex flex-col gap-4 w-full min-h-fit">
       <div className="w-full flex flex-col gap-2 md:flex-row justify-start md:justify-between items-start md:items-center">
@@ -73,14 +78,22 @@ const SearchBlock = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="w-full">
           <p className="text-black font-normal text-lg">From</p>
-          <CustomSelect countries={countryOptions} type={SELECT_TYPE.SELECT} />
+          <CustomSelect
+            countries={countryOptions}
+            type={SELECT_TYPE.SELECT}
+            departure="from"
+          />
         </div>
         {/* <div className="rounded-full h-13 w-13 mb-2 shrink-0 flex justify-center items-center bg-black p-2">
             <RefreshCcw className="w-6 h-6 text-white" />
           </div> */}
         <div className="w-full">
           <p className="text-black font-normal text-lg">To</p>
-          <CustomSelect countries={countryOptions} type={SELECT_TYPE.SELECT} />
+          <CustomSelect
+            countries={countryOptions}
+            type={SELECT_TYPE.SELECT}
+            departure="to"
+          />
         </div>
 
         <div>
@@ -104,7 +117,7 @@ const SearchBlock = () => {
         </div>
         <div>
           <p className="text-black font-normal text-lg">Passengers</p>
-          <CustomSelect type={SELECT_TYPE.DATE_PICKER} />
+          <CustomSelect type={SELECT_TYPE.PASSENGER_SELECT} />
         </div>
       </div>
       <div className="w-full flex-col gap-4 items-start justify-start flex md:flex-row md:justify-between md:items-center">
