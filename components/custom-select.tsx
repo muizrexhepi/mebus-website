@@ -37,16 +37,20 @@ interface CustomSelectProps {
   countries?: CountryGroup[];
   type: SELECT_TYPE;
   departure?: "from" | "to";
+  empty?: true | false;
 }
 
 const CustomSelect: React.FC<CustomSelectProps> = ({
   countries,
   type,
   departure,
+  empty,
 }) => {
   switch (type) {
     case SELECT_TYPE.SELECT:
-      return <CitySelect countries={countries} departure={departure} />;
+      return (
+        <CitySelect countries={countries} departure={departure} empty={empty} />
+      );
     case SELECT_TYPE.DATE_PICKER:
       return <DatePicker />;
     case SELECT_TYPE.DATE_RANGE_PICKER:

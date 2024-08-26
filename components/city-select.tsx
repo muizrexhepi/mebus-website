@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/select";
 import { BusFrontIcon } from "lucide-react";
 import useSearchStore from "@/store";
+import { cn } from "@/lib/utils";
 
 interface CityOption {
   value: string;
@@ -23,11 +24,13 @@ interface CountryGroup {
 interface CustomSelectProps {
   countries?: CountryGroup[];
   departure?: "from" | "to";
+  empty?: true | false;
 }
 
 const CitySelect: React.FC<CustomSelectProps> = ({
   countries,
   departure = "from",
+  empty,
 }) => {
   const { setFrom, setTo } = useSearchStore();
 
@@ -39,12 +42,24 @@ const CitySelect: React.FC<CustomSelectProps> = ({
     }
   };
 
+  //TO DO IF EMPTY
+
   return (
     <Select onValueChange={handleSelect}>
-      <SelectTrigger className="outline-none h-14 hover:bg-accent transition-colors text-base truncate">
+      <SelectTrigger
+        className={cn(
+          "outline-none h-14 hover:bg-accent transition-colors text-base truncate",
+          {
+            "bg-destructive": !empty,
+          }
+        )}
+      >
         <div className="flex items-center">
           <BusFrontIcon className="mr-2 h-5 w-5" />
-          <SelectValue placeholder={departure === "from" ? "From" : "To"} />
+          <SelectValue
+            defaultValue={countries && countries[0]?.name}
+            placeholder={departure === "from" ? "From" : "To"}
+          />
         </div>
       </SelectTrigger>
       <SelectContent>

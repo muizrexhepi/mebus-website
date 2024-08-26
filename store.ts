@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from 'zustand';
 
 export interface Passengers {
   adults: number;
@@ -19,9 +19,10 @@ interface SearchState {
   setPassengers: (passengers: Passengers) => void;
   setDepartureDate: (date: string | null) => void;
   setReturnDate: (returnDate: string | null) => void;
+  resetSearch: () => void;
 }
 
-const useSearchStore = create<SearchState>((set) => ({
+const initialState: Omit<SearchState, 'setFrom' | 'setTo' | 'setRoute' | 'setPassengers' | 'setDepartureDate' | 'setReturnDate' | 'resetSearch'> = {
   from: '',
   to: '',
   route: '',
@@ -31,6 +32,10 @@ const useSearchStore = create<SearchState>((set) => ({
   },
   departureDate: null,
   returnDate: null,
+};
+
+const useSearchStore = create<SearchState>((set) => ({
+  ...initialState,
 
   setFrom: (from) => set({ from }),
   setTo: (to) => set({ to }),
@@ -38,6 +43,8 @@ const useSearchStore = create<SearchState>((set) => ({
   setPassengers: (passengers) => set({ passengers }),
   setDepartureDate: (departureDate) => set({ departureDate }),
   setReturnDate: (returnDate) => set({ returnDate }),
+
+  resetSearch: () => set(initialState),
 }));
 
 export default useSearchStore;

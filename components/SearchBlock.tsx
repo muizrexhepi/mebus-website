@@ -1,11 +1,12 @@
 "use client";
-import { ArrowRight, RefreshCcw } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import CustomSelect, { SELECT_TYPE } from "./custom-select";
 import { Button } from "./ui/button";
 import { Switch } from "./ui/switch";
 import { Label } from "./ui/label";
 import { useState } from "react";
 import useSearchStore from "@/store";
+import { useRouter } from "next/navigation";
 
 const BUS_TYPES = ["Luxury Bus", "Economy Bus", "Sleeper Bus", "Executive Bus"];
 
@@ -56,10 +57,29 @@ const countryOptions = [
 
 const SearchBlock = () => {
   const [isRoundTrip, setIsRoundTrip] = useState<boolean>(false);
+  const router = useRouter();
+  const { passengers, departureDate, from, to, resetSearch } = useSearchStore();
 
-  const { passengers, departureDate, from, to } = useSearchStore();
+  const isEmpty = {
+    from: !from,
+    to: !to,
+    departureDate: !departureDate,
+    passengers: !passengers || passengers.adults === 0,
+  };
 
-  console.log({ passengers, departureDate, from, to });
+  const handleSearch = () => {
+    if (
+      !isEmpty.from &&
+      !isEmpty.to &&
+      !isEmpty.departureDate &&
+      !isEmpty.passengers
+    ) {
+      router.push(
+        `/search/?departureStation=${from}&arrivalStation=${to}&departureDate=${departureDate}&adult=${passengers.adults}&children=${passengers?.children}`
+      );
+      resetSearch();
+    }
+  };
 
   return (
     <div className="bg-white rounded-xl p-7 flex flex-col gap-4 w-full min-h-fit">
@@ -82,20 +102,18 @@ const SearchBlock = () => {
             countries={countryOptions}
             type={SELECT_TYPE.SELECT}
             departure="from"
+            empty={isEmpty.from}
           />
         </div>
-        {/* <div className="rounded-full h-13 w-13 mb-2 shrink-0 flex justify-center items-center bg-black p-2">
-            <RefreshCcw className="w-6 h-6 text-white" />
-          </div> */}
         <div className="w-full">
           <p className="text-black font-normal text-lg">To</p>
           <CustomSelect
             countries={countryOptions}
             type={SELECT_TYPE.SELECT}
             departure="to"
+            empty={isEmpty.to}
           />
         </div>
-
         <div>
           <div className="flex justify-between items-center">
             <p className="text-black font-normal text-lg">Departure</p>
@@ -113,11 +131,15 @@ const SearchBlock = () => {
                 ? SELECT_TYPE.DATE_RANGE_PICKER
                 : SELECT_TYPE.DATE_PICKER
             }
+            empty={isEmpty.departureDate}
           />
         </div>
         <div>
           <p className="text-black font-normal text-lg">Passengers</p>
-          <CustomSelect type={SELECT_TYPE.PASSENGER_SELECT} />
+          <CustomSelect
+            type={SELECT_TYPE.PASSENGER_SELECT}
+            empty={isEmpty.passengers}
+          />
         </div>
       </div>
       <div className="w-full flex-col gap-4 items-start justify-start flex md:flex-row md:justify-between md:items-center">
@@ -131,7 +153,10 @@ const SearchBlock = () => {
             ))}
           </div>
         </div>
-        <Button className="p-6 flex items-center gap-2 text-base w-full md:w-fit">
+        <Button
+          className="p-6 flex items-center gap-2 text-base w-full md:w-fit"
+          onClick={handleSearch}
+        >
           Search
           <ArrowRight className="h-4 w-4" />
         </Button>

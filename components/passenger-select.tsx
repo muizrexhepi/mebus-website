@@ -40,17 +40,17 @@ export default function PassengerSelect() {
           ? passengers.adults + " Adults"
           : passengers.adults + " Adult"}
         {passengers.children === 1
-          ? passengers.children + "Child"
+          ? ", " + passengers.children + " Child"
           : passengers.children > 1
-          ? passengers.children + "Children"
+          ? ", " + passengers.children + " Children"
           : ""}
         <SelectValue>
           Adults ({passengers.adults}), Children ({passengers.children})
         </SelectValue>
       </SelectTrigger>
       <SelectContent>
-        <div className="p-2">
-          <div className="flex items-center justify-between py-2">
+        <div className="px-2">
+          <div className="flex items-center justify-between py-2 border-b">
             <span className="text-sm font-medium">Adults</span>
             <div className="flex items-center">
               <Button
