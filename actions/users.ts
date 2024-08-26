@@ -1,12 +1,12 @@
 "use server";
 import * as sdk from 'node-appwrite'
 import { parseStringify } from "@/lib/utils";
-import { ID } from "appwrite";
+import axios from 'axios'
 
 const client = new sdk.Client()
     .setEndpoint('https://cloud.appwrite.io/v1') 
     .setProject('66ad2c76001c700ba8ae')
-    .setKey('fceadf8d26aae7813ac32f3e7ee19d36ef954f36132a4212e38cf642707d055d75d84637bb91db820e1ce08c14725b94a9a100ef73b6f34a2a3e019f2051a8e5c7725ee992df97bbd2e194686f61adae1742eb793e2eb8428eedf3f903e78625398e4d7249547921c8f4fa10f0085a33c2a94ebfb1c43bd90df426be68ef53b9')
+    .setKey('df9835b268e3a1f9f64f604b906b92097ac4c982ed68a2b92b2144541abb1c1f84b357c79adf6ee328a9bdcb92711b5ac96a87d3079f712a139034fd35dce5661419bb86c7590ce2d20925e090f88ce0acb8160eb24e22458771c0edba3c87b14a3ed383f9081a494a2972ae9ca79005c34a8de6aab321140383fee7611ca036')
 
     const users = new sdk.Users(client);
     const account = new sdk.Account(client)
@@ -20,14 +20,17 @@ declare interface CreateUserParams {
 export const createUser = async (user: CreateUserParams) => {
   try {
     console.log({user:user})
-    const newAccount = await account.create(
-      ID.unique(),
-      user.email,
-      user.password,
-      user.name
-    );
-    
-    return parseStringify(newAccount);
+    const newUser = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/create`,{
+      name:user.name,
+      email:user.email,
+      password:user.password
+    })
+
+    const result = await users.createSession(
+      newUser?.data?.data?.$id // userId
+  );
+      
+    return parseStringify(newUser?.data?.data);
   } catch (error: any) {
     if (error && error?.code === 409) {
       const existingUser = await account.listIdentities()

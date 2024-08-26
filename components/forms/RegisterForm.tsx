@@ -26,9 +26,9 @@ import {
 import { Loader } from "lucide-react";
 import Image from "next/image";
 import { FormError } from "@/components/form-error";
-import { ID, OAuthProvider } from "appwrite";
 import { handleFacebookLogin, handleGoogleLogin } from "@/actions/oauth";
 import { account } from "@/appwrite.config";
+import { createUser } from "@/actions/users";
 
 const RegisterForm = ({ isOpen }: { isOpen: boolean }) => {
   const [error, setError] = useState<string | undefined>();
@@ -52,12 +52,7 @@ const RegisterForm = ({ isOpen }: { isOpen: boolean }) => {
         password: values.password,
       };
 
-      const newUser = await account.create(
-        ID.unique(),
-        user.email,
-        user.password,
-        user.name
-      );
+      const newUser = await createUser(user);
 
       window.dispatchEvent(new Event("userChange"));
       await account.createEmailPasswordSession(user.email, user.password);
