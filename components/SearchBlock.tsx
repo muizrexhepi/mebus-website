@@ -4,59 +4,21 @@ import CustomSelect, { SELECT_TYPE } from "./custom-select";
 import { Button } from "./ui/button";
 import { Switch } from "./ui/switch";
 import { Label } from "./ui/label";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSearchStore from "@/store";
 import { useRouter } from "next/navigation";
+import { getStationsByOperatorId } from "@/actions/station";
+import { handleSearchAvailableTickets } from "@/actions/ticket";
 
 const BUS_TYPES = ["Luxury Bus", "Economy Bus", "Sleeper Bus", "Executive Bus"];
 
-const countryOptions = [
-  {
-    name: "USA",
-    cities: [
-      { value: "nyc", label: "New York City" },
-      { value: "la", label: "Los Angeles" },
-    ],
-  },
-  {
-    name: "UK",
-    cities: [
-      { value: "ldn", label: "London" },
-      { value: "man", label: "Manchester" },
-    ],
-  },
-  {
-    name: "Japan",
-    cities: [
-      { value: "tok", label: "Tokyo" },
-      { value: "osa", label: "Osaka" },
-    ],
-  },
-  {
-    name: "Australia",
-    cities: [
-      { value: "syd", label: "Sydney" },
-      { value: "mel", label: "Melbourne" },
-    ],
-  },
-  {
-    name: "France",
-    cities: [
-      { value: "par", label: "Paris" },
-      { value: "nic", label: "Nice" },
-    ],
-  },
-  {
-    name: "Germany",
-    cities: [
-      { value: "ber", label: "Berlin" },
-      { value: "mun", label: "Munich" },
-    ],
-  },
-];
+// sper test
+const operator_id = "66cba19d1a6e55b32932c59b";
+
 
 const SearchBlock = () => {
   const [isRoundTrip, setIsRoundTrip] = useState<boolean>(false);
+  const [countryOptions, setCountryOptions] = useState<any[]>([]);
   const router = useRouter();
   const { passengers, departureDate, from, to, resetSearch } = useSearchStore();
 
@@ -67,19 +29,46 @@ const SearchBlock = () => {
     passengers: !passengers || passengers.adults === 0,
   };
 
-  const handleSearch = () => {
-    if (
-      !isEmpty.from &&
-      !isEmpty.to &&
-      !isEmpty.departureDate &&
-      !isEmpty.passengers
-    ) {
+
+  const handleSearch = async () => {
+    console.log({from, to})
       router.push(
         `/search/?departureStation=${from}&arrivalStation=${to}&departureDate=${departureDate}&adult=${passengers.adults}&children=${passengers?.children}`
       );
       resetSearch();
-    }
+
   };
+
+  const getStations = async () => {
+    try {
+      const stations = await getStationsByOperatorId(operator_id);
+      console.log({stations})
+      return stations;
+    } catch (error) {
+      console.log(error);    
+    }
+  }
+  
+
+  useEffect(() => {
+    const stationList: any = [];
+    getStations().then((data) =>{
+      data.forEach((station: any) => {
+        stationList.push({
+          name: station?.city,
+          cities: [
+            {
+              value: station?._id,
+              label: station?.name,
+            }
+          ]
+        })
+      });
+    });
+
+    setCountryOptions(stationList)
+  }, [])
+  
 
   return (
     <div className="bg-white rounded-xl p-7 flex flex-col gap-4 w-full min-h-fit">
@@ -101,8 +90,8 @@ const SearchBlock = () => {
           <CustomSelect
             countries={countryOptions}
             type={SELECT_TYPE.SELECT}
-            departure="from"
-            empty={isEmpty.from}
+            departure={"from"}
+            empty={isEmpty.from} 
           />
         </div>
         <div className="w-full">
@@ -110,7 +99,7 @@ const SearchBlock = () => {
           <CustomSelect
             countries={countryOptions}
             type={SELECT_TYPE.SELECT}
-            departure="to"
+            departure={"to"}
             empty={isEmpty.to}
           />
         </div>

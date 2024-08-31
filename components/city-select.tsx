@@ -23,7 +23,7 @@ interface CountryGroup {
 
 interface CustomSelectProps {
   countries?: CountryGroup[];
-  departure?: "from" | "to";
+  departure?: string;
   empty?: true | false;
 }
 
@@ -35,6 +35,7 @@ const CitySelect: React.FC<CustomSelectProps> = ({
   const { setFrom, setTo } = useSearchStore();
 
   const handleSelect = (value: string) => {
+    console.log({value})
     if (departure === "from") {
       setFrom(value);
     } else if (departure === "to") {

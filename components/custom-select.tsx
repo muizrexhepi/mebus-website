@@ -36,7 +36,7 @@ interface CountryGroup {
 interface CustomSelectProps {
   countries?: CountryGroup[];
   type: SELECT_TYPE;
-  departure?: "from" | "to";
+  departure?: string;
   empty?: true | false;
 }
 
