@@ -14,4 +14,5 @@ export interface Stop {
     max_buying_time: string;
     arrival_time: Date;
     days_of_week: string[];
+    views: number;
 }

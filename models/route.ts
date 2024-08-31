@@ -15,7 +15,7 @@ export interface Route {
         from: Station;
         to: Station;
     },
-    operator: Operator;
+    operator: Operator | string;
     luggages: {
         free: number;
         price_for_extra: number;
