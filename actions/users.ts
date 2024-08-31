@@ -27,7 +27,7 @@ export const createUser = async (user: CreateUserParams) => {
     })
 
     const result = await users.createSession(
-      newUser?.data?.data?.$id // userId
+      newUser?.data?.data?.$id
   );
       
     return parseStringify(newUser?.data?.data);
