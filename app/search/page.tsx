@@ -17,17 +17,39 @@ const SearchPage = () => {
   const children = searchParams.get('children');
 
   const [availableTickets, setAvailableTickets] = useState<any[]>([]);
+  const [uniqueOperators, setUniqueOperators] = useState<any[]>([]);
 
   useEffect(() => {
     if (departureStation && arrivalStation) {
       const fromStationId = departureStation;
       const toStationId = arrivalStation;
+      
       handleSearchAvailableTickets(fromStationId, toStationId).then((tickets) => {
-        console.log({tickets})
+        console.log({tickets});
         setAvailableTickets(tickets);
+        
+        const operatorsMap = new Map();
+        
+        tickets?.forEach((ticket: Ticket) => {
+          const { operator_company_name, operator_name } = ticket.metadata;
+          
+          const key = `${operator_company_name}-${operator_name}`;
+          
+          if (!operatorsMap.has(key)) {
+            operatorsMap.set(key, {
+              company_name: operator_company_name,
+              operator_name: operator_name
+            });
+          }
+        });
+        
+        const unique = Array.from(operatorsMap.values());
+        setUniqueOperators(unique);
+        console.log({ unique });
       });
     }
   }, [departureStation, arrivalStation]);
+
 
   return (
 <div className="min-h-screen flex flex-col p-8 bg-gray-300">
@@ -38,18 +60,14 @@ const SearchPage = () => {
       <div className="mb-6">
         <h3 className="text-lg font-medium mb-2">Operators</h3>
         <div className="space-y-2">
-          <label className="flex items-center space-x-2">
-            <input type="checkbox" className="form-checkbox text-blue-600" />
-            <span>Operator A</span>
-          </label>
-          <label className="flex items-center space-x-2">
-            <input type="checkbox" className="form-checkbox text-blue-600" />
-            <span>Operator B</span>
-          </label>
-          <label className="flex items-center space-x-2">
-            <input type="checkbox" className="form-checkbox text-blue-600" />
-            <span>Operator C</span>
-          </label>
+          {
+            uniqueOperators.length >0 && uniqueOperators.map((operator: any) => (
+              <label className="flex items-center space-x-2">
+                <input type="checkbox" className="form-checkbox text-blue-600" />
+                <span>{operator?.operator_name}</span>
+              </label>
+            ))
+          }
         </div>
       </div>
 
