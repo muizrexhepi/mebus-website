@@ -30,6 +30,7 @@ const SearchPage = () => {
 
         const operatorsMap = new Map();
 
+        if(tickets.length < 1) return { message: "No tickets found" };
         tickets?.forEach((ticket: Ticket) => {
           const { operator_company_name, operator_name } = ticket.metadata;
 
@@ -41,7 +42,7 @@ const SearchPage = () => {
               name: operator_name
             });
           }
-        });
+        })
 
         const unique = Array.from(operatorsMap.values());
         setUniqueOperators(unique);
@@ -108,7 +109,7 @@ const SearchPage = () => {
         <div className="w-3/4 bg-white p-6 rounded shadow-lg">
           {availableTickets?.length > 0 ? (
             <div>
-              {availableTickets.map((ticket: Ticket) => (
+              {availableTickets?.map((ticket: Ticket) => (
                 <div key={ticket?._id} className="border-b border-gray-200 py-4">
                   <h2 className="text-xl font-semibold">Operated by {ticket?.metadata?.operator_name}</h2>
                   <p className="text-gray-700">
