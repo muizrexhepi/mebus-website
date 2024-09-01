@@ -15,14 +15,20 @@ import {
 import useSearchStore from "@/store";
 
 export function DatePicker() {
-  const [date, setDate] = React.useState<Date>();
-  const { departureDate, setDepartureDate } = useSearchStore();
+  const [date, setDate] = React.useState<Date | undefined>(new Date());
+  const { setDepartureDate } = useSearchStore();
 
   React.useEffect(() => {
     if (date) {
       setDepartureDate(format(date, "P"));
     }
-  }, [date]);
+  }, [date, setDepartureDate]);
+
+  const handleDateSelect = (selectedDate: Date | undefined) => {
+    if (selectedDate) {
+      setDate(selectedDate);
+    }
+  };
 
   return (
     <Popover>
@@ -42,7 +48,7 @@ export function DatePicker() {
         <Calendar
           mode="single"
           selected={date}
-          onSelect={setDate}
+          onSelect={handleDateSelect}
           initialFocus
         />
       </PopoverContent>

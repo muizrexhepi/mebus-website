@@ -1,17 +1,8 @@
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { BusFrontIcon } from "lucide-react";
 import { DatePicker } from "./date-picker";
 import { DateRangePicker } from "./daterange-picker";
 import PassengerSelect from "./passenger-select";
 import CitySelect from "./city-select";
+import InputSkeleton from "./input-skeleton";
 
 export enum SELECT_TYPE {
   PASSENGER_SELECT = "input",
@@ -38,6 +29,7 @@ interface CustomSelectProps {
   type: SELECT_TYPE;
   departure?: string;
   empty?: true | false;
+  defaultValue?: any;
 }
 
 const CustomSelect: React.FC<CustomSelectProps> = ({
@@ -45,11 +37,17 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   type,
   departure,
   empty,
+  defaultValue,
 }) => {
   switch (type) {
     case SELECT_TYPE.SELECT:
       return (
-        <CitySelect countries={countries} departure={departure} empty={empty} />
+        <CitySelect
+          countries={countries}
+          departure={departure}
+          empty={empty}
+          defaultValue={defaultValue}
+        />
       );
     case SELECT_TYPE.DATE_PICKER:
       return <DatePicker />;
@@ -57,6 +55,8 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
       return <DateRangePicker />;
     case SELECT_TYPE.PASSENGER_SELECT:
       return <PassengerSelect />;
+    case SELECT_TYPE.SKELETON:
+      return <InputSkeleton />;
     default:
       break;
   }

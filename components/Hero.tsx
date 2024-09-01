@@ -1,7 +1,12 @@
+import { getStationsByOperatorId } from "@/actions/station";
 import Navbar from "./Navbar";
 import SearchBlock from "./SearchBlock";
 
-const Hero = () => {
+const operator_id = "66cba19d1a6e55b32932c59b";
+
+const Hero = async () => {
+  const stations = await getStationsByOperatorId(operator_id);
+  console.log({ stations });
   return (
     <div
       style={{
@@ -18,7 +23,7 @@ const Hero = () => {
         <h1 className="text-3xl sm:text-5xl md:text-6xl font-medium text-white">
           Navigate Roads <br className="block sm:hidden" /> with Comfort
         </h1>
-        <SearchBlock />
+        <SearchBlock stations={stations} />
       </div>
     </div>
   );

@@ -21,7 +21,9 @@ const Navbar = () => {
   return (
     <div className="w-full flex justify-between items-center">
       <div className="flex items-center gap-8">
-        <h1 className="font-semibold text-2xl text-white/95">Mebus</h1>
+        <Link href={"/"}>
+          <h1 className="font-semibold text-2xl text-white/95">Mebus</h1>
+        </Link>
         <div className="lg:flex gap-6 items-center hidden">
           {NAV_LINKS.map((link, index) => (
             <Link href={link.url} key={index} className="text-white/95 text-lg">

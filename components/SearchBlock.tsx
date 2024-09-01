@@ -7,20 +7,20 @@ import { Label } from "./ui/label";
 import { useEffect, useState } from "react";
 import useSearchStore from "@/store";
 import { useRouter } from "next/navigation";
-import { getStationsByOperatorId } from "@/actions/station";
-import { handleSearchAvailableTickets } from "@/actions/ticket";
+import InputSkeleton from "./input-skeleton";
 
 const BUS_TYPES = ["Luxury Bus", "Economy Bus", "Sleeper Bus", "Executive Bus"];
 
-// sper test
-const operator_id = "66cba19d1a6e55b32932c59b";
-
-
-const SearchBlock = () => {
+const SearchBlock = ({
+  stations,
+}: {
+  stations: { _id: string; name: string; city: string; country: string }[];
+}) => {
   const [isRoundTrip, setIsRoundTrip] = useState<boolean>(false);
   const [countryOptions, setCountryOptions] = useState<any[]>([]);
   const router = useRouter();
   const { passengers, departureDate, from, to, resetSearch } = useSearchStore();
+  const [loading, setLoading] = useState<boolean>(true);
 
   const isEmpty = {
     from: !from,
@@ -29,46 +29,28 @@ const SearchBlock = () => {
     passengers: !passengers || passengers.adults === 0,
   };
 
-
   const handleSearch = async () => {
-    console.log({from, to})
-      router.push(
-        `/search/?departureStation=${from}&arrivalStation=${to}&departureDate=${departureDate}&adult=${passengers.adults}&children=${passengers?.children}`
-      );
-      resetSearch();
-
+    console.log({ from, to });
+    router.push(
+      `/search/?departureStation=${from}&arrivalStation=${to}&departureDate=${departureDate}&adult=${passengers.adults}&children=${passengers?.children}`
+    );
+    resetSearch();
   };
 
-  const getStations = async () => {
-    try {
-      const stations = await getStationsByOperatorId(operator_id);
-      console.log({stations})
-      return stations;
-    } catch (error) {
-      console.log(error);    
-    }
-  }
-  
-
   useEffect(() => {
-    const stationList: any = [];
-    getStations().then((data) =>{
-      data.forEach((station: any) => {
-        stationList.push({
-          name: station?.city,
-          cities: [
-            {
-              value: station?._id,
-              label: station?.name,
-            }
-          ]
-        })
-      });
-    });
+    const stationList: any = stations.map((station) => ({
+      name: station?.city,
+      cities: [
+        {
+          value: station?._id,
+          label: station?.name,
+        },
+      ],
+    }));
 
-    setCountryOptions(stationList)
-  }, [])
-  
+    setCountryOptions(stationList);
+    setLoading(false);
+  }, [stations]);
 
   return (
     <div className="bg-white rounded-xl p-7 flex flex-col gap-4 w-full min-h-fit">
@@ -87,21 +69,29 @@ const SearchBlock = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="w-full">
           <p className="text-black font-normal text-lg">From</p>
-          <CustomSelect
-            countries={countryOptions}
-            type={SELECT_TYPE.SELECT}
-            departure={"from"}
-            empty={isEmpty.from} 
-          />
+          {loading ? (
+            <InputSkeleton />
+          ) : (
+            <CustomSelect
+              countries={countryOptions}
+              type={SELECT_TYPE.SELECT}
+              departure={"from"}
+              empty={isEmpty.from}
+            />
+          )}
         </div>
         <div className="w-full">
           <p className="text-black font-normal text-lg">To</p>
-          <CustomSelect
-            countries={countryOptions}
-            type={SELECT_TYPE.SELECT}
-            departure={"to"}
-            empty={isEmpty.to}
-          />
+          {loading ? (
+            <InputSkeleton />
+          ) : (
+            <CustomSelect
+              countries={countryOptions}
+              type={SELECT_TYPE.SELECT}
+              departure={"to"}
+              empty={isEmpty.to}
+            />
+          )}
         </div>
         <div>
           <div className="flex justify-between items-center">
@@ -114,21 +104,29 @@ const SearchBlock = () => {
               />
             </div>
           </div>
-          <CustomSelect
-            type={
-              isRoundTrip
-                ? SELECT_TYPE.DATE_RANGE_PICKER
-                : SELECT_TYPE.DATE_PICKER
-            }
-            empty={isEmpty.departureDate}
-          />
+          {loading ? (
+            <InputSkeleton />
+          ) : (
+            <CustomSelect
+              type={
+                isRoundTrip
+                  ? SELECT_TYPE.DATE_RANGE_PICKER
+                  : SELECT_TYPE.DATE_PICKER
+              }
+              empty={isEmpty.departureDate}
+            />
+          )}
         </div>
         <div>
           <p className="text-black font-normal text-lg">Passengers</p>
-          <CustomSelect
-            type={SELECT_TYPE.PASSENGER_SELECT}
-            empty={isEmpty.passengers}
-          />
+          {loading ? (
+            <InputSkeleton />
+          ) : (
+            <CustomSelect
+              type={SELECT_TYPE.PASSENGER_SELECT}
+              empty={isEmpty.passengers}
+            />
+          )}
         </div>
       </div>
       <div className="w-full flex-col gap-4 items-start justify-start flex md:flex-row md:justify-between md:items-center">
