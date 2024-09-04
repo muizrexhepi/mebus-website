@@ -14,18 +14,20 @@ import {
 } from "@/components/ui/popover";
 import useSearchStore from "@/store";
 
-export function DatePicker() {
+export function DatePicker({ field }: { field: any }) {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const { setDepartureDate } = useSearchStore();
 
   React.useEffect(() => {
     if (date) {
       setDepartureDate(format(date, "P"));
+      field.onChange(format(date, "P"));
     }
   }, [date, setDepartureDate]);
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
     if (selectedDate) {
+      field.onChange(format(selectedDate, "P"));
       setDate(selectedDate);
     }
   };
@@ -34,9 +36,9 @@ export function DatePicker() {
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          variant={"outline"}
+          variant={"ghost"}
           className={cn(
-            "justify-start text-left font-normal h-14 text-base w-full",
+            "justify-start text-left font-normal h-14 text-base w-full truncate",
             !date && "text-muted-foreground"
           )}
         >
@@ -49,6 +51,7 @@ export function DatePicker() {
           mode="single"
           selected={date}
           onSelect={handleDateSelect}
+          // onch
           initialFocus
         />
       </PopoverContent>

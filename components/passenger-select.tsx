@@ -8,9 +8,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import useSearchStore, { Passengers } from "@/store";
+import useSearchStore from "@/store";
 
-export default function PassengerSelect() {
+export default function PassengerSelect({ field }: { field: any }) {
   const { passengers, setPassengers } = useSearchStore();
 
   const incrementPassengers = (type: "adults" | "children") => {
@@ -21,6 +21,7 @@ export default function PassengerSelect() {
       updatedPassengers.children = Math.min(passengers.children + 1, 9);
     }
     setPassengers(updatedPassengers);
+    field.onChange(updatedPassengers); // Update the form's field value
   };
 
   const decrementPassengers = (type: "adults" | "children") => {
@@ -31,10 +32,11 @@ export default function PassengerSelect() {
       updatedPassengers.children = Math.max(passengers.children - 1, 0);
     }
     setPassengers(updatedPassengers);
+    field.onChange(updatedPassengers); // Update the form's field value
   };
 
   return (
-    <Select>
+    <Select onValueChange={(value) => field.onChange(value)}>
       <SelectTrigger className="outline-none h-14 hover:bg-accent transition-colors text-base truncate">
         {passengers.adults > 1
           ? passengers.adults + " Adults"

@@ -1,10 +1,13 @@
-import { BusFrontIcon } from "lucide-react";
+"use client";
+
 import useSearchStore from "@/store";
+import { useEffect } from "react";
 import Select, { SingleValue } from "react-select";
 
 interface CityOption {
   value: string;
   label: string;
+  city: string;
 }
 
 interface CountryGroup {
@@ -15,39 +18,49 @@ interface CountryGroup {
 interface CustomSelectProps {
   countries?: CountryGroup[];
   departure?: string;
-  empty?: true | false;
-  defaultValue?: any;
+  field: any;
 }
 
 const CitySelect: React.FC<CustomSelectProps> = ({
   countries,
   departure = "from",
-  empty,
-  defaultValue,
+  field,
 }) => {
   const { setFrom, setTo } = useSearchStore();
-
   const handleSelect = (option: SingleValue<CityOption>) => {
     if (option) {
       const value = option.value || "";
+      const city = option.city || "";
       console.log({ value });
 
       if (departure === "from") {
-        setFrom(value);
+        console.log({ city });
+        setFrom(city);
       } else if (departure === "to") {
-        setTo(value);
+        console.log({ city });
+
+        setTo(city);
       }
+
+      field.onChange(value);
     }
   };
 
-  // Flatten cities into a single array
   const cityOptions = countries?.flatMap((country) => country.cities) || [];
 
-  console.log({ cityOptions });
+  useEffect(() => {
+    if (departure === "from") {
+      field.onChange(cityOptions[0].value);
+    } else if (departure === "to") {
+      field.onChange(cityOptions[1].value);
+    }
+  }, []);
 
   return (
     <div className="relative">
       <Select
+        value={cityOptions.find((option) => option.value === field.value)}
+        onChange={handleSelect}
         classNamePrefix="react-select"
         styles={{
           container: (provided) => ({
@@ -106,12 +119,8 @@ const CitySelect: React.FC<CustomSelectProps> = ({
             },
           }),
         }}
-        defaultValue={
-          defaultValue ||
-          (departure === "from" ? cityOptions[0] : cityOptions[1])
-        }
+        defaultValue={departure === "from" ? cityOptions[0] : cityOptions[1]}
         options={cityOptions}
-        onChange={handleSelect}
         placeholder={departure === "from" ? "From" : "To"}
         menuPlacement="auto"
         menuPosition="fixed"

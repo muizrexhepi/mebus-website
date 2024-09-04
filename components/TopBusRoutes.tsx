@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { SectionHeader } from "./section-header";
 import {
@@ -7,6 +9,7 @@ import {
   TooltipTrigger,
 } from "./ui/tooltip";
 import { Bus, Cog, Heart } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface RouteProps {
   destination: string;
@@ -14,6 +17,7 @@ interface RouteProps {
   image: string;
   startingPrice: number;
   provider: string;
+  url: string;
 }
 
 const testRoutes: RouteProps[] = [
@@ -23,6 +27,7 @@ const testRoutes: RouteProps[] = [
     image: "/assets/images/munich.jpg",
     startingPrice: 25,
     provider: "FlixBus",
+    url: "/search/berlin-munich",
   },
   {
     destination: "Hamburg to Cologne",
@@ -30,6 +35,7 @@ const testRoutes: RouteProps[] = [
     image: "/assets/images/cologne.webp",
     startingPrice: 20,
     provider: "Eurolines",
+    url: "/search/hamburg-cologne",
   },
   {
     destination: "Munich to Hamburg",
@@ -37,6 +43,7 @@ const testRoutes: RouteProps[] = [
     image: "/assets/images/hamburg.jpg",
     startingPrice: 35,
     provider: "DB Bus",
+    url: "/search/munich-hamburg",
   },
   {
     destination: "Cologne to Berlin",
@@ -44,6 +51,7 @@ const testRoutes: RouteProps[] = [
     image: "/assets/images/berlin.jpg",
     startingPrice: 28,
     provider: "FlixBus",
+    url: "/search/cologne-berlin",
   },
 ];
 
@@ -66,10 +74,11 @@ const TopBusRoutes = () => {
 export default TopBusRoutes;
 
 const Block: React.FC<RouteProps> = ({ ...route }) => {
+  const router = useRouter();
   return (
     <div
       className="relative min-w-full w-full h-fit cursor-pointer"
-      //   onClick={() => router.push(`/clinic/${clinic.$id}`)}
+      onClick={() => router.push(`${route?.url}`)}
     >
       <Image
         width={1920}

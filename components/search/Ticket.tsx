@@ -74,13 +74,13 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket }) => {
             <span className="text-lg">{0} transfer(s)</span>
           </div>
           <div className="flex items-center space-x-4">
-            {ticket.metadata.features.includes("Wifi") && (
+            {ticket.metadata.features.includes("wifi") && (
               <WifiIcon className="h-6 w-6" />
             )}
-            {ticket.metadata.features.includes("AC") && (
+            {ticket.metadata.features.includes("ac/heating") && (
               <SnowflakeIcon className="h-6 w-6" />
             )}
-            {ticket.metadata.features.includes("Charging") && (
+            {ticket.metadata.features.includes("usb charging ports") && (
               <BatteryChargingIcon className="h-6 w-6" />
             )}
           </div>

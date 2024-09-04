@@ -36,31 +36,14 @@ export const LoginSchema = z.object({
     }),
   });
 
-  export const ClinicRegisterSchema = z.object({
-    name: z.string().min(1, {
-      message: "Clinic name is required",
-    }),
-    email: z.string().email({
-      message: "Valid email is required",
-    }),
-    password: z.string().min(8, {
-      message: "Password must be at least 8 characters long",
-    }),
-    location: z.string().min(1, {
-      message: "Location is required",
-    }),
-    workingHours: z.string().min(1, {
-      message: "Working hours are required",
-    }),
-    contactNumber: z.string().min(10, {
-      message: "Valid contact number is required",
-    }).max(15,{message:"Maximum 15 characters!"}),
-    description: z.string().optional(),
-    website: z.string().url().optional(),
-    image: z.custom<File[]>().optional(),
-    specialties: z.array(z.string()), 
-    licenseNumber: z.string(), 
-    establishedDate: z.date().optional(), 
-  });
-  
-  
+
+export const searchSchema = z.object({
+  from: z.string().min(1, "Departure station is required"),
+  to: z.string().min(1, "Arrival station is required"),
+  departureDate: z.string().min(1, "Departure date is required"),
+  returnDate: z.string().optional(), // Optional field for return date
+  passengers: z.object({
+    adults: z.number().min(1, "At least one adult is required"), // Minimum 1 adult
+    children: z.number().min(0, "Number of children must be at least 0").optional(),
+  }),
+});
