@@ -27,6 +27,7 @@ const CitySelect: React.FC<CustomSelectProps> = ({
   field,
 }) => {
   const { setFrom, setTo } = useSearchStore();
+
   const handleSelect = (option: SingleValue<CityOption>) => {
     if (option) {
       const value = option.value || "";
@@ -51,8 +52,10 @@ const CitySelect: React.FC<CustomSelectProps> = ({
   useEffect(() => {
     if (departure === "from") {
       field.onChange(cityOptions[0].value);
+      setFrom(cityOptions[0].city);
     } else if (departure === "to") {
       field.onChange(cityOptions[1].value);
+      setTo(cityOptions[1].city);
     }
   }, []);
 

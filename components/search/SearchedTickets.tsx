@@ -3,10 +3,19 @@
 import { handleSearchAvailableTickets } from "@/actions/ticket";
 import { Ticket } from "@/models/ticket";
 import { useQuery } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import TicketBlock from "./Ticket";
 import TicketSkeleton from "../ticket/ticket-skeleton";
+import TicketDetails from "../ticket/ticket-details";
+import { useState } from "react";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const createUniqueOperators = (tickets: Ticket[]) => {
   const operatorsMap = new Map();
@@ -28,7 +37,7 @@ const createUniqueOperators = (tickets: Ticket[]) => {
 
 export default function SearchedTickets() {
   const searchParams = useSearchParams();
-
+  const [selectedTicket, setSelectedTicket] = useState<Ticket>();
   const { departureStation, arrivalStation, departureDate, adults, children } =
     {
       departureStation: searchParams.get("departureStation"),
@@ -69,6 +78,9 @@ export default function SearchedTickets() {
     },
     enabled: !!departureStation && !!arrivalStation,
   });
+
+  console.log({ selectedTicket });
+
   if (isLoading) {
     return (
       <div className="space-y-4">
@@ -91,7 +103,22 @@ export default function SearchedTickets() {
     <>
       {availableTickets.length > 0 ? (
         availableTickets.map((ticket) => (
-          <TicketBlock key={ticket._id} ticket={ticket} />
+          <Sheet>
+            <SheetTrigger className="w-full">
+              <div
+                onClick={() => setSelectedTicket(ticket)}
+                className="cursor-pointer"
+              >
+                <TicketBlock key={ticket._id} ticket={ticket} />
+              </div>
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle>Are you absolutely sure?</SheetTitle>
+              </SheetHeader>
+              {/* <TicketDetails ticket={selectedTicket!} /> */}
+            </SheetContent>
+          </Sheet>
         ))
       ) : (
         <p className="text-center text-gray-700">No routes for your request</p>

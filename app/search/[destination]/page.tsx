@@ -17,7 +17,7 @@ export async function generateMetadata({
     .split("-")
     .map((city) => city.charAt(0).toUpperCase() + city.slice(1));
 
-  const title = `Travel from ${departureCity} to ${arrivalCity} by bus`;
+  const title = `Travel from ${departureCity} to ${arrivalCity} by bus | Mebus`;
   const description = `Search and book your bus tickets from ${departureCity} to ${arrivalCity} with Mebus. Travel comfortably across Europe.`;
 
   return {
@@ -28,7 +28,6 @@ export async function generateMetadata({
 
 const SearchPage = async () => {
   const stations = await getStationsByOperatorId(operator_id);
-  console.log({ stations });
 
   const sortOptions = [
     { value: "price", label: "Price" },
@@ -37,14 +36,15 @@ const SearchPage = async () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#efefef]">
+    <div className="min-h-screen bg-[#f3f3f3]">
       <div className="w-full flex justify-center items-center bg-neutral-900 px-4 sm:px-8 xl:px-20 py-4">
         <Navbar />
       </div>
-      <div className="min-h-screen px-4 sm:px-8 max-w-7xl mx-auto py-8 space-y-4">
+      <div className="min-h-screen px-4 sm:px-8 max-w-6xl mx-auto py-8 space-y-4">
         <SearchBlock stations={stations} />
         <div className="flex flex-col lg:flex-row gap-4 h-full">
-          <div className="w-full lg:w-[25%]">
+          <div className="w-full lg:w-[25%] space-y-4">
+            <FilterBlock title="Sort by" data={sortOptions} />
             <FilterBlock title="Sort by" data={sortOptions} />
           </div>
           <div className="w-full lg:w-[75%] space-y-4">
