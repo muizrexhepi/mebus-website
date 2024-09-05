@@ -12,10 +12,12 @@ import {
   Sheet,
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Button } from "../ui/button";
 
 const createUniqueOperators = (tickets: Ticket[]) => {
   const operatorsMap = new Map();
@@ -79,8 +81,6 @@ export default function SearchedTickets() {
     enabled: !!departureStation && !!arrivalStation,
   });
 
-  console.log({ selectedTicket });
-
   if (isLoading) {
     return (
       <div className="space-y-4">
@@ -112,11 +112,18 @@ export default function SearchedTickets() {
                 <TicketBlock key={ticket._id} ticket={ticket} />
               </div>
             </SheetTrigger>
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle>Are you absolutely sure?</SheetTitle>
-              </SheetHeader>
-              {/* <TicketDetails ticket={selectedTicket!} /> */}
+            <SheetContent className="p-0 rounded-tl-xl rounded-bl-xl h-full flex flex-col justify-between">
+              <div>
+                <SheetHeader className="border-b p-4 shadow-sm">
+                  <SheetTitle className="font-medium">
+                    Ticket Details
+                  </SheetTitle>
+                </SheetHeader>
+                <TicketDetails ticket={selectedTicket!} />
+              </div>
+              <SheetFooter className="p-4">
+                <Button className="w-full">Continue</Button>
+              </SheetFooter>
             </SheetContent>
           </Sheet>
         ))

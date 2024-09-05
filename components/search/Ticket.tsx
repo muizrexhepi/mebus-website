@@ -43,7 +43,7 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket }) => {
               </div>
             </div>
             <div className="flex justify-between items-center">
-              <div className="flex flex-col">
+              <div className="flex flex-col items-start">
                 <h1 className="font-medium text-base sm:text-lg capitalize">
                   {ticket.destination.from}
                 </h1>
