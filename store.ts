@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { Ticket } from './models/ticket';
 
 export interface Passengers {
   adults: number;
@@ -21,6 +22,21 @@ interface SearchState {
   setReturnDate: (returnDate: string | null) => void;
   resetSearch: () => void;
 }
+
+interface CheckoutState {
+  selectedTicket: Ticket | null;
+  setSelectedTicket: (ticket: Ticket) => void;
+  resetCheckout: () => void;
+}
+
+export const useCheckoutStore = create<CheckoutState>((set) => ({
+  selectedTicket: null,
+
+  setSelectedTicket: (ticket) => set({ selectedTicket: ticket }),
+  
+  resetCheckout: () => set({ selectedTicket: null }),
+}));
+
 
 const initialState: Omit<SearchState, 'setFrom' | 'setTo' | 'setRoute' | 'setPassengers' | 'setDepartureDate' | 'setReturnDate' | 'resetSearch'> = {
   from: '',

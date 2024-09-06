@@ -11,7 +11,6 @@ import { useState } from "react";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
@@ -40,6 +39,7 @@ const createUniqueOperators = (tickets: Ticket[]) => {
 export default function SearchedTickets() {
   const searchParams = useSearchParams();
   const [selectedTicket, setSelectedTicket] = useState<Ticket>();
+
   const { departureStation, arrivalStation, departureDate, adults, children } =
     {
       departureStation: searchParams.get("departureStation"),

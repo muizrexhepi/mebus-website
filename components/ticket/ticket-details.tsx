@@ -16,7 +16,7 @@ const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
   });
 
   const handleViewOnMap = () => {
-    const { lat, lng } = ticket.location.from; // Make sure ticket.from.location has lat/lng
+    const { lat, lng } = ticket?.location?.from;
     const googleMapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
     router.push(googleMapsUrl);
   };

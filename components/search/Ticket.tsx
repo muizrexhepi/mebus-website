@@ -1,27 +1,38 @@
-import React from "react";
+"use client";
+
 import moment from "moment-timezone";
 import { Symbols } from "@/symbols";
-import { Ticket as TicketType } from "@/models/ticket"; // Import the Ticket type
-import {
-  ArrowRightIcon,
-  BatteryChargingIcon,
-  SnowflakeIcon,
-  WifiIcon,
-} from "lucide-react";
+import { Ticket as TicketType } from "@/models/ticket";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
+import { useCheckoutStore } from "@/store";
+import { useRouter } from "next/navigation";
 
 interface TicketProps {
   ticket: TicketType;
 }
 
 const TicketBlock: React.FC<TicketProps> = ({ ticket }) => {
+  const { setSelectedTicket } = useCheckoutStore();
+  const router = useRouter();
+
+  const handleCheckout = (e: any) => {
+    try {
+      e.preventDefault();
+      setSelectedTicket(ticket);
+      router.push("/checkout");
+      console.log({ ticket });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="max-w-5xl mx-auto bg-white shadow-sm rounded-xl overflow-hidden">
       <div className="p-6">
         <div className="flex gap-2 items-center">
           <Badge>{ticket.metadata.operator_name}</Badge>
-          <Badge className="bg-green-600 hover:bg-green-600">Mebus</Badge>
+          <Badge className="bg-emerald-700 hover:bg-emerald-700">Mebus</Badge>
         </div>
         <div className="flex flex-col md:flex-row justify-between items-start relative">
           <div className="w-full md:w-2/3">
@@ -65,7 +76,10 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket }) => {
             {Symbols.EURO}
             {ticket.stops[0].other_prices.our_price.toFixed(2)}
           </div>
-          <Button className="w-fit absolute -bottom-2 md:bottom-0 right-0 text-base">
+          <Button
+            className="w-fit absolute -bottom-2 md:bottom-0 right-0 text-base bg-emerald-700 hover:bg-emerald-600"
+            onClick={handleCheckout}
+          >
             Continue
           </Button>
         </div>
