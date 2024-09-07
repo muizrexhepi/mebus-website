@@ -35,11 +35,15 @@ const CheckoutForm = () => {
     setError("");
 
     try {
+
+      // pasagjeret duhet tmiren kur de mbushen inputat e t dhonave t pasagjuesve
       const passengers = [
         {
+          full_name: "sistemski etnik",
           price: 12003,
         },
         {
+          full_name: "rexhepski muil",
           price: 15333,
         },
       ]
