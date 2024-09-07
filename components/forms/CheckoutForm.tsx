@@ -15,16 +15,21 @@ import {
 import { Input } from "../ui/input"; 
 import { Button } from "../ui/button"; 
 import { environment } from "@/environment";
+import { useCheckoutStore } from "@/store";
+import moment from "moment-timezone";
 
 const stripePromise = loadStripe(environment.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 const CheckoutForm = () => {
+  const { selectedTicket } = useCheckoutStore();
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>("");
   const [paymentIntentId, setPaymentIntentId] = useState<string>("");
   const [succeeded, setSucceeded] = useState(false);
+
+  console.log({selectedTicket})
 
   const handlePayment = async () => {
     if (!stripe || !elements) {
@@ -217,7 +222,7 @@ const CheckoutForm = () => {
       <div className="flex-1 flex flex-col gap-4">
         <div className="bg-white rounded-xl p-4 block border border-gray-300">
           <div className="flex flex-col">
-            <p className="bg-emerald-700 px-2 rounded-full w-min text-gray-100">HakBus</p>
+            <p className="bg-emerald-700 px-2 rounded-full w-min text-gray-100">{selectedTicket?.metadata?.operator_name}</p>
             <div className="flex items-center mt-2 gap-8">
               <div className="flex items-center gap-2 justify-between w-full">
                 <p className="font-medium text-lg text-black capitalize">From</p>
@@ -227,16 +232,16 @@ const CheckoutForm = () => {
             </div>
             <div className="flex items-center mt-2 gap-8">
               <div className="flex items-center gap-2 justify-between w-full">
-                <p className="text-black text-md capitalize">New York</p>
+                <p className="text-black text-md capitalize">{selectedTicket?.stops[0]?.from?.city}</p>
                 <hr className="h-[0.5px] w-full bg-gray-800" />
-                <p className="text-black text-md capitalize">Los Angeles</p>
+                <p className="text-black text-md capitalize">{selectedTicket?.stops[0]?.to?.city}</p>
               </div>
             </div>
             <div className="flex flex-col gap-2 mt-2">
               <div className="flex items-center gap-2">
                 <Calendar color="gray" size={20} />
-                <p className="text-black text-sm">Departure</p>
-                <p className="font-medium text-black text-sm">01/01/2025</p>
+                <p className="text-black text-sm">Departure: </p>
+                <p className="font-medium text-black text-sm">{moment.utc(selectedTicket?.stops[0]?.departure_date).format("dddd, DD-MM-YYYY / HH:mm")}</p>
               </div>
               <div className="flex items-center gap-2">
                 <TimerIcon color="gray" size={20} />
