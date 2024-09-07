@@ -109,7 +109,12 @@ export default function SearchedTickets() {
                 onClick={() => setSelectedTicket(ticket)}
                 className="cursor-pointer"
               >
-                <TicketBlock key={ticket._id} ticket={ticket} />
+                <TicketBlock
+                  key={ticket._id}
+                  ticket={ticket}
+                  adults={adults}
+                  children={children}
+                />
               </div>
             </SheetTrigger>
             <SheetContent className="p-0 rounded-tl-xl rounded-bl-xl h-full flex flex-col justify-between">

@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Footer from "@/components/Footer";
 import ReactQueryProvider from "./ReactQueryProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -24,6 +25,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={roboto.className}>
         <ReactQueryProvider>
+          <Toaster />
           <ThemeProvider
             attribute="class"
             defaultTheme="light"

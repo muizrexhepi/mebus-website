@@ -32,9 +32,19 @@ interface CheckoutState {
 export const useCheckoutStore = create<CheckoutState>((set) => ({
   selectedTicket: null,
 
-  setSelectedTicket: (ticket) => set({ selectedTicket: ticket }),
+  setSelectedTicket: (ticket) => {
+    set({ selectedTicket: ticket })
+    if(typeof window !== 'undefined'){
+      localStorage.setItem('ticket',JSON.stringify(ticket))
+    }
+  },
   
-  resetCheckout: () => set({ selectedTicket: null }),
+  resetCheckout: () => {
+    set({ selectedTicket: null })
+    if(typeof window !== 'undefined'){
+      localStorage.removeItem('ticket')
+    }
+  },
 }));
 
 
