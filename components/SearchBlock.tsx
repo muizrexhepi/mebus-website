@@ -2,8 +2,7 @@
 import { ArrowRight } from "lucide-react";
 import CustomSelect, { SELECT_TYPE } from "./custom-select";
 import { Button } from "./ui/button";
-import { Switch } from "./ui/switch";
-import { Label } from "./ui/label";
+
 import { useEffect, useState } from "react";
 import useSearchStore from "@/store";
 import { useRouter } from "next/navigation";

@@ -1,7 +1,6 @@
 // "use server";
 // import {  API_KEY, CLINIC_COLLECTION_ID, DATABASE_ID, ENDPOINT, PROJECT_ID } from "@/appwrite.config";
 // import { parseStringify } from "@/lib/utils";
-// import { ClinicRegisterSchema } from "@/schemas";
 // import * as sdk from 'node-appwrite'
 // import { z } from "zod";
 

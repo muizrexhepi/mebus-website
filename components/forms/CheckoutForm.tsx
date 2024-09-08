@@ -9,7 +9,6 @@ import PassengerInfo from "../checkout/PassengerInfo";
 import Extras from "../checkout/ExtrasInfo";
 import PaymentMethod from "../checkout/PaymentMethod";
 import OrderSummary from "../checkout/OrderSummary";
-import { useSearchParams } from "next/navigation";
 
 const stripePromise = loadStripe(
   environment.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY

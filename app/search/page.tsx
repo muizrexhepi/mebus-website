@@ -1,5 +1,4 @@
 import { getStationsByOperatorId } from "@/actions/station";
-import Navbar from "@/components/Navbar";
 import FilterBlock from "@/components/search/FilterBlock";
 import SearchBlock from "@/components/SearchBlock";
 import SearchedTickets from "@/components/search/SearchedTickets";
@@ -13,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 const SearchPage = async () => {
-  const stations = await getStationsByOperatorId(operator_id);
+  const stations = (await getStationsByOperatorId(operator_id)) || [];
 
   console.log({ stations });
   const sortOptions = [

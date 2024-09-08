@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import ky from "ky";
@@ -32,7 +32,7 @@ const fetchTickets = async ({ pageParam }: { pageParam: number }) => {
   return response;
 };
 
-export default function SearchedTickets() {
+function TicketList() {
   const searchParams = useSearchParams();
   const [selectedTicket, setSelectedTicket] = useState<Ticket>();
 
@@ -69,8 +69,6 @@ export default function SearchedTickets() {
   }
 
   const tickets = data?.pages.flatMap((page) => page.tickets) || [];
-
-  console.log({ data, tickets });
 
   return (
     <>
@@ -119,5 +117,13 @@ export default function SearchedTickets() {
         <p className="text-center text-gray-700">No routes for your request</p>
       )}
     </>
+  );
+}
+
+export default function SearchedTickets() {
+  return (
+    <Suspense fallback={<p>Loading tickets...</p>}>
+      <TicketList />
+    </Suspense>
   );
 }
