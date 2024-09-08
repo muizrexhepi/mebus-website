@@ -1,19 +1,15 @@
-"use client";
+import React from "react";
 import { Ticket } from "@/models/ticket";
-import { MapPin } from "lucide-react";
+import { MapPin, Clock, Calendar, Bus, CreditCard } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 
 const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
   if (!ticket) return null;
 
-  console.log({ ticket });
   const router = useRouter();
-  const departureDate = new Date(ticket.departure_date);
-  const formattedDepartureDate = departureDate.toLocaleDateString();
-  const formattedDepartureTime = departureDate.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
 
   const handleViewOnMap = () => {
     const { lat, lng } = ticket?.location?.from;
@@ -21,37 +17,107 @@ const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
     router.push(googleMapsUrl);
   };
 
+  const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString("en-US", {
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
+  const formatTime = (time: string) => {
+    return new Date(`1970-01-01T${time}`).toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
   return (
-    <div className="">
-      <div className="p-4 flex items-center gap-4 border-b">
-        <MapPin className="text-black/80 h-5 w-5" />
-        <div className="cursor-pointer" onClick={handleViewOnMap}>
-          <p className="text-black font-medium text-base capitalize">
-            {ticket.destination.from}
-          </p>
-          <p className="text-black/70 font-normal">
-            View starting destination on map.
-          </p>
+    <div className="space-y-4">
+      <div className="flex items-center justify-between px-4 pt-4">
+        <div className="flex items-center space-x-2">
+          <Calendar className="h-5 w-5 text-emerald-700" />
+          <span className="font-semibold">
+            {formatDate(ticket.departure_date)}
+          </span>
+        </div>
+        {/* <Badge
+          variant="outline"
+          className="text-emerald-700 border-emerald-700"
+        >
+          {ticket.type}
+        </Badge> */}
+      </div>
+
+      <Separator />
+
+      <div className="px-4">
+        {ticket.stops.map((stop, index) => (
+          <div key={index} className="flex items-baseline space-x-4">
+            <div className="flex flex-col items-center">
+              <div className="w-4 h-4 rounded-full bg-emerald-700" />
+              {index < ticket.stops.length - 1 && (
+                <div className="w-0.5 h-full bg-emerald-700" />
+              )}
+            </div>
+            <div className="flex-1">
+              <p className="font-semibold capitalize">{stop.from.name}</p>
+              <div className="flex items-center space-x-2 text-sm text-gray-600">
+                <Clock className="h-4 w-4" />
+                <span>{formatTime(stop.time)}</span>
+              </div>
+              {index < ticket.stops.length - 1 && (
+                <p className="text-sm text-gray-600 mt-1">To: {stop.to.name}</p>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <Separator />
+
+      <div className="space-y-2 px-4">
+        <div className="flex items-center space-x-2">
+          <Bus className="h-5 w-5 text-emerald-700" />
+          <span className="font-semibold">
+            {typeof ticket.operator === "string"
+              ? ticket.operator
+              : ticket.operator.toString()}
+          </span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <MapPin className="h-5 w-5 text-emerald-700" />
+          <span
+            className="text-sm text-blue-600 cursor-pointer"
+            onClick={handleViewOnMap}
+          >
+            View on map
+          </span>
         </div>
       </div>
-      <div className="p-4 flex items-baseline gap-5">
-        <div className="flex flex-col justify-center items-center">
-          <div className="w-4 h-4 rounded-full bg-black/70 flex justify-center items-center">
-            <div className="bg-white h-3 w-3 rounded-full" />
-          </div>
-          <div className="bg-black/70 w-0.5 h-10" />
-          <div className="w-4 h-4 rounded-full bg-black/70 flex justify-center items-center">
-            <div className="bg-white h-3 w-3 rounded-full" />
-          </div>
+
+      <Separator />
+
+      <div className="space-y-2 px-4">
+        <div className="flex justify-between items-center">
+          <span className="font-semibold">Adult Price:</span>
+          <span>${ticket.stops[0].other_prices.our_price.toFixed(2)}</span>
         </div>
-        <div className="flex flex-col gap-2 items-start justify-between h-ful">
-          <p className="text-black font-medium text-base capitalize">
-            {ticket.stops[0].from.name}
-          </p>
-          <p className="text-black font-medium text-base capitalize">
-            {ticket.stops[0].from.name}
-          </p>
+        <div className="flex justify-between items-center">
+          <span className="font-semibold">Child Price:</span>
+          <span>
+            ${ticket.stops[0].other_prices.our_children_price.toFixed(2)}
+          </span>
         </div>
+      </div>
+
+      <div className="py-2 px-4 bg-neutral-700/10 rounded-lg mt-2 font-light">
+        This trip will be operated by{" "}
+        <span className="font-medium">
+          {ticket?.metadata?.operator_company_name}
+        </span>
+        .
       </div>
     </div>
   );

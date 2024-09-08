@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import { Calendar, TimerIcon } from "lucide-react";
 import moment from "moment-timezone";
@@ -31,16 +30,30 @@ const OrderSummary = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   const [passengers, setPassengers] = useState<PassengerData[]>([]);
 
   useEffect(() => {
+    // Function to update selectedFlex from localStorage
+    const updateSelectedFlex = () => {
+      const storedFlex = localStorage.getItem("flex_options");
+      if (storedFlex) {
+        setSelectedFlex(storedFlex);
+      }
+    };
+
+    // Load passengers and initial selectedFlex when component mounts
     const storedPassengers = getPassengersFromStorage();
     setPassengers(storedPassengers);
-    const storedFlex = localStorage.getItem("flex_options");
-    if (storedFlex) {
-      setSelectedFlex(storedFlex);
-    }
+    updateSelectedFlex();
+
+    // Add event listener for changes in localStorage
+    window.addEventListener("flexOptionChanged", updateSelectedFlex);
+
+    // Clean up event listener when component unmounts
+    return () => {
+      window.removeEventListener("flexOptionChanged", updateSelectedFlex);
+    };
   }, []);
 
   const flexPrice =
-    selectedFlex === "Premium Flex" ? 4 : selectedFlex === "Basic Flex" ? 2 : 0;
+    selectedFlex === "premium" ? 4 : selectedFlex === "basic" ? 2 : 0;
 
   const adultPrice = selectedTicket?.stops[0].other_prices.our_price;
   const childPrice = selectedTicket?.stops[0].other_prices.our_children_price;
@@ -114,8 +127,11 @@ const OrderSummary = ({ selectedTicket }: { selectedTicket: Ticket }) => {
               amount={childTotal}
             />
           )}
-          {selectedFlex && (
-            <PriceSummaryItem label={selectedFlex} amount={flexPrice} />
+          {selectedFlex && selectedFlex !== "no_flex" && (
+            <PriceSummaryItem
+              label={selectedFlex === "premium" ? "Premium Flex" : "Basic Flex"}
+              amount={flexPrice}
+            />
           )}
           <hr className="w-full h-[1px] bg-neutral-500 my-2" />
           <PriceSummaryItem

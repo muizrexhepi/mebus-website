@@ -28,6 +28,7 @@ const SearchBlock = ({
   const { from: fromCity, to: toCity, resetSearch } = useSearchStore();
 
   const [loading, setLoading] = useState<boolean>(true);
+
   const handleSearch = async (values: z.infer<typeof searchSchema>) => {
     const { from, to, departureDate, passengers, returnDate } = values;
     console.log({ values });
@@ -36,7 +37,6 @@ const SearchBlock = ({
         returnDate && `&returnDate=${returnDate}`
       }&adult=${passengers.adults}&children=${passengers?.children}`
     );
-    // resetSearch();
   };
 
   const form = useForm<z.infer<typeof searchSchema>>({

@@ -1,5 +1,6 @@
 import CheckoutForm from "@/components/forms/CheckoutForm";
 import Navbar from "@/components/Navbar";
+import SecondaryNavbar from "@/components/SecondaryNavbar";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,7 +11,7 @@ const Checkout = () => {
   return (
     <div className="min-h-screen">
       <div className="w-full flex justify-center items-center bg-neutral-900 px-4 sm:px-8 xl:px-20 py-4">
-        <Navbar />
+        <SecondaryNavbar />
       </div>
       <div className="min-h-screen px-4 sm:px-8 max-w-6xl mx-auto py-8 space-y-4">
         <CheckoutForm />

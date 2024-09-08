@@ -1,6 +1,7 @@
 "use client";
 
 import useSearchStore from "@/store";
+import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import Select, { SingleValue } from "react-select";
 
@@ -48,13 +49,17 @@ const CitySelect: React.FC<CustomSelectProps> = ({
   };
 
   const cityOptions = countries?.flatMap((country) => country.cities) || [];
+  const searchParams = useSearchParams();
 
+  const fromCity = searchParams.get("departureStation");
+  const arrivalCity = searchParams.get("arrivalStation");
+  console.log({ fromCity, arrivalCity });
   useEffect(() => {
     if (departure === "from") {
       field.onChange(cityOptions[0].value);
-      setFrom(cityOptions[0].city);
+      setFrom(fromCity ? fromCity : cityOptions[0].city);
     } else if (departure === "to") {
-      field.onChange(cityOptions[1].value);
+      field.onChange(arrivalCity ? arrivalCity : cityOptions[1].value);
       setTo(cityOptions[1].city);
     }
   }, []);

@@ -18,6 +18,7 @@ export enum SELECT_TYPE {
 interface CityOption {
   value: string;
   label: string;
+  city: string;
 }
 
 interface CountryGroup {

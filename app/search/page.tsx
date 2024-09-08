@@ -4,6 +4,7 @@ import FilterBlock from "@/components/search/FilterBlock";
 import SearchBlock from "@/components/SearchBlock";
 import SearchedTickets from "@/components/search/SearchedTickets";
 import { Metadata } from "next";
+import SecondaryNavbar from "@/components/SecondaryNavbar";
 const operator_id = "66cba19d1a6e55b32932c59b";
 
 export const metadata: Metadata = {
@@ -24,7 +25,7 @@ const SearchPage = async () => {
   return (
     <div className="min-h-screen bg-[#efefef]">
       <div className="w-full flex justify-center items-center bg-neutral-900 px-4 sm:px-8 xl:px-20 py-4">
-        <Navbar />
+        <SecondaryNavbar />
       </div>
       <div className="min-h-screen px-4 sm:px-8 max-w-7xl mx-auto py-8 space-y-4">
         <SearchBlock stations={stations} />

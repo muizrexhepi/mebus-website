@@ -17,7 +17,7 @@ interface TicketProps {
 const TicketBlock: React.FC<TicketProps> = ({ ticket, adults, children }) => {
   const { setSelectedTicket } = useCheckoutStore();
   const router = useRouter();
-
+  console.log({ adults });
   const handleCheckout = (e: any) => {
     try {
       e.preventDefault();

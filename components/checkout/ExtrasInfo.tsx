@@ -18,9 +18,9 @@ const TravelFlex: React.FC = () => {
       value: "premium",
       price: 4,
       features: [
-        "Anulim i udhëtimit deri në 48 orë para nisjes",
-        "Ndryshimi i detajeve të udhëtimit deri në 24 orë para nisjes",
-        "Asistencë",
+        "Cancel your trip up to 48 hours before departure",
+        "Change trip details up to 24 hours before departure",
+        "Customer support assistance",
       ],
     },
     {
@@ -28,8 +28,8 @@ const TravelFlex: React.FC = () => {
       value: "basic",
       price: 2,
       features: [
-        "Anulim i udhëtimit deri në 5 ditë para nisjes",
-        "Ndryshimi i detajeve të udhëtimit deri në 3 ditë para nisjes",
+        "Cancel your trip up to 5 days before departure",
+        "Change trip details up to 3 days before departure",
       ],
     },
     {
@@ -49,7 +49,12 @@ const TravelFlex: React.FC = () => {
 
   const handleFlexSelection = (flexName: string) => {
     setSelectedFlex(flexName);
+
     localStorage.setItem("flex_options", flexName);
+
+    // Throw a custom event with the selected flex name
+    const event = new CustomEvent("flexOptionChanged", { detail: flexName });
+    window.dispatchEvent(event);
   };
 
   return (
@@ -99,6 +104,10 @@ const Extras: React.FC = () => {
           Travel Flex Options
         </p>
       </div>
+      <p className="text-sm text-gray-600">
+        Choose from different flexibility options to cancel or modify your trip
+        based on your needs.
+      </p>
       <TravelFlex />
     </div>
   );
