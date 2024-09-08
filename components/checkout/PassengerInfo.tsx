@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { Suspense, useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useSearchParams } from "next/navigation";
 import {
@@ -39,7 +39,7 @@ const InputField: React.FC<InputFieldProps> = ({
   </div>
 );
 
-const PassengerInfo: React.FC = () => {
+const PassengerInfoContent: React.FC = () => {
   const searchParams = useSearchParams();
   const [passengers, setPassengers] = useState<PassengerData[]>([]);
   const [firstAdultEmail, setFirstAdultEmail] = useState("");
@@ -231,4 +231,10 @@ const PassengerInfo: React.FC = () => {
   );
 };
 
-export default PassengerInfo;
+export default function PassengerInfo() {
+  return (
+    <Suspense fallback={<p>Loading passenger information...</p>}>
+      <PassengerInfoContent />
+    </Suspense>
+  );
+}

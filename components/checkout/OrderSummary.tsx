@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import { Calendar, InfoIcon, TimerIcon } from "lucide-react";
 import moment from "moment-timezone";
