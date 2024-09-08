@@ -5,7 +5,7 @@ import SearchBlock from "./SearchBlock";
 const operator_id = "66cba19d1a6e55b32932c59b";
 
 const Hero = async () => {
-  const stations = await getStationsByOperatorId(operator_id);
+  const stations = (await getStationsByOperatorId(operator_id)) || [];
   console.log({ stations });
   return (
     <div

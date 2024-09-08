@@ -28,7 +28,7 @@ export async function generateMetadata({
 }
 
 const SearchPage = async () => {
-  const stations = await getStationsByOperatorId(operator_id);
+  const stations = (await getStationsByOperatorId(operator_id)) || [];
 
   const sortOptions = [
     { value: "price", label: "Price" },
