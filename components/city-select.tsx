@@ -52,11 +52,11 @@ const CitySelect: React.FC<CustomSelectProps> = ({
 
   useEffect(() => {
     if (departure === "from") {
-      setFrom(cityOptions[0].city);
-      field.onChange(cityOptions[0].value);
+      setFrom(cityOptions[0]?.city || "");
+      field.onChange(cityOptions[0]?.value || "");
     } else if (departure === "to") {
-      setTo(cityOptions[1].city);
-      field.onChange(cityOptions[1].value);
+      setTo(cityOptions[1]?.city || "");
+      field.onChange(cityOptions[1]?.value || "");
     }
   }, []);
 
