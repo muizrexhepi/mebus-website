@@ -1,5 +1,4 @@
 import CheckoutForm from "@/components/forms/CheckoutForm";
-import Navbar from "@/components/Navbar";
 import SecondaryNavbar from "@/components/SecondaryNavbar";
 import { Metadata } from "next";
 

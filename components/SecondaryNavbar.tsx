@@ -1,21 +1,12 @@
 "use client";
 
-import { NAV_LINKS } from "@/lib/data";
-import { Globe, Menu } from "lucide-react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import LoginForm from "./forms/LoginForm";
-import RegisterForm from "./forms/RegisterForm";
+import { useRouter } from "next/navigation";
+
 import { Button } from "./ui/button";
-import ResetPasswordForm from "./forms/ResetForm";
-import LanguageDialog from "./LanguageDialog";
+import { Globe } from "lucide-react";
 
 const SecondaryNavbar = () => {
-  const searchParams = useSearchParams();
-  const login = searchParams.get("login");
-  const register = searchParams.get("register");
-  const reset = searchParams.get("reset");
-  const language = searchParams.get("language");
   const router = useRouter();
 
   return (
@@ -34,8 +25,6 @@ const SecondaryNavbar = () => {
         </span>
         <p className="uppercase text-white/90 font-medium text-base">EN</p>
       </Button>
-
-      <Menu className="w-6 h-6 text-white lg:hidden" />
     </div>
   );
 };

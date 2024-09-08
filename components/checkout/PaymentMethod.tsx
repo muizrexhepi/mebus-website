@@ -112,9 +112,11 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
           )
           .then((res) => {
             console.log({ resacijasukses: res.data });
-            toast({
-              description: "Payment successful.",
-            });
+            localStorage.removeItem("passengers");
+            router.push("/checkout/success");
+            // toast({
+            //   description: "Payment successful.",
+            // });
           })
           .catch((err) => console.error(err));
       }

@@ -33,14 +33,10 @@ const CitySelect: React.FC<CustomSelectProps> = ({
     if (option) {
       const value = option.value || "";
       const city = option.city || "";
-      console.log({ value });
 
       if (departure === "from") {
         console.log({ city });
-        setFrom(city);
       } else if (departure === "to") {
-        console.log({ city });
-
         setTo(city);
       }
 
@@ -53,16 +49,40 @@ const CitySelect: React.FC<CustomSelectProps> = ({
 
   const fromCity = searchParams.get("departureStation");
   const arrivalCity = searchParams.get("arrivalStation");
-  console.log({ fromCity, arrivalCity });
+
   useEffect(() => {
     if (departure === "from") {
+      setFrom(cityOptions[0].city);
       field.onChange(cityOptions[0].value);
-      setFrom(fromCity ? fromCity : cityOptions[0].city);
     } else if (departure === "to") {
-      field.onChange(arrivalCity ? arrivalCity : cityOptions[1].value);
       setTo(cityOptions[1].city);
+      field.onChange(cityOptions[1].value);
     }
   }, []);
+
+  useEffect(() => {
+    findDefaultStation();
+  }, []);
+
+  const findDefaultStation = () => {
+    if (departure === "from" && fromCity) {
+      const defaultFrom = cityOptions.find((city) =>
+        city.value.includes(fromCity)
+      );
+      if (defaultFrom) {
+        field.onChange(fromCity);
+        setFrom(defaultFrom.city);
+      }
+    } else if (departure === "to" && arrivalCity) {
+      const defaultTo = cityOptions.find((city) =>
+        city.value.includes(arrivalCity)
+      );
+      if (defaultTo) {
+        field.onChange(arrivalCity);
+        setTo(defaultTo.city);
+      }
+    }
+  };
 
   return (
     <div className="relative">
@@ -107,27 +127,31 @@ const CitySelect: React.FC<CustomSelectProps> = ({
           groupHeading: (provided) => ({
             ...provided,
             padding: "0 1rem",
-            color: "var(--foreground)", // ShadCN foreground color for group headings
-            fontWeight: "600", // Font weight for group headings
+            color: "var(--foreground)",
+            fontWeight: "600",
           }),
           option: (provided, state) => ({
             ...provided,
             padding: "0.5rem 1rem",
             backgroundColor: state.isFocused
-              ? "var(--muted)" // ShadCN background color for hovered item
+              ? "var(--muted)"
               : state.isSelected
-              ? "var(--primary)" // ShadCN background color for selected item
-              : "var(--background)", // Default background color
+              ? "var(--primary)"
+              : "var(--background)",
             color: state.isSelected
               ? "var(--primary-foreground)"
-              : "var(--foreground)", // Text color for selected item
+              : "var(--foreground)",
             cursor: "pointer",
             "&:hover": {
-              backgroundColor: "var(--muted)", // ShadCN background color for hovered item
+              backgroundColor: "var(--muted)",
             },
           }),
         }}
-        defaultValue={departure === "from" ? cityOptions[0] : cityOptions[1]}
+        defaultValue={
+          departure === "from"
+            ? cityOptions.find((city) => city.value.includes(fromCity || ""))
+            : cityOptions.find((city) => city.value.includes(arrivalCity || ""))
+        }
         options={cityOptions}
         placeholder={departure === "from" ? "From" : "To"}
         menuPlacement="auto"

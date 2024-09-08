@@ -33,7 +33,6 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
-            <Footer />
           </ThemeProvider>
         </ReactQueryProvider>
       </body>

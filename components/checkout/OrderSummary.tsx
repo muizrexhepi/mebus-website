@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Calendar, TimerIcon } from "lucide-react";
+import { Calendar, InfoIcon, TimerIcon } from "lucide-react";
 import moment from "moment-timezone";
 import { Ticket } from "@/models/ticket";
 import { cn } from "@/lib/utils";
@@ -7,6 +7,7 @@ import {
   getPassengersFromStorage,
   PassengerData,
 } from "../hooks/use-passengers";
+import InfoBlock from "../InfoBlock";
 
 interface PriceSummaryItemProps {
   label: string;
@@ -99,13 +100,10 @@ const OrderSummary = ({ selectedTicket }: { selectedTicket: Ticket }) => {
               <p className="font-medium text-black text-sm">5h 30m</p>
             </div>
           </div>
-          <div className="py-2 px-4 bg-neutral-700/10 rounded-lg mt-2 font-light">
-            This trip will be operated by{" "}
-            <span className="font-medium">
-              {selectedTicket?.metadata?.operator_company_name}
-            </span>
-            .
-          </div>
+          <InfoBlock
+            desc="This trip will be operated by"
+            title={selectedTicket?.metadata?.operator_company_name}
+          />
         </div>
       </div>
       <div className="bg-white rounded-xl p-4 border border-gray-300 space-y-3">

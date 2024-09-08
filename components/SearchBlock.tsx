@@ -31,7 +31,6 @@ const SearchBlock = ({
 
   const handleSearch = async (values: z.infer<typeof searchSchema>) => {
     const { from, to, departureDate, passengers, returnDate } = values;
-    console.log({ values });
     router.push(
       `/search/${fromCity}-${toCity}?departureStation=${from}&arrivalStation=${to}&departureDate=${departureDate}${
         returnDate && `&returnDate=${returnDate}`
@@ -77,17 +76,34 @@ const SearchBlock = ({
           className="space-y-6 flex-1"
         >
           <div className="w-full flex flex-col gap-2 md:flex-row justify-start md:justify-between items-start md:items-center">
-            <h1 className="text-3xl text-black">Find your bus & travel</h1>
-            <div className="flex items-center gap-2">
-              <Button>Europe</Button>
-              <Button disabled variant={"ghost"}>
-                Japan
-              </Button>
-              <Button disabled variant={"ghost"}>
-                Indonesia
-              </Button>
+            <div className="flex items-center gap-4">
+              <div className="flex gap-4">
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="tripType"
+                    value="one-way"
+                    checked={!isRoundTrip}
+                    onChange={() => setIsRoundTrip(false)}
+                    className="cursor-pointer h-7 w-7 accent-emerald-700"
+                  />
+                  <span>One-way</span>
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="tripType"
+                    value="round-trip"
+                    checked={isRoundTrip}
+                    onChange={() => setIsRoundTrip(true)}
+                    className="cursor-pointer h-7 w-7 accent-emerald-700"
+                  />
+                  <span>Round-trip</span>
+                </label>
+              </div>
             </div>
           </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="w-full">
               <p className="text-black font-normal text-lg">From</p>
@@ -116,16 +132,7 @@ const SearchBlock = ({
               )}
             </div>
             <div>
-              <div className="flex justify-between items-center">
-                <p className="text-black font-normal text-lg">Departure</p>
-                <div className="flex items-center space-x-2">
-                  <Label htmlFor="round-trip">Round-trip?</Label>
-                  <Switch
-                    id="round-trip"
-                    onCheckedChange={() => setIsRoundTrip(!isRoundTrip)}
-                  />
-                </div>
-              </div>
+              <p className="text-black font-normal text-lg">Departure</p>
               {loading ? (
                 <InputSkeleton />
               ) : (

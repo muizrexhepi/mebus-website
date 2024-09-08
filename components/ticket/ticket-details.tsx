@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import InfoBlock from "../InfoBlock";
 
 const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
   if (!ticket) return null;
@@ -112,13 +113,10 @@ const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
         </div>
       </div>
 
-      <div className="py-2 px-4 bg-neutral-700/10 rounded-lg mt-2 font-light">
-        This trip will be operated by{" "}
-        <span className="font-medium">
-          {ticket?.metadata?.operator_company_name}
-        </span>
-        .
-      </div>
+      <InfoBlock
+        desc="This trip will be operated by"
+        title={ticket?.metadata?.operator_company_name}
+      />
     </div>
   );
 };
