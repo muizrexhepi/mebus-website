@@ -11,10 +11,14 @@ import { useRouter } from "next/navigation";
 interface TicketProps {
   ticket: TicketType;
   adults?: string | null;
-  children?: string | null;
+  nrOfChildren?: string | null;
 }
 
-const TicketBlock: React.FC<TicketProps> = ({ ticket, adults, children }) => {
+const TicketBlock: React.FC<TicketProps> = ({
+  ticket,
+  adults,
+  nrOfChildren,
+}) => {
   const { setSelectedTicket } = useCheckoutStore();
   const router = useRouter();
   console.log({ adults });
@@ -22,7 +26,7 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, adults, children }) => {
     try {
       e.preventDefault();
       setSelectedTicket(ticket);
-      router.push(`/checkout?adults=${adults}&children=${children}`);
+      router.push(`/checkout?adults=${adults}&children=${nrOfChildren}`);
       console.log({ ticket });
     } catch (error) {
       console.error(error);

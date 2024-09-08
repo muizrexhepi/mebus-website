@@ -86,7 +86,7 @@ export default function SearchedTickets() {
                   <TicketBlock
                     ticket={ticket}
                     adults={searchParams.get("adult") || "1"}
-                    children={searchParams.get("children")}
+                    nrOfChildren={searchParams.get("children")}
                   />
                 </div>
               </SheetTrigger>

@@ -1,22 +1,21 @@
-import React from "react";
+"use client";
+
 import { Ticket } from "@/models/ticket";
-import { MapPin, Clock, Calendar, Bus, CreditCard } from "lucide-react";
+import { MapPin, Clock, Calendar, Bus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import InfoBlock from "../InfoBlock";
 
 const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
   if (!ticket) return null;
 
-  const router = useRouter();
+  // const router = useRouter();
 
-  const handleViewOnMap = () => {
-    const { lat, lng } = ticket?.location?.from;
-    const googleMapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
-    router.push(googleMapsUrl);
-  };
+  // const handleViewOnMap = () => {
+  //   const { lat, lng } = ticket?.location?.from;
+  //   const googleMapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+  //   router.push(googleMapsUrl);
+  // };
 
   const formatDate = (date: Date) => {
     return new Date(date).toLocaleDateString("en-US", {
@@ -91,7 +90,7 @@ const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
           <MapPin className="h-5 w-5 text-emerald-700" />
           <span
             className="text-sm text-blue-600 cursor-pointer"
-            onClick={handleViewOnMap}
+            // onClick={handleViewOnMap}
           >
             View on map
           </span>
