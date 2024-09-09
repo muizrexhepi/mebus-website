@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { useStripe, useElements, Elements } from "@stripe/react-stripe-js";
 import axios from "axios";
@@ -27,6 +29,7 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
 
   useEffect(() => {
     const storedPassengers = getPassengersFromStorage();
+    console.log({ pasagjer: storedPassengers });
     setPassengers(storedPassengers);
     const storedFlex = localStorage.getItem("flex_options");
     if (storedFlex) {
@@ -44,6 +47,42 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
       setFlexPrice(TRAVEL_FLEX_PRICES.NO_FLEX);
     }
   };
+
+  useEffect(() => {
+    const updateSelectedPassengers = () => {
+      const storedPassengers = getPassengersFromStorage();
+      setPassengers(storedPassengers);
+    };
+
+    updateSelectedPassengers();
+
+    window.addEventListener("passengersUpdated", updateSelectedPassengers);
+
+    return () => {
+      window.removeEventListener("passengersUpdated", updateSelectedPassengers);
+    };
+  }, []);
+
+  useEffect(() => {
+    const updateSelectedFlex = () => {
+      const storedFlex = localStorage.getItem("flex_options");
+      if (storedFlex) {
+        setSelectedFlex(storedFlex);
+        calculateFlexPrice(storedFlex);
+      }
+      const storedPassengers = getPassengersFromStorage();
+      setPassengers(storedPassengers);
+      console.log({ storedPassengers });
+    };
+
+    updateSelectedFlex();
+
+    window.addEventListener("flexOptionChanged", updateSelectedFlex);
+
+    return () => {
+      window.removeEventListener("flexOptionChanged", updateSelectedFlex);
+    };
+  }, []);
 
   const adultPrice = selectedTicket?.stops[0].other_prices.our_price;
   const childPrice = selectedTicket?.stops[0].other_prices.our_children_price;
@@ -75,11 +114,6 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
     }
   }, [stripe, elements]);
 
-  const handleFlexChange = (flex: string | null) => {
-    setSelectedFlex(flex);
-    calculateFlexPrice(flex);
-  };
-
   const handlePayment = async () => {
     if (!stripe || !elements || !cardNumber || !cardExpiry || !cardCvc) {
       return;
@@ -98,9 +132,7 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
         await stripe.confirmCardPayment(clientSecret, {
           payment_method: {
             card: cardNumber,
-            billing_details: {
-              
-            },
+            billing_details: {},
           },
         });
 
@@ -121,6 +153,7 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
               payment_intent_id: paymentIntent?.id,
               platform: "web",
               flex_price: flexPrice,
+              total_price: totalPrice,
             }
           )
           .then((res) => {
@@ -128,11 +161,14 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
             router.push("/checkout/success");
           })
           .catch((err) => {
-            toast({ description: err?.response?.data?.message, variant: "destructive" });
+            toast({
+              description: err?.response?.data?.message,
+              variant: "destructive",
+            });
           });
       }
     } catch (err) {
-      console.error({err});
+      console.error({ err });
       toast({ description: "Something went wrong!", variant: "destructive" });
     }
 

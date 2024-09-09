@@ -1,6 +1,7 @@
 import { Station } from "./station";
 
 export interface Stop {
+    _id:string;
     from: Station;
     to: Station;
     time: string;

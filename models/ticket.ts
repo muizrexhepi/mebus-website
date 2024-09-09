@@ -1,5 +1,6 @@
 import { Operator } from "./operator";
 import { Route } from "./route";
+import { Station } from "./station";
 import { Stop } from "./stop";
 
 export interface Ticket {
@@ -9,6 +10,8 @@ export interface Ticket {
         from: string;
         to: string;
     },
+    fromStations?:Station[];
+    toStations?:Station[];
     operator: Operator | string;
     stops: Stop[];
     departure_date: Date;

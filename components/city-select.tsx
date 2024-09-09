@@ -35,6 +35,7 @@ const CitySelect: React.FC<CustomSelectProps> = ({
       const city = option.city || "";
 
       if (departure === "from") {
+        setFrom(city);
         console.log({ city });
       } else if (departure === "to") {
         setTo(city);

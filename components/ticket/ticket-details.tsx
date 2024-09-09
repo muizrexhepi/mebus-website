@@ -2,20 +2,18 @@
 
 import { Ticket } from "@/models/ticket";
 import { MapPin, Clock, Calendar, Bus } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import InfoBlock from "../InfoBlock";
+import { Fragment, useEffect, useState } from "react";
+import { Station } from "@/models/station";
+import { useRouter } from "next/navigation";
 
 const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
   if (!ticket) return null;
+  const router = useRouter();
 
-  // const router = useRouter();
-
-  // const handleViewOnMap = () => {
-  //   const { lat, lng } = ticket?.location?.from;
-  //   const googleMapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
-  //   router.push(googleMapsUrl);
-  // };
+  const [allStations, setAllStations] = useState<Station[]>([]);
+  console.log({ ticket });
 
   const formatDate = (date: Date) => {
     return new Date(date).toLocaleDateString("en-US", {
@@ -33,73 +31,91 @@ const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
     });
   };
 
+  const handleLocation = () => {
+    const { lat, lng } = ticket.stops[0].from.location;
+    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+    window.open(googleMapsUrl, "_blank"); // Opens in a new tab or window
+  };
+
+  useEffect(() => {
+    const firstStopId = ticket?.stops[0].from?._id;
+    const lastStopId = ticket?.stops[0].to?._id;
+
+    if (firstStopId && lastStopId && ticket.fromStations && ticket.toStations) {
+      const fromStationIndex = ticket.fromStations.findIndex(
+        (station) => station._id === firstStopId
+      );
+
+      const toStationIndex = ticket.toStations.findIndex(
+        (station) => station._id === lastStopId
+      );
+
+      console.log(fromStationIndex);
+      const filteredFromStations =
+        fromStationIndex !== -1
+          ? ticket.fromStations.slice(fromStationIndex)
+          : ticket.fromStations;
+
+      const filteredToStations =
+        toStationIndex !== -1
+          ? ticket.toStations.slice(0, toStationIndex + 1)
+          : ticket.toStations;
+
+      const all = [...filteredFromStations, ...filteredToStations];
+      console.log({ all });
+      setAllStations(all);
+      console.log({ filteredFromStations, filteredToStations });
+    }
+  }, [ticket]);
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between px-4 pt-4">
-        <div className="flex items-center space-x-2">
+        <div
+          className="flex items-center space-x-4 cursor-pointer"
+          onClick={handleLocation}
+        >
+          <MapPin className="h-5 w-5 text-emerald-700" />
+          <div>
+            <p className="font-medium capitalize">
+              {ticket.stops[0].from.city}
+            </p>
+            <p className="text-black/60 text-sm">View location on map</p>
+          </div>
+        </div>
+      </div>
+      <Separator />
+
+      <div className="flex items-center justify-between px-4">
+        <div className="flex items-center space-x-4">
           <Calendar className="h-5 w-5 text-emerald-700" />
           <span className="font-semibold">
             {formatDate(ticket.departure_date)}
           </span>
         </div>
-        {/* <Badge
-          variant="outline"
-          className="text-emerald-700 border-emerald-700"
-        >
-          {ticket.type}
-        </Badge> */}
       </div>
-
       <Separator />
-
       <div className="px-4">
-        {ticket.stops.map((stop, index) => (
-          <div key={index} className="flex items-baseline space-x-4">
-            <div className="flex flex-col items-center">
-              <div className="w-4 h-4 rounded-full bg-emerald-700" />
-              {index < ticket.stops.length - 1 && (
-                <div className="w-0.5 h-full bg-emerald-700" />
-              )}
-            </div>
-            <div className="flex-1">
-              <p className="font-semibold capitalize">{stop.from.name}</p>
-              <div className="flex items-center space-x-2 text-sm text-gray-600">
-                <Clock className="h-4 w-4" />
-                <span>{formatTime(stop.time)}</span>
+        <h1 className="mb-2 uppercase font-medium text-neutral-600">Stops</h1>
+        {allStations.map((station, index) => (
+          <Fragment key={station._id}>
+            <div className="flex items-center gap-6">
+              <div className="h-4 w-4 bg-emerald-700 rounded-full flex justify-center items-center">
+                <div className="h-2 w-2 bg-white rounded-full" />
               </div>
-              {index < ticket.stops.length - 1 && (
-                <p className="text-sm text-gray-600 mt-1">To: {stop.to.name}</p>
-              )}
+              <div>
+                <p className="text-black capitalize">{station.name}</p>
+              </div>
             </div>
-          </div>
+            {index < allStations.length - 1 && (
+              <div className="ml-[7px] h-5 border-l-2 border-dotted border-neutral-700" />
+            )}
+          </Fragment>
         ))}
       </div>
 
       <Separator />
-
-      <div className="space-y-2 px-4">
-        <div className="flex items-center space-x-2">
-          <Bus className="h-5 w-5 text-emerald-700" />
-          <span className="font-semibold">
-            {typeof ticket.operator === "string"
-              ? ticket.operator
-              : ticket.operator.toString()}
-          </span>
-        </div>
-        <div className="flex items-center space-x-2">
-          <MapPin className="h-5 w-5 text-emerald-700" />
-          <span
-            className="text-sm text-blue-600 cursor-pointer"
-            // onClick={handleViewOnMap}
-          >
-            View on map
-          </span>
-        </div>
-      </div>
-
-      <Separator />
-
-      <div className="space-y-2 px-4">
+      {/* <div className="space-y-2 px-4">
         <div className="flex justify-between items-center">
           <span className="font-semibold">Adult Price:</span>
           <span>${ticket.stops[0].other_prices.our_price.toFixed(2)}</span>
@@ -110,8 +126,7 @@ const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
             ${ticket.stops[0].other_prices.our_children_price.toFixed(2)}
           </span>
         </div>
-      </div>
-
+      </div> */}
       <InfoBlock
         desc="This trip will be operated by"
         title={ticket?.metadata?.operator_company_name}

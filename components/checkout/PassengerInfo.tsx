@@ -109,6 +109,7 @@ const PassengerInfoContent: React.FC = () => {
     }
     setPassengers(updatedPassengers);
     setPassengersToStorage(updatedPassengers);
+    window.dispatchEvent(new Event("passengersUpdated"));
   };
 
   const renderPassengerInputs = (passengerIndex: number, isChild: boolean) => {
@@ -197,19 +198,6 @@ const PassengerInfoContent: React.FC = () => {
     );
   };
 
-  const preparePassengersData = () => {
-    return passengers.map((passenger, index) => {
-      const isChild = index >= adults;
-      return {
-        ...passenger,
-        email: firstAdultEmail,
-        phone: firstAdultPhone,
-        birthdate: isChild ? passenger.birthdate : "1990-01-01",
-        age: isChild ? passenger.age : 33,
-      };
-    });
-  };
-
   return (
     <div className="flex flex-col border border-gray-300 bg-white rounded-xl p-4 gap-2">
       <div className="flex items-center gap-4">
@@ -221,12 +209,6 @@ const PassengerInfoContent: React.FC = () => {
       {passengers.map((_, index) =>
         renderPassengerInputs(index, index >= adults)
       )}
-      {/* <button
-        onClick={() => console.log(preparePassengersData())}
-        className="mt-4 bg-blue-500 text-white p-2 rounded"
-      >
-        Log Passengers Data
-      </button> */}
     </div>
   );
 };

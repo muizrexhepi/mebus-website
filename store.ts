@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { Ticket } from './models/ticket';
+import { PassengerData } from './components/hooks/use-passengers';
 
 export interface Passengers {
   adults: number;
@@ -72,5 +73,28 @@ const useSearchStore = create<SearchState>((set) => ({
 
   resetSearch: () => set(initialState),
 }));
+
+
+
+
+
+interface TravelStore {
+  passengers: PassengerData[];
+  selectedFlex: string | null;
+  flexPrice: number;
+  setPassengers: (passengers: PassengerData[]) => void;
+  setSelectedFlex: (flex: string | null) => void;
+  setFlexPrice: (price: number) => void;
+}
+
+export const useTravelStore = create<TravelStore>((set) => ({
+  passengers: [],
+  selectedFlex: null,
+  flexPrice: 0,
+  setPassengers: (passengers) => set({ passengers }),
+  setSelectedFlex: (flex) => set({ selectedFlex: flex }),
+  setFlexPrice: (price) => set({ flexPrice: price }),
+}));
+
 
 export default useSearchStore;

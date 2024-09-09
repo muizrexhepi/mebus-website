@@ -21,7 +21,6 @@ const TicketBlock: React.FC<TicketProps> = ({
 }) => {
   const { setSelectedTicket } = useCheckoutStore();
   const router = useRouter();
-  console.log({ adults });
   const handleCheckout = (e: any) => {
     try {
       e.preventDefault();
@@ -44,7 +43,7 @@ const TicketBlock: React.FC<TicketProps> = ({
           <div className="w-full md:w-2/3">
             <div className="flex justify-between items-center">
               <div className="text-lg sm:text-xl">
-                {moment(ticket.stops[0].departure_date).format("HH:mm")}
+                {moment.utc(ticket.stops[0].departure_date).format("HH:mm")}
               </div>
               <div className="text-center flex-1 px-2">
                 <div className="relative flex py-2 items-center">
@@ -56,13 +55,13 @@ const TicketBlock: React.FC<TicketProps> = ({
                 </div>
               </div>
               <div className="text-lg sm:text-xl">
-                {moment(ticket.stops[0].arrival_time).format("HH:mm")}
+                {moment.utc(ticket.stops[0].arrival_time).format("HH:mm")}
               </div>
             </div>
             <div className="flex justify-between items-center">
               <div className="flex flex-col items-start">
                 <h1 className="font-medium text-base sm:text-lg capitalize">
-                  {ticket.destination.from}
+                  {ticket.stops[0].from.city}
                 </h1>
                 <span className="text-accent-foreground/50 line-clamp-1">
                   {ticket.stops[0].from.name}
@@ -70,7 +69,7 @@ const TicketBlock: React.FC<TicketProps> = ({
               </div>
               <div className="flex flex-col items-end">
                 <h1 className="font-medium text-base sm:text-lg capitalize">
-                  {ticket.destination.to}
+                  {ticket.stops[0].to.city}
                 </h1>
                 <span className="text-accent-foreground/50 line-clamp-1">
                   {ticket.stops[0].to.name}
