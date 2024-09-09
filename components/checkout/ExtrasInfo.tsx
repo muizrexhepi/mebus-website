@@ -18,8 +18,8 @@ const TravelFlex: React.FC = () => {
       value: "premium",
       price: 4,
       features: [
-        "Cancel your trip up to 48 hours before departure",
-        "Change trip details up to 24 hours before departure",
+        "Cancel your trip up to 5 days before departure",
+        "Change trip details up to 3 days before departure",
         "Customer support assistance",
       ],
     },
@@ -28,8 +28,8 @@ const TravelFlex: React.FC = () => {
       value: "basic",
       price: 2,
       features: [
-        "Cancel your trip up to 5 days before departure",
-        "Change trip details up to 3 days before departure",
+        "Cancel your trip up to 48 hours before departure",
+        "Change trip details up to 24 hours before departure",
       ],
     },
     {
@@ -52,7 +52,6 @@ const TravelFlex: React.FC = () => {
 
     localStorage.setItem("flex_options", flexName);
 
-    // Throw a custom event with the selected flex name
     const event = new CustomEvent("flexOptionChanged", { detail: flexName });
     window.dispatchEvent(event);
   };

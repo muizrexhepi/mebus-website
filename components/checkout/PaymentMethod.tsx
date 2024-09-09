@@ -12,6 +12,7 @@ import {
   PassengerData,
 } from "../hooks/use-passengers";
 import { Ticket } from "@/models/ticket";
+import { TRAVEL_FLEX_PRICES } from "@/lib/data";
 
 const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   const stripe = useStripe();
@@ -35,7 +36,7 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   }, []);
 
   const flexPrice =
-    selectedFlex === "Premium Flex" ? 4 : selectedFlex === "Basic Flex" ? 2 : 0;
+    selectedFlex === "Premium Flex" ? TRAVEL_FLEX_PRICES.NO_FLEX : selectedFlex === "Basic Flex" ? TRAVEL_FLEX_PRICES.BASIC : TRAVEL_FLEX_PRICES.NO_FLEX;
 
   const adultPrice = selectedTicket?.stops[0].other_prices.our_price;
   const childPrice = selectedTicket?.stops[0].other_prices.our_children_price;

@@ -93,3 +93,10 @@ export const FOOTER_LINKS = [
       link: "https://www.linkedin.com/company/97935419",
     },
   ];
+
+
+  export enum TRAVEL_FLEX_PRICES {
+    PREMIUM = 4,
+    BASIC = 2,
+    NO_FLEX = 0
+  };
