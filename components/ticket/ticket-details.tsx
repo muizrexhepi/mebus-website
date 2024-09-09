@@ -7,6 +7,7 @@ import InfoBlock from "../InfoBlock";
 import { Fragment, useEffect, useState } from "react";
 import { Station } from "@/models/station";
 import { useRouter } from "next/navigation";
+import { toast } from "../hooks/use-toast";
 
 const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
   if (!ticket) return null;
@@ -31,11 +32,20 @@ const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
     });
   };
 
-  const handleLocation = () => {
-    const { lat, lng } = ticket.stops[0].from.location;
+  const handleLocation = (location: { lat?: number, lng?: number }) => {
+    if (!location || !location.lat || !location.lng) {
+      console.log("Keine lat lng");
+      return toast({
+        description: "Wrong coordinates.",
+        variant: "destructive",
+      });
+    }
+
+    const { lat, lng } = location;
     const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
-    window.open(googleMapsUrl, "_blank"); // Opens in a new tab or window
+    window.open(googleMapsUrl, "_blank");
   };
+  
 
   useEffect(() => {
     const firstStopId = ticket?.stops[0].from?._id;
@@ -70,15 +80,28 @@ const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between px-4 pt-4">
+      <div className="space-y-4 items-center justify-between px-4 pt-4">
+        <h1 className="mb-2 uppercase font-medium text-neutral-600">Map</h1>
         <div
           className="flex items-center space-x-4 cursor-pointer"
-          onClick={handleLocation}
+          onClick={() => handleLocation(ticket?.stops[0]?.from?.location)}
         >
           <MapPin className="h-5 w-5 text-emerald-700" />
           <div>
             <p className="font-medium capitalize">
               {ticket.stops[0].from.city}
+            </p>
+            <p className="text-black/60 text-sm">View location on map</p>
+          </div>
+        </div>
+        <div
+          className="flex items-center space-x-4 cursor-pointer"
+          onClick={() => handleLocation(ticket?.stops[0]?.to?.location)}
+        >
+          <MapPin className="h-5 w-5 text-emerald-700" />
+          <div>
+            <p className="font-medium capitalize">
+              {ticket.stops[0].to.city}
             </p>
             <p className="text-black/60 text-sm">View location on map</p>
           </div>
