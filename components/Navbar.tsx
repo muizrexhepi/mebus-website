@@ -5,9 +5,48 @@ import { Globe, Menu } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
+import LoginForm from "./forms/LoginForm";
+import RegisterForm from "./forms/RegisterForm";
+import { useEffect, useState } from "react";
+import { account } from "@/appwrite.config";
+import UserMenu from "./UserMenu";
+import UserNavbarMenu from "./UserMenu";
+import NavbarMenu from "./NavbarMenu";
+import { useNavbarStore } from "@/store";
+import LanguageDialog from "./LanguageDialog";
 
 const Navbar = () => {
   const router = useRouter();
+  const [user, setUser] = useState<any>(null);
+
+  const { openLogin, openRegister, setOpenLanguages } = useNavbarStore();
+
+  const fetchUser = async () => {
+    try {
+      const user = await account.get();
+      setUser(user);
+      console.log({ user });
+    } catch (error) {
+      setUser(null);
+      console.error("Failed to fetch user:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    const handleUserChange = () => {
+      fetchUser();
+    };
+
+    window.addEventListener("userChange", handleUserChange);
+
+    return () => {
+      window.removeEventListener("userChange", handleUserChange);
+    };
+  }, []);
 
   return (
     <div className="w-full flex justify-between items-center">
@@ -23,32 +62,21 @@ const Navbar = () => {
           ))}
         </div>
       </div>
-      <div className="hidden md:flex items-center gap-4">
+
+      <div className="flex items-center gap-4">
         <Button
           variant={"ghost"}
-          className="flex items-center gap-3 py-1 px-3 rounded-lg hover:bg-white/20 transition-colors cursor-pointer"
-          onClick={() => router.push("?language")}
+          className="flex items-center gap-3 rounded-full hover:bg-white/20 px-2.5 transition-colors cursor-pointer"
+          onClick={() => setOpenLanguages(true)}
         >
-          <span className="p-1.5 bg-white rounded-full">
-            <Globe className="w-5 h-5" />
-          </span>
-          <p className="uppercase text-white/90 font-medium text-base">EN</p>
+          <Globe className="w-5 h-5" color="white" />
         </Button>
-        <Button
-          variant={"ghost"}
-          className="text-white hover:text-white text-base hover:bg-white/20 transition-colors"
-          onClick={() => router.push("/login")}
-        >
-          Log in
-        </Button>
-        <Button
-          className="text-black bg-white hover:bg-white/90 text-base"
-          onClick={() => router.push("/register")}
-        >
-          Sign up
-        </Button>
+        {user ? <UserNavbarMenu /> : <NavbarMenu />}
       </div>
-      <Menu className="w-6 h-6 text-white lg:hidden" />
+      <LoginForm isOpen={openLogin} />
+      <RegisterForm isOpen={openRegister} />
+      <LanguageDialog />
+      {/* <ResetPasswordForm isOpen={reset === "true"} /> */}
     </div>
   );
 };

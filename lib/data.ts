@@ -1,4 +1,4 @@
-import { Facebook, Globe, Instagram, Linkedin, Twitter, X } from "lucide-react";
+import { Bell, BookImageIcon, Facebook, Globe, Heart, HeartPulse, Instagram, Linkedin, Twitter, User, X } from "lucide-react";
 
 export const NAV_LINKS = [
     {
@@ -100,3 +100,42 @@ export const FOOTER_LINKS = [
     BASIC = 2,
     NO_FLEX = 0
   };
+
+  export const ACCOUNT_SETTINGS = [
+    {
+      href: "/account/personal-info",
+      icon: User,
+      title: "Profile",
+      description: "Manage and provide personal details how we can reach you.",
+    },
+    {
+      href: "/account/login-security",
+      icon: User,
+      title: "Security",
+      description: "Manage your account security settings.",
+    },
+    {
+      href: "/account/patient-info",
+      icon: HeartPulse,
+      title: "Patient Information",
+      description: "You can use this information to quickly make appointments.",
+    },
+    {
+      href: "/account/notifications",
+      icon: Bell,
+      title: "Notifications",
+      description: "Customize your notification preferences.",
+    },
+    {
+      href: "/account/saved-clinics",
+      icon: Heart,
+      title: "Saved Clinics",
+      description: "Quickly access your saved clinics.",
+    },
+    {
+      href: "/account/bookings",
+      icon: BookImageIcon,
+      title: "My Bookings",
+      description: "Customize and quicky manage your bookings.",
+    },
+  ];

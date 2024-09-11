@@ -6,8 +6,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { useNavbarStore } from "@/store";
 
 const languages = [
   "English",
@@ -20,17 +20,17 @@ const languages = [
   "Japanese",
 ];
 
-const LanguageDialog = ({ isOpen }: { isOpen: boolean }) => {
-  const router = useRouter();
+const LanguageDialog = () => {
+  const { openLanguages, setOpenLanguages } = useNavbarStore();
 
   const handleLanguageSelect = (language: string) => {
     console.log(`Selected language: ${language}`);
-    router.push("/");
+    setOpenLanguages(false);
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={() => router.push("/")}>
-      <DialogContent>
+    <Dialog open={openLanguages} onOpenChange={() => setOpenLanguages(false)}>
+      <DialogContent className="h-screen sm:h-fit flex flex-col justify-center">
         <DialogHeader>
           <DialogTitle>Select Your Language</DialogTitle>
           <DialogDescription>Choose a language to continue.</DialogDescription>

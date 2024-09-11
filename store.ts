@@ -76,6 +76,25 @@ const useSearchStore = create<SearchState>((set) => ({
 
 
 
+interface INavbarMenu {
+    openLogin:boolean;
+    setOpenLogin:(openLogin:boolean)=>void;
+    openRegister:boolean;
+    setOpenRegister:(openRegister:boolean)=>void;
+    openLanguages:boolean;
+    setOpenLanguages:(openLanguages:boolean)=>void;
+}
+
+export const useNavbarStore= create<INavbarMenu>((set)=>({
+  openLogin:false,
+  setOpenLogin:(openLogin)=>set({openLogin}),
+  openRegister:false,
+  setOpenRegister:(openRegister)=>set({openRegister}),
+  openLanguages:false,
+  setOpenLanguages:(openLanguages)=>set({openLanguages}),
+}))
+
+
 
 
 interface TravelStore {

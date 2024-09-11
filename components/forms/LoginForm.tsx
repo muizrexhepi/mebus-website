@@ -28,10 +28,12 @@ import Image from "next/image";
 import { FormError } from "@/components/form-error";
 import { handleFacebookLogin, handleGoogleLogin } from "@/actions/oauth";
 import { account } from "@/appwrite.config";
+import { useNavbarStore } from "@/store";
 
 const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
   const [error, setError] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { openLogin, setOpenLogin } = useNavbarStore();
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -43,41 +45,33 @@ const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     setIsLoading(true);
     console.log(values);
+
     try {
       const user = {
         email: values.email,
         password: values.password,
       };
 
-      const newUser = account.createEmailPasswordSession(
+      const newUser = await account.createEmailPasswordSession(
         user.email,
         user.password
       );
-
-      newUser.then(
-        function (response) {
-          console.log(response); // Success
-          router.push(`/`);
-          window.dispatchEvent(new Event("userChange"));
-          setIsLoading(false);
-        },
-        function (error) {
-          setError(error.message);
-          console.log(error); // Failure
-          setIsLoading(false);
-        }
-      );
-      setError("");
-    } catch (error) {
+      if (newUser) {
+        window.dispatchEvent(new Event("userChange"));
+        setError("");
+        setIsLoading(false);
+        setOpenLogin(false);
+      }
+    } catch (error: any) {
+      setError(error.message || "Something went wrong!");
       console.log(error);
       setIsLoading(false);
     }
   };
 
-  const router = useRouter();
   return (
-    <Dialog open={isOpen} onOpenChange={() => router.push("/")}>
-      <DialogContent>
+    <Dialog open={isOpen} onOpenChange={() => setOpenLogin(false)}>
+      <DialogContent className="h-screen sm:h-fit flex flex-col justify-center">
         <DialogHeader>
           <DialogTitle className="text-2xl">Login to your account</DialogTitle>
         </DialogHeader>

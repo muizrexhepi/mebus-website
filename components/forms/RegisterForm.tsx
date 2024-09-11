@@ -28,11 +28,13 @@ import Image from "next/image";
 import { FormError } from "@/components/form-error";
 import { handleFacebookLogin, handleGoogleLogin } from "@/actions/oauth";
 import { account } from "@/appwrite.config";
-import { createUser } from "@/actions/users";
+import { ID } from "appwrite";
+import { useNavbarStore } from "@/store";
 
 const RegisterForm = ({ isOpen }: { isOpen: boolean }) => {
   const [error, setError] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { setOpenRegister } = useNavbarStore();
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -52,8 +54,13 @@ const RegisterForm = ({ isOpen }: { isOpen: boolean }) => {
         password: values.password,
       };
 
-      const newUser = await createUser(user);
-
+      const newUser = await account.create(
+        ID.unique(),
+        user.email,
+        user.password,
+        user.name
+      );
+      setOpenRegister(false);
       window.dispatchEvent(new Event("userChange"));
       await account.createEmailPasswordSession(user.email, user.password);
       await account.createVerification(
@@ -73,9 +80,10 @@ const RegisterForm = ({ isOpen }: { isOpen: boolean }) => {
   };
 
   const router = useRouter();
+
   return (
-    <Dialog open={isOpen} onOpenChange={() => router.push("/")}>
-      <DialogContent>
+    <Dialog open={isOpen} onOpenChange={() => setOpenRegister(false)}>
+      <DialogContent className="h-screen sm:h-fit flex flex-col justify-center">
         <DialogHeader>
           <DialogTitle className="text-2xl">Sign up</DialogTitle>
         </DialogHeader>
@@ -123,6 +131,7 @@ const RegisterForm = ({ isOpen }: { isOpen: boolean }) => {
               />
             </div>
             <FormError message={error} />
+
             <Button className="w-full" type="submit" disabled={isLoading}>
               {isLoading ? (
                 <Loader className="h-3 w-3 animate-spin" />
@@ -169,12 +178,6 @@ const RegisterForm = ({ isOpen }: { isOpen: boolean }) => {
             Continue with Facebook
           </Button>
         </div>
-        {/* <DialogFooter className="bg-[#f7fafc]/80 rounded flex justify-center items-center space-x-2 py-5 text-sm">
-          <p>New to MediSearch?</p>
-          <Link href={"/register"} className="text-indigo-500 font-semibold">
-            Create account
-          </Link>
-        </DialogFooter> */}
       </DialogContent>
     </Dialog>
   );

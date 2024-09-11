@@ -32,7 +32,7 @@ const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
     });
   };
 
-  const handleLocation = (location: { lat?: number, lng?: number }) => {
+  const handleLocation = (location: { lat?: number; lng?: number }) => {
     if (!location || !location.lat || !location.lng) {
       console.log("Keine lat lng");
       return toast({
@@ -45,7 +45,6 @@ const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
     const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
     window.open(googleMapsUrl, "_blank");
   };
-  
 
   useEffect(() => {
     const firstStopId = ticket?.stops[0].from?._id;
@@ -81,7 +80,7 @@ const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
   return (
     <div className="space-y-4">
       <div className="space-y-4 items-center justify-between px-4 pt-4">
-        <h1 className="mb-2 uppercase font-medium text-neutral-600">Map</h1>
+        {/* <h1 className="mb-2 uppercase font-medium text-neutral-600">Map</h1> */}
         <div
           className="flex items-center space-x-4 cursor-pointer"
           onClick={() => handleLocation(ticket?.stops[0]?.from?.location)}
@@ -100,9 +99,7 @@ const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
         >
           <MapPin className="h-5 w-5 text-emerald-700" />
           <div>
-            <p className="font-medium capitalize">
-              {ticket.stops[0].to.city}
-            </p>
+            <p className="font-medium capitalize">{ticket.stops[0].to.city}</p>
             <p className="text-black/60 text-sm">View location on map</p>
           </div>
         </div>
@@ -119,7 +116,7 @@ const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
       </div>
       <Separator />
       <div className="px-4">
-        <h1 className="mb-2 uppercase font-medium text-neutral-600">Stops</h1>
+        {/* <h1 className="mb-2 uppercase font-medium text-neutral-600">Stops</h1> */}
         {allStations.map((station, index) => (
           <Fragment key={station._id}>
             <div className="flex items-center gap-6">
