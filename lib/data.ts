@@ -65,6 +65,43 @@ export const FOOTER_LINKS = [
   },
 ];
 
+interface FlexFeature {
+  name: string;
+  price: number;
+  value: string;
+  features: string[];
+}
+
+
+export const flexFeatures: FlexFeature[] = [
+  {
+    name: "Premium Flex",
+    value: "premium",
+    price: 4,
+    features: [
+      "Cancel your trip up to 48 hours before departure",
+      "Change trip details up to 24 hours before departure",
+      "Reschedule your booking up to 3 days before departure",
+    ],
+  },
+  {
+    name: "Basic Flex",
+    value: "basic",
+    price: 2,
+    features: [
+      "Cancel your trip up to 5 days before departure",
+      "Change trip details up to 3 days before departure",
+    ],
+  },
+  {
+    name: "No Flexibility",
+    value: "no_flex",
+    price: 0,
+    features: [],
+  },
+];
+
+
 
   export const SOCIAL_LINKS = [
     {
@@ -127,10 +164,10 @@ export const FOOTER_LINKS = [
       description: "Customize your notification preferences.",
     },
     {
-      href: "/account/saved-clinics",
+      href: "/account/saved-destinations",
       icon: Heart,
-      title: "Saved Clinics",
-      description: "Quickly access your saved clinics.",
+      title: "Saved Destinations",
+      description: "Quickly access your saved destinations.",
     },
     {
       href: "/account/bookings",

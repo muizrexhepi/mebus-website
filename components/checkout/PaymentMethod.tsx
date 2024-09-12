@@ -214,7 +214,7 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
           <p className="text-[#353535] font-medium text-lg">Payment method</p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-4 border-t border-gray-200 pt-4">
           <p className="font-normal text-sm text-black/70">Card Information</p>
           <div className="grid grid-cols-2 gap-4">
             <div

@@ -2,6 +2,7 @@ import { getStationsByOperatorId } from "@/actions/station";
 import Navbar from "./Navbar";
 import SearchBlock from "./SearchBlock";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 const operator_id = "66cba19d1a6e55b32932c59b";
 
@@ -17,7 +18,7 @@ const Hero = async () => {
       //   borderRadius: 10,
       //   margin: 8,
       // }}
-      className="min-h-screen px-4 sm:px-8 flex flex-col justify-between p-8 relative"
+      className="sm:min-h-screen px-4 sm:px-8 flex flex-col justify-between p-8 relative"
     >
       <Image
         priority
@@ -28,7 +29,7 @@ const Hero = async () => {
         height={1080}
       />
       <Navbar />
-      <div className="space-y-4 sm:space-y-8">
+      <div className="space-y-4 sm:space-y-8 py-6 sm:py-0">
         <h1 className="text-3xl sm:text-5xl md:text-6xl font-medium text-white hidden sm:block">
           Navigate Roads <br className="block sm:hidden" /> with Comfort
         </h1>

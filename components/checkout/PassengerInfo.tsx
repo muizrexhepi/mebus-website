@@ -117,7 +117,7 @@ const PassengerInfoContent: React.FC = () => {
     const isFirstAdult = passengerIndex === 0 && !isChild;
 
     return (
-      <div key={passengerIndex} className="border-t border-gray-200 pt-4 mt-4">
+      <div key={passengerIndex} className="border-t border-gray-200 pt-4 mt-2">
         <p className="font-medium text-black mb-2">
           {isChild
             ? `Child ${passengerIndex - adults + 1}`

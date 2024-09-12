@@ -1,44 +1,10 @@
+import { flexFeatures } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
 import React, { useState, useEffect } from "react";
 
-interface FlexFeature {
-  name: string;
-  price: number;
-  value: string;
-  features: string[];
-}
-
 const TravelFlex: React.FC = () => {
   const [selectedFlex, setSelectedFlex] = useState<string | null>(null);
-
-  const flexFeatures: FlexFeature[] = [
-    {
-      name: "Premium Flex",
-      value: "premium",
-      price: 4,
-      features: [
-        "Cancel your trip up to 5 days before departure",
-        "Change trip details up to 3 days before departure",
-        "Customer support assistance",
-      ],
-    },
-    {
-      name: "Basic Flex",
-      value: "basic",
-      price: 2,
-      features: [
-        "Cancel your trip up to 48 hours before departure",
-        "Change trip details up to 24 hours before departure",
-      ],
-    },
-    {
-      name: "No Flexibility",
-      value: "no_flex",
-      price: 0,
-      features: [],
-    },
-  ];
 
   useEffect(() => {
     const storedFlex = localStorage.getItem("flex_options");

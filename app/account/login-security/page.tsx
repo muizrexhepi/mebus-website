@@ -29,7 +29,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/hooks/use-toast";
 
-export default function PersonalInfo() {
+export default function LoginSecurity() {
   const [user, setUser] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [oldPassword, setOldPassword] = useState<string>("");
@@ -132,8 +132,8 @@ export default function PersonalInfo() {
                 <DialogHeader>
                   <DialogTitle>Edit password</DialogTitle>
                   <DialogDescription>
-                    Make changes to your password here. Click save when you&apos;re
-                    done.
+                    Make changes to your password here. Click save when
+                    you&apos;re done.
                   </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">

@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import CustomSelect, { SELECT_TYPE } from "./custom-select";
 import { Button } from "./ui/button";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useSearchStore from "@/store";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -25,16 +25,23 @@ const SearchBlock = ({
   const [countryOptions, setCountryOptions] = useState<any[]>([]);
   const router = useRouter();
   const { from: fromCity, to: toCity, resetSearch } = useSearchStore();
-
   const [loading, setLoading] = useState<boolean>(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSearch = async (values: z.infer<typeof searchSchema>) => {
+    setIsSubmitting(true);
     const { from, to, departureDate, passengers, returnDate } = values;
-    router.push(
-      `/search/${fromCity}-${toCity}?departureStation=${from}&arrivalStation=${to}&departureDate=${departureDate}${
-        returnDate && `&returnDate=${returnDate}`
-      }&adult=${passengers.adults}&children=${passengers?.children}`
-    );
+    try {
+      router.push(
+        `/search/${fromCity}-${toCity}?departureStation=${from}&arrivalStation=${to}&departureDate=${departureDate}${
+          returnDate && `&returnDate=${returnDate}`
+        }&adult=${passengers.adults}&children=${passengers?.children}`
+      );
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const form = useForm<z.infer<typeof searchSchema>>({
@@ -51,21 +58,25 @@ const SearchBlock = ({
     },
   });
 
-  useEffect(() => {
-    const stationList: any = stations?.map((station) => ({
-      name: station?.city,
-      cities: [
-        {
-          value: station?._id,
-          label: station?.name,
-          city: station?.city,
-        },
-      ],
-    }));
+  const stationList = useMemo(
+    () =>
+      stations?.map((station) => ({
+        name: station?.city,
+        cities: [
+          {
+            value: station?._id,
+            label: station?.name,
+            city: station?.city,
+          },
+        ],
+      })),
+    [stations]
+  );
 
+  useEffect(() => {
     setCountryOptions(stationList);
     setLoading(false);
-  }, [stations]);
+  }, [stationList]);
 
   return (
     <div className="bg-white rounded-xl p-7 flex flex-col gap-4 w-full min-h-fit">
@@ -187,9 +198,10 @@ const SearchBlock = ({
             <Button
               type="submit"
               className="p-6 flex items-center gap-2 text-base w-full md:w-fit"
+              disabled={isSubmitting}
             >
-              Search
-              <ArrowRight className="h-4 w-4" />
+              {isSubmitting ? "Searching..." : "Search"}
+              {!isSubmitting && <ArrowRight className="h-4 w-4" />}
             </Button>
           </div>
         </form>

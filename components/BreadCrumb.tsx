@@ -11,7 +11,7 @@ import {
 
 export function SettingsBreadcrumb() {
   const pathname = usePathname();
-  const breadCrumblink = pathname.split("/").splice(2);
+  const breadCrumblink = pathname.split("/").splice(2, 1);
 
   const formattedLink = breadCrumblink
     .join(" ")
