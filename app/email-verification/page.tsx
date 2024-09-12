@@ -1,11 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { account } from "@/appwrite.config";
 import { CircleCheckIcon } from "lucide-react";
 
-const ResetPasswordPage = () => {
+const EmailVerificationPage = () => {
   const searchParams = useSearchParams();
   const userId = searchParams.get("userId");
   const secret = searchParams.get("secret");
@@ -52,4 +52,10 @@ const ResetPasswordPage = () => {
   );
 };
 
-export default ResetPasswordPage;
+export default function EmailVerification() {
+  return (
+    <Suspense fallback={<p>Loading email verification information...</p>}>
+      <EmailVerificationPage />
+    </Suspense>
+  );
+}
