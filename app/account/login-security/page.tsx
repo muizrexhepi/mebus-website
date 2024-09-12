@@ -132,7 +132,7 @@ export default function PersonalInfo() {
                 <DialogHeader>
                   <DialogTitle>Edit password</DialogTitle>
                   <DialogDescription>
-                    Make changes to your password here. Click save when you're
+                    Make changes to your password here. Click save when you&apos;re
                     done.
                   </DialogDescription>
                 </DialogHeader>
