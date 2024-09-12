@@ -42,9 +42,9 @@ const UserNavbarMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="flex items-center space-x-2 px-3 h-10 w-fit rounded-full border cursor-pointer bg-white hover:bg-white/95 transition-colors">
-          <Menu color="black" />
-          <UserCircle color="black" />
+        <div className="flex items-center space-x-2 px-3 h-10 w-fit rounded-full cursor-pointer bg-white/30 hover:bg-white/20 transition-colors">
+          <Menu color="white" />
+          <UserCircle color="white" />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
@@ -64,8 +64,10 @@ const UserNavbarMenu = () => {
             Dashboard
           </DropdownMenuItem>
         ) : (
-          <DropdownMenuItem onClick={() => router.push("/agency/register")}>
-            Register as a clinic
+          <DropdownMenuItem
+            onClick={() => router.push("https://wwww.portal.mebus.com")}
+          >
+            Operator login
           </DropdownMenuItem>
         )}
         <DropdownMenuItem onClick={() => router.push("/agency/subscribe")}>

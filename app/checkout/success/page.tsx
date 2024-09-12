@@ -12,7 +12,7 @@ const SuccessPage: React.FC = () => {
         Your payment was processed successfully. You can view your bookings in
         your profile.
       </p>
-      <Link href="/profile/bookings">
+      <Link href="/account/bookings">
         <p className="px-6 py-3 bg-emerald-700 text-white rounded-lg transition-colors hover:bg-emerald-600">
           View My Bookings
         </p>

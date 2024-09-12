@@ -13,6 +13,7 @@ import {
 } from "../hooks/use-passengers";
 import { Ticket } from "@/models/ticket";
 import { TRAVEL_FLEX_PRICES } from "@/lib/data";
+import { account } from "@/appwrite.config";
 
 const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   const stripe = useStripe();
@@ -26,6 +27,22 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   const [passengers, setPassengers] = useState<PassengerData[]>([]);
   const [selectedFlex, setSelectedFlex] = useState<string | null>(null);
   const [flexPrice, setFlexPrice] = useState<number>(0);
+  const [user, setUser] = useState<any>(null);
+
+  const fetchUser = async () => {
+    try {
+      const user = await account.get();
+      setUser(user);
+      console.log({ user });
+    } catch (error) {
+      setUser(null);
+      console.error("Failed to fetch user:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     const storedPassengers = getPassengersFromStorage();
@@ -126,6 +143,12 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
         `${environment.apiurl}/payment/create-payment-intent`,
         { passengers, amount_in_cents: totalPrice * 100 }
       );
+      const departure_station = selectedTicket.stops[0].from._id;
+      const arrival_station = selectedTicket.stops[0].to._id;
+      const departure_station_label = selectedTicket.stops[0].from.name;
+      const arrival_station_label = selectedTicket.stops[0].to.name;
+      const from_city = selectedTicket.stops[0].from.city;
+      const to_city = selectedTicket.stops[0].to.city;
 
       const { clientSecret } = res.data.data;
       const { error: confirmError, paymentIntent } =
@@ -144,9 +167,9 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
       } else if (paymentIntent.status === "succeeded") {
         await axios
           .post(
-            `${environment.apiurl}/booking/create/${
-              selectedTicket.operator
-            }/${null}/${selectedTicket._id}`,
+            `${environment.apiurl}/booking/create/${selectedTicket.operator}/${
+              user ? user.$id : null
+            }/${selectedTicket._id}`,
             {
               passengers,
               travel_flex: selectedFlex,
@@ -154,6 +177,12 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
               platform: "web",
               flex_price: flexPrice,
               total_price: totalPrice,
+              departure_station,
+              arrival_station,
+              departure_station_label,
+              arrival_station_label,
+              from_city,
+              to_city,
             }
           )
           .then((res) => {

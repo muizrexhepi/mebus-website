@@ -114,12 +114,12 @@ export const FOOTER_LINKS = [
       title: "Security",
       description: "Manage your account security settings.",
     },
-    {
-      href: "/account/patient-info",
-      icon: HeartPulse,
-      title: "Patient Information",
-      description: "You can use this information to quickly make appointments.",
-    },
+    // {
+    //   href: "/account/patient-info",
+    //   icon: HeartPulse,
+    //   title: "Patient Information",
+    //   description: "You can use this information to quickly make appointments.",
+    // },
     {
       href: "/account/notifications",
       icon: Bell,

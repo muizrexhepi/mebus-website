@@ -16,6 +16,8 @@ export interface Booking {
     destinations: {
         departure_station: Station | string;
         arrival_station: Station | string;
+        departure_station_label: string;
+        arrival_station_label: string;
     },
     labels: {
         from_city: string;
@@ -42,6 +44,7 @@ export interface Booking {
 export interface BookingMetadata {
     transaction_id?: string;
     payment_intent_id: string;
+    travel_flex:string;
 }
 
 export enum Platforms {

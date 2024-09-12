@@ -30,6 +30,7 @@ import { handleFacebookLogin, handleGoogleLogin } from "@/actions/oauth";
 import { account } from "@/appwrite.config";
 import { ID } from "appwrite";
 import { useNavbarStore } from "@/store";
+import { createUser } from "@/actions/users";
 
 const RegisterForm = ({ isOpen }: { isOpen: boolean }) => {
   const [error, setError] = useState<string | undefined>();
@@ -54,22 +55,26 @@ const RegisterForm = ({ isOpen }: { isOpen: boolean }) => {
         password: values.password,
       };
 
+      const dbUser = await createUser(user);
+      console.log({ dbUser });
+
       const newUser = await account.create(
-        ID.unique(),
+        dbUser,
         user.email,
         user.password,
         user.name
       );
-      setOpenRegister(false);
-      window.dispatchEvent(new Event("userChange"));
-      await account.createEmailPasswordSession(user.email, user.password);
-      await account.createVerification(
-        "http://localhost:3000/email-verification"
-      );
 
-      console.log({ newUser });
+      if (newUser) {
+        setOpenRegister(false);
+        window.dispatchEvent(new Event("userChange"));
+        await account.createEmailPasswordSession(user.email, user.password);
+        await account.createVerification(
+          "http://localhost:3000/email-verification"
+        );
+      }
+
       setError("");
-      router.push(`/`);
     } catch (error: any) {
       if (error && error.code == 409) {
         setError("A user with the same id, email, or phone already exist!");

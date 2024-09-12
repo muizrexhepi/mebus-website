@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { Globe } from "lucide-react";
 import { useNavbarStore } from "@/store";
+import LanguageDialog from "./LanguageDialog";
 
 const SecondaryNavbar = () => {
   const { setOpenLanguages } = useNavbarStore();
@@ -14,7 +15,7 @@ const SecondaryNavbar = () => {
       <Link href={"/"}>
         <h1 className="font-semibold text-2xl text-white/95">Mebus</h1>
       </Link>
-
+      <LanguageDialog />
       <Button
         variant={"ghost"}
         className="flex items-center gap-3 py-1 px-3 rounded-lg hover:bg-white/20 transition-colors cursor-pointer"

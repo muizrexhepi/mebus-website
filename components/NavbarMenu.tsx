@@ -17,7 +17,7 @@ const NavbarMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="flex items-center space-x-2 px-3 h-10 w-fit rounded-full border cursor-pointer hover:bg-white/20">
+        <div className="flex items-center space-x-2 px-3 h-10 w-fit rounded-full cursor-pointer bg-white/30 hover:bg-white/20">
           <Menu color="white" />
           <UserCircle color="white" />
         </div>

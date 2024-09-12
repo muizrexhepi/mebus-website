@@ -22,12 +22,12 @@ declare interface CreateUserParams {
 export const createUser = async (user: CreateUserParams) => {
   try {
     console.log({user:user})
-    const newUser = await axios.post(`${environment.apiurl}/user/create`,{
+    const newUser = await axios.post(`${environment.apiurl}/user/create/db`,{
       name:user.name,
       email:user.email,
       password:user.password
-    })
 
+    })
     console.log({useriRi:newUser.data.data})
 
       
