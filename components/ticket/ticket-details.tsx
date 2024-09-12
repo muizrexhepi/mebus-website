@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "../hooks/use-toast";
 
 const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
-  if (!ticket) return null;
+  
   const router = useRouter();
 
   const [allStations, setAllStations] = useState<Station[]>([]);
@@ -76,6 +76,8 @@ const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
       console.log({ filteredFromStations, filteredToStations });
     }
   }, [ticket]);
+
+  if (!ticket) return null;
 
   return (
     <div className="space-y-4">
