@@ -26,7 +26,7 @@ const FilterBlock = ({ title, data }: { title: string; data: DataProps }) => {
               <input
                 type="radio"
                 name="filter-radio"
-                className="accent-emerald-700 h-4 w-4"
+                className="accent-emerald-700 h-4 w-4 !after:bg-white"
                 checked={selectedValue === item.value}
                 onChange={() => handleChange(item.value)}
               />

@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 
 const BentoGrid = () => {
   return (
-    <div className="flex flex-col md:flex-row justify-between items-start gap-4 min-h-[70vh] h-screen md:h-[70vh] px-2 py-2">
+    <div className="flex flex-col md:flex-row justify-between items-start gap-4 min-h-[70vh] h-screen md:h-[70vh] paddingX py-6">
       <div className="flex flex-col gap-4 w-full md:w-1/3 h-full">
         <div
           className="h-fit md:h-[60%]"

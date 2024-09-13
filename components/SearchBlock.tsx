@@ -33,7 +33,7 @@ const SearchBlock = ({
     const { from, to, departureDate, passengers, returnDate } = values;
     try {
       router.push(
-        `/search/${fromCity}-${toCity}?departureStation=${from}&arrivalStation=${to}&departureDate=${departureDate}${
+        `/search/${fromCity.toLowerCase()}-${toCity.toLowerCase()}?departureStation=${from}&arrivalStation=${to}&departureDate=${departureDate}${
           returnDate && `&returnDate=${returnDate}`
         }&adult=${passengers.adults}&children=${passengers?.children}`
       );
@@ -88,25 +88,25 @@ const SearchBlock = ({
           <div className="w-full flex flex-col gap-2 md:flex-row justify-start md:justify-between items-start md:items-center">
             <div className="flex items-center gap-4">
               <div className="flex gap-4">
-                <label className="flex items-center gap-2">
+                <label className="cursor-pointer flex items-center gap-2">
                   <input
                     type="radio"
                     name="tripType"
                     value="one-way"
                     checked={!isRoundTrip}
                     onChange={() => setIsRoundTrip(false)}
-                    className="cursor-pointer h-7 w-7 accent-emerald-700"
+                    className="h-7 w-7 accent-emerald-700"
                   />
                   <span>One-way</span>
                 </label>
-                <label className="flex items-center gap-2">
+                <label className="cursor-pointer flex items-center gap-2">
                   <input
                     type="radio"
                     name="tripType"
                     value="round-trip"
                     checked={isRoundTrip}
                     onChange={() => setIsRoundTrip(true)}
-                    className="cursor-pointer h-7 w-7 accent-emerald-700"
+                    className="h-7 w-7 accent-emerald-700"
                   />
                   <span>Round-trip</span>
                 </label>
@@ -146,11 +146,14 @@ const SearchBlock = ({
               {loading ? (
                 <InputSkeleton />
               ) : (
-                <div className="flex border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-lg divide-x">
+                <div className="flex border border-input overflow-hidden rounded-lg divide-x">
                   <div
-                    className={cn("w-1/2", {
-                      "w-full": !isRoundTrip,
-                    })}
+                    className={cn(
+                      "w-1/2 flex bg-background hover:bg-accent hover:text-accent-foreground",
+                      {
+                        "w-full": !isRoundTrip,
+                      }
+                    )}
                   >
                     <CustomSelect
                       type={SELECT_TYPE.DATE_PICKER}
@@ -158,7 +161,11 @@ const SearchBlock = ({
                     />
                   </div>
                   {isRoundTrip && (
-                    <div className={cn("w-1/2")}>
+                    <div
+                      className={cn(
+                        "w-1/2 flex bg-background hover:bg-accent hover:text-accent-foreground"
+                      )}
+                    >
                       <CustomSelect
                         type={SELECT_TYPE.DATE_PICKER}
                         name="returnDate"
@@ -187,6 +194,7 @@ const SearchBlock = ({
                 {BUS_TYPES.map((bus, index) => (
                   <Button
                     variant={"outline"}
+                    type="button"
                     className="rounded-full"
                     key={index}
                   >

@@ -83,6 +83,8 @@ interface INavbarMenu {
     setOpenRegister:(openRegister:boolean)=>void;
     openLanguages:boolean;
     setOpenLanguages:(openLanguages:boolean)=>void;
+    openReset:boolean;
+    setOpenReset:(openLanguages:boolean)=>void;
 }
 
 export const useNavbarStore= create<INavbarMenu>((set)=>({
@@ -92,6 +94,8 @@ export const useNavbarStore= create<INavbarMenu>((set)=>({
   setOpenRegister:(openRegister)=>set({openRegister}),
   openLanguages:false,
   setOpenLanguages:(openLanguages)=>set({openLanguages}),
+  openReset:false,
+  setOpenReset:(openReset:boolean)=>set({openReset}),
 }))
 
 

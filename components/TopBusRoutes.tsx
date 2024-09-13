@@ -57,7 +57,7 @@ const testRoutes: RouteProps[] = [
 
 const TopBusRoutes = () => {
   return (
-    <div className="px-4 sm:px-8 py-8 space-y-8">
+    <div className="paddingX py-12 space-y-8">
       <SectionHeader
         title="Top bus routes this month"
         desc="Explore the trendiest travel destinations for an unforgettable journey"

@@ -38,7 +38,7 @@ export function DatePicker({ field }: { field: any }) {
         <Button
           variant={"ghost"}
           className={cn(
-            "justify-start text-left font-normal h-14 text-base w-full truncate",
+            "justify-start text-left font-normal h-14 text-base w-full",
             !date && "text-muted-foreground"
           )}
         >

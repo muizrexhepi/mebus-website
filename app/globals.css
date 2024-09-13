@@ -53,3 +53,11 @@
 *::-webkit-scrollbar {
   display: none;
 }
+
+.react-select {
+  @apply bg-background text-foreground; /* Default styles for the control */
+}
+
+.react-select:hover {
+  @apply bg-[var(--accent)]; /* Use the accent variable on hover */
+}

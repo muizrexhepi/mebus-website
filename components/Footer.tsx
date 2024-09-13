@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 const Footer = () => {
   return (
     <section
-      className={`p-6 bg-neutral-900 flex justify-center items-center flex-col relative m-2 rounded-xl`}
+      className={`paddingX py-12 bg-neutral-900 flex justify-center items-center flex-col relative`}
     >
       <div
         className={`flex justify-center items-start md:flex-row flex-col mb-8 w-full`}

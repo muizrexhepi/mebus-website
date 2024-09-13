@@ -10,11 +10,13 @@ import {
 import { useRouter } from "next/navigation";
 import { account } from "@/appwrite.config";
 import { useEffect, useState } from "react";
+import { useNavbarStore } from "@/store";
 
 const UserNavbarMenu = () => {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
   const [isClinic, setIsClinic] = useState<boolean>(false);
+  const { setOpenLogin, setOpenRegister } = useNavbarStore();
 
   const fetchUser = async () => {
     try {
@@ -34,9 +36,13 @@ const UserNavbarMenu = () => {
   }, []);
 
   const handleLogout = async () => {
-    await account.deleteSessions();
-    window.dispatchEvent(new Event("userChange"));
-    router.push("/");
+    try {
+      await account.deleteSessions();
+      window.dispatchEvent(new Event("userChange"));
+      router.push("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (
@@ -47,7 +53,7 @@ const UserNavbarMenu = () => {
           <UserCircle color="white" />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent align="end" className="rounded-xl mt-2">
         {isClinic ? (
           <DropdownMenuItem onClick={() => router.push("/agency/account")}>
             Account
@@ -57,22 +63,38 @@ const UserNavbarMenu = () => {
             Account
           </DropdownMenuItem>
         )}
-        <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        {isClinic ? (
+        {/* {isClinic ? (
           <DropdownMenuItem onClick={() => router.push("/agency/dashboard")}>
             Dashboard
           </DropdownMenuItem>
         ) : (
           <DropdownMenuItem
-            onClick={() => router.push("https://wwww.portal.mebus.com")}
+            onClick={() => router.push("https://www.portal.mebus.com")}
           >
             Operator login
           </DropdownMenuItem>
-        )}
-        <DropdownMenuItem onClick={() => router.push("/agency/subscribe")}>
-          Subscribe
+        )} */}
+        <DropdownMenuItem onClick={() => router.push("/bookings")}>
+          Bookings
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => router.push("/help")}>
+          Help & Support
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push("/contact")}>
+          Contact Us
+        </DropdownMenuItem>
+        {!user && (
+          <>
+            <DropdownMenuItem onClick={() => setOpenLogin(true)}>
+              Login
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setOpenRegister(true)}>
+              Sign Up
+            </DropdownMenuItem>
+          </>
+        )}
+        <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

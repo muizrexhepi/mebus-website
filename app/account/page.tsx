@@ -35,12 +35,12 @@ export default function Component() {
           <Skeleton className="h-7 w-1/3" />
         )}
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {ACCOUNT_SETTINGS.map((link) => (
           <Link
             key={link.title}
             href={link.href}
-            className="bg-white shadow-md min-h-[170px] rounded-lg p-6 hover:bg-gray-100 transition-colors"
+            className="bg-white shadow-md min-h-[150px] rounded-lg p-4 hover:bg-gray-100 transition-colors"
             prefetch={false}
           >
             <div className="h-full flex flex-col justify-between items-start">

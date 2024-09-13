@@ -18,7 +18,7 @@ const Hero = async () => {
       //   borderRadius: 10,
       //   margin: 8,
       // }}
-      className="sm:min-h-screen px-4 sm:px-8 flex flex-col justify-between p-8 relative"
+      className="sm:min-h-screen  flex flex-col justify-between p-8 relative paddingX"
     >
       <Image
         priority

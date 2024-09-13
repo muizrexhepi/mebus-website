@@ -14,12 +14,14 @@ import UserNavbarMenu from "./UserMenu";
 import NavbarMenu from "./NavbarMenu";
 import { useNavbarStore } from "@/store";
 import LanguageDialog from "./LanguageDialog";
+import ResetPasswordForm from "./forms/ResetForm";
 
 const Navbar = () => {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
 
-  const { openLogin, openRegister, setOpenLanguages } = useNavbarStore();
+  const { openLogin, openRegister, openReset, setOpenLanguages } =
+    useNavbarStore();
 
   const fetchUser = async () => {
     try {
@@ -63,7 +65,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2">
         <Button
           variant={"ghost"}
           className="flex items-center gap-3 rounded-full hover:bg-white/20 px-2.5 transition-colors cursor-pointer"
@@ -76,7 +78,7 @@ const Navbar = () => {
       <LoginForm isOpen={openLogin} />
       <RegisterForm isOpen={openRegister} />
       <LanguageDialog />
-      {/* <ResetPasswordForm isOpen={reset === "true"} /> */}
+      <ResetPasswordForm isOpen={openReset} />
     </div>
   );
 };

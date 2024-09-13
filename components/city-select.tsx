@@ -90,7 +90,6 @@ const CitySelect: React.FC<CustomSelectProps> = ({
       <Select
         value={cityOptions.find((option) => option.value === field.value)}
         onChange={handleSelect}
-        classNamePrefix="react-select"
         styles={{
           container: (provided) => ({
             ...provided,
@@ -101,10 +100,13 @@ const CitySelect: React.FC<CustomSelectProps> = ({
             cursor: "pointer",
             minHeight: "3.5rem",
             borderColor: state.isFocused ? "#efefef" : "#efefef",
-            backgroundColor: state.isFocused ? "var(--foreground)" : "#fff",
+            backgroundColor: state.isFocused ? "var(--accent)" : "#fff",
             boxShadow: state.isFocused ? `0 0 0 1px var(--primary)` : "none",
             borderRadius: "var(--radius)",
             padding: "0.25rem",
+            "&:hover": {
+              backgroundColor: "rgb",
+            },
           }),
           valueContainer: (provided) => ({
             ...provided,

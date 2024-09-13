@@ -22,19 +22,26 @@ const NavbarMenu = () => {
           <UserCircle color="white" />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent align="end" className="rounded-xl mt-2">
         <DropdownMenuItem onClick={() => setOpenLogin(true)}>
           Login
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setOpenRegister(true)}>
-          Sign up
+          Sign Up
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => router.push("/clinic/register")}>
-          Register as a clinic
+        <DropdownMenuItem onClick={() => router.push("/search")}>
+          Search for Buses
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => router.push("/clinic/subscribe")}>
-          Subscribe
+        <DropdownMenuItem onClick={() => router.push("/about")}>
+          About Us
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => router.push("/help")}>
+          Help & Support
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push("/contact")}>
+          Contact Us
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -33,7 +33,7 @@ import { useNavbarStore } from "@/store";
 const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
   const [error, setError] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { openLogin, setOpenLogin } = useNavbarStore();
+  const { setOpenLogin, openLogin, setOpenReset } = useNavbarStore();
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -98,12 +98,17 @@ const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
                   <FormItem>
                     <FormLabel className="flex justify-between items-center">
                       <p>Password</p>
-                      <Link
+                      <Button
+                        type="button"
+                        variant={"link"}
+                        onClick={() => {
+                          setOpenReset(true);
+                          setOpenLogin(!openLogin);
+                        }}
                         className="text-sm font-medium text-indigo-500"
-                        href="/?reset=true"
                       >
                         Forgot password?
-                      </Link>
+                      </Button>
                     </FormLabel>
                     <FormControl>
                       <Input {...field} disabled={isLoading} type="password" />
