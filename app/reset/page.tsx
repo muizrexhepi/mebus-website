@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import {
   Card,
   CardContent,
@@ -28,7 +28,7 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import Link from "next/link";
 
-const ResetPasswordPage = () => {
+const ResetPassword = () => {
   const searchParams = useSearchParams();
   const [success, setSuccess] = useState<string | undefined>();
   const userId = searchParams.get("userId");
@@ -122,4 +122,10 @@ const ResetPasswordPage = () => {
   );
 };
 
-export default ResetPasswordPage;
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={<p>Loading email verification information...</p>}>
+      <ResetPassword />
+    </Suspense>
+  );
+}
