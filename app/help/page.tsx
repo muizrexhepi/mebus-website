@@ -107,7 +107,7 @@ export default function HelpPage() {
                   <AccordionContent>
                     We operate routes connecting major cities and popular
                     destinations. To view our current routes, please visit the
-                    "Routes" section of our website or mobile app.
+                    &quot;Routes&quot; section of our website or mobile app.
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-3">
@@ -208,9 +208,9 @@ export default function HelpPage() {
                     To modify your booking:
                     <ol className="list-decimal list-inside mt-2 space-y-1">
                       <li>Log in to your account on our website or app</li>
-                      <li>Go to "My Bookings"</li>
+                      <li>Go to &quot;My Bookings&quot;</li>
                       <li>Select the booking you want to modify</li>
-                      <li>Click on "Modify Booking"</li>
+                      <li>Click on &quot;Modify Booking&quot;</li>
                       <li>Make your desired changes</li>
                       <li>Pay any difference in fare or fees</li>
                       <li>Receive a confirmation of your modified booking</li>
@@ -228,9 +228,9 @@ export default function HelpPage() {
                       <li>24-72 hours before departure: 50% refund</li>
                       <li>Less than 24 hours before departure: No refund</li>
                     </ul>
-                    To cancel a booking, log in to your account, go to "My
-                    Bookings," select the booking you want to cancel, and click
-                    on "Cancel Booking."
+                    To cancel a booking, log in to your account, go to &quot;My
+                    Bookings,&quot; select the booking you want to cancel, and
+                    click on &quot;Cancel Booking.&quot;
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-3">
@@ -244,10 +244,10 @@ export default function HelpPage() {
                 <AccordionItem value="item-4">
                   <AccordionTrigger>Lost Ticket</AccordionTrigger>
                   <AccordionContent>
-                    If you've lost your e-ticket, you can easily retrieve it by
-                    logging into your account and going to "My Bookings." From
-                    there, you can resend the e-ticket to your email or download
-                    it directly.
+                    If you&apos;ve lost your e-ticket, you can easily retrieve
+                    it by logging into your account and going to &quot;My
+                    Bookings.&quot; From there, you can resend the e-ticket to
+                    your email or download it directly.
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>

@@ -10,9 +10,9 @@ export default function MebusTermsOfService() {
       <h1 className="text-4xl font-bold text-center mb-8">Terms of Service</h1>
       <div className="max-w-3xl mx-auto">
         <p className="mb-8">
-          Welcome to Mebus. These Terms of Service ("Terms") govern your use of
-          the Mebus bus ticket booking application and services. By using Mebus,
-          you agree to these Terms. Please read them carefully.
+          Welcome to Mebus. These Terms of Service (&quot;Terms&quot;) govern
+          your use of the Mebus bus ticket booking application and services. By
+          using Mebus, you agree to these Terms. Please read them carefully.
         </p>
 
         <h2 className="text-2xl font-semibold mb-4" id="toc">
@@ -139,7 +139,7 @@ export default function MebusTermsOfService() {
           </p>
           <ul className="list-disc list-inside space-y-2">
             <li>Cancellations must be made within the specified time frame</li>
-            <li>Refunds are subject to the bus operator's policies</li>
+            <li>Refunds are subject to the bus operator&apos;s policies</li>
             <li>
               Mebus may charge a processing fee for cancellations and refunds
             </li>
@@ -183,8 +183,8 @@ export default function MebusTermsOfService() {
           <p>
             We may update these Terms from time to time. We will notify you of
             any changes by posting the new Terms in the Mebus app and updating
-            the "Last Updated" date. Your continued use of Mebus after such
-            changes constitutes your acceptance of the new Terms.
+            the &quot;Last Updated&quot; date. Your continued use of Mebus after
+            such changes constitutes your acceptance of the new Terms.
           </p>
         </section>
 

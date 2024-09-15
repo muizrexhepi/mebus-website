@@ -198,7 +198,7 @@ export default function MebusPrivacyPolicy() {
           </ul>
           <p>
             To exercise these rights, please contact us using the information
-            provided in the "Contact Us" section.
+            provided in the &quot;Contact Us&quot; section.
           </p>
         </section>
 
@@ -209,9 +209,10 @@ export default function MebusPrivacyPolicy() {
           <p>
             We may update this Privacy Policy from time to time. We will notify
             you of any changes by posting the new Privacy Policy in the Mebus
-            app and updating the "Last Updated" date. You are advised to review
-            this Privacy Policy periodically for any changes. Changes to this
-            Privacy Policy are effective when they are posted in the app.
+            app and updating the &quot;Last Updated&quot; date. You are advised
+            to review this Privacy Policy periodically for any changes. Changes
+            to this Privacy Policy are effective when they are posted in the
+            app.
           </p>
         </section>
 

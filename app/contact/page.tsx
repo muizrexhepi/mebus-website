@@ -54,7 +54,7 @@ export default function Contact() {
         Contact Us
       </h1>
       <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-        We're here to assist you with your bus booking needs. Choose your
+        We&apos;re here to assist you with your bus booking needs. Choose your
         preferred method of contact or send us a message directly.
       </p>
 
@@ -126,7 +126,7 @@ export default function Contact() {
           <CardHeader>
             <CardTitle className="text-2xl">Send Us a Message</CardTitle>
             <CardDescription>
-              We'll get back to you as soon as possible
+              We&apos;ll get back to you as soon as possible
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -184,7 +184,7 @@ export default function Contact() {
               <Alert className="mt-4 bg-green-100 border-green-500">
                 <AlertTitle>Success!</AlertTitle>
                 <AlertDescription>
-                  Your message has been sent. We'll get back to you soon.
+                  Your message has been sent. We&apos;ll get back to you soon.
                 </AlertDescription>
               </Alert>
             )}
@@ -210,12 +210,13 @@ export default function Contact() {
                     <li>Choose your preferred bus and seats</li>
                     <li>Complete the payment process</li>
                   </ol>
-                  You'll receive a confirmation email with your ticket details.
+                  You&apos;ll receive a confirmation email with your ticket
+                  details.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-2">
                 <AccordionTrigger>
-                  What's your cancellation policy?
+                  What&apos;s your cancellation policy?
                 </AccordionTrigger>
                 <AccordionContent>
                   You can cancel or change your booking up to 24 hours before

@@ -50,40 +50,37 @@ const BookingsDashboard: React.FC = () => {
     });
   };
 
-  const fetchUser = async () => {
-    try {
-      const user = await account.get();
-      setUser(user);
-    } catch (error) {
-      setUser(null);
-      console.error("Failed to fetch user:", error);
-    }
-  };
-
-  const fetchBookings = async () => {
-    try {
-      const res = await axios.get(
-        `${environment.apiurl}/booking/client/${user.$id}?populate=route`
-      );
-      console.log({ buchung: res.data.data });
-      setBookings(res.data.data);
-    } catch (error) {
-      console.error("Failed to fetch bookings:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const user = await account.get();
+        setUser(user);
+      } catch (error) {
+        setUser(null);
+        console.error("Failed to fetch user:", error);
+      }
+    };
     fetchUser();
   }, []);
 
   useEffect(() => {
     if (user) {
+      const fetchBookings = async () => {
+        try {
+          const res = await axios.get(
+            `${environment.apiurl}/booking/client/${user.$id}?populate=route`
+          );
+          console.log({ buchung: res.data.data });
+          setBookings(res.data.data);
+        } catch (error) {
+          console.error("Failed to fetch bookings:", error);
+        }
+      };
       fetchBookings();
     }
   }, [user]);
 
   const renderBookingCard = (booking: Booking) => {
-    const router = useRouter();
     const departureDate = new Date(booking.departure_date);
     const monthString = departureDate.toLocaleString("en-US", {
       month: "short",

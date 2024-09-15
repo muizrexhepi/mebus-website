@@ -40,8 +40,8 @@ export default async function BookingDetailsPage({
               Booking Not Found
             </h2>
             <p className="mt-2 text-center text-gray-600">
-              We couldn't find the booking you're looking for. Please check the
-              booking ID and try again.
+              We couldn&apos;t find the booking you&apos;re looking for. Please
+              check the booking ID and try again.
             </p>
           </CardContent>
         </Card>
