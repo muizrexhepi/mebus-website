@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -20,11 +22,12 @@ import { account } from "@/appwrite.config";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { useNavbarStore } from "@/store";
+import { useRouter } from "next/navigation";
 
 const ResetPasswordForm = ({ isOpen }: { isOpen: boolean }) => {
   const [success, setSuccess] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();
-  const { setOpenReset } = useNavbarStore();
+  const { setOpenReset, setOpenLogin } = useNavbarStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const form = useForm<z.infer<typeof resetPasswordSchema>>({
     resolver: zodResolver(resetPasswordSchema),
@@ -32,6 +35,8 @@ const ResetPasswordForm = ({ isOpen }: { isOpen: boolean }) => {
       email: "",
     },
   });
+
+  const router = useRouter();
 
   const onSubmit = async (values: z.infer<typeof resetPasswordSchema>) => {
     setIsLoading(true);
@@ -93,12 +98,17 @@ const ResetPasswordForm = ({ isOpen }: { isOpen: boolean }) => {
             </Button>
           </form>
         </Form>
-        <Link
+        <Button
+          variant="link"
+          onClick={() => {
+            router.push("/");
+            setOpenReset(false);
+            setOpenLogin(true);
+          }}
           className="text-sm text-center font-semibold text-indigo-500"
-          href="/?login=true"
         >
           Return to login
-        </Link>
+        </Button>
       </DialogContent>
     </Dialog>
   );

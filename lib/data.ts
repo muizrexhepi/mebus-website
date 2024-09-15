@@ -151,12 +151,12 @@ export const flexFeatures: FlexFeature[] = [
       title: "Security",
       description: "Manage your account security settings.",
     },
-    {
-      href: "/account/bookings",
-      icon: BookImageIcon,
-      title: "My Bookings",
-      description: "Customize and quicky manage your bookings.",
-    },
+    // {
+    //   href: "/account/bookings",
+    //   icon: BookImageIcon,
+    //   title: "My Bookings",
+    //   description: "Customize and quicky manage your bookings.",
+    // },
     // {
     //   href: "/account/patient-info",
     //   icon: HeartPulse,

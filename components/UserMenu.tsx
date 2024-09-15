@@ -9,31 +9,9 @@ import {
 } from "./ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { account } from "@/appwrite.config";
-import { useEffect, useState } from "react";
-import { useNavbarStore } from "@/store";
 
 const UserNavbarMenu = () => {
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
-  const [isClinic, setIsClinic] = useState<boolean>(false);
-  const { setOpenLogin, setOpenRegister } = useNavbarStore();
-
-  const fetchUser = async () => {
-    try {
-      const user = await account.get();
-      if (user.labels.includes("agency")) {
-        setIsClinic(true);
-      }
-      setUser(user);
-    } catch (error) {
-      setUser(null);
-      console.error("Failed to fetch user:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   const handleLogout = async () => {
     try {
@@ -54,26 +32,9 @@ const UserNavbarMenu = () => {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="rounded-xl mt-2">
-        {isClinic ? (
-          <DropdownMenuItem onClick={() => router.push("/agency/account")}>
-            Account
-          </DropdownMenuItem>
-        ) : (
-          <DropdownMenuItem onClick={() => router.push("/account")}>
-            Account
-          </DropdownMenuItem>
-        )}
-        {/* {isClinic ? (
-          <DropdownMenuItem onClick={() => router.push("/agency/dashboard")}>
-            Dashboard
-          </DropdownMenuItem>
-        ) : (
-          <DropdownMenuItem
-            onClick={() => router.push("https://www.portal.mebus.com")}
-          >
-            Operator login
-          </DropdownMenuItem>
-        )} */}
+        <DropdownMenuItem onClick={() => router.push("/account")}>
+          Account
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => router.push("/bookings")}>
           Bookings
         </DropdownMenuItem>
@@ -84,16 +45,6 @@ const UserNavbarMenu = () => {
         <DropdownMenuItem onClick={() => router.push("/contact")}>
           Contact Us
         </DropdownMenuItem>
-        {!user && (
-          <>
-            <DropdownMenuItem onClick={() => setOpenLogin(true)}>
-              Login
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setOpenRegister(true)}>
-              Sign Up
-            </DropdownMenuItem>
-          </>
-        )}
         <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

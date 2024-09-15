@@ -1,10 +1,10 @@
 import { getStationsByOperatorId } from "@/actions/station";
-import Navbar from "@/components/Navbar";
 import FilterBlock from "@/components/search/FilterBlock";
 import SearchBlock from "@/components/SearchBlock";
 import SearchedTickets from "@/components/search/SearchedTickets";
 import { Metadata } from "next";
 import SecondaryNavbar from "@/components/SecondaryNavbar";
+import SecondaryFooter from "@/components/SecondaryFooter";
 
 const operator_id = "66cba19d1a6e55b32932c59b";
 
@@ -18,7 +18,7 @@ export async function generateMetadata({
     .split("-")
     .map((city) => city.charAt(0).toUpperCase() + city.slice(1));
 
-  const title = `Travel from ${departureCity} to ${arrivalCity} by bus | Mebus`;
+  const title = `Buses from ${departureCity} to ${arrivalCity} | Mebus`;
   const description = `Search and book your bus tickets from ${departureCity} to ${arrivalCity} with Mebus. Travel comfortably across Europe.`;
 
   return {
@@ -89,6 +89,7 @@ const SearchPage = async () => {
           </div>
         </div>
       </div>
+      <SecondaryFooter />
     </div>
   );
 };

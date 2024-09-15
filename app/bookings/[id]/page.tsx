@@ -9,16 +9,17 @@ import {
   PhoneIcon,
   MailIcon,
   CalendarIcon,
+  ArrowLeft,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import moment from "moment-timezone";
-import { Booking } from "@/models/booking";
 import { getBookingByIdWithChargeData } from "@/actions/bookings";
 import InfoBlock from "@/components/InfoBlock";
 import { Separator } from "@/components/ui/separator";
+import SecondaryNavbar from "@/components/SecondaryNavbar";
 
 export default async function BookingDetailsPage({
   params,
@@ -53,7 +54,17 @@ export default async function BookingDetailsPage({
     .format("dddd, DD-MM-YYYY");
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 max-w-5xl mx-auto paddingY paddingX">
+      <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 paddingX py-4 z-20">
+        <SecondaryNavbar />
+      </div>
+      <Link
+        href={"/bookings"}
+        className="flex items-center gap-2 hover:underline"
+      >
+        <ArrowLeft color="black" size={20} />
+        Back
+      </Link>
       <div>
         <h2 className="text-3xl font-semibold">Booking Details</h2>
         <p className="text-sm text-neutral-800/60">Booking ID: {booking._id}</p>

@@ -9,7 +9,6 @@ import LoginForm from "./forms/LoginForm";
 import RegisterForm from "./forms/RegisterForm";
 import { useEffect, useState } from "react";
 import { account } from "@/appwrite.config";
-import UserMenu from "./UserMenu";
 import UserNavbarMenu from "./UserMenu";
 import NavbarMenu from "./NavbarMenu";
 import { useNavbarStore } from "@/store";

@@ -4,14 +4,20 @@ import { account } from "@/appwrite.config";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ACCOUNT_SETTINGS } from "@/lib/data";
+import { useRouter } from "next/navigation";
 
 export default function Component() {
   const [user, setUser] = useState<any>(null);
+  const router = useRouter();
 
   const fetchUser = async () => {
     try {
       const user = await account.get();
       setUser(user);
+      if (!user) {
+        router.push("/");
+      }
+
       console.log({ user });
     } catch (error) {
       setUser(null);

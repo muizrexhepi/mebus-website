@@ -61,7 +61,7 @@ const SearchBlock = ({
   const stationList = useMemo(
     () =>
       stations?.map((station) => ({
-        name: station?.city,
+        country: station?.country,
         cities: [
           {
             value: station?._id,

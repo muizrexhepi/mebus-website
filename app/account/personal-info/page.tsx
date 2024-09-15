@@ -42,9 +42,7 @@ export default function PersonalInfo() {
     },
     {
       label: "Phone Number",
-      value:
-        user?.phone ||
-        "Add a number so confirmed guests and MedISearch can get in touch.",
+      value: user?.phone || "Add a number so the operators can get in touch.",
       action: user?.phone ? "Edit" : "Add",
       update: async (newValue: string, password: string) => {
         await account.updatePhone(newValue, password);

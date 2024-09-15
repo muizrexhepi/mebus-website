@@ -112,7 +112,7 @@ export default function LoginSecurity() {
     <div className="">
       <div className="space-y-8">
         <div>
-          <h2 className="text-3xl font-semibold">Password</h2>
+          <h2 className="text-3xl font-semibold">Login Security</h2>
         </div>
         <div className="space-y-6">
           <div
