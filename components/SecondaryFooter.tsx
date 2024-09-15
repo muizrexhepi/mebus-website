@@ -4,7 +4,7 @@ import Link from "next/link";
 const SecondaryFooter = () => {
   return (
     <footer className="w-full py-4">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto ">
         <div className="flex flex-wrap justify-center sm:justify-between items-center border-t border-neutral-700 pt-4 gap-2">
           <p className="text-sm text-black/70">
             &copy; 2024 MebusTravel. All Rights Reserved.

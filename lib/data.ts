@@ -54,12 +54,25 @@ export const FOOTER_LINKS = [
         link: "/careers",
       },
       {
-        name: "Blog",
-        link: "/blog",
+        name: "Help",
+        link: "/help",
       },
       {
         name: "Contact",
         link: "/contact",
+      },
+    ],
+  },
+  {
+    title: "Partners",
+    links: [
+      {
+        name: "Partner login",
+        link: "/about-us",
+      },
+      {
+        name: "Become a partner",
+        link: "/partner/apply",
       },
     ],
   },

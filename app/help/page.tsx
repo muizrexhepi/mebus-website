@@ -41,7 +41,7 @@ export default function HelpPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-32">
-      <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 px-4 sm:px-8 py-4 z-20">
+      <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 paddingX py-4 z-20">
         <Navbar />
       </div>
       <h1 className="text-4xl font-bold text-center mb-8 text-neutral-900">
