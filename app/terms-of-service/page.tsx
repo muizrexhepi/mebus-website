@@ -123,8 +123,8 @@ export default function MebusTermsOfService() {
               Mebus acts as an intermediary between you and the bus operators
             </li>
             <li>
-              The bus operator's terms and conditions may also apply to your
-              booking
+              The bus operator&apos;s terms and conditions may also apply to
+              your booking
             </li>
           </ul>
         </section>

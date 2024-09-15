@@ -2,20 +2,20 @@ import { Bell, BookImageIcon, Facebook, Globe, Heart, HeartPulse, Instagram, Lin
 
 export const NAV_LINKS = [
     {
-        name:'Hotel',
-        url:'/hotel',
+        name:'Home',
+        url:'/',
     },
     {
-        name:'Flights',
-        url:'/flights',
+        name:'Bookings',
+        url:'/bookings',
     },
     {
-        name:'Train',
-        url:'/train',
+        name:'Help',
+        url:'/help',
     },
     {
-        name:'Travel',
-        url:'/travel',
+        name:'Contact',
+        url:'/contact',
     },
 ]
 
