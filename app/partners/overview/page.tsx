@@ -14,6 +14,7 @@ import {
   Shield,
 } from "lucide-react";
 import { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -46,7 +47,9 @@ export default function OperatorPartnership() {
           </Link>
         </div>
         <div className="lg:w-1/2">
-          <img
+          <Image
+            width={1920}
+            height={1080}
             src="/assets/images/busOperatorPartnership.jpg"
             alt="Bus operator partnership"
             className="rounded-lg shadow-lg"
@@ -162,7 +165,9 @@ export default function OperatorPartnership() {
           </div>
         </div>
         <div className="lg:w-1/2">
-          <img
+          <Image
+            width={1920}
+            height={1080}
             src="/assets/images/busOperatorPartnershipProcess.jpg"
             alt="Partnership process"
             className="rounded-lg shadow-lg h-[400px]"

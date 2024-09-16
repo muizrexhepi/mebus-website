@@ -28,6 +28,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import SecondaryFooter from "@/components/SecondaryFooter";
 
 export default function HelpPage() {
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -39,7 +40,7 @@ export default function HelpPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-8 xl:px-0 py-32">
+    <div className="max-w-6xl mx-auto px-4 sm:px-8 xl:px-0 pt-32">
       <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 paddingX py-4 z-20">
         <Navbar className="max-w-6xl" />
       </div>
@@ -389,6 +390,7 @@ export default function HelpPage() {
           </div>
         </CardContent>
       </Card>
+      <SecondaryFooter />
     </div>
   );
 }

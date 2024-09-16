@@ -86,7 +86,7 @@ const Contact: React.FC = () => {
         <ContactForm />
       </div>
 
-      <div className="mb-16">
+      {/* <div className="mb-16">
         <h2 className="text-2xl font-semibold mb-4">
           Frequently Asked Questions
         </h2>
@@ -98,12 +98,12 @@ const Contact: React.FC = () => {
             <p className="text-gray-600">
               Use our online booking system: enter your travel details, select
               your preferred bus and seats, and complete the payment process.
-              You'll receive a confirmation email with your ticket details.
+              You&apos;ll receive a confirmation email with your ticket details.
             </p>
           </div>
           <div>
             <h3 className="font-semibold text-lg mb-2">
-              What's Mebus's cancellation policy?
+              What&apos;s Mebus&apos;s cancellation policy?
             </h3>
             <p className="text-gray-600">
               We offer a flexible cancellation policy allowing changes up to 15
@@ -123,7 +123,7 @@ const Contact: React.FC = () => {
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <SecondaryFooter />
     </div>

@@ -47,7 +47,6 @@ const PartnerApplicationForm: React.FC = () => {
     console.log(values);
 
     try {
-      // Simulating API call
       await new Promise((resolve) => setTimeout(resolve, 2000));
       setError("");
       setIsLoading(false);
@@ -196,7 +195,10 @@ const PartnerApplicationForm: React.FC = () => {
             name="website"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Company Website</FormLabel>
+                <FormLabel>
+                  Company Website{" "}
+                  <span className="text-sm text-black/70">(optional)</span>
+                </FormLabel>
                 <FormControl>
                   <Input
                     {...field}

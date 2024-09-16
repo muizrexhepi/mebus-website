@@ -35,7 +35,7 @@ export default function ContactForm() {
       <CardHeader>
         <CardTitle className="text-2xl">Send Us a Message</CardTitle>
         <CardDescription>
-          We'll get back to you as soon as possible
+          We&apos;ll get back to you as soon as possible
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -82,10 +82,7 @@ export default function ContactForm() {
               required
             />
           </div>
-          <Button
-            type="submit"
-            className="w-full bg-emerald-700 hover:bg-emerald-600 text-white"
-          >
+          <Button type="submit" className="w-full bg-primary text-white">
             Send Message
           </Button>
         </form>
@@ -93,7 +90,7 @@ export default function ContactForm() {
           <Alert className="mt-4 bg-green-100 border-green-500">
             <AlertTitle>Success!</AlertTitle>
             <AlertDescription>
-              Your message has been sent. We'll get back to you soon.
+              Your message has been sent. We&apos;ll get back to you soon.
             </AlertDescription>
           </Alert>
         )}

@@ -88,7 +88,7 @@ const PartnerApplicationPage: React.FC = () => {
               <CardContent>
                 <p className="mb-4">
                   If you have any questions about the application process or
-                  partnership program, please don't hesitate to contact us.
+                  partnership program, please don&apos;t hesitate to contact us.
                 </p>
                 <Link href={"/contact"}>
                   <Button variant="outline" className="w-full">
