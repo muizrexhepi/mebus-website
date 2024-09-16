@@ -47,3 +47,18 @@ export const searchSchema = z.object({
     children: z.number().min(0, "Number of children must be at least 0").optional(),
   }),
 });
+
+export const PartnerApplicationSchema = z.object({
+  companyName: z.string().min(1, "Company name is required"),
+  contactName: z.string().min(1, "Contact name is required"),
+  email: z.string().email("Invalid email address"),
+  phone: z.string().min(1, "Phone number is required"),
+  website: z.string().url("Invalid URL").optional().or(z.literal("")),
+  fleetSize: z.number().min(1, "Fleet size must be at least 1"),
+  routes: z.string().min(1, "Current routes are required"),
+  experience: z.number().min(0, "Experience must be a positive number"),
+  companyTaxNumber: z.string().min(1, "Company tax number is required"),
+  country: z.string().min(1, "Country is required"),
+  registrationNumber: z.string().min(1, "Company registration number is required"),
+  additionalInfo: z.string().optional(),
+});

@@ -72,7 +72,7 @@ export const FOOTER_LINKS = [
       },
       {
         name: "Become a partner",
-        link: "/partner/apply",
+        link: "/partners/overview",
       },
     ],
   },

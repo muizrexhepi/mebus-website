@@ -8,7 +8,7 @@ import { Button } from "../ui/button";
 import { useCheckoutStore } from "@/store";
 import { useRouter } from "next/navigation";
 
-interface TicketProps {
+export interface TicketProps {
   ticket: TicketType;
   adults?: string | null;
   nrOfChildren?: string | null;
@@ -21,6 +21,7 @@ const TicketBlock: React.FC<TicketProps> = ({
 }) => {
   const { setSelectedTicket } = useCheckoutStore();
   const router = useRouter();
+
   const handleCheckout = (e: any) => {
     try {
       e.preventDefault();

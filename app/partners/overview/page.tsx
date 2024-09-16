@@ -1,5 +1,5 @@
+import Navbar from "@/components/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
-import SecondaryNavbar from "@/components/SecondaryNavbar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -13,17 +13,24 @@ import {
   BarChart,
   Shield,
 } from "lucide-react";
+import { Metadata } from "next";
+import Link from "next/link";
 
+export const metadata: Metadata = {
+  title: "MeBus | Partner Overview",
+  description:
+    "Learn how to partner with MeBus, expand your reach, and grow your bus operation with our cutting-edge online platform.",
+};
 export default function OperatorPartnership() {
   return (
-    <div className="paddingY relative">
-      <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 py-4 z-20">
-        <SecondaryNavbar />
+    <div className="mx-auto px-4 sm:px-8 xl:px-0 pt-20">
+      <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 paddingX py-4 z-20">
+        <Navbar className="max-w-6xl" />
       </div>
 
       <section className="flex flex-col lg:flex-row items-center justify-between gap-12 py-16 max-w-6xl mx-auto">
         <div className="lg:w-1/2">
-          <h1 className="text-5xl font-bold mb-6">
+          <h1 className="text-3xl sm:text-5xl font-bold mb-6">
             Partner with MeBus
             <br />
             <span className="text-primary">Expand Your Reach</span>
@@ -32,9 +39,11 @@ export default function OperatorPartnership() {
             Join our platform and start selling your bus tickets online. We
             provide the technology, you provide the rides!
           </p>
-          <Button size="lg" className="font-semibold">
-            Become a Partner <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
+          <Link href={"/partners/apply"}>
+            <Button size="lg" className="font-semibold">
+              Become a Partner <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
         </div>
         <div className="lg:w-1/2">
           <img
@@ -168,17 +177,17 @@ export default function OperatorPartnership() {
           advanced online ticketing system. Expand your customer base,
           streamline your operations, and boost your revenue.
         </p>
-        <Button
-          size="lg"
-          className="font-semibold bg-white text-primary hover:bg-gray-100"
-        >
-          Apply Now <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
+        <Link href={"/partners/apply"}>
+          <Button
+            size="lg"
+            className="font-semibold bg-white text-primary hover:bg-gray-100"
+          >
+            Apply Now <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </Link>
       </section>
 
-      <div className="w-full absolute bottom-0 left-0">
-        <SecondaryFooter />
-      </div>
+      <SecondaryFooter />
     </div>
   );
 }

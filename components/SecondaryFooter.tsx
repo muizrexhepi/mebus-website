@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const SecondaryFooter = () => {
   return (
-    <footer className="w-full py-4">
+    <footer className="w-full py-4 px-4 sm:px-8 xl:px-0">
       <div className="max-w-6xl mx-auto ">
         <div className="flex flex-wrap justify-center sm:justify-between items-center border-t border-neutral-700 pt-4 gap-2">
           <p className="text-sm text-black/70">

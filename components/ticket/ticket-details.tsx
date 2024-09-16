@@ -1,18 +1,12 @@
-"use client";
-
 import { Ticket } from "@/models/ticket";
 import { MapPin, Clock, Calendar, Bus } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import InfoBlock from "../InfoBlock";
 import { Fragment, useEffect, useState } from "react";
 import { Station } from "@/models/station";
-import { useRouter } from "next/navigation";
 import { toast } from "../hooks/use-toast";
 
 const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
-  
-  const router = useRouter();
-
   const [allStations, setAllStations] = useState<Station[]>([]);
   console.log({ ticket });
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import ky from "ky";
 import { Ticket } from "@/models/ticket";
@@ -35,6 +35,9 @@ const fetchTickets = async ({ pageParam }: { pageParam: number }) => {
 function TicketList() {
   const searchParams = useSearchParams();
   const [selectedTicket, setSelectedTicket] = useState<Ticket>();
+  const adults = searchParams.get("adult") || "1";
+  const nrOfChildren = searchParams.get("children") || "0";
+  const router = useRouter();
 
   const {
     data,
@@ -98,7 +101,23 @@ function TicketList() {
                   <TicketDetails ticket={selectedTicket!} />
                 </div>
                 <SheetFooter className="p-4">
-                  <Button className="w-full">Continue</Button>
+                  <Button
+                    className="w-full"
+                    onClick={(e: any) => {
+                      try {
+                        e.preventDefault();
+                        setSelectedTicket(ticket);
+                        router.push(
+                          `/checkout?adults=${adults}&children=${nrOfChildren}`
+                        );
+                        console.log({ ticket });
+                      } catch (error) {
+                        console.error(error);
+                      }
+                    }}
+                  >
+                    Continue
+                  </Button>
                 </SheetFooter>
               </SheetContent>
             </Sheet>

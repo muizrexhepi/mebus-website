@@ -14,8 +14,9 @@ import NavbarMenu from "./NavbarMenu";
 import { useNavbarStore } from "@/store";
 import LanguageDialog from "./LanguageDialog";
 import ResetPasswordForm from "./forms/ResetForm";
+import { cn } from "@/lib/utils";
 
-const Navbar = () => {
+const Navbar = ({ className }: { className?: string }) => {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
 
@@ -50,7 +51,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="w-full flex justify-between items-center">
+    <div className={cn("w-full flex justify-between items-center", className)}>
       <div className="flex items-center gap-8">
         <Link href={"/"}>
           <h1 className="font-semibold text-2xl text-white/95">Mebus</h1>

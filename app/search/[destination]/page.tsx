@@ -67,13 +67,13 @@ const SearchPage = async () => {
 
   return (
     <div className="min-h-screen bg-[#f3f3f3]">
-      <div className="w-full flex justify-center items-center bg-neutral-900 px-4 sm:px-8 py-4">
+      <div className="w-full flex justify-center items-center bg-neutral-900 px-4 sm:px-8 py-4 xl:px-0">
         <SecondaryNavbar />
       </div>
-      <div className="min-h-screen px-4 sm:px-8 max-w-6xl mx-auto py-8 space-y-4">
+      <div className="min-h-screen px-4 sm:px-8 max-w-6xl mx-auto py-8 space-y-4 xl:px-0">
         <SearchBlock stations={stations} />
         <div className="flex flex-col lg:flex-row gap-4 h-full">
-          <div className="w-full lg:w-[25%] space-y-4">
+          <div className="w-full hidden md:block lg:w-[25%] space-y-4">
             <FilterBlock title="Sort by" data={sortOptions} />
             <FilterBlock title="Filter by" data={transferOptions} />
             <FilterBlock

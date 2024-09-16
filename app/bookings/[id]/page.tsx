@@ -54,20 +54,24 @@ export default async function BookingDetailsPage({
     .format("dddd, DD-MM-YYYY");
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto paddingY paddingX">
+    <div className="space-y-4 max-w-5xl mx-auto py-20 paddingX">
       <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 paddingX py-4 z-20">
         <SecondaryNavbar />
       </div>
-      <Link
-        href={"/bookings"}
-        className="flex items-center gap-2 hover:underline"
-      >
-        <ArrowLeft color="black" size={20} />
-        Back
-      </Link>
-      <div>
-        <h2 className="text-3xl font-semibold">Booking Details</h2>
-        <p className="text-sm text-neutral-800/60">Booking ID: {booking._id}</p>
+      <div className="flex flex-col sm:flex-row justify-between items-center">
+        <div>
+          <h2 className="text-3xl font-semibold">Booking Details</h2>
+          <p className="text-sm text-neutral-800/60">
+            Booking ID: {booking._id}
+          </p>
+        </div>
+        <Link
+          href={"/bookings"}
+          className="flex items-center gap-2 hover:underline"
+        >
+          <ArrowLeft color="black" size={20} />
+          Back
+        </Link>
       </div>
 
       <div className="space-y-6">

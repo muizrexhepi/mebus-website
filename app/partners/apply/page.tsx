@@ -1,0 +1,109 @@
+import React from "react";
+import Navbar from "@/components/Navbar";
+import SecondaryFooter from "@/components/SecondaryFooter";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowLeft, Globe, Shield, TrendingUp } from "lucide-react";
+import Link from "next/link";
+import PartnerApplicationForm from "@/components/forms/PartnerApplyForm";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "MeBus | Partner Application",
+  description:
+    "Join MeBus as a partner and expand your business reach, boost revenue, and enjoy secure operations through our platform.",
+};
+
+const PartnerApplicationPage: React.FC = () => {
+  return (
+    <div className="mx-auto px-4 sm:px-8 xl:px-0 pt-10 sm:pt-20">
+      <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 paddingX py-4 z-20">
+        <Navbar className="max-w-6xl" />
+      </div>
+
+      <div className="max-w-6xl mx-auto py-16">
+        <Link
+          className="flex items-center gap-2 mb-4"
+          href={"/partners/overview"}
+        >
+          <ArrowLeft color="black" size={20} />
+          Back
+        </Link>
+        <div className="flex flex-col lg:flex-row gap-12">
+          <div className="lg:w-2/3">
+            <Card>
+              <CardHeader>
+                <CardTitle>Partner Application Form</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <PartnerApplicationForm />
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="lg:w-1/3 space-y-6">
+            <Card className="bg-primary text-white">
+              <CardHeader>
+                <CardTitle className="text-2xl">
+                  Why Partner with MeBus?
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-start space-x-4">
+                  <Globe className="w-6 h-6 mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold">Expand Your Reach</h3>
+                    <p>
+                      Access a wider customer base through our online platform
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <TrendingUp className="w-6 h-6 mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold">Boost Your Revenue</h3>
+                    <p>
+                      Increase ticket sales with our marketing and distribution
+                      network
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-4">
+                  <Shield className="w-6 h-6 mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="font-semibold">Secure Operations</h3>
+                    <p>
+                      Benefit from our robust booking system and fraud
+                      protection
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Need Help?</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-4">
+                  If you have any questions about the application process or
+                  partnership program, please don't hesitate to contact us.
+                </p>
+                <Link href={"/contact"}>
+                  <Button variant="outline" className="w-full">
+                    Contact Support
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+
+      <SecondaryFooter />
+    </div>
+  );
+};
+
+export default PartnerApplicationPage;
