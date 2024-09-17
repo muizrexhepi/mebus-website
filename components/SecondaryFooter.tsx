@@ -1,9 +1,10 @@
 import React from "react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
-const SecondaryFooter = () => {
+const SecondaryFooter = ({ className }: { className?: string }) => {
   return (
-    <footer className="w-full py-4 px-4 sm:px-8 xl:px-0">
+    <footer className={cn("w-full py-4 px-4 sm:px-8 xl:px-0", className)}>
       <div className="max-w-6xl mx-auto ">
         <div className="flex flex-wrap justify-center sm:justify-between items-center border-t border-neutral-700 pt-4 gap-2">
           <p className="text-sm text-black/70">

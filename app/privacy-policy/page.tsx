@@ -1,14 +1,15 @@
 import Navbar from "@/components/Navbar";
+import SecondaryFooter from "@/components/SecondaryFooter";
 import React from "react";
 
 export default function MebusPrivacyPolicy() {
   return (
-    <div className="max-w-6xl mx-auto px-4 py-32">
+    <div className="max-w-4xl mx-auto px-4 sm:px-8 xl:px-0 pt-32">
       <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 px-4 sm:px-8 py-4 z-20">
-        <Navbar />
+        <Navbar className="max-w-4xl" />
       </div>
       <h1 className="text-4xl font-bold text-center mb-8">Privacy Policy</h1>
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         <p className="mb-8">
           At Mebus, we are committed to protecting your privacy and ensuring the
           security of your personal information. This Privacy Policy outlines
@@ -234,6 +235,7 @@ export default function MebusPrivacyPolicy() {
           </p>
         </div>
       </div>
+      <SecondaryFooter className="max-w-4xl" />
     </div>
   );
 }

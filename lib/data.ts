@@ -1,4 +1,4 @@
-import { Bell, BookImageIcon, Facebook, Globe, Heart, HeartPulse, Instagram, Linkedin, Twitter, User, X } from "lucide-react";
+import { Bell, BookImageIcon, DollarSign, Facebook, Globe, Heart, HeartPulse, Instagram, Linkedin, Twitter, User, X } from "lucide-react";
 
 export const NAV_LINKS = [
     {
@@ -190,7 +190,7 @@ export const flexFeatures: FlexFeature[] = [
     },
     {
       href: "/account/deposit",
-      icon: Heart,
+      icon: DollarSign,
       title: "Deposit Funds",
       description: "Quickly deposit funds for easy future payments without using your card each time.",
     }

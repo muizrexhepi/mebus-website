@@ -46,7 +46,7 @@ export default function LoginSecurity() {
     setNewPassword(e.target.value);
   };
 
-  export const fetchUser = async () => {
+  const fetchUser = async () => {
     try {
       const user = await account.get();
       setUser(user);

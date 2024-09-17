@@ -22,7 +22,9 @@ export default function Component() {
         router.push("/");
       }
 
-      const accountBalance = await axios.get(`${environment.apiurl}/user/${user.$id}?select=balance_in_cents`);
+      const accountBalance = await axios.get(
+        `${environment.apiurl}/user/${user.$id}?select=balance_in_cents`
+      );
       setAccountBalanceInCents(accountBalance.data.data.balance_in_cents);
 
       console.log({ user, accountBalance: accountBalance.data.data });
@@ -42,16 +44,21 @@ export default function Component() {
         <h1 className="text-3xl font-semibold">Account</h1>
         {user ? (
           <div>
-            
-          <p className="text-xl font-medium">
-            {user?.name}, <span className="font-normal">{user?.email}</span>
-          </p>
-          <p className="text-xl font-medium">
-            Account balance: <span className="font-normal">{Symbols.EURO} {(accountBalanceInCents / 100).toFixed(2)}</span>
-          </p>
+            <p className="text-xl font-medium">
+              {user?.name}, <span className="font-normal">{user?.email}</span>
+            </p>
+            <p className="text-xl font-medium">
+              Account balance:{" "}
+              <span className="font-normal">
+                {Symbols.EURO} {(accountBalanceInCents / 100).toFixed(2)}
+              </span>
+            </p>
           </div>
         ) : (
-          <Skeleton className="h-7 w-1/3" />
+          <div className="space-y-2">
+            <Skeleton className="h-6 w-1/3" />
+            <Skeleton className="h-6 w-[25%]" />
+          </div>
         )}
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
