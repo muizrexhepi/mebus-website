@@ -188,4 +188,12 @@ export const flexFeatures: FlexFeature[] = [
       title: "Saved Destinations",
       description: "Quickly access your saved destinations.",
     },
+    {
+      href: "/account/deposit",
+      icon: Heart,
+      title: "Deposit Funds",
+      description: "Quickly deposit funds for easy future payments without using your card each time.",
+    }
+    
+    
   ];

@@ -5,9 +5,13 @@ import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ACCOUNT_SETTINGS } from "@/lib/data";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { environment } from "@/environment";
+import { Symbols } from "@/symbols";
 
 export default function Component() {
   const [user, setUser] = useState<any>(null);
+  const [accountBalanceInCents, setAccountBalanceInCents] = useState<number>(0);
   const router = useRouter();
 
   const fetchUser = async () => {
@@ -18,7 +22,10 @@ export default function Component() {
         router.push("/");
       }
 
-      console.log({ user });
+      const accountBalance = await axios.get(`${environment.apiurl}/user/${user.$id}?select=balance_in_cents`);
+      setAccountBalanceInCents(accountBalance.data.data.balance_in_cents);
+
+      console.log({ user, accountBalance: accountBalance.data.data });
     } catch (error) {
       setUser(null);
       console.error("Failed to fetch user:", error);
@@ -34,9 +41,15 @@ export default function Component() {
       <div className="space-y-2">
         <h1 className="text-3xl font-semibold">Account</h1>
         {user ? (
+          <div>
+            
           <p className="text-xl font-medium">
             {user?.name}, <span className="font-normal">{user?.email}</span>
           </p>
+          <p className="text-xl font-medium">
+            Account balance: <span className="font-normal">{Symbols.EURO} {(accountBalanceInCents / 100).toFixed(2)}</span>
+          </p>
+          </div>
         ) : (
           <Skeleton className="h-7 w-1/3" />
         )}

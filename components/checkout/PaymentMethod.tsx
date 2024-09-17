@@ -129,6 +129,8 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
       setCardExpiry(cardExpiryElement);
       setCardCvc(cardCvcElement);
     }
+
+    
   }, [stripe, elements]);
 
   const handlePayment = async () => {
