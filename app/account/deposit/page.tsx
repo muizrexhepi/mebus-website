@@ -243,7 +243,7 @@ const DepositPage = () => {
             <CardContent>
               <p className="mb-4">
                 If you have any questions about making a deposit or using our
-                services, please don't hesitate to contact us.
+                services, please don&apos;t hesitate to contact us.
               </p>
               <Link href="/contact">
                 <Button variant="outline" className="w-full">
