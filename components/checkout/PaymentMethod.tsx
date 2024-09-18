@@ -16,7 +16,8 @@ import { TRAVEL_FLEX_PRICES } from "@/lib/data";
 import { account } from "@/appwrite.config";
 import { Checkbox } from "@/components/ui/checkbox";
 import { getUserBalance } from "@/actions/users";
-
+import { Input } from "../ui/input";
+import { useDepositStore } from "@/store";
 
 const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   const stripe = useStripe();
@@ -31,9 +32,9 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   const [selectedFlex, setSelectedFlex] = useState<string | null>(null);
   const [flexPrice, setFlexPrice] = useState<number>(0);
   const [user, setUser] = useState<any>(null);
-  const [useDeposit, setUseDeposit] = useState(false);
-  const [depositAmount, setDepositAmount] = useState(0);
-
+  const [balance, setBalance] = useState<number>(0);
+  const { useDeposit, setDepositAmount, setUseDeposit, depositAmount } =
+    useDepositStore();
 
   const fetchUser = async () => {
     try {
@@ -54,7 +55,7 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
       if (user) {
         try {
           const balance = await getUserBalance(user.$id);
-          setDepositAmount(balance);
+          setBalance(balance);
         } catch (error) {
           console.error("Failed to fetch deposit amount:", error);
         }
@@ -133,12 +134,24 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
 
   const handleUseDepositChange = (checked: boolean) => {
     setUseDeposit(checked);
-    window.dispatchEvent(new CustomEvent('useDepositChanged', { detail: { useDeposit: checked, depositAmount } }));
+    window.dispatchEvent(
+      new CustomEvent("useDepositChanged", {
+        detail: { useDeposit: checked, depositAmount },
+      })
+    );
   };
 
-  const finalPrice = useDeposit ? Math.max(totalPrice - (depositAmount/100), 0) : totalPrice;
+  const finalPrice = useDeposit
+    ? Math.max(totalPrice - depositAmount / 100, 0)
+    : totalPrice;
 
-  console.log({ passengers, selectedFlex, selectedTicket, flexPrice, finalPrice });
+  console.log({
+    passengers,
+    selectedFlex,
+    selectedTicket,
+    flexPrice,
+    finalPrice,
+  });
 
   useEffect(() => {
     if (stripe && elements) {
@@ -154,8 +167,6 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
       setCardExpiry(cardExpiryElement);
       setCardCvc(cardCvcElement);
     }
-
-    
   }, [stripe, elements]);
 
   const handlePayment = async () => {
@@ -210,6 +221,8 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
               arrival_station_label,
               from_city,
               to_city,
+              is_using_deposited_money: useDeposit,
+              deposit_spent: 0,
             }
           )
           .then((res) => {
@@ -234,21 +247,6 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   return (
     <>
       <div className="flex flex-col border border-gray-300 bg-white rounded-xl p-4 gap-4">
-      {depositAmount > 0 && (
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="use-deposit"
-              checked={useDeposit}
-              onCheckedChange={handleUseDepositChange}
-            />
-            <label
-              htmlFor="use-deposit"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Use deposited money (€{(depositAmount / 100).toFixed(2)} available)
-            </label>
-          </div>
-        )}
         <div className="flex items-center gap-4">
           <span className="border border-emerald-700 rounded-xl h-8 w-8 flex justify-center items-center text-black">
             3
@@ -257,6 +255,36 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
         </div>
 
         <div className="space-y-4 border-t border-gray-200 pt-4">
+          {balance > 0 && (
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 h-10">
+              <div className="flex items-center gap-2 w-full sm:w-1/2 cursor-pointer">
+                <Checkbox
+                  className="accent-emerald-700 h-5 w-5"
+                  id="use-deposit"
+                  checked={useDeposit}
+                  onCheckedChange={handleUseDepositChange}
+                />
+                <label
+                  htmlFor="use-deposit"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 whitespace-nowrap cursor-pointer"
+                >
+                  Use deposited money (€{(balance / 100).toFixed(2)} available)
+                </label>
+              </div>
+              {useDeposit ? (
+                <Input
+                  className="w-full sm:w-1/2"
+                  type="number"
+                  min={1}
+                  max={depositAmount / 100}
+                  placeholder="Deposit Amount"
+                  onChange={(e: any) =>
+                    setDepositAmount(parseInt(e.target.value))
+                  }
+                />
+              ) : null}
+            </div>
+          )}
           <p className="font-normal text-sm text-black/70">Card Information</p>
           <div className="grid grid-cols-2 gap-4">
             <div

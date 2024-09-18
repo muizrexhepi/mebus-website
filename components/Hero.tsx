@@ -2,7 +2,6 @@ import { getStationsByOperatorId } from "@/actions/station";
 import Navbar from "./Navbar";
 import SearchBlock from "./SearchBlock";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
 
 const operator_id = "66cba19d1a6e55b32932c59b";
 
@@ -18,7 +17,7 @@ const Hero = async () => {
       //   borderRadius: 10,
       //   margin: 8,
       // }}
-      className="sm:min-h-screen  flex flex-col justify-between p-8 relative paddingX"
+      className="sm:min-h-screen flex flex-col justify-between p-4 sm:p-8 relative paddingX"
     >
       <Image
         priority

@@ -9,6 +9,7 @@ import {
   PassengerData,
 } from "../hooks/use-passengers";
 import InfoBlock from "../InfoBlock";
+import { useDepositStore } from "@/store";
 
 interface PriceSummaryItemProps {
   label: string;
@@ -34,6 +35,9 @@ const OrderSummary = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   const [balanceAmount, setBalanceAmount] = useState(0);
   const [appliedBalance, setAppliedBalance] = useState(0);
   const [remainingAmount, setRemainingAmount] = useState(0);
+  const { depositAmount, useDeposit } = useDepositStore();
+
+  console.log({ depositAmount, useDeposit });
 
   useEffect(() => {
     const updateSelectedFlex = () => {
@@ -56,10 +60,16 @@ const OrderSummary = ({ selectedTicket }: { selectedTicket: Ticket }) => {
       setRemainingAmount(event.detail.remainingAmount);
     };
 
-    window.addEventListener('useBalanceChanged', handleUseBalanceChange as EventListener);
+    window.addEventListener(
+      "useBalanceChanged",
+      handleUseBalanceChange as EventListener
+    );
 
     return () => {
-      window.removeEventListener('useBalanceChanged', handleUseBalanceChange as EventListener);
+      window.removeEventListener(
+        "useBalanceChanged",
+        handleUseBalanceChange as EventListener
+      );
       window.removeEventListener("flexOptionChanged", updateSelectedFlex);
     };
   }, []);
@@ -101,7 +111,7 @@ const OrderSummary = ({ selectedTicket }: { selectedTicket: Ticket }) => {
     }
   }, [useBalance, balanceAmount, totalPrice]);
 
-  console.log({totalPrice, remainingAmount  })
+  console.log({ totalPrice, remainingAmount });
 
   return (
     <>
@@ -168,19 +178,19 @@ const OrderSummary = ({ selectedTicket }: { selectedTicket: Ticket }) => {
           )}
           <hr className="w-full h-[1px] bg-neutral-500 my-2" />
           {useBalance && (
-              <>
-                <PriceSummaryItem
-                  label="Balance applied"
-                  amount={-appliedBalance}
-                  className="text-green-600"
-                />
-                <PriceSummaryItem
-                  label="Remaining to pay"
-                  amount={remainingAmount}
-                  className="font-medium"
-                />
-              </>
-            )}
+            <>
+              <PriceSummaryItem
+                label="Balance applied"
+                amount={-appliedBalance}
+                className="text-green-600"
+              />
+              <PriceSummaryItem
+                label="Remaining to pay"
+                amount={remainingAmount}
+                className="font-medium"
+              />
+            </>
+          )}
           <PriceSummaryItem
             label="Total"
             amount={finalPrice}
@@ -188,7 +198,6 @@ const OrderSummary = ({ selectedTicket }: { selectedTicket: Ticket }) => {
           />
         </div>
       </div>
- 
     </>
   );
 };

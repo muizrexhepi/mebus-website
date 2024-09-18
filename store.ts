@@ -119,5 +119,18 @@ export const useTravelStore = create<TravelStore>((set) => ({
   setFlexPrice: (price) => set({ flexPrice: price }),
 }));
 
+interface DepositStore {
+  useDeposit:boolean;
+  depositAmount:number;
+  setUseDeposit: (useDeposit:boolean)=>void;
+  setDepositAmount: (depositAmount:number)=>void,
+}
+
+export const useDepositStore = create<DepositStore>((set)=>({
+  useDeposit:false,
+  depositAmount:0,
+  setUseDeposit: (useDeposit) => set({ useDeposit }),
+  setDepositAmount: (depositAmount) => set({ depositAmount }),
+}))
 
 export default useSearchStore;
