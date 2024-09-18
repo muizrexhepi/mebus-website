@@ -201,7 +201,7 @@ const PassengerInfoContent: React.FC = () => {
   return (
     <div className="flex flex-col border border-gray-300 bg-white rounded-xl p-4 gap-2">
       <div className="flex items-center gap-4">
-        <span className="border border-emerald-700 rounded-xl h-8 w-8 flex justify-center items-center text-black">
+        <span className="flex items-center justify-center w-8 h-8 bg-emerald-100 text-emerald-800 rounded-full font-semibold">
           1
         </span>
         <p className="text-[#353535] font-medium text-lg">Passengers</p>

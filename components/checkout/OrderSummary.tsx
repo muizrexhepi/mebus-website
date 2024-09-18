@@ -33,9 +33,9 @@ const OrderSummary = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   const [passengers, setPassengers] = useState<PassengerData[]>([]);
   const [useBalance, setUseBalance] = useState(false);
   const [balanceAmount, setBalanceAmount] = useState(0);
-  const [appliedBalance, setAppliedBalance] = useState(0);
   const [remainingAmount, setRemainingAmount] = useState(0);
-  const { depositAmount, useDeposit } = useDepositStore();
+  const { useDeposit, depositAmount } =
+  useDepositStore();
 
   console.log({ depositAmount, useDeposit });
 
@@ -56,7 +56,6 @@ const OrderSummary = ({ selectedTicket }: { selectedTicket: Ticket }) => {
     const handleUseBalanceChange = (event: CustomEvent) => {
       setUseBalance(event.detail.useBalance);
       setBalanceAmount(event.detail.balanceAmount);
-      setAppliedBalance(event.detail.appliedBalance);
       setRemainingAmount(event.detail.remainingAmount);
     };
 
@@ -103,13 +102,11 @@ const OrderSummary = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   useEffect(() => {
     if (useBalance) {
       const appliedBalanceAmount = Math.min(balanceAmount / 100, totalPrice);
-      setAppliedBalance(appliedBalanceAmount);
       setRemainingAmount(Math.max(totalPrice - appliedBalanceAmount, 0));
     } else {
-      setAppliedBalance(0);
-      setRemainingAmount(totalPrice);
+      setRemainingAmount(totalPrice - (depositAmount || 0));
     }
-  }, [useBalance, balanceAmount, totalPrice]);
+  }, [useBalance, balanceAmount, totalPrice, depositAmount]);
 
   console.log({ totalPrice, remainingAmount });
 
@@ -177,23 +174,23 @@ const OrderSummary = ({ selectedTicket }: { selectedTicket: Ticket }) => {
             />
           )}
           <hr className="w-full h-[1px] bg-neutral-500 my-2" />
-          {useBalance && (
+          {useDeposit && (
             <>
               <PriceSummaryItem
-                label="Balance applied"
-                amount={-appliedBalance}
-                className="text-green-600"
+                label="Subtotal"
+                amount={finalPrice}
+                className="font-medium"
               />
               <PriceSummaryItem
-                label="Remaining to pay"
-                amount={remainingAmount}
-                className="font-medium"
+                label="Amount used from deposit"
+                amount={-depositAmount || 0}
+                className="text-green-600"
               />
             </>
           )}
           <PriceSummaryItem
             label="Total"
-            amount={finalPrice}
+            amount={remainingAmount}
             className="font-medium text-lg"
           />
         </div>

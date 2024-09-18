@@ -142,7 +142,7 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   };
 
   const finalPrice = useDeposit
-    ? Math.max(totalPrice - depositAmount / 100, 0)
+    ? Math.max(totalPrice - depositAmount, 0)
     : totalPrice;
 
   console.log({
@@ -222,7 +222,7 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
               from_city,
               to_city,
               is_using_deposited_money: useDeposit,
-              deposit_spent: 0,
+              deposit_spent: (depositAmount * 100) || 0,
             }
           )
           .then((res) => {
@@ -245,80 +245,89 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   };
 
   return (
-    <>
-      <div className="flex flex-col border border-gray-300 bg-white rounded-xl p-4 gap-4">
-        <div className="flex items-center gap-4">
-          <span className="border border-emerald-700 rounded-xl h-8 w-8 flex justify-center items-center text-black">
+    <div className="space-y-6">
+    <div className="bg-white rounded-xl shadow-md overflow-hidden">
+      <div className="p-6">
+      <div className="flex items-center gap-4">
+      <span className="flex items-center justify-center w-8 h-8 bg-emerald-100 text-emerald-800 rounded-full font-semibold">
             3
           </span>
-          <p className="text-[#353535] font-medium text-lg">Payment method</p>
-        </div>
+        <p className="text-[#353535] font-medium text-lg ">
+        Payment Method
+        </p>
+      </div>
 
-        <div className="space-y-4 border-t border-gray-200 pt-4">
-          {balance > 0 && (
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 h-10">
-              <div className="flex items-center gap-2 w-full sm:w-1/2 cursor-pointer">
+        <p className="text-sm text-gray-600 my-4">
+          Choose your preferred payment method. You can use your account balance for partial or full payment,
+          with any remaining amount to be paid by card.
+        </p>
+
+        {balance > 0 && (
+          <div className="bg-gray-50 rounded-lg p-4 mb-6">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
                 <Checkbox
-                  className="accent-emerald-700 h-5 w-5"
                   id="use-deposit"
                   checked={useDeposit}
                   onCheckedChange={handleUseDepositChange}
+                  className="text-emerald-600 focus:ring-emerald-500"
                 />
-                <label
-                  htmlFor="use-deposit"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 whitespace-nowrap cursor-pointer"
-                >
-                  Use deposited money (€{(balance / 100).toFixed(2)} available)
+                <label htmlFor="use-deposit" className="text-sm font-medium text-gray-700 cursor-pointer">
+                  Use account balance
                 </label>
               </div>
-              {useDeposit ? (
+              <span className="text-sm font-semibold text-emerald-600">
+                €{(balance / 100).toFixed(2)} available
+              </span>
+            </div>
+            {useDeposit && (
+              <div className="mt-2">
                 <Input
-                  className="w-full sm:w-1/2"
                   type="number"
                   min={1}
-                  max={depositAmount / 100}
-                  placeholder="Deposit Amount"
-                  onChange={(e: any) =>
-                    setDepositAmount(parseInt(e.target.value))
-                  }
+                  defaultValue={1}
+                  max={balance / 100}
+                  placeholder="Amount to use from balance"
+                  value={depositAmount}
+                  onChange={(e) => {
+                    const value = Math.min(Number(e.target.value), balance / 100);
+                    setDepositAmount(value);
+                  }}
+                  className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
-              ) : null}
-            </div>
-          )}
-          <p className="font-normal text-sm text-black/70">Card Information</p>
+              </div>
+            )}
+          </div>
+        )}
+
+        <div className="space-y-4">
+          <h3 className="font-medium text-gray-700">Card Information</h3>
           <div className="grid grid-cols-2 gap-4">
-            <div
-              id="card-number-element"
-              className="col-span-2 p-2.5 border border-gray-300 rounded-md h-10"
-            ></div>
-            <div
-              id="card-expiry-element"
-              className="p-2.5 border border-gray-300 rounded-md h-10"
-            ></div>
-            <div
-              id="card-cvc-element"
-              className="p-2.5 border border-gray-300 rounded-md h-10"
-            ></div>
+            <div id="card-number-element" className="col-span-2 p-3 border border-gray-300 rounded-md h-12"></div>
+            <div id="card-expiry-element" className="p-3 border border-gray-300 rounded-md h-12"></div>
+            <div id="card-cvc-element" className="p-3 border border-gray-300 rounded-md h-12"></div>
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-end gap-4">
-        <Button
-          onClick={() => router.back()}
-          className="transition-colors w-1/2 sm:w-fit px-12 border-destructive border rounded-lg text-base text-destructive"
-          variant={"ghost"}
-        >
-          Back
-        </Button>
-        <Button
-          onClick={handlePayment}
-          className="transition-colors w-1/2 sm:w-fit px-12 bg-emerald-700 hover:bg-emerald-600 rounded-lg text-base"
-          disabled={!stripe || loading}
-        >
-          {loading ? "Processing..." : "Pay Now"}
-        </Button>
-      </div>
-    </>
+    </div>
+
+    <div className="flex items-center justify-end gap-4">
+      <Button
+        onClick={() => router.back()}
+        className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+        variant="outline"
+      >
+        Back
+      </Button>
+      <Button
+        onClick={handlePayment}
+        className="px-6 py-2 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+        disabled={!stripe || loading}
+      >
+        {loading ? "Processing..." : "Complete Payment"}
+      </Button>
+    </div>
+  </div>
   );
 };
 
