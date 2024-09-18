@@ -27,10 +27,11 @@ const TravelFlex: React.FC = () => {
       {flexFeatures.map((flex, index) => (
         <div
           key={flex.name}
-          className={`rounded-xl border p-4 cursor-pointer ${selectedFlex === flex.value
+          className={`rounded-xl border p-4 cursor-pointer ${
+            selectedFlex === flex.value
               ? "border-emerald-700 bg-emerald-50"
               : "border-gray-300"
-            }`}
+          }`}
           onClick={() => handleFlexSelection(flex.value)}
         >
           <div
@@ -59,7 +60,7 @@ const TravelFlex: React.FC = () => {
 
 const Extras: React.FC = () => {
   return (
-    <div className="flex flex-col border border-gray-300 bg-white rounded-xl p-4 gap-4">
+    <div className="flex flex-col rounded-xl shadow-md bg-white p-4 gap-4">
       <div className="flex items-center gap-4">
         <span className="flex items-center justify-center w-8 h-8 bg-emerald-100 text-emerald-800 rounded-full font-semibold">
           2

@@ -117,7 +117,7 @@ const PassengerInfoContent: React.FC = () => {
     const isFirstAdult = passengerIndex === 0 && !isChild;
 
     return (
-      <div key={passengerIndex} className="border-t border-gray-200 pt-4 mt-2">
+      <div key={passengerIndex} className="">
         <p className="font-medium text-black mb-2">
           {isChild
             ? `Child ${passengerIndex - adults + 1}`
@@ -199,13 +199,17 @@ const PassengerInfoContent: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col border border-gray-300 bg-white rounded-xl p-4 gap-2">
+    <div className="flex flex-col shadow-md bg-white rounded-xl p-4 gap-2">
       <div className="flex items-center gap-4">
         <span className="flex items-center justify-center w-8 h-8 bg-emerald-100 text-emerald-800 rounded-full font-semibold">
           1
         </span>
         <p className="text-[#353535] font-medium text-lg">Passengers</p>
       </div>
+      <p className="text-sm text-gray-600">
+        Please enter the details of all passengers traveling. Ensure that the
+        information matches their government-issued ID for smooth boarding.
+      </p>
       {passengers.map((_, index) =>
         renderPassengerInputs(index, index >= adults)
       )}

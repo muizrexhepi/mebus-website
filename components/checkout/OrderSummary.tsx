@@ -34,8 +34,7 @@ const OrderSummary = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   const [useBalance, setUseBalance] = useState(false);
   const [balanceAmount, setBalanceAmount] = useState(0);
   const [remainingAmount, setRemainingAmount] = useState(0);
-  const { useDeposit, depositAmount } =
-  useDepositStore();
+  const { useDeposit, depositAmount } = useDepositStore();
 
   console.log({ depositAmount, useDeposit });
 
@@ -112,7 +111,7 @@ const OrderSummary = ({ selectedTicket }: { selectedTicket: Ticket }) => {
 
   return (
     <>
-      <div className="bg-white rounded-xl p-4 block border border-gray-300">
+      <div className="bg-white rounded-xl p-4 block shadow-md">
         <h1 className="font-medium text-lg">Booking details</h1>
         <div className="flex flex-col">
           <div className="flex items-center mt-2 gap-8">
@@ -148,7 +147,7 @@ const OrderSummary = ({ selectedTicket }: { selectedTicket: Ticket }) => {
           />
         </div>
       </div>
-      <div className="bg-white rounded-xl p-4 border border-gray-300 space-y-3">
+      <div className="bg-white rounded-xl p-4 shadow-md space-y-3">
         <h1 className="font-medium text-lg">Booking price</h1>
         <div className="flex flex-col gap-1">
           {adultCount > 0 && (
