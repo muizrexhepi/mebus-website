@@ -14,6 +14,9 @@ import {
 import { Ticket } from "@/models/ticket";
 import { TRAVEL_FLEX_PRICES } from "@/lib/data";
 import { account } from "@/appwrite.config";
+import { Checkbox } from "@/components/ui/checkbox";
+import { getUserBalance } from "@/actions/users";
+
 
 const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   const stripe = useStripe();
@@ -28,12 +31,14 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   const [selectedFlex, setSelectedFlex] = useState<string | null>(null);
   const [flexPrice, setFlexPrice] = useState<number>(0);
   const [user, setUser] = useState<any>(null);
+  const [useDeposit, setUseDeposit] = useState(false);
+  const [depositAmount, setDepositAmount] = useState(0);
+
 
   const fetchUser = async () => {
     try {
       const user = await account.get();
       setUser(user);
-      console.log({ user });
     } catch (error) {
       setUser(null);
       console.error("Failed to fetch user:", error);
@@ -45,8 +50,22 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   }, []);
 
   useEffect(() => {
+    const fetchDepositAmount = async () => {
+      if (user) {
+        try {
+          const balance = await getUserBalance(user.$id);
+          setDepositAmount(balance);
+        } catch (error) {
+          console.error("Failed to fetch deposit amount:", error);
+        }
+      }
+    };
+
+    fetchDepositAmount();
+  }, [user]);
+
+  useEffect(() => {
     const storedPassengers = getPassengersFromStorage();
-    console.log({ pasagjer: storedPassengers });
     setPassengers(storedPassengers);
     const storedFlex = localStorage.getItem("flex_options");
     if (storedFlex) {
@@ -89,7 +108,6 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
       }
       const storedPassengers = getPassengersFromStorage();
       setPassengers(storedPassengers);
-      console.log({ storedPassengers });
     };
 
     updateSelectedFlex();
@@ -113,7 +131,14 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
 
   const totalPrice = passengerTotal + flexPrice;
 
-  console.log({ passengers, selectedFlex, selectedTicket, flexPrice });
+  const handleUseDepositChange = (checked: boolean) => {
+    setUseDeposit(checked);
+    window.dispatchEvent(new CustomEvent('useDepositChanged', { detail: { useDeposit: checked, depositAmount } }));
+  };
+
+  const finalPrice = useDeposit ? Math.max(totalPrice - (depositAmount/100), 0) : totalPrice;
+
+  console.log({ passengers, selectedFlex, selectedTicket, flexPrice, finalPrice });
 
   useEffect(() => {
     if (stripe && elements) {
@@ -143,7 +168,7 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
     try {
       const res = await axios.post<{ data: { clientSecret: string } }>(
         `${environment.apiurl}/payment/create-payment-intent`,
-        { passengers, amount_in_cents: totalPrice * 100 }
+        { passengers, amount_in_cents: finalPrice * 100 }
       );
       const departure_station = selectedTicket.stops[0].from._id;
       const arrival_station = selectedTicket.stops[0].to._id;
@@ -209,6 +234,21 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   return (
     <>
       <div className="flex flex-col border border-gray-300 bg-white rounded-xl p-4 gap-4">
+      {depositAmount > 0 && (
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="use-deposit"
+              checked={useDeposit}
+              onCheckedChange={handleUseDepositChange}
+            />
+            <label
+              htmlFor="use-deposit"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Use deposited money (€{(depositAmount / 100).toFixed(2)} available)
+            </label>
+          </div>
+        )}
         <div className="flex items-center gap-4">
           <span className="border border-emerald-700 rounded-xl h-8 w-8 flex justify-center items-center text-black">
             3

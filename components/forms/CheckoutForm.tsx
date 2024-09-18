@@ -23,7 +23,6 @@ const CheckoutForm = () => {
       setSelectedTicket(JSON.parse(ticket!));
     }
   }, []);
-  console.log({ selectedTicket });
 
   return (
     <div className="relative mx-auto flex flex-col-reverse md:flex-row gap-8 pb-20">
@@ -31,7 +30,6 @@ const CheckoutForm = () => {
         <PassengerInfo />
         <Extras />
         <PaymentMethod selectedTicket={selectedTicket!} />
-        {/* Navigation buttons */}
       </div>
       <div className="flex-1 flex flex-col gap-4">
         <OrderSummary selectedTicket={selectedTicket!} />
