@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Calendar, InfoIcon, TimerIcon } from "lucide-react";
 import moment from "moment-timezone";
 import { Ticket } from "@/models/ticket";
@@ -30,9 +30,12 @@ const PriceSummaryItem: React.FC<PriceSummaryItemProps> = ({
 const OrderSummary = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   const [selectedFlex, setSelectedFlex] = useState<string | null>(null);
   const [passengers, setPassengers] = useState<PassengerData[]>([]);
+  const [useBalance, setUseBalance] = useState(false);
+  const [balanceAmount, setBalanceAmount] = useState(0);
+  const [appliedBalance, setAppliedBalance] = useState(0);
+  const [remainingAmount, setRemainingAmount] = useState(0);
 
   useEffect(() => {
-    // Function to update selectedFlex from localStorage
     const updateSelectedFlex = () => {
       const storedFlex = localStorage.getItem("flex_options");
       if (storedFlex) {
@@ -40,22 +43,30 @@ const OrderSummary = ({ selectedTicket }: { selectedTicket: Ticket }) => {
       }
     };
 
-    // Load passengers and initial selectedFlex when component mounts
     const storedPassengers = getPassengersFromStorage();
     setPassengers(storedPassengers);
     updateSelectedFlex();
 
-    // Add event listener for changes in localStorage
     window.addEventListener("flexOptionChanged", updateSelectedFlex);
 
-    // Clean up event listener when component unmounts
+    const handleUseBalanceChange = (event: CustomEvent) => {
+      setUseBalance(event.detail.useBalance);
+      setBalanceAmount(event.detail.balanceAmount);
+      setAppliedBalance(event.detail.appliedBalance);
+      setRemainingAmount(event.detail.remainingAmount);
+    };
+
+    window.addEventListener('useBalanceChanged', handleUseBalanceChange as EventListener);
+
     return () => {
+      window.removeEventListener('useBalanceChanged', handleUseBalanceChange as EventListener);
       window.removeEventListener("flexOptionChanged", updateSelectedFlex);
     };
   }, []);
 
-  const flexPrice =
-    selectedFlex === "premium" ? 4 : selectedFlex === "basic" ? 2 : 0;
+  const flexPrice = useMemo(() => {
+    return selectedFlex === "premium" ? 4 : selectedFlex === "basic" ? 2 : 0;
+  }, [selectedFlex]);
 
   const adultPrice = selectedTicket?.stops[0].other_prices.our_price;
   const childPrice = selectedTicket?.stops[0].other_prices.our_children_price;
@@ -67,7 +78,30 @@ const OrderSummary = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   const childTotal = childPrice * childCount;
   const passengerTotal = adultTotal + childTotal;
 
-  const totalPrice = passengerTotal + flexPrice;
+  const totalPrice = useMemo(() => {
+    return passengerTotal + flexPrice;
+  }, [passengerTotal, flexPrice]);
+
+  const finalPrice = useMemo(() => {
+    if (useBalance) {
+      const appliedBalanceAmount = Math.min(balanceAmount / 100, totalPrice);
+      return Math.max(totalPrice - appliedBalanceAmount, 0);
+    }
+    return totalPrice;
+  }, [useBalance, balanceAmount, totalPrice]);
+
+  useEffect(() => {
+    if (useBalance) {
+      const appliedBalanceAmount = Math.min(balanceAmount / 100, totalPrice);
+      setAppliedBalance(appliedBalanceAmount);
+      setRemainingAmount(Math.max(totalPrice - appliedBalanceAmount, 0));
+    } else {
+      setAppliedBalance(0);
+      setRemainingAmount(totalPrice);
+    }
+  }, [useBalance, balanceAmount, totalPrice]);
+
+  console.log({totalPrice, remainingAmount  })
 
   return (
     <>
@@ -133,13 +167,28 @@ const OrderSummary = ({ selectedTicket }: { selectedTicket: Ticket }) => {
             />
           )}
           <hr className="w-full h-[1px] bg-neutral-500 my-2" />
+          {useBalance && (
+              <>
+                <PriceSummaryItem
+                  label="Balance applied"
+                  amount={-appliedBalance}
+                  className="text-green-600"
+                />
+                <PriceSummaryItem
+                  label="Remaining to pay"
+                  amount={remainingAmount}
+                  className="font-medium"
+                />
+              </>
+            )}
           <PriceSummaryItem
             label="Total"
-            amount={totalPrice}
+            amount={finalPrice}
             className="font-medium text-lg"
           />
         </div>
       </div>
+ 
     </>
   );
 };
