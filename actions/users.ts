@@ -35,7 +35,6 @@ export const createUser = async (user: CreateUserParams) => {
   } catch (error: any) {
     if (error && error?.code === 409) {
       const existingUser = await account.listIdentities()
-      console.log({existingUser})
       if(existingUser){
 
         return {error:'Email already exists!'};
@@ -44,6 +43,17 @@ export const createUser = async (user: CreateUserParams) => {
     console.error("An error occurred while creating a new user:", error);
   }
 };
+
+export const getUserBalance = async (userId: string ) => {
+  try {
+    const accountBalance = await axios.get(
+      `${environment.apiurl}/user/${userId}?select=balance_in_cents`
+    );
+    return accountBalance.data.data.balance_in_cents;
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 export const getUser = async (userId:string) => {
   try {
