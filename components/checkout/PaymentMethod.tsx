@@ -181,14 +181,14 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
     setLoading(true);
 
     try {
+      if(totalPrice === depositAmount) {
+        console.log("Full deposit payment")
+      }
+
       const res = await axios.post<{ data: { clientSecret: string } }>(
         `${environment.apiurl}/payment/create-payment-intent`,
         { passengers, amount_in_cents: finalPrice * 100 }
       );
-      const departure_station = selectedTicket.stops[0].from._id;
-      const arrival_station = selectedTicket.stops[0].to._id;
-      const departure_station_label = selectedTicket.stops[0].from.name;
-      const arrival_station_label = selectedTicket.stops[0].to.name;
 
       const { clientSecret } = res.data.data;
       const { error: confirmError, paymentIntent } =
@@ -204,7 +204,13 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
           description: confirmError.message || "Something went wrong!",
           variant: "destructive",
         });
+        
       } else if (paymentIntent.status === "succeeded") {
+        const departure_station = selectedTicket.stops[0].from._id;
+        const arrival_station = selectedTicket.stops[0].to._id;
+        const departure_station_label = selectedTicket.stops[0].from.name;
+        const arrival_station_label = selectedTicket.stops[0].to.name;
+
         const passengersWithPrices = calculatePassengerPrices(passengers, selectedTicket);
         console.log({passengersWithPrices})
         await axios
