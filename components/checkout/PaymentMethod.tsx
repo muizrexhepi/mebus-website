@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useStripe, useElements, Elements } from "@stripe/react-stripe-js";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Button } from "@/components/ui/button";
 import { environment } from "@/environment";
 import { useToast } from "@/components/hooks/use-toast";
@@ -181,9 +181,8 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
     setLoading(true);
 
     try {
-      if(totalPrice === depositAmount) {
-        console.log("Full deposit payment")
-      }
+      console.log("keine depozitur")
+
 
       const res = await axios.post<{ data: { clientSecret: string } }>(
         `${environment.apiurl}/payment/create-payment-intent`,
@@ -245,12 +244,58 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
             });
           });
       }
-    } catch (err) {
-      console.error({ err });
-      toast({ description: "Something went wrong!", variant: "destructive" });
+    } catch (err: any) {
+      toast({ description: err.response.data.message, variant: "destructive" });
     }
 
     setLoading(false);
+  };
+
+  const handleFullDepositPayment = async () => {
+    console.log("full depozitur")
+    setLoading(true);
+  
+    try {
+      const departure_station = selectedTicket.stops[0].from._id;
+      const arrival_station = selectedTicket.stops[0].to._id;
+      const departure_station_label = selectedTicket.stops[0].from.name;
+      const arrival_station_label = selectedTicket.stops[0].to.name;
+  
+      const passengersWithPrices = calculatePassengerPrices(passengers, selectedTicket);
+      console.log({passengersWithPrices});
+  
+      await axios.post(
+        `${environment.apiurl}/booking/create/${selectedTicket.operator}/${
+          user ? user.$id : null
+        }/${selectedTicket._id}`,
+        {
+          passengers: passengersWithPrices,
+          travel_flex: selectedFlex,
+          payment_intent_id: "full_deposit_payment",
+          platform: "web",
+          flex_price: flexPrice,
+          total_price: totalPrice,
+          departure_station,
+          arrival_station,
+          departure_station_label,
+          arrival_station_label,
+          is_using_deposited_money: useDeposit,
+          deposit_spent: depositAmount * 100 || 0,
+          stop: selectedTicket.stops[0],
+        }
+      );
+  
+      localStorage.removeItem("passengers");
+      router.push("/checkout/success");
+  
+    } catch (error: any) {
+      toast({ 
+        description: error.response?.data?.message || "An error occurred during payment", 
+        variant: "destructive" 
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -316,7 +361,7 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
             </div>
           )}
 
-          <div className="space-y-4">
+         {<div className={`${totalPrice <= depositAmount && 'hidden'} space-y-4`}>
             <h3 className="font-medium text-gray-700">Card Information</h3>
             <div className="grid grid-cols-2 gap-4">
               <div
@@ -332,7 +377,7 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
                 className="p-3 border border-gray-300 rounded-md h-12"
               ></div>
             </div>
-          </div>
+          </div>}
         </div>
       </div>
 
@@ -345,7 +390,7 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
           Back
         </Button>
         <Button
-          onClick={handlePayment}
+          onClick={totalPrice <= depositAmount ? handleFullDepositPayment : handlePayment}
           className="px-6 py-2 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
           disabled={!stripe || loading}
         >
