@@ -34,6 +34,7 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   const [flexPrice, setFlexPrice] = useState<number>(0);
   const [user, setUser] = useState<any>(null);
   const [balance, setBalance] = useState<number>(0);
+  const [isGreater, setIsGreater] = useState<boolean>(false);
   const { useDeposit, setDepositAmount, setUseDeposit, depositAmount } =
     useDepositStore();
 
@@ -56,6 +57,11 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
       if (user) {
         try {
           const balance = await getUserBalance(user.$id);
+
+          if (balance / 100 > totalPrice) {
+            setIsGreater(true);
+          }
+
           setBalance(balance);
         } catch (error) {
           console.error("Failed to fetch deposit amount:", error);
@@ -200,15 +206,17 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
           description: confirmError.message || "Something went wrong!",
           variant: "destructive",
         });
-        
       } else if (paymentIntent.status === "succeeded") {
         const departure_station = selectedTicket.stops[0].from._id;
         const arrival_station = selectedTicket.stops[0].to._id;
         const departure_station_label = selectedTicket.stops[0].from.name;
         const arrival_station_label = selectedTicket.stops[0].to.name;
 
-        const passengersWithPrices = calculatePassengerPrices(passengers, selectedTicket);
-        console.log({passengersWithPrices})
+        const passengersWithPrices = calculatePassengerPrices(
+          passengers,
+          selectedTicket
+        );
+        console.log({ passengersWithPrices });
         await axios
           .post(
             `${environment.apiurl}/booking/create/${selectedTicket.operator}/${
@@ -250,16 +258,19 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
 
   const handleFullDepositPayment = async () => {
     setLoading(true);
-  
+
     try {
       const departure_station = selectedTicket.stops[0].from._id;
       const arrival_station = selectedTicket.stops[0].to._id;
       const departure_station_label = selectedTicket.stops[0].from.name;
       const arrival_station_label = selectedTicket.stops[0].to.name;
-  
-      const passengersWithPrices = calculatePassengerPrices(passengers, selectedTicket);
-      console.log({passengersWithPrices});
-  
+
+      const passengersWithPrices = calculatePassengerPrices(
+        passengers,
+        selectedTicket
+      );
+      console.log({ passengersWithPrices });
+
       await axios.post(
         `${environment.apiurl}/booking/create/${selectedTicket.operator}/${
           user ? user.$id : null
@@ -280,19 +291,21 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
           stop: selectedTicket.stops[0],
         }
       );
-  
+
       localStorage.removeItem("passengers");
       router.push("/checkout/success");
-  
     } catch (error: any) {
-      toast({ 
-        description: error.response?.data?.message || "An error occurred during payment", 
-        variant: "destructive" 
+      toast({
+        description:
+          error.response?.data?.message || "An error occurred during payment",
+        variant: "destructive",
       });
     } finally {
       setLoading(false);
     }
   };
+
+  console.log(isGreater);
 
   return (
     <div className="space-y-6">
@@ -340,13 +353,13 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
                     type="number"
                     min={1}
                     defaultValue={1}
-                    max={balance / 100}
+                    max={isGreater ? totalPrice : balance / 100}
                     placeholder="Amount to use from balance"
                     value={depositAmount}
                     onChange={(e) => {
                       const value = Math.min(
                         Number(e.target.value),
-                        balance / 100
+                        isGreater ? totalPrice : balance / 100
                       );
                       setDepositAmount(value);
                     }}
@@ -357,23 +370,27 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
             </div>
           )}
 
-         {<div className={`${totalPrice <= depositAmount && 'hidden'} space-y-4`}>
-            <h3 className="font-medium text-gray-700">Card Information</h3>
-            <div className="grid grid-cols-2 gap-4">
-              <div
-                id="card-number-element"
-                className="col-span-2 p-3 border border-gray-300 rounded-md h-12"
-              ></div>
-              <div
-                id="card-expiry-element"
-                className="p-3 border border-gray-300 rounded-md h-12"
-              ></div>
-              <div
-                id="card-cvc-element"
-                className="p-3 border border-gray-300 rounded-md h-12"
-              ></div>
+          {
+            <div
+              className={`${totalPrice <= depositAmount && "hidden"} space-y-4`}
+            >
+              <h3 className="font-medium text-gray-700">Card Information</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div
+                  id="card-number-element"
+                  className="col-span-2 p-3 border border-gray-300 rounded-md h-12"
+                ></div>
+                <div
+                  id="card-expiry-element"
+                  className="p-3 border border-gray-300 rounded-md h-12"
+                ></div>
+                <div
+                  id="card-cvc-element"
+                  className="p-3 border border-gray-300 rounded-md h-12"
+                ></div>
+              </div>
             </div>
-          </div>}
+          }
         </div>
       </div>
 
@@ -386,7 +403,11 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
           Back
         </Button>
         <Button
-          onClick={totalPrice <= depositAmount ? handleFullDepositPayment : handlePayment}
+          onClick={
+            totalPrice <= depositAmount
+              ? handleFullDepositPayment
+              : handlePayment
+          }
           className="px-6 py-2 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
           disabled={!stripe || loading}
         >

@@ -1,4 +1,4 @@
-import { Bell, BookImageIcon, DollarSign, Facebook, Globe, Heart, HeartPulse, Instagram, Linkedin, Twitter, User, X } from "lucide-react";
+import { AlertCircle, Bell, Book, BookImageIcon, Clock, CreditCard, DollarSign, Facebook, Globe, Heart, HeartPulse, HelpCircle, Instagram, Linkedin, MapPin, RefreshCcw, TicketIcon, Twitter, User, X } from "lucide-react";
 
 export const NAV_LINKS = [
     {
@@ -67,16 +67,31 @@ export const FOOTER_LINKS = [
     title: "Partners",
     links: [
       {
-        name: "Partner login",
-        link: "/about-us",
+        name: "Partner Login",
+        link: "/partners/login",
       },
       {
-        name: "Become a partner",
+        name: "Become a Partner",
         link: "/partners/overview",
+      },
+      {
+        name: "Active Operators",
+        link: "/partners/active-operators",
       },
     ],
   },
 ];
+
+export const QUICK_LINKS = [
+    { name: "how-to-book", icon: Book, label: "How to Book" },
+    { name: "cancellation-policy", icon: RefreshCcw, label: "Cancellation Policy" },
+    { name: "payment-options", icon: CreditCard, label: "Payment Options" },
+    { name: "e-ticket-guide", icon: TicketIcon, label: "E-Ticket Guide" },
+    { name: "routes-and-stops", icon: MapPin, label: "Routes & Stops" },
+    { name: "travel-duration", icon: Clock, label: "Travel Duration" },
+    { name: "travel-advisory", icon: AlertCircle, label: "Travel Advisory" },
+    { name: "contact-support", icon: HelpCircle, label: "Contact Support" },
+]
 
 interface FlexFeature {
   name: string;
@@ -164,18 +179,6 @@ export const flexFeatures: FlexFeature[] = [
       title: "Security",
       description: "Manage your account security settings.",
     },
-    // {
-    //   href: "/account/bookings",
-    //   icon: BookImageIcon,
-    //   title: "My Bookings",
-    //   description: "Customize and quicky manage your bookings.",
-    // },
-    // {
-    //   href: "/account/patient-info",
-    //   icon: HeartPulse,
-    //   title: "Patient Information",
-    //   description: "You can use this information to quickly make appointments.",
-    // },
     {
       href: "/account/notifications",
       icon: Bell,

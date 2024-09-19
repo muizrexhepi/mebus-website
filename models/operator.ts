@@ -15,7 +15,8 @@ export interface Operator {
         message: string;
     },
     company_metadata: CompanyMetadata;
-
+    createdAt:string;
+    updatedAt:string;
 }
 
 
