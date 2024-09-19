@@ -181,9 +181,6 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
     setLoading(true);
 
     try {
-      console.log("keine depozitur")
-
-
       const res = await axios.post<{ data: { clientSecret: string } }>(
         `${environment.apiurl}/payment/create-payment-intent`,
         { passengers, amount_in_cents: finalPrice * 100 }
@@ -252,7 +249,6 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   };
 
   const handleFullDepositPayment = async () => {
-    console.log("full depozitur")
     setLoading(true);
   
     try {

@@ -50,7 +50,7 @@ export default async function BookingDetailsPage({
   }
 
   const departureDate = moment
-    .utc(booking.departure_date)
+    .utc(booking?.departure_date)
     .format("dddd, DD-MM-YYYY");
 
   return (
@@ -62,7 +62,7 @@ export default async function BookingDetailsPage({
         <div>
           <h2 className="text-3xl font-semibold">Booking Details</h2>
           <p className="text-sm text-neutral-800/60">
-            Booking ID: {booking._id}
+            Booking ID: {booking?._id}
           </p>
         </div>
         <Link
@@ -89,7 +89,7 @@ export default async function BookingDetailsPage({
                 <div className="flex flex-col font-medium capitalize">
                   {booking?.labels?.from_city}
                   <span className="text-black/60 font-normal text-sm">
-                    {booking?.destinations.departure_station_label}
+                    {booking?.destinations?.departure_station_label}
                   </span>
                 </div>
               </div>
@@ -98,7 +98,7 @@ export default async function BookingDetailsPage({
                 <div className="flex flex-col font-medium capitalize">
                   {booking?.labels?.to_city}
                   <span className="text-black/60 font-normal text-sm">
-                    {booking?.destinations.arrival_station_label}
+                    {booking?.destinations?.arrival_station_label}
                   </span>
                 </div>
               </div>
@@ -109,13 +109,13 @@ export default async function BookingDetailsPage({
               <div className="flex items-center space-x-2">
                 <ClockIcon className="text-primary" />
                 <span>
-                  {moment.utc(booking.departure_date).format("HH:mm")}
+                  {moment.utc(booking?.departure_date).format("HH:mm")}
                 </span>
               </div>
               <InfoBlock
                 desc="This trip will be operated by"
-                title={booking.operator.name}
-                href={booking.operator._id}
+                title={booking?.operator?.name}
+                href={booking?.operator?._id}
               />
             </div>
           </CardContent>
@@ -139,14 +139,14 @@ export default async function BookingDetailsPage({
                   <div className="space-y-2">
                     <div className="grid grid-cols-2 gap-2">
                       <span className="font-medium">Full Name:</span>
-                      <span>{passenger.full_name}</span>
+                      <span>{passenger?.full_name}</span>
                       <span className="font-medium">Email:</span>
-                      <span>{passenger.email}</span>
+                      <span>{passenger?.email}</span>
                       <span className="font-medium">Phone:</span>
-                      <span>{passenger.phone}</span>
+                      <span>{passenger?.phone}</span>
                       <span className="font-medium">Price:</span>
                       <span className="font-semibold">
-                        ${passenger.price.toFixed(2)}
+                        ${passenger?.price?.toFixed(2)}
                       </span>
                     </div>
                   </div>
@@ -167,32 +167,32 @@ export default async function BookingDetailsPage({
             <div className="flex justify-between items-center">
               <span className="font-semibold">Total Price:</span>
               <span className="text-2xl font-bold">
-                ${booking.price.toFixed(2)}
+                ${booking?.price?.toFixed(2)}
               </span>
             </div>
             <div className="flex justify-between items-center">
               <span>Payment Status:</span>
-              <Badge>{booking.is_paid ? "Paid" : "Unpaid"}</Badge>
+              <Badge>{booking?.is_paid ? "Paid" : "Unpaid"}</Badge>
             </div>
-            {booking.charge && (
+            {booking?.charge && (
               <>
                 <div className="space-y-2">
                   <div className="font-semibold">Charge Details:</div>
                   <div className="grid grid-cols-2 gap-2">
-                    {booking.metadata.deposited_money.used && 
+                    {booking?.metadata?.deposited_money?.used && 
                       <>
                           <span>Amount used from your deposit:</span>
                           <span>${(booking.metadata.deposited_money.amount_in_cents / 100).toFixed(2)}</span>
                       </>
                     }
                     <span>Amount Charged:</span>
-                    <span>${(booking.charge.amount / 100).toFixed(2)}</span>
+                    <span>${(booking?.charge?.amount / 100).toFixed(2)}</span>
                     <span>Currency:</span>
-                    <span>{booking.charge.currency.toUpperCase()}</span>
+                    <span>{booking?.charge?.currency?.toUpperCase()}</span>
                     <span>Card:</span>
                     <span>
-                      {booking.charge.payment_method_details.card.brand.toUpperCase()}{" "}
-                      **** {booking.charge.payment_method_details.card.last4}
+                      {booking?.charge?.payment_method_details?.card?.brand?.toUpperCase()}{" "}
+                      **** {booking?.charge?.payment_method_details?.card?.last4}
                     </span>
                   </div>
                 </div>
@@ -212,11 +212,11 @@ export default async function BookingDetailsPage({
             <div className="grid grid-cols-2 gap-4">
               <div className="flex items-center space-x-2">
                 <MailIcon className="text-primary" />
-                <span>{booking.passengers[0].email}</span>
+                <span>{booking?.passengers[0]?.email}</span>
               </div>
               <div className="flex items-center space-x-2">
                 <PhoneIcon className="text-primary" />
-                <span>{booking.passengers[0].phone}</span>
+                <span>{booking?.passengers[0]?.phone}</span>
               </div>
             </div>
           </CardContent>
@@ -230,16 +230,16 @@ export default async function BookingDetailsPage({
             <div className="grid grid-cols-2 gap-2">
               <span className="text-sm text-gray-600">Charge ID:</span>
               <span className="font-mono text-xs bg-gray-100 p-1 rounded">
-                {booking.charge?.id}
+                {booking?.charge?.id}
               </span>
               <span className="text-sm text-gray-600">Payment Intent ID:</span>
               <span className="font-mono text-xs bg-gray-100 p-1 rounded">
-                {booking.metadata.payment_intent_id}
+                {booking?.metadata?.payment_intent_id}
               </span>
             </div>
-            {booking.charge?.receipt_url && (
+            {booking?.charge?.receipt_url && (
               <div className="mt-4">
-                <Link href={booking.charge.receipt_url}>
+                <Link href={booking?.charge.receipt_url}>
                   <Button variant="outline" size="sm">
                     View Receipt
                   </Button>
