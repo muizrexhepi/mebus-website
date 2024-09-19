@@ -84,7 +84,7 @@ export default function HowToBookPage() {
           <CardHeader>
             <CardTitle>Customer Support</CardTitle>
             <CardDescription>
-              We're here to assist you with your booking
+              We&apos;re here to assist you with your booking
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col items-start justify-between gap-4">
