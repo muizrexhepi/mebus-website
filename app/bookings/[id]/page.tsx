@@ -179,6 +179,12 @@ export default async function BookingDetailsPage({
                 <div className="space-y-2">
                   <div className="font-semibold">Charge Details:</div>
                   <div className="grid grid-cols-2 gap-2">
+                    {booking.metadata.deposited_money.used && 
+                      <>
+                          <span>Amount used from your deposit:</span>
+                          <span>${(booking.metadata.deposited_money.amount_in_cents / 100).toFixed(2)}</span>
+                      </>
+                    }
                     <span>Amount Charged:</span>
                     <span>${(booking.charge.amount / 100).toFixed(2)}</span>
                     <span>Currency:</span>

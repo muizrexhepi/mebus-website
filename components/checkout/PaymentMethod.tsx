@@ -8,6 +8,7 @@ import { environment } from "@/environment";
 import { useToast } from "@/components/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import {
+  calculatePassengerPrices,
   getPassengersFromStorage,
   PassengerData,
 } from "../hooks/use-passengers";
@@ -188,8 +189,6 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
       const arrival_station = selectedTicket.stops[0].to._id;
       const departure_station_label = selectedTicket.stops[0].from.name;
       const arrival_station_label = selectedTicket.stops[0].to.name;
-      const from_city = selectedTicket.stops[0].from.city;
-      const to_city = selectedTicket.stops[0].to.city;
 
       const { clientSecret } = res.data.data;
       const { error: confirmError, paymentIntent } =
@@ -206,13 +205,15 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
           variant: "destructive",
         });
       } else if (paymentIntent.status === "succeeded") {
+        const passengersWithPrices = calculatePassengerPrices(passengers, selectedTicket);
+        console.log({passengersWithPrices})
         await axios
           .post(
             `${environment.apiurl}/booking/create/${selectedTicket.operator}/${
               user ? user.$id : null
             }/${selectedTicket._id}`,
             {
-              passengers,
+              passengers: passengersWithPrices,
               travel_flex: selectedFlex,
               payment_intent_id: paymentIntent?.id,
               platform: "web",
@@ -222,10 +223,9 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
               arrival_station,
               departure_station_label,
               arrival_station_label,
-              from_city,
-              to_city,
               is_using_deposited_money: useDeposit,
               deposit_spent: depositAmount * 100 || 0,
+              stop: selectedTicket.stops[0],
             }
           )
           .then((res) => {

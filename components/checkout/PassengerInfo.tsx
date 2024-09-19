@@ -62,6 +62,7 @@ const PassengerInfoContent: React.FC = () => {
           phone: "",
           birthdate: "",
           age: 33,
+          price: 0,
         }),
         ...Array(children).fill({
           full_name: "",
@@ -69,6 +70,7 @@ const PassengerInfoContent: React.FC = () => {
           phone: "",
           birthdate: "",
           age: 0,
+          price: 0,
         }),
       ];
       setPassengers(initialPassengers);

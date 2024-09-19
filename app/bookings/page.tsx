@@ -25,7 +25,6 @@ import axios from "axios";
 import { environment } from "@/environment";
 import { account } from "@/appwrite.config";
 import { Booking } from "@/models/booking";
-import { Route } from "@/models/route";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/hooks/use-toast";
@@ -68,7 +67,7 @@ const BookingsDashboard: React.FC = () => {
       const fetchBookings = async () => {
         try {
           const res = await axios.get(
-            `${environment.apiurl}/booking/client/${user.$id}?populate=route`
+            `${environment.apiurl}/booking/client/${user.$id}?select=departure_date metadata destinations labels price`
           );
           console.log({ buchung: res.data.data });
           setBookings(res.data.data);
@@ -122,7 +121,7 @@ const BookingsDashboard: React.FC = () => {
                   <div className="h-3 w-3 rounded-full bg-emerald-700" />
                 </div>
                 <div className="flex flex-col h-full justify-between">
-                  <div className="text-sm font-medium capitalize flex flex-col">
+                  <div className="text-sm font-medium capitalize flex flex-col"> 
                     {booking.labels.from_city}
                     <span className="text-black/60">
                       {booking.destinations.departure_station_label}

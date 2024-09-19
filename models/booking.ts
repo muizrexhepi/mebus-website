@@ -47,6 +47,10 @@ export interface BookingMetadata {
     transaction_id?: string;
     payment_intent_id: string;
     travel_flex: Flex;
+    deposited_money: {
+        used: boolean;
+        amount_in_cents: number;
+    }
 }
 
 
