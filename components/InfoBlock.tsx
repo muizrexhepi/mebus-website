@@ -17,7 +17,7 @@ const InfoBlock = ({
         <p>
           {desc}{" "}
           <a
-            href={`/operators/${href}`}
+            href={`/partners/active-operators/${href}`}
             className="font-medium hover:underline"
           >
             {title}

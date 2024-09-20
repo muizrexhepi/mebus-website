@@ -67,11 +67,23 @@ export default function PaymentOptionsPage() {
           <CardHeader>
             <CardTitle>How to Add Funds to Your Account</CardTitle>
             <CardDescription>
-              Add funds to your account balance to make future payments faster
-              and easier
+              Add funds to your account balance for faster and easier future payments
             </CardDescription>
           </CardHeader>
           <CardContent>
+            <p className="mb-4 text-muted-foreground">
+              Adding funds to your account is the best choice for frequent travelers. Here's why:
+            </p>
+            <ul className="list-disc list-inside space-y-2 mb-4">
+              <li>Faster bookings: No need to enter card details for every purchase</li>
+              <li>Convenience: Your deposited money is always ready for use</li>
+              <li>Security: Reduce the frequency of online card transactions</li>
+              <li>Budget management: Easily track your travel spending</li>
+            </ul>
+            <p className="mb-4 text-muted-foreground">
+              If you travel often, having a funded account means you're always ready to book without fumbling for your card or worrying about transaction limits.
+            </p>
+            <p className="font-semibold mb-4">Here's how to add funds:</p>
             <ol className="list-decimal list-inside space-y-2">
               <li>Log in to your account on our platform</li>
               <li>
@@ -91,7 +103,6 @@ export default function PaymentOptionsPage() {
           </CardContent>
         </Card>
 
-        {/* Upcoming Payment Methods */}
         <Card>
           <CardHeader>
             <CardTitle>Upcoming Payment Options</CardTitle>
