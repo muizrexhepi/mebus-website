@@ -99,7 +99,7 @@ const ActiveOperators: React.FC<{ operators: Operator[] }> = ({
 );
 
 const ActiveOperatorsPage: React.FC = async () => {
-  const res = await axios.get(`${environment.apiurl}/operator`);
+  const res = (await axios.get(`${environment.apiurl}/operator`)) || [];
   const operators: Operator[] = res.data.data;
 
   return (

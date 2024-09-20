@@ -1,7 +1,14 @@
-import React from 'react';
+import React from "react";
 import { Metadata } from "next";
 import Link from "next/link";
-import { ChevronLeft, AlertCircle, Clock, Edit, Repeat, HeadphonesIcon } from "lucide-react";
+import {
+  ChevronLeft,
+  AlertCircle,
+  Clock,
+  Edit,
+  Repeat,
+  HeadphonesIcon,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -36,7 +43,7 @@ const CancellationPolicyPage = () => {
             </Button>
           </Link>
         </div>
-        
+
         <Card className="mb-8">
           <CardHeader>
             <CardTitle>General Cancellation Policy</CardTitle>
@@ -46,12 +53,17 @@ const CancellationPolicyPage = () => {
           </CardHeader>
           <CardContent>
             <p className="mb-4">
-              Our cancellation policy is designed to provide flexibility while ensuring operational efficiency. Please note that the ability to cancel, edit, or reschedule your booking depends on the travel flex option you choose at the time of booking.
+              Our cancellation policy is designed to provide flexibility while
+              ensuring operational efficiency. Please note that the ability to
+              cancel, edit, or reschedule your booking depends on the travel
+              flex option you choose at the time of booking.
             </p>
             <div className="flex items-start mb-4">
               <AlertCircle className="mr-2 h-5 w-5 mt-1 flex-shrink-0 text-yellow-500" />
               <p className="text-sm text-muted-foreground">
-                <strong>Important:</strong> Cancellations are only possible if you have purchased either the Premium or Basic travel flex option. Bookings made without a flex option cannot be cancelled.
+                <strong>Important:</strong> Cancellations are only possible if
+                you have purchased either the Premium or Basic travel flex
+                option. Bookings made without a flex option cannot be cancelled.
               </p>
             </div>
           </CardContent>
@@ -87,7 +99,7 @@ const CancellationPolicyPage = () => {
                   </li>
                 </ul>
               </div>
-              
+
               <div>
                 <h3 className="text-lg font-semibold mb-2">Basic Flex</h3>
                 <ul className="space-y-2">
@@ -109,7 +121,7 @@ const CancellationPolicyPage = () => {
                   </li>
                 </ul>
               </div>
-              
+
               <div>
                 <h3 className="text-lg font-semibold mb-2">No Flex</h3>
                 <ul className="space-y-2">
@@ -145,11 +157,13 @@ const CancellationPolicyPage = () => {
           <CardContent>
             <ol className="list-decimal list-inside space-y-2">
               <li>Log in to your account on our website or mobile app</li>
-              <li>Navigate to "My Bookings"</li>
+              <li>Navigate to &quot;My Bookings&quot;</li>
               <li>Select the booking you wish to cancel</li>
-              <li>Click on the "Cancel Booking" button</li>
+              <li>Click on the &quot;Cancel Booking&quot; button</li>
               <li>Confirm your cancellation</li>
-              <li>Receive a confirmation email with refund details (if applicable)</li>
+              <li>
+                Receive a confirmation email with refund details (if applicable)
+              </li>
             </ol>
           </CardContent>
         </Card>
@@ -158,12 +172,15 @@ const CancellationPolicyPage = () => {
           <CardHeader>
             <CardTitle>Need Assistance?</CardTitle>
             <CardDescription>
-              We're here to help with any questions about cancellations or flex options
+              We&apos;re here to help with any questions about cancellations or
+              flex options
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col items-start justify-between gap-4">
             <p className="text-muted-foreground">
-              If you need further clarification on our cancellation policy or help with cancelling your booking, our support team is ready to assist you.
+              If you need further clarification on our cancellation policy or
+              help with cancelling your booking, our support team is ready to
+              assist you.
             </p>
             <Button>Contact Support</Button>
           </CardContent>
@@ -172,6 +189,6 @@ const CancellationPolicyPage = () => {
       <SecondaryFooter className="max-w-4xl" />
     </div>
   );
-}
+};
 
 export default CancellationPolicyPage;

@@ -1,17 +1,26 @@
 import { Metadata } from "next";
 import axios from "axios";
+import Link from "next/link";
+import { ChevronLeft, Bus } from "lucide-react";
 import { Route } from "@/models/route";
 import Navbar from "@/components/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 import { environment } from "@/environment";
 import RoutesList from "@/components/help/RoutesList";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "Routes and Stops - Bus Booking",
   description: "Explore available routes and stops for bus bookings.",
 };
 
-// Server-side data fetching
 export default async function RoutesAndStopsPage() {
   let routes: Route[] = [];
 
@@ -28,12 +37,43 @@ export default async function RoutesAndStopsPage() {
         <Navbar className="max-w-4xl" />
       </div>
       <main className="flex-grow container max-w-4xl mx-auto px-4 sm:px-8 xl:px-0 pt-32 pb-12">
-        <h1 className="text-3xl font-bold mb-8 text-primary">
-          Routes and Stops
-        </h1>
+        <div className="flex flex-col gap-4 sm:flex-row items-start sm:items-center justify-between">
+          <h1 className="text-3xl font-bold mb-8 text-primary">
+            Routes and Stops
+          </h1>
+          <Link href="/help">
+            <Button variant="outline" className="mb-4">
+              <ChevronLeft className="mr-2 h-4 w-4" /> Back to Help Center
+            </Button>
+          </Link>
+        </div>
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>Available Routes</CardTitle>
+            <CardDescription>
+              Explore our extensive network of bus routes
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <RoutesList routes={routes} />
+          </CardContent>
+        </Card>
 
-        {/* Pass the routes to the client-side component */}
-        <RoutesList routes={routes} />
+        <Card>
+          <CardHeader>
+            <CardTitle>Need Assistance?</CardTitle>
+            <CardDescription>
+              We're here to help with your route inquiries
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col items-start justify-between gap-4">
+            <p className="text-muted-foreground">
+              If you have any questions about our routes or need help planning
+              your journey, our support team is ready to assist you.
+            </p>
+            <Button>Contact Support</Button>
+          </CardContent>
+        </Card>
       </main>
       <SecondaryFooter className="max-w-4xl" />
     </div>

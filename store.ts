@@ -74,6 +74,16 @@ const useSearchStore = create<SearchState>((set) => ({
   resetSearch: () => set(initialState),
 }));
 
+interface ILoading {
+  isLoading:boolean;
+  setIsLoading:(isLoading:boolean)=>void;
+}
+
+export const useLoadingStore = create<ILoading>((set)=>({
+  isLoading:true,
+  setIsLoading:(isLoading)=>set({isLoading})
+}))
+
 
 
 interface INavbarMenu {

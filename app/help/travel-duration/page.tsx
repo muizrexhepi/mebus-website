@@ -1,7 +1,16 @@
-import React from 'react';
+import React from "react";
 import { Metadata } from "next";
 import Link from "next/link";
-import { ChevronLeft, Clock, MapPin, AlertTriangle, Sun, Moon, Coffee, BatteryCharging } from "lucide-react";
+import {
+  ChevronLeft,
+  Clock,
+  MapPin,
+  AlertTriangle,
+  Sun,
+  Moon,
+  Coffee,
+  BatteryCharging,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -36,7 +45,7 @@ const TravelDurationPage = () => {
             </Button>
           </Link>
         </div>
-        
+
         <Card className="mb-8">
           <CardHeader>
             <CardTitle>Understanding Travel Duration</CardTitle>
@@ -46,7 +55,9 @@ const TravelDurationPage = () => {
           </CardHeader>
           <CardContent>
             <p className="mb-4">
-              Travel duration can vary based on several factors. While we strive to provide accurate estimates, actual travel times may differ due to:
+              Travel duration can vary based on several factors. While we strive
+              to provide accurate estimates, actual travel times may differ due
+              to:
             </p>
             <ul className="space-y-2">
               <li className="flex items-start">
@@ -78,7 +89,8 @@ const TravelDurationPage = () => {
           </CardHeader>
           <CardContent>
             <p className="mb-4">
-              While exact travel times can vary, here are some estimated durations for popular routes:
+              While exact travel times can vary, here are some estimated
+              durations for popular routes:
             </p>
             <ul className="space-y-2">
               <li className="flex items-center justify-between">
@@ -99,7 +111,8 @@ const TravelDurationPage = () => {
               </li>
             </ul>
             <p className="mt-4 text-sm text-muted-foreground">
-              Note: These are approximate times and may vary based on the factors mentioned above.
+              Note: These are approximate times and may vary based on the
+              factors mentioned above.
             </p>
           </CardContent>
         </Card>
@@ -115,7 +128,9 @@ const TravelDurationPage = () => {
             <ul className="space-y-4">
               <li className="flex items-start">
                 <Moon className="mr-2 h-5 w-5 mt-1 flex-shrink-0 text-indigo-500" />
-                <span>Bring a travel pillow and blanket for overnight trips</span>
+                <span>
+                  Bring a travel pillow and blanket for overnight trips
+                </span>
               </li>
               <li className="flex items-start">
                 <Coffee className="mr-2 h-5 w-5 mt-1 flex-shrink-0 text-brown-500" />
@@ -137,12 +152,14 @@ const TravelDurationPage = () => {
           <CardHeader>
             <CardTitle>Need More Information?</CardTitle>
             <CardDescription>
-              We're here to help with any questions about travel durations
+              We&apos;re here to help with any questions about travel durations
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col items-start justify-between gap-4">
             <p className="text-muted-foreground">
-              If you need specific information about a particular route or have any other questions about travel duration, our support team is ready to assist you.
+              If you need specific information about a particular route or have
+              any other questions about travel duration, our support team is
+              ready to assist you.
             </p>
             <Button>Contact Support</Button>
           </CardContent>
@@ -151,6 +168,6 @@ const TravelDurationPage = () => {
       <SecondaryFooter className="max-w-4xl" />
     </div>
   );
-}
+};
 
 export default TravelDurationPage;

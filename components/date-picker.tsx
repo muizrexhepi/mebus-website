@@ -17,21 +17,21 @@ import useSearchStore from "@/store";
 export function DatePicker({ field }: { field: any }) {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const { setDepartureDate } = useSearchStore();
-
   React.useEffect(() => {
     if (date) {
-      setDepartureDate(format(date, "P"));
-      field.onChange(format(date, "P"));
+      const formattedDate = format(date, "dd-MM-yyyy");
+      setDepartureDate(formattedDate);
+      field.onChange(formattedDate);
     }
   }, [date, setDepartureDate]);
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
     if (selectedDate) {
-      field.onChange(format(selectedDate, "P"));
+      const formattedDate = format(selectedDate, "dd-MM-yyyy");
+      field.onChange(formattedDate);
       setDate(selectedDate);
     }
   };
-
   return (
     <Popover>
       <PopoverTrigger asChild>

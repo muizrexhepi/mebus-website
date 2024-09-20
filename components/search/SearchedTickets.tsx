@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import ky from "ky";
@@ -17,6 +17,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "../ui/button";
+import { useLoadingStore } from "@/store";
 
 const fetchTickets = async ({ pageParam }: { pageParam: number }) => {
   const searchParams = new URLSearchParams(window.location.search);
@@ -29,6 +30,7 @@ const fetchTickets = async ({ pageParam }: { pageParam: number }) => {
       nextPage: number | undefined;
       totalPages: number;
     }>();
+
   return response;
 };
 

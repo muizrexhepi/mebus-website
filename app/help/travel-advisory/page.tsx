@@ -96,7 +96,7 @@ export default function TravelAdvisoryPage() {
               </li>
               <li>
                 Always let someone know your travel itinerary, including where
-                you’ll be staying and your expected return date.
+                you&apos;ll be staying and your expected return date.
               </li>
             </ul>
           </CardContent>

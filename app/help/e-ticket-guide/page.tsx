@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { ChevronLeft, Smartphone, Ticket, ShieldCheck } from "lucide-react";
@@ -36,7 +36,7 @@ const ETicketGuidePage = () => {
             </Button>
           </Link>
         </div>
-        
+
         <Card className="mb-8">
           <CardHeader>
             <CardTitle>Understanding E-Tickets</CardTitle>
@@ -46,7 +46,9 @@ const ETicketGuidePage = () => {
           </CardHeader>
           <CardContent>
             <p className="mb-4">
-              An e-ticket (electronic ticket) is a digital version of a traditional paper ticket. It contains all the information about your bus journey, including:
+              An e-ticket (electronic ticket) is a digital version of a
+              traditional paper ticket. It contains all the information about
+              your bus journey, including:
             </p>
             <ul className="list-disc list-inside space-y-2">
               <li>Passenger name</li>
@@ -87,7 +89,9 @@ const ETicketGuidePage = () => {
             <ul className="space-y-4">
               <li className="flex items-start">
                 <Smartphone className="mr-2 h-5 w-5 mt-1 flex-shrink-0" />
-                <span>Keep your device charged to access your e-ticket easily</span>
+                <span>
+                  Keep your device charged to access your e-ticket easily
+                </span>
               </li>
               <li className="flex items-start">
                 <Ticket className="mr-2 h-5 w-5 mt-1 flex-shrink-0" />
@@ -95,7 +99,9 @@ const ETicketGuidePage = () => {
               </li>
               <li className="flex items-start">
                 <ShieldCheck className="mr-2 h-5 w-5 mt-1 flex-shrink-0" />
-                <span>Ensure your e-ticket details match your ID for verification</span>
+                <span>
+                  Ensure your e-ticket details match your ID for verification
+                </span>
               </li>
             </ul>
           </CardContent>
@@ -105,12 +111,13 @@ const ETicketGuidePage = () => {
           <CardHeader>
             <CardTitle>Need Help?</CardTitle>
             <CardDescription>
-              We're here to assist you with any e-ticket queries
+              We&apos;re here to assist you with any e-ticket queries
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col items-start justify-between gap-4">
             <p className="text-muted-foreground">
-              If you're experiencing issues with your e-ticket or have any questions, our support team is ready to help.
+              If you&apos;re experiencing issues with your e-ticket or have any
+              questions, our support team is ready to help.
             </p>
             <Button>Contact Support</Button>
           </CardContent>
@@ -119,6 +126,6 @@ const ETicketGuidePage = () => {
       <SecondaryFooter className="max-w-4xl" />
     </div>
   );
-}
+};
 
 export default ETicketGuidePage;
