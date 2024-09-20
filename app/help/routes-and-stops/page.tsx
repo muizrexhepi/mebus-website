@@ -63,7 +63,7 @@ export default async function RoutesAndStopsPage() {
           <CardHeader>
             <CardTitle>Need Assistance?</CardTitle>
             <CardDescription>
-              We're here to help with your route inquiries
+              We&apos;re here to help with your route inquiries
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col items-start justify-between gap-4">
@@ -71,7 +71,9 @@ export default async function RoutesAndStopsPage() {
               If you have any questions about our routes or need help planning
               your journey, our support team is ready to assist you.
             </p>
-            <Button>Contact Support</Button>
+            <Link href={"/help/contact-support"}>
+              <Button>Contact Support</Button>
+            </Link>
           </CardContent>
         </Card>
       </main>
