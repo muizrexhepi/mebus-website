@@ -2,7 +2,6 @@
 import { ArrowRight } from "lucide-react";
 import CustomSelect, { SELECT_TYPE } from "./custom-select";
 import { Button } from "./ui/button";
-
 import { useEffect, useMemo, useState } from "react";
 import useSearchStore from "@/store";
 import { useRouter } from "next/navigation";

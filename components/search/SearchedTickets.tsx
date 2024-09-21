@@ -39,7 +39,7 @@ function TicketList() {
   const [selectedTicket, setSelectedTicket] = useState<Ticket>();
   const adults = searchParams.get("adult") || "1";
   const nrOfChildren = searchParams.get("children") || "0";
-  const { isLoading: storeIsLoading, setIsLoading } = useLoadingStore();
+  const { setIsLoading } = useLoadingStore();
   const router = useRouter();
 
   const {
@@ -57,9 +57,7 @@ function TicketList() {
   });
 
   useEffect(() => {
-    if (!isLoading) {
-      setIsLoading(false);
-    }
+    setIsLoading(isLoading);
   }, [isLoading, setIsLoading]);
 
   if (isLoading) {

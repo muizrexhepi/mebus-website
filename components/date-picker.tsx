@@ -1,9 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
-
+import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -13,10 +13,26 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import useSearchStore from "@/store";
+import { Suspense } from "react"; // Import Suspense
 
-export function DatePicker({ field }: { field: any }) {
-  const [date, setDate] = React.useState<Date | undefined>(new Date());
+function DatePickerComponent({ field }: { field: any }) {
+  const searchParams = useSearchParams();
   const { setDepartureDate } = useSearchStore();
+
+  const urlDateParam = searchParams?.get("departureDate");
+  const initialDate = urlDateParam
+    ? parse(urlDateParam, "dd-MM-yyyy", new Date())
+    : new Date();
+
+  const [date, setDate] = React.useState<Date | undefined>(initialDate);
+
+  React.useEffect(() => {
+    if (urlDateParam) {
+      const parsedDate = parse(urlDateParam, "dd-MM-yyyy", new Date());
+      setDate(parsedDate);
+    }
+  }, [urlDateParam]);
+
   React.useEffect(() => {
     if (date) {
       const formattedDate = format(date, "dd-MM-yyyy");
@@ -32,6 +48,7 @@ export function DatePicker({ field }: { field: any }) {
       setDate(selectedDate);
     }
   };
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -51,10 +68,18 @@ export function DatePicker({ field }: { field: any }) {
           mode="single"
           selected={date}
           onSelect={handleDateSelect}
-          // onch
           initialFocus
         />
       </PopoverContent>
     </Popover>
+  );
+}
+
+// Wrap DatePickerComponent with Suspense
+export function DatePicker({ field }: { field: any }) {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <DatePickerComponent field={field} />
+    </Suspense>
   );
 }

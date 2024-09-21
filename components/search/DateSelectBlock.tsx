@@ -5,6 +5,7 @@ import { format, addDays, subDays } from "date-fns";
 import { Button } from "@/components/ui/button";
 import useSearchStore, { useLoadingStore } from "@/store";
 import DateSelectSkeleton from "./DateSelectSkeleton";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface DateButtonProps {
   date: Date;
@@ -32,6 +33,8 @@ const DateButton: React.FC<DateButtonProps> = ({
 );
 
 export function DateSelectBlock() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [dates, setDates] = useState<Date[]>([
     subDays(new Date(), 1),
@@ -39,16 +42,22 @@ export function DateSelectBlock() {
     addDays(new Date(), 1),
   ]);
 
-  const { isLoading } = useLoadingStore();
-
-  console.log({ isLoading });
-
+  const { isLoading, setIsLoading } = useLoadingStore();
   const { setDepartureDate } = useSearchStore();
 
   useEffect(() => {
     const formattedDate = format(selectedDate, "dd-MM-yyyy");
     setDepartureDate(formattedDate);
-  }, [selectedDate, setDepartureDate]);
+
+    // Update URL with new departure date
+    const currentParams = new URLSearchParams(searchParams.toString());
+    currentParams.set("departureDate", formattedDate);
+
+    const newPathname = window.location.pathname.split("?")[0];
+    router.push(`${newPathname}?${currentParams.toString()}`, {
+      scroll: false,
+    });
+  }, [selectedDate, setDepartureDate, router, searchParams]);
 
   const handleDateSelect = (date: Date) => {
     setSelectedDate(date);
@@ -67,7 +76,7 @@ export function DateSelectBlock() {
               <DateButton
                 key={date.toISOString()}
                 date={date}
-                isSelected={index === 1}
+                isSelected={date.toDateString() === selectedDate.toDateString()}
                 onClick={() => handleDateSelect(date)}
               />
             ))}
