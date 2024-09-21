@@ -1,11 +1,10 @@
 import { getStationsByOperatorId } from "@/actions/station";
-import SearchBlock from "@/components/SearchBlock";
 import SearchedTickets from "@/components/search/SearchedTickets";
 import { Metadata } from "next";
 import SecondaryNavbar from "@/components/SecondaryNavbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 import { DateSelectBlock } from "@/components/search/DateSelectBlock";
-import DateSelectSkeleton from "@/components/search/DateSelectSkeleton";
+import SearchSection from "@/components/search/SearchSection";
 
 const operator_id = "66cba19d1a6e55b32932c59b";
 
@@ -35,10 +34,10 @@ const SearchPage = async () => {
       <div className="w-full flex justify-center items-center bg-neutral-900 px-4 sm:px-8 py-4 xl:px-0">
         <SecondaryNavbar />
       </div>
-      <div className="min-h-screen px-4 sm:px-8 max-w-6xl mx-auto py-8 space-y-8 xl:px-0">
-        <SearchBlock stations={stations} />
+      <SearchSection stations={stations} />
+      <div className="min-h-screen px-4 sm:px-8 max-w-6xl mx-auto py-4 space-y-4 xl:px-0">
         <DateSelectBlock />
-        <div className="w-full space-y-2 max-w-4xl mx-auto">
+        <div className="w-full max-w-4xl mx-auto">
           <SearchedTickets />
         </div>
         {/* </div> */}

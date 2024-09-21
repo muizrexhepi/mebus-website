@@ -75,7 +75,6 @@ function DatePickerComponent({ field }: { field: any }) {
   );
 }
 
-// Wrap DatePickerComponent with Suspense
 export function DatePicker({ field }: { field: any }) {
   return (
     <Suspense fallback={<div>Loading...</div>}>

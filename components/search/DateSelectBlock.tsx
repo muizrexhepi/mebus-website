@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { format, addDays, subDays } from "date-fns";
+import { format, addDays, subDays, parse } from "date-fns"; // Add parse for custom date formats
 import { Button } from "@/components/ui/button";
 import useSearchStore, { useLoadingStore } from "@/store";
 import DateSelectSkeleton from "./DateSelectSkeleton";
@@ -26,8 +26,15 @@ const DateButton: React.FC<DateButtonProps> = ({
     onClick={onClick}
   >
     <div className="flex flex-col items-center">
-      <span className="text-lg font-bold">{format(date, "EEEE")}</span>
-      <span className="text-lg font-bold">{format(date, "PP")}</span>
+      <span className="text-sm sm:text-base md:text-lg font-medium sm:font-bold">
+        {format(date, "EEEE")}
+      </span>
+      <span className="text-sm hidden sm:block sm:text-base md:text-lg font-medium sm:font-bold">
+        {format(date, "PP")}
+      </span>
+      <span className="text-sm sm:text-base sm:hidden md:text-lg font-medium sm:font-bold">
+        {format(date, "P")}
+      </span>
     </div>
   </Button>
 );
@@ -35,11 +42,17 @@ const DateButton: React.FC<DateButtonProps> = ({
 export function DateSelectBlock() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+
+  const urlDateParam = searchParams?.get("departureDate");
+  const initialDate = urlDateParam
+    ? parse(urlDateParam, "dd-MM-yyyy", new Date())
+    : new Date();
+
+  const [selectedDate, setSelectedDate] = useState<Date>(initialDate);
   const [dates, setDates] = useState<Date[]>([
-    subDays(new Date(), 1),
-    new Date(),
-    addDays(new Date(), 1),
+    subDays(initialDate, 1),
+    initialDate,
+    addDays(initialDate, 1),
   ]);
 
   const { isLoading, setIsLoading } = useLoadingStore();
@@ -49,20 +62,20 @@ export function DateSelectBlock() {
     const formattedDate = format(selectedDate, "dd-MM-yyyy");
     setDepartureDate(formattedDate);
 
-    // Update URL with new departure date
     const currentParams = new URLSearchParams(searchParams.toString());
     currentParams.set("departureDate", formattedDate);
 
     const newPathname = window.location.pathname.split("?")[0];
-    router.push(`${newPathname}?${currentParams.toString()}`, {
-      scroll: false,
-    });
-  }, [selectedDate, setDepartureDate, router, searchParams]);
+    const newURL = `${newPathname}?${currentParams.toString()}`;
+    if (window.location.href !== newURL) {
+      router.push(newURL, { scroll: false });
+    }
+  }, [selectedDate, router, searchParams]);
 
   const handleDateSelect = (date: Date) => {
+    setIsLoading(true);
     setSelectedDate(date);
-    const newDates = [subDays(date, 1), date, addDays(date, 1)];
-    setDates(newDates);
+    setDates([subDays(date, 1), date, addDays(date, 1)]);
   };
 
   return (
@@ -72,7 +85,7 @@ export function DateSelectBlock() {
           <DateSelectSkeleton />
         ) : (
           <div className="flex-1 flex justify-between space-x-2">
-            {dates.map((date, index) => (
+            {dates.map((date) => (
               <DateButton
                 key={date.toISOString()}
                 date={date}

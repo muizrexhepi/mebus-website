@@ -1,5 +1,4 @@
 "use client";
-
 import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -18,11 +17,11 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "../ui/button";
 import { useLoadingStore } from "@/store";
+import InfiniteScrollContainer from "./InfiniteScrollContainer";
 
-const fetchTickets = async ({ pageParam }: { pageParam: number }) => {
+const fetchTickets = async ({ pageParam = 1 }: { pageParam?: number }) => {
   const searchParams = new URLSearchParams(window.location.search);
   searchParams.set("page", pageParam.toString());
-
   const response = await ky
     .get(`/api/tickets?${searchParams.toString()}`)
     .json<{
@@ -39,7 +38,7 @@ function TicketList() {
   const [selectedTicket, setSelectedTicket] = useState<Ticket>();
   const adults = searchParams.get("adult") || "1";
   const nrOfChildren = searchParams.get("children") || "0";
-  const { setIsLoading } = useLoadingStore();
+  const { setIsLoading, isLoading: storeIsLoading } = useLoadingStore();
   const router = useRouter();
 
   const {
@@ -48,19 +47,30 @@ function TicketList() {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
+    isFetching,
     isError,
   } = useInfiniteQuery({
     queryKey: ["searched-tickets", searchParams.toString()],
     queryFn: fetchTickets,
     initialPageParam: 1,
-    getNextPageParam: (lastPage) => lastPage.nextPage,
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.tickets.length === 0) return undefined;
+      return allPages.length + 1;
+    },
+    enabled: !storeIsLoading,
   });
 
   useEffect(() => {
     setIsLoading(isLoading);
   }, [isLoading, setIsLoading]);
 
-  if (isLoading) {
+  const handleLoadMore = () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
+
+  if (isLoading || storeIsLoading) {
     return (
       <div className="space-y-4">
         {Array.from({ length: 3 }).map((_, index) => (
@@ -83,7 +93,10 @@ function TicketList() {
   return (
     <>
       {tickets.length > 0 ? (
-        <>
+        <InfiniteScrollContainer
+          className="space-y-2"
+          onBottomReached={handleLoadMore}
+        >
           {tickets.map((ticket) => (
             <Sheet key={ticket._id}>
               <SheetTrigger className="w-full">
@@ -93,8 +106,8 @@ function TicketList() {
                 >
                   <TicketBlock
                     ticket={ticket}
-                    adults={searchParams.get("adult") || "1"}
-                    nrOfChildren={searchParams.get("children")}
+                    adults={adults}
+                    nrOfChildren={nrOfChildren}
                   />
                 </div>
               </SheetTrigger>
@@ -110,17 +123,11 @@ function TicketList() {
                 <SheetFooter className="p-4">
                   <Button
                     className="w-full"
-                    onClick={(e: any) => {
-                      try {
-                        e.preventDefault();
-                        setSelectedTicket(ticket);
-                        router.push(
-                          `/checkout?adults=${adults}&children=${nrOfChildren}`
-                        );
-                        console.log({ ticket });
-                      } catch (error) {
-                        console.error(error);
-                      }
+                    onClick={() => {
+                      setSelectedTicket(ticket);
+                      router.push(
+                        `/checkout?adults=${adults}&children=${nrOfChildren}`
+                      );
                     }}
                   >
                     Continue
@@ -129,16 +136,14 @@ function TicketList() {
               </SheetContent>
             </Sheet>
           ))}
-          {hasNextPage && (
-            <Button
-              onClick={() => fetchNextPage()}
-              disabled={isFetchingNextPage}
-              className="mt-4 w-full"
-            >
-              {isFetchingNextPage ? "Loading more..." : "Load More"}
-            </Button>
+          {isFetchingNextPage && (
+            <div className="space-y-4">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <TicketSkeleton key={index} />
+              ))}
+            </div>
           )}
-        </>
+        </InfiniteScrollContainer>
       ) : (
         <p className="text-center text-gray-700">No routes for your request</p>
       )}

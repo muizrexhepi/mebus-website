@@ -1,5 +1,11 @@
 import { SettingsBreadcrumb } from "@/components/BreadCrumb";
 import SecondaryNavbar from "@/components/SecondaryNavbar";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Your account | Mebus",
+  description: "Change your account security, and personal information.",
+};
 
 export default function AccountLayout({
   children,

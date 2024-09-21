@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   const adults = searchParams.get('adult');
   const children = searchParams.get('children');
   const page = parseInt(searchParams.get('page') || '1', 10);
-  const limit = 8;
+  const limit = 6;
 
   console.log({departureDate,departureStation,arrivalStation,adults,children,page})
 

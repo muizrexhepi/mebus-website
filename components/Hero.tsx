@@ -1,24 +1,15 @@
-import { getStationsByOperatorId } from "@/actions/station";
 import Navbar from "./Navbar";
 import SearchBlock from "./SearchBlock";
 import Image from "next/image";
-
-const operator_id = "66cba19d1a6e55b32932c59b";
+import axios from "axios";
+import { environment } from "@/environment";
 
 const Hero = async () => {
-  const stations = (await getStationsByOperatorId(operator_id)) || [];
-  console.log({ stations });
+  const res = await axios.get(`${environment.apiurl}/station`);
+  const stations = res.data.data || [];
+
   return (
-    <div
-      // style={{
-      //   backgroundImage: `url(assets/images/mainBG.jpg)`,
-      //   backgroundSize: "cover",
-      //   backgroundPosition: "center",
-      //   borderRadius: 10,
-      //   margin: 8,
-      // }}
-      className="sm:min-h-screen flex flex-col justify-between p-4 sm:p-8 relative paddingX"
-    >
+    <div className="sm:min-h-screen flex flex-col justify-between p-4 sm:p-8 relative paddingX">
       <Image
         priority
         src={"/assets/images/mainBG.jpg"}
