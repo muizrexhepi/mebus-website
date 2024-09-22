@@ -33,6 +33,8 @@ interface CustomSelectProps {
   departure?: string;
   defaultValue?: any;
   cityOptions?: any;
+  selectedDate?: any;
+  onDateChange?: any;
   name: string;
 }
 

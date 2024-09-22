@@ -1,12 +1,13 @@
 "use client";
-import { Suspense, useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import ky from "ky";
+import React, { Suspense, useEffect, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { Ticket } from "@/models/ticket";
+import Link from "next/link";
+import { useToast } from "../hooks/use-toast";
+import TicketSkeletonton from "../ticket/ticket-skeleton";
 import TicketBlock from "./Ticket";
-import TicketSkeleton from "../ticket/ticket-skeleton";
-import TicketDetails from "../ticket/ticket-details";
+import { useLoadingStore } from "@/store";
 import {
   Sheet,
   SheetContent,
@@ -14,142 +15,164 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
+} from "../ui/sheet";
 import { Button } from "../ui/button";
-import { useLoadingStore } from "@/store";
-import InfiniteScrollContainer from "./InfiniteScrollContainer";
+import TicketDetails from "../ticket/ticket-details";
+import { environment } from "@/environment";
+import NoTicketsAvailable from "./NoTicketsAvailable";
 
-const fetchTickets = async ({ pageParam = 1 }: { pageParam?: number }) => {
-  const searchParams = new URLSearchParams(window.location.search);
-  searchParams.set("page", pageParam.toString());
-  const response = await ky
-    .get(`/api/tickets?${searchParams.toString()}`)
-    .json<{
-      tickets: Ticket[];
-      nextPage: number | undefined;
-      totalPages: number;
-    }>();
-
-  return response;
-};
-
-function TicketList() {
+const TicketList: React.FC = () => {
   const searchParams = useSearchParams();
-  const [selectedTicket, setSelectedTicket] = useState<Ticket>();
-  const adults = searchParams.get("adult") || "1";
-  const nrOfChildren = searchParams.get("children") || "0";
-  const { setIsLoading, isLoading: storeIsLoading } = useLoadingStore();
   const router = useRouter();
+  const { toast } = useToast();
+  const [selectedTicket, setSelectedTicket] = useState<Ticket>();
+  const nrOfChildren = searchParams.get("children") || "0";
+  const { setIsLoading, isLoading } = useLoadingStore();
+  const departureStation = searchParams.get("departureStation");
+  const arrivalStation = searchParams.get("arrivalStation");
+  const departureDate = searchParams.get("departureDate");
+  const adults = searchParams.get("adult") || "1";
+  const children = searchParams.get("children") || "0";
 
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    isFetching,
-    isError,
-  } = useInfiniteQuery({
-    queryKey: ["searched-tickets", searchParams.toString()],
-    queryFn: fetchTickets,
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.tickets.length === 0) return undefined;
-      return allPages.length + 1;
-    },
-    enabled: !storeIsLoading,
-  });
+  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [noData, setNoData] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
-  useEffect(() => {
-    setIsLoading(isLoading);
-  }, [isLoading, setIsLoading]);
+  const fetchTickets = async (pageNumber: number) => {
+    if (!departureStation || !arrivalStation) {
+      toast({
+        title: "Error",
+        description: "Missing required parameters",
+        variant: "destructive",
+      });
+      return;
+    }
 
-  const handleLoadMore = () => {
-    if (hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `${environment.apiurl}/ticket/search?departureStation=${departureStation}&arrivalStation=${arrivalStation}&departureDate=${departureDate}&adults=${adults}&children=${children}&page=${pageNumber}`
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch tickets");
+      }
+
+      const data = await response.json();
+      const newTickets: Ticket[] = data.data || [];
+
+      if (newTickets.length === 0) {
+        setNoData(true);
+        setHasMore(false);
+      } else {
+        setTickets((prevTickets) => [...prevTickets, ...newTickets]);
+        setNoData(false);
+        setPage(pageNumber + 1);
+        setHasMore(newTickets.length === 6);
+      }
+    } catch (err) {
+      toast({
+        title: "Error",
+        description: "Failed to fetch tickets",
+        variant: "destructive",
+      });
+      setHasMore(false);
+    } finally {
+      setLoading(false);
+      setIsLoading(false);
     }
   };
 
-  if (isLoading || storeIsLoading) {
+  useEffect(() => {
+    if (departureStation && arrivalStation) {
+      setTickets([]);
+      setPage(1);
+      setHasMore(true);
+      fetchTickets(1);
+    }
+  }, [departureStation, arrivalStation, departureDate, adults, children]);
+
+  const handleLoadMore = () => {
+    if (!noData && !loading && hasMore) {
+      fetchTickets(page);
+    }
+  };
+
+  if (isLoading) {
     return (
-      <div className="space-y-4">
+      <div className="space-y-3">
         {Array.from({ length: 3 }).map((_, index) => (
-          <TicketSkeleton key={index} />
+          <TicketSkeletonton key={index} />
         ))}
       </div>
     );
   }
 
-  if (isError) {
-    return (
-      <p className="text-destructive text-center">
-        An error occurred while loading tickets.
-      </p>
-    );
-  }
-
-  const tickets = data?.pages.flatMap((page) => page.tickets) || [];
-
   return (
-    <>
-      {tickets.length > 0 ? (
-        <InfiniteScrollContainer
-          className="space-y-2"
-          onBottomReached={handleLoadMore}
-        >
-          {tickets.map((ticket) => (
-            <Sheet key={ticket._id}>
-              <SheetTrigger className="w-full">
-                <div
-                  onClick={() => setSelectedTicket(ticket)}
-                  className="cursor-pointer"
-                >
-                  <TicketBlock
-                    ticket={ticket}
-                    adults={adults}
-                    nrOfChildren={nrOfChildren}
-                  />
-                </div>
-              </SheetTrigger>
-              <SheetContent className="p-0 rounded-tl-xl rounded-bl-xl h-full flex flex-col justify-between">
-                <div>
-                  <SheetHeader className="border-b p-4 shadow-sm">
-                    <SheetTitle className="font-medium">
-                      Ticket Details
-                    </SheetTitle>
-                  </SheetHeader>
-                  <TicketDetails ticket={selectedTicket!} />
-                </div>
-                <SheetFooter className="p-4">
-                  <Button
-                    className="w-full"
-                    onClick={() => {
-                      setSelectedTicket(ticket);
-                      router.push(
-                        `/checkout?adults=${adults}&children=${nrOfChildren}`
-                      );
-                    }}
-                  >
-                    Continue
-                  </Button>
-                </SheetFooter>
-              </SheetContent>
-            </Sheet>
-          ))}
-          {isFetchingNextPage && (
-            <div className="space-y-4">
-              {Array.from({ length: 3 }).map((_, index) => (
-                <TicketSkeleton key={index} />
-              ))}
-            </div>
-          )}
-        </InfiniteScrollContainer>
+    <div className="flex flex-col gap-8">
+      {noData && tickets.length === 0 ? (
+        <NoTicketsAvailable />
       ) : (
-        <p className="text-center text-gray-700">No routes for your request</p>
+        <div className="w-full mx-auto">
+          <InfiniteScroll
+            dataLength={tickets.length}
+            className="space-y-2"
+            next={handleLoadMore}
+            hasMore={hasMore}
+            loader={loading ? <TicketSkeletonton /> : null}
+            // endMessage={
+            //   <p style={{ textAlign: "center" }}>
+            //     <b>There are no more tickets for this route.</b>
+            //   </p>
+            // }
+          >
+            {tickets.map((ticket, index) => (
+              <Sheet key={index}>
+                <SheetTrigger className="w-full">
+                  <div
+                    onClick={() => setSelectedTicket(ticket)}
+                    className="cursor-pointer"
+                  >
+                    <TicketBlock
+                      ticket={ticket}
+                      adults={adults}
+                      nrOfChildren={nrOfChildren}
+                    />
+                  </div>
+                </SheetTrigger>
+                <SheetContent className="p-0 rounded-tl-xl rounded-bl-xl h-full flex flex-col justify-between">
+                  <div>
+                    <SheetHeader className="border-b p-4 shadow-sm">
+                      <SheetTitle className="font-medium">
+                        Ticket Details
+                      </SheetTitle>
+                    </SheetHeader>
+                    <TicketDetails ticket={selectedTicket!} />
+                  </div>
+                  <SheetFooter className="p-4">
+                    <Button
+                      className="w-full"
+                      onClick={() => {
+                        setSelectedTicket(ticket);
+                        router.push(
+                          `/checkout?adults=${adults}&children=${nrOfChildren}`
+                        );
+                      }}
+                    >
+                      Continue
+                    </Button>
+                  </SheetFooter>
+                </SheetContent>
+              </Sheet>
+            ))}
+          </InfiniteScroll>
+        </div>
       )}
-    </>
+    </div>
   );
-}
+};
 
 export default function SearchedTickets() {
   return (

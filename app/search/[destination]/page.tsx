@@ -36,7 +36,7 @@ const SearchPage = async () => {
       </div>
       <SearchSection stations={stations} />
       <div className="min-h-screen px-4 sm:px-8 max-w-6xl mx-auto py-4 space-y-4 xl:px-0">
-        <DateSelectBlock />
+        {/* <DateSelectBlock /> */}
         <div className="w-full max-w-4xl mx-auto">
           <SearchedTickets />
         </div>
