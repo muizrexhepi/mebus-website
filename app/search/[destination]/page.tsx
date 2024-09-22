@@ -1,12 +1,10 @@
-import { getStationsByOperatorId } from "@/actions/station";
 import SearchedTickets from "@/components/search/SearchedTickets";
 import { Metadata } from "next";
 import SecondaryNavbar from "@/components/SecondaryNavbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
-import { DateSelectBlock } from "@/components/search/DateSelectBlock";
 import SearchSection from "@/components/search/SearchSection";
-
-const operator_id = "66cba19d1a6e55b32932c59b";
+import axios from "axios";
+import { environment } from "@/environment";
 
 export async function generateMetadata({
   params,
@@ -27,7 +25,13 @@ export async function generateMetadata({
 }
 
 const SearchPage = async () => {
-  const stations = (await getStationsByOperatorId(operator_id)) || [];
+  const res =
+    (await axios.get(
+      `${environment.apiurl}/station?select=name city country`
+    )) || [];
+  const stations = res.data.data || [];
+
+  console.log({ stations });
 
   return (
     <div className="min-h-screen bg-[#f3f3f3]">

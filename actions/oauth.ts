@@ -4,15 +4,15 @@ import { OAuthProvider } from "appwrite";
 export async function handleGoogleLogin() {
     account.createOAuth2Session(
       OAuthProvider.Google,
-      "http://localhost:3000",
-      "http://localhost:3000/fail"
+      "https://mebus-website.vercel.app",
+      "https://mebus-website.vercel.app/fail"
     );
   }
 
 export async function handleFacebookLogin() {
     account.createOAuth2Session(
       OAuthProvider.Facebook,
-      "http://localhost:3000",
-      "http://localhost:3000/fail"
+      "https://mebus-website.vercel.app",
+      "https://mebus-website.vercel.app/fail"
     );
   }

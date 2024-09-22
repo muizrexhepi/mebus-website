@@ -70,7 +70,7 @@ const RegisterForm = ({ isOpen }: { isOpen: boolean }) => {
         window.dispatchEvent(new Event("userChange"));
         await account.createEmailPasswordSession(user.email, user.password);
         await account.createVerification(
-          "http://localhost:3000/email-verification"
+          "https://mebus-website.vercel.app/email-verification"
         );
       }
 

@@ -80,7 +80,7 @@ export default function LoginSecurity() {
   const handleEmailVerification = async () => {
     try {
       await account.createVerification(
-        "http://localhost:3000/email-verification"
+        "https://mebus-website.vercel.app/email-verification"
       );
       toast({ description: "Email sent successfully." });
     } catch (error) {

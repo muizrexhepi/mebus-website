@@ -48,7 +48,7 @@ const ResetPasswordForm = ({ isOpen }: { isOpen: boolean }) => {
 
       const promise = account.createRecovery(
         user.email,
-        "http://localhost:3000/reset"
+        "https://mebus-website.vercel.app/reset"
       );
 
       promise.then(

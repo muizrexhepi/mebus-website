@@ -28,6 +28,8 @@ const SearchSection = ({
   const [departureDate, setDepartureDate] = useState<Date | null>(null);
   const [returnDate, setReturnDate] = useState<Date | null>(null);
 
+  console.log({ stations });
+
   const handleSearch = async (values: z.infer<typeof searchSchema>) => {
     setIsSubmitting(true);
     const { from, to, passengers, departureDate: searchDepartureDate } = values;
@@ -60,22 +62,21 @@ const SearchSection = ({
 
   const stationList = useMemo(
     () =>
-      {
-        if(stations) {
-          stations?.map((station) => ({
-            country: station?.country,
-            cities: [
-              {
-                value: station?._id,
-                label: station?.name,
-                city: station?.city,
-              },
-            ],
-          }))
-        }
-    },
+      stations &&
+      stations?.map((station) => ({
+        country: station?.country,
+        cities: [
+          {
+            value: station?._id,
+            label: station?.name,
+            city: station?.city,
+          },
+        ],
+      })),
     [stations]
   );
+
+  console.log({ stationList });
 
   useEffect(() => {
     setCountryOptions(stationList!);
