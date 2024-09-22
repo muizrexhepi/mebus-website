@@ -12,9 +12,7 @@ import { searchSchema } from "@/schemas";
 import { Form } from "@/components/ui/form";
 import InputSkeleton from "@/components/input-skeleton";
 import { cn } from "@/lib/utils";
-import { DateSelectBlock } from "@/components/search/DateSelectBlock"; // Import DateSelectBlock
-
-const BUS_TYPES = ["Luxury Bus", "Economy Bus", "Sleeper Bus", "Executive Bus"];
+import { DateSelectBlock } from "@/components/search/DateSelectBlock";
 
 const SearchSection = ({
   stations,
