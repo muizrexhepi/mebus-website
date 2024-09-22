@@ -60,21 +60,25 @@ const SearchSection = ({
 
   const stationList = useMemo(
     () =>
-      stations?.map((station) => ({
-        country: station?.country,
-        cities: [
-          {
-            value: station?._id,
-            label: station?.name,
-            city: station?.city,
-          },
-        ],
-      })),
+      {
+        if(stations) {
+          stations?.map((station) => ({
+            country: station?.country,
+            cities: [
+              {
+                value: station?._id,
+                label: station?.name,
+                city: station?.city,
+              },
+            ],
+          }))
+        }
+    },
     [stations]
   );
 
   useEffect(() => {
-    setCountryOptions(stationList);
+    setCountryOptions(stationList!);
     setLoading(false);
   }, [stationList]);
 
