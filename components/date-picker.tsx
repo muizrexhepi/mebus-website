@@ -3,7 +3,7 @@
 import * as React from "react";
 import { format, parse, isSameDay } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -14,10 +14,11 @@ import {
 } from "@/components/ui/popover";
 import useSearchStore from "@/store";
 
-function DatePickerComponent() {
+function DatePickerComponent({ field }: { field: any }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { departureDate, setDepartureDate } = useSearchStore();
+  const path = usePathname();
 
   const urlDateParam = searchParams?.get("departureDate");
   const initialDate = urlDateParam
@@ -39,6 +40,7 @@ function DatePickerComponent() {
     if (date) {
       const formattedDate = format(date, "dd-MM-yyyy");
       setDepartureDate(formattedDate);
+      field.onChange(formattedDate);
     }
   }, [date]);
 
@@ -48,13 +50,15 @@ function DatePickerComponent() {
 
       const formattedDate = format(selectedDate, "dd-MM-yyyy");
       setDepartureDate(formattedDate);
-
+      field.onChange(formattedDate);
       const currentParams = new URLSearchParams(searchParams.toString());
       currentParams.set("departureDate", formattedDate);
 
       const newPathname = window.location.pathname.split("?")[0];
       const newURL = `${newPathname}?${currentParams.toString()}`;
-      router.push(newURL, { scroll: false });
+      if (path !== "/") {
+        router.push(newURL, { scroll: false });
+      }
     }
   };
 
@@ -83,6 +87,6 @@ function DatePickerComponent() {
     </Popover>
   );
 }
-export function DatePicker() {
-  return <DatePickerComponent />;
+export function DatePicker({ field }: any) {
+  return <DatePickerComponent field={field} />;
 }

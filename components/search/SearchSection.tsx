@@ -32,11 +32,11 @@ const SearchSection = ({
 
   const handleSearch = async (values: z.infer<typeof searchSchema>) => {
     setIsSubmitting(true);
-    const { from, to, passengers } = values;
+    const { from, to, passengers, departureDate: searchDepartureDate } = values;
     try {
       router.push(
         `/search/${fromCity.toLowerCase()}-${toCity.toLowerCase()}?departureStation=${from}&arrivalStation=${to}&departureDate=${
-          departureDate ? departureDate.toISOString() : ""
+          departureDate ? departureDate.toISOString() : searchDepartureDate
         }${returnDate ? `&returnDate=${returnDate.toISOString()}` : ""}&adult=${
           passengers.adults
         }&children=${passengers?.children}`
