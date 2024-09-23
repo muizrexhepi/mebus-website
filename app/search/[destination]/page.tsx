@@ -29,7 +29,7 @@ const SearchPage = async () => {
         <SecondaryNavbar />
       </div>
       <SearchSection />
-      <div className="min-h-screen px-4 sm:px-8 max-w-6xl mx-auto py-4 space-y-4 xl:px-0">
+      <div className="px-4 sm:px-8 max-w-6xl mx-auto py-4 space-y-4 xl:px-0">
         <div className="w-full max-w-3xl mx-auto">
           <SearchedTickets />
         </div>

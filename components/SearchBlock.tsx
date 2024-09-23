@@ -20,7 +20,7 @@ const BUS_TYPES = ["Luxury Bus", "Economy Bus", "Sleeper Bus", "Executive Bus"];
 const SearchBlock = () => {
   const [isRoundTrip, setIsRoundTrip] = useState<boolean>(false);
   const router = useRouter();
-  const { from: fromCity, to: toCity, resetSearch } = useSearchStore();
+  const { from: fromCity, to: toCity } = useSearchStore();
   const [loading, setLoading] = useState<boolean>(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [stations, setStations] = useState<Station[]>([]);

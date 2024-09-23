@@ -2,7 +2,7 @@ import Navbar from "./Navbar";
 import SearchBlock from "./SearchBlock";
 import Image from "next/image";
 
-const Hero = async () => {
+const Hero = () => {
   return (
     <div className="sm:min-h-screen flex flex-col justify-between p-4 sm:p-8 relative paddingX">
       <Image

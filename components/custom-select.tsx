@@ -26,7 +26,7 @@ interface CustomSelectProps {
   control?: any;
   stations?: Station[];
   type: SELECT_TYPE;
-  departure?: string;
+  departure?: "from" | "to";
   defaultValue?: any;
   cityOptions?: any;
   selectedDate?: any;

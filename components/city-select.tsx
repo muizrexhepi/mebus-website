@@ -39,7 +39,6 @@ const CitySelect: React.FC<CustomSelectProps> = ({
   };
 
   const searchParams = useSearchParams();
-
   const fromCity = searchParams.get("departureStation");
   const arrivalCity = searchParams.get("arrivalStation");
 
@@ -157,14 +156,8 @@ const CitySelect: React.FC<CustomSelectProps> = ({
         }}
         defaultValue={
           departure === "from"
-            ? options.find((option) =>
-                option.value === fromCity ? fromCity : option.value
-              )
-            : options
-                .reverse()
-                .find((option) =>
-                  option.value === arrivalCity ? arrivalCity : option.value
-                )
+            ? options.find((option) => option.value === fromCity)
+            : options.find((option) => option.value === arrivalCity)
         }
         options={options}
         formatOptionLabel={formatOptionLabel}

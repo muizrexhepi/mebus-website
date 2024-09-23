@@ -97,7 +97,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
       </div>
       <Separator />
 
-      <div className="flex items-center justify-between px-4">
+      <div className="flex sm:items-center sm:flex-row flex-col items-start justify-between px-4 py gap-2">
         <div className="flex items-center space-x-4">
           <Calendar className="h-5 w-5 text-emerald-700" />
           <span className="font-semibold">
