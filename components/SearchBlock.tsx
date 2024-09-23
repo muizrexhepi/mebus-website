@@ -72,10 +72,12 @@ const SearchBlock = ({
     [stations]
   );
 
-  useEffect(() => {
+useEffect(() => {
+  if (stationList?.length) {
     setCountryOptions(stationList);
-    setLoading(false);
-  }, [stationList]);
+  }
+  setLoading(false);
+}, [stationList]);
 
   return (
     <div className="bg-white rounded-xl p-7 flex flex-col gap-4 w-full min-h-fit">
