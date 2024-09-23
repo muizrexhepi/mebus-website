@@ -57,7 +57,7 @@ const SearchPage = async () => {
         <SecondaryNavbar />
       </div>
       <div className="min-h-screen px-4 sm:px-8 max-w-6xl mx-auto py-8 space-y-4">
-        <SearchBlock stations={stations} />
+        <SearchBlock />
         <div className="flex flex-col lg:flex-row gap-4 h-full">
           <div className="w-full lg:w-[25%] space-y-4">
             <FilterBlock title="Sort by" data={sortOptions} />
