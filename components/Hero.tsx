@@ -1,13 +1,8 @@
 import Navbar from "./Navbar";
 import SearchBlock from "./SearchBlock";
 import Image from "next/image";
-import axios from "axios";
-import { environment } from "@/environment";
 
 const Hero = async () => {
-  const res = await axios.get(`${environment.apiurl}/station`);
-  const stations = res.data.data || [];
-
   return (
     <div className="sm:min-h-screen flex flex-col justify-between p-4 sm:p-8 relative paddingX">
       <Image
@@ -23,7 +18,7 @@ const Hero = async () => {
         <h1 className="text-3xl sm:text-5xl md:text-6xl font-medium text-white hidden sm:block">
           Navigate Roads <br className="block sm:hidden" /> with Comfort
         </h1>
-        <SearchBlock stations={stations} />
+        <SearchBlock />
       </div>
     </div>
   );

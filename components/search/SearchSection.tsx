@@ -13,20 +13,33 @@ import { Form } from "@/components/ui/form";
 import InputSkeleton from "@/components/input-skeleton";
 import { cn } from "@/lib/utils";
 import { DateSelectBlock } from "@/components/search/DateSelectBlock";
+import { getStations } from "@/actions/station";
+import { Station } from "@/models/station";
 
-const SearchSection = ({
-  stations,
-}: {
-  stations: { _id: string; name: string; city: string; country: string }[];
-}) => {
+const SearchSection = () => {
   const [isRoundTrip, setIsRoundTrip] = useState<boolean>(false);
-  const [countryOptions, setCountryOptions] = useState<any[]>([]);
   const router = useRouter();
   const { from: fromCity, to: toCity, resetSearch } = useSearchStore();
   const [loading, setLoading] = useState<boolean>(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [departureDate, setDepartureDate] = useState<Date | null>(null);
   const [returnDate, setReturnDate] = useState<Date | null>(null);
+  const [stations, setStations] = useState<Station[]>([]);
+
+  useEffect(() => {
+    const fetchStations = async () => {
+      try {
+        const data = await getStations();
+        setStations(data);
+      } catch (error) {
+        console.error("Error fetching stations:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStations();
+  }, []);
 
   console.log({ stations });
 
@@ -59,29 +72,6 @@ const SearchSection = ({
       },
     },
   });
-
-  const stationList = useMemo(
-    () =>
-      stations &&
-      stations?.map((station) => ({
-        country: station?.country,
-        cities: [
-          {
-            value: station?._id,
-            label: station?.name,
-            city: station?.city,
-          },
-        ],
-      })),
-    [stations]
-  );
-
-  console.log({ stationList });
-
-  useEffect(() => {
-    setCountryOptions(stationList!);
-    setLoading(false);
-  }, [stationList]);
 
   return (
     <>
@@ -128,7 +118,7 @@ const SearchSection = ({
                     <InputSkeleton />
                   ) : (
                     <CustomSelect
-                      countries={countryOptions}
+                      stations={stations}
                       type={SELECT_TYPE.SELECT}
                       departure={"from"}
                       name="from"
@@ -141,7 +131,7 @@ const SearchSection = ({
                     <InputSkeleton />
                   ) : (
                     <CustomSelect
-                      countries={countryOptions}
+                      stations={stations}
                       type={SELECT_TYPE.SELECT}
                       departure={"to"}
                       name="to"

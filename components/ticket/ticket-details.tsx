@@ -1,14 +1,13 @@
 import { Ticket } from "@/models/ticket";
-import { MapPin, Clock, Calendar, Bus } from "lucide-react";
+import { MapPin, Calendar, Clock, Bus, Snowflake, Plug } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import InfoBlock from "../InfoBlock";
 import { Fragment, useEffect, useState } from "react";
 import { Station } from "@/models/station";
 import { toast } from "../hooks/use-toast";
 
-const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
+export default function TicketDetails({ ticket }: { ticket: Ticket }) {
   const [allStations, setAllStations] = useState<Station[]>([]);
-  console.log({ ticket });
 
   const formatDate = (date: Date) => {
     return new Date(date).toLocaleDateString("en-US", {
@@ -28,7 +27,7 @@ const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
 
   const handleLocation = (location: { lat?: number; lng?: number }) => {
     if (!location || !location.lat || !location.lng) {
-      console.log("Keine lat lng");
+      console.log("No lat lng");
       return toast({
         description: "Wrong coordinates.",
         variant: "destructive",
@@ -53,7 +52,6 @@ const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
         (station) => station._id === lastStopId
       );
 
-      console.log(fromStationIndex);
       const filteredFromStations =
         fromStationIndex !== -1
           ? ticket.fromStations.slice(fromStationIndex)
@@ -65,9 +63,7 @@ const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
           : ticket.toStations;
 
       const all = [...filteredFromStations, ...filteredToStations];
-      console.log({ all });
       setAllStations(all);
-      console.log({ filteredFromStations, filteredToStations });
     }
   }, [ticket]);
 
@@ -76,7 +72,6 @@ const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
   return (
     <div className="space-y-4">
       <div className="space-y-4 items-center justify-between px-4 pt-4">
-        {/* <h1 className="mb-2 uppercase font-medium text-neutral-600">Map</h1> */}
         <div
           className="flex items-center space-x-4 cursor-pointer"
           onClick={() => handleLocation(ticket?.stops[0]?.from?.location)}
@@ -109,10 +104,13 @@ const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
             {formatDate(ticket.departure_date)}
           </span>
         </div>
+        <div className="flex items-center space-x-4">
+          <Clock className="h-5 w-5 text-emerald-700" />
+          <span className="font-semibold">{formatTime(ticket.time)}</span>
+        </div>
       </div>
       <Separator />
       <div className="px-4">
-        {/* <h1 className="mb-2 uppercase font-medium text-neutral-600">Stops</h1> */}
         {allStations.map((station, index) => (
           <Fragment key={station._id}>
             <div className="flex items-center gap-6">
@@ -131,24 +129,25 @@ const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
       </div>
 
       <Separator />
-      {/* <div className="space-y-2 px-4">
-        <div className="flex justify-between items-center">
-          <span className="font-semibold">Adult Price:</span>
-          <span>${ticket.stops[0].other_prices.our_price.toFixed(2)}</span>
-        </div>
-        <div className="flex justify-between items-center">
-          <span className="font-semibold">Child Price:</span>
-          <span>
-            ${ticket.stops[0].other_prices.our_children_price.toFixed(2)}
-          </span>
-        </div>
-      </div> */}
+      <div className="px-4 space-y-2">
+        {ticket.metadata?.features?.map((feature, index) => (
+          <div key={index} className="flex items-center space-x-2">
+            {feature === "ac/heating" ? (
+              <Snowflake className="h-5 w-5 text-emerald-700" />
+            ) : feature === "usb charging ports" ? (
+              <Plug className="h-5 w-5 text-emerald-700" />
+            ) : (
+              <Bus className="h-5 w-5 text-emerald-700" />
+            )}
+            <span className="capitalize">{feature}</span>
+          </div>
+        ))}
+      </div>
+      <Separator />
       <InfoBlock
         desc="This trip will be operated by"
         title={ticket?.metadata?.operator_company_name}
       />
     </div>
   );
-};
-
-export default TicketDetails;
+}

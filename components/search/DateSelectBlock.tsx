@@ -98,7 +98,7 @@ export function DateSelectBlock() {
   };
 
   return (
-    <div className="flex flex-col space-y-2 max-w-4xl mx-auto mt-4">
+    <div className="flex flex-col space-y-2 max-w-3xl mx-auto mt-4">
       <div className="flex justify-between items-center">
         <div className="flex-1 flex justify-between space-x-2">
           {dates.map((date) => (

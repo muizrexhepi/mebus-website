@@ -12,20 +12,35 @@ import { searchSchema } from "@/schemas";
 import { Form } from "./ui/form";
 import InputSkeleton from "./input-skeleton";
 import { cn } from "@/lib/utils";
+import { getStations } from "@/actions/station";
+import { Station } from "@/models/station";
 
 const BUS_TYPES = ["Luxury Bus", "Economy Bus", "Sleeper Bus", "Executive Bus"];
 
-const SearchBlock = ({
-  stations,
-}: {
-  stations: { _id: string; name: string; city: string; country: string }[];
-}) => {
+const SearchBlock = () => {
   const [isRoundTrip, setIsRoundTrip] = useState<boolean>(false);
-  const [countryOptions, setCountryOptions] = useState<any[]>([]);
   const router = useRouter();
   const { from: fromCity, to: toCity, resetSearch } = useSearchStore();
   const [loading, setLoading] = useState<boolean>(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [stations, setStations] = useState<Station[]>([]);
+
+  useEffect(() => {
+    const fetchStations = async () => {
+      try {
+        const data = await getStations();
+        setStations(data);
+      } catch (error) {
+        console.error("Error fetching stations:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStations();
+  }, []);
+
+  console.log({ stations });
 
   const handleSearch = async (values: z.infer<typeof searchSchema>) => {
     setIsSubmitting(true);
@@ -56,28 +71,6 @@ const SearchBlock = ({
       },
     },
   });
-
-  const stationList = useMemo(
-    () =>
-      stations?.map((station) => ({
-        country: station?.country,
-        cities: [
-          {
-            value: station?._id,
-            label: station?.name,
-            city: station?.city,
-          },
-        ],
-      })),
-    [stations]
-  );
-
-useEffect(() => {
-  if (stationList?.length) {
-    setCountryOptions(stationList);
-  }
-  setLoading(false);
-}, [stationList]);
 
   return (
     <div className="bg-white rounded-xl p-7 flex flex-col gap-4 w-full min-h-fit">
@@ -122,7 +115,7 @@ useEffect(() => {
                 <InputSkeleton />
               ) : (
                 <CustomSelect
-                  countries={countryOptions}
+                  stations={stations}
                   type={SELECT_TYPE.SELECT}
                   departure={"from"}
                   name="from"
@@ -135,7 +128,7 @@ useEffect(() => {
                 <InputSkeleton />
               ) : (
                 <CustomSelect
-                  countries={countryOptions}
+                  stations={stations}
                   type={SELECT_TYPE.SELECT}
                   departure={"to"}
                   name="to"

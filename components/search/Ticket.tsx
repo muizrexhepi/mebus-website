@@ -45,14 +45,13 @@ const TicketBlock: React.FC<TicketProps> = ({
   return (
     <div className="max-w-5xl mx-auto bg-white shadow-sm rounded-xl overflow-hidden">
       <div className="p-6">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-          <div className="flex gap-2 items-center mb-2 sm:mb-0">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
+          <div className="flex gap-2 items-center mb-2 sm:mb-0 justify-between w-full">
             <Badge>{ticket.metadata.operator_name}</Badge>
-            <Badge className="bg-emerald-700 hover:bg-emerald-700">Mebus</Badge>
-          </div>
-          <div className="flex items-center text-sm text-muted-foreground">
-            <CalendarDays className="w-4 h-4 mr-2" />
-            {departureDate.format("dddd, MMMM D, YYYY")}
+            <div className="flex items-center text-sm text-muted-foreground">
+              <CalendarDays className="w-4 h-4 mr-2" />
+              {departureDate.format("ddd, MMMM D, YYYY")}
+            </div>
           </div>
         </div>
         <div className="flex flex-col md:flex-row justify-between items-start relative">
@@ -79,17 +78,17 @@ const TicketBlock: React.FC<TicketProps> = ({
                 <h1 className="font-medium text-base sm:text-lg capitalize">
                   {ticket.stops[0].from.city}
                 </h1>
-                <span className="text-accent-foreground/50 line-clamp-1">
+                {/* <span className="text-accent-foreground/50 line-clamp-1">
                   {ticket.stops[0].from.name}
-                </span>
+                </span> */}
               </div>
               <div className="flex flex-col items-end">
                 <h1 className="font-medium text-base sm:text-lg capitalize">
                   {ticket.stops[0].to.city}
                 </h1>
-                <span className="text-accent-foreground/50 line-clamp-1">
+                {/* <span className="text-accent-foreground/50 line-clamp-1">
                   {ticket.stops[0].to.name}
-                </span>
+                </span> */}
               </div>
             </div>
           </div>

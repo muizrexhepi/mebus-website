@@ -1,51 +1,43 @@
 "use client";
 
+import { Station } from "@/models/station";
 import useSearchStore from "@/store";
+import { MapPin } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import Select, { SingleValue } from "react-select";
 
-interface CityOption {
-  value: string;
-  label: string;
-  city: string;
-}
-
-interface CountryGroup {
-  name: string;
-  cities: CityOption[];
-}
-
 interface CustomSelectProps {
-  countries?: CountryGroup[];
+  stations?: Station[];
   departure?: string;
   field: any;
 }
 
 const CitySelect: React.FC<CustomSelectProps> = ({
-  countries,
+  stations = [],
   departure = "from",
   field,
 }) => {
   const { setFrom, setTo } = useSearchStore();
 
-  const handleSelect = (option: SingleValue<CityOption>) => {
+  const handleSelect = (
+    option: SingleValue<{ value: string | undefined; label: string }>
+  ) => {
     if (option) {
       const value = option.value || "";
-      const city = option.city || "";
+      const label = option.label || "";
 
       if (departure === "from") {
-        setFrom(city);
-        console.log({ city });
+        setFrom(label);
+        console.log({ label });
       } else if (departure === "to") {
-        setTo(city);
+        setTo(label);
       }
 
       field.onChange(value);
     }
   };
 
-  const cityOptions = countries?.flatMap((country) => country.cities) || [];
   const searchParams = useSearchParams();
 
   const fromCity = searchParams.get("departureStation");
@@ -53,11 +45,11 @@ const CitySelect: React.FC<CustomSelectProps> = ({
 
   useEffect(() => {
     if (departure === "from") {
-      setFrom(cityOptions[0]?.city || "");
-      field.onChange(cityOptions[0]?.value || "");
+      setFrom(stations[0]?.city || "");
+      field.onChange(stations[0]?._id || "");
     } else if (departure === "to") {
-      setTo(cityOptions[1]?.city || "");
-      field.onChange(cityOptions[1]?.value || "");
+      setTo(stations[1]?.city || "");
+      field.onChange(stations[1]?._id || "");
     }
   }, []);
 
@@ -67,16 +59,16 @@ const CitySelect: React.FC<CustomSelectProps> = ({
 
   const findDefaultStation = () => {
     if (departure === "from" && fromCity) {
-      const defaultFrom = cityOptions.find((city) =>
-        city.value.includes(fromCity)
+      const defaultFrom = stations.find((station) =>
+        station._id?.includes(fromCity)
       );
       if (defaultFrom) {
         field.onChange(fromCity);
         setFrom(defaultFrom.city);
       }
     } else if (departure === "to" && arrivalCity) {
-      const defaultTo = cityOptions.find((city) =>
-        city.value.includes(arrivalCity)
+      const defaultTo = stations.find((station) =>
+        station._id?.includes(arrivalCity)
       );
       if (defaultTo) {
         field.onChange(arrivalCity);
@@ -85,10 +77,22 @@ const CitySelect: React.FC<CustomSelectProps> = ({
     }
   };
 
+  const options = stations.map((station) => ({
+    value: station._id,
+    label: station.city,
+  }));
+
+  const formatOptionLabel = ({ label }: { label: string }) => (
+    <div className="flex items-center space-x-2">
+      <MapPin className="w-6 h-6 text-primary" />
+      <span>{label}</span>
+    </div>
+  );
+
   return (
     <div className="relative">
       <Select
-        value={cityOptions.find((option) => option.value === field.value)}
+        value={options.find((option) => option.value === field.value)}
         onChange={handleSelect}
         styles={{
           container: (provided) => ({
@@ -98,12 +102,12 @@ const CitySelect: React.FC<CustomSelectProps> = ({
           control: (provided, state) => ({
             ...provided,
             cursor: "pointer",
+            textTransform: "capitalize",
             minHeight: "3.5rem",
             borderColor: state.isFocused ? "#efefef" : "#efefef",
             backgroundColor: state.isFocused ? "var(--accent)" : "#fff",
             boxShadow: state.isFocused ? `0 0 0 1px var(--primary)` : "none",
             borderRadius: "var(--radius)",
-            padding: "0.25rem",
             "&:hover": {
               backgroundColor: "rgb",
             },
@@ -136,6 +140,7 @@ const CitySelect: React.FC<CustomSelectProps> = ({
           option: (provided, state) => ({
             ...provided,
             padding: "0.5rem 1rem",
+            textTransform: "capitalize",
             backgroundColor: state.isFocused
               ? "var(--muted)"
               : state.isSelected
@@ -152,10 +157,17 @@ const CitySelect: React.FC<CustomSelectProps> = ({
         }}
         defaultValue={
           departure === "from"
-            ? cityOptions.find((city) => city.value.includes(fromCity || ""))
-            : cityOptions.find((city) => city.value.includes(arrivalCity || ""))
+            ? options.find((option) =>
+                option.value === fromCity ? fromCity : option.value
+              )
+            : options
+                .reverse()
+                .find((option) =>
+                  option.value === arrivalCity ? arrivalCity : option.value
+                )
         }
-        options={cityOptions}
+        options={options}
+        formatOptionLabel={formatOptionLabel}
         placeholder={departure === "from" ? "From" : "To"}
         menuPlacement="auto"
         menuPosition="fixed"

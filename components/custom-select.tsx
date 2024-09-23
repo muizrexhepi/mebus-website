@@ -4,6 +4,7 @@ import PassengerSelect from "./passenger-select";
 import CitySelect from "./city-select";
 import InputSkeleton from "./input-skeleton";
 import { FormControl, FormField, FormItem, FormMessage } from "./ui/form";
+import { Station } from "@/models/station";
 
 export enum SELECT_TYPE {
   PASSENGER_SELECT = "input",
@@ -21,14 +22,9 @@ interface CityOption {
   city: string;
 }
 
-interface CountryGroup {
-  name: string;
-  cities: CityOption[];
-}
-
 interface CustomSelectProps {
   control?: any;
-  countries?: CountryGroup[];
+  stations?: Station[];
   type: SELECT_TYPE;
   departure?: string;
   defaultValue?: any;
@@ -45,16 +41,12 @@ const RenderInput = ({
   field: any;
   props: CustomSelectProps;
 }) => {
-  const { departure, countries } = props;
+  const { departure, stations } = props;
   switch (props.type) {
     case SELECT_TYPE.SELECT:
       return (
         <FormControl>
-          <CitySelect
-            field={field}
-            departure={departure}
-            countries={countries}
-          />
+          <CitySelect field={field} departure={departure} stations={stations} />
         </FormControl>
       );
     case SELECT_TYPE.DATE_PICKER:
