@@ -234,17 +234,24 @@ const CitySelect: React.FC<CustomSelectProps> = ({
             ? options.find((option) => option.value === from)
             : options.find((option) => option.value === to)
         }
-        options={[
-          ...(showRecent
+        options={
+          recentFromOptions.length > 0 && recentToOptions.length > 0
             ? [
-                {
-                  label: "Recent Searches",
-                  options:
-                    departure === "from" ? recentFromOptions : recentToOptions,
-                },
+                ...(showRecent
+                  ? [
+                      {
+                        label: "Recent Searches",
+                        options:
+                          departure === "from"
+                            ? recentFromOptions
+                            : recentToOptions,
+                      },
+                    ]
+                  : options),
+                // ...options,
               ]
-            : options),
-        ]}
+            : options
+        }
         formatOptionLabel={formatOptionLabel}
         placeholder={departure === "from" ? "From" : "To"}
         menuPlacement="auto"
