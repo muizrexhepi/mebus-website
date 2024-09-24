@@ -20,10 +20,12 @@ const BUS_TYPES = ["Luxury Bus", "Economy Bus", "Sleeper Bus", "Executive Bus"];
 const SearchBlock = () => {
   const [isRoundTrip, setIsRoundTrip] = useState<boolean>(false);
   const router = useRouter();
-  const { from: fromCity, to: toCity } = useSearchStore();
+  const { fromCity, toCity } = useSearchStore();
   const [loading, setLoading] = useState<boolean>(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [stations, setStations] = useState<Station[]>([]);
+  const [departureDate, setDepartureDate] = useState<Date | null>(null);
+  const [returnDate, setReturnDate] = useState<Date | null>(null);
 
   useEffect(() => {
     const fetchStations = async () => {
@@ -44,12 +46,14 @@ const SearchBlock = () => {
 
   const handleSearch = async (values: z.infer<typeof searchSchema>) => {
     setIsSubmitting(true);
-    const { from, to, departureDate, passengers, returnDate } = values;
+    const { from, to, passengers, departureDate: searchDepartureDate } = values;
     try {
       router.push(
-        `/search/${fromCity.toLowerCase()}-${toCity.toLowerCase()}?departureStation=${from}&arrivalStation=${to}&departureDate=${departureDate}${
-          returnDate && `&returnDate=${returnDate}`
-        }&adult=${passengers.adults}&children=${passengers?.children}`
+        `/search/${fromCity.toLowerCase()}-${toCity.toLowerCase()}?departureStation=${from}&arrivalStation=${to}&departureDate=${
+          departureDate ? departureDate.toISOString() : searchDepartureDate
+        }${returnDate ? `&returnDate=${returnDate.toISOString()}` : ""}&adult=${
+          passengers.adults
+        }&children=${passengers?.children}`
       );
     } catch (err) {
       console.log(err);
@@ -152,6 +156,8 @@ const SearchBlock = () => {
                     <CustomSelect
                       type={SELECT_TYPE.DATE_PICKER}
                       name="departureDate"
+                      selectedDate={departureDate}
+                      onDateChange={setDepartureDate}
                     />
                   </div>
                   {isRoundTrip && (
@@ -163,6 +169,8 @@ const SearchBlock = () => {
                       <CustomSelect
                         type={SELECT_TYPE.DATE_PICKER}
                         name="returnDate"
+                        selectedDate={returnDate}
+                        onDateChange={setReturnDate}
                       />
                     </div>
                   )}

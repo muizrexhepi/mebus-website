@@ -9,7 +9,9 @@ export interface Passengers {
 
 interface SearchState {
   from: string;
+  fromCity:string;
   to: string;
+  toCity:string;
   route: string;
   passengers: Passengers;
   departureDate: string | null;
@@ -17,6 +19,8 @@ interface SearchState {
 
   setFrom: (from: string) => void;
   setTo: (to: string) => void;
+  setFromCity: (fromCity: string) => void;
+  setToCity: (toCity: string) => void;
   setRoute: (route: string) => void;
   setPassengers: (passengers: Passengers) => void;
   setDepartureDate: (date: string | null) => void;
@@ -49,9 +53,11 @@ export const useCheckoutStore = create<CheckoutState>((set) => ({
 }));
 
 
-const initialState: Omit<SearchState, 'setFrom' | 'setTo' | 'setRoute' | 'setPassengers' | 'setDepartureDate' | 'setReturnDate' | 'resetSearch'> = {
+const initialState: Omit<SearchState, 'setFrom' | 'setTo' | 'setFromCity'|'setToCity' | 'setRoute' | 'setPassengers' | 'setDepartureDate' | 'setReturnDate' | 'resetSearch'> = {
   from: '',
   to: '',
+  fromCity:'',
+  toCity:'',
   route: '',
   passengers: {
     adults: 1,
@@ -66,6 +72,8 @@ const useSearchStore = create<SearchState>((set) => ({
 
   setFrom: (from) => set({ from }),
   setTo: (to) => set({ to }),
+  setFromCity: (fromCity) => set({ fromCity }),
+  setToCity: (toCity) => set({ toCity }),
   setRoute: (route) => set({ route }),
   setPassengers: (passengers) => set({ passengers }),
   setDepartureDate: (departureDate) => set({ departureDate }),

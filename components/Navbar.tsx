@@ -1,9 +1,8 @@
 "use client";
 
 import { NAV_LINKS } from "@/lib/data";
-import { Globe, Menu } from "lucide-react";
+import { Globe } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import LoginForm from "./forms/LoginForm";
 import RegisterForm from "./forms/RegisterForm";
@@ -17,38 +16,37 @@ import ResetPasswordForm from "./forms/ResetForm";
 import { cn } from "@/lib/utils";
 
 const Navbar = ({ className }: { className?: string }) => {
-  const router = useRouter();
   const [user, setUser] = useState<any>(null);
 
   const { openLogin, openRegister, openReset, setOpenLanguages } =
     useNavbarStore();
 
+  // Function to fetch user data
   const fetchUser = async () => {
     try {
       const user = await account.get();
       setUser(user);
-      console.log({ user });
     } catch (error) {
       setUser(null);
       console.error("Failed to fetch user:", error);
     }
   };
 
+  // Effect to fetch user on component mount
   useEffect(() => {
     fetchUser();
-  }, []);
 
-  useEffect(() => {
     const handleUserChange = () => {
-      fetchUser();
+      fetchUser(); // Fetch user when the event is triggered
     };
 
     window.addEventListener("userChange", handleUserChange);
 
     return () => {
+      // Cleanup event listener on unmount
       window.removeEventListener("userChange", handleUserChange);
     };
-  }, []);
+  }, []); // Run only once on mount
 
   return (
     <div className={cn("w-full flex justify-between items-center", className)}>
@@ -75,6 +73,8 @@ const Navbar = ({ className }: { className?: string }) => {
         </Button>
         {user ? <UserNavbarMenu /> : <NavbarMenu />}
       </div>
+
+      {/* Modal Components */}
       <LoginForm isOpen={openLogin} />
       <RegisterForm isOpen={openRegister} />
       <LanguageDialog />

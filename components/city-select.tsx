@@ -3,9 +3,9 @@
 import { Station } from "@/models/station";
 import useSearchStore from "@/store";
 import { MapPin } from "lucide-react";
-import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Select, { SingleValue } from "react-select";
+import Cookies from "js-cookie";
 
 interface CustomSelectProps {
   stations?: Station[];
@@ -13,42 +13,92 @@ interface CustomSelectProps {
   field: any;
 }
 
+interface OptionProps {
+  value: string | undefined;
+  label: string;
+}
+
 const CitySelect: React.FC<CustomSelectProps> = ({
   stations = [],
   departure = "from",
   field,
 }) => {
-  const { setFrom, setTo } = useSearchStore();
+  const { setFrom, setTo, setFromCity, setToCity, from, to } = useSearchStore();
+  const [showRecent, setShowRecent] = useState(false);
 
-  const handleSelect = (
-    option: SingleValue<{ value: string | undefined; label: string }>
-  ) => {
+  const handleSelect = (option: SingleValue<OptionProps>) => {
     if (option) {
       const value = option.value || "";
       const label = option.label || "";
 
       if (departure === "from") {
-        setFrom(label);
-        console.log({ label });
+        setFromCity(label);
+        setFrom(value);
+
+        const recentFromStations = JSON.parse(
+          Cookies.get("recentFromStations") || "[]"
+        );
+        const updatedRecentFromStations = [
+          { _id: value, city: label },
+          ...recentFromStations.filter(
+            (station: { _id: string }) => station._id !== value
+          ),
+        ].slice(0, 5);
+        Cookies.set(
+          "recentFromStations",
+          JSON.stringify(updatedRecentFromStations)
+        );
       } else if (departure === "to") {
-        setTo(label);
+        setToCity(label);
+        setTo(value);
+
+        const recentToStations = JSON.parse(
+          Cookies.get("recentToStations") || "[]"
+        );
+        const updatedRecentToStations = [
+          { _id: value, city: label },
+          ...recentToStations.filter(
+            (station: { _id: string }) => station._id !== value
+          ),
+        ].slice(0, 5);
+        Cookies.set(
+          "recentToStations",
+          JSON.stringify(updatedRecentToStations)
+        );
       }
 
       field.onChange(value);
+      setShowRecent(false);
     }
   };
 
-  const searchParams = useSearchParams();
-  const fromCity = searchParams.get("departureStation");
-  const arrivalCity = searchParams.get("arrivalStation");
+  const getRecentStations = (
+    cookieName: "recentFromStations" | "recentToStations"
+  ) => {
+    const recentStations = JSON.parse(Cookies.get(cookieName) || "[]");
+    return recentStations.map((station: { _id: string; city: string }) => ({
+      value: station._id,
+      label: station.city,
+    }));
+  };
 
   useEffect(() => {
     if (departure === "from") {
-      setFrom(stations[0]?.city || "");
-      field.onChange(stations[0]?._id || "");
+      if (!recentFromOptions) {
+        setFrom(stations[0]?.city || "");
+        field.onChange(stations[0]?._id || "");
+      } else {
+        setFrom(recentFromOptions[0]?.label || "");
+        field.onChange(recentFromOptions[0]?.value || "");
+      }
     } else if (departure === "to") {
-      setTo(stations[1]?.city || "");
-      field.onChange(stations[1]?._id || "");
+      if (!recentToOptions) {
+        setTo(stations[1]?.city || "");
+        field.onChange(stations[1]?._id || "");
+      } else {
+        setTo(recentToOptions[0]?.label || "");
+        field.onChange(recentToOptions[0]?.value || "");
+      }
     }
   }, []);
 
@@ -57,21 +107,29 @@ const CitySelect: React.FC<CustomSelectProps> = ({
   }, []);
 
   const findDefaultStation = () => {
-    if (departure === "from" && fromCity) {
+    if (departure === "from" && from) {
       const defaultFrom = stations.find((station) =>
-        station._id?.includes(fromCity)
+        station._id?.includes(from)
       );
       if (defaultFrom) {
-        field.onChange(fromCity);
-        setFrom(defaultFrom.city);
+        if (!recentFromOptions) {
+          field.onChange(from);
+          setFromCity(defaultFrom.city);
+        } else {
+          field.onChange(recentFromOptions[0].value);
+          setFromCity(recentFromOptions[0].label);
+        }
       }
-    } else if (departure === "to" && arrivalCity) {
-      const defaultTo = stations.find((station) =>
-        station._id?.includes(arrivalCity)
-      );
+    } else if (departure === "to" && to) {
+      const defaultTo = stations.find((station) => station._id?.includes(to));
       if (defaultTo) {
-        field.onChange(arrivalCity);
-        setTo(defaultTo.city);
+        if (!recentToOptions) {
+          field.onChange(to);
+          setToCity(defaultTo.city);
+        } else {
+          field.onChange(recentToOptions[0].value);
+          setToCity(recentToOptions[0].label);
+        }
       }
     }
   };
@@ -81,6 +139,17 @@ const CitySelect: React.FC<CustomSelectProps> = ({
     label: station.city,
   }));
 
+  const recentFromOptions = getRecentStations("recentFromStations");
+  const recentToOptions = getRecentStations("recentToStations");
+
+  useEffect(() => {
+    if (!recentFromOptions && !recentToOptions) {
+      setShowRecent(false);
+      return;
+    }
+    setShowRecent(true);
+  }, []);
+
   const formatOptionLabel = ({ label }: { label: string }) => (
     <div className="flex items-center space-x-2">
       <MapPin className="w-6 h-6 text-primary" />
@@ -88,11 +157,17 @@ const CitySelect: React.FC<CustomSelectProps> = ({
     </div>
   );
 
+  const handleInputChange = (inputValue: string) => {
+    setShowRecent(!inputValue);
+  };
+
   return (
     <div className="relative">
       <Select
+        key={departure}
         value={options.find((option) => option.value === field.value)}
         onChange={handleSelect}
+        onInputChange={handleInputChange}
         styles={{
           container: (provided) => ({
             ...provided,
@@ -141,7 +216,7 @@ const CitySelect: React.FC<CustomSelectProps> = ({
             padding: "0.5rem 1rem",
             textTransform: "capitalize",
             backgroundColor: state.isFocused
-              ? "var(--muted)"
+              ? "#efefef"
               : state.isSelected
               ? "var(--primary)"
               : "var(--background)",
@@ -150,16 +225,26 @@ const CitySelect: React.FC<CustomSelectProps> = ({
               : "var(--foreground)",
             cursor: "pointer",
             "&:hover": {
-              backgroundColor: "var(--muted)",
+              backgroundColor: "#efefef",
             },
           }),
         }}
         defaultValue={
           departure === "from"
-            ? options.find((option) => option.value === fromCity)
-            : options.find((option) => option.value === arrivalCity)
+            ? options.find((option) => option.value === from)
+            : options.find((option) => option.value === to)
         }
-        options={options}
+        options={[
+          ...(showRecent
+            ? [
+                {
+                  label: "Recent Searches",
+                  options:
+                    departure === "from" ? recentFromOptions : recentToOptions,
+                },
+              ]
+            : options),
+        ]}
         formatOptionLabel={formatOptionLabel}
         placeholder={departure === "from" ? "From" : "To"}
         menuPlacement="auto"

@@ -19,7 +19,7 @@ import { Station } from "@/models/station";
 const SearchSection = () => {
   const [isRoundTrip, setIsRoundTrip] = useState<boolean>(false);
   const router = useRouter();
-  const { from: fromCity, to: toCity, resetSearch } = useSearchStore();
+  const { fromCity, toCity } = useSearchStore();
   const [loading, setLoading] = useState<boolean>(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [departureDate, setDepartureDate] = useState<Date | null>(null);
