@@ -27,22 +27,36 @@ const CitySelect: React.FC<CustomSelectProps> = ({
   const [defaultTo, setDefaultTo] = useState<OptionProps>();
 
   useEffect(() => {
-    const savedFrom = localStorage.getItem("fromCity");
-    const savedFromValue = localStorage.getItem("fromValue");
-    const savedTo = localStorage.getItem("toCity");
-    const savedToValue = localStorage.getItem("toValue");
+    const loadSavedLocations = (
+      cityKey: string,
+      valueKey: string,
+      setCity: (city: string) => void,
+      setValue: (value: string) => void,
+      setDefault: React.Dispatch<React.SetStateAction<OptionProps | undefined>>
+    ) => {
+      const savedCity = localStorage.getItem(cityKey);
+      const savedValue = localStorage.getItem(valueKey);
 
-    if (savedFrom && savedFromValue && savedTo && savedToValue) {
-      console.log("Setting From:", savedFrom, savedFromValue);
-      setFromCity(savedFrom);
-      setFrom(savedFromValue);
-      setDefaultFrom({ label: savedFrom, value: savedFromValue });
+      if (savedCity && savedValue) {
+        console.log(
+          `Setting ${cityKey.replace("City", "")}:`,
+          savedCity,
+          savedValue
+        );
+        setCity(savedCity);
+        setValue(savedValue);
+        setDefault({ label: savedCity, value: savedValue });
+      }
+    };
 
-      console.log("Setting To:", savedTo, savedToValue);
-      setToCity(savedTo);
-      setTo(savedToValue);
-      setDefaultTo({ label: savedTo, value: savedToValue });
-    }
+    loadSavedLocations(
+      "fromCity",
+      "fromValue",
+      setFromCity,
+      setFrom,
+      setDefaultFrom
+    );
+    loadSavedLocations("toCity", "toValue", setToCity, setTo, setDefaultTo);
   }, []);
 
   const handleSelect = (option: SingleValue<OptionProps>) => {
@@ -56,18 +70,20 @@ const CitySelect: React.FC<CustomSelectProps> = ({
         localStorage.setItem("fromCity", label);
         localStorage.setItem("fromValue", value);
 
+        // Update recentFromStations in cookies
         const recentFromStations = JSON.parse(
-          localStorage.getItem("recentFromStations") || "[]"
+          Cookies.get("recentFromStations") || "[]"
         );
         const updatedRecentFromStations = [
           { _id: value, city: label },
           ...recentFromStations.filter(
             (station: { _id: string }) => station._id !== value
           ),
-        ].slice(0, 5);
-        localStorage.setItem(
+        ].slice(0, 5); // Limit to 5 recent stations
+        Cookies.set(
           "recentFromStations",
-          JSON.stringify(updatedRecentFromStations)
+          JSON.stringify(updatedRecentFromStations),
+          { expires: 7 }
         );
       } else if (departure === "to") {
         setToCity(label);
@@ -75,25 +91,26 @@ const CitySelect: React.FC<CustomSelectProps> = ({
         localStorage.setItem("toCity", label);
         localStorage.setItem("toValue", value);
 
+        // Update recentToStations in cookies
         const recentToStations = JSON.parse(
-          localStorage.getItem("recentToStations") || "[]"
+          Cookies.get("recentToStations") || "[]"
         );
         const updatedRecentToStations = [
           { _id: value, city: label },
           ...recentToStations.filter(
             (station: { _id: string }) => station._id !== value
           ),
-        ].slice(0, 5);
-        localStorage.setItem(
+        ].slice(0, 5); // Limit to 5 recent stations
+        Cookies.set(
           "recentToStations",
-          JSON.stringify(updatedRecentToStations)
+          JSON.stringify(updatedRecentToStations),
+          { expires: 7 }
         );
       }
 
       setShowRecent(false);
     }
   };
-
   const getRecentStations = (
     cookieName: "recentFromStations" | "recentToStations"
   ) => {

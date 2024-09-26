@@ -1,17 +1,10 @@
 "use client";
 import { ArrowRight } from "lucide-react";
-import CustomSelect, { SELECT_TYPE } from "./custom-select";
 import { Button } from "./ui/button";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import useSearchStore from "@/store";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { searchSchema } from "@/schemas";
-import { Form } from "./ui/form";
 import InputSkeleton from "./input-skeleton";
-import { cn } from "@/lib/utils";
 import { getStations } from "@/actions/station";
 import { Station } from "@/models/station";
 import PassengerSelect from "./passenger-select";
@@ -51,32 +44,57 @@ const SearchBlock = () => {
     fetchStations();
   }, []);
 
-  const handleSearch = async () => {
-    console.log("clickj");
+  const handleSearch = useCallback(async () => {
     setIsSubmitting(true);
     try {
+      const searchParams = new URLSearchParams({
+        departureStation: from,
+        arrivalStation: to,
+        departureDate: departureDate || "",
+        adult: passengers.adults.toString(),
+        children: passengers.children.toString(),
+      });
+
+      if (returnDate) {
+        searchParams.append("returnDate", returnDate);
+      }
+
       router.push(
-        `/search/${fromCity.toLowerCase()}-${toCity.toLowerCase()}?departureStation=${from}&arrivalStation=${to}&departureDate=${
-          departureDate ? departureDate : ""
-        }${returnDate ? `&returnDate=${returnDate}` : ""}&adult=${
-          passengers.adults
-        }&children=${passengers?.children}`
+        `/search/${fromCity.toLowerCase()}-${toCity.toLowerCase()}?${searchParams.toString()}`
       );
     } catch (err) {
-      console.log(err);
+      console.error("Search error:", err);
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }, [
+    from,
+    to,
+    departureDate,
+    returnDate,
+    passengers,
+    fromCity,
+    toCity,
+    router,
+  ]);
 
-  const handleTripTypeChange = (type: "one-way" | "round-trip") => {
-    if (type === "one-way" && isRoundTrip) {
-      setIsRoundTrip(false);
-      setReturnDate(null);
-    } else if (type === "round-trip" && !isRoundTrip) {
-      setIsRoundTrip(true);
-    }
-  };
+  const resetSearch = useSearchStore((state) => state.resetSearch);
+
+  useEffect(() => {
+    return () => {
+      resetSearch();
+    };
+  }, [resetSearch]);
+
+  const handleTripTypeChange = useCallback(
+    (type: "one-way" | "round-trip") => {
+      setIsRoundTrip(type === "round-trip");
+      if (type === "one-way") {
+        setReturnDate(null);
+      }
+    },
+    [setReturnDate]
+  );
 
   const datePickerComponent = useMemo(() => {
     if (loading) return <InputSkeleton />;

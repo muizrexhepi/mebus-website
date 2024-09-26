@@ -22,14 +22,15 @@ const Navbar = ({ className }: { className?: string }) => {
     useNavbarStore();
 
   const fetchUser = useCallback(async () => {
+    if (user) return;
     try {
-      const user = await account.get();
-      setUser(user);
+      const fetchedUser = await account.get();
+      setUser(fetchedUser);
     } catch (error) {
       setUser(null);
       console.error("Failed to fetch user:", error);
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     fetchUser();
