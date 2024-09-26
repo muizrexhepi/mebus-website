@@ -1,9 +1,7 @@
-"use client";
-
 import * as React from "react";
-import { addDays, format } from "date-fns";
+import { addDays, format, parse } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { DateRange } from "react-day-picker";
+import { DateRange, SelectRangeEventHandler } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -15,38 +13,47 @@ import {
 } from "@/components/ui/popover";
 import useSearchStore from "@/store";
 
-interface DateRangePickerProps {
-  className?: string;
-  field: any;
-}
+interface DateRangePickerProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export function DateRangePicker({ className, field }: DateRangePickerProps) {
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(),
-    to: addDays(new Date(), 10),
-  });
+export function DateRangePicker({ className }: DateRangePickerProps) {
+  const { setReturnDate, setDepartureDate } = useSearchStore();
 
-  const { setReturnDate } = useSearchStore();
+  const [date, setDate] = React.useState<DateRange | undefined>();
 
   React.useEffect(() => {
-    if (date?.from && date.to) {
-      const formattedRange = `${format(date.from, "P")} - ${format(
-        date.to,
-        "P"
-      )}`;
-      setReturnDate(formattedRange);
-      field.onChange(formattedRange);
+    const savedDepartureDate = localStorage.getItem("departureDate");
+    const savedReturnDate = localStorage.getItem("returnDate");
+    if (savedDepartureDate) {
+      const from = parse(savedDepartureDate, "dd-MM-yyyy", new Date());
+      let to: Date | undefined;
+      if (savedReturnDate) {
+        to = parse(savedReturnDate, "dd-MM-yyyy", new Date());
+      }
+      setDate({ from, to });
     }
-  }, [date, setReturnDate]);
+  }, []);
 
-  const handleDateRangeSelect = (selectedDate: DateRange | undefined) => {
-    if (selectedDate?.from && selectedDate.to) {
-      const formattedRange = `${format(selectedDate.from, "P")} - ${format(
-        selectedDate.to,
-        "P"
-      )}`;
-      field.onChange(formattedRange);
-      setDate(selectedDate);
+  const handleDateSelect: SelectRangeEventHandler = (
+    range: DateRange | undefined
+  ) => {
+    setDate(range);
+    if (range?.from) {
+      const departureDate = format(range.from, "dd-MM-yyyy");
+      setDepartureDate(departureDate);
+      localStorage.setItem("departureDate", departureDate);
+      if (range.to) {
+        const returnDate = format(range.to, "dd-MM-yyyy");
+        setReturnDate(returnDate);
+        localStorage.setItem("returnDate", returnDate);
+      } else {
+        setReturnDate(null);
+        localStorage.removeItem("returnDate");
+      }
+    } else {
+      setDepartureDate(null);
+      setReturnDate(null);
+      localStorage.removeItem("departureDate");
+      localStorage.removeItem("returnDate");
     }
   };
 
@@ -55,14 +62,10 @@ export function DateRangePicker({ className, field }: DateRangePickerProps) {
       <Popover>
         <PopoverTrigger asChild>
           <Button
-            id="date-range"
             variant={"outline"}
-            className={cn(
-              "justify-start text-left font-normal h-14 text-base w-full",
-              !date && "text-muted-foreground"
-            )}
+            className="w-full h-14 flex items-center justify-start"
           >
-            <CalendarIcon className="mr-2 h-5 w-5" />
+            <CalendarIcon className="mr-2 h-4 w-4" />
             {date?.from ? (
               date.to ? (
                 <>
@@ -73,7 +76,7 @@ export function DateRangePicker({ className, field }: DateRangePickerProps) {
                 format(date.from, "LLL dd, y")
               )
             ) : (
-              <span>Pick a date range</span>
+              <span className="">Pick a date</span>
             )}
           </Button>
         </PopoverTrigger>
@@ -81,9 +84,8 @@ export function DateRangePicker({ className, field }: DateRangePickerProps) {
           <Calendar
             initialFocus
             mode="range"
-            defaultMonth={date?.from}
             selected={date}
-            onSelect={handleDateRangeSelect}
+            onSelect={handleDateSelect}
             numberOfMonths={2}
           />
         </PopoverContent>

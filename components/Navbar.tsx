@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import LoginForm from "./forms/LoginForm";
 import RegisterForm from "./forms/RegisterForm";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { account } from "@/appwrite.config";
 import UserNavbarMenu from "./UserMenu";
 import NavbarMenu from "./NavbarMenu";
@@ -21,8 +21,7 @@ const Navbar = ({ className }: { className?: string }) => {
   const { openLogin, openRegister, openReset, setOpenLanguages } =
     useNavbarStore();
 
-  // Function to fetch user data
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async () => {
     try {
       const user = await account.get();
       setUser(user);
@@ -30,23 +29,21 @@ const Navbar = ({ className }: { className?: string }) => {
       setUser(null);
       console.error("Failed to fetch user:", error);
     }
-  };
+  }, []);
 
-  // Effect to fetch user on component mount
   useEffect(() => {
     fetchUser();
 
     const handleUserChange = () => {
-      fetchUser(); // Fetch user when the event is triggered
+      fetchUser();
     };
 
     window.addEventListener("userChange", handleUserChange);
 
     return () => {
-      // Cleanup event listener on unmount
       window.removeEventListener("userChange", handleUserChange);
     };
-  }, []); // Run only once on mount
+  }, [fetchUser]);
 
   return (
     <div className={cn("w-full flex justify-between items-center", className)}>

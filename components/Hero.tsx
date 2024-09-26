@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const Hero = () => {
   return (
-    <div className="sm:min-h-screen flex flex-col justify-between p-4 sm:p-8 relative paddingX">
+    <div className="sm:min-h-screen flex flex-col justify-between py-12 relative paddingX">
       <Image
         priority
         src={"/assets/images/mainBG.jpg"}
@@ -14,7 +14,7 @@ const Hero = () => {
         height={1080}
       />
       <Navbar />
-      <div className="space-y-4 sm:space-y-8 py-6 sm:py-0">
+      <div className="space-y-4 sm:space-y-8 py-6 sm:py-0 ">
         <h1 className="text-3xl sm:text-5xl md:text-6xl font-medium text-white hidden sm:block">
           Navigate Roads <br className="block sm:hidden" /> with Comfort
         </h1>

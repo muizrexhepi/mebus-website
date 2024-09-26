@@ -43,8 +43,8 @@ const TicketBlock: React.FC<TicketProps> = ({
     .padStart(2, "0")} hrs`;
 
   return (
-    <div className="max-w-5xl mx-auto bg-white shadow-sm rounded-xl overflow-hidden">
-      <div className="p-6">
+    <div className="max-w-5xl mx-auto bg-white border rounded-xl overflow-hidden">
+      <div className="p-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
           <div className="flex gap-2 items-center mb-2 sm:mb-0 justify-between w-full">
             <Badge>{ticket.metadata.operator_name}</Badge>
@@ -54,22 +54,22 @@ const TicketBlock: React.FC<TicketProps> = ({
             </div>
           </div>
         </div>
-        <div className="flex flex-col md:flex-row justify-between items-start relative">
+        <div className="flex flex-col md:flex-row justify-between items-end relative gap-3">
           <div className="w-full md:w-2/3">
             <div className="flex justify-between items-center">
-              <div className="text-lg sm:text-xl">
+              <div className="text-base sm:text-lg md:text-xl">
                 {departureDate.format("HH:mm")}
               </div>
               <div className="text-center flex-1 px-2">
-                <div className="relative flex py-2 items-center">
+                <div className="relative flex items-center">
                   <div className="flex-grow border-t border-gray-400"></div>
-                  <span className="flex-shrink mx-4 text-neutral-700 font-medium text-lg sm:text-xl">
+                  <span className="flex-shrink mx-2 text-neutral-700 font-medium text-lg sm:text-xl">
                     {durationFormatted}
                   </span>
                   <div className="flex-grow border-t border-gray-400"></div>
                 </div>
               </div>
-              <div className="text-lg sm:text-xl">
+              <div className="text-base sm:text-lg md:text-xl">
                 {arrivalTime.format("HH:mm")}
               </div>
             </div>
@@ -78,30 +78,32 @@ const TicketBlock: React.FC<TicketProps> = ({
                 <h1 className="font-medium text-base sm:text-lg capitalize">
                   {ticket.stops[0].from.city}
                 </h1>
-                {/* <span className="text-accent-foreground/50 line-clamp-1">
+                <span className="truncate text-accent-foreground/50 line-clamp-1">
                   {ticket.stops[0].from.name}
-                </span> */}
+                </span>
               </div>
               <div className="flex flex-col items-end">
                 <h1 className="font-medium text-base sm:text-lg capitalize">
                   {ticket.stops[0].to.city}
                 </h1>
-                {/* <span className="text-accent-foreground/50 line-clamp-1">
+                <span className="truncate text-accent-foreground/50 line-clamp-1">
                   {ticket.stops[0].to.name}
-                </span> */}
+                </span>
               </div>
             </div>
           </div>
-          <div className="text-2xl font-semibold w-full md:w-1/3 flex md:flex-col justify-between items-end mt-2 md:mt-0">
-            {Symbols.EURO}
-            {ticket.stops[0].other_prices.our_price.toFixed(2)}
+          <div className="flex justify-between items-center gap-4 w-full md:flex-col md:justify-end md:items-end md:w-fit">
+            <div className="text-xl sm:text-2xl font-semibold w-full md:w-1/3 flex md:flex-col justify-between items-end mt-2 md:mt-0">
+              {Symbols.EURO}
+              {ticket.stops[0].other_prices.our_price.toFixed(2)}
+            </div>
+            <Button
+              className="w-fit text-sm sm:text-base bg-emerald-700 hover:bg-emerald-600"
+              onClick={handleCheckout}
+            >
+              Continue
+            </Button>
           </div>
-          <Button
-            className="w-fit absolute -bottom-2 md:bottom-0 right-0 text-base bg-emerald-700 hover:bg-emerald-600"
-            onClick={handleCheckout}
-          >
-            Continue
-          </Button>
         </div>
       </div>
     </div>

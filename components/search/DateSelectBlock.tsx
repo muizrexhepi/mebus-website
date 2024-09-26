@@ -19,7 +19,7 @@ const DateButton: React.FC<DateButtonProps> = ({
 }) => (
   <Button
     variant={isSelected ? "default" : "outline"}
-    className={`flex-1 py-2 px-4 h-20 ${
+    className={`flex-1 py-2 px-4 h-20 rounded-xl ${
       isSelected
         ? "bg-emerald-700 text-primary-foreground pointer-events-none"
         : ""
@@ -100,7 +100,7 @@ export function DateSelectBlock() {
   return (
     <div className="flex flex-col space-y-2 max-w-3xl mx-auto mt-4">
       <div className="flex justify-between items-center">
-        <div className="flex-1 flex justify-between space-x-2">
+        <div className="flex-1 flex justify-between space-x-2 px-4 sm:px-8 md:px-0">
           {dates.map((date) => (
             <DateButton
               key={date.toISOString()}

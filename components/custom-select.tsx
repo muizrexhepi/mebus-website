@@ -16,12 +16,6 @@ export enum SELECT_TYPE {
   SKELETON = "skeleton",
 }
 
-interface CityOption {
-  value: string;
-  label: string;
-  city: string;
-}
-
 interface CustomSelectProps {
   control?: any;
   stations?: Station[];
@@ -32,6 +26,7 @@ interface CustomSelectProps {
   selectedDate?: any;
   onDateChange?: any;
   name: string;
+  // isReturnDate?: boolean;
 }
 
 const RenderInput = ({
@@ -46,25 +41,25 @@ const RenderInput = ({
     case SELECT_TYPE.SELECT:
       return (
         <FormControl>
-          <CitySelect field={field} departure={departure} stations={stations} />
+          {/* <CitySelect field={field} departure={departure} stations={stations} /> */}
         </FormControl>
       );
     case SELECT_TYPE.DATE_PICKER:
       return (
         <FormControl>
-          <DatePicker field={field} />
+          <DatePicker />
         </FormControl>
       );
     case SELECT_TYPE.DATE_RANGE_PICKER:
       return (
         <FormControl>
-          <DateRangePicker field={field} />
+          <DateRangePicker />
         </FormControl>
       );
     case SELECT_TYPE.PASSENGER_SELECT:
       return (
         <FormControl>
-          <PassengerSelect field={field} />
+          <PassengerSelect />
         </FormControl>
       );
     case SELECT_TYPE.SKELETON:

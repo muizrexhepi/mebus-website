@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { format, parse, isSameDay } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
@@ -14,33 +12,57 @@ import {
 } from "@/components/ui/popover";
 import useSearchStore from "@/store";
 
-function DatePickerComponent({ field }: { field: any }) {
+function DatePickerComponent({
+  isReturnDate = false,
+}: {
+  isReturnDate?: boolean;
+}) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { departureDate, setDepartureDate } = useSearchStore();
+  const { departureDate, setDepartureDate, returnDate, setReturnDate } =
+    useSearchStore();
   const path = usePathname();
 
-  const urlDateParam = searchParams?.get("departureDate");
+  const urlDateParam = searchParams?.get(
+    isReturnDate ? "returnDate" : "departureDate"
+  );
   const initialDate = urlDateParam
     ? parse(urlDateParam, "dd-MM-yyyy", new Date())
     : new Date();
 
-  const [date, setDate] = React.useState<Date | undefined>(initialDate);
+  const [date, setDate] = React.useState(initialDate);
 
   React.useEffect(() => {
-    if (
-      departureDate &&
-      !isSameDay(parse(departureDate, "dd-MM-yyyy", new Date()), date!)
-    ) {
-      setDate(parse(departureDate, "dd-MM-yyyy", new Date()));
+    const savedDate = localStorage.getItem(
+      isReturnDate ? "returnDate" : "departureDate"
+    );
+    if (savedDate) {
+      setDate(parse(savedDate, "dd-MM-yyyy", new Date()));
     }
-  }, [departureDate]);
+  }, []);
+
+  React.useEffect(() => {
+    const storeDate = isReturnDate ? returnDate : departureDate;
+    if (
+      storeDate &&
+      !isSameDay(parse(storeDate, "dd-MM-yyyy", new Date()), date!)
+    ) {
+      setDate(parse(storeDate, "dd-MM-yyyy", new Date()));
+    }
+  }, [isReturnDate ? returnDate : departureDate]);
 
   React.useEffect(() => {
     if (date) {
       const formattedDate = format(date, "dd-MM-yyyy");
-      setDepartureDate(formattedDate);
-      field.onChange(formattedDate);
+      if (isReturnDate) {
+        setReturnDate(formattedDate);
+      } else {
+        setDepartureDate(formattedDate);
+      }
+      localStorage.setItem(
+        isReturnDate ? "returnDate" : "departureDate",
+        formattedDate
+      );
     }
   }, [date]);
 
@@ -49,10 +71,20 @@ function DatePickerComponent({ field }: { field: any }) {
       setDate(selectedDate);
 
       const formattedDate = format(selectedDate, "dd-MM-yyyy");
-      setDepartureDate(formattedDate);
-      field.onChange(formattedDate);
+      if (isReturnDate) {
+        setReturnDate(formattedDate);
+      } else {
+        setDepartureDate(formattedDate);
+      }
+      localStorage.setItem(
+        isReturnDate ? "returnDate" : "departureDate",
+        formattedDate
+      );
       const currentParams = new URLSearchParams(searchParams.toString());
-      currentParams.set("departureDate", formattedDate);
+      currentParams.set(
+        isReturnDate ? "returnDate" : "departureDate",
+        formattedDate
+      );
 
       const newPathname = window.location.pathname.split("?")[0];
       const newURL = `${newPathname}?${currentParams.toString()}`;
@@ -66,13 +98,13 @@ function DatePickerComponent({ field }: { field: any }) {
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          variant={"ghost"}
+          variant={"outline"}
           className={cn(
-            "justify-start text-left font-normal h-14 text-base w-full",
+            "w-full h-14 justify-start text-left text-base font-normal",
             !date && "text-muted-foreground"
           )}
         >
-          <CalendarIcon className="mr-2 h-5 w-5" />
+          <CalendarIcon className="mr-2 h-4 w-4" />
           {date ? format(date, "PPP") : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
@@ -87,6 +119,11 @@ function DatePickerComponent({ field }: { field: any }) {
     </Popover>
   );
 }
-export function DatePicker({ field }: any) {
-  return <DatePickerComponent field={field} />;
+
+export function DatePicker({
+  isReturnDate = false,
+}: {
+  isReturnDate?: boolean;
+}) {
+  return <DatePickerComponent isReturnDate={isReturnDate} />;
 }

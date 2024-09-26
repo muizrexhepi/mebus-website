@@ -9,9 +9,22 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import useSearchStore from "@/store";
+import { useEffect } from "react";
 
-export default function PassengerSelect({ field }: { field: any }) {
+export default function PassengerSelect() {
   const { passengers, setPassengers } = useSearchStore();
+
+  useEffect(() => {
+    const savedPassengers = localStorage.getItem("passengersAmount");
+    if (savedPassengers) {
+      setPassengers(JSON.parse(savedPassengers));
+    }
+  }, []);
+
+  const updatePassengers = (updatedPassengers: typeof passengers) => {
+    setPassengers(updatedPassengers);
+    localStorage.setItem("passengersAmount", JSON.stringify(updatedPassengers));
+  };
 
   const incrementPassengers = (type: "adults" | "children") => {
     const updatedPassengers = { ...passengers };
@@ -20,8 +33,7 @@ export default function PassengerSelect({ field }: { field: any }) {
     } else {
       updatedPassengers.children = Math.min(passengers.children + 1, 9);
     }
-    setPassengers(updatedPassengers);
-    field.onChange(updatedPassengers); // Update the form's field value
+    updatePassengers(updatedPassengers);
   };
 
   const decrementPassengers = (type: "adults" | "children") => {
@@ -31,12 +43,10 @@ export default function PassengerSelect({ field }: { field: any }) {
     } else {
       updatedPassengers.children = Math.max(passengers.children - 1, 0);
     }
-    setPassengers(updatedPassengers);
-    field.onChange(updatedPassengers); // Update the form's field value
+    updatePassengers(updatedPassengers);
   };
-
   return (
-    <Select onValueChange={(value) => field.onChange(value)}>
+    <Select>
       <SelectTrigger className="outline-none h-14 hover:bg-accent transition-colors text-base truncate">
         {passengers.adults > 1
           ? passengers.adults + " Adults"

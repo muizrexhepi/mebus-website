@@ -118,7 +118,7 @@ const TicketList: React.FC = () => {
         <div className="w-full mx-auto">
           <InfiniteScroll
             dataLength={tickets.length}
-            className="space-y-2"
+            className="space-y-4"
             next={handleLoadMore}
             hasMore={hasMore}
             loader={loading ? <TicketSkeletonton /> : null}
