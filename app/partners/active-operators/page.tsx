@@ -33,19 +33,19 @@ const CompanyInfo: React.FC<{ companyMetadata: CompanyMetadata }> = ({
     <div className="grid grid-cols-2 gap-2 text-sm">
       <div>
         <BuildingIcon className="w-4 h-4 inline mr-2 text-emerald-700" />
-        {companyMetadata.name}
+        {companyMetadata?.name}
       </div>
       <div>
         <MailIcon className="w-4 h-4 inline mr-2 text-emerald-700" />
-        {companyMetadata.email}
+        {companyMetadata?.email}
       </div>
       <div>
         <PhoneIcon className="w-4 h-4 inline mr-2 text-emerald-700" />
-        {companyMetadata.phone}
+        {companyMetadata?.phone}
       </div>
       <div>
         <MapPinIcon className="w-4 h-4 inline mr-2 text-emerald-700" />
-        {companyMetadata.country}
+        {companyMetadata?.country}
       </div>
     </div>
   </div>
@@ -56,11 +56,11 @@ const ActiveOperators: React.FC<{ operators: Operator[] }> = ({
 }) => (
   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
     {operators.map((operator) => (
-      <Card key={operator._id} className="overflow-hidden">
+      <Card key={operator?._id} className="overflow-hidden">
         <CardHeader className="bg-emerald-700 text-white">
           <CardTitle className="flex items-center justify-between">
-            <span>{operator.name}</span>
-            <Link href={`/partners/active-operators/${operator._id}`}>
+            <span>{operator?.name}</span>
+            <Link href={`/partners/active-operators/${operator?._id}`}>
               <Badge
                 variant="secondary"
                 className="flex items-center gap-1 font-medium px-2 py-1 text-[15px]"
@@ -74,24 +74,24 @@ const ActiveOperators: React.FC<{ operators: Operator[] }> = ({
           <div className="space-y-2">
             <div className="flex items-center">
               <MailIcon className="w-4 h-4 mr-2 text-emerald-700" />
-              <span>{operator.email}</span>
+              <span>{operator?.email}</span>
             </div>
             <div className="flex items-center">
               <UserIcon className="w-4 h-4 mr-2 text-emerald-700" />
-              <span>ID: {operator._id}</span>
+              <span>ID: {operator?._id}</span>
             </div>
             <div className="flex items-center">
               <CalendarIcon className="w-4 h-4 mr-2 text-emerald-700" />
               <span>
-                Joined: {new Date(operator.createdAt).toLocaleDateString()}
+                Joined: {new Date(operator?.createdAt).toLocaleDateString()}
               </span>
             </div>
             <div className="flex items-center">
               <AlertCircleIcon className="w-4 h-4 mr-2 text-emerald-700" />
-              <span>Max Child Age: {operator.max_child_age || 12}</span>
+              <span>Max Child Age: {operator?.max_child_age || 12}</span>
             </div>
           </div>
-          <CompanyInfo companyMetadata={operator.company_metadata} />
+          <CompanyInfo companyMetadata={operator?.company_metadata} />
         </CardContent>
       </Card>
     ))}
