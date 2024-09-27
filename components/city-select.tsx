@@ -70,7 +70,6 @@ const CitySelect: React.FC<CustomSelectProps> = ({
         localStorage.setItem("fromCity", label);
         localStorage.setItem("fromValue", value);
 
-        // Update recentFromStations in cookies
         const recentFromStations = JSON.parse(
           Cookies.get("recentFromStations") || "[]"
         );
@@ -79,7 +78,7 @@ const CitySelect: React.FC<CustomSelectProps> = ({
           ...recentFromStations.filter(
             (station: { _id: string }) => station._id !== value
           ),
-        ].slice(0, 5); // Limit to 5 recent stations
+        ].slice(0, 5);
         Cookies.set(
           "recentFromStations",
           JSON.stringify(updatedRecentFromStations),
@@ -91,7 +90,6 @@ const CitySelect: React.FC<CustomSelectProps> = ({
         localStorage.setItem("toCity", label);
         localStorage.setItem("toValue", value);
 
-        // Update recentToStations in cookies
         const recentToStations = JSON.parse(
           Cookies.get("recentToStations") || "[]"
         );
@@ -100,7 +98,7 @@ const CitySelect: React.FC<CustomSelectProps> = ({
           ...recentToStations.filter(
             (station: { _id: string }) => station._id !== value
           ),
-        ].slice(0, 5); // Limit to 5 recent stations
+        ].slice(0, 5);
         Cookies.set(
           "recentToStations",
           JSON.stringify(updatedRecentToStations),
@@ -111,6 +109,7 @@ const CitySelect: React.FC<CustomSelectProps> = ({
       setShowRecent(false);
     }
   };
+
   const getRecentStations = (
     cookieName: "recentFromStations" | "recentToStations"
   ) => {
@@ -130,12 +129,12 @@ const CitySelect: React.FC<CustomSelectProps> = ({
   const recentToOptions = getRecentStations("recentToStations");
 
   useEffect(() => {
-    if (!recentFromOptions && !recentToOptions) {
+    if (!recentFromOptions.length && !recentToOptions.length) {
       setShowRecent(false);
       return;
     }
     setShowRecent(true);
-  }, []);
+  }, [recentFromOptions, recentToOptions]);
 
   const formatOptionLabel = ({ label }: { label: string }) => (
     <div className="flex items-center space-x-2">

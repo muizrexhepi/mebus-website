@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import useSearchStore from "@/store";
+import useSearchStore, { Passengers } from "@/store";
 import { useEffect } from "react";
 
 export default function PassengerSelect() {
@@ -18,8 +18,10 @@ export default function PassengerSelect() {
     const savedPassengers = localStorage.getItem("passengersAmount");
     if (savedPassengers) {
       setPassengers(JSON.parse(savedPassengers));
+    } else {
+      setPassengers({ adults: 1, children: 0 });
     }
-  }, []);
+  }, [setPassengers]);
 
   const updatePassengers = (updatedPassengers: typeof passengers) => {
     setPassengers(updatedPassengers);
@@ -49,17 +51,17 @@ export default function PassengerSelect() {
     <Select>
       <SelectTrigger className="outline-none h-14 hover:bg-accent transition-colors text-base truncate">
         {passengers.adults > 1
-          ? passengers.adults + " Adults"
-          : passengers.adults + " Adult"}
-        {passengers.children === 1
-          ? ", " + passengers.children + " Child"
-          : passengers.children > 1
-          ? ", " + passengers.children + " Children"
-          : ""}
+          ? `${passengers.adults} Adults`
+          : `${passengers.adults} Adult`}
+        {passengers.children > 0 &&
+          `, ${passengers.children} ${
+            passengers.children > 1 ? "Children" : "Child"
+          }`}
         <SelectValue>
           Adults ({passengers.adults}), Children ({passengers.children})
         </SelectValue>
       </SelectTrigger>
+
       <SelectContent>
         <div className="px-2">
           <div className="flex items-center justify-between py-2 border-b">

@@ -26,6 +26,7 @@ function DatePickerComponent({
   const urlDateParam = searchParams?.get(
     isReturnDate ? "returnDate" : "departureDate"
   );
+
   const initialDate = urlDateParam
     ? parse(urlDateParam, "dd-MM-yyyy", new Date())
     : new Date();
@@ -64,7 +65,7 @@ function DatePickerComponent({
         formattedDate
       );
     }
-  }, [date]);
+  }, [date, setReturnDate, setDepartureDate]);
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
     if (selectedDate && !isSameDay(selectedDate, date!)) {

@@ -31,7 +31,7 @@ export function DateRangePicker({ className }: DateRangePickerProps) {
       }
       setDate({ from, to });
     }
-  }, []);
+  }, [setDate]);
 
   const handleDateSelect: SelectRangeEventHandler = (
     range: DateRange | undefined
