@@ -1,3 +1,4 @@
+// DatePicker.tsx
 import * as React from "react";
 import { format, parse, isSameDay, isValid } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
@@ -27,13 +28,18 @@ function DatePickerComponent({
     isReturnDate ? "returnDate" : "departureDate"
   );
 
-  const initialDate = urlDateParam
-    ? parse(urlDateParam, "dd-MM-yyyy", new Date())
-    : new Date();
-
-  const [date, setDate] = React.useState<Date | undefined>(
-    isValid(initialDate) ? initialDate : undefined
-  );
+  const [date, setDate] = React.useState<Date | undefined>(() => {
+    const storedDate = localStorage.getItem(
+      isReturnDate ? "returnDate" : "departureDate"
+    );
+    if (storedDate) {
+      const parsedDate = parse(storedDate, "dd-MM-yyyy", new Date());
+      return isValid(parsedDate) ? parsedDate : undefined;
+    }
+    return urlDateParam
+      ? parse(urlDateParam, "dd-MM-yyyy", new Date())
+      : undefined;
+  });
 
   React.useEffect(() => {
     const storeDate = isReturnDate ? returnDate : departureDate;
@@ -41,9 +47,13 @@ function DatePickerComponent({
       const parsedDate = parse(storeDate, "dd-MM-yyyy", new Date());
       if (isValid(parsedDate) && (!date || !isSameDay(parsedDate, date))) {
         setDate(parsedDate);
+        localStorage.setItem(
+          isReturnDate ? "returnDate" : "departureDate",
+          storeDate
+        );
       }
     }
-  }, [isReturnDate ? returnDate : departureDate]);
+  }, [isReturnDate ? returnDate : departureDate, date]);
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
     if (

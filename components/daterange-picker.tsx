@@ -34,30 +34,29 @@ export function DateRangePicker({ className }: DateRangePickerProps) {
     return undefined;
   });
 
-  const handleDateSelect = React.useCallback<SelectRangeEventHandler>(
-    (range: DateRange | undefined) => {
-      setDate(range);
-      if (range?.from) {
-        const departureDate = format(range.from, "dd-MM-yyyy");
-        setDepartureDate(departureDate);
-        localStorage.setItem("departureDate", departureDate);
-        if (range.to) {
-          const returnDate = format(range.to, "dd-MM-yyyy");
-          setReturnDate(returnDate);
-          localStorage.setItem("returnDate", returnDate);
-        } else {
-          setReturnDate(null);
-          localStorage.removeItem("returnDate");
-        }
+  const handleDateSelect: SelectRangeEventHandler = (
+    range: DateRange | undefined
+  ) => {
+    setDate(range);
+    if (range?.from) {
+      const departureDate = format(range.from, "dd-MM-yyyy");
+      setDepartureDate(departureDate);
+      localStorage.setItem("departureDate", departureDate);
+      if (range.to) {
+        const returnDate = format(range.to, "dd-MM-yyyy");
+        setReturnDate(returnDate);
+        localStorage.setItem("returnDate", returnDate);
       } else {
-        setDepartureDate(null);
         setReturnDate(null);
-        localStorage.removeItem("departureDate");
         localStorage.removeItem("returnDate");
       }
-    },
-    [setDepartureDate, setReturnDate]
-  );
+    } else {
+      setDepartureDate(null);
+      setReturnDate(null);
+      localStorage.removeItem("departureDate");
+      localStorage.removeItem("returnDate");
+    }
+  };
 
   const buttonText = React.useMemo(() => {
     if (date?.from) {

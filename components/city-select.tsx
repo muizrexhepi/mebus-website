@@ -6,6 +6,7 @@ import { MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
 import Select, { SingleValue } from "react-select";
 import Cookies from "js-cookie";
+import { Separator } from "./ui/separator";
 
 interface CustomSelectProps {
   stations?: Station[];
@@ -136,12 +137,18 @@ const CitySelect: React.FC<CustomSelectProps> = ({
     setShowRecent(true);
   }, [recentFromOptions, recentToOptions]);
 
-  const formatOptionLabel = ({ label }: { label: string }) => (
-    <div className="flex items-center space-x-2">
-      <MapPin className="w-6 h-6 text-primary" />
-      <span>{label}</span>
-    </div>
-  );
+  const formatOptionLabel = ({ label }: { label: string }) => {
+    // console.log({ label });
+    // if (label == "") {
+    //   return <Separator className="pointer-events-none cursor-not-allowed" />;
+    // }
+    return (
+      <div className="flex items-center space-x-2">
+        <MapPin className="w-6 h-6 text-primary" />
+        <span className="w-full">{label}</span>
+      </div>
+    );
+  };
 
   const handleInputChange = (inputValue: string) => {
     setShowRecent(!inputValue);
@@ -229,8 +236,12 @@ const CitySelect: React.FC<CustomSelectProps> = ({
                             ? recentFromOptions
                             : recentToOptions,
                       },
+                      // {
+                      //   options: [{ label: "", value: "" }],
+                      // },
                     ]
-                  : options),
+                  : []),
+                ...options,
               ]
             : options
         }
