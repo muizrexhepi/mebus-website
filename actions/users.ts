@@ -16,7 +16,7 @@ const client = new sdk.Client()
 declare interface CreateUserParams {
     name: string;
     email: string;
-    password: string;
+    password: string | null;
   }
 
 export const createUser = async (user: CreateUserParams) => {
