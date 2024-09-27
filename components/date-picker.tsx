@@ -1,5 +1,5 @@
 import * as React from "react";
-import { format, parse, isSameDay } from "date-fns";
+import { format, parse, isSameDay, isValid } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -31,44 +31,26 @@ function DatePickerComponent({
     ? parse(urlDateParam, "dd-MM-yyyy", new Date())
     : new Date();
 
-  const [date, setDate] = React.useState(initialDate);
-
-  React.useEffect(() => {
-    const savedDate = localStorage.getItem(
-      isReturnDate ? "returnDate" : "departureDate"
-    );
-    if (savedDate) {
-      setDate(parse(savedDate, "dd-MM-yyyy", new Date()));
-    }
-  }, []);
+  const [date, setDate] = React.useState<Date | undefined>(
+    isValid(initialDate) ? initialDate : undefined
+  );
 
   React.useEffect(() => {
     const storeDate = isReturnDate ? returnDate : departureDate;
-    if (
-      storeDate &&
-      !isSameDay(parse(storeDate, "dd-MM-yyyy", new Date()), date!)
-    ) {
-      setDate(parse(storeDate, "dd-MM-yyyy", new Date()));
+    if (storeDate) {
+      const parsedDate = parse(storeDate, "dd-MM-yyyy", new Date());
+      if (isValid(parsedDate) && (!date || !isSameDay(parsedDate, date))) {
+        setDate(parsedDate);
+      }
     }
   }, [isReturnDate ? returnDate : departureDate]);
 
-  React.useEffect(() => {
-    if (date) {
-      const formattedDate = format(date, "dd-MM-yyyy");
-      if (isReturnDate) {
-        setReturnDate(formattedDate);
-      } else {
-        setDepartureDate(formattedDate);
-      }
-      localStorage.setItem(
-        isReturnDate ? "returnDate" : "departureDate",
-        formattedDate
-      );
-    }
-  }, [date, setReturnDate, setDepartureDate]);
-
   const handleDateSelect = (selectedDate: Date | undefined) => {
-    if (selectedDate && !isSameDay(selectedDate, date!)) {
+    if (
+      selectedDate &&
+      isValid(selectedDate) &&
+      (!date || !isSameDay(selectedDate, date))
+    ) {
       setDate(selectedDate);
 
       const formattedDate = format(selectedDate, "dd-MM-yyyy");
@@ -81,6 +63,7 @@ function DatePickerComponent({
         isReturnDate ? "returnDate" : "departureDate",
         formattedDate
       );
+
       const currentParams = new URLSearchParams(searchParams.toString());
       currentParams.set(
         isReturnDate ? "returnDate" : "departureDate",

@@ -50,43 +50,36 @@ export function DateSelectBlock() {
     ? parse(urlDateParam, "dd-MM-yyyy", new Date())
     : new Date();
 
-  // Ensure the initial date is valid
   const validInitialDate = isValid(initialDate) ? initialDate : new Date();
 
-  const [dates, setDates] = useState<Date[]>([
-    subDays(validInitialDate, 1),
-    validInitialDate,
-    addDays(validInitialDate, 1),
-  ]);
-
-  const [selectedDate, setSelectedDate] = useState<Date | null>(
-    departureDate ? new Date(departureDate) : validInitialDate
+  const [selectedDate, setSelectedDate] = useState<Date>(
+    departureDate
+      ? parse(departureDate, "dd-MM-yyyy", new Date())
+      : validInitialDate
   );
+
+  const dates = [
+    subDays(selectedDate, 1),
+    selectedDate,
+    addDays(selectedDate, 1),
+  ];
 
   useEffect(() => {
     if (departureDate) {
       const parsedDate = parse(departureDate, "dd-MM-yyyy", new Date());
-      if (isValid(parsedDate)) {
-        setSelectedDate(parsedDate); // Ensure it's a valid Date object
+      if (
+        isValid(parsedDate) &&
+        parsedDate.getTime() !== selectedDate.getTime()
+      ) {
+        setSelectedDate(parsedDate);
       }
     }
   }, [departureDate]);
 
-  useEffect(() => {
-    if (selectedDate) {
-      const newDates = [
-        subDays(selectedDate, 1),
-        selectedDate,
-        addDays(selectedDate, 1),
-      ];
-      setDates(newDates.filter(isValid)); // Filter invalid dates
-    }
-  }, [selectedDate]);
-
   const handleDateSelect = (date: Date) => {
     setSelectedDate(date);
     const formattedDate = format(date, "dd-MM-yyyy");
-    setDepartureDate(formattedDate); // Assuming setDepartureDate expects a string
+    setDepartureDate(formattedDate);
 
     const currentParams = new URLSearchParams(searchParams.toString());
     currentParams.set("departureDate", formattedDate);
@@ -105,7 +98,7 @@ export function DateSelectBlock() {
             <DateButton
               key={date.toISOString()}
               date={date}
-              isSelected={date.toDateString() === selectedDate?.toDateString()}
+              isSelected={date.toDateString() === selectedDate.toDateString()}
               onClick={() => handleDateSelect(date)}
             />
           ))}
