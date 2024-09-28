@@ -175,12 +175,12 @@ const CitySelect: React.FC<CustomSelectProps> = ({
               : "To"}
           </span>
         </div>
-        <CitySelectDialog
+        {/* <CitySelectDialog
           isOpen={isDialogOpen}
           onClose={() => setIsDialogOpen(false)}
           stations={stations}
           departure={departure}
-        />
+        /> */}
       </>
     );
   }
