@@ -12,11 +12,15 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import useSearchStore from "@/store";
+import useIsMobile from "./hooks/use-mobile";
+import DateRangePickerDialog from "./dialogs/DateRangePickerDialog";
 
 interface DateRangePickerProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function DateRangePicker({ className }: DateRangePickerProps) {
   const { setReturnDate, setDepartureDate } = useSearchStore();
+  const isMobile = useIsMobile();
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
   const [date, setDate] = React.useState<DateRange | undefined>(() => {
     const savedDepartureDate = localStorage.getItem("departureDate");
@@ -67,12 +71,33 @@ export function DateRangePicker({ className }: DateRangePickerProps) {
     return "Pick a date";
   }, [date]);
 
+  if (isMobile) {
+    return (
+      <div className={cn("grid gap-2", className)}>
+        <Button
+          variant="outline"
+          className="w-full h-14 flex items-center justify-start"
+          onClick={() => setIsDialogOpen(true)}
+        >
+          <CalendarIcon className="mr-2 h-4 w-4" />
+          <span>{buttonText}</span>
+        </Button>
+        <DateRangePickerDialog
+          isOpen={isDialogOpen}
+          onClose={() => setIsDialogOpen(false)}
+          date={date}
+          onSelect={handleDateSelect}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={cn("grid gap-2", className)}>
       <Popover>
         <PopoverTrigger asChild>
           <Button
-            variant={"outline"}
+            variant="outline"
             className="w-full h-14 flex items-center justify-start"
           >
             <CalendarIcon className="mr-2 h-4 w-4" />

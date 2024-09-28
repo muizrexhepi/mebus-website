@@ -6,7 +6,8 @@ import { MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
 import Select, { SingleValue } from "react-select";
 import Cookies from "js-cookie";
-import { Separator } from "./ui/separator";
+import CitySelectDialog from "./dialogs/CitySelectDialog";
+import useIsMobile from "./hooks/use-mobile";
 
 interface CustomSelectProps {
   stations?: Station[];
@@ -26,6 +27,8 @@ const CitySelect: React.FC<CustomSelectProps> = ({
   const [showRecent, setShowRecent] = useState(false);
   const [defaultFrom, setDefaultFrom] = useState<OptionProps>();
   const [defaultTo, setDefaultTo] = useState<OptionProps>();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const loadSavedLocations = (
@@ -153,6 +156,34 @@ const CitySelect: React.FC<CustomSelectProps> = ({
   const handleInputChange = (inputValue: string) => {
     setShowRecent(!inputValue);
   };
+
+  if (isMobile) {
+    return (
+      <>
+        <div
+          className="h-14 px-4 flex items-center border border-input bg-background text-sm ring-offset-background cursor-pointer"
+          onClick={() => setIsDialogOpen(true)}
+        >
+          <MapPin className="w-6 h-6 text-primary mr-2" />
+          <span className="capitalize">
+            {departure === "from"
+              ? from
+                ? stations.find((s) => s._id === from)?.city
+                : "From"
+              : to
+              ? stations.find((s) => s._id === to)?.city
+              : "To"}
+          </span>
+        </div>
+        <CitySelectDialog
+          isOpen={isDialogOpen}
+          onClose={() => setIsDialogOpen(false)}
+          stations={stations}
+          departure={departure}
+        />
+      </>
+    );
+  }
 
   return (
     <div className="relative">

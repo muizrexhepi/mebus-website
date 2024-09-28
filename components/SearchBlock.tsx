@@ -11,6 +11,7 @@ import PassengerSelect from "./passenger-select";
 import { DatePicker } from "./date-picker";
 import { DateRangePicker } from "./daterange-picker";
 import CitySelect from "./city-select";
+import StationSelect from "./search/station-select";
 
 const SearchBlock = () => {
   const [isRoundTrip, setIsRoundTrip] = useState<boolean>(false);
@@ -142,7 +143,7 @@ const SearchBlock = () => {
               {loading ? (
                 <InputSkeleton />
               ) : (
-                <CitySelect
+                <StationSelect
                   stations={stations}
                   departure={departure as "from" | "to"}
                 />

@@ -1,4 +1,3 @@
-// DatePicker.tsx
 import * as React from "react";
 import { format, parse, isSameDay, isValid } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
@@ -12,6 +11,15 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import useSearchStore from "@/store";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import useIsMobile from "./hooks/use-mobile";
 
 function DatePickerComponent({
   isReturnDate = false,
@@ -23,6 +31,8 @@ function DatePickerComponent({
   const { departureDate, setDepartureDate, returnDate, setReturnDate } =
     useSearchStore();
   const path = usePathname();
+  const isMobile = useIsMobile();
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
   const urlDateParam = searchParams?.get(
     isReturnDate ? "returnDate" : "departureDate"
@@ -86,23 +96,70 @@ function DatePickerComponent({
         router.push(newURL, { scroll: false });
       }
     }
+    if (isMobile) {
+      setIsDialogOpen(false);
+    }
   };
+
+  const buttonText = date ? format(date, "LLL dd, y") : "Pick a date";
+
+  if (isMobile) {
+    return (
+      <>
+        <Button
+          variant="outline"
+          className="w-full h-14 flex items-center justify-start"
+          onClick={() => setIsDialogOpen(true)}
+        >
+          <CalendarIcon className="mr-2 h-4 w-4" />
+          <span>{buttonText}</span>
+        </Button>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogContent className="sm:max-w-[425px] py-20 h-full sm:h-auto flex flex-col px-0">
+            <DialogHeader className="space-y-4 h-fit px-4">
+              <DialogTitle>
+                Select {isReturnDate ? "Return" : "Departure"} Date
+              </DialogTitle>
+            </DialogHeader>
+            <ScrollArea className="flex-grow">
+              <div className="p-4">
+                <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={handleDateSelect}
+                  initialFocus
+                  className="w-full"
+                />
+              </div>
+            </ScrollArea>
+            <DialogFooter>
+              <div className="p-4 absolute bottom-4 left-0 w-full border-t">
+                <Button
+                  onClick={() => setIsDialogOpen(false)}
+                  className="w-full"
+                >
+                  Confirm
+                </Button>
+              </div>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </>
+    );
+  }
 
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          variant={"outline"}
-          className={cn(
-            "w-full h-14 justify-start text-left text-base font-normal",
-            !date && "text-muted-foreground"
-          )}
+          variant="outline"
+          className="w-full h-14 flex items-center justify-start"
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
+          <span>{buttonText}</span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
+      <PopoverContent className="w-auto p-0" align="start">
         <Calendar
           mode="single"
           selected={date}
@@ -121,3 +178,5 @@ export function DatePicker({
 }) {
   return <DatePickerComponent isReturnDate={isReturnDate} />;
 }
+
+export default DatePicker;

@@ -1,6 +1,6 @@
 "use client";
 
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, User2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -9,10 +9,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import useSearchStore, { Passengers } from "@/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import useIsMobile from "./hooks/use-mobile";
+import PassengerSelectDialog from "./dialogs/PassengersDialog";
 
 export default function PassengerSelect() {
   const { passengers, setPassengers } = useSearchStore();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const savedPassengers = localStorage.getItem("passengersAmount");
@@ -47,6 +51,27 @@ export default function PassengerSelect() {
     }
     updatePassengers(updatedPassengers);
   };
+
+  if (isMobile) {
+    return (
+      <>
+        <div
+          className="h-14 px-4 flex items-center border border-input bg-background text-sm ring-offset-background cursor-pointer"
+          onClick={() => setIsDialogOpen(true)}
+        >
+          <User2 className="w-4 h-4 text-primary mr-2" />
+          <span className="capitalize">
+            Adults ({passengers.adults}), Children ({passengers.children})
+          </span>
+        </div>
+        <PassengerSelectDialog
+          isOpen={isDialogOpen}
+          onClose={() => setIsDialogOpen(false)}
+        />
+      </>
+    );
+  }
+
   return (
     <Select>
       <SelectTrigger className="outline-none h-14 hover:bg-accent transition-colors text-base truncate">
