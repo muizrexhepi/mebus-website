@@ -28,13 +28,42 @@ const StationSelect: React.FC<CustomSelectProps> = ({
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    const savedCity = localStorage.getItem(
-      departure === "from" ? "fromCity" : "toCity"
-    );
-    if (savedCity) {
-      setSearchTerm(savedCity);
+    const loadSavedLocations = (
+      cityKey: string,
+      valueKey: string,
+      setCity: (city: string) => void,
+      setValue: (value: string) => void
+    ) => {
+      const savedCity = localStorage.getItem(cityKey);
+      const savedValue = localStorage.getItem(valueKey);
+
+      if (savedCity && savedValue) {
+        setCity(savedCity);
+        setValue(savedValue);
+        setSearchTerm(savedCity);
+      }
+    };
+
+    if (departure === "from") {
+      loadSavedLocations("fromCity", "fromValue", setFromCity, setFrom);
+    } else if (departure === "to") {
+      loadSavedLocations("toCity", "toValue", setToCity, setTo);
     }
-  }, [departure]);
+  }, [departure, setFromCity, setFrom, setToCity, setTo]);
+
+  const handleFocus = () => {
+    setOpenOptions(true);
+    setTempSearchTerm(searchTerm);
+    setSearchTerm("");
+  };
+
+  const handleBlur = () => {
+    setTimeout(() => {
+      setOpenOptions(false);
+      setSearchTerm(tempSearchTerm);
+      setTempSearchTerm("");
+    }, 100);
+  };
 
   const handleSelect = (station: Station) => {
     const value = station._id;
@@ -76,14 +105,18 @@ const StationSelect: React.FC<CustomSelectProps> = ({
   };
 
   const handleDialogSelect = (station: Station) => {
-    handleSelect(station); // Use existing selection logic
-    setIsDialogOpen(false); // Close the dialog after selection
+    handleSelect(station);
+    setIsDialogOpen(false);
   };
 
   const recentStations = JSON.parse(
     Cookies.get(
       departure === "from" ? "recentFromStations" : "recentToStations"
     ) || "[]"
+  );
+
+  const filteredStations = stations.filter((station) =>
+    station.city.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (isMobile) {
@@ -115,14 +148,14 @@ const StationSelect: React.FC<CustomSelectProps> = ({
           type="text"
           placeholder="Search for a city"
           value={searchTerm}
-          onFocus={() => setOpenOptions(true)}
-          onBlur={() => setTimeout(() => setOpenOptions(false), 100)}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full h-14 pl-10 capitalize text-base"
         />
       </div>
       {openOptions && (
-        <div className="absolute top-14 w-full bg-white left-0 mt-4 h-fit max-h-80 overflow-y-auto rounded-lg">
+        <div className="absolute top-14 w-full bg-white z-20 left-0 mt-4 h-fit max-h-80 overflow-y-auto rounded-lg">
           {showRecent && recentStations.length > 0 && (
             <>
               <h3 className="font-semibold mb-2 bg-muted p-2 px-4">
@@ -143,6 +176,18 @@ const StationSelect: React.FC<CustomSelectProps> = ({
               <div className="mb-2 border-t border-gray-200" />
             </>
           )}
+          {filteredStations.map((station: Station) => (
+            <Button
+              key={station._id}
+              variant="ghost"
+              className="w-full justify-start text-left mb-2"
+              onClick={() => handleSelect(station)}
+              type="button"
+            >
+              <MapPin className="w-6 h-6 text-primary mr-2" />
+              <span className="capitalize">{station.city}</span>
+            </Button>
+          ))}
         </div>
       )}
     </div>
