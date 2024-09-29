@@ -132,7 +132,7 @@ const TicketList: React.FC = () => {
           <h1 className="mb-2 font-medium text-lg">
             {returnDate && selectedTicket == null
               ? "Select Outbound Ticket"
-              : "Select Return Ticket"}
+              : returnDate && selectedTicket && "Select Return Ticket"}
           </h1>
           <InfiniteScroll
             dataLength={tickets.length}

@@ -58,11 +58,7 @@ const SearchBlock = () => {
         children: passengers.children.toString(),
       });
 
-      if (isRoundTrip && !returnDate) {
-        setReturnDate(departureDate);
-      }
-
-      if (returnDate) {
+      if (returnDate && isRoundTrip) {
         searchParams.append("returnDate", returnDate);
       }
 
