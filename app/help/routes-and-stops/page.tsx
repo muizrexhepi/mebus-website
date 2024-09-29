@@ -26,7 +26,7 @@ export default async function RoutesAndStopsPage() {
 
   try {
     const res = await axios.get(`${environment.apiurl}/route`);
-    routes = res.data.data;
+    routes = res.data.data || [];
   } catch (error) {
     console.error("Failed to fetch routes", error);
   }
@@ -55,7 +55,11 @@ export default async function RoutesAndStopsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <RoutesList routes={routes} />
+            {routes.length > 0 ? (
+              <RoutesList routes={routes} />
+            ) : (
+              <p>No routes available at the moment.</p>
+            )}
           </CardContent>
         </Card>
 

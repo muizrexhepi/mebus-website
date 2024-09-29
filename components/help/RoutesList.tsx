@@ -26,16 +26,16 @@ export default function RoutesList({ routes }: RoutesListProps) {
   return (
     <div className="space-y-6">
       {routes.map((route) => (
-        <Card key={route._id}>
+        <Card key={route?._id}>
           <CardHeader>
             <CardTitle>
-              {route.destination.from} to {route.destination.to}
+              {route?.destination?.from} to {route?.destination?.to}
             </CardTitle>
             <CardDescription>
               Operated by{" "}
-              {typeof route.operator === "string"
-                ? route.operator
-                : route.operator.name}
+              {typeof route?.operator === "string"
+                ? route?.operator
+                : route?.operator?.name}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -47,22 +47,22 @@ export default function RoutesList({ routes }: RoutesListProps) {
               <div className="flex items-center text-sm text-muted-foreground">
                 <Briefcase className="mr-2 h-4 w-4" />
                 <span>
-                  Luggage: {route.luggages.free} free, extra costs{" "}
-                  {route.luggages.price_for_extra}
+                  Luggage: {route?.luggages?.free} free, extra costs{" "}
+                  {route?.luggages?.price_for_extra}
                 </span>
               </div>
               <div className="flex items-center text-sm">
-                {route.is_active ? (
+                {route?.is_active ? (
                   <CheckCircle className="mr-2 h-4 w-4 text-green-500" />
                 ) : (
                   <XCircle className="mr-2 h-4 w-4 text-red-500" />
                 )}
                 <span
                   className={
-                    route.is_active ? "text-green-500" : "text-red-500"
+                    route?.is_active ? "text-green-500" : "text-red-500"
                   }
                 >
-                  {route.is_active ? "Active" : "Inactive"}
+                  {route?.is_active ? "Active" : "Inactive"}
                 </span>
               </div>
             </div>
