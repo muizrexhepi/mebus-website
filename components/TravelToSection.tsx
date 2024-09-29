@@ -36,7 +36,7 @@ const TEST_DESTINATIONS = [
 
 const TravelToSection = () => {
   return (
-    <div className="paddingX py-8 space-y-8">
+    <div className="max-w-6xl mx-auto py-8 space-y-8">
       <SectionHeader
         title="Ready for your next journey?"
         desc="Discover most affordable bus and travel options to popular destinations below."

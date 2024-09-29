@@ -15,24 +15,35 @@ const stripePromise = loadStripe(
 );
 
 const CheckoutForm = () => {
-  const { selectedTicket, setSelectedTicket } = useCheckoutStore();
+  const { selectedTicket, setSelectedTicket, returnTicket, setReturnTicket } =
+    useCheckoutStore();
 
   useEffect(() => {
     if (!selectedTicket) {
       const ticket = localStorage.getItem("ticket");
       setSelectedTicket(JSON.parse(ticket!));
     }
+    const isReturn = localStorage.getItem("tripType");
+    if (isReturn == "round-trip" && !returnTicket) {
+      const ticket = localStorage.getItem("returnTicket");
+      setReturnTicket(JSON.parse(ticket!));
+    }
   }, []);
 
+  console.log({ selectedTicket, returnTicket });
+
   return (
-    <div className="relative mx-auto flex flex-col-reverse md:flex-row gap-8 pb-20">
+    <div className="relative mx-auto flex flex-col-reverse md:flex-row gap-8">
       <div className="flex-[2] flex flex-col gap-4">
         <PassengerInfo />
         <Extras />
         <PaymentMethod selectedTicket={selectedTicket!} />
       </div>
       <div className="flex-1 flex flex-col gap-4">
-        <OrderSummary selectedTicket={selectedTicket!} />
+        <OrderSummary
+          selectedTicket={selectedTicket!}
+          returnTicket={returnTicket!}
+        />
       </div>
     </div>
   );

@@ -10,7 +10,7 @@ const Footer = () => {
       className={`paddingX py-12 bg-neutral-900 flex justify-center items-center flex-col relative`}
     >
       <div
-        className={`flex justify-center items-start md:flex-row flex-col mb-8 w-full`}
+        className={`flex justify-center items-start md:flex-row flex-col mb-8 w-full max-w-6xl`}
       >
         <div className="flex-1 w-full flex-col sm:flex sm:flex-row sm:items-center md:items-start justify-between md:justify-start md:flex-col mr-10">
           <Link href="/">
@@ -29,31 +29,6 @@ const Footer = () => {
             Our mission is to equip modern explorers with cutting-edge,
             functional, and stylish bags that elevate every adventure.
           </p>
-        </div>
-
-        <div className="flex-[1.5] w-full flex flex-row justify-between flex-wrap md:mt-0 z-[2]">
-          {FOOTER_LINKS.map((footerLink, index) => (
-            <div
-              key={index}
-              className="flex flex-col ss:my-0 my-4 min-w-[150px]"
-            >
-              <h4 className="font-normal text-lg text-white">
-                {footerLink.title}
-              </h4>
-              <ul className="list-none mt-4">
-                {footerLink.links.map((link, index) => (
-                  <li
-                    key={link.name}
-                    className={`font-normal text-base tracking-wide text-white/70  cursor-pointer ${
-                      index !== footerLink.links.length - 1 ? "mb-3" : "mb-0"
-                    }`}
-                  >
-                    <Link href={link.link}>{link.name}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
           <div className="flex flex-col ss:my-0 my-4 space-y-4 min-w-[250px] w-full sm:w-fit">
             <h4 className="font-medium text-lg text-white">Get Updates</h4>
             <div className="relative">
@@ -83,9 +58,34 @@ const Footer = () => {
             </div>
           </div>
         </div>
+
+        <div className="flex-[1.5] w-full flex flex-row justify-between flex-wrap md:mt-0 z-[2]">
+          {FOOTER_LINKS.map((footerLink, index) => (
+            <div
+              key={index}
+              className="flex flex-col ss:my-0 my-4 min-w-[150px]"
+            >
+              <h4 className="font-normal text-lg text-white">
+                {footerLink.title}
+              </h4>
+              <ul className="list-none mt-4">
+                {footerLink.links.map((link, index) => (
+                  <li
+                    key={link.name}
+                    className={`font-normal text-base tracking-wide text-white/70  cursor-pointer ${
+                      index !== footerLink.links.length - 1 ? "mb-3" : "mb-0"
+                    }`}
+                  >
+                    <Link href={link.link}>{link.name}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="w-full flex justify-between items-center md:flex-row flex-col pt-6 border-t-[1px] border-t-[#3f3e45]">
+      <div className="w-full flex justify-between items-center md:flex-row flex-col pt-6 border-t-[1px] border-t-[#3f3e45] max-w-6xl">
         <p className="font-normal text-[18px] text-center leading-[27px] text-white">
           &copy; 2024 MebusTravel. All Rights Reserved.{" "}
         </p>

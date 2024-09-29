@@ -56,7 +56,7 @@ export default function PassengerSelect() {
     return (
       <>
         <div
-          className="h-14 px-4 flex items-center border border-input bg-background text-sm ring-offset-background cursor-pointer"
+          className="h-14 px-4 flex items-center border border-input bg-background text-sm ring-offset-background cursor-pointer rounded-lg"
           onClick={() => setIsDialogOpen(true)}
         >
           <User2 className="w-4 h-4 text-primary mr-2" />

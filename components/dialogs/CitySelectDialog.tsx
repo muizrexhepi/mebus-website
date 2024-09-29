@@ -24,7 +24,7 @@ interface CitySelectDialogProps {
   onClose: () => void;
   stations: Station[];
   departure: string | undefined;
-  onSelect: (station: Station) => void; // New prop
+  onSelect: (station: Station) => void;
 }
 
 const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
@@ -32,7 +32,7 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
   onClose,
   stations,
   departure,
-  onSelect, // Destructure the new prop
+  onSelect,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showRecent, setShowRecent] = useState(true);

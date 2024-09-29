@@ -1,20 +1,21 @@
 "use client";
-import { ArrowRight } from "lucide-react";
-import { Button } from "./ui/button";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import useSearchStore from "@/store";
 import { useRouter } from "next/navigation";
-import InputSkeleton from "./input-skeleton";
 import { getStations } from "@/actions/station";
 import { Station } from "@/models/station";
-import PassengerSelect from "./passenger-select";
 import { DatePicker } from "./date-picker";
 import { DateRangePicker } from "./daterange-picker";
-import CitySelect from "./city-select";
-import StationSelect from "./search/station-select";
+import SearchForm from "./forms/SearchForm";
 
 const SearchBlock = () => {
-  const [isRoundTrip, setIsRoundTrip] = useState<boolean>(false);
+  const [isRoundTrip, setIsRoundTrip] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      const savedTripType = localStorage.getItem("tripType");
+      return savedTripType === "round-trip";
+    }
+    return false;
+  });
   const [stations, setStations] = useState<Station[]>([]);
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
@@ -34,6 +35,7 @@ const SearchBlock = () => {
     const fetchStations = async () => {
       try {
         const data = await getStations();
+        console.log({ data });
         setStations(data);
       } catch (error) {
         console.error("Error fetching stations:", error);
@@ -55,6 +57,10 @@ const SearchBlock = () => {
         adult: passengers.adults.toString(),
         children: passengers.children.toString(),
       });
+
+      if (isRoundTrip && !returnDate) {
+        setReturnDate(departureDate);
+      }
 
       if (returnDate) {
         searchParams.append("returnDate", returnDate);
@@ -90,6 +96,7 @@ const SearchBlock = () => {
   const handleTripTypeChange = useCallback(
     (type: "one-way" | "round-trip") => {
       setIsRoundTrip(type === "round-trip");
+      localStorage.setItem("tripType", type);
       if (type === "one-way") {
         setReturnDate(null);
       }
@@ -98,12 +105,11 @@ const SearchBlock = () => {
   );
 
   const datePickerComponent = useMemo(() => {
-    if (loading) return <InputSkeleton />;
     return isRoundTrip ? <DateRangePicker /> : <DatePicker />;
-  }, [loading, isRoundTrip]);
+  }, [isRoundTrip]);
 
   return (
-    <div className="bg-white rounded-xl p-7 flex flex-col gap-4 w-full min-h-fit">
+    <div className="bg-white rounded-xl p-7 flex flex-col gap-4 w-full min-h-fit shadow-md">
       <div className="space-y-6 flex-1">
         <div className="w-full flex flex-col gap-2 md:flex-row justify-start md:justify-between items-start md:items-center">
           <div className="flex items-center gap-4">
@@ -134,40 +140,13 @@ const SearchBlock = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 items-end gap-4">
-          {["from", "to"].map((departure) => (
-            <div key={departure} className="w-full">
-              <p className="text-black font-normal text-lg">
-                {departure === "from" ? "From" : "To"}
-              </p>
-              {loading ? (
-                <InputSkeleton />
-              ) : (
-                <StationSelect
-                  stations={stations}
-                  departure={departure as "from" | "to"}
-                />
-              )}
-            </div>
-          ))}
-          <div className="w-full">
-            <p className="text-black font-normal text-lg">Departure</p>
-            {datePickerComponent}
-          </div>
-          <div>
-            <p className="text-black font-normal text-lg">Passengers</p>
-            {loading ? <InputSkeleton /> : <PassengerSelect />}
-          </div>
-          <Button
-            type="submit"
-            className="p-6 flex items-center gap-2 text-base w-full sm:col-span-2 h-14 lg:col-span-1"
-            disabled={isSubmitting}
-            onClick={handleSearch}
-          >
-            {isSubmitting ? "Searching..." : "Search"}
-            {!isSubmitting && <ArrowRight className="h-4 w-4" />}
-          </Button>
-        </div>
+        <SearchForm
+          loading={loading}
+          stations={stations}
+          datePickerComponent={datePickerComponent}
+          isSubmitting={isSubmitting}
+          onSearch={handleSearch}
+        />
       </div>
     </div>
   );

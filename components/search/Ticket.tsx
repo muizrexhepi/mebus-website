@@ -13,21 +13,38 @@ export interface TicketProps {
   ticket: TicketType;
   adults?: string | null;
   nrOfChildren?: string | null;
+  isReturn?: boolean;
 }
 
 const TicketBlock: React.FC<TicketProps> = ({
   ticket,
   adults,
   nrOfChildren,
+  isReturn,
 }) => {
-  const { setSelectedTicket } = useCheckoutStore();
+  const { setSelectedTicket, selectedTicket, setReturnTicket } =
+    useCheckoutStore();
   const router = useRouter();
 
   const handleCheckout = (e: React.MouseEvent) => {
     try {
       e.preventDefault();
-      setSelectedTicket(ticket);
-      router.push(`/checkout?adults=${adults}&children=${nrOfChildren}`);
+
+      // If the current ticket is a return ticket
+      if (isReturn) {
+        // If there is a selected ticket already, set the return ticket and redirect
+        if (selectedTicket) {
+          setReturnTicket(ticket); // Set the current ticket as the return ticket
+          router.push(`/checkout?adults=${adults}&children=${nrOfChildren}`); // Redirect to checkout
+        } else {
+          setSelectedTicket(ticket); // Otherwise, select the current ticket
+        }
+      } else {
+        // If not a return ticket, just set the selected ticket
+        setSelectedTicket(ticket);
+        router.push(`/checkout?adults=${adults}&children=${nrOfChildren}`); // Redirect to checkout
+      }
+
       console.log({ ticket });
     } catch (error) {
       console.error(error);
@@ -101,7 +118,7 @@ const TicketBlock: React.FC<TicketProps> = ({
               className="w-fit text-sm sm:text-base bg-emerald-700 hover:bg-emerald-600"
               onClick={handleCheckout}
             >
-              Continue
+              {isReturn && selectedTicket == null ? "Select" : "Continue"}
             </Button>
           </div>
         </div>

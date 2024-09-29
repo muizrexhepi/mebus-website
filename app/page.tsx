@@ -1,16 +1,14 @@
-import BentoGrid from "@/components/BentoGrid";
+import AboutSection from "@/components/AboutSection";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
-import TopBusRoutes from "@/components/TopBusRoutes";
-import TravelToSection from "@/components/TravelToSection";
 
 export default async function Home() {
   return (
     <div>
       <Hero />
-      <TopBusRoutes />
-      <TravelToSection />
-      <BentoGrid />
+      <div className="paddingX">
+        <AboutSection />
+      </div>
       <Footer />
     </div>
   );

@@ -1,9 +1,7 @@
-"use client";
-
+import React, { useEffect, useState } from "react";
 import { Station } from "@/models/station";
 import useSearchStore from "@/store";
 import { MapPin } from "lucide-react";
-import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -20,9 +18,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
   departure,
 }) => {
   const { setFrom, setTo, setFromCity, setToCity, from, to } = useSearchStore();
-  const [showRecent, setShowRecent] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [tempSearchTerm, setTempSearchTerm] = useState("");
   const [openOptions, setOpenOptions] = useState<boolean>(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const isMobile = useIsMobile();
@@ -53,15 +49,11 @@ const StationSelect: React.FC<CustomSelectProps> = ({
 
   const handleFocus = () => {
     setOpenOptions(true);
-    setTempSearchTerm(searchTerm);
-    setSearchTerm("");
   };
 
   const handleBlur = () => {
     setTimeout(() => {
       setOpenOptions(false);
-      setSearchTerm(tempSearchTerm);
-      setTempSearchTerm("");
     }, 100);
   };
 
@@ -76,15 +68,17 @@ const StationSelect: React.FC<CustomSelectProps> = ({
       setFrom(value!);
       localStorage.setItem("fromCity", label);
       localStorage.setItem("fromValue", value!);
-      updateRecentStations("recentFromStations", { _id: value!, city: label });
     } else {
       setToCity(label);
       setTo(value!);
       localStorage.setItem("toCity", label);
       localStorage.setItem("toValue", value!);
-      updateRecentStations("recentToStations", { _id: value!, city: label });
     }
 
+    updateRecentStations(
+      departure === "from" ? "recentFromStations" : "recentToStations",
+      { _id: value!, city: label }
+    );
     setOpenOptions(false);
   };
 
@@ -123,11 +117,11 @@ const StationSelect: React.FC<CustomSelectProps> = ({
     return (
       <>
         <div
-          className="h-14 px-4 flex items-center border border-input bg-background text-sm ring-offset-background cursor-pointer"
+          className="h-14 px-4 flex items-center border border-input bg-background text-sm ring-offset-background cursor-pointer rounded-lg"
           onClick={() => setIsDialogOpen(true)}
         >
           <MapPin className="w-6 h-6 text-primary mr-2" />
-          <span className="capitalize">{searchTerm}</span>
+          <span className="capitalize">{searchTerm || "Select a city"}</span>
         </div>
         <CitySelectDialog
           isOpen={isDialogOpen}
@@ -155,8 +149,8 @@ const StationSelect: React.FC<CustomSelectProps> = ({
         />
       </div>
       {openOptions && (
-        <div className="absolute top-14 w-full bg-white z-20 left-0 mt-4 h-fit max-h-80 overflow-y-auto rounded-lg">
-          {showRecent && recentStations.length > 0 && (
+        <div className="absolute top-14 w-[calc(100%+100px)] bg-white z-20 left-0 mt-4 shadow-sm h-fit max-h-80 overflow-y-auto rounded-lg">
+          {recentStations.length > 0 && searchTerm == "" && (
             <>
               <h3 className="font-semibold mb-2 bg-muted p-2 px-4">
                 Recent Searches

@@ -1,11 +1,48 @@
 import { create } from 'zustand';
 import { Ticket } from './models/ticket';
 import { PassengerData } from './components/hooks/use-passengers';
+import { addDays, format } from 'date-fns';
 
 export interface Passengers {
   adults: number;
   children: number;
 }
+
+
+
+interface CheckoutState {
+  selectedTicket: Ticket | null;
+  setSelectedTicket: (ticket: Ticket) => void;
+  returnTicket: Ticket | null;
+  setReturnTicket: (ticket: Ticket) => void;
+  resetCheckout: () => void;
+}
+
+export const useCheckoutStore = create<CheckoutState>((set) => ({
+  selectedTicket: null,
+
+  setSelectedTicket: (ticket) => {
+    set({ selectedTicket: ticket })
+    if(typeof window !== 'undefined'){
+      localStorage.setItem('ticket',JSON.stringify(ticket))
+    }
+  },
+  returnTicket: null,
+
+  setReturnTicket: (ticket) => {
+    set({ returnTicket: ticket })
+    if(typeof window !== 'undefined'){
+      localStorage.setItem('returnTicket',JSON.stringify(ticket))
+    }
+  },
+  
+  resetCheckout: () => {
+    set({ selectedTicket: null })
+    if(typeof window !== 'undefined'){
+      localStorage.removeItem('ticket')
+    }
+  },
+}));
 
 interface SearchState {
   from: string;
@@ -27,32 +64,6 @@ interface SearchState {
   setReturnDate: (returnDate: string | null) => void;
   resetSearch: () => void;
 }
-
-interface CheckoutState {
-  selectedTicket: Ticket | null;
-  setSelectedTicket: (ticket: Ticket) => void;
-  resetCheckout: () => void;
-}
-
-export const useCheckoutStore = create<CheckoutState>((set) => ({
-  selectedTicket: null,
-
-  setSelectedTicket: (ticket) => {
-    set({ selectedTicket: ticket })
-    if(typeof window !== 'undefined'){
-      localStorage.setItem('ticket',JSON.stringify(ticket))
-    }
-  },
-  
-  resetCheckout: () => {
-    set({ selectedTicket: null })
-    if(typeof window !== 'undefined'){
-      localStorage.removeItem('ticket')
-    }
-  },
-}));
-
-
 const initialState: Omit<SearchState, 'setFrom' | 'setTo' | 'setFromCity'|'setToCity' | 'setRoute' | 'setPassengers' | 'setDepartureDate' | 'setReturnDate' | 'resetSearch'> = {
   from: '',
   to: '',
@@ -63,8 +74,8 @@ const initialState: Omit<SearchState, 'setFrom' | 'setTo' | 'setFromCity'|'setTo
     adults: 1,
     children: 0,
   },
-  departureDate: null,
-  returnDate: null,
+  departureDate: format(new Date(), "dd-MM-yyyy"), 
+  returnDate: format(addDays(new Date(), 7), "dd-MM-yyyy"), 
 };
 
 const useSearchStore = create<SearchState>((set) => ({

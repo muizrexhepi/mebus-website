@@ -3,11 +3,10 @@ import React, { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Ticket } from "@/models/ticket";
-import Link from "next/link";
 import { useToast } from "../hooks/use-toast";
 import TicketSkeletonton from "../ticket/ticket-skeleton";
 import TicketBlock from "./Ticket";
-import { useLoadingStore } from "@/store";
+import { useCheckoutStore, useLoadingStore } from "@/store";
 import {
   Sheet,
   SheetContent,
@@ -25,12 +24,13 @@ const TicketList: React.FC = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { toast } = useToast();
-  const [selectedTicket, setSelectedTicket] = useState<Ticket>();
+  const { selectedTicket, setSelectedTicket } = useCheckoutStore();
   const nrOfChildren = searchParams.get("children") || "0";
   const { setIsLoading, isLoading } = useLoadingStore();
   const departureStation = searchParams.get("departureStation");
   const arrivalStation = searchParams.get("arrivalStation");
   const departureDate = searchParams.get("departureDate");
+  const returnDate = searchParams.get("returnDate");
   const adults = searchParams.get("adult") || "1";
   const children = searchParams.get("children") || "0";
 
@@ -39,6 +39,8 @@ const TicketList: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+
+  console.log({ selectedTicket });
 
   const fetchTickets = async (pageNumber: number) => {
     if (!departureStation || !arrivalStation) {
@@ -53,7 +55,11 @@ const TicketList: React.FC = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `${environment.apiurl}/ticket/search?departureStation=${departureStation}&arrivalStation=${arrivalStation}&departureDate=${departureDate}&adults=${adults}&children=${children}&page=${pageNumber}`
+        `${
+          environment.apiurl
+        }/ticket/search?departureStation=${departureStation}&arrivalStation=${arrivalStation}&departureDate=${
+          selectedTicket !== null && returnDate ? returnDate : departureDate
+        }&adults=${adults}&children=${children}&page=${pageNumber}`
       );
 
       if (!response.ok) {
@@ -92,7 +98,14 @@ const TicketList: React.FC = () => {
       setHasMore(true);
       fetchTickets(1);
     }
-  }, [departureStation, arrivalStation, departureDate, adults, children]);
+  }, [
+    departureStation,
+    arrivalStation,
+    departureDate,
+    adults,
+    children,
+    selectedTicket,
+  ]);
 
   const handleLoadMore = () => {
     if (!noData && !loading && hasMore) {
@@ -116,6 +129,11 @@ const TicketList: React.FC = () => {
         <NoTicketsAvailable />
       ) : (
         <div className="w-full mx-auto">
+          <h1 className="mb-2 font-medium text-lg">
+            {returnDate && selectedTicket == null
+              ? "Select Outbound Ticket"
+              : "Select Return Ticket"}
+          </h1>
           <InfiniteScroll
             dataLength={tickets.length}
             className="space-y-4"
@@ -139,6 +157,7 @@ const TicketList: React.FC = () => {
                       ticket={ticket}
                       adults={adults}
                       nrOfChildren={nrOfChildren}
+                      isReturn={returnDate !== null}
                     />
                   </div>
                 </SheetTrigger>

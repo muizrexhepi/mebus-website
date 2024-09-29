@@ -28,7 +28,15 @@ const PriceSummaryItem: React.FC<PriceSummaryItemProps> = ({
   </div>
 );
 
-const OrderSummary = ({ selectedTicket }: { selectedTicket: Ticket }) => {
+const OrderSummary = ({
+  selectedTicket,
+  returnTicket,
+  className,
+}: {
+  selectedTicket: Ticket;
+  returnTicket?: Ticket;
+  className?: string;
+}) => {
   const [selectedFlex, setSelectedFlex] = useState<string | null>(null);
   const [passengers, setPassengers] = useState<PassengerData[]>([]);
   const [useBalance, setUseBalance] = useState(false);
@@ -146,8 +154,46 @@ const OrderSummary = ({ selectedTicket }: { selectedTicket: Ticket }) => {
             title={selectedTicket?.metadata?.operator_company_name}
           />
         </div>
+        {returnTicket && (
+          <div className="flex flex-col">
+            Return
+            <div className="flex items-center mt-2 gap-8">
+              <div className="flex items-center gap-2 justify-between w-full">
+                <p className="text-black capitalize">
+                  {returnTicket?.stops[0]?.from?.city}
+                </p>
+                <hr className="h-[0.5px] w-full bg-gray-800" />
+                <p className="text-black capitalize">
+                  {returnTicket?.stops[0]?.to?.city}
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2 mt-2">
+              <div className="flex items-center gap-2">
+                <Calendar color="gray" size={20} />
+                <p className="text-black text-sm">Departure: </p>
+                <p className="font-medium text-black text-sm">
+                  {moment
+                    .utc(returnTicket?.stops[0]?.departure_date)
+                    .format("dddd, DD-MM-YYYY / HH:mm")}
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <TimerIcon color="gray" size={20} />
+                <p className="text-black text-sm">Duration</p>
+                <p className="font-medium text-black text-sm">5h 30m</p>
+              </div>
+            </div>
+            <InfoBlock
+              desc="This trip will be operated by"
+              title={returnTicket?.metadata?.operator_company_name}
+            />
+          </div>
+        )}
       </div>
-      <div className="bg-white rounded-xl p-4 shadow-md space-y-3">
+      <div
+        className={cn("bg-white rounded-xl p-4 shadow-md space-y-3", className)}
+      >
         <h1 className="font-medium text-lg">Booking price</h1>
         <div className="flex flex-col gap-1">
           {adultCount > 0 && (

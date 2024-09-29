@@ -25,6 +25,7 @@ export function DateRangePicker({ className }: DateRangePickerProps) {
   const [date, setDate] = React.useState<DateRange | undefined>(() => {
     const savedDepartureDate = localStorage.getItem("departureDate");
     const savedReturnDate = localStorage.getItem("returnDate");
+
     if (savedDepartureDate) {
       const from = parse(savedDepartureDate, "dd-MM-yyyy", new Date());
       let to: Date | undefined;
@@ -35,7 +36,13 @@ export function DateRangePicker({ className }: DateRangePickerProps) {
         ? { from, to: isValid(to) ? to : undefined }
         : undefined;
     }
-    return undefined;
+
+    const today = new Date();
+    const defaultReturnDate = addDays(today, 7);
+    return {
+      from: today,
+      to: defaultReturnDate,
+    };
   });
 
   const handleDateSelect: SelectRangeEventHandler = (
@@ -73,14 +80,14 @@ export function DateRangePicker({ className }: DateRangePickerProps) {
 
   if (isMobile) {
     return (
-      <div className={cn("grid gap-2", className)}>
+      <div className={cn("grid gap-2 w-full", className)}>
         <Button
           variant="outline"
-          className="w-full h-14 flex items-center justify-start"
+          className="w-full h-14  flex items-center justify-start"
           onClick={() => setIsDialogOpen(true)}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          <span>{buttonText}</span>
+          <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
+          <span className="truncate">{buttonText}</span>
         </Button>
         <DateRangePickerDialog
           isOpen={isDialogOpen}
@@ -93,15 +100,15 @@ export function DateRangePicker({ className }: DateRangePickerProps) {
   }
 
   return (
-    <div className={cn("grid gap-2", className)}>
+    <div className={cn("grid gap-2 w-full", className)}>
       <Popover>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="w-full h-14 flex items-center justify-start"
+            className="w-full h-14 flex items-center justify-start !truncate"
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            <span>{buttonText}</span>
+            <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
+            <span className="truncate">{buttonText}</span>
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">

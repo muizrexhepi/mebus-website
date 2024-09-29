@@ -216,7 +216,7 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
           passengers,
           selectedTicket
         );
-        console.log({ passengersWithPrices });
+        // console.log({ passengersWithPrices });
         await axios
           .post(
             `${environment.apiurl}/booking/create/${selectedTicket.operator}/${
@@ -269,7 +269,7 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
         passengers,
         selectedTicket
       );
-      console.log({ passengersWithPrices });
+      // console.log({ passengersWithPrices });
 
       await axios.post(
         `${environment.apiurl}/booking/create/${selectedTicket.operator}/${
