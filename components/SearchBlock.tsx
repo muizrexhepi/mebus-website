@@ -9,13 +9,7 @@ import { DateRangePicker } from "./daterange-picker";
 import SearchForm from "./forms/SearchForm";
 
 const SearchBlock = () => {
-  const [isRoundTrip, setIsRoundTrip] = useState<boolean>(() => {
-    if (typeof window !== "undefined") {
-      const savedTripType = localStorage.getItem("tripType");
-      return savedTripType === "round-trip";
-    }
-    return false;
-  });
+  const [isRoundTrip, setIsRoundTrip] = useState<boolean>(false)
   const [stations, setStations] = useState<Station[]>([]);
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
@@ -30,6 +24,13 @@ const SearchBlock = () => {
     toCity,
     passengers,
   } = useSearchStore();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedTripType = localStorage.getItem("tripType");
+      setIsRoundTrip(savedTripType === "round-trip");
+    }
+  }, []);
 
   useEffect(() => {
     const fetchStations = async () => {
