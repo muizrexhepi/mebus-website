@@ -1,8 +1,6 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import { useStripe, useElements, Elements } from "@stripe/react-stripe-js";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { environment } from "@/environment";
 import { useToast } from "@/components/hooks/use-toast";
@@ -18,9 +16,9 @@ import { account } from "@/appwrite.config";
 import { Checkbox } from "@/components/ui/checkbox";
 import { getUserBalance } from "@/actions/users";
 import { Input } from "../ui/input";
-import { useDepositStore } from "@/store";
+import { useDepositStore, useCheckoutStore, useTravelStore } from "@/store";
 
-const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
+const PaymentMethod = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState<boolean>(false);
@@ -29,7 +27,8 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   const [cardCvc, setCardCvc] = useState<any>(null);
   const router = useRouter();
   const { toast } = useToast();
-  const [passengers, setPassengers] = useState<PassengerData[]>([]);
+  const { passengers, setPassengers } = useTravelStore();
+
   const [selectedFlex, setSelectedFlex] = useState<string | null>(null);
   const [flexPrice, setFlexPrice] = useState<number>(0);
   const [user, setUser] = useState<any>(null);
@@ -37,6 +36,7 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
   const [isGreater, setIsGreater] = useState<boolean>(false);
   const { useDeposit, setDepositAmount, setUseDeposit, depositAmount } =
     useDepositStore();
+  const { outboundTicket, returnTicket } = useCheckoutStore();
 
   const fetchUser = async () => {
     try {
@@ -74,7 +74,9 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
 
   useEffect(() => {
     const storedPassengers = getPassengersFromStorage();
+    console.log("Stored Passengers:", storedPassengers);
     setPassengers(storedPassengers);
+
     const storedFlex = localStorage.getItem("flex_options");
     if (storedFlex) {
       setSelectedFlex(storedFlex);
@@ -92,76 +94,30 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
     }
   };
 
-  useEffect(() => {
-    const updateSelectedPassengers = () => {
-      const storedPassengers = getPassengersFromStorage();
-      setPassengers(storedPassengers);
-    };
+  const calculateTicketTotal = (ticket: Ticket) => {
+    const adultPrice = ticket.stops[0].other_prices.our_price;
+    const childPrice = ticket.stops[0].other_prices.our_children_price;
+    const adultCount = passengers.filter((p) => p.age > 10).length;
+    const childCount = passengers.filter((p) => p.age <= 10).length;
+    return adultPrice * adultCount + childPrice * childCount;
+  };
 
-    updateSelectedPassengers();
-
-    window.addEventListener("passengersUpdated", updateSelectedPassengers);
-
-    return () => {
-      window.removeEventListener("passengersUpdated", updateSelectedPassengers);
-    };
-  }, []);
-
-  useEffect(() => {
-    const updateSelectedFlex = () => {
-      const storedFlex = localStorage.getItem("flex_options");
-      if (storedFlex) {
-        setSelectedFlex(storedFlex);
-        calculateFlexPrice(storedFlex);
-      }
-      const storedPassengers = getPassengersFromStorage();
-      setPassengers(storedPassengers);
-    };
-
-    updateSelectedFlex();
-
-    window.addEventListener("flexOptionChanged", updateSelectedFlex);
-
-    return () => {
-      window.removeEventListener("flexOptionChanged", updateSelectedFlex);
-    };
-  }, []);
-
-  const adultPrice = selectedTicket?.stops[0].other_prices.our_price;
-  const childPrice = selectedTicket?.stops[0].other_prices.our_children_price;
-
-  const adultCount = passengers.filter((p) => p.age > 10).length;
-  const childCount = passengers.filter((p) => p.age <= 10).length;
-
-  const adultTotal = adultPrice * adultCount;
-  const childTotal = childPrice * childCount;
-  const passengerTotal = adultTotal + childTotal;
-
-  const totalPrice = passengerTotal + flexPrice;
+  const outboundTotal = outboundTicket
+    ? calculateTicketTotal(outboundTicket)
+    : 0;
+  const returnTotal = returnTicket ? calculateTicketTotal(returnTicket) : 0;
+  const totalPrice = outboundTotal + returnTotal + flexPrice;
 
   const handleUseDepositChange = (checked: boolean) => {
     if (!checked) {
       setDepositAmount(0);
     }
     setUseDeposit(checked);
-    window.dispatchEvent(
-      new CustomEvent("useDepositChanged", {
-        detail: { useDeposit: checked, depositAmount },
-      })
-    );
   };
 
   const finalPrice = useDeposit
     ? Math.max(totalPrice - depositAmount, 0)
     : totalPrice;
-
-  console.log({
-    passengers,
-    selectedFlex,
-    selectedTicket,
-    flexPrice,
-    finalPrice,
-  });
 
   useEffect(() => {
     if (stripe && elements) {
@@ -192,6 +148,8 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
         { passengers, amount_in_cents: finalPrice * 100 }
       );
 
+      console.log("Passengers before booking:", passengers);
+
       const { clientSecret } = res.data.data;
       const { error: confirmError, paymentIntent } =
         await stripe.confirmCardPayment(clientSecret, {
@@ -207,90 +165,86 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
           variant: "destructive",
         });
       } else if (paymentIntent.status === "succeeded") {
-        const departure_station = selectedTicket.stops[0].from._id;
-        const arrival_station = selectedTicket.stops[0].to._id;
-        const departure_station_label = selectedTicket.stops[0].from.name;
-        const arrival_station_label = selectedTicket.stops[0].to.name;
+        await createBookings(paymentIntent.id);
 
-        const passengersWithPrices = calculatePassengerPrices(
-          passengers,
-          selectedTicket
-        );
-        // console.log({ passengersWithPrices });
-        await axios
-          .post(
-            `${environment.apiurl}/booking/create/${selectedTicket.operator}/${
-              user ? user.$id : null
-            }/${selectedTicket._id}`,
-            {
-              passengers: passengersWithPrices,
-              travel_flex: selectedFlex,
-              payment_intent_id: paymentIntent?.id,
-              platform: "web",
-              flex_price: flexPrice,
-              total_price: totalPrice,
-              departure_station,
-              arrival_station,
-              departure_station_label,
-              arrival_station_label,
-              is_using_deposited_money: useDeposit,
-              deposit_spent: depositAmount * 100 || 0,
-              stop: selectedTicket.stops[0],
-            }
-          )
-          .then((res) => {
-            localStorage.removeItem("passengers");
-            router.push("/checkout/success");
-          })
-          .catch((err) => {
-            toast({
-              description: err?.response?.data?.message,
-              variant: "destructive",
-            });
-          });
+        router.push("/checkout/success");
       }
     } catch (err: any) {
       toast({ description: err.response.data.message, variant: "destructive" });
+    } finally {
+      setLoading(false);
+      localStorage.removeItem("passengers");
+      localStorage.removeItem("returnTicket");
+      localStorage.removeItem("outboundTicket");
+    }
+  };
+
+  const createBookings = async (paymentIntentId: string) => {
+    const bookings = [];
+
+    if (outboundTicket) {
+      const outboundBooking = await createBooking(
+        outboundTicket,
+        false,
+        paymentIntentId
+      );
+      bookings.push(outboundBooking);
     }
 
-    setLoading(false);
+    if (returnTicket) {
+      const returnBooking = await createBooking(
+        returnTicket,
+        true,
+        paymentIntentId
+      );
+      bookings.push(returnBooking);
+    }
+
+    return bookings;
   };
+
+  const createBooking = async (
+    ticket: Ticket,
+    isReturn: boolean,
+    paymentIntentId: string
+  ) => {
+    const departure_station = ticket.stops[0].from._id;
+    const arrival_station = ticket.stops[0].to._id;
+    const departure_station_label = ticket.stops[0].from.name;
+    const arrival_station_label = ticket.stops[0].to.name;
+    const passengersWithPrices = calculatePassengerPrices(passengers, ticket);
+    console.log({ passengers, passengersWithPrices });
+    const ticketTotal = isReturn ? returnTotal : outboundTotal;
+    return axios.post(
+      `${environment.apiurl}/booking/create/${ticket.operator}/${
+        user ? user.$id : null
+      }/${ticket._id}`,
+      {
+        passengers: passengersWithPrices,
+        travel_flex: selectedFlex,
+        payment_intent_id: paymentIntentId,
+        platform: "web",
+        flex_price: isReturn ? 0 : flexPrice,
+        total_price: ticketTotal + (isReturn ? 0 : flexPrice),
+        departure_station,
+        arrival_station,
+        departure_station_label,
+        arrival_station_label,
+        is_using_deposited_money: useDeposit,
+        deposit_spent: isReturn ? 0 : depositAmount * 100 || 0,
+        stop: ticket.stops[0],
+        is_return: isReturn,
+      }
+    );
+  };
+
+  console.log({ passengers });
 
   const handleFullDepositPayment = async () => {
     setLoading(true);
 
     try {
-      const departure_station = selectedTicket.stops[0].from._id;
-      const arrival_station = selectedTicket.stops[0].to._id;
-      const departure_station_label = selectedTicket.stops[0].from.name;
-      const arrival_station_label = selectedTicket.stops[0].to.name;
-
-      const passengersWithPrices = calculatePassengerPrices(
-        passengers,
-        selectedTicket
-      );
-      // console.log({ passengersWithPrices });
-
-      await axios.post(
-        `${environment.apiurl}/booking/create/${selectedTicket.operator}/${
-          user ? user.$id : null
-        }/${selectedTicket._id}`,
-        {
-          passengers: passengersWithPrices,
-          travel_flex: selectedFlex,
-          payment_intent_id: "full_deposit_payment",
-          platform: "web",
-          flex_price: flexPrice,
-          total_price: totalPrice,
-          departure_station,
-          arrival_station,
-          departure_station_label,
-          arrival_station_label,
-          is_using_deposited_money: useDeposit,
-          deposit_spent: depositAmount * 100 || 0,
-          stop: selectedTicket.stops[0],
-        }
-      );
+      await createBookings("full_deposit_payment");
 
       localStorage.removeItem("passengers");
       router.push("/checkout/success");
@@ -304,8 +258,6 @@ const PaymentMethod = ({ selectedTicket }: { selectedTicket: Ticket }) => {
       setLoading(false);
     }
   };
-
-  console.log(isGreater);
 
   return (
     <div className="space-y-6">

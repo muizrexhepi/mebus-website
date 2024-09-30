@@ -13,8 +13,12 @@ export interface Passengers {
 interface CheckoutState {
   selectedTicket: Ticket | null;
   setSelectedTicket: (ticket: Ticket) => void;
+  outboundTicket: Ticket | null;
+  setOutboundTicket: (ticket: Ticket) => void;
   returnTicket: Ticket | null;
   setReturnTicket: (ticket: Ticket) => void;
+  isSelectingReturn: boolean;
+  setIsSelectingReturn: (isSelecting:boolean) => void;
   resetCheckout: () => void;
 }
 
@@ -27,6 +31,14 @@ export const useCheckoutStore = create<CheckoutState>((set) => ({
       localStorage.setItem('ticket',JSON.stringify(ticket))
     }
   },
+  outboundTicket: null,
+
+  setOutboundTicket: (ticket) => {
+    set({ outboundTicket: ticket })
+    if(typeof window !== 'undefined'){
+      localStorage.setItem('outboundTicket',JSON.stringify(ticket))
+    }
+  },
   returnTicket: null,
 
   setReturnTicket: (ticket) => {
@@ -34,6 +46,12 @@ export const useCheckoutStore = create<CheckoutState>((set) => ({
     if(typeof window !== 'undefined'){
       localStorage.setItem('returnTicket',JSON.stringify(ticket))
     }
+  },
+  
+  isSelectingReturn: false,
+
+  setIsSelectingReturn: (isSelecting) => {
+    set({ isSelectingReturn: isSelecting })
   },
   
   resetCheckout: () => {
@@ -134,18 +152,25 @@ interface TravelStore {
   passengers: PassengerData[];
   selectedFlex: string | null;
   flexPrice: number;
+  totalCost: number; // Derived state
   setPassengers: (passengers: PassengerData[]) => void;
   setSelectedFlex: (flex: string | null) => void;
   setFlexPrice: (price: number) => void;
+  calculateTotalCost: () => void; 
 }
 
-export const useTravelStore = create<TravelStore>((set) => ({
+export const useTravelStore = create<TravelStore>((set, get) => ({
   passengers: [],
   selectedFlex: null,
   flexPrice: 0,
+  totalCost: 0,
   setPassengers: (passengers) => set({ passengers }),
   setSelectedFlex: (flex) => set({ selectedFlex: flex }),
   setFlexPrice: (price) => set({ flexPrice: price }),
+  calculateTotalCost: () => {
+    const { passengers, flexPrice } = get();
+    set({ totalCost: passengers.length * flexPrice });
+  },
 }));
 
 interface DepositStore {

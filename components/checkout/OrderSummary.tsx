@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useMemo, useState } from "react";
 import { Calendar, InfoIcon, TimerIcon } from "lucide-react";
 import moment from "moment-timezone";
@@ -9,7 +8,8 @@ import {
   PassengerData,
 } from "../hooks/use-passengers";
 import InfoBlock from "../InfoBlock";
-import { useDepositStore } from "@/store";
+import { useDepositStore, useCheckoutStore } from "@/store";
+import { Separator } from "../ui/separator";
 
 interface PriceSummaryItemProps {
   label: string;
@@ -28,23 +28,69 @@ const PriceSummaryItem: React.FC<PriceSummaryItemProps> = ({
   </div>
 );
 
-const OrderSummary = ({
-  selectedTicket,
-  returnTicket,
-  className,
+const TicketSummary = ({
+  ticket,
+  isReturn,
 }: {
-  selectedTicket: Ticket;
-  returnTicket?: Ticket;
-  className?: string;
-}) => {
+  ticket: Ticket;
+  isReturn: boolean;
+}) => (
+  <div className="flex flex-col">
+    <h2 className="font-medium text-base mt-2">
+      {isReturn ? "Return Trip" : "Outbound Trip"}
+    </h2>
+    <div className="flex items-center mt-2 gap-8">
+      <div className="flex items-center gap-2 justify-between w-full">
+        <p className="text-black capitalize">
+          {isReturn ? ticket.stops[0].to.city : ticket.stops[0].from.city}
+        </p>
+        <hr className="h-[0.5px] w-full bg-gray-800" />
+        <p className="text-black capitalize">
+          {isReturn ? ticket.stops[0].from.city : ticket.stops[0].to.city}
+        </p>
+      </div>
+    </div>
+    <div className="flex flex-col gap-2 mt-2">
+      <div className="flex items-center gap-2">
+        <Calendar color="gray" size={20} />
+        <p className="text-black text-sm">Departure: </p>
+        <p className="font-medium text-black text-sm">
+          {moment
+            .utc(ticket.stops[0].departure_date)
+            .format("dddd, DD-MM-YYYY / HH:mm")}
+        </p>
+      </div>
+      <div className="flex items-center gap-2">
+        <TimerIcon color="gray" size={20} />
+        <p className="text-black text-sm">Duration</p>
+        <p className="font-medium text-black text-sm">
+          {moment
+            .duration(
+              moment(ticket.stops[0].arrival_time).diff(
+                moment(ticket.stops[0].departure_date)
+              )
+            )
+            .asHours()
+            .toFixed(2)}{" "}
+          hrs
+        </p>
+      </div>
+    </div>
+    <InfoBlock
+      desc="This trip will be operated by"
+      title={ticket.metadata.operator_company_name}
+    />
+  </div>
+);
+
+const OrderSummary = ({ className }: { className?: string }) => {
   const [selectedFlex, setSelectedFlex] = useState<string | null>(null);
   const [passengers, setPassengers] = useState<PassengerData[]>([]);
   const [useBalance, setUseBalance] = useState(false);
   const [balanceAmount, setBalanceAmount] = useState(0);
   const [remainingAmount, setRemainingAmount] = useState(0);
   const { useDeposit, depositAmount } = useDepositStore();
-
-  console.log({ depositAmount, useDeposit });
+  const { outboundTicket, returnTicket } = useCheckoutStore();
 
   useEffect(() => {
     const updateSelectedFlex = () => {
@@ -84,19 +130,22 @@ const OrderSummary = ({
     return selectedFlex === "premium" ? 4 : selectedFlex === "basic" ? 2 : 0;
   }, [selectedFlex]);
 
-  const adultPrice = selectedTicket?.stops[0].other_prices.our_price;
-  const childPrice = selectedTicket?.stops[0].other_prices.our_children_price;
+  const calculateTicketTotal = (ticket: Ticket) => {
+    const adultPrice = ticket.stops[0].other_prices.our_price;
+    const childPrice = ticket.stops[0].other_prices.our_children_price;
+    const adultCount = passengers.filter((p) => p.age > 10).length;
+    const childCount = passengers.filter((p) => p.age <= 10).length;
+    return adultPrice * adultCount + childPrice * childCount;
+  };
 
-  const adultCount = passengers.filter((p) => p.age > 10).length;
-  const childCount = passengers.filter((p) => p.age <= 10).length;
-
-  const adultTotal = adultPrice * adultCount;
-  const childTotal = childPrice * childCount;
-  const passengerTotal = adultTotal + childTotal;
+  const outboundTotal = outboundTicket
+    ? calculateTicketTotal(outboundTicket)
+    : 0;
+  const returnTotal = returnTicket ? calculateTicketTotal(returnTicket) : 0;
 
   const totalPrice = useMemo(() => {
-    return passengerTotal + flexPrice;
-  }, [passengerTotal, flexPrice]);
+    return outboundTotal + returnTotal + flexPrice;
+  }, [outboundTotal, returnTotal, flexPrice]);
 
   const finalPrice = useMemo(() => {
     if (useBalance) {
@@ -115,80 +164,15 @@ const OrderSummary = ({
     }
   }, [useBalance, balanceAmount, totalPrice, depositAmount]);
 
-  console.log({ totalPrice, remainingAmount });
-
   return (
     <>
       <div className="bg-white rounded-xl p-4 block shadow-md">
         <h1 className="font-medium text-lg">Booking details</h1>
-        <div className="flex flex-col">
-          <div className="flex items-center mt-2 gap-8">
-            <div className="flex items-center gap-2 justify-between w-full">
-              <p className="text-black capitalize">
-                {selectedTicket?.stops[0]?.from?.city}
-              </p>
-              <hr className="h-[0.5px] w-full bg-gray-800" />
-              <p className="text-black capitalize">
-                {selectedTicket?.stops[0]?.to?.city}
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2 mt-2">
-            <div className="flex items-center gap-2">
-              <Calendar color="gray" size={20} />
-              <p className="text-black text-sm">Departure: </p>
-              <p className="font-medium text-black text-sm">
-                {moment
-                  .utc(selectedTicket?.stops[0]?.departure_date)
-                  .format("dddd, DD-MM-YYYY / HH:mm")}
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <TimerIcon color="gray" size={20} />
-              <p className="text-black text-sm">Duration</p>
-              <p className="font-medium text-black text-sm">5h 30m</p>
-            </div>
-          </div>
-          <InfoBlock
-            desc="This trip will be operated by"
-            title={selectedTicket?.metadata?.operator_company_name}
-          />
-        </div>
+        {outboundTicket && (
+          <TicketSummary ticket={outboundTicket} isReturn={false} />
+        )}
         {returnTicket && (
-          <div className="flex flex-col">
-            Return
-            <div className="flex items-center mt-2 gap-8">
-              <div className="flex items-center gap-2 justify-between w-full">
-                <p className="text-black capitalize">
-                  {returnTicket?.stops[0]?.from?.city}
-                </p>
-                <hr className="h-[0.5px] w-full bg-gray-800" />
-                <p className="text-black capitalize">
-                  {returnTicket?.stops[0]?.to?.city}
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2 mt-2">
-              <div className="flex items-center gap-2">
-                <Calendar color="gray" size={20} />
-                <p className="text-black text-sm">Departure: </p>
-                <p className="font-medium text-black text-sm">
-                  {moment
-                    .utc(returnTicket?.stops[0]?.departure_date)
-                    .format("dddd, DD-MM-YYYY / HH:mm")}
-                </p>
-              </div>
-              <div className="flex items-center gap-2">
-                <TimerIcon color="gray" size={20} />
-                <p className="text-black text-sm">Duration</p>
-                <p className="font-medium text-black text-sm">5h 30m</p>
-              </div>
-            </div>
-            <InfoBlock
-              desc="This trip will be operated by"
-              title={returnTicket?.metadata?.operator_company_name}
-            />
-          </div>
+          <TicketSummary ticket={returnTicket} isReturn={true} />
         )}
       </div>
       <div
@@ -196,21 +180,9 @@ const OrderSummary = ({
       >
         <h1 className="font-medium text-lg">Booking price</h1>
         <div className="flex flex-col gap-1">
-          {adultCount > 0 && (
-            <PriceSummaryItem
-              label={`${adultPrice.toFixed(2)}€ x ${adultCount} adult${
-                adultCount > 1 ? "s" : ""
-              }`}
-              amount={adultTotal}
-            />
-          )}
-          {childCount > 0 && (
-            <PriceSummaryItem
-              label={`${childPrice.toFixed(2)}€ x ${childCount} child${
-                childCount > 1 ? "ren" : ""
-              }`}
-              amount={childTotal}
-            />
+          <PriceSummaryItem label="Outbound Trip" amount={outboundTotal} />
+          {returnTicket && (
+            <PriceSummaryItem label="Return Trip" amount={returnTotal} />
           )}
           {selectedFlex && selectedFlex !== "no_flex" && (
             <PriceSummaryItem

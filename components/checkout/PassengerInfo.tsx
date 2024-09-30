@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useState, useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useSearchParams } from "next/navigation";
 import {
@@ -8,6 +8,7 @@ import {
   getPassengersFromStorage,
   setPassengersToStorage,
 } from "@/components/hooks/use-passengers";
+import { useTravelStore } from "@/store";
 
 interface InputFieldProps {
   label: string;
@@ -41,9 +42,10 @@ const InputField: React.FC<InputFieldProps> = ({
 
 const PassengerInfoContent: React.FC = () => {
   const searchParams = useSearchParams();
-  const [passengers, setPassengers] = useState<PassengerData[]>([]);
-  const [firstAdultEmail, setFirstAdultEmail] = useState("");
-  const [firstAdultPhone, setFirstAdultPhone] = useState("");
+  const { passengers, setPassengers } = useTravelStore((state) => ({
+    passengers: state.passengers,
+    setPassengers: state.setPassengers,
+  }));
 
   const { adults, children } = {
     adults: parseInt(searchParams.get("adults") || "0"),
@@ -76,7 +78,7 @@ const PassengerInfoContent: React.FC = () => {
       setPassengers(initialPassengers);
       setPassengersToStorage(initialPassengers);
     }
-  }, [adults, children]);
+  }, [adults, children, setPassengers]);
 
   const updatePassenger = (
     index: number,
@@ -89,13 +91,6 @@ const PassengerInfoContent: React.FC = () => {
       [field]: value,
     };
 
-    if (index === 0 && (field === "email" || field === "phone")) {
-      if (field === "email") setFirstAdultEmail(value);
-      if (field === "phone") setFirstAdultPhone(value);
-      updatedPassengers.forEach((passenger) => {
-        passenger[field] = value;
-      });
-    }
     if (field === "birthdate") {
       const birthDate = new Date(value);
       const today = new Date();
@@ -109,6 +104,7 @@ const PassengerInfoContent: React.FC = () => {
       }
       updatedPassengers[index].age = age;
     }
+
     setPassengers(updatedPassengers);
     setPassengersToStorage(updatedPassengers);
     window.dispatchEvent(new Event("passengersUpdated"));
@@ -116,7 +112,6 @@ const PassengerInfoContent: React.FC = () => {
 
   const renderPassengerInputs = (passengerIndex: number, isChild: boolean) => {
     const passenger = passengers[passengerIndex];
-    const isFirstAdult = passengerIndex === 0 && !isChild;
 
     return (
       <div key={passengerIndex} className="">
@@ -159,7 +154,7 @@ const PassengerInfoContent: React.FC = () => {
             }}
             required={true}
           />
-          {isFirstAdult && (
+          {passengerIndex === 0 && (
             <>
               <InputField
                 label="Email"

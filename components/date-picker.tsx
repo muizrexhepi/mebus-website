@@ -28,7 +28,6 @@ function DatePickerComponent() {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
 
-  // Only access localStorage after the component has mounted
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       const storedDate = localStorage.getItem("departureDate");

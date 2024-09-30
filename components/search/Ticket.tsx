@@ -1,5 +1,4 @@
-"use client";
-
+import React, { useEffect, useState } from "react";
 import moment from "moment-timezone";
 import { Symbols } from "@/symbols";
 import { Ticket as TicketType } from "@/models/ticket";
@@ -22,34 +21,61 @@ const TicketBlock: React.FC<TicketProps> = ({
   nrOfChildren,
   isReturn,
 }) => {
-  const { setSelectedTicket, selectedTicket, setReturnTicket } =
-    useCheckoutStore();
+  const {
+    setOutboundTicket,
+    outboundTicket,
+    setReturnTicket,
+    returnTicket,
+    isSelectingReturn,
+    setIsSelectingReturn,
+  } = useCheckoutStore();
   const router = useRouter();
+  const [tripType, setTripType] = useState<string | null>(null);
 
-  const handleCheckout = (e: React.MouseEvent) => {
-    try {
-      e.preventDefault();
+  useEffect(() => {
+    const storedTripType = localStorage.getItem("tripType");
+    setTripType(storedTripType);
+  }, []);
+  console.log({ isReturn });
 
-      // If the current ticket is a return ticket
-      if (isReturn) {
-        // If there is a selected ticket already, set the return ticket and redirect
-        if (selectedTicket) {
-          setReturnTicket(ticket); // Set the current ticket as the return ticket
-          router.push(`/checkout?adults=${adults}&children=${nrOfChildren}`); // Redirect to checkout
-        } else {
-          setSelectedTicket(ticket); // Otherwise, select the current ticket
-        }
+  const handleTicketSelection = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (isSelectingReturn) {
+      setReturnTicket(ticket);
+      router.push(`/checkout?adults=${adults}&children=${nrOfChildren}`);
+    } else {
+      setOutboundTicket(ticket);
+      setIsSelectingReturn(true);
+      if (tripType === "round-trip") {
+        console.log("zi");
+        setIsSelectingReturn(true);
       } else {
-        // If not a return ticket, just set the selected ticket
-        setSelectedTicket(ticket);
-        router.push(`/checkout?adults=${adults}&children=${nrOfChildren}`); // Redirect to checkout
+        router.push(`/checkout?adults=${adults}&children=${nrOfChildren}`);
       }
-
-      console.log({ ticket });
-    } catch (error) {
-      console.error(error);
     }
   };
+
+  // const handleTicketSelection = (e: React.MouseEvent) => {
+  //   e.preventDefault();
+
+  //   if (isReturn) {
+  //     setReturnTicket(ticket);
+  //     if (outboundTicket) {
+  //       router.push(`/checkout?adults=${adults}&children=${nrOfChildren}`);
+  //     } else {
+  //       console.error(
+  //         "Please select an outbound ticket before choosing a return ticket."
+  //       );
+  //     }
+  //   } else {
+  //     setOutboundTicket(ticket);
+  //     if (tripType === "round-trip") {
+  //       console.log("Please select a return ticket now.");
+  //     } else {
+  //       router.push(`/checkout?adults=${adults}&children=${nrOfChildren}`);
+  //     }
+  //   }
+  // };
 
   const departureDate = moment.utc(ticket.stops[0].departure_date);
   const arrivalTime = moment.utc(ticket.stops[0].arrival_time);
@@ -59,8 +85,16 @@ const TicketBlock: React.FC<TicketProps> = ({
     .toString()
     .padStart(2, "0")} hrs`;
 
+  const isSelected = isReturn
+    ? ticket?._id === returnTicket?._id
+    : ticket?._id === outboundTicket?._id;
+
   return (
-    <div className="max-w-5xl mx-auto bg-white border rounded-xl overflow-hidden">
+    <div
+      className={`max-w-5xl mx-auto bg-white border rounded-xl overflow-hidden ${
+        isSelected ? "border-blue-500" : ""
+      }`}
+    >
       <div className="p-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
           <div className="flex gap-2 items-center mb-2 sm:mb-0 justify-between w-full">
@@ -116,9 +150,13 @@ const TicketBlock: React.FC<TicketProps> = ({
             </div>
             <Button
               className="w-fit text-sm sm:text-base bg-emerald-700 hover:bg-emerald-600"
-              onClick={handleCheckout}
+              onClick={handleTicketSelection}
             >
-              {isReturn && selectedTicket == null ? "Select" : "Continue"}
+              {isReturn && !outboundTicket
+                ? "Select Return"
+                : isReturn
+                ? "Continue"
+                : "Select Outbound"}
             </Button>
           </div>
         </div>

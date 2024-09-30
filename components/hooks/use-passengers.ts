@@ -20,12 +20,21 @@ export interface PassengerData {
     localStorage.setItem('passengers', JSON.stringify(passengers));
   };
 
-  export const calculatePassengerPrices = (passengers: PassengerData[], selectedTicket: Ticket, max_child_age?: number) => {
-    if(!max_child_age) max_child_age = 10;
+  export const calculatePassengerPrices = (
+    passengers: PassengerData[],
+    selectedTicket: Ticket,
+    max_child_age: number = 10
+  ) => {
+    if (!selectedTicket || !selectedTicket.stops || selectedTicket.stops.length === 0) {
+      throw new Error("Invalid ticket data.");
+    }
+  
+    const childPrice = selectedTicket.stops[0].other_prices.our_children_price;
+    const adultPrice = selectedTicket.stops[0].other_prices.our_price;
+  
     return passengers.map(passenger => ({
       ...passenger,
-      price: passenger.age <= max_child_age 
-        ? selectedTicket.stops[0].other_prices.our_children_price 
-        : selectedTicket.stops[0].other_prices.our_price
+      price: passenger.age <= max_child_age ? childPrice : adultPrice,
     }));
   };
+  

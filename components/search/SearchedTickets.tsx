@@ -24,8 +24,15 @@ const TicketList: React.FC = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { toast } = useToast();
-  const { selectedTicket, setSelectedTicket } = useCheckoutStore();
-  const nrOfChildren = searchParams.get("children") || "0";
+  const {
+    outboundTicket,
+    returnTicket,
+    setSelectedTicket,
+    setOutboundTicket,
+    setReturnTicket,
+    isSelectingReturn,
+    setIsSelectingReturn,
+  } = useCheckoutStore();
   const { setIsLoading, isLoading } = useLoadingStore();
   const departureStation = searchParams.get("departureStation");
   const arrivalStation = searchParams.get("arrivalStation");
@@ -33,14 +40,16 @@ const TicketList: React.FC = () => {
   const returnDate = searchParams.get("returnDate");
   const adults = searchParams.get("adult") || "1";
   const children = searchParams.get("children") || "0";
-
+  const tripType =
+    typeof window !== "undefined"
+      ? localStorage.getItem("tripType")
+      : "one-way";
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [noData, setNoData] = useState(false);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-
-  console.log({ selectedTicket });
+  // const [isSelectingReturn, setIsSelectingReturn] = useState(false);
 
   const fetchTickets = async (pageNumber: number) => {
     if (!departureStation || !arrivalStation) {
@@ -58,7 +67,7 @@ const TicketList: React.FC = () => {
         `${
           environment.apiurl
         }/ticket/search?departureStation=${departureStation}&arrivalStation=${arrivalStation}&departureDate=${
-          selectedTicket !== null && returnDate ? returnDate : departureDate
+          isSelectingReturn ? returnDate : departureDate
         }&adults=${adults}&children=${children}&page=${pageNumber}`
       );
 
@@ -102,9 +111,10 @@ const TicketList: React.FC = () => {
     departureStation,
     arrivalStation,
     departureDate,
+    returnDate,
     adults,
     children,
-    selectedTicket,
+    isSelectingReturn,
   ]);
 
   const handleLoadMore = () => {
@@ -112,6 +122,22 @@ const TicketList: React.FC = () => {
       fetchTickets(page);
     }
   };
+
+  const handleTicketSelection = (ticket: Ticket) => {
+    if (isSelectingReturn) {
+      setReturnTicket(ticket);
+      router.push(`/checkout?adults=${adults}&children=${children}`);
+    } else {
+      setOutboundTicket(ticket);
+
+      if (tripType === "round-trip" && returnDate) {
+        setIsSelectingReturn(true);
+      } else {
+        router.push(`/checkout?adults=${adults}&children=${children}`);
+      }
+    }
+  };
+  console.log({ isSelectingReturn });
 
   if (isLoading) {
     return (
@@ -130,9 +156,9 @@ const TicketList: React.FC = () => {
       ) : (
         <div className="w-full mx-auto">
           <h1 className="mb-2 font-medium text-lg">
-            {returnDate && selectedTicket == null
-              ? "Select Outbound Ticket"
-              : returnDate && selectedTicket && "Select Return Ticket"}
+            {isSelectingReturn
+              ? "Select Return Ticket"
+              : "Select Outbound Ticket"}
           </h1>
           <InfiniteScroll
             dataLength={tickets.length}
@@ -140,11 +166,6 @@ const TicketList: React.FC = () => {
             next={handleLoadMore}
             hasMore={hasMore}
             loader={loading ? <TicketSkeletonton /> : null}
-            // endMessage={
-            //   <p style={{ textAlign: "center" }}>
-            //     <b>There are no more tickets for this route.</b>
-            //   </p>
-            // }
           >
             {tickets.map((ticket, index) => (
               <Sheet key={index}>
@@ -156,8 +177,8 @@ const TicketList: React.FC = () => {
                     <TicketBlock
                       ticket={ticket}
                       adults={adults}
-                      nrOfChildren={nrOfChildren}
-                      isReturn={returnDate !== null}
+                      nrOfChildren={children}
+                      isReturn={isSelectingReturn}
                     />
                   </div>
                 </SheetTrigger>
@@ -168,19 +189,18 @@ const TicketList: React.FC = () => {
                         Ticket Details
                       </SheetTitle>
                     </SheetHeader>
-                    <TicketDetails ticket={selectedTicket!} />
+                    <TicketDetails ticket={ticket} />
                   </div>
                   <SheetFooter className="p-4">
                     <Button
                       className="w-full"
-                      onClick={() => {
-                        setSelectedTicket(ticket);
-                        router.push(
-                          `/checkout?adults=${adults}&children=${nrOfChildren}`
-                        );
-                      }}
+                      onClick={() => handleTicketSelection(ticket)}
                     >
-                      Continue
+                      {isSelectingReturn
+                        ? "Select Return and Continue"
+                        : returnDate
+                        ? "Select Outbound"
+                        : "Continue"}
                     </Button>
                   </SheetFooter>
                 </SheetContent>
