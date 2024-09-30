@@ -37,13 +37,10 @@ const CheckoutForm = () => {
       <div className="flex-[2] flex flex-col gap-4">
         <PassengerInfo />
         <Extras />
-        <PaymentMethod selectedTicket={selectedTicket!} />
+        <PaymentMethod />
       </div>
       <div className="flex-1 flex flex-col gap-4">
-        <OrderSummary
-          selectedTicket={selectedTicket!}
-          returnTicket={returnTicket!}
-        />
+        <OrderSummary />
       </div>
     </div>
   );
