@@ -26,22 +26,27 @@ function DatePickerComponent() {
   const path = usePathname();
   const isMobile = useIsMobile();
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+  const [date, setDate] = React.useState<Date | undefined>(undefined);
 
-  const [date, setDate] = React.useState<Date | undefined>(() => {
-    const storedDate = localStorage.getItem("departureDate");
-    if (storedDate) {
-      const parsedDate = parse(storedDate, "dd-MM-yyyy", new Date());
-      return isValid(parsedDate) ? parsedDate : undefined;
+  // Only access localStorage after the component has mounted
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedDate = localStorage.getItem("departureDate");
+      if (storedDate) {
+        const parsedDate = parse(storedDate, "dd-MM-yyyy", new Date());
+        setDate(isValid(parsedDate) ? parsedDate : undefined);
+      }
     }
-    return undefined;
-  });
+  }, []);
 
   React.useEffect(() => {
     if (departureDate) {
       const parsedDate = parse(departureDate, "dd-MM-yyyy", new Date());
       if (isValid(parsedDate) && (!date || !isSameDay(parsedDate, date))) {
         setDate(parsedDate);
-        localStorage.setItem("departureDate", departureDate);
+        if (typeof window !== "undefined") {
+          localStorage.setItem("departureDate", departureDate);
+        }
       }
     }
   }, [departureDate, date]);
@@ -56,7 +61,10 @@ function DatePickerComponent() {
 
       const formattedDate = format(selectedDate, "dd-MM-yyyy");
       setDepartureDate(formattedDate);
-      localStorage.setItem("departureDate", formattedDate);
+
+      if (typeof window !== "undefined") {
+        localStorage.setItem("departureDate", formattedDate);
+      }
 
       const newPathname = window.location.pathname.split("?")[0];
       router.push(newPathname, { scroll: false });
