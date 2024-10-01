@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import axios from "axios";
 import { Search, MapPin, Bus, Calendar, Users, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -50,7 +50,7 @@ const ChangeView = ({
   return null;
 };
 
-export default function BusRoutes() {
+function BusRoutes() {
   const [searchFrom, setSearchFrom] = useState<string>("");
   const [searchTo, setSearchTo] = useState<string>("");
   const [routes, setRoutes] = useState<Route[]>([]);
@@ -295,5 +295,13 @@ export default function BusRoutes() {
       </div>
       <SecondaryFooter className="paddingX max-w-none" />
     </div>
+  );
+}
+
+export default function Routes() {
+  return (
+    <Suspense fallback={<p>Loading bus routes...</p>}>
+      <BusRoutes />
+    </Suspense>
   );
 }
