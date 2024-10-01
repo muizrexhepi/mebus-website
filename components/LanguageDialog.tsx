@@ -30,7 +30,7 @@ const LanguageDialog = () => {
 
   return (
     <Dialog open={openLanguages} onOpenChange={() => setOpenLanguages(false)}>
-      <DialogContent className="h-screen sm:h-fit flex flex-col justify-center">
+      <DialogContent className="flex flex-col justify-center">
         <DialogHeader>
           <DialogTitle>Select Your Language</DialogTitle>
           <DialogDescription>Choose a language to continue.</DialogDescription>
