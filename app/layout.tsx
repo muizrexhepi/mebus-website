@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import ReactQueryProvider from "./ReactQueryProvider";
 import { Toaster } from "@/components/ui/toaster";
+import CookieConsent from "@/components/CookieConsent";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -32,6 +33,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
+            <CookieConsent />
           </ThemeProvider>
         </ReactQueryProvider>
       </body>

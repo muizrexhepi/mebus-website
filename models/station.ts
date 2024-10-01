@@ -7,8 +7,8 @@ export interface Station {
     country: string;
     address: string;
     location: {
-        lat: number | undefined;
-        lng: number | undefined;
+        lat: number ;
+        lng: number ;
     };
     code: string;
     operator?: Operator | string;

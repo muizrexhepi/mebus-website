@@ -13,8 +13,8 @@ export interface Route {
         to: string,
     },
     stations: {
-        from: Station | String;
-        to: Station | String;
+        from: Station ;
+        to: Station ;
     },
     operator: Operator | string;
     luggages: {

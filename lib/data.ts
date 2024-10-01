@@ -2,8 +2,8 @@ import { AlertCircle, Bell, Book, BookImageIcon, Clock, CreditCard, DollarSign, 
 
 export const NAV_LINKS = [
     {
-        name:'Home',
-        url:'/',
+        name:'Routes',
+        url:'/routes',
     },
     {
         name:'Bookings',
