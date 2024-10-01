@@ -6,14 +6,13 @@ import { Search, MapPin, Bus, Calendar, Users, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  useMap,
-  Polyline,
-} from "react-leaflet";
+const MapContainer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.MapContainer),
+  {
+    ssr: false, // This disables server-side rendering for the map
+  }
+);
+import { TileLayer, Marker, Popup, useMap, Polyline } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { environment } from "@/environment";
@@ -23,6 +22,7 @@ import { useRouter } from "next/navigation";
 import useSearchStore from "@/store";
 import Navbar from "@/components/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
+import dynamic from "next/dynamic";
 
 let DefaultIcon = L.icon({
   iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
