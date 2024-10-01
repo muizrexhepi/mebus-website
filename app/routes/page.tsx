@@ -88,15 +88,16 @@ export default function BusRoutes() {
     const fromValue = route.stations.from._id;
     const toValue = route.stations.to._id;
 
-    setFromCity(fromLabel);
-    setFrom(fromValue!);
-    localStorage.setItem("fromCity", fromLabel);
-    localStorage.setItem("fromValue", fromValue!);
-    setToCity(toLabel);
-    setTo(toValue!);
-    localStorage.setItem("toCity", toLabel);
-    localStorage.setItem("toValue", toValue!);
-
+    if (typeof window !== "undefined") {
+      setFromCity(fromLabel);
+      setFrom(fromValue!);
+      localStorage.setItem("fromCity", fromLabel);
+      localStorage.setItem("fromValue", fromValue!);
+      setToCity(toLabel);
+      setTo(toValue!);
+      localStorage.setItem("toCity", toLabel);
+      localStorage.setItem("toValue", toValue!);
+    }
     try {
       const searchParams = new URLSearchParams({
         departureStation: route.stations.from._id!,
