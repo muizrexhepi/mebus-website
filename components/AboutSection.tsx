@@ -15,6 +15,7 @@ import {
   HeartIcon,
   GlobeIcon,
 } from "lucide-react";
+import Link from "next/link";
 
 export default function AboutSection() {
   return (
@@ -124,13 +125,15 @@ export default function AboutSection() {
           affordable, and comfortable journeys. Whether you're planning a
           weekend getaway or a cross-country expedition, we've got you covered.
         </p>
-        <Button
-          size="lg"
-          className="bg-primary text-white hover:bg-primary-dark"
-        >
-          <GlobeIcon className="mr-2 h-5 w-5" />
-          Explore Mebus Routes
-        </Button>
+        <Link href="/routes">
+          <Button
+            size="lg"
+            className="bg-primary text-white hover:bg-primary-dark"
+          >
+            <GlobeIcon className="mr-2 h-5 w-5" />
+            Explore Mebus Routes
+          </Button>
+        </Link>
       </div>
     </div>
   );

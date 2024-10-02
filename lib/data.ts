@@ -47,7 +47,7 @@ export const FOOTER_LINKS = [
     links: [
       {
         name: "About Us",
-        link: "/about-us",
+        link: "/about",
       },
       {
         name: "Careers",
