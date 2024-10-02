@@ -19,7 +19,7 @@ export const getStationsByOperatorId = cache(async (operator_id: string) => {
 
 export const getStations = cache(async () => {
   try {
-    const res = await fetch(`${environment.apiurl}/station?select=name city country`);
+    const res = await fetch(`${environment.apiurl}/station?select=name city country location`);
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }

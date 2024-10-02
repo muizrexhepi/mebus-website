@@ -3,7 +3,13 @@ import Navbar from "@/components/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Globe, Shield, TrendingUp } from "lucide-react";
+import {
+  ArrowLeft,
+  ChevronLeft,
+  Globe,
+  Shield,
+  TrendingUp,
+} from "lucide-react";
 import Link from "next/link";
 import PartnerApplicationForm from "@/components/forms/PartnerApplyForm";
 import { Metadata } from "next";
@@ -22,13 +28,12 @@ const PartnerApplicationPage: React.FC = () => {
       </div>
 
       <div className="max-w-6xl mx-auto py-16">
-        <Link
-          className="flex items-center gap-2 mb-4"
-          href={"/partners/overview"}
-        >
-          <ArrowLeft color="black" size={20} />
-          Back
+        <Link href="/partners/overview">
+          <Button variant="outline" className="mb-4">
+            <ChevronLeft className="mr-2 h-4 w-4" /> Back
+          </Button>
         </Link>
+
         <div className="flex flex-col lg:flex-row gap-12">
           <div className="lg:w-2/3">
             <Card>
