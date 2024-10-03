@@ -78,6 +78,8 @@ const TicketList: React.FC = () => {
       const data = await response.json();
       const newTickets: Ticket[] = data.data || [];
 
+      console.log({newTickets})
+
       if (newTickets.length === 0) {
         setNoData(true);
         setHasMore(false);
@@ -167,7 +169,7 @@ const TicketList: React.FC = () => {
             hasMore={hasMore}
             loader={loading ? <TicketSkeletonton /> : null}
           >
-            {tickets.map((ticket, index) => (
+            {tickets?.map((ticket, index) => (
               <Sheet key={index}>
                 <SheetTrigger className="w-full">
                   <div

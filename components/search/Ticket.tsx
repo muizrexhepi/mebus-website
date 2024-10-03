@@ -36,7 +36,6 @@ const TicketBlock: React.FC<TicketProps> = ({
     const storedTripType = localStorage.getItem("tripType");
     setTripType(storedTripType);
   }, []);
-  console.log({ isReturn });
 
   const handleTicketSelection = (e: React.MouseEvent) => {
     e.preventDefault();

@@ -5,10 +5,9 @@ import InfoBlock from "../InfoBlock";
 import { Fragment, useEffect, useState } from "react";
 import { Station } from "@/models/station";
 import { toast } from "../hooks/use-toast";
+import { Stop } from "@/models/stop";
 
 export default function TicketDetails({ ticket }: { ticket: Ticket }) {
-  const [allStations, setAllStations] = useState<Station[]>([]);
-
   const formatDate = (date: Date) => {
     return new Date(date).toLocaleDateString("en-US", {
       weekday: "short",
@@ -39,33 +38,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
     window.open(googleMapsUrl, "_blank");
   };
 
-  useEffect(() => {
-    const firstStopId = ticket?.stops[0].from?._id;
-    const lastStopId = ticket?.stops[0].to?._id;
 
-    if (firstStopId && lastStopId && ticket.fromStations && ticket.toStations) {
-      const fromStationIndex = ticket.fromStations.findIndex(
-        (station) => station._id === firstStopId
-      );
-
-      const toStationIndex = ticket.toStations.findIndex(
-        (station) => station._id === lastStopId
-      );
-
-      const filteredFromStations =
-        fromStationIndex !== -1
-          ? ticket.fromStations.slice(fromStationIndex)
-          : ticket.fromStations;
-
-      const filteredToStations =
-        toStationIndex !== -1
-          ? ticket.toStations.slice(0, toStationIndex + 1)
-          : ticket.toStations;
-
-      const all = [...filteredFromStations, ...filteredToStations];
-      setAllStations(all);
-    }
-  }, [ticket]);
 
   if (!ticket) return null;
 
@@ -111,17 +84,18 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
       </div>
       <Separator />
       <div className="px-4">
-        {allStations.map((station, index) => (
-          <Fragment key={station._id}>
+        {ticket?.stops?.map((stop: Stop, index) => (
+          <Fragment key={stop._id}>
             <div className="flex items-center gap-6">
               <div className="h-4 w-4 bg-emerald-700 rounded-full flex justify-center items-center">
                 <div className="h-2 w-2 bg-white rounded-full" />
               </div>
               <div>
-                <p className="text-black capitalize">{station.name}</p>
+                <p className="text-black capitalize">{stop?.from?.name}</p>
+                <p className="text-black capitalize">{stop?.to?.name}</p>
               </div>
             </div>
-            {index < allStations.length - 1 && (
+            {index < ticket.stops.length - 1 && (
               <div className="ml-[7px] h-5 border-l-2 border-dotted border-neutral-700" />
             )}
           </Fragment>
