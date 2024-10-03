@@ -10,6 +10,7 @@ export interface Ticket {
         from: string;
         to: string;
     },
+    is_direct_route:boolean;
     fromStations?:Station[];
     toStations?:Station[];
     operator: Operator | string;

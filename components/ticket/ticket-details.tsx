@@ -1,11 +1,22 @@
 import { Ticket } from "@/models/ticket";
-import { MapPin, Calendar, Clock, Bus, Snowflake, Plug } from "lucide-react";
+import {
+  MapPin,
+  Calendar,
+  Clock,
+  Bus,
+  Train,
+  Wifi,
+  Snowflake,
+  Plug,
+  ChevronRight,
+} from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import InfoBlock from "../InfoBlock";
-import { Fragment, useEffect, useState } from "react";
-import { Station } from "@/models/station";
+import { Fragment } from "react";
 import { toast } from "../hooks/use-toast";
 import { Stop } from "@/models/stop";
+import { format } from "date-fns";
+import moment from "moment-timezone";
 
 export default function TicketDetails({ ticket }: { ticket: Ticket }) {
   const formatDate = (date: Date) => {
@@ -38,8 +49,6 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
     window.open(googleMapsUrl, "_blank");
   };
 
-
-
   if (!ticket) return null;
 
   return (
@@ -47,23 +56,21 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
       <div className="space-y-4 items-center justify-between px-4 pt-4">
         <div
           className="flex items-center space-x-4 cursor-pointer"
-          onClick={() => handleLocation(ticket?.stops[0]?.from?.location)}
+          onClick={() => handleLocation(ticket.location.from)}
         >
           <MapPin className="h-5 w-5 text-emerald-700" />
           <div>
-            <p className="font-medium capitalize">
-              {ticket.stops[0].from.city}
-            </p>
+            <p className="font-medium capitalize">{ticket.destination.from}</p>
             <p className="text-black/60 text-sm">View location on map</p>
           </div>
         </div>
         <div
           className="flex items-center space-x-4 cursor-pointer"
-          onClick={() => handleLocation(ticket?.stops[0]?.to?.location)}
+          onClick={() => handleLocation(ticket.location.to)}
         >
           <MapPin className="h-5 w-5 text-emerald-700" />
           <div>
-            <p className="font-medium capitalize">{ticket.stops[0].to.city}</p>
+            <p className="font-medium capitalize">{ticket.destination.to}</p>
             <p className="text-black/60 text-sm">View location on map</p>
           </div>
         </div>
@@ -84,19 +91,53 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
       </div>
       <Separator />
       <div className="px-4">
-        {ticket?.stops?.map((stop: Stop, index) => (
+        {ticket.stops.map((stop: Stop, index: number) => (
           <Fragment key={stop._id}>
-            <div className="flex items-center gap-6">
-              <div className="h-4 w-4 bg-emerald-700 rounded-full flex justify-center items-center">
-                <div className="h-2 w-2 bg-white rounded-full" />
+            <div className="flex items-start">
+              <div className="flex flex-col items-center mr-4">
+                <div className="w-3 h-3 bg-emerald-600 rounded-full" />
+                <div className="w-0.5 h-2 bg-gray-300 mt-1" />
+                <div className="w-0.5 h-2 bg-gray-300 my-1" />
+                <div className="w-3 h-3 bg-emerald-600 rounded-full" />
               </div>
-              <div>
-                <p className="text-black capitalize">{stop?.from?.name}</p>
-                <p className="text-black capitalize">{stop?.to?.name}</p>
+              <div className="flex-1 -mt-1">
+                <div className="flex w-full justify-between items-center">
+                  <p className="font-medium capitalize">{stop.from.name}</p>
+                  <span className="font-medium">
+                    {moment.utc(stop.departure_date).format("HH:mm")}
+                  </span>
+                </div>
+                <div className="flex w-full justify-between items-center">
+                  <p className="font-medium capitalize mt-3">{stop.to.name}</p>
+
+                  <span className="font-medium">
+                    {moment.utc(stop.arrival_time).format("HH:mm")}
+                  </span>
+                </div>
               </div>
             </div>
-            {index < ticket.stops.length - 1 && (
-              <div className="ml-[7px] h-5 border-l-2 border-dotted border-neutral-700" />
+            {!ticket.is_direct_route && index < ticket.stops.length - 1 && (
+              <div className="w-full my-4 bg-gray-100 p-2 rounded-lg">
+                <div className="flex items-center justify-center">
+                  <Clock className="w-4 h-4 mr-2 text-gray-500" />
+                  <p className="text-sm text-gray-500">
+                    {(() => {
+                      const duration = moment.duration(
+                        moment
+                          .utc(ticket.stops[index + 1].departure_date)
+                          .diff(moment.utc(stop.arrival_time))
+                      );
+
+                      const hours = Math.floor(duration.asHours());
+                      const minutes = duration.minutes();
+
+                      return `Transfer time: ${
+                        hours > 0 ? `${hours} hrs ` : ""
+                      }${minutes} mins`;
+                    })()}
+                  </p>
+                </div>
+              </div>
             )}
           </Fragment>
         ))}
@@ -120,7 +161,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
       <Separator />
       <InfoBlock
         desc="This trip will be operated by"
-        title={ticket?.metadata?.operator_company_name}
+        title={ticket.metadata?.operator_company_name}
       />
     </div>
   );

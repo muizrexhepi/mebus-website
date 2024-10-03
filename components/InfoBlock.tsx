@@ -11,7 +11,7 @@ const InfoBlock = ({
   href?: string;
 }) => {
   return (
-    <div className="py-2 px-4 bg-neutral-700/10 rounded-lg mt-2 font-light">
+    <div className="py-2 px-4 bg-gray-100 rounded-lg mt-2 font-light">
       <div className="flex items-start gap-2">
         <InfoIcon />
         <p>

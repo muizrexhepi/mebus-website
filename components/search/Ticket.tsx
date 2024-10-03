@@ -54,30 +54,10 @@ const TicketBlock: React.FC<TicketProps> = ({
     }
   };
 
-  // const handleTicketSelection = (e: React.MouseEvent) => {
-  //   e.preventDefault();
-
-  //   if (isReturn) {
-  //     setReturnTicket(ticket);
-  //     if (outboundTicket) {
-  //       router.push(`/checkout?adults=${adults}&children=${nrOfChildren}`);
-  //     } else {
-  //       console.error(
-  //         "Please select an outbound ticket before choosing a return ticket."
-  //       );
-  //     }
-  //   } else {
-  //     setOutboundTicket(ticket);
-  //     if (tripType === "round-trip") {
-  //       console.log("Please select a return ticket now.");
-  //     } else {
-  //       router.push(`/checkout?adults=${adults}&children=${nrOfChildren}`);
-  //     }
-  //   }
-  // };
-
   const departureDate = moment.utc(ticket.stops[0].departure_date);
-  const arrivalTime = moment.utc(ticket.stops[0].arrival_time);
+  const arrivalTime = moment.utc(
+    ticket.stops[ticket.stops.length - 1].arrival_time
+  ); // Use the last stop for arrival time
   const duration = moment.duration(arrivalTime.diff(departureDate));
   const durationFormatted = `${duration.hours()}:${duration
     .minutes()
@@ -134,10 +114,10 @@ const TicketBlock: React.FC<TicketProps> = ({
               </div>
               <div className="flex flex-col items-end">
                 <h1 className="font-medium text-base sm:text-lg capitalize">
-                  {ticket.stops[0].to.city}
+                  {ticket.stops[ticket.stops.length - 1].to.city}{" "}
                 </h1>
                 <span className="truncate text-accent-foreground/50 line-clamp-1">
-                  {ticket.stops[0].to.name}
+                  {ticket.stops[ticket.stops.length - 1].to.name}{" "}
                 </span>
               </div>
             </div>
