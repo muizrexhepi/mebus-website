@@ -2,9 +2,8 @@
 
 import React, { useEffect } from "react";
 import { Input } from "@/components/ui/input";
-import { useSearchParams } from "next/navigation";
 import { PassengerData } from "@/components/hooks/use-passengers";
-import { useCheckoutStore } from "@/store";
+import useSearchStore, { useCheckoutStore } from "@/store";
 
 interface InputFieldProps {
   label: string;
@@ -37,15 +36,16 @@ const InputField: React.FC<InputFieldProps> = ({
 );
 
 const PassengerInfoContent: React.FC = () => {
-  const searchParams = useSearchParams();
   const { passengers, setPassengers } = useCheckoutStore((state) => ({
     passengers: state.passengers,
     setPassengers: state.setPassengers,
   }));
 
+  const { passengers: passengersAmount } = useSearchStore();
+
   const { adults, children } = {
-    adults: parseInt(searchParams.get("adults") || "0"),
-    children: parseInt(searchParams.get("children") || "0"),
+    adults: passengersAmount.adults || 1,
+    children: passengersAmount.children || 0,
   };
 
   useEffect(() => {
