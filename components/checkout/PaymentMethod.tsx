@@ -1,22 +1,19 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
-import { useStripe, useElements, Elements } from "@stripe/react-stripe-js";
+import { useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { environment } from "@/environment";
 import { useToast } from "@/components/hooks/use-toast";
 import { useRouter } from "next/navigation";
-import {
-  calculatePassengerPrices,
-  getPassengersFromStorage,
-  PassengerData,
-} from "../hooks/use-passengers";
+import { calculatePassengerPrices } from "../hooks/use-passengers";
 import { Ticket } from "@/models/ticket";
-import { TRAVEL_FLEX_PRICES } from "@/lib/data";
 import { account } from "@/appwrite.config";
 import { Checkbox } from "@/components/ui/checkbox";
 import { getUserBalance } from "@/actions/users";
 import { Input } from "../ui/input";
-import { useDepositStore, useCheckoutStore, useTravelStore } from "@/store";
+import { useDepositStore, useCheckoutStore } from "@/store";
 
 const PaymentMethod = () => {
   const stripe = useStripe();
@@ -27,16 +24,24 @@ const PaymentMethod = () => {
   const [cardCvc, setCardCvc] = useState<any>(null);
   const router = useRouter();
   const { toast } = useToast();
-  const { passengers, setPassengers } = useTravelStore();
 
-  const [selectedFlex, setSelectedFlex] = useState<string | null>(null);
-  const [flexPrice, setFlexPrice] = useState<number>(0);
+  const {
+    passengers,
+    outboundTicket,
+    returnTicket,
+    selectedFlex,
+    flexPrice,
+
+    setSelectedFlex,
+    setFlexPrice,
+    resetCheckout,
+  } = useCheckoutStore();
+
   const [user, setUser] = useState<any>(null);
   const [balance, setBalance] = useState<number>(0);
   const [isGreater, setIsGreater] = useState<boolean>(false);
   const { useDeposit, setDepositAmount, setUseDeposit, depositAmount } =
     useDepositStore();
-  const { outboundTicket, returnTicket } = useCheckoutStore();
 
   const fetchUser = async () => {
     try {
@@ -73,26 +78,10 @@ const PaymentMethod = () => {
   }, [user]);
 
   useEffect(() => {
-    const storedPassengers = getPassengersFromStorage();
-    console.log("Stored Passengers:", storedPassengers);
-    setPassengers(storedPassengers);
-
-    const storedFlex = localStorage.getItem("flex_options");
-    if (storedFlex) {
-      setSelectedFlex(storedFlex);
-      calculateFlexPrice(storedFlex);
+    if (!selectedFlex) {
+      setSelectedFlex("no_flex");
     }
-  }, []);
-
-  const calculateFlexPrice = (flex: string | null) => {
-    if (flex === "premium") {
-      setFlexPrice(TRAVEL_FLEX_PRICES.PREMIUM);
-    } else if (flex === "basic") {
-      setFlexPrice(TRAVEL_FLEX_PRICES.BASIC);
-    } else {
-      setFlexPrice(TRAVEL_FLEX_PRICES.NO_FLEX);
-    }
-  };
+  }, [selectedFlex, setSelectedFlex]);
 
   const calculateTicketTotal = (ticket: Ticket) => {
     const adultPrice = ticket.stops[0].other_prices.our_price;
@@ -173,9 +162,7 @@ const PaymentMethod = () => {
       toast({ description: err.response.data.message, variant: "destructive" });
     } finally {
       setLoading(false);
-      localStorage.removeItem("passengers");
-      localStorage.removeItem("returnTicket");
-      localStorage.removeItem("outboundTicket");
+      resetCheckout();
     }
   };
 
@@ -238,15 +225,12 @@ const PaymentMethod = () => {
     );
   };
 
-  console.log({ passengers });
-
   const handleFullDepositPayment = async () => {
     setLoading(true);
 
     try {
       await createBookings("full_deposit_payment");
-
-      localStorage.removeItem("passengers");
+      resetCheckout();
       router.push("/checkout/success");
     } catch (error: any) {
       toast({

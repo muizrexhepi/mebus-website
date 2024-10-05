@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import useSearchStore from "@/store";
+import useSearchStore, { useCheckoutStore } from "@/store";
 import { useRouter } from "next/navigation";
 import { getStations } from "@/actions/station";
 import { Station } from "@/models/station";
@@ -9,7 +9,6 @@ import { DateRangePicker } from "./daterange-picker";
 import SearchForm from "./forms/SearchForm";
 
 const SearchBlock = () => {
-  const [isRoundTrip, setIsRoundTrip] = useState<boolean>(false)
   const [stations, setStations] = useState<Station[]>([]);
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
@@ -23,14 +22,13 @@ const SearchBlock = () => {
     fromCity,
     toCity,
     passengers,
+    tripType,
+    setTripType,
   } = useSearchStore();
+  const resetSearch = useSearchStore((state) => state.resetSearch);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedTripType = localStorage.getItem("tripType");
-      setIsRoundTrip(savedTripType === "round-trip");
-    }
-  }, []);
+  const { setOutboundTicket, setReturnTicket, setIsSelectingReturn } =
+    useCheckoutStore();
 
   useEffect(() => {
     const fetchStations = async () => {
@@ -59,7 +57,7 @@ const SearchBlock = () => {
         children: passengers.children.toString(),
       });
 
-      if (returnDate && isRoundTrip) {
+      if (returnDate && tripType == "round-trip") {
         searchParams.append("returnDate", returnDate);
       }
 
@@ -80,9 +78,8 @@ const SearchBlock = () => {
     fromCity,
     toCity,
     router,
+    tripType,
   ]);
-
-  const resetSearch = useSearchStore((state) => state.resetSearch);
 
   useEffect(() => {
     return () => {
@@ -92,18 +89,18 @@ const SearchBlock = () => {
 
   const handleTripTypeChange = useCallback(
     (type: "one-way" | "round-trip") => {
-      setIsRoundTrip(type === "round-trip");
-      localStorage.setItem("tripType", type);
-      if (type === "one-way") {
-        setReturnDate(null);
-      }
+      setTripType(type);
+      setReturnDate(null);
+      setReturnTicket(null);
+      setOutboundTicket(null);
+      setIsSelectingReturn(false);
     },
     [setReturnDate]
   );
 
   const datePickerComponent = useMemo(() => {
-    return isRoundTrip ? <DateRangePicker /> : <DatePicker />;
-  }, [isRoundTrip]);
+    return tripType == "round-trip" ? <DateRangePicker /> : <DatePicker />;
+  }, [tripType]);
 
   return (
     <div className="bg-white rounded-xl p-7 flex flex-col gap-4 w-full min-h-fit shadow-md">
@@ -116,7 +113,7 @@ const SearchBlock = () => {
                   type="radio"
                   name="tripType"
                   value="one-way"
-                  checked={!isRoundTrip}
+                  checked={tripType == "one-way"}
                   onChange={() => handleTripTypeChange("one-way")}
                   className="h-7 w-7 accent-emerald-700"
                 />
@@ -127,7 +124,7 @@ const SearchBlock = () => {
                   type="radio"
                   name="tripType"
                   value="round-trip"
-                  checked={isRoundTrip}
+                  checked={tripType == "round-trip"}
                   onChange={() => handleTripTypeChange("round-trip")}
                   className="h-7 w-7 accent-emerald-700"
                 />

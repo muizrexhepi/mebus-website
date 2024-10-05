@@ -18,31 +18,38 @@ import DateRangePickerDialog from "./dialogs/DateRangePickerDialog";
 interface DateRangePickerProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function DateRangePicker({ className }: DateRangePickerProps) {
-  const { setReturnDate, setDepartureDate } = useSearchStore();
+  const {
+    setReturnDate,
+    setDepartureDate,
+    returnDate,
+    departureDate,
+    tripType,
+  } = useSearchStore();
+
   const isMobile = useIsMobile();
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
   const [date, setDate] = React.useState<DateRange | undefined>(() => {
-    const savedDepartureDate = localStorage.getItem("departureDate");
-    const savedReturnDate = localStorage.getItem("returnDate");
+    if (tripType === "round-trip") {
+      const today = new Date();
+      const defaultReturnDate = addDays(today, 7);
+      setDepartureDate(format(today, "dd-MM-yyyy"));
+      setReturnDate(format(defaultReturnDate, "dd-MM-yyyy"));
+      return { from: today, to: defaultReturnDate };
+    }
 
-    if (savedDepartureDate) {
-      const from = parse(savedDepartureDate, "dd-MM-yyyy", new Date());
+    if (departureDate) {
+      const from = parse(departureDate, "dd-MM-yyyy", new Date());
       let to: Date | undefined;
-      if (savedReturnDate) {
-        to = parse(savedReturnDate, "dd-MM-yyyy", new Date());
+      if (returnDate) {
+        to = parse(returnDate, "dd-MM-yyyy", new Date());
       }
       return isValid(from)
         ? { from, to: isValid(to) ? to : undefined }
         : undefined;
     }
 
-    const today = new Date();
-    const defaultReturnDate = addDays(today, 7);
-    return {
-      from: today,
-      to: defaultReturnDate,
-    };
+    return undefined;
   });
 
   const handleDateSelect: SelectRangeEventHandler = (
@@ -52,20 +59,15 @@ export function DateRangePicker({ className }: DateRangePickerProps) {
     if (range?.from) {
       const departureDate = format(range.from, "dd-MM-yyyy");
       setDepartureDate(departureDate);
-      localStorage.setItem("departureDate", departureDate);
       if (range.to) {
         const returnDate = format(range.to, "dd-MM-yyyy");
         setReturnDate(returnDate);
-        localStorage.setItem("returnDate", returnDate);
       } else {
         setReturnDate(null);
-        localStorage.removeItem("returnDate");
       }
     } else {
       setDepartureDate(null);
       setReturnDate(null);
-      localStorage.removeItem("departureDate");
-      localStorage.removeItem("returnDate");
     }
   };
 
@@ -83,7 +85,7 @@ export function DateRangePicker({ className }: DateRangePickerProps) {
       <div className={cn("grid gap-2 w-full", className)}>
         <Button
           variant="outline"
-          className="w-full h-14  flex items-center justify-start"
+          className="w-full h-14 flex items-center justify-start"
           onClick={() => setIsDialogOpen(true)}
         >
           <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />

@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import useSearchStore from "@/store";
+import useSearchStore, { useCheckoutStore } from "@/store";
 import { useRouter } from "next/navigation";
 import { DateSelectBlock } from "@/components/search/DateSelectBlock";
 import { getStations } from "@/actions/station";
@@ -10,13 +10,6 @@ import { DateRangePicker } from "../daterange-picker";
 import SearchForm from "../forms/SearchForm";
 
 const SearchSection = () => {
-  const [isRoundTrip, setIsRoundTrip] = useState<boolean>(() => {
-    if (typeof window !== "undefined") {
-      const savedTripType = localStorage.getItem("tripType");
-      return savedTripType === "round-trip";
-    }
-    return false;
-  });
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -30,7 +23,19 @@ const SearchSection = () => {
     fromCity,
     toCity,
     passengers,
+    setTripType,
+    tripType,
   } = useSearchStore();
+  const [isRoundTrip, setIsRoundTrip] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      return tripType === "round-trip";
+    }
+    return false;
+  });
+  const resetSearch = useSearchStore((state) => state.resetSearch);
+
+  const { setOutboundTicket, setReturnTicket, setIsSelectingReturn } =
+    useCheckoutStore();
 
   useEffect(() => {
     const fetchStations = async () => {
@@ -81,8 +86,6 @@ const SearchSection = () => {
     router,
   ]);
 
-  const resetSearch = useSearchStore((state) => state.resetSearch);
-
   useEffect(() => {
     return () => {
       resetSearch();
@@ -92,10 +95,11 @@ const SearchSection = () => {
   const handleTripTypeChange = useCallback(
     (type: "one-way" | "round-trip") => {
       setIsRoundTrip(type === "round-trip");
-      localStorage.setItem("tripType", type);
-      if (type === "one-way") {
-        setReturnDate(null);
-      }
+      setTripType(type);
+      setReturnDate(null);
+      setReturnTicket(null);
+      setOutboundTicket(null);
+      setIsSelectingReturn(false);
     },
     [setReturnDate]
   );

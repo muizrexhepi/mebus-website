@@ -24,7 +24,6 @@ const PassengerSelectDialog: React.FC<PassengerSelectDialogProps> = ({
 
   const updatePassengers = (updatedPassengers: typeof passengers) => {
     setPassengers(updatedPassengers);
-    localStorage.setItem("passengersAmount", JSON.stringify(updatedPassengers));
   };
 
   const incrementPassengers = (type: "adults" | "children") => {

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { format, parse, isSameDay, isValid } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -23,29 +23,15 @@ import useIsMobile from "./hooks/use-mobile";
 function DatePickerComponent() {
   const router = useRouter();
   const { departureDate, setDepartureDate } = useSearchStore();
-  const path = usePathname();
   const isMobile = useIsMobile();
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
-
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedDate = localStorage.getItem("departureDate");
-      if (storedDate) {
-        const parsedDate = parse(storedDate, "dd-MM-yyyy", new Date());
-        setDate(isValid(parsedDate) ? parsedDate : undefined);
-      }
-    }
-  }, []);
 
   React.useEffect(() => {
     if (departureDate) {
       const parsedDate = parse(departureDate, "dd-MM-yyyy", new Date());
       if (isValid(parsedDate) && (!date || !isSameDay(parsedDate, date))) {
         setDate(parsedDate);
-        if (typeof window !== "undefined") {
-          localStorage.setItem("departureDate", departureDate);
-        }
       }
     }
   }, [departureDate, date]);
@@ -57,13 +43,8 @@ function DatePickerComponent() {
       (!date || !isSameDay(selectedDate, date))
     ) {
       setDate(selectedDate);
-
       const formattedDate = format(selectedDate, "dd-MM-yyyy");
       setDepartureDate(formattedDate);
-
-      if (typeof window !== "undefined") {
-        localStorage.setItem("departureDate", formattedDate);
-      }
 
       const newPathname = window.location.pathname.split("?")[0];
       router.push(newPathname, { scroll: false });

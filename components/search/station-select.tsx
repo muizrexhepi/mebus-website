@@ -17,33 +17,20 @@ const StationSelect: React.FC<CustomSelectProps> = ({
   stations = [],
   departure,
 }) => {
-  const { setFrom, setTo, setFromCity, setToCity, from, to } = useSearchStore();
+  const { setFrom, setTo, setFromCity, setToCity, from, to, fromCity, toCity } =
+    useSearchStore();
   const [searchTerm, setSearchTerm] = useState("");
   const [openOptions, setOpenOptions] = useState<boolean>(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    const loadSavedLocations = (
-      cityKey: string,
-      valueKey: string,
-      setCity: (city: string) => void,
-      setValue: (value: string) => void
-    ) => {
-      const savedCity = localStorage.getItem(cityKey);
-      const savedValue = localStorage.getItem(valueKey);
-
-      if (savedCity && savedValue) {
-        setCity(savedCity);
-        setValue(savedValue);
-        setSearchTerm(savedCity);
+    if (from && to) {
+      if (departure === "from") {
+        setSearchTerm(fromCity);
+      } else if (departure === "to") {
+        setSearchTerm(toCity);
       }
-    };
-
-    if (departure === "from") {
-      loadSavedLocations("fromCity", "fromValue", setFromCity, setFrom);
-    } else if (departure === "to") {
-      loadSavedLocations("toCity", "toValue", setToCity, setTo);
     }
   }, [departure, setFromCity, setFrom, setToCity, setTo]);
 
@@ -66,13 +53,9 @@ const StationSelect: React.FC<CustomSelectProps> = ({
     if (departure === "from") {
       setFromCity(label);
       setFrom(value!);
-      localStorage.setItem("fromCity", label);
-      localStorage.setItem("fromValue", value!);
     } else {
       setToCity(label);
       setTo(value!);
-      localStorage.setItem("toCity", label);
-      localStorage.setItem("toValue", value!);
     }
 
     updateRecentStations(

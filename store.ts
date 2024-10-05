@@ -2,75 +2,85 @@ import { create } from 'zustand';
 import { Ticket } from './models/ticket';
 import { PassengerData } from './components/hooks/use-passengers';
 import { addDays, format } from 'date-fns';
+import { createJSONStorage, persist, PersistOptions } from 'zustand/middleware';
 
 export interface Passengers {
   adults: number;
   children: number;
 }
 
-
-
 interface CheckoutState {
   selectedTicket: Ticket | null;
-  setSelectedTicket: (ticket: Ticket) => void;
   outboundTicket: Ticket | null;
-  setOutboundTicket: (ticket: Ticket) => void;
   returnTicket: Ticket | null;
-  setReturnTicket: (ticket: Ticket) => void;
   isSelectingReturn: boolean;
-  setIsSelectingReturn: (isSelecting:boolean) => void;
+  passengers: PassengerData[];
+  selectedFlex: string | null;
+  flexPrice: number;
+  totalCost: number;
+
+  setSelectedTicket: (ticket: Ticket | null) => void;
+  setOutboundTicket: (ticket: Ticket | null) => void;
+  setReturnTicket: (ticket: Ticket | null) => void;
+  setIsSelectingReturn: (isSelecting: boolean) => void;
+  setPassengers: (passengers: PassengerData[]) => void;
+  setSelectedFlex: (flex: string | null) => void;
+  setFlexPrice: (price: number) => void;
+  calculateTotalCost: () => void;
   resetCheckout: () => void;
 }
 
-export const useCheckoutStore = create<CheckoutState>((set) => ({
-  selectedTicket: null,
+export const useCheckoutStore = create<CheckoutState>()(
+  persist(
+    (set, get) => ({
+      selectedTicket: null,
+      outboundTicket: null,
+      returnTicket: null,
+      isSelectingReturn: false,
+      passengers: [],
+      selectedFlex: null,
+      flexPrice: 0,
+      totalCost: 0,
 
-  setSelectedTicket: (ticket) => {
-    set({ selectedTicket: ticket })
-    if(typeof window !== 'undefined'){
-      localStorage.setItem('ticket',JSON.stringify(ticket))
-    }
-  },
-  outboundTicket: null,
-
-  setOutboundTicket: (ticket) => {
-    set({ outboundTicket: ticket })
-    if(typeof window !== 'undefined'){
-      localStorage.setItem('outboundTicket',JSON.stringify(ticket))
-    }
-  },
-  returnTicket: null,
-
-  setReturnTicket: (ticket) => {
-    set({ returnTicket: ticket })
-    if(typeof window !== 'undefined'){
-      localStorage.setItem('returnTicket',JSON.stringify(ticket))
-    }
-  },
-  
-  isSelectingReturn: false,
-
-  setIsSelectingReturn: (isSelecting) => {
-    set({ isSelectingReturn: isSelecting })
-  },
-  
-  resetCheckout: () => {
-    set({ selectedTicket: null })
-    if(typeof window !== 'undefined'){
-      localStorage.removeItem('ticket')
-    }
-  },
-}));
+      setSelectedTicket: (ticket) => set({ selectedTicket: ticket }),
+      setOutboundTicket: (ticket) => set({ outboundTicket: ticket }),
+      setReturnTicket: (ticket) => set({ returnTicket: ticket }),
+      setIsSelectingReturn: (isSelecting) => set({ isSelectingReturn: isSelecting }),
+      setPassengers: (passengers) => set({ passengers }),
+      setSelectedFlex: (flex) => set({ selectedFlex: flex }),
+      setFlexPrice: (price) => set({ flexPrice: price }),
+      calculateTotalCost: () => {
+        const { passengers, flexPrice } = get();
+        set({ totalCost: passengers.length * flexPrice });
+      },
+      resetCheckout: () => set({
+        selectedTicket: null,
+        outboundTicket: null,
+        returnTicket: null,
+        isSelectingReturn: false,
+        passengers: [],
+        selectedFlex: null,
+        flexPrice: 0,
+        totalCost: 0
+      }),
+    }),
+    {
+      name: 'checkout-storage',
+      storage: createJSONStorage(() => sessionStorage),
+    } as PersistOptions<CheckoutState>
+  )
+);
 
 interface SearchState {
   from: string;
-  fromCity:string;
+  fromCity: string;
   to: string;
-  toCity:string;
+  toCity: string;
   route: string;
   passengers: Passengers;
   departureDate: string | null;
   returnDate: string | null;
+  tripType: 'one-way' | 'round-trip'; 
 
   setFrom: (from: string) => void;
   setTo: (to: string) => void;
@@ -80,36 +90,58 @@ interface SearchState {
   setPassengers: (passengers: Passengers) => void;
   setDepartureDate: (date: string | null) => void;
   setReturnDate: (returnDate: string | null) => void;
+  setTripType: (tripType: 'one-way' | 'round-trip') => void; 
   resetSearch: () => void;
 }
-const initialState: Omit<SearchState, 'setFrom' | 'setTo' | 'setFromCity'|'setToCity' | 'setRoute' | 'setPassengers' | 'setDepartureDate' | 'setReturnDate' | 'resetSearch'> = {
+
+const initialState: Omit<SearchState, 'setFrom' | 'setTo' | 'setFromCity' | 'setToCity' | 'setRoute' | 'setPassengers' | 'setDepartureDate' | 'setReturnDate' | 'setTripType' | 'resetSearch'> = {
   from: '',
   to: '',
-  fromCity:'',
-  toCity:'',
+  fromCity: '',
+  toCity: '',
   route: '',
   passengers: {
     adults: 1,
     children: 0,
   },
-  departureDate: format(new Date(), "dd-MM-yyyy"), 
-  returnDate: format(addDays(new Date(), 7), "dd-MM-yyyy"), 
+  departureDate: format(new Date(), "dd-MM-yyyy"),
+  returnDate: format(addDays(new Date(), 7), "dd-MM-yyyy"),
+  tripType: 'one-way', 
 };
 
-const useSearchStore = create<SearchState>((set) => ({
-  ...initialState,
+const useSearchStore = create<SearchState>()(
+  persist(
+    (set) => ({
+      ...initialState,
+      setFrom: (from) => set({ from }),
+      setTo: (to) => set({ to }),
+      setFromCity: (fromCity) => set({ fromCity }),
+      setToCity: (toCity) => set({ toCity }),
+      setRoute: (route) => set({ route }),
+      setPassengers: (passengers) => set({ passengers }),
+      setDepartureDate: (departureDate) => set({ departureDate }),
+      setReturnDate: (returnDate) => set({ returnDate }),
+      setTripType: (tripType) => set({ tripType }),
+      resetSearch: () => set((state) => ({
+        from: state.from || initialState.from,
+        to: state.to || initialState.to,
+        fromCity: state.fromCity || initialState.fromCity,
+        toCity: state.toCity || initialState.toCity,
+        route: state.route || initialState.route,
+        passengers: state.passengers || initialState.passengers, 
+        departureDate: state.departureDate || initialState.departureDate,
+        returnDate: state.returnDate || initialState.returnDate,
+        tripType: state.tripType || initialState.tripType, 
+      })),
+    }),
+    {
+      name: 'search-store',
+      storage: createJSONStorage(() => localStorage),
+    } as PersistOptions<SearchState>
+  )
+);
 
-  setFrom: (from) => set({ from }),
-  setTo: (to) => set({ to }),
-  setFromCity: (fromCity) => set({ fromCity }),
-  setToCity: (toCity) => set({ toCity }),
-  setRoute: (route) => set({ route }),
-  setPassengers: (passengers) => set({ passengers }),
-  setDepartureDate: (departureDate) => set({ departureDate }),
-  setReturnDate: (returnDate) => set({ returnDate }),
 
-  resetSearch: () => set(initialState),
-}));
 
 interface ILoading {
   isLoading:boolean;
@@ -145,33 +177,6 @@ export const useNavbarStore= create<INavbarMenu>((set)=>({
   setOpenReset:(openReset:boolean)=>set({openReset}),
 }))
 
-
-
-
-interface TravelStore {
-  passengers: PassengerData[];
-  selectedFlex: string | null;
-  flexPrice: number;
-  totalCost: number; // Derived state
-  setPassengers: (passengers: PassengerData[]) => void;
-  setSelectedFlex: (flex: string | null) => void;
-  setFlexPrice: (price: number) => void;
-  calculateTotalCost: () => void; 
-}
-
-export const useTravelStore = create<TravelStore>((set, get) => ({
-  passengers: [],
-  selectedFlex: null,
-  flexPrice: 0,
-  totalCost: 0,
-  setPassengers: (passengers) => set({ passengers }),
-  setSelectedFlex: (flex) => set({ selectedFlex: flex }),
-  setFlexPrice: (price) => set({ flexPrice: price }),
-  calculateTotalCost: () => {
-    const { passengers, flexPrice } = get();
-    set({ totalCost: passengers.length * flexPrice });
-  },
-}));
 
 interface DepositStore {
   useDeposit:boolean;

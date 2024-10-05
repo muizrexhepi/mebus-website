@@ -93,7 +93,7 @@ export const QUICK_LINKS = [
     { name: "contact-support", icon: HelpCircle, label: "Contact Support" },
 ]
 
-interface FlexFeature {
+export interface FlexFeature {
   name: string;
   price: number;
   value: string;

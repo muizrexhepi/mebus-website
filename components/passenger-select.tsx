@@ -18,18 +18,8 @@ export default function PassengerSelect() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const isMobile = useIsMobile();
 
-  useEffect(() => {
-    const savedPassengers = localStorage.getItem("passengersAmount");
-    if (savedPassengers) {
-      setPassengers(JSON.parse(savedPassengers));
-    } else {
-      setPassengers({ adults: 1, children: 0 });
-    }
-  }, [setPassengers]);
-
   const updatePassengers = (updatedPassengers: typeof passengers) => {
     setPassengers(updatedPassengers);
-    localStorage.setItem("passengersAmount", JSON.stringify(updatedPassengers));
   };
 
   const incrementPassengers = (type: "adults" | "children") => {

@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import moment from "moment-timezone";
 import { Symbols } from "@/symbols";
 import { Ticket as TicketType } from "@/models/ticket";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useCheckoutStore } from "@/store";
+import useSearchStore, { useCheckoutStore } from "@/store";
 import { useRouter } from "next/navigation";
 import { CalendarDays } from "lucide-react";
 
 export interface TicketProps {
   ticket: TicketType;
-  adults?: string | null;
-  nrOfChildren?: string | null;
+  adults?: number | null;
+  nrOfChildren?: number | null;
   isReturn?: boolean;
 }
 
@@ -29,13 +29,8 @@ const TicketBlock: React.FC<TicketProps> = ({
     isSelectingReturn,
     setIsSelectingReturn,
   } = useCheckoutStore();
+  const { tripType } = useSearchStore();
   const router = useRouter();
-  const [tripType, setTripType] = useState<string | null>(null);
-
-  useEffect(() => {
-    const storedTripType = localStorage.getItem("tripType");
-    setTripType(storedTripType);
-  }, []);
 
   const handleTicketSelection = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -57,7 +52,7 @@ const TicketBlock: React.FC<TicketProps> = ({
   const departureDate = moment.utc(ticket.stops[0].departure_date);
   const arrivalTime = moment.utc(
     ticket.stops[ticket.stops.length - 1].arrival_time
-  ); // Use the last stop for arrival time
+  );
   const duration = moment.duration(arrivalTime.diff(departureDate));
   const durationFormatted = `${duration.hours()}:${duration
     .minutes()
@@ -70,7 +65,7 @@ const TicketBlock: React.FC<TicketProps> = ({
 
   return (
     <div
-      className={`max-w-5xl mx-auto bg-white border rounded-xl overflow-hidden ${
+      className={`max-w-5xl mx-auto bg-white border rounded-xl overflow-hidden shrink-0 ${
         isSelected ? "border-blue-500" : ""
       }`}
     >

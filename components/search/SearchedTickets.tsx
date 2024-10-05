@@ -1,12 +1,12 @@
 "use client";
 import React, { Suspense, useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Ticket } from "@/models/ticket";
 import { useToast } from "../hooks/use-toast";
 import TicketSkeletonton from "../ticket/ticket-skeleton";
 import TicketBlock from "./Ticket";
-import { useCheckoutStore, useLoadingStore } from "@/store";
+import useSearchStore, { useCheckoutStore, useLoadingStore } from "@/store";
 import {
   Sheet,
   SheetContent,
@@ -19,9 +19,9 @@ import { Button } from "../ui/button";
 import TicketDetails from "../ticket/ticket-details";
 import { environment } from "@/environment";
 import NoTicketsAvailable from "./NoTicketsAvailable";
+import { cn } from "@/lib/utils";
 
 const TicketList: React.FC = () => {
-  const searchParams = useSearchParams();
   const router = useRouter();
   const { toast } = useToast();
   const {
@@ -33,26 +33,17 @@ const TicketList: React.FC = () => {
     isSelectingReturn,
     setIsSelectingReturn,
   } = useCheckoutStore();
+  const { tripType, departureDate, returnDate, passengers, from, to } =
+    useSearchStore();
   const { setIsLoading, isLoading } = useLoadingStore();
-  const departureStation = searchParams.get("departureStation");
-  const arrivalStation = searchParams.get("arrivalStation");
-  const departureDate = searchParams.get("departureDate");
-  const returnDate = searchParams.get("returnDate");
-  const adults = searchParams.get("adult") || "1";
-  const children = searchParams.get("children") || "0";
-  const tripType =
-    typeof window !== "undefined"
-      ? localStorage.getItem("tripType")
-      : "one-way";
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [noData, setNoData] = useState(false);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  // const [isSelectingReturn, setIsSelectingReturn] = useState(false);
 
   const fetchTickets = async (pageNumber: number) => {
-    if (!departureStation || !arrivalStation) {
+    if (!from || !to) {
       toast({
         title: "Error",
         description: "Missing required parameters",
@@ -60,15 +51,17 @@ const TicketList: React.FC = () => {
       });
       return;
     }
-
     try {
+      setIsLoading(true);
       setLoading(true);
       const response = await fetch(
-        `${
-          environment.apiurl
-        }/ticket/search?departureStation=${departureStation}&arrivalStation=${arrivalStation}&departureDate=${
+        `${environment.apiurl}/ticket/search?departureStation=${
+          isSelectingReturn ? to : from
+        }&arrivalStation=${isSelectingReturn ? from : to}&departureDate=${
           isSelectingReturn ? returnDate : departureDate
-        }&adults=${adults}&children=${children}&page=${pageNumber}`
+        }&adults=${passengers.adults}&children=${
+          passengers.children
+        }&page=${pageNumber}`
       );
 
       if (!response.ok) {
@@ -78,7 +71,7 @@ const TicketList: React.FC = () => {
       const data = await response.json();
       const newTickets: Ticket[] = data.data || [];
 
-      console.log({newTickets})
+      console.log({ newTickets });
 
       if (newTickets.length === 0) {
         setNoData(true);
@@ -103,19 +96,19 @@ const TicketList: React.FC = () => {
   };
 
   useEffect(() => {
-    if (departureStation && arrivalStation) {
+    if (to && from) {
       setTickets([]);
       setPage(1);
       setHasMore(true);
       fetchTickets(1);
     }
   }, [
-    departureStation,
-    arrivalStation,
+    from,
+    to,
     departureDate,
     returnDate,
-    adults,
-    children,
+    passengers.adults,
+    passengers.children,
     isSelectingReturn,
   ]);
 
@@ -128,14 +121,18 @@ const TicketList: React.FC = () => {
   const handleTicketSelection = (ticket: Ticket) => {
     if (isSelectingReturn) {
       setReturnTicket(ticket);
-      router.push(`/checkout?adults=${adults}&children=${children}`);
+      router.push(
+        `/checkout?adults=${passengers.adults}&children=${passengers.children}`
+      );
     } else {
       setOutboundTicket(ticket);
 
       if (tripType === "round-trip" && returnDate) {
         setIsSelectingReturn(true);
       } else {
-        router.push(`/checkout?adults=${adults}&children=${children}`);
+        router.push(
+          `/checkout?adults=${passengers.adults}&children=${passengers.children}`
+        );
       }
     }
   };
@@ -144,7 +141,7 @@ const TicketList: React.FC = () => {
   if (isLoading) {
     return (
       <div className="space-y-3">
-        {Array.from({ length: 3 }).map((_, index) => (
+        {Array.from({ length: 5 }).map((_, index) => (
           <TicketSkeletonton key={index} />
         ))}
       </div>
@@ -157,14 +154,18 @@ const TicketList: React.FC = () => {
         <NoTicketsAvailable />
       ) : (
         <div className="w-full mx-auto">
-          <h1 className="mb-2 font-medium text-lg">
-            {isSelectingReturn
+          <h1
+            className={cn("mb-2 font-medium text-lg", {
+              hidden: tripType == "one-way",
+            })}
+          >
+            {isSelectingReturn && tripType == "round-trip"
               ? "Select Return Ticket"
-              : "Select Outbound Ticket"}
+              : ""}
           </h1>
           <InfiniteScroll
             dataLength={tickets.length}
-            className="space-y-4"
+            className="space-y-2 sm:space-y-1"
             next={handleLoadMore}
             hasMore={hasMore}
             loader={loading ? <TicketSkeletonton /> : null}
@@ -178,8 +179,8 @@ const TicketList: React.FC = () => {
                   >
                     <TicketBlock
                       ticket={ticket}
-                      adults={adults}
-                      nrOfChildren={children}
+                      adults={passengers.adults | 1}
+                      nrOfChildren={passengers.children | 0}
                       isReturn={isSelectingReturn}
                     />
                   </div>

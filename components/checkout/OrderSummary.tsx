@@ -3,13 +3,9 @@ import { Calendar, InfoIcon, TimerIcon } from "lucide-react";
 import moment from "moment-timezone";
 import { Ticket } from "@/models/ticket";
 import { cn } from "@/lib/utils";
-import {
-  getPassengersFromStorage,
-  PassengerData,
-} from "../hooks/use-passengers";
+
 import InfoBlock from "../InfoBlock";
 import { useDepositStore, useCheckoutStore } from "@/store";
-import { Separator } from "../ui/separator";
 
 interface PriceSummaryItemProps {
   label: string;
@@ -84,28 +80,20 @@ const TicketSummary = ({
 );
 
 const OrderSummary = ({ className }: { className?: string }) => {
-  const [selectedFlex, setSelectedFlex] = useState<string | null>(null);
-  const [passengers, setPassengers] = useState<PassengerData[]>([]);
   const [useBalance, setUseBalance] = useState(false);
   const [balanceAmount, setBalanceAmount] = useState(0);
   const [remainingAmount, setRemainingAmount] = useState(0);
   const { useDeposit, depositAmount } = useDepositStore();
-  const { outboundTicket, returnTicket } = useCheckoutStore();
+  const {
+    outboundTicket,
+    returnTicket,
+    selectedFlex,
+    setSelectedFlex,
+    passengers,
+    setPassengers,
+  } = useCheckoutStore();
 
   useEffect(() => {
-    const updateSelectedFlex = () => {
-      const storedFlex = localStorage.getItem("flex_options");
-      if (storedFlex) {
-        setSelectedFlex(storedFlex);
-      }
-    };
-
-    const storedPassengers = getPassengersFromStorage();
-    setPassengers(storedPassengers);
-    updateSelectedFlex();
-
-    window.addEventListener("flexOptionChanged", updateSelectedFlex);
-
     const handleUseBalanceChange = (event: CustomEvent) => {
       setUseBalance(event.detail.useBalance);
       setBalanceAmount(event.detail.balanceAmount);
@@ -122,7 +110,6 @@ const OrderSummary = ({ className }: { className?: string }) => {
         "useBalanceChanged",
         handleUseBalanceChange as EventListener
       );
-      window.removeEventListener("flexOptionChanged", updateSelectedFlex);
     };
   }, []);
 

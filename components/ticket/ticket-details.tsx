@@ -90,7 +90,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
         </div>
       </div>
       <Separator />
-      <div className="px-4">
+      <div className="px-5">
         {ticket.stops.map((stop: Stop, index: number) => (
           <Fragment key={stop._id}>
             <div className="flex items-start">
@@ -100,7 +100,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
                 <div className="w-0.5 h-2 bg-gray-300 my-1" />
                 <div className="w-3 h-3 bg-emerald-600 rounded-full" />
               </div>
-              <div className="flex-1 -mt-1">
+              <div className="flex-1 -mt-1 ml-1">
                 <div className="flex w-full justify-between items-center">
                   <p className="font-medium capitalize">{stop.from.name}</p>
                   <span className="font-medium">

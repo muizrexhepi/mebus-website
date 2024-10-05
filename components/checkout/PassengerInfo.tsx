@@ -1,14 +1,10 @@
 "use client";
 
-import React, { Suspense, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useSearchParams } from "next/navigation";
-import {
-  PassengerData,
-  getPassengersFromStorage,
-  setPassengersToStorage,
-} from "@/components/hooks/use-passengers";
-import { useTravelStore } from "@/store";
+import { PassengerData } from "@/components/hooks/use-passengers";
+import { useCheckoutStore } from "@/store";
 
 interface InputFieldProps {
   label: string;
@@ -42,7 +38,7 @@ const InputField: React.FC<InputFieldProps> = ({
 
 const PassengerInfoContent: React.FC = () => {
   const searchParams = useSearchParams();
-  const { passengers, setPassengers } = useTravelStore((state) => ({
+  const { passengers, setPassengers } = useCheckoutStore((state) => ({
     passengers: state.passengers,
     setPassengers: state.setPassengers,
   }));
@@ -53,32 +49,30 @@ const PassengerInfoContent: React.FC = () => {
   };
 
   useEffect(() => {
-    const storedPassengers = getPassengersFromStorage();
-    if (storedPassengers.length === adults + children) {
-      setPassengers(storedPassengers);
-    } else {
-      const initialPassengers: PassengerData[] = [
-        ...Array(adults).fill({
-          full_name: "",
-          email: "",
-          phone: "",
-          birthdate: "",
-          age: 33,
-          price: 0,
-        }),
-        ...Array(children).fill({
-          full_name: "",
-          email: "",
-          phone: "",
-          birthdate: "",
-          age: 0,
-          price: 0,
-        }),
-      ];
-      setPassengers(initialPassengers);
-      setPassengersToStorage(initialPassengers);
+    if (passengers.length === adults + children) {
+      return;
     }
-  }, [adults, children, setPassengers]);
+
+    const initialPassengers: PassengerData[] = [
+      ...Array(adults).fill({
+        full_name: "",
+        email: "",
+        phone: "",
+        birthdate: "",
+        age: 33,
+        price: 0,
+      }),
+      ...Array(children).fill({
+        full_name: "",
+        email: "",
+        phone: "",
+        birthdate: "",
+        age: 0,
+        price: 0,
+      }),
+    ];
+    setPassengers(initialPassengers);
+  }, [adults, children, setPassengers, passengers.length]);
 
   const updatePassenger = (
     index: number,
@@ -106,8 +100,6 @@ const PassengerInfoContent: React.FC = () => {
     }
 
     setPassengers(updatedPassengers);
-    setPassengersToStorage(updatedPassengers);
-    window.dispatchEvent(new Event("passengersUpdated"));
   };
 
   const renderPassengerInputs = (passengerIndex: number, isChild: boolean) => {
@@ -214,10 +206,4 @@ const PassengerInfoContent: React.FC = () => {
   );
 };
 
-export default function PassengerInfo() {
-  return (
-    <Suspense fallback={<p>Loading passenger information...</p>}>
-      <PassengerInfoContent />
-    </Suspense>
-  );
-}
+export default PassengerInfoContent;

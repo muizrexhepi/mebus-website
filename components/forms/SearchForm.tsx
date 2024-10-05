@@ -40,7 +40,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
       ))}
       <div className="w-full">
         <p className="text-black font-normal text-lg">Departure</p>
-        {datePickerComponent}
+        {loading ? <InputSkeleton /> : datePickerComponent}
       </div>
       <div>
         <p className="text-black font-normal text-lg">Passengers</p>

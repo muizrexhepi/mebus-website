@@ -1,25 +1,14 @@
-import { flexFeatures } from "@/lib/data";
+import { FlexFeature, flexFeatures } from "@/lib/data";
 import { cn } from "@/lib/utils";
+import { useCheckoutStore } from "@/store";
 import { Check } from "lucide-react";
-import React, { useState, useEffect } from "react";
 
 const TravelFlex: React.FC = () => {
-  const [selectedFlex, setSelectedFlex] = useState<string | null>(null);
+  const { selectedFlex, setSelectedFlex, setFlexPrice } = useCheckoutStore();
 
-  useEffect(() => {
-    const storedFlex = localStorage.getItem("flex_options");
-    if (storedFlex) {
-      setSelectedFlex(storedFlex);
-    }
-  }, []);
-
-  const handleFlexSelection = (flexName: string) => {
-    setSelectedFlex(flexName);
-
-    localStorage.setItem("flex_options", flexName);
-
-    const event = new CustomEvent("flexOptionChanged", { detail: flexName });
-    window.dispatchEvent(event);
+  const handleFlexSelection = (flex: FlexFeature) => {
+    setSelectedFlex(flex.value);
+    setFlexPrice(flex.price);
   };
 
   return (
@@ -32,7 +21,7 @@ const TravelFlex: React.FC = () => {
               ? "border-emerald-700 bg-emerald-50"
               : "border-gray-300"
           }`}
-          onClick={() => handleFlexSelection(flex.value)}
+          onClick={() => handleFlexSelection(flex)}
         >
           <div
             className={cn("flex justify-between items-center mb-2", {
