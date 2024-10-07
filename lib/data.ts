@@ -1,4 +1,4 @@
-import { AlertCircle, Bell, Book, BookImageIcon, Clock, CreditCard, DollarSign, Facebook, Globe, Heart, HeartPulse, HelpCircle, Instagram, Linkedin, MapPin, RefreshCcw, TicketIcon, Twitter, User, X } from "lucide-react";
+import { AlertCircle, BaggageClaim, Bell, Book, BookImageIcon, Clock, CreditCard, DollarSign, Facebook, Globe, Heart, HeartPulse, HelpCircle, Instagram, Linkedin, MapPin, RefreshCcw, TicketIcon, Twitter, User, X } from "lucide-react";
 
 export const NAV_LINKS = [
     {
@@ -30,7 +30,7 @@ export const FOOTER_LINKS = [
       },
       {
         name: "Bus Routes",
-        link: "/services/bus-routes",
+        link: "/routes",
       },
       {
         name: "Travel Insurance",
@@ -38,7 +38,7 @@ export const FOOTER_LINKS = [
       },
       {
         name: "Customer Support",
-        link: "/services/customer-support",
+        link: "/help/contact-support",
       },
     ],
   },
@@ -87,7 +87,7 @@ export const QUICK_LINKS = [
     { name: "cancellation-policy", icon: RefreshCcw, label: "Cancellation Policy" },
     { name: "payment-options", icon: CreditCard, label: "Payment Options" },
     { name: "e-ticket-guide", icon: TicketIcon, label: "E-Ticket Guide" },
-    { name: "routes-and-stops", icon: MapPin, label: "Routes & Stops" },
+    { name: "travel-flex", icon: BaggageClaim, label: "Travel Flex Options" },
     { name: "travel-duration", icon: Clock, label: "Travel Duration" },
     { name: "travel-advisory", icon: AlertCircle, label: "Travel Advisory" },
     { name: "contact-support", icon: HelpCircle, label: "Contact Support" },

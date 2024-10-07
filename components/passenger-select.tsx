@@ -8,18 +8,37 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import useSearchStore, { Passengers } from "@/store";
-import { useEffect, useState } from "react";
+import useSearchStore from "@/store";
+import { useState } from "react";
 import useIsMobile from "./hooks/use-mobile";
 import PassengerSelectDialog from "./dialogs/PassengersDialog";
+import { useRouter, useSearchParams } from "next/navigation";
 
-export default function PassengerSelect() {
+interface PassengerSelectProps {
+  updateUrl?: boolean;
+}
+
+export default function PassengerSelect({
+  updateUrl = false,
+}: PassengerSelectProps) {
   const { passengers, setPassengers } = useSearchStore();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const isMobile = useIsMobile();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const updatePassengers = (updatedPassengers: typeof passengers) => {
     setPassengers(updatedPassengers);
+
+    if (updateUrl) {
+      const currentParams = new URLSearchParams(searchParams.toString());
+      currentParams.set("adult", updatedPassengers.adults.toString());
+      currentParams.set("children", updatedPassengers.children.toString());
+      const newPathname = `${
+        window.location.pathname
+      }?${currentParams.toString()}`;
+      router.push(newPathname, { scroll: false });
+    }
   };
 
   const incrementPassengers = (type: "adults" | "children") => {

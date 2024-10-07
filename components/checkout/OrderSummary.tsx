@@ -10,16 +10,18 @@ import { useDepositStore, useCheckoutStore } from "@/store";
 interface PriceSummaryItemProps {
   label: string;
   amount: number;
+  quantity?: number;
   className?: string;
 }
 
 const PriceSummaryItem: React.FC<PriceSummaryItemProps> = ({
   label,
   amount,
+  quantity,
   className,
 }) => (
   <div className={cn("flex items-center justify-between text-sm", className)}>
-    <p className="text-black">{label}</p>
+    <p className="text-black">{quantity ? `${quantity} x ${label}` : label}</p>
     <p className="text-black">{amount.toFixed(2)}€</p>
   </div>
 );
@@ -84,14 +86,8 @@ const OrderSummary = ({ className }: { className?: string }) => {
   const [balanceAmount, setBalanceAmount] = useState(0);
   const [remainingAmount, setRemainingAmount] = useState(0);
   const { useDeposit, depositAmount } = useDepositStore();
-  const {
-    outboundTicket,
-    returnTicket,
-    selectedFlex,
-    setSelectedFlex,
-    passengers,
-    setPassengers,
-  } = useCheckoutStore();
+  const { outboundTicket, returnTicket, selectedFlex, passengers } =
+    useCheckoutStore();
 
   useEffect(() => {
     const handleUseBalanceChange = (event: CustomEvent) => {
@@ -122,17 +118,32 @@ const OrderSummary = ({ className }: { className?: string }) => {
     const childPrice = ticket.stops[0].other_prices.our_children_price;
     const adultCount = passengers.filter((p) => p.age > 10).length;
     const childCount = passengers.filter((p) => p.age <= 10).length;
-    return adultPrice * adultCount + childPrice * childCount;
+    return {
+      adultTotal: adultPrice * adultCount,
+      childTotal: childPrice * childCount,
+      adultCount,
+      childCount,
+      adultPrice,
+      childPrice,
+    };
   };
 
-  const outboundTotal = outboundTicket
+  const outboundDetails = outboundTicket
     ? calculateTicketTotal(outboundTicket)
-    : 0;
-  const returnTotal = returnTicket ? calculateTicketTotal(returnTicket) : 0;
+    : null;
+  const returnDetails = returnTicket
+    ? calculateTicketTotal(returnTicket)
+    : null;
 
   const totalPrice = useMemo(() => {
+    const outboundTotal = outboundDetails
+      ? outboundDetails.adultTotal + outboundDetails.childTotal
+      : 0;
+    const returnTotal = returnDetails
+      ? returnDetails.adultTotal + returnDetails.childTotal
+      : 0;
     return outboundTotal + returnTotal + flexPrice;
-  }, [outboundTotal, returnTotal, flexPrice]);
+  }, [outboundDetails, returnDetails, flexPrice]);
 
   const finalPrice = useMemo(() => {
     if (useBalance) {
@@ -167,9 +178,35 @@ const OrderSummary = ({ className }: { className?: string }) => {
       >
         <h1 className="font-medium text-lg">Booking price</h1>
         <div className="flex flex-col gap-1">
-          <PriceSummaryItem label="Outbound Trip" amount={outboundTotal} />
-          {returnTicket && (
-            <PriceSummaryItem label="Return Trip" amount={returnTotal} />
+          {outboundDetails && (
+            <>
+              <h2 className="font-medium text-base mt-2">Outbound Trip</h2>
+              <PriceSummaryItem
+                label="Adults"
+                amount={outboundDetails.adultPrice}
+                quantity={outboundDetails.adultCount}
+              />
+              <PriceSummaryItem
+                label="Children"
+                amount={outboundDetails.childPrice}
+                quantity={outboundDetails.childCount}
+              />
+            </>
+          )}
+          {returnDetails && (
+            <>
+              <h2 className="font-medium text-base mt-2">Return Trip</h2>
+              <PriceSummaryItem
+                label="Adults"
+                amount={returnDetails.adultPrice}
+                quantity={returnDetails.adultCount}
+              />
+              <PriceSummaryItem
+                label="Children"
+                amount={returnDetails.childPrice}
+                quantity={returnDetails.childCount}
+              />
+            </>
           )}
           {selectedFlex && selectedFlex !== "no_flex" && (
             <PriceSummaryItem

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { format, parse, isSameDay, isValid } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -20,12 +20,13 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useIsMobile from "./hooks/use-mobile";
 
-function DatePickerComponent() {
+export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
   const router = useRouter();
   const { departureDate, setDepartureDate } = useSearchStore();
   const isMobile = useIsMobile();
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
+  const searchParams = useSearchParams();
 
   React.useEffect(() => {
     if (departureDate) {
@@ -45,9 +46,15 @@ function DatePickerComponent() {
       setDate(selectedDate);
       const formattedDate = format(selectedDate, "dd-MM-yyyy");
       setDepartureDate(formattedDate);
+      if (updateUrl) {
+        const currentParams = new URLSearchParams(searchParams.toString());
+        currentParams.set("departureDate", formattedDate);
 
-      const newPathname = window.location.pathname.split("?")[0];
-      router.push(newPathname, { scroll: false });
+        const newPathname = `${
+          window.location.pathname
+        }?${currentParams.toString()}`;
+        router.push(newPathname, { scroll: false });
+      }
     }
     if (isMobile) {
       setIsDialogOpen(false);
@@ -121,9 +128,3 @@ function DatePickerComponent() {
     </Popover>
   );
 }
-
-export function DatePicker() {
-  return <DatePickerComponent />;
-}
-
-export default DatePicker;

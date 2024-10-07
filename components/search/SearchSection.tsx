@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { DateSelectBlock } from "@/components/search/DateSelectBlock";
 import { getStations } from "@/actions/station";
 import { Station } from "@/models/station";
-import { DatePicker } from "../date-picker";
+import DatePicker from "../date-picker";
 import { DateRangePicker } from "../daterange-picker";
 import SearchForm from "../forms/SearchForm";
 
@@ -100,12 +100,45 @@ const SearchSection = () => {
       setReturnTicket(null);
       setOutboundTicket(null);
       setIsSelectingReturn(false);
+
+      if (typeof window !== "undefined") {
+        const currentParams = new URLSearchParams(window.location.search);
+
+        if (type === "one-way") {
+          currentParams.delete("returnDate");
+        } else {
+          const today = new Date();
+          const defaultReturnDate = new Date(today);
+          defaultReturnDate.setDate(today.getDate() + 7);
+
+          const formattedReturnDate = defaultReturnDate
+            .toISOString()
+            .split("T")[0];
+          currentParams.set("returnDate", returnDate || formattedReturnDate);
+        }
+
+        const newPathname = `${
+          window.location.pathname
+        }?${currentParams.toString()}`;
+        router.push(newPathname, { scroll: false });
+      }
     },
-    [setReturnDate]
+    [
+      returnDate,
+      setReturnDate,
+      setReturnTicket,
+      setOutboundTicket,
+      setIsSelectingReturn,
+      router,
+    ]
   );
 
   const datePickerComponent = useMemo(() => {
-    return isRoundTrip ? <DateRangePicker /> : <DatePicker />;
+    return isRoundTrip ? (
+      <DateRangePicker updateUrl />
+    ) : (
+      <DatePicker updateUrl />
+    );
   }, [isRoundTrip]);
 
   return (
@@ -148,6 +181,7 @@ const SearchSection = () => {
               datePickerComponent={datePickerComponent}
               isSubmitting={isSubmitting}
               onSearch={handleSearch}
+              updateUrl
             />
           </div>
         </div>

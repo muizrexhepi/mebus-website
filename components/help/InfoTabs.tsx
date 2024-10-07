@@ -5,7 +5,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
 import {
   Card,
   CardContent,
@@ -13,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { HelpCircle } from "lucide-react";
 
 const InfoTabs = () => {
@@ -23,7 +22,7 @@ const InfoTabs = () => {
         <TabsTrigger value="general">General Info</TabsTrigger>
         <TabsTrigger value="booking">Booking Process</TabsTrigger>
         <TabsTrigger value="manage">Manage Bookings</TabsTrigger>
-        <TabsTrigger value="support">Support</TabsTrigger>
+        <TabsTrigger value="faqs">FAQs</TabsTrigger>
       </TabsList>
       <TabsContent value="general">
         <Card>
@@ -196,69 +195,78 @@ const InfoTabs = () => {
           </CardContent>
         </Card>
       </TabsContent>
-      <TabsContent value="support">
+      <TabsContent value="faqs">
         <Card>
           <CardHeader>
-            <CardTitle>Support</CardTitle>
-            <CardDescription>Get additional help and support</CardDescription>
+            <CardTitle>Frequently Asked Questions</CardTitle>
+            <CardDescription>
+              Find answers to common questions about our bus ticket booking
+              service
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">
-                    Contact Customer Service
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="mb-4">
-                    Our customer service team is available 24/7 to assist you.
-                  </p>
-                  <Button className="w-full">
-                    <HelpCircle className="mr-2 h-4 w-4" /> Contact Us
-                  </Button>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Live Chat</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="mb-4">
-                    Chat with our support team for immediate assistance.
-                  </p>
-                  <Button className="w-full" variant="outline">
-                    Start Live Chat
-                  </Button>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">FAQs</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="mb-4">
-                    Find answers to commonly asked questions.
-                  </p>
-                  <Button className="w-full" variant="outline">
-                    View FAQs
-                  </Button>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Feedback</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="mb-4">
-                    We value your feedback to improve our services.
-                  </p>
-                  <Button className="w-full" variant="outline">
-                    Provide Feedback
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
+            <Accordion type="single" collapsible>
+              <AccordionItem value="item-1">
+                <AccordionTrigger>
+                  How early should I arrive at the bus station?
+                </AccordionTrigger>
+                <AccordionContent>
+                  We recommend arriving at least 15-30 minutes before your
+                  scheduled departure time. This allows time for check-in,
+                  luggage storage, and boarding. For popular routes or during
+                  peak travel seasons, you may want to arrive up to 45 minutes
+                  early.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-2">
+                <AccordionTrigger>
+                  Can I change the name on my ticket?
+                </AccordionTrigger>
+                <AccordionContent>
+                  Name changes are generally not allowed for security reasons.
+                  If you need to transfer your ticket to someone else,
+                  you&apos;ll need to cancel your existing booking (subject to
+                  our cancellation policy) and make a new booking under the new
+                  passenger&apos;s name.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-3">
+                <AccordionTrigger>
+                  What happens if I miss my bus?
+                </AccordionTrigger>
+                <AccordionContent>
+                  If you miss your bus, your ticket is typically considered
+                  void. However, we understand that unexpected situations can
+                  arise. Contact our customer service as soon as possible, and
+                  we&apos;ll do our best to accommodate you on the next
+                  available bus, subject to availability and possible additional
+                  fees.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-4">
+                <AccordionTrigger>
+                  Are there power outlets on the bus?
+                </AccordionTrigger>
+                <AccordionContent>
+                  Most of our buses are equipped with power outlets for each
+                  seat. However, availability may vary depending on the specific
+                  bus and route. We recommend bringing a portable charger as a
+                  backup, especially for longer journeys.
+                </AccordionContent>
+              </AccordionItem>
+              {/* <AccordionItem value="item-5">
+                <AccordionTrigger>
+                  Do you offer student discounts?
+                </AccordionTrigger>
+                <AccordionContent>
+                  Yes, we offer student discounts on many of our routes. To be
+                  eligible, you must have a valid student ID from a recognized
+                  educational institution. The discount amount may vary
+                  depending on the route and season. You can select the student
+                  fare option during the booking process.
+                </AccordionContent>
+              </AccordionItem> */}
+            </Accordion>
           </CardContent>
         </Card>
       </TabsContent>

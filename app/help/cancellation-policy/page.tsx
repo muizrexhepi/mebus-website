@@ -55,8 +55,14 @@ const CancellationPolicyPage = () => {
             <p className="mb-4">
               Our cancellation policy is designed to provide flexibility while
               ensuring operational efficiency. Please note that the ability to
-              cancel, edit, or reschedule your booking depends on the travel
-              flex option you choose at the time of booking.
+              cancel, edit, or reschedule your booking depends on the{" "}
+              <a
+                href="/help/travel-flex"
+                className="hover:underline text-indigo-500"
+              >
+                travel flex
+              </a>{" "}
+              option you choose at the time of booking.
             </p>
             <div className="flex items-start mb-4">
               <AlertCircle className="mr-2 h-5 w-5 mt-1 flex-shrink-0 text-yellow-500" />
@@ -69,83 +75,7 @@ const CancellationPolicyPage = () => {
           </CardContent>
         </Card>
 
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Travel Flex Options</CardTitle>
-            <CardDescription>
-              Choose the right flex option for your travel needs
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-lg font-semibold mb-2">Premium Flex</h3>
-                <ul className="space-y-2">
-                  <li className="flex items-center">
-                    <Clock className="mr-2 h-4 w-4 text-green-500" />
-                    Cancel up to 2 days before departure
-                  </li>
-                  <li className="flex items-center">
-                    <Edit className="mr-2 h-4 w-4 text-green-500" />
-                    Edit booking up to 1 day before departure
-                  </li>
-                  <li className="flex items-center">
-                    <Repeat className="mr-2 h-4 w-4 text-green-500" />
-                    Reschedule up to 3 days before departure
-                  </li>
-                  <li className="flex items-center">
-                    <HeadphonesIcon className="mr-2 h-4 w-4 text-green-500" />
-                    Unlimited customer support
-                  </li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-semibold mb-2">Basic Flex</h3>
-                <ul className="space-y-2">
-                  <li className="flex items-center">
-                    <Clock className="mr-2 h-4 w-4 text-blue-500" />
-                    Cancel up to 5 days before departure
-                  </li>
-                  <li className="flex items-center">
-                    <Edit className="mr-2 h-4 w-4 text-blue-500" />
-                    Edit booking up to 3 days before departure
-                  </li>
-                  <li className="flex items-center">
-                    <Repeat className="mr-2 h-4 w-4 text-red-500" />
-                    No rescheduling allowed
-                  </li>
-                  <li className="flex items-center">
-                    <HeadphonesIcon className="mr-2 h-4 w-4 text-blue-500" />
-                    Unlimited customer support
-                  </li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-semibold mb-2">No Flex</h3>
-                <ul className="space-y-2">
-                  <li className="flex items-center">
-                    <Clock className="mr-2 h-4 w-4 text-red-500" />
-                    No cancellations allowed
-                  </li>
-                  <li className="flex items-center">
-                    <Edit className="mr-2 h-4 w-4 text-red-500" />
-                    No edits allowed
-                  </li>
-                  <li className="flex items-center">
-                    <Repeat className="mr-2 h-4 w-4 text-red-500" />
-                    No rescheduling allowed
-                  </li>
-                  <li className="flex items-center">
-                    <HeadphonesIcon className="mr-2 h-4 w-4 text-green-500" />
-                    Unlimited customer support
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        {/*  */}
 
         <Card className="mb-8">
           <CardHeader>

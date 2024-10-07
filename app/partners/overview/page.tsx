@@ -24,12 +24,12 @@ export const metadata: Metadata = {
 };
 export default function OperatorPartnership() {
   return (
-    <div className="mx-auto px-4 sm:px-8 xl:px-0 pt-20">
+    <div className="mx-auto xl:px-0 pt-20">
       <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 paddingX py-4 z-20">
         <Navbar className="max-w-6xl" />
       </div>
 
-      <section className="flex flex-col lg:flex-row items-center justify-between gap-12 py-16 max-w-6xl mx-auto">
+      <section className="flex flex-col lg:flex-row items-center justify-between gap-12 py-16 max-w-6xl mx-auto px-4 sm:px-8 xl:px-0">
         <div className="lg:w-1/2">
           <h1 className="text-3xl sm:text-5xl font-bold mb-6">
             Partner with MeBus
@@ -66,7 +66,7 @@ export default function OperatorPartnership() {
             Boost your bus operation business with our cutting-edge online
             platform and take advantage of our extensive network.
           </p>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 sm:px-8 xl:px-0">
             {[
               {
                 icon: <Globe className="w-8 h-8 mb-4 text-primary" />,
@@ -121,7 +121,7 @@ export default function OperatorPartnership() {
         </div>
       </section>
 
-      <section className="py-16 flex max-w-6xl mx-auto flex-col lg:flex-row items-center justify-between gap-12">
+      <section className="py-16 flex max-w-6xl mx-auto flex-col lg:flex-row items-center justify-between gap-12 px-4 sm:px-8 xl:px-0">
         <div className="lg:w-1/2">
           <h2 className="text-3xl font-semibold mb-4">
             How to become a MeBus partner
@@ -175,9 +175,9 @@ export default function OperatorPartnership() {
         </div>
       </section>
 
-      <section className="py-16 bg-primary max-w-6xl mx-auto  text-white text-center">
+      <section className="py-16 bg-primary max-w-6xl mx-auto text-white text-center rounded-lg">
         <h2 className="text-3xl font-semibold mb-4">Ready to get started?</h2>
-        <p className="mb-8 max-w-2xl mx-auto text-lg">
+        <p className="mb-8 max-w-2xl mx-auto text-lg px-4 xl:px-0">
           Join the MeBus network today and transform your bus operation with our
           advanced online ticketing system. Expand your customer base,
           streamline your operations, and boost your revenue.

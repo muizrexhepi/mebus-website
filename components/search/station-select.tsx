@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { Station } from "@/models/station";
 import useSearchStore from "@/store";
@@ -7,15 +9,18 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import CitySelectDialog from "../dialogs/CitySelectDialog";
 import useIsMobile from "../hooks/use-mobile";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 interface CustomSelectProps {
   stations?: Station[];
   departure?: string;
+  updateUrl?: boolean;
 }
 
 const StationSelect: React.FC<CustomSelectProps> = ({
   stations = [],
   departure,
+  updateUrl = false,
 }) => {
   const { setFrom, setTo, setFromCity, setToCity, from, to, fromCity, toCity } =
     useSearchStore();
@@ -23,6 +28,9 @@ const StationSelect: React.FC<CustomSelectProps> = ({
   const [openOptions, setOpenOptions] = useState<boolean>(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const isMobile = useIsMobile();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (from && to) {
@@ -33,16 +41,6 @@ const StationSelect: React.FC<CustomSelectProps> = ({
       }
     }
   }, [departure, setFromCity, setFrom, setToCity, setTo]);
-
-  const handleFocus = () => {
-    setOpenOptions(true);
-  };
-
-  const handleBlur = () => {
-    setTimeout(() => {
-      setOpenOptions(false);
-    }, 100);
-  };
 
   const handleSelect = (station: Station) => {
     const value = station._id;
@@ -63,6 +61,35 @@ const StationSelect: React.FC<CustomSelectProps> = ({
       { _id: value!, city: label }
     );
     setOpenOptions(false);
+
+    if (updateUrl) {
+      const currentParams = new URLSearchParams(searchParams.toString());
+      currentParams.set(
+        departure === "from" ? "departureStation" : "arrivalStation",
+        value!
+      );
+
+      // Update the path
+      const pathParts = pathname.split("/");
+      if (departure === "from") {
+        pathParts[2] = `${label.toLowerCase()}-${pathParts[2].split("-")[1]}`;
+      } else {
+        pathParts[2] = `${pathParts[2].split("-")[0]}-${label.toLowerCase()}`;
+      }
+      const newPathname = pathParts.join("/");
+
+      const newUrl = `${newPathname}?${currentParams.toString()}`;
+      router.push(newUrl);
+    }
+  };
+  const handleFocus = () => {
+    setOpenOptions(true);
+  };
+
+  const handleBlur = () => {
+    setTimeout(() => {
+      setOpenOptions(false);
+    }, 100);
   };
 
   const updateRecentStations = (

@@ -2,7 +2,7 @@ import * as React from "react";
 import { addDays, format, parse, isValid } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { DateRange, SelectRangeEventHandler } from "react-day-picker";
-
+import { useSearchParams, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -15,9 +15,14 @@ import useSearchStore from "@/store";
 import useIsMobile from "./hooks/use-mobile";
 import DateRangePickerDialog from "./dialogs/DateRangePickerDialog";
 
-interface DateRangePickerProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface DateRangePickerProps extends React.HTMLAttributes<HTMLDivElement> {
+  updateUrl?: boolean;
+}
 
-export function DateRangePicker({ className }: DateRangePickerProps) {
+export function DateRangePicker({
+  className,
+  updateUrl = false,
+}: DateRangePickerProps) {
   const {
     setReturnDate,
     setDepartureDate,
@@ -25,7 +30,8 @@ export function DateRangePicker({ className }: DateRangePickerProps) {
     departureDate,
     tripType,
   } = useSearchStore();
-
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const isMobile = useIsMobile();
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
@@ -57,20 +63,42 @@ export function DateRangePicker({ className }: DateRangePickerProps) {
   ) => {
     setDate(range);
     if (range?.from) {
-      const departureDate = format(range.from, "dd-MM-yyyy");
-      setDepartureDate(departureDate);
+      const departureDateStr = format(range.from, "dd-MM-yyyy");
+      setDepartureDate(departureDateStr);
       if (range.to) {
-        const returnDate = format(range.to, "dd-MM-yyyy");
-        setReturnDate(returnDate);
+        const returnDateStr = format(range.to, "dd-MM-yyyy");
+        setReturnDate(returnDateStr);
       } else {
         setReturnDate(null);
+      }
+
+      if (updateUrl) {
+        const currentParams = new URLSearchParams(searchParams.toString());
+        currentParams.set("departureDate", departureDateStr);
+        if (range.to) {
+          currentParams.set("returnDate", format(range.to, "dd-MM-yyyy"));
+        } else {
+          currentParams.delete("returnDate");
+        }
+        const newPathname = `${
+          window.location.pathname
+        }?${currentParams.toString()}`;
+        router.push(newPathname, { scroll: false });
       }
     } else {
       setDepartureDate(null);
       setReturnDate(null);
+      if (updateUrl) {
+        const currentParams = new URLSearchParams(searchParams.toString());
+        currentParams.delete("departureDate");
+        currentParams.delete("returnDate");
+        const newPathname = `${
+          window.location.pathname
+        }?${currentParams.toString()}`;
+        router.push(newPathname, { scroll: false });
+      }
     }
   };
-
   const buttonText = React.useMemo(() => {
     if (date?.from) {
       return date.to

@@ -4,7 +4,7 @@ import useSearchStore, { useCheckoutStore } from "@/store";
 import { useRouter } from "next/navigation";
 import { getStations } from "@/actions/station";
 import { Station } from "@/models/station";
-import { DatePicker } from "./date-picker";
+import DatePicker from "./date-picker";
 import { DateRangePicker } from "./daterange-picker";
 import SearchForm from "./forms/SearchForm";
 

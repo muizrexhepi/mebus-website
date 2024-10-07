@@ -5,6 +5,7 @@ import InputSkeleton from "@/components/input-skeleton";
 import PassengerSelect from "@/components/passenger-select";
 import { Station } from "@/models/station";
 import StationSelect from "../search/station-select";
+import { cn } from "@/lib/utils";
 
 interface SearchFormProps {
   loading: boolean;
@@ -12,17 +13,26 @@ interface SearchFormProps {
   datePickerComponent: React.ReactNode;
   isSubmitting: boolean;
   onSearch: () => void;
+  updateUrl?: boolean;
 }
 
 const SearchForm: React.FC<SearchFormProps> = ({
   loading,
+  updateUrl,
   stations,
   datePickerComponent,
   isSubmitting,
   onSearch,
 }) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 items-end gap-3 sm:gap-2 lg:gap-1">
+    <div
+      className={cn(
+        "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 items-end gap-3 sm:gap-2 lg:gap-1",
+        {
+          "lg:grid-cols-4": updateUrl,
+        }
+      )}
+    >
       {["from", "to"].map((departure) => (
         <div key={departure} className="w-full">
           <p className="text-black font-normal text-lg">
@@ -34,6 +44,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
             <StationSelect
               stations={stations}
               departure={departure as "from" | "to"}
+              updateUrl={updateUrl}
             />
           )}
         </div>
@@ -44,11 +55,20 @@ const SearchForm: React.FC<SearchFormProps> = ({
       </div>
       <div>
         <p className="text-black font-normal text-lg">Passengers</p>
-        {loading ? <InputSkeleton /> : <PassengerSelect />}
+        {loading ? (
+          <InputSkeleton />
+        ) : (
+          <PassengerSelect updateUrl={updateUrl} />
+        )}
       </div>
       <Button
         type="submit"
-        className="p-6 flex items-center gap-2 text-base w-full sm:col-span-2 h-14 lg:col-span-1"
+        className={cn(
+          "p-6 flex items-center gap-2 text-base w-full sm:col-span-2 h-14 lg:col-span-1",
+          {
+            hidden: updateUrl,
+          }
+        )}
         disabled={isSubmitting}
         onClick={onSearch}
       >
