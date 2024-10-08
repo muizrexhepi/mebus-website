@@ -6,16 +6,12 @@ export const NAV_LINKS = [
         url:'/routes',
     },
     {
-        name:'Bookings',
-        url:'/bookings',
-    },
-    {
         name:'Help',
         url:'/help',
     },
     {
-        name:'Contact',
-        url:'/contact',
+        name:'About',
+        url:'/about',
     },
 ]
 
@@ -25,41 +21,28 @@ export const FOOTER_LINKS = [
     title: "Services",
     links: [
       {
-        name: "Book Tickets",
-        link: "/services/book-tickets",
-      },
-      {
         name: "Bus Routes",
         link: "/routes",
       },
       {
-        name: "Travel Insurance",
-        link: "/services/travel-insurance",
+        name: "Travel Flex Options",
+        link: "/help/travel-flex",
       },
       {
         name: "Customer Support",
         link: "/help/contact-support",
       },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
       {
-        name: "About Us",
-        link: "/about",
+        name: "Luggage Policy",
+        link: "/help/luggage-policy",
       },
       {
-        name: "Careers",
-        link: "/careers",
+        name: "Discount Offers",
+        link: "/discounts",
       },
       {
         name: "Help",
         link: "/help",
-      },
-      {
-        name: "Contact",
-        link: "/contact",
       },
     ],
   },
@@ -78,9 +61,31 @@ export const FOOTER_LINKS = [
         name: "Active Operators",
         link: "/partners/active-operators",
       },
+      {
+        name: "Affiliate Program",
+        link: "/partners/affiliate",
+      },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      {
+        name: "Privacy Policy",
+        link: "/legal/privacy-policy",
+      },
+      {
+        name: "Terms & Conditions",
+        link: "/legal/terms-conditions",
+      },
+      {
+        name: "Cookie Policy",
+        link: "/legal/cookie-policy",
+      },
     ],
   },
 ];
+
 
 export const QUICK_LINKS = [
     { name: "how-to-book", icon: Book, label: "How to Book" },

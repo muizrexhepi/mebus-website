@@ -1,6 +1,30 @@
 import Navbar from "@/components/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
-import React from "react";
+
+export const metadata = {
+  title: "Mebus - Terms of Service",
+  description:
+    "Read the Mebus Terms of Service to understand your rights and obligations when using our bus ticket booking app.",
+  keywords:
+    "Mebus, Terms of Service, Legal, User Rights, Bus Ticket Booking, Agreement",
+  authors: [{ name: "Mebus" }],
+  robots: "index, follow",
+  openGraph: {
+    title: "Mebus - Terms of Service",
+    description:
+      "Review the Terms of Service for Mebus to understand the legal agreement and guidelines governing the use of our platform.",
+    url: "https://www.mebus.com/terms-of-service",
+    type: "website",
+    images: [
+      {
+        url: "https://www.mebus.com/images/terms-of-service-banner.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Mebus Terms of Service",
+      },
+    ],
+  },
+};
 
 export default function MebusTermsOfService() {
   return (

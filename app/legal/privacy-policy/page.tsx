@@ -1,6 +1,30 @@
 import Navbar from "@/components/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
-import React from "react";
+
+export const metadata = {
+  title: "Mebus - Privacy Policy",
+  description:
+    "Read the privacy policy of Mebus to understand how we collect, use, and protect your personal information when using our bus ticket booking app.",
+  keywords:
+    "Mebus, Privacy Policy, Data Security, Personal Information, Bus Ticket Booking",
+  authors: [{ name: "Mebus" }],
+  robots: "index, follow",
+  openGraph: {
+    title: "Mebus - Privacy Policy",
+    description:
+      "Mebus is committed to protecting your privacy and ensuring the security of your personal information. Learn more about our privacy practices.",
+    url: "https://www.mebus.com/privacy-policy",
+    type: "website",
+    images: [
+      {
+        url: "https://www.mebus.com/images/privacy-policy-banner.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Mebus Privacy Policy",
+      },
+    ],
+  },
+};
 
 export default function MebusPrivacyPolicy() {
   return (

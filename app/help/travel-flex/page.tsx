@@ -71,7 +71,7 @@ const TravelFlexOptionsPage = () => {
       </div>
       <main className="flex-grow container max-w-4xl mx-auto px-4 sm:px-8 xl:px-0 pt-32 pb-12">
         <div className="flex flex-col gap-4 sm:flex-row items-start sm:items-center justify-between">
-          <h1 className="text-3xl font-bold mb-8 text-primary">
+          <h1 className="text-3xl font-bold md:mb-8 text-primary">
             Travel Flex Options
           </h1>
           <Link href="/help">
@@ -94,7 +94,7 @@ const TravelFlexOptionsPage = () => {
               flexibility when booking your trip. Choose the option that best
               suits your needs and travel plans.
             </p>
-            <div className="flex items-start mb-4">
+            <div className="flex items-end mb-4">
               <AlertCircle className="mr-2 h-5 w-5 mt-1 flex-shrink-0 text-yellow-500" />
               <p className="text-sm text-muted-foreground">
                 <strong>Important:</strong> Travel Flex Options must be selected
