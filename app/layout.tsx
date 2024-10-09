@@ -11,12 +11,12 @@ const roboto = Roboto({
   subsets: ["latin-ext"],
 });
 export const metadata: Metadata = {
-  title: "Mebus | Travel Europe & Balkans",
+  title: "Busly | Travel Europe & Balkans",
   description:
-    "Mebus is your go-to platform for affordable, convenient, and fast bus travel across Europe and the Balkans. Discover and book bus tickets to your favorite destinations with ease.",
+    "Busly is your go-to platform for affordable, convenient, and fast bus travel across Europe and the Balkans. Discover and book bus tickets to your favorite destinations with ease.",
   keywords: [
     "bus ticket booking",
-    "Mebus",
+    "Busly",
     "Europe travel",
     "Flixbus alternative",
     "cheap bus tickets",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     "online bus booking",
     "bus routes Europe",
     "bus travel deals",
-    "Mebus travel app",
+    "Busly travel app",
     "Balkans bus operators",
     "Balkan travel",
     "bus routes Balkans",
@@ -44,18 +44,18 @@ export const metadata: Metadata = {
     "Montenegro bus travel",
   ],
   openGraph: {
-    title: "Mebus | Travel Europe & Balkans",
+    title: "Busly | Travel Europe & Balkans",
     description:
-      "Discover the most affordable and convenient bus routes across Europe and the Balkans with Mebus. Book your bus tickets online for seamless travel to top destinations.",
-    url: "https://www.mebus.com",
+      "Discover the most affordable and convenient bus routes across Europe and the Balkans with Busly. Book your bus tickets online for seamless travel to top destinations.",
+    url: "https://www.busly.eu",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mebus | Travel Europe & Balkans",
+    title: "Busly | Travel Europe & Balkans",
     description:
-      "Find and book bus tickets across Europe and the Balkans at the best prices. Experience seamless bus travel with Mebus.",
-    creator: "@mebus",
+      "Find and book bus tickets across Europe and the Balkans at the best prices. Experience seamless bus travel with Busly.",
+    creator: "@Busly",
   },
 };
 

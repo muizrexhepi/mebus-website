@@ -11,6 +11,7 @@ import {
   XCircle,
   Edit,
   View,
+  Download,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -79,6 +80,41 @@ const BookingsDashboard: React.FC = () => {
     }
   }, [user]);
 
+  const downloadBooking = async (booking_id: string) => {
+    try {
+      const response = await axios.post(
+        `${environment.apiurl}/booking/download/pdf/e-ticket/${booking_id}`,
+        {},
+        { responseType: "blob" } // Set the response type to blob
+      );
+
+      // Create a Blob from the response data
+      const blob = new Blob([response.data], { type: "application/pdf" });
+
+      // Create a link element and trigger the download
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = `booking_${booking_id}.pdf`;
+      link.click();
+
+      // Clean up
+      window.URL.revokeObjectURL(link.href);
+
+      toast({
+        title: "Download Successful",
+        description: "Your booking PDF has been downloaded.",
+      });
+    } catch (error) {
+      console.error("Failed to download booking:", error);
+      toast({
+        title: "Download Failed",
+        description:
+          "There was an error downloading your booking. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const renderBookingCard = (booking: Booking) => {
     const departureDate = new Date(booking.departure_date);
     const monthString = departureDate.toLocaleString("en-US", {
@@ -121,7 +157,7 @@ const BookingsDashboard: React.FC = () => {
                   <div className="h-3 w-3 rounded-full bg-emerald-700" />
                 </div>
                 <div className="flex flex-col h-full justify-between">
-                  <div className="text-sm font-medium capitalize flex flex-col"> 
+                  <div className="text-sm font-medium capitalize flex flex-col">
                     {booking.labels.from_city}
                     <span className="text-black/60">
                       {booking.destinations.departure_station_label}
@@ -181,6 +217,13 @@ const BookingsDashboard: React.FC = () => {
                 >
                   <View className="h-4 w-4" />
                   View details
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="gap-2"
+                  onClick={() => downloadBooking(booking?._id)}
+                >
+                  <Download className="h-4 w-4" />
+                  Download booking
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
