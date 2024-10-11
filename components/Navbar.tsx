@@ -62,20 +62,14 @@ const Navbar = ({ className }: { className?: string }) => {
       </div>
 
       <div className="flex items-center gap-2">
-        <Button
-          variant={"ghost"}
-          className="flex items-center gap-3 rounded-full hover:bg-white/20 px-2.5 transition-colors cursor-pointer"
-          onClick={() => setOpenLanguages(true)}
-        >
-          <Globe className="w-5 h-5" color="white" />
-        </Button>
+        <LanguageDialog />
+
         {user ? <UserNavbarMenu /> : <NavbarMenu />}
       </div>
 
       {/* Modal Components */}
       <LoginForm isOpen={openLogin} />
       <RegisterForm isOpen={openRegister} />
-      <LanguageDialog />
       <ResetPasswordForm isOpen={openReset} />
     </div>
   );

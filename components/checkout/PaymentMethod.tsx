@@ -202,27 +202,29 @@ const PaymentMethod = () => {
     const passengersWithPrices = calculatePassengerPrices(passengers, ticket);
     console.log({ passengers, passengersWithPrices });
     const ticketTotal = isReturn ? returnTotal : outboundTotal;
-    return axios.post(
-      `${environment.apiurl}/booking/create/${ticket.operator}/${
-        user ? user.$id : null
-      }/${ticket._id}`,
-      {
-        passengers: passengersWithPrices,
-        travel_flex: selectedFlex,
-        payment_intent_id: paymentIntentId,
-        platform: "web",
-        flex_price: isReturn ? 0 : flexPrice,
-        total_price: ticketTotal + (isReturn ? 0 : flexPrice),
-        departure_station,
-        arrival_station,
-        departure_station_label,
-        arrival_station_label,
-        is_using_deposited_money: useDeposit,
-        deposit_spent: isReturn ? 0 : depositAmount * 100 || 0,
-        stop: ticket.stops[0],
-        is_return: isReturn,
-      }
-    );
+    return axios
+      .post(
+        `${environment.apiurl}/booking/create/${ticket.operator}/${
+          user ? user.$id : null
+        }/${ticket._id}`,
+        {
+          passengers: passengersWithPrices,
+          travel_flex: selectedFlex,
+          payment_intent_id: paymentIntentId,
+          platform: "web",
+          flex_price: isReturn ? 0 : flexPrice,
+          total_price: ticketTotal + (isReturn ? 0 : flexPrice),
+          departure_station,
+          arrival_station,
+          departure_station_label,
+          arrival_station_label,
+          is_using_deposited_money: useDeposit,
+          deposit_spent: isReturn ? 0 : depositAmount * 100 || 0,
+          stop: ticket.stops[0],
+          is_return: isReturn,
+        }
+      )
+      .then((res) => console.log({ buchungi: res }));
   };
 
   const handleFullDepositPayment = async () => {

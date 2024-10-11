@@ -1,13 +1,12 @@
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { useNavbarStore } from "@/store";
+import { Globe } from "lucide-react";
 
 const languages = [
   "English",
@@ -20,7 +19,7 @@ const languages = [
   "Japanese",
 ];
 
-const LanguageDialog = () => {
+const LanguageDropdown = () => {
   const { openLanguages, setOpenLanguages } = useNavbarStore();
 
   const handleLanguageSelect = (language: string) => {
@@ -29,27 +28,28 @@ const LanguageDialog = () => {
   };
 
   return (
-    <Dialog open={openLanguages} onOpenChange={() => setOpenLanguages(false)}>
-      <DialogContent className="flex flex-col justify-center">
-        <DialogHeader>
-          <DialogTitle>Select Your Language</DialogTitle>
-          <DialogDescription>Choose a language to continue.</DialogDescription>
-        </DialogHeader>
-        <div className="gap-2 grid grid-cols-2 sm:grid-cols-3">
-          {languages.map((language, index) => (
-            <Button
-              key={index}
-              variant={"outline"}
-              onClick={() => handleLanguageSelect(language)}
-              className="w-full"
-            >
-              {language}
-            </Button>
-          ))}
-        </div>
-      </DialogContent>
-    </Dialog>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant={"ghost"}
+          className="flex items-center gap-3 rounded-full hover:bg-white/20 px-2.5 transition-colors cursor-pointer"
+        >
+          {" "}
+          <Globe className="w-5 h-5" color="white" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        {languages.map((language, index) => (
+          <DropdownMenuItem
+            key={index}
+            onClick={() => handleLanguageSelect(language)}
+          >
+            {language}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 
-export default LanguageDialog;
+export default LanguageDropdown;

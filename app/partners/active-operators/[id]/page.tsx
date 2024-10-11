@@ -52,7 +52,9 @@ const RouteCard: React.FC<{ route: Route }> = ({ route }) => (
           <MapPinIcon className="w-5 h-5 mr-2 text-emerald-700" />
           <span className="font-semibold">{route.destination.from}</span>
         </div>
-        <span className="text-gray-500"><ArrowRightIcon className="w-6 h-6 text-gray-400" /></span>
+        <span className="text-gray-500">
+          <ArrowRightIcon className="w-6 h-6 text-gray-400" />
+        </span>
         <div className="flex items-center">
           <span className="font-semibold">{route.destination.to}</span>
           <MapPinIcon className="w-5 h-5 ml-2 text-emerald-700" />

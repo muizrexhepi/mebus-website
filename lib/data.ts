@@ -6,6 +6,10 @@ export const NAV_LINKS = [
         url:'/routes',
     },
     {
+      name:'Bookings',
+      url:'/bookings',
+    },
+    {
         name:'Help',
         url:'/help',
     },
@@ -50,8 +54,8 @@ export const FOOTER_LINKS = [
     title: "Partners",
     links: [
       {
-        name: "Partner Login",
-        link: "/partners/login",
+        name: "Partner Application",
+        link: "/partners/apply",
       },
       {
         name: "Become a Partner",

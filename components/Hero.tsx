@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const Hero = () => {
   return (
-    <div className="flex flex-col justify-start py-6 relative paddingX sm:pb-20 lg:pb-40">
+    <div className="flex flex-col justify-start py-4 relative paddingX sm:pb-20 lg:pb-40">
       <div className="h-[50vh] bg-accent-foreground/80 w-full absolute top-0 left-0 z-[-1] overflow-hidden">
         <Image
           priority

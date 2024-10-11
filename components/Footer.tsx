@@ -84,16 +84,17 @@ const Footer = () => {
       </div>
 
       <div className="w-full flex justify-between items-center md:flex-row flex-col pt-6 border-t-[1px] border-t-[#3f3e45] max-w-6xl">
-        <p className="font-normal text-[18px] text-center leading-[27px] text-white">
-          &copy; 2024 MebusTravel. All Rights Reserved.{" "}
+        <p className="font-normal text-sm text-center leading-[27px] text-white/70">
+          &copy; {new Date().getFullYear()} MebusTravel. All Rights Reserved.
         </p>
 
-        <div className="flex flex-row md:mt-0 gap-4 mt-6 text-white">
-          <Link href="/privacy-policy" className="text-white text-lg">
-            Privacy Policy
-          </Link>
-          <Link href="/terms-of-service" className="text-white text-lg">
-            Terms of Service
+        <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 mt-4 md:mt-0 text-white/70 text-sm">
+          <p>24/7 Customer Support</p>
+          <p className="hidden md:inline">|</p>
+          <p>Secure Payment</p>
+          <p className="hidden md:inline">|</p>
+          <Link href="/help" className="hover:text-white transition-colors">
+            Help & FAQ
           </Link>
         </div>
       </div>

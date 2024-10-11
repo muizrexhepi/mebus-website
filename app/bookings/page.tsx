@@ -7,7 +7,6 @@ import {
   ChevronDownIcon,
   ClockIcon,
   DollarSign,
-  X,
   XCircle,
   Edit,
   View,
@@ -17,7 +16,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -31,10 +29,12 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import SecondaryNavbar from "@/components/SecondaryNavbar";
+import Link from "next/link";
 
 const BookingsDashboard: React.FC = () => {
   const [user, setUser] = useState<any>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [noUserBookings, setNoUserBookings] = useState<Booking[]>([]);
   const [showFlexAlert, setShowFlexAlert] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
@@ -60,6 +60,15 @@ const BookingsDashboard: React.FC = () => {
         console.error("Failed to fetch user:", error);
       }
     };
+
+    if (typeof window !== "undefined") {
+      const savedBookings = JSON.parse(
+        localStorage.getItem("noUserBookings") || "[]"
+      );
+      setNoUserBookings(savedBookings);
+      console.log("Saved bookings from localStorage:", savedBookings);
+    }
+
     fetchUser();
   }, []);
 
@@ -113,6 +122,33 @@ const BookingsDashboard: React.FC = () => {
         variant: "destructive",
       });
     }
+  };
+
+  const renderNoBookingsMessage = () => {
+    if (!user && (!noUserBookings || noUserBookings.length === 0)) {
+      return (
+        <div className="text-center space-y-4 mt-8">
+          <p className="text-gray-500">
+            You don't have any bus ticket bookings yet.
+          </p>
+          <Button asChild>
+            <Link href="/">Book Your First Ticket</Link>
+          </Button>
+        </div>
+      );
+    } else if (user && (!bookings || bookings.length === 0)) {
+      return (
+        <div className="text-center space-y-4 mt-8">
+          <p className="text-gray-500">
+            You don't have any bus ticket bookings yet.
+          </p>
+          <Button asChild>
+            <Link href="/">Book Your First Ticket</Link>
+          </Button>
+        </div>
+      );
+    }
+    return null;
   };
 
   const renderBookingCard = (booking: Booking) => {
@@ -270,7 +306,10 @@ const BookingsDashboard: React.FC = () => {
         </TabsList>
         <TabsContent value="upcoming">
           <div className="space-y-6">
-            {bookings.map((booking) => renderBookingCard(booking))}
+            {user
+              ? bookings?.map((booking) => renderBookingCard(booking))
+              : noUserBookings?.map((booking) => renderBookingCard(booking))}
+            {renderNoBookingsMessage()}
           </div>
         </TabsContent>
       </Tabs>
