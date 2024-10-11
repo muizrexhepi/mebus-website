@@ -8,25 +8,25 @@ import {
 } from "@/components/ui/accordion";
 
 export const metadata = {
-  title: "Mebus - Luggage Policy",
-  description:
-    "Learn about Mebus' luggage policy, including rules for baggage allowances, restrictions, and guidelines for safe travel.",
+  title: "Busly - Luggage Policy",
+  description:Busly
+    "Learn about Busly' luggage policy, including rules for baggage allowances, restrictions, and guidelines for safe travel.",
   keywords:
-    "Mebus, Luggage Policy, Baggage Allowance, Bus Travel, Travel Guidelines, Restricted Items",
-  authors: [{ name: "Mebus" }],
+    "Busly, Luggage Policy, Baggage Allowance, Bus Travel, Travel Guidelines, Restricted Items",
+  authors: [{ name: "Busly" }],
   robots: "index, follow",
   openGraph: {
-    title: "Mebus - Luggage Policy",
+    title: "Busly - Luggage Policy",
     description:
-      "Understand the Mebus luggage policy for bus travelers, including baggage allowances, weight limits, and prohibited items.",
-    url: "https://www.mebus.com/luggage-policy",
+      "Understand the Busly luggage policy for bus travelers, including baggage allowances, weight limits, and prohibited items.",
+    url: "https://www.Busly.com/luggage-policy",
     type: "website",
     images: [
       {
-        url: "https://www.mebus.com/images/luggage-policy-banner.jpg",
+        url: "https://www.Busly.com/images/luggage-policy-banner.jpg",
         width: 1200,
         height: 630,
-        alt: "Mebus Luggage Policy",
+        alt: "Busly Luggage Policy",
       },
     ],
   },
@@ -41,7 +41,7 @@ export default function MebusLuggagePolicy() {
       <h1 className="text-4xl font-bold text-center mb-8">Luggage Policy</h1>
       <div className="max-w-4xl mx-auto">
         <p className="mb-8">
-          At Mebus, we aim to make your journey comfortable and hassle-free. Our
+          At Busly, we aim to make your journey comfortable and hassle-free. Our
           luggage policy is designed to ensure that all passengers can travel
           with their necessary belongings while maintaining the safety and
           comfort of everyone on board.
@@ -96,7 +96,7 @@ export default function MebusLuggagePolicy() {
           <h2 className="text-2xl font-semibold mb-4">2. Restricted Items</h2>
           <p className="mb-4">
             For the safety and comfort of all passengers, the following items
-            are not allowed on Mebus vehicles:
+            are not allowed on Busly vehicles:
           </p>
           <ul className="list-disc list-inside space-y-2">
             <li>Dangerous goods (explosives, flammable materials, etc.)</li>
@@ -136,7 +136,7 @@ export default function MebusLuggagePolicy() {
             4. Liability and Insurance
           </h2>
           <p className="mb-4">
-            Mebus takes reasonable care to ensure the safety of your luggage.
+            Busly takes reasonable care to ensure the safety of your luggage.
             However, we recommend that you:
           </p>
           <ul className="list-disc list-inside space-y-2">
@@ -181,7 +181,7 @@ export default function MebusLuggagePolicy() {
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-3">
-              <AccordionTrigger>Are pets allowed on Mebus?</AccordionTrigger>
+              <AccordionTrigger>Are pets allowed on Busly?</AccordionTrigger>
               <AccordionContent>
                 Small pets in appropriate carriers that fit under the seat are
                 allowed. Service animals are always welcome. Please inform us in

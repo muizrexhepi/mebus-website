@@ -20,9 +20,9 @@ import { Operator, OperatorRoles, CompanyMetadata } from "@/models/operator";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Active Operators | Mebus - Your Reliable Bus Booking Service",
+  title: "Active Operators | Busly - Your Reliable Bus Booking Service",
   description:
-    "View all active operators on Mebus. We offer reliable bus services with experienced operators for your comfortable travel.",
+    "View all active operators on Busly. We offer reliable bus services with experienced operators for your comfortable travel.",
 };
 
 const CompanyInfo: React.FC<{ companyMetadata: CompanyMetadata }> = ({
@@ -114,7 +114,7 @@ const ActiveOperatorsPage: React.FC = async () => {
         </h1>
         <p className="text-gray-600 mb-12 max-w-2xl">
           Our experienced and reliable operators ensure a comfortable and safe
-          journey for all Mebus passengers. Get to know the people behind our
+          journey for all Busly passengers. Get to know the people behind our
           excellent service.
         </p>
 

@@ -21,7 +21,7 @@ export default function AboutSection() {
   return (
     <div className="max-w-6xl mx-auto py-12">
       <h2 className="text-3xl font-bold text-center mb-8">
-        Why Travel with Mebus?
+        Why Travel with Busly?
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
@@ -34,7 +34,7 @@ export default function AboutSection() {
           </CardHeader>
           <CardContent>
             <p className="text-gray-600">
-              Discover unbeatable fares on our extensive network. Mebus makes
+              Discover unbeatable fares on our extensive network. Busly makes
               travel accessible without breaking the bank.
             </p>
           </CardContent>
@@ -79,7 +79,7 @@ export default function AboutSection() {
           </CardHeader>
           <CardContent>
             <p className="text-gray-600">
-              Time is precious. Count on Mebus for reliable schedules and
+              Time is precious. Count on Busly for reliable schedules and
               on-time performance.
             </p>
           </CardContent>
@@ -110,7 +110,7 @@ export default function AboutSection() {
           <CardContent>
             <p className="text-gray-600">
               Choose green with our fuel-efficient fleet and carbon offset
-              initiatives. Travel responsibly with Mebus.
+              initiatives. Travel responsibly with Busly.
             </p>
           </CardContent>
         </Card>
@@ -121,7 +121,7 @@ export default function AboutSection() {
           Ready to Embark on Your Next Adventure?
         </h3>
         <p className="text-gray-600 mb-6">
-          Join thousands of satisfied travelers who choose Mebus for reliable,
+          Join thousands of satisfied travelers who choose Busly for reliable,
           affordable, and comfortable journeys. Whether you're planning a
           weekend getaway or a cross-country expedition, we've got you covered.
         </p>
@@ -131,7 +131,7 @@ export default function AboutSection() {
             className="bg-primary text-white hover:bg-primary-dark"
           >
             <GlobeIcon className="mr-2 h-5 w-5" />
-            Explore Mebus Routes
+            Explore Busly Routes
           </Button>
         </Link>
       </div>

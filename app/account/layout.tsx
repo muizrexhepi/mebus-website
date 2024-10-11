@@ -3,7 +3,7 @@ import SecondaryNavbar from "@/components/SecondaryNavbar";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Your account | Mebus",
+  title: "Your account | Busly",
   description: "Change your account security, and personal information.",
 };
 

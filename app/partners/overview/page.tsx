@@ -18,9 +18,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "MeBus | Partner Overview",
+  title: "Busly | Partner Overview",
   description:
-    "Learn how to partner with MeBus, expand your reach, and grow your bus operation with our cutting-edge online platform.",
+    "Learn how to partner with Busly, expand your reach, and grow your bus operation with our cutting-edge online platform.",
 };
 export default function OperatorPartnership() {
   return (
@@ -32,7 +32,7 @@ export default function OperatorPartnership() {
       <section className="flex flex-col lg:flex-row items-center justify-between gap-12 py-16 max-w-6xl mx-auto px-4 sm:px-8 xl:px-0">
         <div className="lg:w-1/2">
           <h1 className="text-3xl sm:text-5xl font-bold mb-6">
-            Partner with MeBus
+            Partner with Busly
             <br />
             <span className="text-primary">Expand Your Reach</span>
           </h1>
@@ -60,7 +60,7 @@ export default function OperatorPartnership() {
       <section className="py-16 bg-gray-100">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-3xl font-semibold mb-4 text-center">
-            Why partner with MeBus?
+            Why partner with Busly?
           </h2>
           <p className="text-center mb-12 text-lg max-w-2xl mx-auto">
             Boost your bus operation business with our cutting-edge online
@@ -124,7 +124,7 @@ export default function OperatorPartnership() {
       <section className="py-16 flex max-w-6xl mx-auto flex-col lg:flex-row items-center justify-between gap-12 px-4 sm:px-8 xl:px-0">
         <div className="lg:w-1/2">
           <h2 className="text-3xl font-semibold mb-4">
-            How to become a MeBus partner
+            How to become a Busly partner
           </h2>
           <p className="mb-8 text-lg">
             Join our network of bus operators in just a few simple steps
@@ -149,7 +149,7 @@ export default function OperatorPartnership() {
               {
                 title: "Start Selling",
                 description:
-                  "Once everything is set up, start selling tickets online and grow your business with MeBus.",
+                  "Once everything is set up, start selling tickets online and grow your business with Busly.",
               },
             ].map((step, index) => (
               <div key={index} className="flex items-start">
@@ -178,7 +178,7 @@ export default function OperatorPartnership() {
       <section className="py-16 bg-primary max-w-6xl mx-auto text-white text-center rounded-lg">
         <h2 className="text-3xl font-semibold mb-4">Ready to get started?</h2>
         <p className="mb-8 max-w-2xl mx-auto text-lg px-4 xl:px-0">
-          Join the MeBus network today and transform your bus operation with our
+          Join the Busly network today and transform your bus operation with our
           advanced online ticketing system. Expand your customer base,
           streamline your operations, and boost your revenue.
         </p>

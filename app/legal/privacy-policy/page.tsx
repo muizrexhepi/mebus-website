@@ -2,25 +2,25 @@ import Navbar from "@/components/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 
 export const metadata = {
-  title: "Mebus - Privacy Policy",
+  title: "Busly - Privacy Policy",
   description:
-    "Read the privacy policy of Mebus to understand how we collect, use, and protect your personal information when using our bus ticket booking app.",
+    "Read the privacy policy of Busly to understand how we collect, use, and protect your personal information when using our bus ticket booking app.",
   keywords:
-    "Mebus, Privacy Policy, Data Security, Personal Information, Bus Ticket Booking",
-  authors: [{ name: "Mebus" }],
+    "Busly, Privacy Policy, Data Security, Personal Information, Bus Ticket Booking",
+  authors: [{ name: "Busly" }],
   robots: "index, follow",
   openGraph: {
-    title: "Mebus - Privacy Policy",
+    title: "Busly - Privacy Policy",
     description:
-      "Mebus is committed to protecting your privacy and ensuring the security of your personal information. Learn more about our privacy practices.",
-    url: "https://www.mebus.com/privacy-policy",
+      "Busly is committed to protecting your privacy and ensuring the security of your personal information. Learn more about our privacy practices.",
+    url: "https://www.busly.eu/privacy-policy",
     type: "website",
     images: [
       {
-        url: "https://www.mebus.com/images/privacy-policy-banner.jpg",
+        url: "https://www.busly.eu/images/privacy-policy-banner.jpg",
         width: 1200,
         height: 630,
-        alt: "Mebus Privacy Policy",
+        alt: "Busly Privacy Policy",
       },
     ],
   },
@@ -35,7 +35,7 @@ export default function MebusPrivacyPolicy() {
       <h1 className="text-4xl font-bold text-center mb-8">Privacy Policy</h1>
       <div className="max-w-4xl mx-auto">
         <p className="mb-8">
-          At Mebus, we are committed to protecting your privacy and ensuring the
+          At Busly, we are committed to protecting your privacy and ensuring the
           security of your personal information. This Privacy Policy outlines
           our practices concerning the collection, use, and sharing of your data
           when you use our bus ticket booking app.
@@ -99,7 +99,7 @@ export default function MebusPrivacyPolicy() {
             We collect information you provide directly to us when you:
           </p>
           <ul className="list-disc list-inside space-y-2 mb-4">
-            <li>Create an account in the Mebus app</li>
+            <li>Create an account in the Busly app</li>
             <li>Book a bus ticket</li>
             <li>Contact our customer support</li>
             <li>Sign up for our newsletter</li>
@@ -130,7 +130,7 @@ export default function MebusPrivacyPolicy() {
           </h2>
           <p className="mb-4">We use the information we collect to:</p>
           <ul className="list-disc list-inside space-y-2">
-            <li>Provide, maintain, and improve the Mebus app</li>
+            <li>Provide, maintain, and improve the Busly app</li>
             <li>Process your bus ticket bookings and transactions</li>
             <li>
               Send you important notifications about your bookings and travels
@@ -139,7 +139,7 @@ export default function MebusPrivacyPolicy() {
               Respond to your comments, questions, and customer service requests
             </li>
             <li>
-              Send you promotional offers and information about Mebus services
+              Send you promotional offers and information about Busly services
             </li>
             <li>Analyze app usage trends and improve user experience</li>
             <li>
@@ -160,14 +160,14 @@ export default function MebusPrivacyPolicy() {
           <ul className="list-disc list-inside space-y-2 mb-4">
             <li>With bus operators to fulfill your bookings</li>
             <li>
-              With third-party service providers who help us operate the Mebus
+              With third-party service providers who help us operate the Busly
               app
             </li>
             <li>
               In response to legal requests or to comply with applicable laws
             </li>
             <li>
-              To protect the rights, property, or safety of Mebus, our users, or
+              To protect the rights, property, or safety of Busly, our users, or
               others
             </li>
             <li>
@@ -233,7 +233,7 @@ export default function MebusPrivacyPolicy() {
           </h2>
           <p>
             We may update this Privacy Policy from time to time. We will notify
-            you of any changes by posting the new Privacy Policy in the Mebus
+            you of any changes by posting the new Privacy Policy in the Busly
             app and updating the &quot;Last Updated&quot; date. You are advised
             to review this Privacy Policy periodically for any changes. Changes
             to this Privacy Policy are effective when they are posted in the
@@ -247,8 +247,8 @@ export default function MebusPrivacyPolicy() {
             If you have any questions about this Privacy Policy or our privacy
             practices, please contact us at:
           </p>
-          <p>Mebus Privacy Team</p>
-          <p>Email: privacy@mebus.com</p>
+          <p>Busly Privacy Team</p>
+          <p>Email: privacy@busly.eu</p>
           <p>Address: 456 Data Protection Avenue, Privacyville, ST 67890</p>
           <p>Phone: (555) 987-6543</p>
         </section>

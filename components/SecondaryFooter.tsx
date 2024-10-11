@@ -8,7 +8,7 @@ const SecondaryFooter = ({ className }: { className?: string }) => {
       <div className={cn("max-w-6xl mx-auto", className)}>
         <div className="flex flex-wrap justify-center sm:justify-between items-center border-t border-neutral-700 pt-4 gap-2">
           <p className="text-sm text-black/70">
-            &copy; 2024 MebusTravel. All Rights Reserved.
+            &copy; 2024 Busly. All Rights Reserved.
           </p>
           <nav className="flex flex-wrap justify-center sm:jsutify-start gap-2 sm:gap-4 mt-2 sm:mt-0">
             <Link

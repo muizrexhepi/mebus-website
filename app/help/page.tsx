@@ -17,9 +17,9 @@ import InfoTabs from "@/components/help/InfoTabs";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Help Center | Mebus - Your Reliable Bus Booking Service",
+  title: "Help Center | Busly - Your Reliable Bus Booking Service",
   description:
-    "Find answers to your questions and get support for your bus bookings with Mebus. Access our knowledge base, learn how to use our services, and reach out for assistance.",
+    "Find answers to your questions and get support for your bus bookings with Busly. Access our knowledge base, learn how to use our services, and reach out for assistance.",
 };
 
 export default function HelpPage() {

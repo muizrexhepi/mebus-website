@@ -28,7 +28,7 @@ export async function generateMetadata({
   const operator = operatorRes.data.data;
 
   return {
-    title: `${operator.name} Routes | Mebus`,
+    title: `${operator.name} Routes | Busly`,
     description: `View all bus routes operated by ${operator.name}. Detailed information on destinations, stations, and luggage policies.`,
   };
 }

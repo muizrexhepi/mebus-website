@@ -2,25 +2,25 @@ import Navbar from "@/components/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 
 export const metadata = {
-  title: "Mebus - Terms of Service",
+  title: "Busly - Terms of Service",
   description:
-    "Read the Mebus Terms of Service to understand your rights and obligations when using our bus ticket booking app.",
+    "Read the Busly Terms of Service to understand your rights and obligations when using our bus ticket booking app.",
   keywords:
-    "Mebus, Terms of Service, Legal, User Rights, Bus Ticket Booking, Agreement",
-  authors: [{ name: "Mebus" }],
+    "Busly, Terms of Service, Legal, User Rights, Bus Ticket Booking, Agreement",
+  authors: [{ name: "Busly" }],
   robots: "index, follow",
   openGraph: {
-    title: "Mebus - Terms of Service",
+    title: "Busly - Terms of Service",
     description:
-      "Review the Terms of Service for Mebus to understand the legal agreement and guidelines governing the use of our platform.",
-    url: "https://www.mebus.com/terms-of-service",
+      "Review the Terms of Service for Busly to understand the legal agreement and guidelines governing the use of our platform.",
+    url: "https://www.busly.eu/terms-of-service",
     type: "website",
     images: [
       {
-        url: "https://www.mebus.com/images/terms-of-service-banner.jpg",
+        url: "https://www.busly.eu/images/terms-of-service-banner.jpg",
         width: 1200,
         height: 630,
-        alt: "Mebus Terms of Service",
+        alt: "Busly Terms of Service",
       },
     ],
   },
@@ -35,9 +35,9 @@ export default function MebusTermsOfService() {
       <h1 className="text-4xl font-bold text-center mb-8">Terms of Service</h1>
       <div className="max-w-4xl mx-auto">
         <p className="mb-8">
-          Welcome to Mebus. These Terms of Service (&quot;Terms&quot;) govern
-          your use of the Mebus bus ticket booking application and services. By
-          using Mebus, you agree to these Terms. Please read them carefully.
+          Welcome to Busly. These Terms of Service (&quot;Terms&quot;) govern
+          your use of the Busly bus ticket booking application and services. By
+          using Busly, you agree to these Terms. Please read them carefully.
         </p>
 
         <h2 className="text-2xl font-semibold mb-4" id="toc">
@@ -96,7 +96,7 @@ export default function MebusTermsOfService() {
             1. Acceptance of Terms
           </h2>
           <p>
-            By accessing or using the Mebus app, you agree to be bound by these
+            By accessing or using the Busly app, you agree to be bound by these
             Terms. If you do not agree to these Terms, please do not use our
             service.
           </p>
@@ -105,7 +105,7 @@ export default function MebusTermsOfService() {
         <section id="use-of-service" className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">2. Use of Service</h2>
           <p className="mb-4">
-            You agree to use Mebus only for lawful purposes and in accordance
+            You agree to use Busly only for lawful purposes and in accordance
             with these Terms. You are prohibited from:
           </p>
           <ul className="list-disc list-inside space-y-2">
@@ -124,7 +124,7 @@ export default function MebusTermsOfService() {
         <section id="account" className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">3. User Account</h2>
           <p className="mb-4">
-            To use certain features of Mebus, you may need to create an account.
+            To use certain features of Busly, you may need to create an account.
             You are responsible for:
           </p>
           <ul className="list-disc list-inside space-y-2">
@@ -138,14 +138,14 @@ export default function MebusTermsOfService() {
           <h2 className="text-2xl font-semibold mb-4">
             4. Bookings and Payments
           </h2>
-          <p className="mb-4">When you book a bus ticket through Mebus:</p>
+          <p className="mb-4">When you book a bus ticket through Busly:</p>
           <ul className="list-disc list-inside space-y-2">
             <li>You agree to pay the specified fare and any applicable fees</li>
             <li>
               You are responsible for providing accurate booking information
             </li>
             <li>
-              Mebus acts as an intermediary between you and the bus operators
+              Busly acts as an intermediary between you and the bus operators
             </li>
             <li>
               The bus operator&apos;s terms and conditions may also apply to
@@ -166,7 +166,7 @@ export default function MebusTermsOfService() {
             <li>Cancellations must be made within the specified time frame</li>
             <li>Refunds are subject to the bus operator&apos;s policies</li>
             <li>
-              Mebus may charge a processing fee for cancellations and refunds
+            Busly may charge a processing fee for cancellations and refunds
             </li>
           </ul>
         </section>
@@ -176,8 +176,8 @@ export default function MebusTermsOfService() {
             6. Privacy and Data Protection
           </h2>
           <p>
-            Your use of Mebus is also governed by our Privacy Policy. By using
-            Mebus, you consent to the collection, use, and sharing of your
+            Your use of Busly is also governed by our Privacy Policy. By using
+            Busly, you consent to the collection, use, and sharing of your
             information as described in the Privacy Policy.
           </p>
         </section>
@@ -189,11 +189,11 @@ export default function MebusTermsOfService() {
           <p className="mb-4">To the fullest extent permitted by law:</p>
           <ul className="list-disc list-inside space-y-2">
             <li>
-              Mebus is not liable for any indirect, incidental, special, or
+              Busly is not liable for any indirect, incidental, special, or
               consequential damages
             </li>
             <li>
-              Mebus is not responsible for the actions, services, or products of
+              Busly is not responsible for the actions, services, or products of
               third-party bus operators
             </li>
             <li>
@@ -207,8 +207,8 @@ export default function MebusTermsOfService() {
           <h2 className="text-2xl font-semibold mb-4">8. Changes to Terms</h2>
           <p>
             We may update these Terms from time to time. We will notify you of
-            any changes by posting the new Terms in the Mebus app and updating
-            the &quot;Last Updated&quot; date. Your continued use of Mebus after
+            any changes by posting the new Terms in the Busly app and updating
+            the &quot;Last Updated&quot; date. Your continued use of Busly after
             such changes constitutes your acceptance of the new Terms.
           </p>
         </section>
@@ -218,8 +218,8 @@ export default function MebusTermsOfService() {
           <p className="mb-4">
             If you have any questions about these Terms, please contact us at:
           </p>
-          <p>Mebus Legal Team</p>
-          <p>Email: legal@mebus.com</p>
+          <p>Busly Legal Team</p>
+          <p>Email: legal@busly.eu</p>
           <p>Address: 456 Data Protection Avenue, Privacyville, ST 67890</p>
           <p>Phone: (555) 987-6543</p>
         </section>

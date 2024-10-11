@@ -17,12 +17,17 @@ import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
 import { FormError } from "@/components/form-error";
 import { PartnerApplicationSchema } from "@/schemas";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { environment } from "@/environment";
+import { ApiResponse } from "@/interfaces/api";
+import { FormSuccess } from "../form-success";
 
 type PartnerApplicationFormValues = z.infer<typeof PartnerApplicationSchema>;
 
 const PartnerApplicationForm: React.FC = () => {
   const [error, setError] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [message, setMessage] = useState<string | undefined>()
 
   const form = useForm<PartnerApplicationFormValues>({
     resolver: zodResolver(PartnerApplicationSchema),
@@ -42,18 +47,19 @@ const PartnerApplicationForm: React.FC = () => {
     },
   });
 
+
   const onSubmit = async (values: PartnerApplicationFormValues) => {
     setIsLoading(true);
     console.log(values);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const response: ApiResponse = await axios.post(`${environment.apiurl}/applicant/create`, values);
       setError("");
-      setIsLoading(false);
+      setMessage(response.data.message)
       console.log("Application submitted successfully");
     } catch (error: any) {
-      setError(error.message || "Something went wrong!");
-      console.log(error);
+      setError(error?.response?.data?.message || "Something went wrong!");
+    } finally {
       setIsLoading(false);
     }
   };
@@ -286,6 +292,7 @@ const PartnerApplicationForm: React.FC = () => {
         </div>
 
         <FormError message={error} />
+        <FormSuccess message={message} />
         <Button className="w-full" type="submit" disabled={isLoading}>
           {isLoading ? (
             <Loader className="h-4 w-4 animate-spin" />

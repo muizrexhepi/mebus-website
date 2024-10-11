@@ -19,7 +19,7 @@ const Footer = () => {
               height={40}
               className="w-[150px] h-[40px] md:w-[200px] md:h-[55px] cursor-pointer object-contain"
             /> */}
-            <h1 className="font-semibold text-2xl text-white/95">Mebus</h1>
+            <h1 className="font-semibold text-2xl text-white/95">Busly</h1>
           </Link>
           <p
             className={`font-normal text-white/70 text-[18px] leading-[30.8px] mt-4 max-w-[310px]`}
@@ -85,7 +85,7 @@ const Footer = () => {
 
       <div className="w-full flex justify-between items-center md:flex-row flex-col pt-6 border-t-[1px] border-t-[#3f3e45] max-w-6xl">
         <p className="font-normal text-sm text-center leading-[27px] text-white/70">
-          &copy; {new Date().getFullYear()} MebusTravel. All Rights Reserved.
+          &copy; {new Date().getFullYear()} Busly. All Rights Reserved.
         </p>
 
         <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 mt-4 md:mt-0 text-white/70 text-sm">

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { Button } from "@/components/ui/button";
 import { environment } from "@/environment";
 import { useToast } from "@/components/hooks/use-toast";
@@ -14,6 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { getUserBalance } from "@/actions/users";
 import { Input } from "../ui/input";
 import { useDepositStore, useCheckoutStore } from "@/store";
+import { ApiResponse } from "@/interfaces/api";
 
 const PaymentMethod = () => {
   const stripe = useStripe();
@@ -224,7 +225,19 @@ const PaymentMethod = () => {
           is_return: isReturn,
         }
       )
-      .then((res) => console.log({ buchungi: res }));
+      .then((res: AxiosResponse<ApiResponse>) => {
+        console.log({ buchungi: res.data.data })
+        if(typeof window != 'undefined') {
+          const savedBookings = JSON.parse(
+            localStorage.getItem("noUserBookings") || "[]"
+          );
+
+          const newBooking = res.data.data;
+          const allBookings = [...savedBookings, newBooking];
+          console.log({allBookings})
+          localStorage.setItem("noUserBookings", JSON.stringify(allBookings));
+        }
+      });
   };
 
   const handleFullDepositPayment = async () => {

@@ -202,7 +202,7 @@ const DepositPage = () => {
           <Card className="bg-primary text-white">
             <CardHeader>
               <CardTitle className="text-2xl">
-                Why Deposit with MeBus?
+                Why Deposit with Busly?
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
