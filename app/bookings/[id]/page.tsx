@@ -10,6 +10,7 @@ import {
   MailIcon,
   CalendarIcon,
   ArrowLeft,
+  ChevronLeft,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -65,12 +66,11 @@ export default async function BookingDetailsPage({
             Booking ID: {booking?._id}
           </p>
         </div>
-        <Link
-          href={"/bookings"}
-          className="flex items-center gap-2 hover:underline"
-        >
-          <ArrowLeft color="black" size={20} />
-          Back
+
+        <Link href={"/bookings"}>
+          <Button variant="outline" className="mb-4">
+            <ChevronLeft className="mr-2 h-4 w-4" /> Back
+          </Button>
         </Link>
       </div>
 
@@ -179,12 +179,18 @@ export default async function BookingDetailsPage({
                 <div className="space-y-2">
                   <div className="font-semibold">Charge Details:</div>
                   <div className="grid grid-cols-2 gap-2">
-                    {booking?.metadata?.deposited_money?.used && 
+                    {booking?.metadata?.deposited_money?.used && (
                       <>
-                          <span>Amount used from your deposit:</span>
-                          <span>${(booking.metadata.deposited_money.amount_in_cents / 100).toFixed(2)}</span>
+                        <span>Amount used from your deposit:</span>
+                        <span>
+                          $
+                          {(
+                            booking.metadata.deposited_money.amount_in_cents /
+                            100
+                          ).toFixed(2)}
+                        </span>
                       </>
-                    }
+                    )}
                     <span>Amount Charged:</span>
                     <span>${(booking?.charge?.amount / 100).toFixed(2)}</span>
                     <span>Currency:</span>
@@ -192,7 +198,8 @@ export default async function BookingDetailsPage({
                     <span>Card:</span>
                     <span>
                       {booking?.charge?.payment_method_details?.card?.brand?.toUpperCase()}{" "}
-                      **** {booking?.charge?.payment_method_details?.card?.last4}
+                      ****{" "}
+                      {booking?.charge?.payment_method_details?.card?.last4}
                     </span>
                   </div>
                 </div>

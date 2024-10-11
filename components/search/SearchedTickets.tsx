@@ -177,12 +177,7 @@ const TicketList: React.FC = () => {
                     onClick={() => setSelectedTicket(ticket)}
                     className="cursor-pointer"
                   >
-                    <TicketBlock
-                      ticket={ticket}
-                      adults={passengers.adults | 1}
-                      nrOfChildren={passengers.children | 0}
-                      isReturn={isSelectingReturn}
-                    />
+                    <TicketBlock ticket={ticket} isReturn={isSelectingReturn} />
                   </div>
                 </SheetTrigger>
                 <SheetContent className="p-0 rounded-tl-xl rounded-bl-xl h-full flex flex-col justify-between">

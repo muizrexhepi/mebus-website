@@ -10,17 +10,10 @@ import { CalendarDays } from "lucide-react";
 
 export interface TicketProps {
   ticket: TicketType;
-  adults?: number | null;
-  nrOfChildren?: number | null;
   isReturn?: boolean;
 }
 
-const TicketBlock: React.FC<TicketProps> = ({
-  ticket,
-  adults,
-  nrOfChildren,
-  isReturn,
-}) => {
+const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
   const {
     setOutboundTicket,
     outboundTicket,
@@ -36,7 +29,7 @@ const TicketBlock: React.FC<TicketProps> = ({
     e.preventDefault();
     if (isSelectingReturn) {
       setReturnTicket(ticket);
-      router.push(`/checkout?adults=${adults}&children=${nrOfChildren}`);
+      router.push(`/checkout`);
     } else {
       setOutboundTicket(ticket);
       setIsSelectingReturn(true);
@@ -44,7 +37,7 @@ const TicketBlock: React.FC<TicketProps> = ({
         console.log("zi");
         setIsSelectingReturn(true);
       } else {
-        router.push(`/checkout?adults=${adults}&children=${nrOfChildren}`);
+        router.push(`/checkout`);
       }
     }
   };

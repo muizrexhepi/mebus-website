@@ -4,6 +4,8 @@ import React, { useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { PassengerData } from "@/components/hooks/use-passengers";
 import useSearchStore, { useCheckoutStore } from "@/store";
+import PassengerSelector from "./PassengerSelector";
+import { X } from "lucide-react";
 
 interface InputFieldProps {
   label: string;
@@ -41,7 +43,8 @@ const PassengerInfoContent: React.FC = () => {
     setPassengers: state.setPassengers,
   }));
 
-  const { passengers: passengersAmount } = useSearchStore();
+  const { passengers: passengersAmount, setPassengers: setPassengersAmount } =
+    useSearchStore();
 
   const { adults, children } = {
     adults: passengersAmount.adults || 1,
@@ -72,7 +75,7 @@ const PassengerInfoContent: React.FC = () => {
       }),
     ];
     setPassengers(initialPassengers);
-  }, [adults, children, setPassengers, passengers.length]);
+  }, [adults, children, setPassengers, setPassengersAmount, passengers.length]);
 
   const updatePassenger = (
     index: number,
@@ -105,13 +108,31 @@ const PassengerInfoContent: React.FC = () => {
   const renderPassengerInputs = (passengerIndex: number, isChild: boolean) => {
     const passenger = passengers[passengerIndex];
 
+    const removePassenger = () => {
+      if (isChild) {
+        setPassengersAmount({ adults, children: children - 1 });
+      } else {
+        setPassengersAmount({ children, adults: adults - 1 });
+      }
+    };
+
     return (
       <div key={passengerIndex} className="">
-        <p className="font-medium text-black mb-2">
-          {isChild
-            ? `Child ${passengerIndex - adults + 1}`
-            : `Adult ${passengerIndex + 1}`}
-        </p>
+        <div className="flex items-center justify-between">
+          <p className="font-medium text-black mb-2">
+            {isChild
+              ? `Child ${passengerIndex - adults + 1}`
+              : `Adult ${passengerIndex + 1}`}
+          </p>
+          {passengerIndex !== 0 && (
+            <button
+              onClick={removePassenger}
+              className="bg-gray-100 p-1.5 rounded-full"
+            >
+              <X size={16} className="text-neutral-700" />
+            </button>
+          )}
+        </div>
         <div className="flex flex-col gap-2 sm:grid sm:grid-cols-2">
           <InputField
             label="First Name"
@@ -199,9 +220,12 @@ const PassengerInfoContent: React.FC = () => {
         Please enter the details of all passengers traveling. Ensure that the
         information matches their government-issued ID for smooth boarding.
       </p>
-      {passengers.map((_, index) =>
-        renderPassengerInputs(index, index >= adults)
-      )}
+      <div className="space-y-3">
+        {passengers.map((_, index) =>
+          renderPassengerInputs(index, index >= adults)
+        )}
+      </div>
+      <PassengerSelector />
     </div>
   );
 };

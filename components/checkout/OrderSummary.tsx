@@ -5,7 +5,7 @@ import { Ticket } from "@/models/ticket";
 import { cn } from "@/lib/utils";
 
 import InfoBlock from "../InfoBlock";
-import { useDepositStore, useCheckoutStore } from "@/store";
+import useSearchStore, { useDepositStore, useCheckoutStore } from "@/store";
 
 interface PriceSummaryItemProps {
   label: string;
@@ -86,6 +86,7 @@ const OrderSummary = ({ className }: { className?: string }) => {
   const [balanceAmount, setBalanceAmount] = useState(0);
   const [remainingAmount, setRemainingAmount] = useState(0);
   const { useDeposit, depositAmount } = useDepositStore();
+  const childrenAmount = useSearchStore((state) => state.passengers.children);
   const { outboundTicket, returnTicket, selectedFlex, passengers } =
     useCheckoutStore();
 
@@ -188,6 +189,7 @@ const OrderSummary = ({ className }: { className?: string }) => {
               />
               <PriceSummaryItem
                 label="Children"
+                className={`${childrenAmount < 1 && "hidden"}`}
                 amount={outboundDetails.childPrice}
                 quantity={outboundDetails.childCount}
               />
