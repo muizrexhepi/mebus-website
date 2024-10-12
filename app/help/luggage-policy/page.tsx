@@ -9,7 +9,7 @@ import {
 
 export const metadata = {
   title: "Busly - Luggage Policy",
-  description:Busly
+  description:
     "Learn about Busly' luggage policy, including rules for baggage allowances, restrictions, and guidelines for safe travel.",
   keywords:
     "Busly, Luggage Policy, Baggage Allowance, Bus Travel, Travel Guidelines, Restricted Items",
