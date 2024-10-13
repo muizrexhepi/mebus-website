@@ -1,4 +1,6 @@
-import React from "react";
+"use client"
+
+import React, { useEffect, useState } from "react";
 import {
   CreditCardIcon,
   MapPinIcon,
@@ -11,6 +13,8 @@ import {
   CalendarIcon,
   ArrowLeft,
   ChevronLeft,
+  DollarSignIcon,
+  EuroIcon,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -21,16 +25,33 @@ import { getBookingByIdWithChargeData } from "@/actions/bookings";
 import InfoBlock from "@/components/InfoBlock";
 import { Separator } from "@/components/ui/separator";
 import SecondaryNavbar from "@/components/SecondaryNavbar";
+import { TRAVEL_FLEX_PERMISSIONS, TRAVEL_FLEX_TYPES } from "@/lib/data";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Calendar } from "@/components/ui/calendar";
+import { Booking } from "@/models/booking";
+import { environment } from "@/environment";
+import axios from "axios";
 
-export default async function BookingDetailsPage({
+export default function BookingDetailsPage({
   params,
 }: {
   params: { id: string };
 }) {
-  let booking = null;
-  if (params.id) {
-    booking = await getBookingByIdWithChargeData(params.id);
+  const [booking, setBookings] = useState<Booking>()
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
+  const [availableDates, setAvailableDates] = useState([]);
+
+  const fetchBooking = async () => {
+    if (params.id) {
+      const data = await getBookingByIdWithChargeData(params.id);
+      setBookings(data);
+    }
   }
+
+  useEffect(() => {
+    fetchBooking();
+  }, [])
+
 
   if (!booking) {
     return (
@@ -50,9 +71,48 @@ export default async function BookingDetailsPage({
     );
   }
 
+  const calculateDaysUntilDeparture = (departureDate: Date) => {
+    const now = moment();
+    const departure = moment(departureDate);
+    return departure.diff(now, "days");
+  };
+
+  const daysUntilDeparture = calculateDaysUntilDeparture(booking?.departure_date!);
+  const travelFlex = booking?.metadata?.travel_flex;
+  const permissions = travelFlex ? TRAVEL_FLEX_PERMISSIONS[travelFlex.toUpperCase() as keyof typeof TRAVEL_FLEX_PERMISSIONS] : null;
+
+  const canCancel = daysUntilDeparture >= permissions?.CAN_CANCEL!;
+  const canEdit = daysUntilDeparture >= permissions?.CAN_EDIT!;
+  const canReschedule = daysUntilDeparture >= permissions?.RESCHEDULE!;
+
+  console.log({ daysUntilDeparture, travelFlex, permissions, canCancel, canEdit, canReschedule })
+
   const departureDate = moment
     .utc(booking?.departure_date)
     .format("dddd, DD-MM-YYYY");
+
+  const adults = booking?.passengers?.filter(passenger => passenger.age >= 10).length || 0;
+  const children = booking?.passengers?.filter(passenger => passenger.age < 10).length || 0;
+
+  const handleOpenModal = async () => {
+    setIsDatePickerOpen(true);
+
+    try {
+      const response = await axios.get(
+        `${environment.apiurl}/ticket/search/available-dates?departureStation=${booking?.destinations?.departure_station}&arrivalStation=${booking?.destinations?.arrival_station}&departureDate=${moment.utc().add(7, 'days').format("DD-MM-YYYY")}&adults=${adults}&children=${children}&page=1`
+      );
+      setAvailableDates(response.data.data);
+    } catch (error) {
+      console.error("Error fetching ticket search results", error);
+    }
+  };
+
+  interface AvailableDate {
+    departure_date: string;
+    price: number;
+    children_price: number;
+  }
+
 
   return (
     <div className="space-y-4 max-w-5xl mx-auto py-20 paddingX">
@@ -65,6 +125,58 @@ export default async function BookingDetailsPage({
           <p className="text-sm text-neutral-800/60">
             Booking ID: {booking?._id}
           </p>
+          <Button onClick={handleOpenModal}>Change departure date</Button>
+
+          <Dialog open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
+        <DialogContent className="sm:max-w-[700px]">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-semibold">
+              {travelFlex === TRAVEL_FLEX_TYPES.NO_FLEX
+                ? "You cannot make any changes to your trip with no travel flex."
+                : "Please select one of the available travel dates"}
+            </DialogTitle>
+          </DialogHeader>
+          {travelFlex === TRAVEL_FLEX_TYPES.NO_FLEX && (
+            <InfoBlock
+                desc="You need to upgrade your travel flex in order to make changes to your booking"
+                title={"Click here to upgrade"}
+                href={`/upgrade/flex/${booking?._id}`}
+                required_full_url={true}
+            />
+          )}
+
+          {travelFlex !== TRAVEL_FLEX_TYPES.NO_FLEX && (
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {availableDates?.map((date: AvailableDate, index: number) => (
+                <Card key={index}>
+                  <CardContent className="p-4">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <CalendarIcon className="h-5 w-5 text-primary" />
+                      <span className="font-medium">
+                        {moment.utc(date.departure_date).format("dddd, DD-MM-YYYY")}
+                      </span>
+                    </div>
+                    <div className="flex items-center space-x-2 mb-2">
+                      <ClockIcon className="h-5 w-5 text-primary" />
+                      <span>{moment.utc(date.departure_date).format("HH:mm")}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <EuroIcon className="h-5 w-5 text-green-600" />
+                        <span>Adult: {date.price.toFixed(2)}</span>
+                      </div>
+                      <Badge variant="secondary">
+                        Child: {date.children_price.toFixed(2)}
+                      </Badge>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+          <Button onClick={() => setIsDatePickerOpen(false)} className="mt-4 w-full">Close</Button>
+        </DialogContent>
+      </Dialog>
         </div>
 
         <Link href={"/bookings"}>

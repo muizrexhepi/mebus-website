@@ -58,7 +58,7 @@ const TicketList: React.FC = () => {
         `${environment.apiurl}/ticket/search?departureStation=${
           isSelectingReturn ? to : from
         }&arrivalStation=${isSelectingReturn ? from : to}&departureDate=${
-          isSelectingReturn ? returnDate : departureDate
+          isSelectingReturn ? departureDate : returnDate
         }&adults=${passengers.adults}&children=${
           passengers.children
         }&page=${pageNumber}`

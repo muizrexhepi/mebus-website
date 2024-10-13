@@ -175,6 +175,47 @@ export const flexFeatures: FlexFeature[] = [
     NO_FLEX = 0
   };
 
+  export enum TRAVEL_FLEX_TYPES {
+    PREMIUM = "premium",
+    BASIC = "basic",
+    NO_FLEX = "no_flex",
+  };
+
+  interface TravelFlexPermission {
+    CAN_CANCEL: number;
+    CAN_EDIT: number;
+    RESCHEDULE: number;
+    SUPPORT: number; 
+}
+
+interface TravelFlexPermissions {
+    PREMIUM: TravelFlexPermission;
+    BASIC: TravelFlexPermission;
+    NO_FLEX: TravelFlexPermission;
+}
+
+export const TRAVEL_FLEX_PERMISSIONS: TravelFlexPermissions = {
+    PREMIUM: {
+        CAN_CANCEL: 2,
+        CAN_EDIT: 1,
+        RESCHEDULE: 3,
+        SUPPORT: Infinity,
+    },
+    BASIC: {
+        CAN_CANCEL: 5,
+        CAN_EDIT: 3,
+        RESCHEDULE: 0,
+        SUPPORT: Infinity,
+    },
+    NO_FLEX: {
+        CAN_CANCEL: 0,
+        CAN_EDIT: 0,
+        RESCHEDULE: 0,
+        SUPPORT: Infinity,
+    },
+};
+
+
   export const ACCOUNT_SETTINGS = [
     {
       href: "/account/personal-info",
