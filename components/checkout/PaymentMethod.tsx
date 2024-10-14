@@ -226,15 +226,15 @@ const PaymentMethod = () => {
         }
       )
       .then((res: AxiosResponse<ApiResponse>) => {
-        console.log({ buchungi: res.data.data })
-        if(typeof window != 'undefined') {
+        console.log({ buchungi: res.data.data });
+        if (typeof window != "undefined") {
           const savedBookings = JSON.parse(
             localStorage.getItem("noUserBookings") || "[]"
           );
 
           const newBooking = res.data.data;
           const allBookings = [...savedBookings, newBooking];
-          console.log({allBookings})
+          console.log({ allBookings });
           localStorage.setItem("noUserBookings", JSON.stringify(allBookings));
         }
       });
