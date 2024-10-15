@@ -18,6 +18,7 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
     setOutboundTicket,
     outboundTicket,
     setReturnTicket,
+    selectedTicket,
     returnTicket,
     isSelectingReturn,
     setIsSelectingReturn,
@@ -27,14 +28,21 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
 
   const handleTicketSelection = (e: React.MouseEvent) => {
     e.preventDefault();
+
     if (isSelectingReturn) {
-      setReturnTicket(ticket);
+      if (ticket._id !== returnTicket?._id) {
+        // Only set the return ticket if it's not already selected
+        setReturnTicket(ticket);
+      }
       router.push(`/checkout`);
     } else {
-      setOutboundTicket(ticket);
-      setIsSelectingReturn(true);
+      if (ticket._id !== outboundTicket?._id) {
+        // Only set the outbound ticket if it's not already selected
+        setOutboundTicket(ticket);
+      }
+
+      // Only toggle return selection for round trips
       if (tripType === "round-trip") {
-        console.log("zi");
         setIsSelectingReturn(true);
       } else {
         router.push(`/checkout`);
@@ -52,15 +60,11 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
     .toString()
     .padStart(2, "0")} hrs`;
 
-  const isSelected = isReturn
-    ? ticket?._id === returnTicket?._id
-    : ticket?._id === outboundTicket?._id;
+  // const isSelected = ticket?._id === selectedTicket?._id;
 
   return (
     <div
-      className={`max-w-5xl mx-auto bg-white border rounded-xl overflow-hidden shrink-0 ${
-        isSelected ? "border-blue-500" : ""
-      }`}
+      className={`max-w-5xl mx-auto bg-white border rounded-xl overflow-hidden shrink-0`}
     >
       <div className="p-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
@@ -121,7 +125,7 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
             >
               {isReturn && !outboundTicket
                 ? "Select Return"
-                : isReturn
+                : tripType !== "round-trip"
                 ? "Continue"
                 : "Select Outbound"}
             </Button>

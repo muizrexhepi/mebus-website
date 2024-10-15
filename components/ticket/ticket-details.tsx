@@ -60,7 +60,10 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
         >
           <MapPin className="h-5 w-5 text-emerald-700" />
           <div>
-            <p className="font-medium capitalize">{ticket.destination.from}</p>
+            <p className="font-medium capitalize">
+              {ticket.stops[0].from.city}
+            </p>
+
             <p className="text-black/60 text-sm">View location on map</p>
           </div>
         </div>
@@ -70,7 +73,10 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
         >
           <MapPin className="h-5 w-5 text-emerald-700" />
           <div>
-            <p className="font-medium capitalize">{ticket.destination.to}</p>
+            <p className="font-medium capitalize">
+              {ticket.stops[ticket.stops.length - 1].to.city}
+            </p>
+
             <p className="text-black/60 text-sm">View location on map</p>
           </div>
         </div>

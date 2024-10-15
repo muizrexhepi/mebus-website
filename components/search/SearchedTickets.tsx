@@ -120,19 +120,18 @@ const TicketList: React.FC = () => {
 
   const handleTicketSelection = (ticket: Ticket) => {
     if (isSelectingReturn) {
+      setIsLoading(true);
       setReturnTicket(ticket);
-      router.push(
-        `/checkout?adults=${passengers.adults}&children=${passengers.children}`
-      );
+      router.push("/checkout");
     } else {
       setOutboundTicket(ticket);
-
+      setIsLoading(true);
       if (tripType === "round-trip" && returnDate) {
+        setIsLoading(false);
         setIsSelectingReturn(true);
       } else {
-        router.push(
-          `/checkout?adults=${passengers.adults}&children=${passengers.children}`
-        );
+        setIsLoading(false);
+        router.push("/checkout");
       }
     }
   };
@@ -196,7 +195,7 @@ const TicketList: React.FC = () => {
                     >
                       {isSelectingReturn
                         ? "Select Return and Continue"
-                        : returnDate
+                        : tripType == "round-trip"
                         ? "Select Outbound"
                         : "Continue"}
                     </Button>
