@@ -9,6 +9,17 @@ export interface Passengers {
   children: number;
 }
 
+interface PaymentSuccessStore {
+  isPaymentSuccess: boolean;
+  setIsPaymentSuccess: (success: boolean) => void;
+}
+
+export const usePaymentSuccessStore = create<PaymentSuccessStore>((set) => ({
+  isPaymentSuccess: false,
+  setIsPaymentSuccess: (success: boolean) => set({ isPaymentSuccess: success }),
+}));
+
+
 interface CheckoutState {
   selectedTicket: Ticket | null;
   outboundTicket: Ticket | null;

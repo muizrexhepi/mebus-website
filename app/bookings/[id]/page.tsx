@@ -38,8 +38,26 @@ import { Calendar } from "@/components/ui/calendar";
 import { Booking } from "@/models/booking";
 import { environment } from "@/environment";
 import axios from "axios";
-import { useLoadingStore } from "@/store";
+import { useLoadingStore, usePaymentSuccessStore } from "@/store";
 import { Skeleton } from "@/components/ui/skeleton";
+import { isBefore, startOfDay } from "date-fns";
+import { Operator } from "@/models/operator";
+import { Symbols } from "@/symbols";
+import PaymentForm from "@/components/forms/PaymentForm";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { toast } from "@/components/hooks/use-toast";
+const stripePromise = loadStripe(
+  environment.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
+
+export interface AvailableDate {
+  departure_date: string;
+  _id: string;
+  price: number;
+  children_price: number;
+  operator_info: Operator;
+}
 
 export default function BookingDetailsPage({
   params,
@@ -48,21 +66,48 @@ export default function BookingDetailsPage({
 }) {
   const [booking, setBookings] = useState<Booking>();
   const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
-  const [availableDates, setAvailableDates] = useState([]);
+  const [isExtraPaymentNeeded, setIsExtraPaymentNeeded] = useState<boolean>(false);
+  const [availableDates, setAvailableDates] = useState<any>([]);
   const { isLoading, setIsLoading } = useLoadingStore();
+  const [selectedDate, setSelectedDate] = useState<any>(null)
+  const [newDepartureDate, setNewDepartureDate] = useState<AvailableDate>()
+  const [priceToBePaid, setPriceToBePaid] = useState<any>()
+  const { isPaymentSuccess } = usePaymentSuccessStore()
 
-  const fetchBooking = async () => {
+  const fetchBooking = async (noCache?: boolean) => {
     setIsLoading(true);
     if (params.id) {
-      const data = await getBookingByIdWithChargeData(params.id);
+      const data = await getBookingByIdWithChargeData(params.id, noCache);
       setBookings(data);
       setIsLoading(false);
     }
   };
 
+  const fetchAvailableDates = async () => {
+    try {
+      const response = await axios.get(
+        `${environment.apiurl}/ticket/search/available-dates?departureStation=${booking?.destinations?.departure_station
+        }&arrivalStation=${booking?.destinations?.arrival_station
+        }&departureDate=${moment
+          (selectedDate)
+          .format("DD-MM-YYYY")}&adults=${adults}&children=${children}&page=1`
+      );
+
+      setAvailableDates(response.data.data);
+    } catch (error) {
+      console.error("Error fetching ticket search results", error);
+    }
+  }
+
   useEffect(() => {
     fetchBooking();
   }, []);
+
+
+  useEffect(() => {
+    fetchAvailableDates()
+  }, [selectedDate])
+
 
   if (isLoading) {
     return (
@@ -112,8 +157,8 @@ export default function BookingDetailsPage({
   const travelFlex = booking?.metadata?.travel_flex;
   const permissions = travelFlex
     ? TRAVEL_FLEX_PERMISSIONS[
-        travelFlex.toUpperCase() as keyof typeof TRAVEL_FLEX_PERMISSIONS
-      ]
+    travelFlex.toUpperCase() as keyof typeof TRAVEL_FLEX_PERMISSIONS
+    ]
     : null;
 
   const canCancel = daysUntilDeparture >= permissions?.CAN_CANCEL!;
@@ -138,31 +183,71 @@ export default function BookingDetailsPage({
   const children =
     booking?.passengers?.filter((passenger) => passenger.age < 10).length || 0;
 
+  const handleDateSelect = (date: any) => {
+    setSelectedDate(date)
+  }
+
   const handleOpenModal = async () => {
     setIsDatePickerOpen(true);
+  };
 
+
+  const handleChangeDepartureDate = async () => {
     try {
-      const response = await axios.get(
-        `${environment.apiurl}/ticket/search/available-dates?departureStation=${
-          booking?.destinations?.departure_station
-        }&arrivalStation=${
-          booking?.destinations?.arrival_station
-        }&departureDate=${moment
-          .utc()
-          .add(7, "days")
-          .format("DD-MM-YYYY")}&adults=${adults}&children=${children}&page=1`
-      );
-      setAvailableDates(response.data.data);
-    } catch (error) {
-      console.error("Error fetching ticket search results", error);
+      const response = await axios.post(`${environment.apiurl}/booking/change/departure-date/${booking._id}`, {
+        operator_id: newDepartureDate?.operator_info._id,
+        new_departure_date: newDepartureDate?.departure_date
+      })
+
+      console.log({response: response.data})
+
+      fetchBooking(true);
+      setIsDatePickerOpen(false);
+      toast({
+        variant: "default",
+        description: response.data.message
+      })
+    } catch (error: any) {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        description: error.response.data.message
+      })
+    }
+  }
+
+  const isDateDisabled = (date: Date) => {
+    const today = startOfDay(new Date())
+    return isBefore(date, today)
+  }
+
+  interface OperatorBadgeProps {
+    date: AvailableDate
+  }
+
+  const handleSelectDepartureDate = (date: AvailableDate) => {
+    setNewDepartureDate(date);
+    if (booking) {
+      const price = calculatePrice(booking, date);
+      setIsExtraPaymentNeeded(price > 0);
+      setPriceToBePaid(price)
     }
   };
 
-  interface AvailableDate {
-    departure_date: string;
-    price: number;
-    children_price: number;
+  const calculatePrice = (booking: Booking, date: AvailableDate) => {
+    const totalNewPrice = date.price * booking.passengers.length;
+    const priceDifference = totalNewPrice - booking.price;
+    return priceDifference > 0 ? Number(priceDifference.toFixed(2)) : 0;
+  };
+
+  function OperatorBadge({ date }: OperatorBadgeProps) {
+    return (
+      <Badge variant="secondary" className="bg-green-100 text-green-800 hover:bg-green-200 ">
+        {date?.operator_info?.name || 'Unknown Operator'}
+      </Badge>
+    )
   }
+
 
   return (
     <div className="space-y-4 max-w-5xl mx-auto py-20 paddingX">
@@ -182,65 +267,85 @@ export default function BookingDetailsPage({
           >
             Change departure date
           </Button>
-          <Dialog open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
-            <DialogContent className="sm:max-w-[700px]">
-              <DialogHeader>
-                <DialogTitle className="text-xl font-semibold">
-                  {travelFlex === "no_flex"
-                    ? "You cannot make any changes to your trip with no travel flex."
-                    : "Please select one of the available travel dates"}
-                </DialogTitle>
-              </DialogHeader>
-              {travelFlex === "no_flex" && (
-                <InfoBlock
-                  desc="You need to upgrade your travel flex in order to make changes to your booking"
-                  title={"Click here to upgrade"}
-                  href={`/upgrade/flex/${booking?._id}`}
-                  required_full_url={true}
-                />
-              )}
 
-              {travelFlex !== "no_flex" && (
-                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {availableDates?.map((date: AvailableDate, index: number) => (
-                    <Card key={index}>
-                      <CardContent className="p-4">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <CalendarIcon className="h-5 w-5 text-primary" />
-                          <span className="font-medium">
-                            {moment
-                              .utc(date.departure_date)
-                              .format("dddd, DD-MM-YYYY")}
-                          </span>
+          <Dialog open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
+        <DialogContent className="sm:max-w-[800px]">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-semibold">
+              Please select one of the available travel dates
+            </DialogTitle>
+          </DialogHeader>
+          <div className="flex space-x-4">
+            <div className="w-2/5">
+              <Calendar
+                mode="single"
+                selected={selectedDate}
+                disabled={isDateDisabled}
+                onSelect={handleDateSelect}
+                className="rounded-md border"
+              />
+            </div>
+            <div className="w-3/5">
+              <div className="h-[400px] overflow-y-auto pr-2">
+                {availableDates && availableDates.map((date: AvailableDate, index: number) => (
+                  <Card 
+                    onClick={() => handleSelectDepartureDate(date)} 
+                    key={index} 
+                    className={`${newDepartureDate?._id === date?._id && "border-green-500 border-2"} cursor-pointer mb-2`}
+                  >
+                    <CardContent className="p-4">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <CalendarIcon className="h-5 w-5 text-primary" />
+                        <span className="font-medium">
+                          {moment.utc(date.departure_date).format("dddd, DD-MM-YYYY / HH:mm")}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                          <EuroIcon className="h-5 w-5 text-green-600" />
+                          <span>Price for {booking.passengers.length} passengers: {calculatePrice(booking, date)} {Symbols.EURO}</span>
                         </div>
-                        <div className="flex items-center space-x-2 mb-2">
-                          <ClockIcon className="h-5 w-5 text-primary" />
-                          <span>
-                            {moment.utc(date.departure_date).format("HH:mm")}
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-2">
-                            <EuroIcon className="h-5 w-5 text-green-600" />
-                            <span>Adult: {date.price.toFixed(2)}</span>
-                          </div>
-                          <Badge variant="secondary">
-                            Child: {date.children_price.toFixed(2)}
-                          </Badge>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              )}
-              <Button
-                onClick={() => setIsDatePickerOpen(false)}
-                className="mt-4 w-full"
-              >
-                Close
-              </Button>
-            </DialogContent>
-          </Dialog>
+                        {/* <Badge variant="secondary">
+                          Child: {date.children_price.toFixed(2)}
+                        </Badge> */}
+                      </div>
+                      <div className="mt-2">
+                        <OperatorBadge date={date} />
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {
+            isExtraPaymentNeeded && (
+              <div>
+                <Elements stripe={stripePromise}>
+                  {!isPaymentSuccess && (
+                    <PaymentForm
+                      redirect={false}
+                      bookingId={booking?._id}
+                      totalPrice={priceToBePaid}
+                    />
+                  )}
+                </Elements>
+              </div>
+            )
+          }
+
+
+          <div className="gap-4 flex">
+            <Button onClick={() => setIsDatePickerOpen(false)} disabled={isPaymentSuccess} className="mt-4 w-full bg-red-500 hover:bg-red-700">
+              Close
+            </Button>
+            <Button onClick={handleChangeDepartureDate} className="mt-4 w-full">
+              Save
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
         </div>
 
         <Link href={"/bookings"}>

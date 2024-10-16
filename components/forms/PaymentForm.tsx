@@ -13,20 +13,22 @@ import {
   CardCvcElement,
 } from "@stripe/react-stripe-js";
 import { useToast } from "@/components/hooks/use-toast";
-import { useCheckoutStore } from "@/store";
+import { useCheckoutStore, usePaymentSuccessStore } from "@/store";
 
 interface PaymentFormProps {
   bookingId: string;
   totalPrice: number;
+  redirect: boolean;
 }
 
-const PaymentForm: React.FC<PaymentFormProps> = ({ bookingId, totalPrice }) => {
+const PaymentForm: React.FC<PaymentFormProps> = ({ bookingId, totalPrice, redirect }) => {
   const stripe = useStripe();
   const elements = useElements();
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const { selectedFlex } = useCheckoutStore();
+  const {setIsPaymentSuccess, isPaymentSuccess} = usePaymentSuccessStore()
 
   const handlePayment = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,7 +61,15 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ bookingId, totalPrice }) => {
           variant: "destructive",
         });
       } else if (paymentIntent.status === "succeeded") {
+        setIsPaymentSuccess(true);
         await updateBooking(paymentIntent.id);
+        if(!redirect) {
+          return toast({
+            variant: 'default',
+            description: "Payment succeeded"
+          })
+        }
+        console.log({isPaymentSuccess})
         router.push(`/booking/${bookingId}`);
       }
     } catch (err: any) {

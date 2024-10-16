@@ -14,9 +14,11 @@ export const getBookingsByOperatorId = async (operator_id: string, select?: stri
     }
 };
 
-export const getBookingByIdWithChargeData = async (booking_id: string) => {
+export const getBookingByIdWithChargeData = async (booking_id: string, noCache?: boolean) => {
     try {
-        const res = await axios.get(`${environment.apiurl}/booking/operator/with_charge/${booking_id}`);
+        console.log({noCache})
+        const url = noCache ? `${environment.apiurl}/booking/operator/with_charge/${booking_id}?cache=false` : `${environment.apiurl}/booking/operator/with_charge/${booking_id}`
+        const res = await axios.get(url);
         console.log(res.data.data);
         return res?.data?.data as Booking;
     } catch (error) {
