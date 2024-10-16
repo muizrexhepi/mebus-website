@@ -147,6 +147,7 @@ export function DateRangePicker({
             mode="range"
             selected={date}
             onSelect={handleDateSelect}
+            className="w-fit"
             numberOfMonths={2}
           />
         </PopoverContent>

@@ -47,6 +47,7 @@ import PaymentForm from "@/components/forms/PaymentForm";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "@/components/hooks/use-toast";
+import { FlexUpgradeSheet } from "@/components/dialogs/FlexUpgradeDialog";
 const stripePromise = loadStripe(
   environment.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
@@ -66,13 +67,14 @@ export default function BookingDetailsPage({
 }) {
   const [booking, setBookings] = useState<Booking>();
   const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
-  const [isExtraPaymentNeeded, setIsExtraPaymentNeeded] = useState<boolean>(false);
+  const [isExtraPaymentNeeded, setIsExtraPaymentNeeded] =
+    useState<boolean>(false);
   const [availableDates, setAvailableDates] = useState<any>([]);
   const { isLoading, setIsLoading } = useLoadingStore();
-  const [selectedDate, setSelectedDate] = useState<any>(null)
-  const [newDepartureDate, setNewDepartureDate] = useState<AvailableDate>()
-  const [priceToBePaid, setPriceToBePaid] = useState<any>()
-  const { isPaymentSuccess } = usePaymentSuccessStore()
+  const [selectedDate, setSelectedDate] = useState<any>(null);
+  const [newDepartureDate, setNewDepartureDate] = useState<AvailableDate>();
+  const [priceToBePaid, setPriceToBePaid] = useState<any>();
+  const { isPaymentSuccess } = usePaymentSuccessStore();
 
   const fetchBooking = async (noCache?: boolean) => {
     setIsLoading(true);
@@ -86,28 +88,28 @@ export default function BookingDetailsPage({
   const fetchAvailableDates = async () => {
     try {
       const response = await axios.get(
-        `${environment.apiurl}/ticket/search/available-dates?departureStation=${booking?.destinations?.departure_station
-        }&arrivalStation=${booking?.destinations?.arrival_station
-        }&departureDate=${moment
-          (selectedDate)
-          .format("DD-MM-YYYY")}&adults=${adults}&children=${children}&page=1`
+        `${environment.apiurl}/ticket/search/available-dates?departureStation=${
+          booking?.destinations?.departure_station
+        }&arrivalStation=${
+          booking?.destinations?.arrival_station
+        }&departureDate=${moment(selectedDate).format(
+          "DD-MM-YYYY"
+        )}&adults=${adults}&children=${children}&page=1`
       );
 
       setAvailableDates(response.data.data);
     } catch (error) {
       console.error("Error fetching ticket search results", error);
     }
-  }
+  };
 
   useEffect(() => {
     fetchBooking();
   }, []);
 
-
   useEffect(() => {
-    fetchAvailableDates()
-  }, [selectedDate])
-
+    fetchAvailableDates();
+  }, [selectedDate]);
 
   if (isLoading) {
     return (
@@ -157,8 +159,8 @@ export default function BookingDetailsPage({
   const travelFlex = booking?.metadata?.travel_flex;
   const permissions = travelFlex
     ? TRAVEL_FLEX_PERMISSIONS[
-    travelFlex.toUpperCase() as keyof typeof TRAVEL_FLEX_PERMISSIONS
-    ]
+        travelFlex.toUpperCase() as keyof typeof TRAVEL_FLEX_PERMISSIONS
+      ]
     : null;
 
   const canCancel = daysUntilDeparture >= permissions?.CAN_CANCEL!;
@@ -184,53 +186,51 @@ export default function BookingDetailsPage({
     booking?.passengers?.filter((passenger) => passenger.age < 10).length || 0;
 
   const handleDateSelect = (date: any) => {
-    setSelectedDate(date)
-  }
+    setSelectedDate(date);
+  };
 
   const handleOpenModal = async () => {
     setIsDatePickerOpen(true);
   };
 
-
   const handleChangeDepartureDate = async () => {
     try {
-      const response = await axios.post(`${environment.apiurl}/booking/change/departure-date/${booking._id}`, {
-        operator_id: newDepartureDate?.operator_info._id,
-        new_departure_date: newDepartureDate?.departure_date
-      })
+      const response = await axios.post(
+        `${environment.apiurl}/booking/change/departure-date/${booking._id}`,
+        {
+          operator_id: newDepartureDate?.operator_info._id,
+          new_departure_date: newDepartureDate?.departure_date,
+        }
+      );
 
-      console.log({response: response.data})
+      console.log({ response: response.data });
 
       fetchBooking(true);
       setIsDatePickerOpen(false);
       toast({
         variant: "default",
-        description: response.data.message
-      })
+        description: response.data.message,
+      });
     } catch (error: any) {
       console.log(error);
       toast({
         variant: "destructive",
-        description: error.response.data.message
-      })
+        description: error.response.data.message,
+      });
     }
-  }
+  };
 
   const isDateDisabled = (date: Date) => {
-    const today = startOfDay(new Date())
-    return isBefore(date, today)
-  }
-
-  interface OperatorBadgeProps {
-    date: AvailableDate
-  }
+    const today = startOfDay(new Date());
+    return isBefore(date, today);
+  };
 
   const handleSelectDepartureDate = (date: AvailableDate) => {
     setNewDepartureDate(date);
     if (booking) {
       const price = calculatePrice(booking, date);
       setIsExtraPaymentNeeded(price > 0);
-      setPriceToBePaid(price)
+      setPriceToBePaid(price);
     }
   };
 
@@ -240,35 +240,35 @@ export default function BookingDetailsPage({
     return priceDifference > 0 ? Number(priceDifference.toFixed(2)) : 0;
   };
 
-  function OperatorBadge({ date }: OperatorBadgeProps) {
-    return (
-      <Badge variant="secondary" className="bg-green-100 text-green-800 hover:bg-green-200 ">
-        {date?.operator_info?.name || 'Unknown Operator'}
-      </Badge>
-    )
-  }
-
-
   return (
     <div className="space-y-4 max-w-5xl mx-auto py-20 paddingX">
       <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 paddingX py-4 z-20">
         <SecondaryNavbar />
       </div>
-      <div className="flex flex-col sm:flex-row justify-between items-center">
-        <div>
+      <div className="flex flex-col sm:flex-row justify-between items-start gap-2 sm:items-center">
+        <div className="">
           <h2 className="text-3xl font-semibold">Booking Details</h2>
           <p className="text-sm text-neutral-800/60">
             Booking ID: {booking?._id}
           </p>
-          <Button
-            onClick={handleOpenModal}
-            className="mt-4"
-            variant={"secondary"}
-          >
-            Change departure date
-          </Button>
 
-          <Dialog open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
+          <FlexUpgradeSheet
+            isOpen={isDatePickerOpen}
+            setIsOpen={setIsDatePickerOpen}
+            booking={booking}
+            availableDates={availableDates}
+            selectedDate={selectedDate}
+            isDateDisabled={isDateDisabled}
+            handleDateSelect={handleDateSelect}
+            handleSelectDepartureDate={handleSelectDepartureDate}
+            isExtraPaymentNeeded={isExtraPaymentNeeded}
+            stripePromise={stripePromise}
+            isPaymentSuccess={isPaymentSuccess}
+            priceToBePaid={priceToBePaid}
+            handleChangeDepartureDate={handleChangeDepartureDate}
+          />
+
+          {/* <Dialog open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
         <DialogContent className="sm:max-w-[800px]">
           <DialogHeader>
             <DialogTitle className="text-xl font-semibold">
@@ -285,6 +285,9 @@ export default function BookingDetailsPage({
                 className="rounded-md border"
               />
             </div>
+                 <Badge variant="secondary">
+                          Child: {date.children_price.toFixed(2)}
+                        </Badge> 
             <div className="w-3/5">
               <div className="h-[400px] overflow-y-auto pr-2">
                 {availableDates && availableDates.map((date: AvailableDate, index: number) => (
@@ -305,9 +308,7 @@ export default function BookingDetailsPage({
                           <EuroIcon className="h-5 w-5 text-green-600" />
                           <span>Price for {booking.passengers.length} passengers: {calculatePrice(booking, date)} {Symbols.EURO}</span>
                         </div>
-                        {/* <Badge variant="secondary">
-                          Child: {date.children_price.toFixed(2)}
-                        </Badge> */}
+                  
                       </div>
                       <div className="mt-2">
                         <OperatorBadge date={date} />
@@ -345,14 +346,27 @@ export default function BookingDetailsPage({
             </Button>
           </div>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
         </div>
-
-        <Link href={"/bookings"}>
+        <div className="flex items-end gap-2">
+          <Button
+            onClick={handleOpenModal}
+            className="mt-4"
+            variant={"secondary"}
+          >
+            Change departure date
+          </Button>
+          <Link href={"/bookings"} className="">
+            <Button variant="outline" className="">
+              <ChevronLeft className="mr-2 h-4 w-4" /> Back
+            </Button>
+          </Link>
+        </div>
+        {/* <Link href={"/bookings"} className="hidden sm:block">
           <Button variant="outline" className="mb-4">
             <ChevronLeft className="mr-2 h-4 w-4" /> Back
           </Button>
-        </Link>
+        </Link> */}
       </div>
 
       <div className="space-y-6">
@@ -394,6 +408,7 @@ export default function BookingDetailsPage({
                 </span>
               </div>
               <InfoBlock
+                className="col-span-2 sm:col-span-1"
                 desc="This trip will be operated by"
                 title={booking?.operator?.name}
                 href={booking?.operator?._id}
