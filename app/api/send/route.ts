@@ -6,7 +6,9 @@ const resend = new Resend(process.env.RESEND_API_KEY! || "");
 
 export async function POST(request: NextRequest) {
   console.log("API route called");
-  
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error("Missing RESEND_API_KEY environment variable");
+  }
   try {
     const body = await request.json();
     console.log("Received body:", body);
