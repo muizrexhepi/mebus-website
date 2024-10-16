@@ -17,9 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
 import { FormError } from "@/components/form-error";
 import { PartnerApplicationSchema } from "@/schemas";
-import axios, { AxiosError, AxiosResponse } from "axios";
-import { environment } from "@/environment";
-import { ApiResponse } from "@/interfaces/api";
+import axios from "axios";
 import { FormSuccess } from "../form-success";
 
 type PartnerApplicationFormValues = z.infer<typeof PartnerApplicationSchema>;
@@ -27,7 +25,7 @@ type PartnerApplicationFormValues = z.infer<typeof PartnerApplicationSchema>;
 const PartnerApplicationForm: React.FC = () => {
   const [error, setError] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [message, setMessage] = useState<string | undefined>()
+  const [message, setMessage] = useState<string | undefined>();
 
   const form = useForm<PartnerApplicationFormValues>({
     resolver: zodResolver(PartnerApplicationSchema),
@@ -47,15 +45,34 @@ const PartnerApplicationForm: React.FC = () => {
     },
   });
 
+  // NODE JS VERSION
+  // const onSubmit = async (values: PartnerApplicationFormValues) => {
+  //   setIsLoading(true);
+  //   console.log(values);
+
+  //   try {
+  //     const response: ApiResponse = await axios.post(`${environment.apiurl}/applicant/create`, values);
+  //     setError("");
+  //     setMessage(response.data.message)
+  //     console.log("Application submitted successfully");
+  //   } catch (error: any) {
+  //     setError(error?.response?.data?.message || "Something went wrong!");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   const onSubmit = async (values: PartnerApplicationFormValues) => {
     setIsLoading(true);
     console.log(values);
 
     try {
-      const response: ApiResponse = await axios.post(`${environment.apiurl}/applicant/create`, values);
+      const response = await axios.post("/api/send", values);
+      console.log({ response });
       setError("");
-      setMessage(response.data.message)
+      setMessage(
+        "Application submitted successfully. Please check your email for confirmation."
+      );
       console.log("Application submitted successfully");
     } catch (error: any) {
       setError(error?.response?.data?.message || "Something went wrong!");

@@ -18,17 +18,21 @@ import { useCheckoutStore, usePaymentSuccessStore } from "@/store";
 interface PaymentFormProps {
   bookingId: string;
   totalPrice: number;
-  redirect: boolean;
+  redirect?: boolean;
 }
 
-const PaymentForm: React.FC<PaymentFormProps> = ({ bookingId, totalPrice, redirect }) => {
+const PaymentForm: React.FC<PaymentFormProps> = ({
+  bookingId,
+  totalPrice,
+  redirect,
+}) => {
   const stripe = useStripe();
   const elements = useElements();
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const { selectedFlex } = useCheckoutStore();
-  const {setIsPaymentSuccess, isPaymentSuccess} = usePaymentSuccessStore()
+  const { setIsPaymentSuccess, isPaymentSuccess } = usePaymentSuccessStore();
 
   const handlePayment = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,13 +67,13 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ bookingId, totalPrice, redire
       } else if (paymentIntent.status === "succeeded") {
         setIsPaymentSuccess(true);
         await updateBooking(paymentIntent.id);
-        if(!redirect) {
+        if (!redirect) {
           return toast({
-            variant: 'default',
-            description: "Payment succeeded"
-          })
+            variant: "default",
+            description: "Payment succeeded",
+          });
         }
-        console.log({isPaymentSuccess})
+        console.log({ isPaymentSuccess });
         router.push(`/booking/${bookingId}`);
       }
     } catch (err: any) {
