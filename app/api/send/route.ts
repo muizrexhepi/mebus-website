@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
 
     console.log("Attempting to send email...");
     const data = await resend.emails.send({
-      from: 'Your Company <noreply@portal.insylink.com>', 
+      from: 'Busly <noreply@portal.insylink.com>', 
       to: email,
       subject: 'Application Received',
       react: EmailTemplate({ companyName, contactName }),
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     console.log("Sending notification to team...");
     const teamNotification = await resend.emails.send({
       from: 'Partner Applications <applications@portal.insylink.com>', 
-      to: 'your-team@yourcompany.com', 
+      to: '007lazi@gmail.com', 
       subject: 'New Partner Application',
       react: EmailTemplate({ companyName, contactName }),
     });

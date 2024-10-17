@@ -1,5 +1,17 @@
 "use client";
+
 import { Menu, UserCircle } from "lucide-react";
+import Link from "next/link";
+import { useNavbarStore } from "@/store";
+import { useState, useEffect } from "react";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "./ui/sheet";
+import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,42 +19,127 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { useRouter } from "next/navigation";
-import { useNavbarStore } from "@/store";
+import { Separator } from "./ui/separator";
+import useIsMobile from "./hooks/use-mobile";
 
 const NavbarMenu = () => {
-  const router = useRouter();
   const { setOpenLogin, setOpenRegister } = useNavbarStore();
+  const [isOpen, setIsOpen] = useState(false);
+  const isMobile = useIsMobile();
+  console.log({ isMobile });
+  const handleLogin = () => {
+    setOpenLogin(true);
+    setIsOpen(false);
+  };
+
+  const handleSignUp = () => {
+    setOpenRegister(true);
+    setIsOpen(false);
+  };
+
+  const MenuTrigger = (
+    <Button
+      variant="ghost"
+      className="flex items-center space-x-2 px-3 h-10 w-fit rounded-full bg-white/30 hover:bg-white/20 transition-colors"
+    >
+      <Menu color="white" />
+      <UserCircle color="white" />
+    </Button>
+  );
+
+  const MenuItems = (
+    <>
+      <div className="space-y-2 py-2">
+        <Link
+          href="/search"
+          className="block px-4 py-2 text-sm font-medium"
+          onClick={() => setIsOpen(false)}
+        >
+          Search for Buses
+        </Link>
+        <Link
+          href="/about"
+          className="block px-4 py-2 text-sm font-medium"
+          onClick={() => setIsOpen(false)}
+        >
+          About Us
+        </Link>
+        <Link
+          href="/help"
+          className="block px-4 py-2 text-sm font-medium"
+          onClick={() => setIsOpen(false)}
+        >
+          Help & Support
+        </Link>
+        <Link
+          href="/contact"
+          className="block px-4 py-2 text-sm font-medium"
+          onClick={() => setIsOpen(false)}
+        >
+          Contact Us
+        </Link>
+        <Separator className="!mb-4" />
+        <div className="flex flex-col gap-2 w-full px-4">
+          <Link href={"/login"}>
+            <Button className="w-full" onClick={handleLogin}>
+              Login
+            </Button>
+          </Link>
+          <Link href={"/register"}>
+            <Button variant="outline" className="w-full" onClick={handleSignUp}>
+              Sign Up
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </>
+  );
+
+  if (isMobile) {
+    return (
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
+        <SheetTrigger asChild>{MenuTrigger}</SheetTrigger>
+        <SheetContent
+          side="right"
+          className="w-[300px] sm:w-[400px] bg-white p-0"
+        >
+          <SheetHeader className="p-4 text-left border-b">
+            <SheetTitle className="text-2xl font-bold">Busly</SheetTitle>
+          </SheetHeader>
+          <nav className="flex flex-col h-full">{MenuItems}</nav>
+        </SheetContent>
+      </Sheet>
+    );
+  }
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <div className="flex items-center space-x-2 px-3 h-10 w-fit rounded-full cursor-pointer bg-white/30 hover:bg-white/20">
-          <Menu color="white" />
-          <UserCircle color="white" />
-        </div>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="rounded-xl mt-2">
-        <DropdownMenuItem onClick={() => setOpenLogin(true)}>
-          Login
+      <DropdownMenuTrigger asChild>{MenuTrigger}</DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-56 rounded-xl mt-2">
+        <DropdownMenuItem asChild>
+          <Link href="/search" className="w-full">
+            Search for Buses
+          </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setOpenRegister(true)}>
-          Sign Up
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => router.push("/search")}>
-          Search for Buses
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => router.push("/about")}>
-          About Us
+        <DropdownMenuItem asChild>
+          <Link href="/about" className="w-full">
+            About Us
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => router.push("/help")}>
-          Help & Support
+        <DropdownMenuItem asChild>
+          <Link href="/help" className="w-full">
+            Help & Support
+          </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => router.push("/contact")}>
-          Contact Us
+        <DropdownMenuItem asChild>
+          <Link href="/contact" className="w-full">
+            Contact Us
+          </Link>
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onSelect={handleLogin}>Login</DropdownMenuItem>
+        <DropdownMenuItem onSelect={handleSignUp}>Sign Up</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

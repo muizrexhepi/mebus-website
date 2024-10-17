@@ -83,7 +83,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="w-full flex justify-between items-center md:flex-row flex-col pt-6 border-t-[1px] border-t-[#3f3e45] max-w-6xl">
+      <div className="w-full flex justify-between items-start md:items-center md:flex-row flex-col pt-6 border-t-[1px] border-t-[#3f3e45] max-w-6xl">
         <p className="font-normal text-sm text-center leading-[27px] text-white/70">
           &copy; {new Date().getFullYear()} Busly. All Rights Reserved.
         </p>

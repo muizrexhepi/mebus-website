@@ -19,6 +19,8 @@ import { FormError } from "@/components/form-error";
 import { PartnerApplicationSchema } from "@/schemas";
 import axios from "axios";
 import { FormSuccess } from "../form-success";
+import { ApiResponse } from "@/interfaces/api";
+import { environment } from "@/environment";
 
 type PartnerApplicationFormValues = z.infer<typeof PartnerApplicationSchema>;
 
@@ -67,9 +69,16 @@ const PartnerApplicationForm: React.FC = () => {
     console.log(values);
 
     try {
-      const response = await axios.post("/api/send", values);
-      console.log({ response });
-      setError("");
+      const response = await axios.post(
+        `${environment.apiurl}/applicant/create`,
+        values
+      );
+      console.log({ respili: response });
+      if (response.status !== 201) {
+        setError("Something went wront, please try again");
+        return;
+      }
+      await axios.post("/api/send", values);
       setMessage(
         "Application submitted successfully. Please check your email for confirmation."
       );

@@ -65,10 +65,10 @@ export const FOOTER_LINKS = [
         name: "Active Operators",
         link: "/partners/active-operators",
       },
-      {
-        name: "Affiliate Program",
-        link: "/partners/affiliate",
-      },
+      // {
+      //   name: "Affiliate Program",
+      //   link: "/partners/affiliate",
+      // },
     ],
   },
   {
@@ -79,8 +79,8 @@ export const FOOTER_LINKS = [
         link: "/legal/privacy-policy",
       },
       {
-        name: "Terms & Conditions",
-        link: "/legal/terms-conditions",
+        name: "Terms of Service",
+        link: "/legal/terms-of-service",
       },
       {
         name: "Cookie Policy",
