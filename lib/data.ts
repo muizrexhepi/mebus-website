@@ -230,6 +230,12 @@ export const TRAVEL_FLEX_PERMISSIONS: TravelFlexPermissions = {
       description: "Manage your account security settings.",
     },
     {
+      href: "/bookings",
+      icon: Book,
+      title: "Bookings",
+      description: "View and manage your upcoming and past reservations in one place.",
+    },
+    {
       href: "/account/notifications",
       icon: Bell,
       title: "Notifications",
