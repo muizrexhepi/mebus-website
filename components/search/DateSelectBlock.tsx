@@ -112,15 +112,15 @@ export function DateSelectBlock() {
   };
 
   return (
-    <div className="flex flex-col space-y-2 max-w-3xl mx-auto mt-4">
+    <div className="flex flex-col space-y-2 max-w-3xl mx-auto mt-4 w-full">
       <div className="flex justify-between items-center">
-        <div className="flex-1 flex justify-between space-x-2 px-4 sm:px-8 md:px-0">
+        <div className="flex justify-between flex-1 space-x-2 px-4 sm:px-8 md:px-0">
           {dates.map((date) =>
             isLoading ? (
               <Skeleton className="h-20 w-full bg-white border rounded-xl py-2 px-4">
                 <div className="flex flex-col justify-center items-center h-full gap-2">
-                  <Skeleton className="h-5 w-20" />
-                  <Skeleton className="h-5 w-32" />
+                  <Skeleton className="h-5 w-12 sm:w-20" />
+                  <Skeleton className="h-5 w-20 sm:w-32" />
                 </div>
               </Skeleton>
             ) : (

@@ -152,7 +152,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
       <Separator />
       <div className="px-4 space-y-2">
         {ticket.metadata?.features?.map((feature, index) => (
-          <div key={index} className="flex items-center space-x-2">
+          <div key={index} className="flex items-center space-x-4">
             {feature === "ac/heating" ? (
               <Snowflake className="h-5 w-5 text-emerald-700" />
             ) : feature === "usb charging ports" ? (

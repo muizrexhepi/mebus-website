@@ -51,11 +51,18 @@ const NavbarMenu = () => {
     <>
       <div className="space-y-2 py-2">
         <Link
-          href="/search"
+          href="/routes"
           className="block px-4 py-2 text-sm font-medium"
           onClick={() => setIsOpen(false)}
         >
-          Search for Buses
+          Routes
+        </Link>
+        <Link
+          href="/bookings"
+          className="block px-4 py-2 text-sm font-medium"
+          onClick={() => setIsOpen(false)}
+        >
+          Bookings
         </Link>
         <Link
           href="/about"
@@ -80,16 +87,12 @@ const NavbarMenu = () => {
         </Link>
         <Separator className="!mb-4" />
         <div className="flex flex-col gap-2 w-full px-4">
-          <Link href={"/login"}>
-            <Button className="w-full" onClick={handleLogin}>
-              Login
-            </Button>
-          </Link>
-          <Link href={"/register"}>
-            <Button variant="outline" className="w-full" onClick={handleSignUp}>
-              Sign Up
-            </Button>
-          </Link>
+          <Button className="w-full" onClick={handleLogin}>
+            Login
+          </Button>
+          <Button variant="outline" className="w-full" onClick={handleSignUp}>
+            Sign Up
+          </Button>
         </div>
       </div>
     </>
@@ -101,7 +104,7 @@ const NavbarMenu = () => {
         <SheetTrigger asChild>{MenuTrigger}</SheetTrigger>
         <SheetContent
           side="right"
-          className="w-[300px] sm:w-[400px] bg-white p-0"
+          className="w-[300px] sm:w-[400px] bg-white p-0 z-[99]"
         >
           <SheetHeader className="p-4 text-left border-b">
             <SheetTitle className="text-2xl font-bold">Busly</SheetTitle>
@@ -115,8 +118,8 @@ const NavbarMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{MenuTrigger}</DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56 rounded-xl mt-2">
-        <DropdownMenuItem asChild>
+      <DropdownMenuContent align="end" className="w-42 rounded-xl mt-2">
+        {/* <DropdownMenuItem asChild>
           <Link href="/search" className="w-full">
             Search for Buses
           </Link>
@@ -126,7 +129,7 @@ const NavbarMenu = () => {
             About Us
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator /> */}
         <DropdownMenuItem asChild>
           <Link href="/help" className="w-full">
             Help & Support

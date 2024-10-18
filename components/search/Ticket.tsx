@@ -100,7 +100,7 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
                 <h1 className="font-medium text-base sm:text-lg capitalize">
                   {ticket.stops[0].from.city}
                 </h1>
-                <span className="truncate text-accent-foreground/50 line-clamp-1">
+                <span className="truncate text-accent-foreground/50 line-clamp-1 hidden sm:block">
                   {ticket.stops[0].from.name}
                 </span>
               </div>
@@ -108,14 +108,14 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
                 <h1 className="font-medium text-base sm:text-lg capitalize">
                   {ticket.stops[ticket.stops.length - 1].to.city}{" "}
                 </h1>
-                <span className="truncate text-accent-foreground/50 line-clamp-1">
+                <span className="truncate text-accent-foreground/50 line-clamp-1 hidden sm:block">
                   {ticket.stops[ticket.stops.length - 1].to.name}{" "}
                 </span>
               </div>
             </div>
           </div>
           <div className="flex justify-between items-center gap-4 w-full md:flex-col md:justify-end md:items-end md:w-fit">
-            <div className="text-xl sm:text-2xl font-semibold w-full md:w-1/3 flex md:flex-col justify-between items-end mt-2 md:mt-0">
+            <div className="text-xl sm:text-2xl font-semibold w-full md:w-1/3 flex md:flex-col justify-between items-end ">
               {Symbols.EURO}
               {ticket.stops[0].other_prices.our_price.toFixed(2)}
             </div>

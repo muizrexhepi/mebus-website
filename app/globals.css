@@ -41,6 +41,8 @@
     @apply bg-background text-foreground;
   }
   
+
+  
 }
 
 .paddingX {
@@ -60,4 +62,8 @@
 
 .react-select:hover {
   @apply bg-[var(--accent)]; /* Use the accent variable on hover */
+}
+
+.PhoneInputInput {
+  @apply bg-white outline-none border-none
 }

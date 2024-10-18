@@ -30,6 +30,7 @@ import { useToast } from "@/components/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import SecondaryNavbar from "@/components/SecondaryNavbar";
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
 
 const BookingsDashboard: React.FC = () => {
   const [user, setUser] = useState<any>(null);
@@ -286,7 +287,7 @@ const BookingsDashboard: React.FC = () => {
   return (
     <div className="flex flex-col max-w-4xl mx-auto px-4 md:px-6 paddingY space-y-4 py-32">
       <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 px-4 sm:px-8 py-4 z-20">
-        <SecondaryNavbar />
+        <Navbar className="max-w-6xl" />
       </div>
       <h2 className="text-3xl font-semibold mb-4">My Bookings</h2>
       <p className="text-gray-600 mb-6">

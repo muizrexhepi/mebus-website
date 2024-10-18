@@ -1,11 +1,14 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { PassengerData } from "@/components/hooks/use-passengers";
 import useSearchStore, { useCheckoutStore } from "@/store";
 import PassengerSelector from "./PassengerSelector";
 import { X } from "lucide-react";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import { account } from "@/appwrite.config";
 
 interface InputFieldProps {
   label: string;
@@ -26,14 +29,25 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => (
   <div className="space-y-1">
     <p className="font-normal text-sm text-black/70">{label}</p>
-    <Input
-      type={type}
-      className="font-normal text-black rounded-lg border-gray-300 border p-2"
-      placeholder={placeholder}
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      required={required}
-    />
+    {type === "tel" ? (
+      <PhoneInput
+        international
+        countryCallingCodeEditable={false}
+        defaultCountry="MK"
+        value={value}
+        onChange={(value) => onChange(value || "")}
+        className="font-normal text-black rounded-lg border-gray-300 border p-2 bg-white"
+      />
+    ) : (
+      <Input
+        type={type}
+        className="font-normal text-black rounded-lg border-gray-300 border p-2"
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        required={required}
+      />
+    )}
   </div>
 );
 
@@ -50,6 +64,23 @@ const PassengerInfoContent: React.FC = () => {
     adults: passengersAmount.adults || 1,
     children: passengersAmount.children || 0,
   };
+
+  const [user, setUser] = useState<any>(null);
+
+  const fetchUser = useCallback(async () => {
+    if (user) return;
+    try {
+      const fetchedUser = await account.get();
+      setUser(fetchedUser);
+    } catch (error) {
+      setUser(null);
+      console.error("Failed to fetch user:", error);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
 
   useEffect(() => {
     if (passengers.length === adults + children) {
@@ -74,8 +105,18 @@ const PassengerInfoContent: React.FC = () => {
         price: 0,
       }),
     ];
+
+    if (user && initialPassengers.length > 0) {
+      initialPassengers[0] = {
+        ...initialPassengers[0],
+        full_name: `${user.firstName} ${user.lastName}`,
+        email: user.email,
+        phone: user.phone || "",
+      };
+    }
+
     setPassengers(initialPassengers);
-  }, [adults, children, setPassengers, setPassengersAmount, passengers.length]);
+  }, [adults, children, setPassengers, user]);
 
   const updatePassenger = (
     index: number,
@@ -181,7 +222,7 @@ const PassengerInfoContent: React.FC = () => {
               />
               <InputField
                 label="Phone number"
-                placeholder="+123 456 78"
+                placeholder="Enter phone number"
                 type="tel"
                 value={passenger.phone}
                 onChange={(value) =>

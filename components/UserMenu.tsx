@@ -96,7 +96,7 @@ const UserNavbarMenu = () => {
         <SheetTrigger asChild>{MenuTrigger}</SheetTrigger>
         <SheetContent
           side="right"
-          className="w-[300px] sm:w-[400px] bg-white p-0"
+          className="w-[300px] sm:w-[400px] bg-white p-0 z-[99]"
         >
           <SheetHeader className="p-4 text-left border-b">
             <SheetTitle className="text-2xl font-bold">Busly</SheetTitle>
@@ -110,7 +110,7 @@ const UserNavbarMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{MenuTrigger}</DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56 rounded-xl mt-2">
+      <DropdownMenuContent align="end" className="w-42 rounded-xl mt-2">
         <DropdownMenuItem asChild>
           <Link href="/account" className="w-full">
             Account

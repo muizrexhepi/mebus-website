@@ -29,12 +29,12 @@ export default async function BusRoutes() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       <div className="bg-primary paddingX w-full py-4">
-        <Navbar className="max-w-7xl mx-auto" />
+        <Navbar className="max-w-6xl mx-auto" />
       </div>
       <main className="flex-grow w-full mx-auto">
         <BusRoutesClient initialRoutes={routes} />
       </main>
-      <SecondaryFooter className="max-w-7xl" />
+      <SecondaryFooter className="max-w-6xl" />
     </div>
   );
 }

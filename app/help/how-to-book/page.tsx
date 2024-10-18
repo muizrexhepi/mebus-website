@@ -92,7 +92,9 @@ export default function HowToBookPage() {
               If you need any assistance or have questions about your booking,
               our dedicated support team is ready to help.
             </p>
-            <Button>Contact Support</Button>
+            <Button asChild>
+              <Link href={"/help/contact-support"}>Contact Support</Link>
+            </Button>
           </CardContent>
         </Card>
       </main>
