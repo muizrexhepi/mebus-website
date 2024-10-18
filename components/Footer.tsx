@@ -1,8 +1,55 @@
+"use client";
+
 import { FOOTER_LINKS, SOCIAL_LINKS } from "@/lib/data";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import { FormEvent, useState } from "react";
+import { useToast } from "./hooks/use-toast";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  const { toast } = useToast();
+
+  const handleSubscribe = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubscribing(true);
+
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Subscribed!",
+          description:
+            "Thank you for subscribing. Please check your email for confirmation.",
+        });
+        setEmail("");
+      } else {
+        const data = await response.json();
+        toast({
+          title: "Error",
+          description: data.error,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An error occurred. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubscribing(false);
+    }
+  };
+
   return (
     <section
       className={`paddingX py-12 bg-neutral-900 flex justify-center items-center flex-col relative`}
@@ -29,19 +76,29 @@ const Footer = () => {
           </p>
           <div className="flex flex-col ss:my-0 my-4 space-y-4 min-w-[250px] w-full sm:w-fit">
             <h4 className="font-medium text-lg text-white">Get Updates</h4>
-            <div className="relative">
-              <input
-                type="text"
-                className="h-14 rounded-lg px-3 bg-white/20 text-gray-300 outline-none w-full"
-                placeholder="Enter your email"
-              />
-              <Button
-                className="absolute right-2 top-1/2 -translate-y-1/2"
-                variant={"outline"}
-              >
-                Subscribe
-              </Button>
-            </div>
+            <form onSubmit={handleSubscribe} className="space-y-2">
+              <label htmlFor="email-input" className="sr-only">
+                Email address
+              </label>
+              <div className="relative">
+                <input
+                  id="email-input"
+                  type="email"
+                  className="w-full h-12 px-4 rounded-lg bg-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <Button
+                  type="submit"
+                  className="absolute right-1 top-1 bg-white text-neutral-900 hover:bg-white/90"
+                  disabled={isSubscribing}
+                >
+                  {isSubscribing ? "Subscribing..." : "Subscribe"}
+                </Button>
+              </div>
+            </form>
             <div className="flex flex-wrap gap-4 !mt-6">
               {SOCIAL_LINKS.map((social, index) => (
                 <Link

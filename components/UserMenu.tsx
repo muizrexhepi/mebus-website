@@ -116,12 +116,12 @@ const UserNavbarMenu = () => {
             Account
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
+        {/* <DropdownMenuItem asChild>
           <Link href="/bookings" className="w-full">
             Bookings
           </Link>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
+        </DropdownMenuItem> */}
+        {/* <DropdownMenuSeparator /> */}
         <DropdownMenuItem asChild>
           <Link href="/help" className="w-full">
             Help & Support
