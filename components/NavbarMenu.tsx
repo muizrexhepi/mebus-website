@@ -39,6 +39,9 @@ const NavbarMenu = () => {
 
   const MenuTrigger = (
     <Button
+      aria-haspopup="true"
+      aria-expanded="false"
+      aria-label="Open menu"
       variant="ghost"
       className="flex items-center space-x-2 px-3 h-10 w-fit rounded-full bg-white/30 hover:bg-white/20 transition-colors"
     >

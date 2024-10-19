@@ -31,6 +31,9 @@ const LanguageDropdown = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
+          aria-haspopup="true"
+          aria-expanded="false"
+          aria-label="Select language"
           variant={"ghost"}
           className="flex items-center gap-3 rounded-full hover:bg-white/20 px-2.5 transition-colors cursor-pointer"
         >

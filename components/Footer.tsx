@@ -106,8 +106,12 @@ const Footer = () => {
                   href={social?.link}
                   target="_blank"
                   className={`object-contain cursor-pointer p-3 flex justify-center items-center rounded-full bg-white/20`}
+                  aria-label={`Follow us on ${social.name}`}
                 >
                   <social.icon className="h-7 w-7 text-white" />
+                  <span className="sr-only">
+                    Follow us on {social.name}
+                  </span>{" "}
                 </Link>
               ))}
             </div>

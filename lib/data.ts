@@ -142,28 +142,27 @@ export const flexFeatures: FlexFeature[] = [
 
   export const SOCIAL_LINKS = [
     {
+      name:'Instagram',
       id: "social-media-1",
       icon: Instagram,
       link: "https://www.instagram.com/insyllium",
     },
     {
+      name:"Facebook",
       id: "social-media-2",
     icon: Facebook,
       link: "https://www.facebook.com/insyllium",
     },
     {
+      name:"X(Twitter)",
       id: "social-media-3",
     icon: X,
       link: "https://www.twitter.com/insyllium",
     },
     {
+      name:"Linkedin",
       id: "social-media-4",
     icon: Linkedin,
-      link: "https://www.linkedin.com/company/97935419",
-    },
-    {
-      id: "social-media-5",
-    icon: Twitter,
       link: "https://www.linkedin.com/company/97935419",
     },
   ];

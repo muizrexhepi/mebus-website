@@ -42,6 +42,9 @@ const UserNavbarMenu = () => {
   const MenuTrigger = (
     <Button
       variant="ghost"
+      aria-haspopup="true"
+      aria-expanded="false"
+      aria-label="User menu"
       className="flex items-center space-x-2 px-3 h-10 w-fit rounded-full bg-white/30 hover:bg-white/20 transition-colors"
     >
       <Menu color="white" />

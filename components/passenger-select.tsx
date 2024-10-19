@@ -83,7 +83,10 @@ export default function PassengerSelect({
 
   return (
     <Select>
-      <SelectTrigger className="outline-none h-14 hover:bg-accent transition-colors text-base truncate">
+      <SelectTrigger
+        className="outline-none h-14 hover:bg-accent transition-colors text-base truncate"
+        aria-label="Select number of passengers"
+      >
         {passengers.adults > 1
           ? `${passengers.adults} Adults`
           : `${passengers.adults} Adult`}
@@ -91,9 +94,6 @@ export default function PassengerSelect({
           `, ${passengers.children} ${
             passengers.children > 1 ? "Children" : "Child"
           }`}
-        <SelectValue>
-          Adults ({passengers.adults}), Children ({passengers.children})
-        </SelectValue>
       </SelectTrigger>
 
       <SelectContent>
@@ -107,6 +107,7 @@ export default function PassengerSelect({
                 className="h-8 w-8"
                 onClick={() => decrementPassengers("adults")}
                 disabled={passengers.adults <= 1}
+                aria-label="Decrease number of adults"
               >
                 <Minus className="h-4 w-4" />
               </Button>
@@ -117,6 +118,7 @@ export default function PassengerSelect({
                 className="h-8 w-8"
                 onClick={() => incrementPassengers("adults")}
                 disabled={passengers.adults >= 9}
+                aria-label="Increase number of adults"
               >
                 <Plus className="h-4 w-4" />
               </Button>
@@ -131,6 +133,7 @@ export default function PassengerSelect({
                 className="h-8 w-8"
                 onClick={() => decrementPassengers("children")}
                 disabled={passengers.children <= 0}
+                aria-label="Decrease number of children"
               >
                 <Minus className="h-4 w-4" />
               </Button>
@@ -143,6 +146,7 @@ export default function PassengerSelect({
                 className="h-8 w-8"
                 onClick={() => incrementPassengers("children")}
                 disabled={passengers.children >= 9}
+                aria-label="Increase number of children"
               >
                 <Plus className="h-4 w-4" />
               </Button>
