@@ -34,6 +34,9 @@ export const LoginSchema = z.object({
     password: z.string().min(8, {
       message: "Minimum 8 characters"
     }),
+    confirmPassword: z.string().min(8, {
+      message: "Minimum 8 characters"
+    }),
   });
 
 

@@ -11,16 +11,16 @@ export async function handleGoogleLogin() {
       "https://mebus-website.vercel.app/fail"
     );
 
-    const user = await account.get();
+    // const user = await account.get();
   
-    const newUser = await axios.post(`${environment.apiurl}/user/create/db`,{
-      name:user.name,
-      email:user.email,
-      password: null,
-      appwrite_id: user.$id
-    })
+    // const newUser = await axios.post(`${environment.apiurl}/user/create/db`,{
+    //   name:user.name,
+    //   email:user.email,
+    //   password: null,
+    //   appwrite_id: user.$id
+    // })
 
-    console.log({newUser})
+    // console.log({newUser})
   }
 
 export async function handleFacebookLogin() {

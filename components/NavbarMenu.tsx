@@ -87,11 +87,11 @@ const NavbarMenu = () => {
         </Link>
         <Separator className="!mb-4" />
         <div className="flex flex-col gap-2 w-full px-4">
-          <Button className="w-full" onClick={handleLogin}>
-            Login
+          <Button className="w-full" variant={"outline"}>
+            <Link href={"/login"}>Login</Link>{" "}
           </Button>
-          <Button variant="outline" className="w-full" onClick={handleSignUp}>
-            Sign Up
+          <Button className="w-full">
+            <Link href={"/register"}>Sign Up</Link>{" "}
           </Button>
         </div>
       </div>
