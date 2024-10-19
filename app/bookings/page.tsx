@@ -170,8 +170,8 @@ const BookingsDashboard: React.FC = () => {
     return (
       <Card key={booking._id} className="mb-4">
         <CardContent className="p-4">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
-            <div className="flex items-center space-x-6 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0 relative">
+            <div className="flex items-center space-x-6 w-full sm:w-auto ">
               <div className="text-center w-20 flex-shrink-0 border-r pr-3">
                 <p className="text-sm text-gray-500">{monthString}</p>
                 <p className="text-3xl font-semibold">{dateNumber}</p>
@@ -187,7 +187,7 @@ const BookingsDashboard: React.FC = () => {
                   <span>{booking.price.toFixed(2)}</span>
                 </div>
               </div>
-              <div className="flex items-center space-x-2 w-full sm:w-auto justify-end h-24 sm:justify-start">
+              <div className="flex items-center space-x-2 w-full sm:w-auto justify-end h-14 sm:h-24 sm:justify-start">
                 <div className="flex flex-col justify-between h-full">
                   <div className="h-3 w-3 rounded-full bg-emerald-700" />
                   <div className="flex-1 ml-[5px] border-l-1 border-dotted border-emerald-700 border w-0" />
@@ -196,19 +196,19 @@ const BookingsDashboard: React.FC = () => {
                 <div className="flex flex-col h-full justify-between">
                   <div className="text-sm font-medium capitalize flex flex-col">
                     {booking.labels.from_city}
-                    <span className="text-black/60">
+                    <span className="text-black/60 hidden sm:block">
                       {booking.destinations.departure_station_label}
                     </span>
                   </div>
                   <div className="text-sm font-medium capitalize flex flex-col">
                     {booking.labels.to_city}
-                    <span className="text-black/60">
+                    <span className="text-black/60 hidden sm:block">
                       {booking.destinations.arrival_station_label}
                     </span>
                   </div>
                 </div>
               </div>
-              <Badge className="capitalize">
+              <Badge className="capitalize absolute bottom-2 right-0 sm:relative sm:bottom-0">
                 {booking.metadata.travel_flex == "no_flex"
                   ? "No flexibility"
                   : booking.metadata.travel_flex}
@@ -221,7 +221,7 @@ const BookingsDashboard: React.FC = () => {
                   <ChevronDownIcon className="ml-2 h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent align="start">
                 <DropdownMenuItem
                   className="gap-2"
                   onClick={

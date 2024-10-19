@@ -38,7 +38,7 @@ const LanguageDropdown = () => {
           <Globe className="w-5 h-5" color="white" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent align="end">
         {languages.map((language, index) => (
           <DropdownMenuItem
             key={index}

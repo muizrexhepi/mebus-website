@@ -5,14 +5,22 @@ import Image from "next/image";
 const Hero = () => {
   return (
     <div className="flex flex-col justify-start py-4 relative paddingX sm:pb-20 lg:pb-40">
+      {/* <div
+        className="h-[50vh] w-full absolute top-0 left-0 z-[-1] bg-cover bg-center"
+        style={{ backgroundImage: `url('/assets/images/mainBG.jpg')` }}
+      >
+        <div className="h-full w-full bg-black/20 backdrop-blur-sm" />
+      </div> */}
+
       <div className="h-[50vh] bg-accent-foreground/80 w-full absolute top-0 left-0 z-[-1] overflow-hidden">
         <Image
           priority
-          src={"/assets/images/mainBG.jpg"}
+          src="/assets/images/mainBG.jpg"
           alt="Background image"
           className="w-full h-full object-cover blur-sm z-[-1]"
           width={1920}
           height={1080}
+          sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, 50vw"
         />
       </div>
 
