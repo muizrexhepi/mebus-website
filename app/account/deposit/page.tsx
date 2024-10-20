@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   useStripe,
   useElements,
@@ -15,11 +15,10 @@ import { environment } from "@/environment";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { account } from "@/appwrite.config";
-import { User } from "@/models/user";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, CreditCard, Lock, Banknote } from "lucide-react";
+import { CreditCard, Lock, Banknote } from "lucide-react";
 import Link from "next/link";
+import useUser from "@/components/hooks/use-user";
 
 const stripePromise = loadStripe(
   environment.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -30,22 +29,8 @@ const DepositForm = () => {
   const elements = useElements();
   const [loading, setLoading] = useState(false);
   const [depositAmount, setDepositAmount] = useState(0);
-  const [user, setUser] = useState<any>({});
+  const { user } = useUser();
   const { toast } = useToast();
-
-  const fetchUser = async () => {
-    try {
-      const aUser = await account.get();
-      setUser(aUser);
-      console.log({ aUser });
-    } catch (error) {
-      console.error("Failed to fetch user:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   const handleDeposit = async (e: any) => {
     e.preventDefault();

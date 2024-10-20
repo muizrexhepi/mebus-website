@@ -28,13 +28,13 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/hooks/use-toast";
+import useUser from "@/components/hooks/use-user";
 
 export default function LoginSecurity() {
-  const [user, setUser] = useState<any>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { user, loading } = useUser();
   const [oldPassword, setOldPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
-  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false); // For AlertDialog
+  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
   const { toast } = useToast();
   const router = useRouter();
 
@@ -45,22 +45,6 @@ export default function LoginSecurity() {
   const handleNewPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewPassword(e.target.value);
   };
-
-  const fetchUser = async () => {
-    try {
-      const user = await account.get();
-      setUser(user);
-      setIsLoading(false);
-    } catch (error) {
-      setUser(null);
-      setIsLoading(false);
-      console.error("Failed to fetch user:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   const handleSavePassword = async () => {
     try {

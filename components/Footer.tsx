@@ -75,7 +75,7 @@ const Footer = () => {
             functional, and stylish bags that elevate every adventure.
           </p>
           <div className="flex flex-col ss:my-0 my-4 space-y-4 min-w-[250px] w-full sm:w-fit">
-            <h4 className="font-medium text-lg text-white">Get Updates</h4>
+            <h1 className="font-medium text-lg text-white">Get Updates</h1>
             <form onSubmit={handleSubscribe} className="space-y-2">
               <label htmlFor="email-input" className="sr-only">
                 Email address

@@ -13,4 +13,4 @@ Disallow: /test/
 Allow: /routes
 Allow: /help
 Allow: /
-Sitemap: https://busly.eu/sitemap.xml
+Sitemap: https://www.busly.eu/sitemap.xml

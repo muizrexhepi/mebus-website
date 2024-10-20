@@ -9,6 +9,7 @@ import { X } from "lucide-react";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { account } from "@/appwrite.config";
+import useUser from "../hooks/use-user";
 
 interface InputFieldProps {
   label: string;
@@ -65,22 +66,7 @@ const PassengerInfoContent: React.FC = () => {
     children: passengersAmount.children || 0,
   };
 
-  const [user, setUser] = useState<any>(null);
-
-  const fetchUser = useCallback(async () => {
-    if (user) return;
-    try {
-      const fetchedUser = await account.get();
-      setUser(fetchedUser);
-    } catch (error) {
-      setUser(null);
-      console.error("Failed to fetch user:", error);
-    }
-  }, [user]);
-
-  useEffect(() => {
-    fetchUser();
-  }, [fetchUser]);
+  const { user } = useUser();
 
   useEffect(() => {
     if (passengers.length === adults + children) {

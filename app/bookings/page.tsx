@@ -31,9 +31,10 @@ import { ToastAction } from "@/components/ui/toast";
 import SecondaryNavbar from "@/components/SecondaryNavbar";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import useUser from "@/components/hooks/use-user";
 
 const BookingsDashboard: React.FC = () => {
-  const [user, setUser] = useState<any>(null);
+  const { user } = useUser();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [noUserBookings, setNoUserBookings] = useState<Booking[]>([]);
   const [showFlexAlert, setShowFlexAlert] = useState(false);
@@ -52,16 +53,6 @@ const BookingsDashboard: React.FC = () => {
   };
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const user = await account.get();
-        setUser(user);
-      } catch (error) {
-        setUser(null);
-        console.error("Failed to fetch user:", error);
-      }
-    };
-
     if (typeof window !== "undefined") {
       const savedBookings = JSON.parse(
         localStorage.getItem("noUserBookings") || "[]"
@@ -69,8 +60,6 @@ const BookingsDashboard: React.FC = () => {
       setNoUserBookings(savedBookings);
       console.log("Saved bookings from localStorage:", savedBookings);
     }
-
-    fetchUser();
   }, []);
 
   useEffect(() => {

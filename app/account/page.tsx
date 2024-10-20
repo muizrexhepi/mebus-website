@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import { account } from "@/appwrite.config";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ACCOUNT_SETTINGS } from "@/lib/data";
@@ -8,35 +7,30 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { environment } from "@/environment";
 import { Symbols } from "@/symbols";
+import useUser from "@/components/hooks/use-user";
 
 export default function Component() {
-  const [user, setUser] = useState<any>(null);
+  const { user } = useUser();
   const [accountBalanceInCents, setAccountBalanceInCents] = useState<number>(0);
   const router = useRouter();
 
-  const fetchUser = async () => {
-    try {
-      const user = await account.get();
-      setUser(user);
-      if (!user) {
-        router.push("/");
-      }
-
-      const accountBalance = await axios.get(
-        `${environment.apiurl}/user/${user.$id}?select=balance_in_cents`
-      );
-      setAccountBalanceInCents(accountBalance.data.data.balance_in_cents);
-
-      console.log({ user, accountBalance: accountBalance.data.data });
-    } catch (error) {
-      setUser(null);
-      console.error("Failed to fetch user:", error);
-    }
-  };
-
   useEffect(() => {
-    fetchUser();
-  }, []);
+    if (user) {
+      try {
+        const fetchAccountBalance = async () => {
+          const accountBalance = await axios.get(
+            `${environment.apiurl}/user/${user.$id}?select=balance_in_cents`
+          );
+          setAccountBalanceInCents(accountBalance.data.data.balance_in_cents);
+          console.log({ user, accountBalance: accountBalance.data.data });
+        };
+
+        fetchAccountBalance();
+      } catch (error) {
+        console.log({ error });
+      }
+    }
+  }, [user]);
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 md:space-y-16">

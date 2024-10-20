@@ -15,6 +15,7 @@ import { getUserBalance } from "@/actions/users";
 import { Input } from "../ui/input";
 import { useDepositStore, useCheckoutStore } from "@/store";
 import { ApiResponse } from "@/interfaces/api";
+import useUser from "../hooks/use-user";
 
 const PaymentMethod = () => {
   const stripe = useStripe();
@@ -38,25 +39,11 @@ const PaymentMethod = () => {
     resetCheckout,
   } = useCheckoutStore();
 
-  const [user, setUser] = useState<any>(null);
+  const { user } = useUser();
   const [balance, setBalance] = useState<number>(0);
   const [isGreater, setIsGreater] = useState<boolean>(false);
   const { useDeposit, setDepositAmount, setUseDeposit, depositAmount } =
     useDepositStore();
-
-  const fetchUser = async () => {
-    try {
-      const user = await account.get();
-      setUser(user);
-    } catch (error) {
-      setUser(null);
-      console.error("Failed to fetch user:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   useEffect(() => {
     const fetchDepositAmount = async () => {

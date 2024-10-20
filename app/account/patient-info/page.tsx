@@ -14,9 +14,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/hooks/use-toast";
+import useUser from "@/components/hooks/use-user";
 
 export default function PersonalInfo() {
-  const [user, setUser] = useState<any>(null);
+  const { user } = useUser();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [editingInfo, setEditingInfo] = useState<any>(null);
   const [editedValue, setEditedValue] = useState<string>("");
@@ -117,27 +118,10 @@ export default function PersonalInfo() {
     setEditedValue(e.target.value);
   };
 
-  const fetchUser = async () => {
-    try {
-      const user = await account.get();
-      setUser(user);
-      setIsLoading(false);
-    } catch (error) {
-      setUser(null);
-      setIsLoading(false);
-      console.error("Failed to fetch user:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
   const handleSaveChanges = async () => {
     if (editingInfo) {
       try {
         await editingInfo.update(editedValue);
-        fetchUser();
         setEditingInfo(null);
         toast({ description: "Changes saved successfully." });
       } catch (error) {
