@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,12 +17,15 @@ import {
   GlobeIcon,
 } from "lucide-react";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 export default function AboutSection() {
+  const { t } = useTranslation();
+
   return (
     <div className="max-w-6xl mx-auto py-12">
       <h2 className="text-3xl font-bold text-center mb-8">
-        Why Travel with Busly?
+        {t("aboutSection.title")}
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
@@ -29,13 +33,12 @@ export default function AboutSection() {
           <CardHeader>
             <PiggyBankIcon className="h-8 w-8 text-primary mb-2" />
             <CardTitle className="text-xl font-semibold">
-              Budget-Friendly Journeys
+              {t("aboutSection.cards.budget.title")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-gray-600">
-              Discover unbeatable fares on our extensive network. Busly makes
-              travel accessible without breaking the bank.
+              {t("aboutSection.cards.budget.description")}
             </p>
           </CardContent>
         </Card>
@@ -44,13 +47,12 @@ export default function AboutSection() {
           <CardHeader>
             <MapPinIcon className="h-8 w-8 text-primary mb-2" />
             <CardTitle className="text-xl font-semibold">
-              Expansive Route Network
+              {t("aboutSection.cards.network.title")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-gray-600">
-              Connect to over 2,000 destinations across 30 countries. Your next
-              adventure is just a bus ride away.
+              {t("aboutSection.cards.network.description")}
             </p>
           </CardContent>
         </Card>
@@ -59,13 +61,12 @@ export default function AboutSection() {
           <CardHeader>
             <SmartphoneIcon className="h-8 w-8 text-primary mb-2" />
             <CardTitle className="text-xl font-semibold">
-              Seamless Booking Experience
+              {t("aboutSection.cards.booking.title")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-gray-600">
-              Book your tickets in seconds with our user-friendly app. Your
-              journey, at your fingertips.
+              {t("aboutSection.cards.booking.description")}
             </p>
           </CardContent>
         </Card>
@@ -74,13 +75,12 @@ export default function AboutSection() {
           <CardHeader>
             <ClockIcon className="h-8 w-8 text-primary mb-2" />
             <CardTitle className="text-xl font-semibold">
-              Punctual Departures
+              {t("aboutSection.cards.punctuality.title")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-gray-600">
-              Time is precious. Count on Busly for reliable schedules and
-              on-time performance.
+              {t("aboutSection.cards.punctuality.description")}
             </p>
           </CardContent>
         </Card>
@@ -89,13 +89,12 @@ export default function AboutSection() {
           <CardHeader>
             <HeartIcon className="h-8 w-8 text-primary mb-2" />
             <CardTitle className="text-xl font-semibold">
-              Comfort is Key
+              {t("aboutSection.cards.comfort.title")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-gray-600">
-              Enjoy spacious seating, onboard entertainment, and complimentary
-              Wi-Fi for a relaxing journey.
+              {t("aboutSection.cards.comfort.description")}
             </p>
           </CardContent>
         </Card>
@@ -104,13 +103,12 @@ export default function AboutSection() {
           <CardHeader>
             <LeafIcon className="h-8 w-8 text-primary mb-2" />
             <CardTitle className="text-xl font-semibold">
-              Eco-Conscious Travel
+              {t("aboutSection.cards.eco.title")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-gray-600">
-              Choose green with our fuel-efficient fleet and carbon offset
-              initiatives. Travel responsibly with Busly.
+              {t("aboutSection.cards.eco.description")}
             </p>
           </CardContent>
         </Card>
@@ -118,12 +116,10 @@ export default function AboutSection() {
 
       <div className="text-center">
         <h3 className="text-2xl font-semibold mb-4">
-          Ready to Embark on Your Next Adventure?
+          {t("aboutSection.callToAction.title")}
         </h3>
         <p className="text-gray-600 mb-6">
-          Join thousands of satisfied travelers who choose Busly for reliable,
-          affordable, and comfortable journeys. Whether you're planning a
-          weekend getaway or a cross-country expedition, we've got you covered.
+          {t("aboutSection.callToAction.description")}
         </p>
         <Link href="/routes">
           <Button
@@ -131,7 +127,7 @@ export default function AboutSection() {
             className="bg-primary text-white hover:bg-primary-dark"
           >
             <GlobeIcon className="mr-2 h-5 w-5" />
-            Explore Busly Routes
+            {t("aboutSection.callToAction.button")}
           </Button>
         </Link>
       </div>

@@ -1,4 +1,3 @@
-// Navbar.tsx
 "use client";
 
 import { NAV_LINKS } from "@/lib/data";
@@ -12,14 +11,12 @@ import LanguageDialog from "./LanguageDialog";
 import ResetPasswordForm from "./forms/ResetForm";
 import { cn } from "@/lib/utils";
 import useUser from "./hooks/use-user";
+import { useTranslation } from "react-i18next";
 
 const Navbar = ({ className }: { className?: string }) => {
   const { user } = useUser();
-
-  console.log({ useri: user });
-
-  const { openLogin, openRegister, openReset, setOpenLanguages } =
-    useNavbarStore();
+  const { openLogin, openRegister, openReset } = useNavbarStore();
+  const { t } = useTranslation();
 
   return (
     <div className={cn("w-full flex justify-between items-center", className)}>
@@ -30,7 +27,7 @@ const Navbar = ({ className }: { className?: string }) => {
         <div className="lg:flex gap-6 items-center hidden">
           {NAV_LINKS.map((link, index) => (
             <Link href={link.url} key={index} className="text-white/95 text-lg">
-              {link.name}
+              {t(`nav.${link.name.toLowerCase()}`)}{" "}
             </Link>
           ))}
         </div>
@@ -38,7 +35,6 @@ const Navbar = ({ className }: { className?: string }) => {
 
       <div className="flex items-center gap-2">
         <LanguageDialog />
-
         {user ? <UserNavbarMenu /> : <NavbarMenu />}
       </div>
 

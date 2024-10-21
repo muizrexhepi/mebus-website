@@ -7,8 +7,10 @@ import { Station } from "@/models/station";
 import DatePicker from "./date-picker";
 import { DateRangePicker } from "./daterange-picker";
 import SearchForm from "./forms/SearchForm";
+import { useTranslation } from "react-i18next";
 
 const SearchBlock = () => {
+  const { t } = useTranslation();
   const [stations, setStations] = useState<Station[]>([]);
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
@@ -34,10 +36,9 @@ const SearchBlock = () => {
     const fetchStations = async () => {
       try {
         const data = await getStations();
-        console.log({ data });
         setStations(data);
       } catch (error) {
-        console.error("Error fetching stations:", error);
+        console.error(t("searchBlock.searchError"), error);
       } finally {
         setLoading(false);
       }
@@ -57,7 +58,7 @@ const SearchBlock = () => {
         children: passengers.children.toString(),
       });
 
-      if (returnDate && tripType == "round-trip") {
+      if (returnDate && tripType === "round-trip") {
         searchParams.append("returnDate", returnDate);
       }
 
@@ -99,7 +100,7 @@ const SearchBlock = () => {
   );
 
   const datePickerComponent = useMemo(() => {
-    return tripType == "round-trip" ? <DateRangePicker /> : <DatePicker />;
+    return tripType === "round-trip" ? <DateRangePicker /> : <DatePicker />;
   }, [tripType]);
 
   return (
@@ -113,22 +114,22 @@ const SearchBlock = () => {
                   type="radio"
                   name="tripType"
                   value="one-way"
-                  checked={tripType == "one-way"}
+                  checked={tripType === "one-way"}
                   onChange={() => handleTripTypeChange("one-way")}
                   className="h-7 w-7 accent-emerald-700"
                 />
-                <span>One-way</span>
+                <span>{t("searchBlock.tripType.oneWay")}</span>
               </label>
               <label className="cursor-pointer flex items-center gap-2">
                 <input
                   type="radio"
                   name="tripType"
                   value="round-trip"
-                  checked={tripType == "round-trip"}
+                  checked={tripType === "round-trip"}
                   onChange={() => handleTripTypeChange("round-trip")}
                   className="h-7 w-7 accent-emerald-700"
                 />
-                <span>Round-trip</span>
+                <span>{t("searchBlock.tripType.roundTrip")}</span>
               </label>
             </div>
           </div>

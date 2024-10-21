@@ -429,9 +429,9 @@ export default function BookingDetailsPage({
               <React.Fragment key={index}>
                 {index > 0 && <Separator className="my-4" />}
                 <div>
-                  <h4 className="text-lg font-semibold mb-2">
+                  <h1 className="text-lg font-semibold mb-2">
                     Passenger {index + 1}
-                  </h4>
+                  </h1>
                   <div className="space-y-2">
                     <div className="grid grid-cols-2 gap-2">
                       <span className="font-medium">Full Name:</span>

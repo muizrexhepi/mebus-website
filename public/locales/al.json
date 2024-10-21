@@ -1,0 +1,101 @@
+{
+  "nav": {
+    "routes": "Rrugët",
+    "bookings": "Rezervimet",
+    "help": "Ndihmë",
+    "about": "Rreth"
+  },
+  "footer": {
+    "missionStatement": "Misioni ynë është të pajisim eksploruesit modernë me çanta moderne, funksionale dhe elegante që e çojnë çdo aventurë në një nivel tjetër.",
+    "getUpdates": "Merrni përditësime",
+    "emailAddress": "Adresa e emailit",
+    "subscribe": {
+      "emailPlaceholder": "Shkruani emailin tuaj",
+      "subscribeButton": "Abonohu",
+      "subscribing": "Duke u abonuar...",
+      "successMessage": "Faleminderit për abonimin. Ju lutemi kontrolloni emailin tuaj për konfirmim.",
+      "errorMessage": {
+        "alreadySubscribed": "Emaili është i abonuar tashmë!",
+        "genericError": "Ndodhi një gabim. Ju lutemi provoni përsëri."
+      }
+    },
+    "sections": {
+      "services": "Shërbimet",
+      "partners": "Partnerët",
+      "legal": "Ligjor"
+    },
+    "links": {
+      "busroutes": "Rrugët e Autobusëve",
+      "travelflexoptions": "Opsionet e Fleksibilitetit të Udhëtimit",
+      "customersupport": "Mbështetje për Klientët",
+      "luggagepolicy": "Politika e Bagazheve",
+      "discountoffers": "Ofertat e Zbritjeve",
+      "help": "Ndihmë",
+      "partnerapplication": "Aplikimi për Partner",
+      "becomeapartner": "Bëhuni Partner",
+      "activeoperators": "Operatorët Aktivë",
+      "privacypolicy": "Politika e Privatësisë",
+      "termsofservice": "Kushtet e Shërbimit",
+      "cookiepolicy": "Politika e Cookies"
+    },
+    "copyright": "© 2024 Busly. Të gjitha të drejtat e rezervuara.",
+    "customerSupport": "Mbështetje për Klientët 24/7",
+    "securePayment": "Pagesë e Sigurt",
+    "helpFAQ": "Ndihmë & FAQ"
+  },
+  "aboutSection": {
+    "title": "Pse të udhëtoni me Busly?",
+    "cards": {
+      "budget": {
+        "title": "Udhëtime me Buxhet të Ulët",
+        "description": "Zbuloni tarifa të paqena në rrjetin tonë të gjerë. Busly e bën udhëtimin të aksesueshëm pa e thyer buxhetin tuaj."
+      },
+      "network": {
+        "title": "Rrjeti i Gjerë i Rrugëve",
+        "description": "Konektimi në mbi 2,000 destinacione në 30 vende. Aventurën tuaj të ardhshme e keni vetëm një udhëtim me autobus larg."
+      },
+      "booking": {
+        "title": "Eksperiencë e Shpejtë të Rezervimit",
+        "description": "Rezervoni biletat tuaja në sekonda me aplikacionin tonë miqësor. Udhëtimi juaj, në majë të gishtave."
+      },
+      "punctuality": {
+        "title": "Nisje në Kohë",
+        "description": "Koha është e çmuar. Mbështetuni te Busly për orare të besueshme dhe performancë në kohë."
+      },
+      "comfort": {
+        "title": "Komforti është Çelësi",
+        "description": "Shijoni vende të gjera, argëtim në bord dhe Wi-Fi falas për një udhëtim relaksues."
+      },
+      "eco": {
+        "title": "Udhëtim Eco-Sjellës",
+        "description": "Zgjidhni gjelbërimin me flotën tonë ekonomikë dhe iniciativat e kompensimit të karbonit. Udhëtoni në mënyrë të përgjegjshme me Busly."
+      }
+    },
+    "callToAction": {
+      "title": "Gati për të filluar aventurën tuaj të ardhshme?",
+      "description": "Bashkohuni me mijëra udhëtarë të kënaqur që zgjedhin Busly për udhëtime të besueshme, të përballueshme dhe të rehatshme. Qoftë duke planifikuar një arratisje fundjavë apo një ekspeditë përmes vendit, ne jemi këtu për ju.",
+      "button": "Eksploroni Rrugët e Busly"
+    }
+  },
+  "searchBlock": {
+    "tripType": {
+      "oneWay": "Një Ditar",
+      "roundTrip": "Udhëtim i Tërë"
+    },
+    "loading": "Duke ngarkuar stacionet...",
+    "searchError": "Gabim gjatë marrjes së stacioneve.",
+    "resetSearch": "Rivendosni Kërkimin"
+  },
+  "searchForm": {
+    "from": "Nga",
+    "to": "Te",
+    "departure": "Nisja",
+    "passengers": "Pasagjerët",
+    "oneWay": "Një Ditar",
+    "roundTrip": "Udhëtim i Tërë",
+    "searchButton": {
+      "default": "Kërko",
+      "submitting": "Duke Kërkuar..."
+    }
+  }
+}

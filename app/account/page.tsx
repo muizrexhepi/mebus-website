@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ACCOUNT_SETTINGS } from "@/lib/data";
-import { useRouter } from "next/navigation";
 import axios from "axios";
 import { environment } from "@/environment";
 import { Symbols } from "@/symbols";
@@ -12,7 +11,6 @@ import useUser from "@/components/hooks/use-user";
 export default function Component() {
   const { user } = useUser();
   const [accountBalanceInCents, setAccountBalanceInCents] = useState<number>(0);
-  const router = useRouter();
 
   useEffect(() => {
     if (user) {

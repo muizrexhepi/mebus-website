@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import ReactQueryProvider from "./ReactQueryProvider";
 import { Toaster } from "@/components/ui/toaster";
 import CookieConsent from "@/components/CookieConsent";
+import TranslationProvider from "@/components/TranslationProvider";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -69,15 +70,17 @@ export default function RootLayout({
       <body className={roboto.className}>
         <ReactQueryProvider>
           <Toaster />
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-            <CookieConsent />
-          </ThemeProvider>
+          <TranslationProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="light"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+              <CookieConsent />
+            </ThemeProvider>
+          </TranslationProvider>
         </ReactQueryProvider>
       </body>
     </html>

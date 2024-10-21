@@ -1,12 +1,43 @@
 "use client";
 
-import { FOOTER_LINKS, SOCIAL_LINKS } from "@/lib/data";
+import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { FormEvent, useState } from "react";
 import { useToast } from "./hooks/use-toast";
 
+const FOOTER_LINKS = [
+  {
+    title: "Services",
+    links: [
+      { name: "Bus Routes", link: "/routes" },
+      { name: "Travel Flex Options", link: "/help/travel-flex" },
+      { name: "Customer Support", link: "/help/contact-support" },
+      { name: "Luggage Policy", link: "/help/luggage-policy" },
+      { name: "Discount Offers", link: "/discounts" },
+      { name: "Help", link: "/help" },
+    ],
+  },
+  {
+    title: "Partners",
+    links: [
+      { name: "Partner Application", link: "/partners/apply" },
+      { name: "Become a Partner", link: "/partners/overview" },
+      { name: "Active Operators", link: "/partners/active-operators" },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      { name: "Privacy Policy", link: "/legal/privacy-policy" },
+      { name: "Terms of Service", link: "/legal/terms-of-service" },
+      { name: "Cookie Policy", link: "/legal/cookie-policy" },
+    ],
+  },
+];
+
 const Footer = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [isSubscribing, setIsSubscribing] = useState(false);
   const { toast } = useToast();
@@ -18,31 +49,34 @@ const Footer = () => {
     try {
       const response = await fetch("/api/subscribe", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
 
-      if (response.ok) {
+      if (response.status === 400) {
         toast({
-          title: "Subscribed!",
-          description:
-            "Thank you for subscribing. Please check your email for confirmation.",
+          title: t("footer.subscribe.errorMessage.alreadySubscribed"),
+          description: t("footer.subscribe.errorMessage.alreadySubscribed"),
+          variant: "destructive",
+        });
+      } else if (response.ok) {
+        toast({
+          title: t("footer.subscribe.successMessage"),
+          description: t("footer.subscribe.successMessage"),
         });
         setEmail("");
       } else {
         const data = await response.json();
         toast({
-          title: "Error",
+          title: t("footer.subscribe.errorMessage.genericError"),
           description: data.error,
           variant: "destructive",
         });
       }
     } catch (error) {
       toast({
-        title: "Error",
-        description: "An error occurred. Please try again.",
+        title: t("footer.subscribe.errorMessage.genericError"),
+        description: t("footer.subscribe.errorMessage.genericError"),
         variant: "destructive",
       });
     } finally {
@@ -59,33 +93,27 @@ const Footer = () => {
       >
         <div className="flex-1 w-full flex-col sm:flex sm:flex-row sm:items-center md:items-start justify-between md:justify-start md:flex-col mr-10">
           <Link href="/">
-            {/* <Image
-              src={whitelogo}
-              alt="Logo"
-              width={150}
-              height={40}
-              className="w-[150px] h-[40px] md:w-[200px] md:h-[55px] cursor-pointer object-contain"
-            /> */}
             <h1 className="font-semibold text-2xl text-white/95">Busly</h1>
           </Link>
           <p
             className={`font-normal text-white/70 text-[18px] leading-[30.8px] mt-4 max-w-[310px]`}
           >
-            Our mission is to equip modern explorers with cutting-edge,
-            functional, and stylish bags that elevate every adventure.
+            {t("footer.missionStatement")}
           </p>
-          <div className="flex flex-col ss:my-0 my-4 space-y-4 min-w-[250px] w-full sm:w-fit">
-            <h1 className="font-medium text-lg text-white">Get Updates</h1>
-            <form onSubmit={handleSubscribe} className="space-y-2">
+          <div className="flex flex-col sm:my-0 my-4 space-y-4 min-w-[250px] w-full sm:w-full">
+            <h1 className="font-medium text-lg text-white">
+              {t("footer.getUpdates")}
+            </h1>
+            <form onSubmit={handleSubscribe} className="space-y-2 w-[80%]">
               <label htmlFor="email-input" className="sr-only">
-                Email address
+                {t("footer.emailAddress")}
               </label>
               <div className="relative">
                 <input
                   id="email-input"
                   type="email"
                   className="w-full h-12 px-4 rounded-lg bg-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50"
-                  placeholder="Enter your email"
+                  placeholder={t("footer.subscribe.emailPlaceholder")}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -95,26 +123,12 @@ const Footer = () => {
                   className="absolute right-1 top-1 bg-white text-neutral-900 hover:bg-white/90"
                   disabled={isSubscribing}
                 >
-                  {isSubscribing ? "Subscribing..." : "Subscribe"}
+                  {isSubscribing
+                    ? t("footer.subscribe.subscribing")
+                    : t("footer.subscribe.subscribeButton")}
                 </Button>
               </div>
             </form>
-            <div className="flex flex-wrap gap-4 !mt-6">
-              {SOCIAL_LINKS.map((social, index) => (
-                <Link
-                  key={index}
-                  href={social?.link}
-                  target="_blank"
-                  className={`object-contain cursor-pointer p-3 flex justify-center items-center rounded-full bg-white/20`}
-                  aria-label={`Follow us on ${social.name}`}
-                >
-                  <social.icon className="h-7 w-7 text-white" />
-                  <span className="sr-only">
-                    Follow us on {social.name}
-                  </span>{" "}
-                </Link>
-              ))}
-            </div>
           </div>
         </div>
 
@@ -122,20 +136,26 @@ const Footer = () => {
           {FOOTER_LINKS.map((footerLink, index) => (
             <div
               key={index}
-              className="flex flex-col ss:my-0 my-4 min-w-[150px]"
+              className="flex flex-col sm:my-0 my-4 min-w-[150px]"
             >
-              <h4 className="font-normal text-lg text-white">
-                {footerLink.title}
-              </h4>
+              <h1 className="font-normal text-lg text-white">
+                {t(`footer.sections.${footerLink.title.toLowerCase()}`)}
+              </h1>
               <ul className="list-none mt-4">
                 {footerLink.links.map((link, index) => (
                   <li
                     key={link.name}
-                    className={`font-normal text-base tracking-wide text-white/70  cursor-pointer ${
+                    className={`font-normal text-base tracking-wide text-white/70 cursor-pointer truncate line-clamp-1 ${
                       index !== footerLink.links.length - 1 ? "mb-3" : "mb-0"
                     }`}
                   >
-                    <Link href={link.link}>{link.name}</Link>
+                    <Link href={link.link}>
+                      {t(
+                        `footer.links.${link.name
+                          .toLowerCase()
+                          .replace(/\s+/g, "")}`
+                      )}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -146,16 +166,16 @@ const Footer = () => {
 
       <div className="w-full flex justify-between items-start md:items-center md:flex-row flex-col pt-6 border-t-[1px] border-t-[#3f3e45] max-w-6xl">
         <p className="font-normal text-sm text-center leading-[27px] text-white/70">
-          &copy; {new Date().getFullYear()} Busly. All Rights Reserved.
+          {t("footer.copyright", { year: new Date().getFullYear() })}
         </p>
 
         <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 mt-4 md:mt-0 text-white/70 text-sm">
-          <p>24/7 Customer Support</p>
+          <p>{t("footer.customerSupport")}</p>
           <p className="hidden md:inline">|</p>
-          <p>Secure Payment</p>
+          <p>{t("footer.securePayment")}</p>
           <p className="hidden md:inline">|</p>
           <Link href="/help" className="hover:text-white transition-colors">
-            Help & FAQ
+            {t("footer.helpFAQ")}
           </Link>
         </div>
       </div>

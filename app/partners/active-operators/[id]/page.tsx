@@ -73,10 +73,10 @@ const RouteCard: React.FC<{ route: Route }> = ({ route }) => (
       </div>
 
       <div className="bg-gray-100 p-3 rounded-md">
-        <h4 className="font-semibold mb-2 flex items-center">
+        <h1 className="font-semibold mb-2 flex items-center">
           <LuggageIcon className="w-5 h-5 mr-2 text-emerald-700" />
           Luggage Policy
-        </h4>
+        </h1>
         <div className="grid grid-cols-3 gap-2 text-sm">
           <div>Free: {route.luggages.free}</div>
           <div>Extra: ${route.luggages.price_for_extra}</div>

@@ -6,6 +6,7 @@ import PassengerSelect from "@/components/passenger-select";
 import { Station } from "@/models/station";
 import StationSelect from "../search/station-select";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 interface SearchFormProps {
   loading: boolean;
@@ -24,6 +25,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
   isSubmitting,
   onSearch,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div
       className={cn(
@@ -36,7 +39,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
       {["from", "to"].map((departure) => (
         <div key={departure} className="w-full">
           <p className="text-black font-normal text-lg">
-            {departure === "from" ? "From" : "To"}
+            {t(`searchForm.${departure}`)}
           </p>
           {loading ? (
             <InputSkeleton />
@@ -50,11 +53,17 @@ const SearchForm: React.FC<SearchFormProps> = ({
         </div>
       ))}
       <div className="w-full">
-        <p className="text-black font-normal text-lg">Departure</p>
+        <p className="text-black font-normal text-lg">
+          {t("searchForm.departure")}
+        </p>{" "}
+        {/* Translated label */}
         {loading ? <InputSkeleton /> : datePickerComponent}
       </div>
       <div>
-        <p className="text-black font-normal text-lg">Passengers</p>
+        <p className="text-black font-normal text-lg">
+          {t("searchForm.passengers")}
+        </p>{" "}
+        {/* Translated label */}
         {loading ? (
           <InputSkeleton />
         ) : (
@@ -72,7 +81,10 @@ const SearchForm: React.FC<SearchFormProps> = ({
         disabled={isSubmitting}
         onClick={onSearch}
       >
-        {isSubmitting ? "Searching..." : "Search"}
+        {isSubmitting
+          ? t("searchForm.searchButton.submitting")
+          : t("searchForm.searchButton.default")}{" "}
+        {/* Translated button text */}
         {!isSubmitting && <ArrowRight className="h-4 w-4" />}
       </Button>
     </div>

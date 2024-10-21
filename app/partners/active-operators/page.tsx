@@ -29,7 +29,7 @@ const CompanyInfo: React.FC<{ companyMetadata: CompanyMetadata }> = ({
   companyMetadata,
 }) => (
   <div className="mt-4 p-4 bg-gray-100 rounded-md">
-    <h4 className="font-semibold text-lg mb-2">Company Information</h4>
+    <h1 className="font-semibold text-lg mb-2">Company Information</h1>
     <div className="grid grid-cols-2 gap-2 text-sm">
       <div>
         <BuildingIcon className="w-4 h-4 inline mr-2 text-emerald-700" />

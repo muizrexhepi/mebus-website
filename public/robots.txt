@@ -1,16 +1,14 @@
 User-agent: *
 Disallow: /account/
-Disallow: /admin/
-Disallow: /login/
-Disallow: /register/
-Disallow: /reset-password/
 Disallow: /reset/
 Disallow: /checkout/
 Disallow: /checkout/success
 Disallow: /checkout/error
-Disallow: /test/
 
 Allow: /routes
+Allow: /partners/overview
+Allow: /partners/apply
+Allow: /help/travel-flex
 Allow: /help
 Allow: /
 Sitemap: https://www.busly.eu/sitemap.xml

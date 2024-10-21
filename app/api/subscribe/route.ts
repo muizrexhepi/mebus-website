@@ -1,7 +1,7 @@
 import WelcomeEmail from '@/components/email-subscribe-template';
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import { Client, Databases, ID } from 'node-appwrite';
+import { Client, Databases, Query, ID } from 'node-appwrite';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const COMPANY_NAME = 'Busly';
@@ -13,15 +13,22 @@ const client = new Client()
 
 const databases = new Databases(client);
 
-
-
 export async function POST(request: NextRequest) {
-  console.log({collectionid:process.env.APPWRITE_COLLECTION_ID!,dbid:process.env.APPWRITE_DATABASE_ID!})
   try {
     const { email } = await request.json();
 
     if (!email) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 });
+    }
+
+    const existingSubscribers = await databases.listDocuments(
+      process.env.APPWRITE_DATABASE_ID!,
+      process.env.APPWRITE_COLLECTION_ID!,
+      [Query.equal('email', email)]
+    );
+
+    if (existingSubscribers.total > 0) {
+      return NextResponse.json({ message: 'Email already subscribed' }, { status: 400 });
     }
 
     const subscriber = await databases.createDocument(
@@ -31,7 +38,7 @@ export async function POST(request: NextRequest) {
       { email }
     );
 
-    console.log({subscriber})
+    console.log({subscriber});
 
     await resend.emails.send({
       from: `${COMPANY_NAME} <newsletter@portal.insylink.com>`,

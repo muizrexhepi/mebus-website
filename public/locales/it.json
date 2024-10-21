@@ -1,0 +1,101 @@
+{
+  "nav": {
+    "routes": "Percorsi",
+    "bookings": "Prenotazioni",
+    "help": "Aiuto",
+    "about": "Chi Siamo"
+  },
+  "footer": {
+    "missionStatement": "La nostra missione è fornire agli esploratori moderni borse moderne, funzionali e stilose che elevano ogni avventura.",
+    "getUpdates": "Ricevi aggiornamenti",
+    "emailAddress": "Indirizzo email",
+    "subscribe": {
+      "emailPlaceholder": "Inserisci la tua email",
+      "subscribeButton": "Iscriviti",
+      "subscribing": "Iscrivendo...",
+      "successMessage": "Grazie per esserti iscritto. Controlla la tua email per la conferma.",
+      "errorMessage": {
+        "alreadySubscribed": "L'email è già iscritta!",
+        "genericError": "Si è verificato un errore. Riprova."
+      }
+    },
+    "sections": {
+      "services": "Servizi",
+      "partners": "Partner",
+      "legal": "Legale"
+    },
+    "links": {
+      "busroutes": "Percorsi degli Autobus",
+      "travelflexoptions": "Opzioni di Flessibilità di Viaggio",
+      "customersupport": "Assistenza Clienti",
+      "luggagepolicy": "Politica sui Bagagli",
+      "discountoffers": "Offerte Sconto",
+      "help": "Aiuto",
+      "partnerapplication": "Candidatura Partner",
+      "becomeapartner": "Diventa Partner",
+      "activeoperators": "Operatori Attivi",
+      "privacypolicy": "Informativa sulla Privacy",
+      "termsofservice": "Termini di Servizio",
+      "cookiepolicy": "Politica sui Cookie"
+    },
+    "copyright": "© 2024 Busly. Tutti i diritti riservati.",
+    "customerSupport": "Assistenza Clienti 24/7",
+    "securePayment": "Pagamento Sicuro",
+    "helpFAQ": "Aiuto & FAQ"
+  },
+  "aboutSection": {
+    "title": "Perché viaggiare con Busly?",
+    "cards": {
+      "budget": {
+        "title": "Viaggi a Budget",
+        "description": "Scopri tariffe imbattibili sulla nostra vasta rete. Busly rende il viaggio accessibile senza svuotare il tuo portafoglio."
+      },
+      "network": {
+        "title": "Rete di Percorsi Estesa",
+        "description": "Collegati a oltre 2.000 destinazioni in 30 paesi. La tua prossima avventura è a solo un viaggio in autobus di distanza."
+      },
+      "booking": {
+        "title": "Esperienza di Prenotazione Fluida",
+        "description": "Prenota i tuoi biglietti in pochi secondi con la nostra app user-friendly. Il tuo viaggio, a portata di mano."
+      },
+      "punctuality": {
+        "title": "Partenze Puntuali",
+        "description": "Il tempo è prezioso. Fai affidamento su Busly per orari affidabili e performance puntuali."
+      },
+      "comfort": {
+        "title": "Comfort Prima di Tutto",
+        "description": "Goditi posti spaziosi, intrattenimento a bordo e Wi-Fi gratuito per un viaggio rilassante."
+      },
+      "eco": {
+        "title": "Viaggio Eco-Responsabile",
+        "description": "Scegli il verde con la nostra flotta efficiente e le iniziative di compensazione delle emissioni. Viaggia in modo responsabile con Busly."
+      }
+    },
+    "callToAction": {
+      "title": "Pronto a partire per la tua prossima avventura?",
+      "description": "Unisciti a migliaia di viaggiatori soddisfatti che scelgono Busly per viaggi affidabili, convenienti e confortevoli. Che tu stia pianificando una fuga nel weekend o un'escursione in tutto il paese, abbiamo ciò che ti serve.",
+      "button": "Esplora i Percorsi di Busly"
+    }
+  },
+  "searchBlock": {
+    "tripType": {
+      "oneWay": "Andata",
+      "roundTrip": "Andata e Ritorno"
+    },
+    "loading": "Caricamento delle stazioni...",
+    "searchError": "Errore nel recupero delle stazioni.",
+    "resetSearch": "Reimposta Ricerca"
+  },
+  "searchForm": {
+    "from": "Da",
+    "to": "A",
+    "departure": "Partenza",
+    "passengers": "Passeggeri",
+    "oneWay": "Andata",
+    "roundTrip": "Andata e Ritorno",
+    "searchButton": {
+      "default": "Cerca",
+      "submitting": "Cercando..."
+    }
+  }
+}

@@ -22,13 +22,11 @@ import {
 
 import axios from "axios";
 import { environment } from "@/environment";
-import { account } from "@/appwrite.config";
 import { Booking } from "@/models/booking";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
-import SecondaryNavbar from "@/components/SecondaryNavbar";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import useUser from "@/components/hooks/use-user";

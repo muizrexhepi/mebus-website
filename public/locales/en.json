@@ -1,0 +1,101 @@
+{
+  "nav": {
+    "routes": "Routes",
+    "bookings": "Bookings",
+    "help": "Help",
+    "about": "About"
+  },
+  "footer": {
+    "missionStatement": "Our mission is to equip modern explorers with cutting-edge, functional, and stylish bags that elevate every adventure.",
+    "getUpdates": "Get Updates",
+    "emailAddress": "Email address",
+    "subscribe": {
+      "emailPlaceholder": "Enter your email",
+      "subscribeButton": "Subscribe",
+      "subscribing": "Subscribing...",
+      "successMessage": "Thank you for subscribing. Please check your email for confirmation.",
+      "errorMessage": {
+        "alreadySubscribed": "Email is already subscribed!",
+        "genericError": "An error occurred. Please try again."
+      }
+    },
+    "sections": {
+      "services": "Services",
+      "partners": "Partners",
+      "legal": "Legal"
+    },
+    "links": {
+      "busroutes": "Bus Routes",
+      "travelflexoptions": "Travel Flex Options",
+      "customersupport": "Customer Support",
+      "luggagepolicy": "Luggage Policy",
+      "discountoffers": "Discount Offers",
+      "help": "Help",
+      "partnerapplication": "Partner Application",
+      "becomeapartner": "Become a Partner",
+      "activeoperators": "Active Operators",
+      "privacypolicy": "Privacy Policy",
+      "termsofservice": "Terms of Service",
+      "cookiepolicy": "Cookie Policy"
+    },
+    "copyright": "© 2024 Busly. All Rights Reserved.",
+    "customerSupport": "24/7 Customer Support",
+    "securePayment": "Secure Payment",
+    "helpFAQ": "Help & FAQ"
+  },
+  "aboutSection": {
+    "title": "Why Travel with Busly?",
+    "cards": {
+      "budget": {
+        "title": "Budget-Friendly Journeys",
+        "description": "Discover unbeatable fares on our extensive network. Busly makes travel accessible without breaking the bank."
+      },
+      "network": {
+        "title": "Expansive Route Network",
+        "description": "Connect to over 2,000 destinations across 30 countries. Your next adventure is just a bus ride away."
+      },
+      "booking": {
+        "title": "Seamless Booking Experience",
+        "description": "Book your tickets in seconds with our user-friendly app. Your journey, at your fingertips."
+      },
+      "punctuality": {
+        "title": "Punctual Departures",
+        "description": "Time is precious. Count on Busly for reliable schedules and on-time performance."
+      },
+      "comfort": {
+        "title": "Comfort is Key",
+        "description": "Enjoy spacious seating, onboard entertainment, and complimentary Wi-Fi for a relaxing journey."
+      },
+      "eco": {
+        "title": "Eco-Conscious Travel",
+        "description": "Choose green with our fuel-efficient fleet and carbon offset initiatives. Travel responsibly with Busly."
+      }
+    },
+    "callToAction": {
+      "title": "Ready to Embark on Your Next Adventure?",
+      "description": "Join thousands of satisfied travelers who choose Busly for reliable, affordable, and comfortable journeys. Whether you're planning a weekend getaway or a cross-country expedition, we've got you covered.",
+      "button": "Explore Busly Routes"
+    }
+  },
+  "searchBlock": {
+    "tripType": {
+      "oneWay": "One-way",
+      "roundTrip": "Round-trip"
+    },
+    "loading": "Loading stations...",
+    "searchError": "Error fetching stations.",
+    "resetSearch": "Reset Search"
+  },
+  "searchForm": {
+    "from": "From",
+    "to": "To",
+    "departure": "Departure",
+    "passengers": "Passengers",
+    "oneWay": "One-way",
+    "roundTrip": "Round-trip",
+    "searchButton": {
+      "default": "Search",
+      "submitting": "Searching..."
+    }
+  }
+}

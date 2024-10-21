@@ -1,0 +1,101 @@
+{
+  "nav": {
+    "routes": "Itinéraires",
+    "bookings": "Réservations",
+    "help": "Aide",
+    "about": "À propos"
+  },
+  "footer": {
+    "missionStatement": "Notre mission est d'équiper les explorateurs modernes avec des sacs modernes, fonctionnels et élégants qui élèvent chaque aventure.",
+    "getUpdates": "Recevez des mises à jour",
+    "emailAddress": "Adresse e-mail",
+    "subscribe": {
+      "emailPlaceholder": "Entrez votre e-mail",
+      "subscribeButton": "S'abonner",
+      "subscribing": "En s'abonnant...",
+      "successMessage": "Merci de vous être abonné. Veuillez vérifier votre e-mail pour confirmation.",
+      "errorMessage": {
+        "alreadySubscribed": "L'e-mail est déjà abonné !",
+        "genericError": "Une erreur s'est produite. Veuillez réessayer."
+      }
+    },
+    "sections": {
+      "services": "Services",
+      "partners": "Partenaires",
+      "legal": "Légal"
+    },
+    "links": {
+      "busroutes": "Lignes de bus",
+      "travelflexoptions": "Options de flexibilité de voyage",
+      "customersupport": "Support client",
+      "luggagepolicy": "Politique de bagages",
+      "discountoffers": "Offres de réduction",
+      "help": "Aide",
+      "partnerapplication": "Demande de partenariat",
+      "becomeapartner": "Devenir partenaire",
+      "activeoperators": "Opérateurs actifs",
+      "privacypolicy": "Politique de confidentialité",
+      "termsofservice": "Conditions de service",
+      "cookiepolicy": "Politique de cookies"
+    },
+    "copyright": "© 2024 Busly. Tous droits réservés.",
+    "customerSupport": "Support client 24/7",
+    "securePayment": "Paiement sécurisé",
+    "helpFAQ": "Aide & FAQ"
+  },
+  "aboutSection": {
+    "title": "Pourquoi voyager avec Busly ?",
+    "cards": {
+      "budget": {
+        "title": "Voyages à petit budget",
+        "description": "Découvrez des tarifs imbattables sur notre vaste réseau. Busly rend le voyage accessible sans casser votre tirelire."
+      },
+      "network": {
+        "title": "Réseau d'itinéraires étendu",
+        "description": "Connectez-vous à plus de 2 000 destinations dans 30 pays. Votre prochaine aventure n'est qu'à un trajet en bus."
+      },
+      "booking": {
+        "title": "Expérience de réservation fluide",
+        "description": "Réservez vos billets en quelques secondes avec notre application conviviale. Votre voyage, à portée de main."
+      },
+      "punctuality": {
+        "title": "Départs ponctuels",
+        "description": "Le temps est précieux. Comptez sur Busly pour des horaires fiables et des performances à l'heure."
+      },
+      "comfort": {
+        "title": "Le confort avant tout",
+        "description": "Profitez de sièges spacieux, de divertissements à bord et d'un Wi-Fi gratuit pour un voyage relaxant."
+      },
+      "eco": {
+        "title": "Voyage éco-responsable",
+        "description": "Choisissez le vert avec notre flotte économe en carburant et nos initiatives de compensation carbone. Voyagez de manière responsable avec Busly."
+      }
+    },
+    "callToAction": {
+      "title": "Prêt à embarquer pour votre prochaine aventure ?",
+      "description": "Rejoignez des milliers de voyageurs satisfaits qui choisissent Busly pour des voyages fiables, abordables et confortables. Que vous planifiez une escapade de week-end ou une expédition à travers le pays, nous avons ce qu'il vous faut.",
+      "button": "Explorer les itinéraires Busly"
+    }
+  },
+  "searchBlock": {
+    "tripType": {
+      "oneWay": "Unidirectionnel",
+      "roundTrip": "Aller-retour"
+    },
+    "loading": "Chargement des stations...",
+    "searchError": "Erreur lors de la récupération des stations.",
+    "resetSearch": "Réinitialiser la recherche"
+  },
+  "searchForm": {
+    "from": "De",
+    "to": "À",
+    "departure": "Départ",
+    "passengers": "Passagers",
+    "oneWay": "Unidirectionnel",
+    "roundTrip": "Aller-retour",
+    "searchButton": {
+      "default": "Rechercher",
+      "submitting": "Recherche..."
+    }
+  }
+}
