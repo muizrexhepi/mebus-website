@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { PassengerData } from "@/components/hooks/use-passengers";
 import useSearchStore, { useCheckoutStore } from "@/store";
@@ -8,8 +8,8 @@ import PassengerSelector from "./PassengerSelector";
 import { X } from "lucide-react";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import { account } from "@/appwrite.config";
 import useUser from "../hooks/use-user";
+import { useTranslation } from "react-i18next";
 
 interface InputFieldProps {
   label: string;
@@ -52,7 +52,8 @@ const InputField: React.FC<InputFieldProps> = ({
   </div>
 );
 
-const PassengerInfoContent: React.FC = () => {
+const PassengerInfo: React.FC = () => {
+  const { t } = useTranslation();
   const { passengers, setPassengers } = useCheckoutStore((state) => ({
     passengers: state.passengers,
     setPassengers: state.setPassengers,
@@ -148,8 +149,8 @@ const PassengerInfoContent: React.FC = () => {
         <div className="flex items-center justify-between">
           <p className="font-medium text-black mb-2">
             {isChild
-              ? `Child ${passengerIndex - adults + 1}`
-              : `Adult ${passengerIndex + 1}`}
+              ? `${t("passengerInfo.child")} ${passengerIndex - adults + 1}`
+              : `${t("passengerInfo.adult")} ${passengerIndex + 1}`}
           </p>
           {passengerIndex !== 0 && (
             <button
@@ -162,8 +163,8 @@ const PassengerInfoContent: React.FC = () => {
         </div>
         <div className="flex flex-col gap-2 sm:grid sm:grid-cols-2">
           <InputField
-            label="First Name"
-            placeholder="John"
+            label={t("passengerInfo.firstName")}
+            placeholder={t("passengerInfo.firstNamePlaceholder")}
             type="text"
             value={passenger.full_name.split(" ")[0] || ""}
             onChange={(value) => {
@@ -180,8 +181,8 @@ const PassengerInfoContent: React.FC = () => {
             required={true}
           />
           <InputField
-            label="Last Name"
-            placeholder="Doe"
+            label={t("passengerInfo.lastName")}
+            placeholder={t("passengerInfo.lastNamePlaceholder")}
             type="text"
             value={passenger.full_name.split(" ").slice(1).join(" ") || ""}
             onChange={(value) => {
@@ -197,8 +198,8 @@ const PassengerInfoContent: React.FC = () => {
           {passengerIndex === 0 && (
             <>
               <InputField
-                label="Email"
-                placeholder="johndoe@gmail.com"
+                label={t("passengerInfo.email")}
+                placeholder={t("passengerInfo.emailPlaceholder")}
                 type="email"
                 value={passenger.email}
                 onChange={(value) =>
@@ -207,8 +208,8 @@ const PassengerInfoContent: React.FC = () => {
                 required={true}
               />
               <InputField
-                label="Phone number"
-                placeholder="Enter phone number"
+                label={t("passengerInfo.phoneNumber")}
+                placeholder={t("passengerInfo.phoneNumberPlaceholder")}
                 type="tel"
                 value={passenger.phone}
                 onChange={(value) =>
@@ -220,8 +221,8 @@ const PassengerInfoContent: React.FC = () => {
           )}
           {isChild && (
             <InputField
-              label="Date of Birth"
-              placeholder="YYYY-MM-DD"
+              label={t("passengerInfo.birthdate")}
+              placeholder={t("passengerInfo.birthdatePlaceholder")}
               type="date"
               value={passenger.birthdate}
               onChange={(value) =>
@@ -241,12 +242,11 @@ const PassengerInfoContent: React.FC = () => {
         <span className="flex items-center justify-center w-8 h-8 bg-emerald-100 text-emerald-800 rounded-full font-semibold">
           1
         </span>
-        <p className="text-[#353535] font-medium text-lg">Passengers</p>
+        <p className="text-[#353535] font-medium text-lg">
+          {t("passengerInfo.title")}
+        </p>
       </div>
-      <p className="text-sm text-gray-600">
-        Please enter the details of all passengers traveling. Ensure that the
-        information matches their government-issued ID for smooth boarding.
-      </p>
+      <p className="text-sm text-gray-600">{t("passengerInfo.instructions")}</p>
       <div className="space-y-3">
         {passengers.map((_, index) =>
           renderPassengerInputs(index, index >= adults)
@@ -257,4 +257,4 @@ const PassengerInfoContent: React.FC = () => {
   );
 };
 
-export default PassengerInfoContent;
+export default PassengerInfo;

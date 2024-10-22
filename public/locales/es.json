@@ -3,99 +3,196 @@
     "routes": "Rutas",
     "bookings": "Reservas",
     "help": "Ayuda",
-    "about": "Sobre Nosotros"
+    "about": "Sobre nosotros",
+    "contact": "Contacto"
+  },
+  "extrasInfo": {
+    "title": "Opciones Flex de Viaje",
+    "description": "Elige entre diferentes opciones de flexibilidad para cancelar o modificar tu viaje según tus necesidades.",
+    "free": "Gratis"
+  },
+  "orderSummary": {
+    "returnTrip": "Viaje de vuelta",
+    "outboundTrip": "Viaje de ida",
+    "departure": "Salida",
+    "duration": "Duración",
+    "operatedBy": "Este viaje será operado por",
+    "bookingDetails": "Detalles de la reserva",
+    "bookingPrice": "Precio de la reserva",
+    "adults": "Adultos",
+    "children": "Niños",
+    "premiumFlex": "Premium Flex",
+    "basicFlex": "Basic Flex",
+    "subtotal": "Subtotal",
+    "amountUsedFromDeposit": "Cantidad utilizada del depósito",
+    "total": "Total"
+  },
+  "paymentMethod": {
+    "title": "Método de Pago",
+    "description": "Elige tu método de pago preferido. Puedes usar el saldo de tu cuenta para un pago parcial o total, y el resto se pagará con tarjeta",
+    "options": {
+      "creditCard": "Tarjeta de Crédito",
+      "paypal": "PayPal",
+      "bankTransfer": "Transferencia Bancaria"
+    },
+    "cardInformation": "Información de la tarjeta",
+    "useAccountBalance": "Usar saldo de la cuenta",
+    "available": "disponible",
+    "instructions": "Por favor, selecciona tu método de pago preferido.",
+    "processing": "Procesando...",
+    "completePayment": "Completar Pago"
+  },
+  "passengerInfo": {
+    "child": "Niño",
+    "adult": "Adulto",
+    "addPassenger": "Añadir pasajero",
+    "firstName": "Nombre",
+    "firstNamePlaceholder": "Juan",
+    "lastName": "Apellidos",
+    "lastNamePlaceholder": "García",
+    "email": "Email",
+    "emailPlaceholder": "juangarcia@gmail.com",
+    "phoneNumber": "Número de teléfono",
+    "phoneNumberPlaceholder": "Introduce número de teléfono",
+    "birthdate": "Fecha de nacimiento",
+    "birthdatePlaceholder": "AAAA-MM-DD",
+    "title": "Pasajeros",
+    "instructions": "Por favor, introduce los datos de todos los pasajeros que viajarán. Asegúrate de que la información coincida con su documento de identidad oficial para un embarque sin problemas."
+  },
+  "flexFeatures": {
+    "premium": {
+      "name": "Premium Flex",
+      "cancel": "Cancela tu viaje hasta 48 horas antes de la salida",
+      "change": "Modifica los detalles del viaje hasta 24 horas antes de la salida",
+      "reschedule": "Reprograma tu reserva hasta 3 días antes de la salida"
+    },
+    "basic": {
+      "name": "Basic Flex",
+      "cancel": "Cancela tu viaje hasta 5 días antes de la salida",
+      "change": "Modifica los detalles del viaje hasta 3 días antes de la salida"
+    },
+    "no_flex": {
+      "name": "Sin Flexibilidad"
+    }
+  },
+  "hero": {
+    "title": "Viaja por Carretera con Comodidad"
+  },
+  "ticket": {
+    "selectReturn": "Seleccionar Vuelta",
+    "continue": "Continuar",
+    "selectOutbound": "Seleccionar Ida"
+  },
+  "ticketDetails": {
+    "title": "Detalles del Billete",
+    "viewLocation": "Ver ubicación en el mapa",
+    "departureDate": "Fecha de salida",
+    "departureTime": "Hora de salida",
+    "transferTime": "Tiempo de transbordo",
+    "operatedBy": "Este viaje será operado por",
+    "features": {
+      "acHeating": "Aire Acondicionado/Calefacción",
+      "usbChargingPorts": "Puertos de Carga USB",
+      "bus": "Autobús"
+    }
   },
   "footer": {
-    "missionStatement": "Nuestra misión es equipar a los exploradores modernos con bolsas modernas, funcionales y elegantes que elevan cada aventura.",
+    "missionStatement": "Nuestra misión es equipar a los exploradores modernos con bolsos de vanguardia, funcionales y elegantes que mejoren cada aventura.",
     "getUpdates": "Recibe Actualizaciones",
-    "emailAddress": "Dirección de Correo Electrónico",
+    "emailAddress": "Dirección de email",
     "subscribe": {
-      "emailPlaceholder": "Ingresa tu correo electrónico",
+      "emailPlaceholder": "Introduce tu email",
       "subscribeButton": "Suscribirse",
       "subscribing": "Suscribiendo...",
-      "successMessage": "Gracias por suscribirte. Por favor, revisa tu correo electrónico para confirmar.",
+      "successMessage": "Gracias por suscribirte. Por favor, revisa tu email para la confirmación.",
       "errorMessage": {
-        "alreadySubscribed": "¡El correo electrónico ya está suscrito!",
-        "genericError": "Se produjo un error. Por favor, inténtalo de nuevo."
+        "alreadySubscribed": "¡Email ya suscrito!",
+        "genericError": "Ha ocurrido un error. Por favor, inténtalo de nuevo."
       }
     },
     "sections": {
       "services": "Servicios",
-      "partners": "Socios",
+      "partners": "Colaboradores",
       "legal": "Legal"
     },
     "links": {
       "busroutes": "Rutas de Autobús",
-      "travelflexoptions": "Opciones de Flexibilidad de Viaje",
-      "customersupport": "Soporte al Cliente",
+      "travelflexoptions": "Opciones Flex de Viaje",
+      "customersupport": "Atención al Cliente",
       "luggagepolicy": "Política de Equipaje",
-      "discountoffers": "Ofertas de Descuento",
+      "discountoffers": "Ofertas y Descuentos",
       "help": "Ayuda",
-      "partnerapplication": "Solicitud de Socio",
-      "becomeapartner": "Conviértete en Socio",
+      "partnerapplication": "Solicitud de Colaboración",
+      "becomeapartner": "Conviértete en Colaborador",
       "activeoperators": "Operadores Activos",
       "privacypolicy": "Política de Privacidad",
       "termsofservice": "Términos de Servicio",
       "cookiepolicy": "Política de Cookies"
     },
     "copyright": "© 2024 Busly. Todos los derechos reservados.",
-    "customerSupport": "Soporte al Cliente 24/7",
+    "customerSupport": "Atención al Cliente 24/7",
     "securePayment": "Pago Seguro",
-    "helpFAQ": "Ayuda & FAQ"
+    "helpFAQ": "Ayuda y Preguntas Frecuentes"
   },
   "aboutSection": {
-    "title": "¿Por qué viajar con Busly?",
+    "title": "¿Por qué Viajar con Busly?",
     "cards": {
       "budget": {
-        "title": "Viajes Amigables con el Presupuesto",
-        "description": "Descubre tarifas inmejorables en nuestra amplia red. Busly hace que viajar sea accesible sin romper el presupuesto."
+        "title": "Viajes Económicos",
+        "description": "Descubre tarifas imbatibles en nuestra extensa red. Busly hace que viajar sea accesible sin arruinarte."
       },
       "network": {
-        "title": "Amplia Red de Rutas",
-        "description": "Conéctate a más de 2,000 destinos en 30 países. Tu próxima aventura está a solo un viaje en autobús de distancia."
+        "title": "Red de Rutas Extensa",
+        "description": "Conecta con más de 2.000 destinos en 30 países. Tu próxima aventura está a solo un viaje en autobús."
       },
       "booking": {
-        "title": "Experiencia de Reserva Fluida",
-        "description": "Reserva tus boletos en segundos con nuestra aplicación fácil de usar. Tu viaje, al alcance de tu mano."
+        "title": "Experiencia de Reserva Sencilla",
+        "description": "Reserva tus billetes en segundos con nuestra app fácil de usar. Tu viaje, al alcance de tu mano."
       },
       "punctuality": {
         "title": "Salidas Puntuales",
-        "description": "El tiempo es valioso. Confía en Busly para horarios confiables y puntualidad."
+        "description": "El tiempo es valioso. Confía en Busly para horarios fiables y rendimiento puntual."
       },
       "comfort": {
-        "title": "Comodidad Ante Todo",
+        "title": "La Comodidad es Clave",
         "description": "Disfruta de asientos espaciosos, entretenimiento a bordo y Wi-Fi gratuito para un viaje relajante."
       },
       "eco": {
         "title": "Viaje Ecológico",
-        "description": "Elige lo verde con nuestra flota eficiente y las iniciativas de compensación de carbono. Viaja de manera responsable con Busly."
+        "description": "Elige verde con nuestra flota eficiente en combustible e iniciativas de compensación de carbono. Viaja responsablemente con Busly."
       }
     },
     "callToAction": {
-      "title": "¿Listo para comenzar tu próxima aventura?",
-      "description": "Únete a miles de viajeros satisfechos que eligen Busly para viajes confiables, asequibles y cómodos. Ya sea que estés planeando una escapada de fin de semana o una expedición a través del país, estamos aquí para ti.",
-      "button": "Explora las Rutas de Busly"
+      "title": "¿Listo para Tu Próxima Aventura?",
+      "description": "Únete a miles de viajeros satisfechos que eligen Busly para viajes fiables, económicos y cómodos. Ya sea que planees una escapada de fin de semana o un viaje por el país, nosotros te cubrimos.",
+      "button": "Explorar Rutas de Busly"
     }
   },
   "searchBlock": {
     "tripType": {
-      "oneWay": "Solo Ida",
-      "roundTrip": "Ida y Vuelta"
+      "oneWay": "Solo ida",
+      "roundTrip": "Ida y vuelta"
     },
     "loading": "Cargando estaciones...",
-    "searchError": "Error al recuperar las estaciones.",
-    "resetSearch": "Restablecer Búsqueda"
+    "searchError": "Error al obtener las estaciones.",
+    "resetSearch": "Reiniciar Búsqueda"
   },
   "searchForm": {
     "from": "Desde",
     "to": "Hasta",
     "departure": "Salida",
     "passengers": "Pasajeros",
-    "oneWay": "Solo Ida",
-    "roundTrip": "Ida y Vuelta",
+    "oneWay": "Solo ida",
+    "roundTrip": "Ida y vuelta",
     "searchButton": {
       "default": "Buscar",
       "submitting": "Buscando..."
     }
-  }
+  },
+  "auth": {
+    "logout": "Cerrar sesión",
+    "signUp": "Registrarse",
+    "login": "Iniciar sesión"
+  },
+  "back": "Volver"
 }

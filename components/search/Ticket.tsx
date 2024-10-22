@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import useSearchStore, { useCheckoutStore } from "@/store";
 import { useRouter } from "next/navigation";
 import { CalendarDays } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export interface TicketProps {
   ticket: TicketType;
@@ -25,6 +26,7 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
   } = useCheckoutStore();
   const { tripType } = useSearchStore();
   const router = useRouter();
+  const { t } = useTranslation();
 
   const handleTicketSelection = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -124,10 +126,10 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
               onClick={handleTicketSelection}
             >
               {isReturn && !outboundTicket
-                ? "Select Return"
+                ? t("ticket.selectReturn")
                 : tripType !== "round-trip"
-                ? "Continue"
-                : "Select Outbound"}
+                ? t("ticket.continue")
+                : t("ticket.selectOutbound")}
             </Button>
           </div>
         </div>

@@ -3,43 +3,134 @@
     "routes": "Itinéraires",
     "bookings": "Réservations",
     "help": "Aide",
-    "about": "À propos"
+    "about": "À propos",
+    "contact": "Contact"
+  },
+  "extrasInfo": {
+    "title": "Options Flex Voyage",
+    "description": "Choisissez parmi différentes options de flexibilité pour annuler ou modifier votre voyage selon vos besoins.",
+    "free": "Gratuit"
+  },
+  "orderSummary": {
+    "returnTrip": "Voyage retour",
+    "outboundTrip": "Voyage aller",
+    "departure": "Départ",
+    "duration": "Durée",
+    "operatedBy": "Ce voyage sera opéré par",
+    "bookingDetails": "Détails de la réservation",
+    "bookingPrice": "Prix de la réservation",
+    "adults": "Adultes",
+    "children": "Enfants",
+    "premiumFlex": "Premium Flex",
+    "basicFlex": "Basic Flex",
+    "subtotal": "Sous-total",
+    "amountUsedFromDeposit": "Montant utilisé du dépôt",
+    "total": "Total"
+  },
+  "paymentMethod": {
+    "title": "Moyen de paiement",
+    "description": "Choisissez votre moyen de paiement préféré. Vous pouvez utiliser votre solde de compte pour un paiement partiel ou total, le montant restant devant être payé par carte",
+    "options": {
+      "creditCard": "Carte de crédit",
+      "paypal": "PayPal",
+      "bankTransfer": "Virement bancaire"
+    },
+    "cardInformation": "Informations de carte",
+    "useAccountBalance": "Utiliser le solde du compte",
+    "available": "disponible",
+    "instructions": "Veuillez sélectionner votre moyen de paiement préféré.",
+    "processing": "Traitement en cours...",
+    "completePayment": "Finaliser le paiement"
+  },
+  "passengerInfo": {
+    "child": "Enfant",
+    "adult": "Adulte",
+    "addPassenger": "Ajouter un passager",
+    "firstName": "Prénom",
+    "firstNamePlaceholder": "Jean",
+    "lastName": "Nom",
+    "lastNamePlaceholder": "Dupont",
+    "email": "Email",
+    "emailPlaceholder": "jeandupont@gmail.com",
+    "phoneNumber": "Numéro de téléphone",
+    "phoneNumberPlaceholder": "Entrez le numéro de téléphone",
+    "birthdate": "Date de naissance",
+    "birthdatePlaceholder": "AAAA-MM-JJ",
+    "title": "Passagers",
+    "instructions": "Veuillez saisir les détails de tous les passagers voyageant. Assurez-vous que les informations correspondent à leur pièce d'identité officielle pour un embarquement sans problème."
+  },
+  "flexFeatures": {
+    "premium": {
+      "name": "Premium Flex",
+      "cancel": "Annulez votre voyage jusqu'à 48 heures avant le départ",
+      "change": "Modifiez les détails du voyage jusqu'à 24 heures avant le départ",
+      "reschedule": "Reprogrammez votre réservation jusqu'à 3 jours avant le départ"
+    },
+    "basic": {
+      "name": "Basic Flex",
+      "cancel": "Annulez votre voyage jusqu'à 5 jours avant le départ",
+      "change": "Modifiez les détails du voyage jusqu'à 3 jours avant le départ"
+    },
+    "no_flex": {
+      "name": "Sans flexibilité"
+    }
+  },
+  "hero": {
+    "title": "Voyagez sur les routes avec confort"
+  },
+  "ticket": {
+    "selectReturn": "Sélectionner le retour",
+    "continue": "Continuer",
+    "selectOutbound": "Sélectionner l'aller"
+  },
+  "ticketDetails": {
+    "title": "Détails du billet",
+    "viewLocation": "Voir l'emplacement sur la carte",
+    "departureDate": "Date de départ",
+    "departureTime": "Heure de départ",
+    "transferTime": "Temps de correspondance",
+    "operatedBy": "Ce voyage sera opéré par",
+    "features": {
+      "acHeating": "Climatisation/Chauffage",
+      "usbChargingPorts": "Ports de charge USB",
+      "bus": "Bus"
+    }
   },
   "footer": {
-    "missionStatement": "Notre mission est d'équiper les explorateurs modernes avec des sacs modernes, fonctionnels et élégants qui élèvent chaque aventure.",
-    "getUpdates": "Recevez des mises à jour",
-    "emailAddress": "Adresse e-mail",
+    "missionStatement": "Notre mission est d'équiper les explorateurs modernes de sacs à la pointe de la technologie, fonctionnels et élégants qui subliment chaque aventure.",
+    "getUpdates": "Recevoir les actualités",
+    "emailAddress": "Adresse email",
     "subscribe": {
-      "emailPlaceholder": "Entrez votre e-mail",
+      "emailPlaceholder": "Entrez votre email",
       "subscribeButton": "S'abonner",
-      "subscribing": "En s'abonnant...",
-      "successMessage": "Merci de vous être abonné. Veuillez vérifier votre e-mail pour confirmation.",
+      "subscribing": "Abonnement en cours...",
+      "successMessage": "Merci pour votre abonnement. Veuillez vérifier votre email pour confirmation.",
       "errorMessage": {
-        "alreadySubscribed": "L'e-mail est déjà abonné !",
+        "alreadySubscribed": "Email déjà abonné !",
         "genericError": "Une erreur s'est produite. Veuillez réessayer."
       }
     },
     "sections": {
       "services": "Services",
       "partners": "Partenaires",
-      "legal": "Légal"
+      "legal": "Mentions légales"
     },
     "links": {
-      "busroutes": "Lignes de bus",
-      "travelflexoptions": "Options de flexibilité de voyage",
-      "customersupport": "Support client",
-      "luggagepolicy": "Politique de bagages",
-      "discountoffers": "Offres de réduction",
+      "busroutes": "Itinéraires de bus",
+      "travelflexoptions": "Options Flex Voyage",
+      "customersupport": "Service client",
+      "luggagepolicy": "Politique bagages",
+      "discountoffers": "Offres promotionnelles",
       "help": "Aide",
-      "partnerapplication": "Demande de partenariat",
+      "partnerapplication": "Candidature partenaire",
       "becomeapartner": "Devenir partenaire",
       "activeoperators": "Opérateurs actifs",
       "privacypolicy": "Politique de confidentialité",
-      "termsofservice": "Conditions de service",
-      "cookiepolicy": "Politique de cookies"
+      "termsofservice": "Conditions d'utilisation",
+      "cookiepolicy": "Politique des cookies"
     },
     "copyright": "© 2024 Busly. Tous droits réservés.",
-    "customerSupport": "Support client 24/7",
+    "customerSupport": "Service client 24/7",
     "securePayment": "Paiement sécurisé",
     "helpFAQ": "Aide & FAQ"
   },
@@ -47,8 +138,8 @@
     "title": "Pourquoi voyager avec Busly ?",
     "cards": {
       "budget": {
-        "title": "Voyages à petit budget",
-        "description": "Découvrez des tarifs imbattables sur notre vaste réseau. Busly rend le voyage accessible sans casser votre tirelire."
+        "title": "Voyages économiques",
+        "description": "Découvrez des tarifs imbattables sur notre vaste réseau. Busly rend le voyage accessible sans se ruiner."
       },
       "network": {
         "title": "Réseau d'itinéraires étendu",
@@ -56,30 +147,30 @@
       },
       "booking": {
         "title": "Expérience de réservation fluide",
-        "description": "Réservez vos billets en quelques secondes avec notre application conviviale. Votre voyage, à portée de main."
+        "description": "Réservez vos billets en quelques secondes avec notre application conviviale. Votre voyage, au bout des doigts."
       },
       "punctuality": {
         "title": "Départs ponctuels",
-        "description": "Le temps est précieux. Comptez sur Busly pour des horaires fiables et des performances à l'heure."
+        "description": "Le temps est précieux. Comptez sur Busly pour des horaires fiables et une performance ponctuelle."
       },
       "comfort": {
-        "title": "Le confort avant tout",
-        "description": "Profitez de sièges spacieux, de divertissements à bord et d'un Wi-Fi gratuit pour un voyage relaxant."
+        "title": "Le confort est essentiel",
+        "description": "Profitez de sièges spacieux, du divertissement à bord et du Wi-Fi gratuit pour un voyage relaxant."
       },
       "eco": {
-        "title": "Voyage éco-responsable",
-        "description": "Choisissez le vert avec notre flotte économe en carburant et nos initiatives de compensation carbone. Voyagez de manière responsable avec Busly."
+        "title": "Voyage écoresponsable",
+        "description": "Optez pour le vert avec notre flotte économe en carburant et nos initiatives de compensation carbone. Voyagez de manière responsable avec Busly."
       }
     },
     "callToAction": {
-      "title": "Prêt à embarquer pour votre prochaine aventure ?",
-      "description": "Rejoignez des milliers de voyageurs satisfaits qui choisissent Busly pour des voyages fiables, abordables et confortables. Que vous planifiez une escapade de week-end ou une expédition à travers le pays, nous avons ce qu'il vous faut.",
+      "title": "Prêt pour votre prochaine aventure ?",
+      "description": "Rejoignez des milliers de voyageurs satisfaits qui choisissent Busly pour des voyages fiables, abordables et confortables. Que vous planifiez une escapade le weekend ou un voyage à travers le pays, nous sommes là pour vous.",
       "button": "Explorer les itinéraires Busly"
     }
   },
   "searchBlock": {
     "tripType": {
-      "oneWay": "Unidirectionnel",
+      "oneWay": "Aller simple",
       "roundTrip": "Aller-retour"
     },
     "loading": "Chargement des stations...",
@@ -91,11 +182,17 @@
     "to": "À",
     "departure": "Départ",
     "passengers": "Passagers",
-    "oneWay": "Unidirectionnel",
+    "oneWay": "Aller simple",
     "roundTrip": "Aller-retour",
     "searchButton": {
       "default": "Rechercher",
-      "submitting": "Recherche..."
+      "submitting": "Recherche en cours..."
     }
-  }
+  },
+  "auth": {
+    "logout": "Déconnexion",
+    "signUp": "S'inscrire",
+    "login": "Se connecter"
+  },
+  "back": "Retour"
 }

@@ -3,6 +3,7 @@ import { Calendar, InfoIcon, TimerIcon } from "lucide-react";
 import moment from "moment-timezone";
 import { Ticket } from "@/models/ticket";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 import InfoBlock from "../InfoBlock";
 import useSearchStore, { useDepositStore, useCheckoutStore } from "@/store";
@@ -32,56 +33,63 @@ const TicketSummary = ({
 }: {
   ticket: Ticket;
   isReturn: boolean;
-}) => (
-  <div className="flex flex-col">
-    <h2 className="font-medium text-base mt-2">
-      {isReturn ? "Return Trip" : "Outbound Trip"}
-    </h2>
-    <div className="flex items-center mt-2 gap-8">
-      <div className="flex items-center gap-2 justify-between w-full">
-        <p className="text-black capitalize">
-          {isReturn ? ticket.stops[0].to.city : ticket.stops[0].from.city}
-        </p>
-        <hr className="h-[0.5px] w-full bg-gray-800" />
-        <p className="text-black capitalize">
-          {isReturn ? ticket.stops[0].from.city : ticket.stops[0].to.city}
-        </p>
+}) => {
+  const { t } = useTranslation();
+
+  return (
+    <div className="flex flex-col">
+      <h2 className="font-medium text-base mt-2">
+        {isReturn
+          ? t("orderSummary.returnTrip")
+          : t("orderSummary.outboundTrip")}
+      </h2>
+      <div className="flex items-center mt-2 gap-8">
+        <div className="flex items-center gap-2 justify-between w-full">
+          <p className="text-black capitalize">
+            {isReturn ? ticket.stops[0].to.city : ticket.stops[0].from.city}
+          </p>
+          <hr className="h-[0.5px] w-full bg-gray-800" />
+          <p className="text-black capitalize">
+            {isReturn ? ticket.stops[0].from.city : ticket.stops[0].to.city}
+          </p>
+        </div>
       </div>
-    </div>
-    <div className="flex flex-col gap-2 mt-2">
-      <div className="flex items-center gap-2">
-        <Calendar color="gray" size={20} />
-        <p className="text-black text-sm">Departure: </p>
-        <p className="font-medium text-black text-sm">
-          {moment
-            .utc(ticket.stops[0].departure_date)
-            .format("dddd, DD-MM-YYYY / HH:mm")}
-        </p>
-      </div>
-      <div className="flex items-center gap-2">
-        <TimerIcon color="gray" size={20} />
-        <p className="text-black text-sm">Duration</p>
-        <p className="font-medium text-black text-sm">
-          {moment
-            .duration(
-              moment(ticket.stops[0].arrival_time).diff(
-                moment(ticket.stops[0].departure_date)
+      <div className="flex flex-col gap-2 mt-2">
+        <div className="flex items-center gap-2">
+          <Calendar color="gray" size={20} />
+          <p className="text-black text-sm">{t("orderSummary.departure")}:</p>
+          <p className="font-medium text-black text-sm">
+            {moment
+              .utc(ticket.stops[0].departure_date)
+              .format("dddd, DD-MM-YYYY / HH:mm")}
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <TimerIcon color="gray" size={20} />
+          <p className="text-black text-sm">{t("orderSummary.duration")}</p>
+          <p className="font-medium text-black text-sm">
+            {moment
+              .duration(
+                moment(ticket.stops[0].arrival_time).diff(
+                  moment(ticket.stops[0].departure_date)
+                )
               )
-            )
-            .asHours()
-            .toFixed(2)}{" "}
-          hrs
-        </p>
+              .asHours()
+              .toFixed(2)}{" "}
+            hrs
+          </p>
+        </div>
       </div>
+      <InfoBlock
+        desc={t("orderSummary.operatedBy")}
+        title={ticket.metadata.operator_company_name}
+      />
     </div>
-    <InfoBlock
-      desc="This trip will be operated by"
-      title={ticket.metadata.operator_company_name}
-    />
-  </div>
-);
+  );
+};
 
 const OrderSummary = ({ className }: { className?: string }) => {
+  const { t } = useTranslation();
   const [useBalance, setUseBalance] = useState(false);
   const [balanceAmount, setBalanceAmount] = useState(0);
   const [remainingAmount, setRemainingAmount] = useState(0);
@@ -166,7 +174,9 @@ const OrderSummary = ({ className }: { className?: string }) => {
   return (
     <>
       <div className="bg-white rounded-xl p-4 block shadow-md">
-        <h1 className="font-medium text-lg">Booking details</h1>
+        <h1 className="font-medium text-lg">
+          {t("orderSummary.bookingDetails")}
+        </h1>
         {outboundTicket && (
           <TicketSummary ticket={outboundTicket} isReturn={false} />
         )}
@@ -177,18 +187,22 @@ const OrderSummary = ({ className }: { className?: string }) => {
       <div
         className={cn("bg-white rounded-xl p-4 shadow-md space-y-3", className)}
       >
-        <h1 className="font-medium text-lg">Booking price</h1>
+        <h1 className="font-medium text-lg">
+          {t("orderSummary.bookingPrice")}
+        </h1>
         <div className="flex flex-col gap-1">
           {outboundDetails && (
             <>
-              <h2 className="font-medium text-base mt-2">Outbound Trip</h2>
+              <h2 className="font-medium text-base mt-2">
+                {t("orderSummary.outboundTrip")}
+              </h2>
               <PriceSummaryItem
-                label="Adults"
+                label={t("orderSummary.adults")}
                 amount={outboundDetails.adultPrice}
                 quantity={outboundDetails.adultCount}
               />
               <PriceSummaryItem
-                label="Children"
+                label={t("orderSummary.children")}
                 className={`${childrenAmount < 1 && "hidden"}`}
                 amount={outboundDetails.childPrice}
                 quantity={outboundDetails.childCount}
@@ -197,14 +211,16 @@ const OrderSummary = ({ className }: { className?: string }) => {
           )}
           {returnDetails && (
             <>
-              <h2 className="font-medium text-base mt-2">Return Trip</h2>
+              <h2 className="font-medium text-base mt-2">
+                {t("orderSummary.returnTrip")}
+              </h2>
               <PriceSummaryItem
-                label="Adults"
+                label={t("orderSummary.adults")}
                 amount={returnDetails.adultPrice}
                 quantity={returnDetails.adultCount}
               />
               <PriceSummaryItem
-                label="Children"
+                label={t("orderSummary.children")}
                 amount={returnDetails.childPrice}
                 quantity={returnDetails.childCount}
               />
@@ -212,7 +228,11 @@ const OrderSummary = ({ className }: { className?: string }) => {
           )}
           {selectedFlex && selectedFlex !== "no_flex" && (
             <PriceSummaryItem
-              label={selectedFlex === "premium" ? "Premium Flex" : "Basic Flex"}
+              label={
+                selectedFlex === "premium"
+                  ? t("orderSummary.premiumFlex")
+                  : t("orderSummary.basicFlex")
+              }
               amount={flexPrice}
             />
           )}
@@ -220,19 +240,19 @@ const OrderSummary = ({ className }: { className?: string }) => {
           {useDeposit && (
             <>
               <PriceSummaryItem
-                label="Subtotal"
+                label={t("orderSummary.subtotal")}
                 amount={finalPrice}
                 className="font-medium"
               />
               <PriceSummaryItem
-                label="Amount used from deposit"
+                label={t("orderSummary.amountUsedFromDeposit")}
                 amount={-depositAmount || 0}
                 className="text-green-600"
               />
             </>
           )}
           <PriceSummaryItem
-            label="Total"
+            label={t("orderSummary.total")}
             amount={remainingAmount}
             className="font-medium text-lg"
           />

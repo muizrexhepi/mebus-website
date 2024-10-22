@@ -28,7 +28,7 @@ const LanguageDropdown = () => {
   const handleLanguageSelect = (language: { code: string; label: string }) => {
     localStorage.setItem("language", language.code);
     i18n.changeLanguage(language.code);
-    setSelectedLanguage(language.code); // Update the selected language state
+    setSelectedLanguage(language.code);
     console.log(`Selected language: ${language.label}`);
   };
 

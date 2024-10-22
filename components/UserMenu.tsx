@@ -4,7 +4,7 @@ import { Menu, UserCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { account } from "@/appwrite.config";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Sheet,
   SheetContent,
@@ -22,11 +22,13 @@ import {
 } from "./ui/dropdown-menu";
 import { Separator } from "./ui/separator";
 import useIsMobile from "./hooks/use-mobile";
+import { useTranslation } from "react-i18next"; // Add translation hook
 
 const UserNavbarMenu = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = useIsMobile();
+  const { t } = useTranslation(); // Initialize translation
 
   const handleLogout = async () => {
     try {
@@ -44,7 +46,7 @@ const UserNavbarMenu = () => {
       variant="ghost"
       aria-haspopup="true"
       aria-expanded="false"
-      aria-label="User menu"
+      aria-label={t("nav.routes")} // Use translation for "routes"
       className="flex items-center space-x-2 px-3 h-10 w-fit rounded-full bg-white/30 hover:bg-white/20 transition-colors"
     >
       <Menu color="white" />
@@ -60,33 +62,34 @@ const UserNavbarMenu = () => {
           className="block px-4 py-2 text-sm font-medium"
           onClick={() => setIsOpen(false)}
         >
-          Account
+          {t("nav.routes")} {/* Translated "Account" */}
         </Link>
         <Link
           href="/bookings"
           className="block px-4 py-2 text-sm font-medium"
           onClick={() => setIsOpen(false)}
         >
-          Bookings
+          {t("nav.bookings")} {/* Translated "Bookings" */}
         </Link>
         <Link
           href="/help"
           className="block px-4 py-2 text-sm font-medium"
           onClick={() => setIsOpen(false)}
         >
-          Help & Support
+          {t("footer.links.customersupport")}{" "}
+          {/* Translated "Help & Support" */}
         </Link>
         <Link
           href="/contact"
           className="block px-4 py-2 text-sm font-medium"
           onClick={() => setIsOpen(false)}
         >
-          Contact Us
+          {t("nav.contact")} {/* Translated "Contact Us" */}
         </Link>
         <Separator className="!mb-4" />
         <div className="px-4">
           <Button className="w-full" onClick={handleLogout}>
-            Logout
+            {t("auth.logout")} {/* Translated "Logout" */}
           </Button>
         </div>
       </div>
@@ -116,27 +119,29 @@ const UserNavbarMenu = () => {
       <DropdownMenuContent align="end" className="w-42 rounded-xl mt-2">
         <DropdownMenuItem asChild>
           <Link href="/account" className="w-full">
-            Account
+            {t("nav.routes")} {/* Translated "Account" */}
           </Link>
         </DropdownMenuItem>
         {/* <DropdownMenuItem asChild>
           <Link href="/bookings" className="w-full">
-            Bookings
-          </Link>
-        </DropdownMenuItem> */}
-        {/* <DropdownMenuSeparator /> */}
+            {t("nav.bookings")} {/* Translated "Bookings" */}
+        {/* </Link> */}
+        {/* </DropdownMenuItem>  */}
         <DropdownMenuItem asChild>
           <Link href="/help" className="w-full">
-            Help & Support
+            {t("footer.links.customersupport")}{" "}
+            {/* Translated "Help & Support" */}
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/contact" className="w-full">
-            Contact Us
+            {t("nav.contact")} {/* Translated "Contact Us" */}
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onSelect={handleLogout}>Logout</DropdownMenuItem>
+        <DropdownMenuItem onSelect={handleLogout}>
+          {t("auth.logout")} {/* Translated "Logout" */}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

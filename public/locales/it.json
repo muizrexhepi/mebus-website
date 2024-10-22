@@ -3,19 +3,110 @@
     "routes": "Percorsi",
     "bookings": "Prenotazioni",
     "help": "Aiuto",
-    "about": "Chi Siamo"
+    "about": "Chi siamo",
+    "contact": "Contatti"
+  },
+  "extrasInfo": {
+    "title": "Opzioni Flex Viaggio",
+    "description": "Scegli tra diverse opzioni di flessibilità per cancellare o modificare il tuo viaggio in base alle tue esigenze.",
+    "free": "Gratuito"
+  },
+  "orderSummary": {
+    "returnTrip": "Viaggio di ritorno",
+    "outboundTrip": "Viaggio di andata",
+    "departure": "Partenza",
+    "duration": "Durata",
+    "operatedBy": "Questo viaggio sarà operato da",
+    "bookingDetails": "Dettagli prenotazione",
+    "bookingPrice": "Prezzo prenotazione",
+    "adults": "Adulti",
+    "children": "Bambini",
+    "premiumFlex": "Premium Flex",
+    "basicFlex": "Basic Flex",
+    "subtotal": "Subtotale",
+    "amountUsedFromDeposit": "Importo utilizzato dal deposito",
+    "total": "Totale"
+  },
+  "paymentMethod": {
+    "title": "Metodo di Pagamento",
+    "description": "Scegli il tuo metodo di pagamento preferito. Puoi utilizzare il saldo del tuo account per il pagamento parziale o totale, con l'importo rimanente da pagare con carta",
+    "options": {
+      "creditCard": "Carta di Credito",
+      "paypal": "PayPal",
+      "bankTransfer": "Bonifico Bancario"
+    },
+    "cardInformation": "Informazioni carta",
+    "useAccountBalance": "Usa saldo account",
+    "available": "disponibile",
+    "instructions": "Seleziona il tuo metodo di pagamento preferito.",
+    "processing": "Elaborazione in corso...",
+    "completePayment": "Completa Pagamento"
+  },
+  "passengerInfo": {
+    "child": "Bambino",
+    "adult": "Adulto",
+    "addPassenger": "Aggiungi passeggero",
+    "firstName": "Nome",
+    "firstNamePlaceholder": "Mario",
+    "lastName": "Cognome",
+    "lastNamePlaceholder": "Rossi",
+    "email": "Email",
+    "emailPlaceholder": "mariorossi@gmail.com",
+    "phoneNumber": "Numero di telefono",
+    "phoneNumberPlaceholder": "Inserisci numero di telefono",
+    "birthdate": "Data di nascita",
+    "birthdatePlaceholder": "AAAA-MM-GG",
+    "title": "Passeggeri",
+    "instructions": "Inserisci i dettagli di tutti i passeggeri in viaggio. Assicurati che le informazioni corrispondano al loro documento d'identità per un imbarco senza problemi."
+  },
+  "flexFeatures": {
+    "premium": {
+      "name": "Premium Flex",
+      "cancel": "Cancella il tuo viaggio fino a 48 ore prima della partenza",
+      "change": "Modifica i dettagli del viaggio fino a 24 ore prima della partenza",
+      "reschedule": "Riprogramma la tua prenotazione fino a 3 giorni prima della partenza"
+    },
+    "basic": {
+      "name": "Basic Flex",
+      "cancel": "Cancella il tuo viaggio fino a 5 giorni prima della partenza",
+      "change": "Modifica i dettagli del viaggio fino a 3 giorni prima della partenza"
+    },
+    "no_flex": {
+      "name": "Nessuna Flessibilità"
+    }
+  },
+  "hero": {
+    "title": "Viaggia sulle Strade con Comfort"
+  },
+  "ticket": {
+    "selectReturn": "Seleziona Ritorno",
+    "continue": "Continua",
+    "selectOutbound": "Seleziona Andata"
+  },
+  "ticketDetails": {
+    "title": "Dettagli del Biglietto",
+    "viewLocation": "Visualizza posizione sulla mappa",
+    "departureDate": "Data di partenza",
+    "departureTime": "Orario di partenza",
+    "transferTime": "Tempo di trasferimento",
+    "operatedBy": "Questo viaggio sarà operato da",
+    "features": {
+      "acHeating": "Aria Condizionata/Riscaldamento",
+      "usbChargingPorts": "Porte di Ricarica USB",
+      "bus": "Autobus"
+    }
   },
   "footer": {
-    "missionStatement": "La nostra missione è fornire agli esploratori moderni borse moderne, funzionali e stilose che elevano ogni avventura.",
-    "getUpdates": "Ricevi aggiornamenti",
+    "missionStatement": "La nostra missione è fornire agli esploratori moderni borse all'avanguardia, funzionali e eleganti che valorizzano ogni avventura.",
+    "getUpdates": "Ricevi Aggiornamenti",
     "emailAddress": "Indirizzo email",
     "subscribe": {
       "emailPlaceholder": "Inserisci la tua email",
       "subscribeButton": "Iscriviti",
-      "subscribing": "Iscrivendo...",
-      "successMessage": "Grazie per esserti iscritto. Controlla la tua email per la conferma.",
+      "subscribing": "Iscrizione in corso...",
+      "successMessage": "Grazie per l'iscrizione. Controlla la tua email per la conferma.",
       "errorMessage": {
-        "alreadySubscribed": "L'email è già iscritta!",
+        "alreadySubscribed": "Email già iscritta!",
         "genericError": "Si è verificato un errore. Riprova."
       }
     },
@@ -25,13 +116,13 @@
       "legal": "Legale"
     },
     "links": {
-      "busroutes": "Percorsi degli Autobus",
-      "travelflexoptions": "Opzioni di Flessibilità di Viaggio",
+      "busroutes": "Percorsi Bus",
+      "travelflexoptions": "Opzioni Flex Viaggio",
       "customersupport": "Assistenza Clienti",
-      "luggagepolicy": "Politica sui Bagagli",
+      "luggagepolicy": "Politica Bagagli",
       "discountoffers": "Offerte Sconto",
       "help": "Aiuto",
-      "partnerapplication": "Candidatura Partner",
+      "partnerapplication": "Richiesta Partnership",
       "becomeapartner": "Diventa Partner",
       "activeoperators": "Operatori Attivi",
       "privacypolicy": "Informativa sulla Privacy",
@@ -44,45 +135,45 @@
     "helpFAQ": "Aiuto & FAQ"
   },
   "aboutSection": {
-    "title": "Perché viaggiare con Busly?",
+    "title": "Perché Viaggiare con Busly?",
     "cards": {
       "budget": {
-        "title": "Viaggi a Budget",
-        "description": "Scopri tariffe imbattibili sulla nostra vasta rete. Busly rende il viaggio accessibile senza svuotare il tuo portafoglio."
+        "title": "Viaggi Economici",
+        "description": "Scopri tariffe imbattibili sulla nostra vasta rete. Busly rende il viaggio accessibile senza svuotare il portafoglio."
       },
       "network": {
         "title": "Rete di Percorsi Estesa",
-        "description": "Collegati a oltre 2.000 destinazioni in 30 paesi. La tua prossima avventura è a solo un viaggio in autobus di distanza."
+        "description": "Collegati a oltre 2.000 destinazioni in 30 paesi. La tua prossima avventura è a un viaggio in autobus di distanza."
       },
       "booking": {
-        "title": "Esperienza di Prenotazione Fluida",
-        "description": "Prenota i tuoi biglietti in pochi secondi con la nostra app user-friendly. Il tuo viaggio, a portata di mano."
+        "title": "Esperienza di Prenotazione Semplice",
+        "description": "Prenota i tuoi biglietti in pochi secondi con la nostra app intuitiva. Il tuo viaggio, a portata di mano."
       },
       "punctuality": {
         "title": "Partenze Puntuali",
-        "description": "Il tempo è prezioso. Fai affidamento su Busly per orari affidabili e performance puntuali."
+        "description": "Il tempo è prezioso. Conta su Busly per orari affidabili e performance puntuali."
       },
       "comfort": {
-        "title": "Comfort Prima di Tutto",
-        "description": "Goditi posti spaziosi, intrattenimento a bordo e Wi-Fi gratuito per un viaggio rilassante."
+        "title": "Il Comfort è Fondamentale",
+        "description": "Goditi sedili spaziosi, intrattenimento a bordo e Wi-Fi gratuito per un viaggio rilassante."
       },
       "eco": {
-        "title": "Viaggio Eco-Responsabile",
-        "description": "Scegli il verde con la nostra flotta efficiente e le iniziative di compensazione delle emissioni. Viaggia in modo responsabile con Busly."
+        "title": "Viaggio Ecosostenibile",
+        "description": "Scegli il verde con la nostra flotta a basso consumo e iniziative di compensazione del carbonio. Viaggia responsabilmente con Busly."
       }
     },
     "callToAction": {
-      "title": "Pronto a partire per la tua prossima avventura?",
-      "description": "Unisciti a migliaia di viaggiatori soddisfatti che scelgono Busly per viaggi affidabili, convenienti e confortevoli. Che tu stia pianificando una fuga nel weekend o un'escursione in tutto il paese, abbiamo ciò che ti serve.",
-      "button": "Esplora i Percorsi di Busly"
+      "title": "Pronto per la Tua Prossima Avventura?",
+      "description": "Unisciti a migliaia di viaggiatori soddisfatti che scelgono Busly per viaggi affidabili, economici e confortevoli. Che tu stia pianificando una fuga per il weekend o un viaggio attraverso il paese, ci prendiamo cura di te.",
+      "button": "Esplora i Percorsi Busly"
     }
   },
   "searchBlock": {
     "tripType": {
-      "oneWay": "Andata",
-      "roundTrip": "Andata e Ritorno"
+      "oneWay": "Solo andata",
+      "roundTrip": "Andata e ritorno"
     },
-    "loading": "Caricamento delle stazioni...",
+    "loading": "Caricamento stazioni...",
     "searchError": "Errore nel recupero delle stazioni.",
     "resetSearch": "Reimposta Ricerca"
   },
@@ -91,11 +182,17 @@
     "to": "A",
     "departure": "Partenza",
     "passengers": "Passeggeri",
-    "oneWay": "Andata",
-    "roundTrip": "Andata e Ritorno",
+    "oneWay": "Solo andata",
+    "roundTrip": "Andata e ritorno",
     "searchButton": {
       "default": "Cerca",
-      "submitting": "Cercando..."
+      "submitting": "Ricerca in corso..."
     }
-  }
+  },
+  "auth": {
+    "logout": "Esci",
+    "signUp": "Registrati",
+    "login": "Accedi"
+  },
+  "back": "Indietro"
 }

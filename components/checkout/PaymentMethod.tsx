@@ -16,6 +16,7 @@ import { Input } from "../ui/input";
 import { useDepositStore, useCheckoutStore } from "@/store";
 import { ApiResponse } from "@/interfaces/api";
 import useUser from "../hooks/use-user";
+import { useTranslation } from "react-i18next";
 
 const PaymentMethod = () => {
   const stripe = useStripe();
@@ -26,6 +27,7 @@ const PaymentMethod = () => {
   const [cardCvc, setCardCvc] = useState<any>(null);
   const router = useRouter();
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const {
     passengers,
@@ -254,14 +256,12 @@ const PaymentMethod = () => {
               3
             </span>
             <p className="text-[#353535] font-medium text-lg ">
-              Payment Method
+              {t("paymentMethod.title")}
             </p>
           </div>
 
           <p className="text-sm text-gray-600 my-4">
-            Choose your preferred payment method. You can use your account
-            balance for partial or full payment, with any remaining amount to be
-            paid by card.
+            {t("paymentMethod.description")}
           </p>
 
           {balance > 0 && (
@@ -278,11 +278,11 @@ const PaymentMethod = () => {
                     htmlFor="use-deposit"
                     className="text-sm font-medium text-gray-700 cursor-pointer"
                   >
-                    Use account balance
+                    {t("paymentMethod.useAccountBalance")}
                   </label>
                 </div>
                 <span className="text-sm font-semibold text-emerald-600">
-                  €{(balance / 100).toFixed(2)} available
+                  €{(balance / 100).toFixed(2)} {t("paymentMethod.available")}
                 </span>
               </div>
               {useDeposit && (
@@ -312,7 +312,9 @@ const PaymentMethod = () => {
             <div
               className={`${totalPrice <= depositAmount && "hidden"} space-y-4`}
             >
-              <h3 className="font-medium text-gray-700">Card Information</h3>
+              <h3 className="font-medium text-gray-700">
+                {t("paymentMethod.cardInformation")}
+              </h3>
               <div className="grid grid-cols-2 gap-4">
                 <div
                   id="card-number-element"
@@ -338,7 +340,7 @@ const PaymentMethod = () => {
           className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
           variant="outline"
         >
-          Back
+          {t("back")}
         </Button>
         <Button
           onClick={
@@ -349,7 +351,9 @@ const PaymentMethod = () => {
           className="px-6 py-2 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
           disabled={!stripe || loading}
         >
-          {loading ? "Processing..." : "Complete Payment"}
+          {loading
+            ? t("paymentMethod.processing")
+            : t("paymentMethod.completePayment")}
         </Button>
       </div>
     </div>

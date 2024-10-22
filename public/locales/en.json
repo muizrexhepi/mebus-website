@@ -3,7 +3,98 @@
     "routes": "Routes",
     "bookings": "Bookings",
     "help": "Help",
-    "about": "About"
+    "about": "About",
+    "contact": "Contact"
+  },
+  "extrasInfo": {
+    "title": "Travel Flex Options",
+    "description": "Choose from different flexibility options to cancel or modify your trip based on your needs.",
+    "free": "Free"
+  },
+  "orderSummary": {
+    "returnTrip": "Return Trip",
+    "outboundTrip": "Outbound Trip",
+    "departure": "Departure",
+    "duration": "Duration",
+    "operatedBy": "This trip will be operated by",
+    "bookingDetails": "Booking details",
+    "bookingPrice": "Booking price",
+    "adults": "Adults",
+    "children": "Children",
+    "premiumFlex": "Premium Flex",
+    "basicFlex": "Basic Flex",
+    "subtotal": "Subtotal",
+    "amountUsedFromDeposit": "Amount used from deposit",
+    "total": "Total"
+  },
+  "paymentMethod": {
+    "title": "Payment Method",
+    "description": "Choose your preferred payment method. You can use your account balance for partial or full payment, with any remaining amount to be paid by card",
+    "options": {
+      "creditCard": "Credit Card",
+      "paypal": "PayPal",
+      "bankTransfer": "Bank Transfer"
+    },
+    "cardInformation": "Card Information",
+    "useAccountBalance": "Use account balance",
+    "available": "available",
+    "instructions": "Please select your preferred payment method.",
+    "processing": "Processing...",
+    "completePayment": "Complete Payment"
+  },
+  "passengerInfo": {
+    "child": "Child",
+    "adult": "Adult",
+    "addPassenger": "Add passenger",
+    "firstName": "First Name",
+    "firstNamePlaceholder": "John",
+    "lastName": "Last Name",
+    "lastNamePlaceholder": "Doe",
+    "email": "Email",
+    "emailPlaceholder": "johndoe@gmail.com",
+    "phoneNumber": "Phone number",
+    "phoneNumberPlaceholder": "Enter phone number",
+    "birthdate": "Date of Birth",
+    "birthdatePlaceholder": "YYYY-MM-DD",
+    "title": "Passengers",
+    "instructions": "Please enter the details of all passengers traveling. Ensure that the information matches their government-issued ID for smooth boarding."
+  },
+  "flexFeatures": {
+    "premium": {
+      "name": "Premium Flex",
+      "cancel": "Cancel your trip up to 48 hours before departure",
+      "change": "Change trip details up to 24 hours before departure",
+      "reschedule": "Reschedule your booking up to 3 days before departure"
+    },
+    "basic": {
+      "name": "Basic Flex",
+      "cancel": "Cancel your trip up to 5 days before departure",
+      "change": "Change trip details up to 3 days before departure"
+    },
+    "no_flex": {
+      "name": "No Flexibility"
+    }
+  },
+  "hero": {
+    "title": "Navigate Roads with Comfort"
+  },
+  "ticket": {
+    "selectReturn": "Select Return",
+    "continue": "Continue",
+    "selectOutbound": "Select Outbound"
+  },
+  "ticketDetails": {
+    "title": "Ticket Details",
+    "viewLocation": "View location on map",
+    "departureDate": "Departure Date",
+    "departureTime": "Departure Time",
+    "transferTime": "Transfer time",
+    "operatedBy": "This trip will be operated by",
+    "features": {
+      "acHeating": "AC/Heating",
+      "usbChargingPorts": "USB Charging Ports",
+      "bus": "Bus"
+    }
   },
   "footer": {
     "missionStatement": "Our mission is to equip modern explorers with cutting-edge, functional, and stylish bags that elevate every adventure.",
@@ -97,5 +188,11 @@
       "default": "Search",
       "submitting": "Searching..."
     }
-  }
+  },
+  "auth": {
+    "logout": "Logout",
+    "signUp": "Sign Up",
+    "login": "Login"
+  },
+  "back": "Back"
 }

@@ -8,12 +8,14 @@ import { Station } from "@/models/station";
 import DatePicker from "../date-picker";
 import { DateRangePicker } from "../daterange-picker";
 import SearchForm from "../forms/SearchForm";
+import { useTranslation } from "react-i18next";
 
 const SearchSection = () => {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [stations, setStations] = useState<Station[]>([]);
+  const { t } = useTranslation();
   const {
     returnDate,
     departureDate,
@@ -154,22 +156,22 @@ const SearchSection = () => {
                       type="radio"
                       name="tripType"
                       value="one-way"
-                      checked={!isRoundTrip}
+                      checked={tripType === "one-way"}
                       onChange={() => handleTripTypeChange("one-way")}
                       className="h-7 w-7 accent-emerald-700"
                     />
-                    <span>One-way</span>
+                    <span>{t("searchBlock.tripType.oneWay")}</span>
                   </label>
                   <label className="cursor-pointer flex items-center gap-2">
                     <input
                       type="radio"
                       name="tripType"
                       value="round-trip"
-                      checked={isRoundTrip}
+                      checked={tripType === "round-trip"}
                       onChange={() => handleTripTypeChange("round-trip")}
                       className="h-7 w-7 accent-emerald-700"
                     />
-                    <span>Round-trip</span>
+                    <span>{t("searchBlock.tripType.roundTrip")}</span>
                   </label>
                 </div>
               </div>

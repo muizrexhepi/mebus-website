@@ -1,24 +1,16 @@
 import { Ticket } from "@/models/ticket";
-import {
-  MapPin,
-  Calendar,
-  Clock,
-  Bus,
-  Train,
-  Wifi,
-  Snowflake,
-  Plug,
-  ChevronRight,
-} from "lucide-react";
+import { MapPin, Calendar, Clock, Bus, Snowflake, Plug } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import InfoBlock from "../InfoBlock";
 import { Fragment } from "react";
 import { toast } from "../hooks/use-toast";
 import { Stop } from "@/models/stop";
-import { format } from "date-fns";
 import moment from "moment-timezone";
+import { useTranslation } from "react-i18next";
 
 export default function TicketDetails({ ticket }: { ticket: Ticket }) {
+  const { t } = useTranslation();
+
   const formatDate = (date: Date) => {
     return new Date(date).toLocaleDateString("en-US", {
       weekday: "short",
@@ -34,12 +26,13 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
       minute: "2-digit",
     });
   };
+  console.log({ ticket });
 
   const handleLocation = (location: { lat?: number; lng?: number }) => {
     if (!location || !location.lat || !location.lng) {
       console.log("No lat lng");
       return toast({
-        description: "Wrong coordinates.",
+        description: t("ticketDetails.invalidCoordinates"),
         variant: "destructive",
       });
     }
@@ -63,8 +56,9 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
             <p className="font-medium capitalize">
               {ticket.stops[0].from.city}
             </p>
-
-            <p className="text-black/60 text-sm">View location on map</p>
+            <p className="text-black/60 text-sm">
+              {t("ticketDetails.viewLocation")}
+            </p>
           </div>
         </div>
         <div
@@ -76,8 +70,9 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
             <p className="font-medium capitalize">
               {ticket.stops[ticket.stops.length - 1].to.city}
             </p>
-
-            <p className="text-black/60 text-sm">View location on map</p>
+            <p className="text-black/60 text-sm">
+              {t("ticketDetails.viewLocation")}
+            </p>
           </div>
         </div>
       </div>
@@ -96,6 +91,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
         </div>
       </div>
       <Separator />
+
       <div className="px-5">
         {ticket.stops.map((stop: Stop, index: number) => (
           <Fragment key={stop._id}>
@@ -115,7 +111,6 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
                 </div>
                 <div className="flex w-full justify-between items-center">
                   <p className="font-medium capitalize mt-3">{stop.to.name}</p>
-
                   <span className="font-medium">
                     {moment.utc(stop.arrival_time).format("HH:mm")}
                   </span>
@@ -137,9 +132,9 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
                       const hours = Math.floor(duration.asHours());
                       const minutes = duration.minutes();
 
-                      return `Transfer time: ${
-                        hours > 0 ? `${hours} hrs ` : ""
-                      }${minutes} mins`;
+                      return `${t("ticketDetails.transferTime")} ${
+                        hours > 0 ? `${hours} ${t("ticketDetails.hours")} ` : ""
+                      }${minutes} ${t("ticketDetails.minutes")}`;
                     })()}
                   </p>
                 </div>
@@ -154,19 +149,23 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
         {ticket.metadata?.features?.map((feature, index) => (
           <div key={index} className="flex items-center space-x-4">
             {feature === "ac/heating" ? (
-              <Snowflake className="h-5 w-5 text-emerald-700" />
+              <Snowflake className="h-5 w-5 shrink-0 text-emerald-700" />
             ) : feature === "usb charging ports" ? (
-              <Plug className="h-5 w-5 text-emerald-700" />
+              <Plug className="h-5 w-5 shrink-0 text-emerald-700" />
             ) : (
-              <Bus className="h-5 w-5 text-emerald-700" />
+              <Bus className="h-5 w-5 shrink-0 text-emerald-700" />
             )}
-            <span className="capitalize">{feature}</span>
+            <span className="capitalize">
+              {feature === "ac/heating"
+                ? t(`ticketDetails.features.acHeating`)
+                : t("ticketDetails.features.usbChargingPorts")}
+            </span>
           </div>
         ))}
       </div>
       <Separator />
       <InfoBlock
-        desc="This trip will be operated by"
+        desc={t("ticketDetails.operatedBy")}
         title={ticket.metadata?.operator_company_name}
       />
     </div>

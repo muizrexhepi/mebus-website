@@ -20,6 +20,7 @@ import TicketDetails from "../ticket/ticket-details";
 import { environment } from "@/environment";
 import NoTicketsAvailable from "./NoTicketsAvailable";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 const TicketList: React.FC = () => {
   const router = useRouter();
@@ -41,6 +42,7 @@ const TicketList: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const { t } = useTranslation();
 
   const fetchTickets = async (pageNumber: number) => {
     if (!from || !to) {
@@ -183,7 +185,7 @@ const TicketList: React.FC = () => {
                   <div>
                     <SheetHeader className="border-b p-4 shadow-sm">
                       <SheetTitle className="font-medium">
-                        Ticket Details
+                        {t("ticketDetails.title")}
                       </SheetTitle>
                     </SheetHeader>
                     <TicketDetails ticket={ticket} />
@@ -194,10 +196,10 @@ const TicketList: React.FC = () => {
                       onClick={() => handleTicketSelection(ticket)}
                     >
                       {isSelectingReturn
-                        ? "Select Return and Continue"
-                        : tripType == "round-trip"
-                        ? "Select Outbound"
-                        : "Continue"}
+                        ? t("ticket.selectReturn")
+                        : tripType !== "round-trip"
+                        ? t("ticket.continue")
+                        : t("ticket.selectOutbound")}
                     </Button>
                   </SheetFooter>
                 </SheetContent>

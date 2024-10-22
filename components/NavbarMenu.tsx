@@ -3,7 +3,7 @@
 import { Menu, UserCircle } from "lucide-react";
 import Link from "next/link";
 import { useNavbarStore } from "@/store";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Sheet,
   SheetContent,
@@ -21,12 +21,14 @@ import {
 } from "./ui/dropdown-menu";
 import { Separator } from "./ui/separator";
 import useIsMobile from "./hooks/use-mobile";
+import { useTranslation } from "react-i18next"; // Importing the translation hook
 
 const NavbarMenu = () => {
+  const { t } = useTranslation(); // Using the translation hook
   const { setOpenLogin, setOpenRegister } = useNavbarStore();
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = useIsMobile();
-  console.log({ isMobile });
+
   const handleLogin = () => {
     setOpenLogin(true);
     setIsOpen(false);
@@ -58,43 +60,45 @@ const NavbarMenu = () => {
           className="block px-4 py-2 text-sm font-medium"
           onClick={() => setIsOpen(false)}
         >
-          Routes
+          {t("nav.routes")} {/* Translated 'Routes' */}
         </Link>
         <Link
           href="/bookings"
           className="block px-4 py-2 text-sm font-medium"
           onClick={() => setIsOpen(false)}
         >
-          Bookings
+          {t("nav.bookings")} {/* Translated 'Bookings' */}
         </Link>
         <Link
           href="/about"
           className="block px-4 py-2 text-sm font-medium"
           onClick={() => setIsOpen(false)}
         >
-          About Us
+          {t("nav.about")} {/* Translated 'About Us' */}
         </Link>
         <Link
           href="/help"
           className="block px-4 py-2 text-sm font-medium"
           onClick={() => setIsOpen(false)}
         >
-          Help & Support
+          {t("nav.help")} {/* Translated 'Help & Support' */}
         </Link>
         <Link
           href="/contact"
           className="block px-4 py-2 text-sm font-medium"
           onClick={() => setIsOpen(false)}
         >
-          Contact Us
+          {t("nav.contact")} {/* Translated 'Contact Us' */}
         </Link>
         <Separator className="!mb-4" />
         <div className="flex flex-col gap-2 w-full px-4">
           <Button className="w-full" variant={"outline"}>
-            <Link href={"/login"}>Login</Link>{" "}
+            <Link href={"/login"}>{t("auth.login")}</Link>{" "}
+            {/* Translated 'Login' */}
           </Button>
           <Button className="w-full">
-            <Link href={"/register"}>Sign Up</Link>{" "}
+            <Link href={"/register"}>{t("auth.signUp")}</Link>{" "}
+            {/* Translated 'Sign Up' */}
           </Button>
         </div>
       </div>
@@ -122,30 +126,23 @@ const NavbarMenu = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{MenuTrigger}</DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-42 rounded-xl mt-2">
-        {/* <DropdownMenuItem asChild>
-          <Link href="/search" className="w-full">
-            Search for Buses
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/about" className="w-full">
-            About Us
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator /> */}
         <DropdownMenuItem asChild>
           <Link href="/help" className="w-full">
-            Help & Support
+            {t("nav.help")} {/* Translated 'Help & Support' */}
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/contact" className="w-full">
-            Contact Us
+            {t("nav.contact")} {/* Translated 'Contact Us' */}
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onSelect={handleLogin}>Login</DropdownMenuItem>
-        <DropdownMenuItem onSelect={handleSignUp}>Sign Up</DropdownMenuItem>
+        <DropdownMenuItem onSelect={handleLogin}>
+          {t("auth.login")} {/* Translated 'Login' */}
+        </DropdownMenuItem>
+        <DropdownMenuItem onSelect={handleSignUp}>
+          {t("auth.signUp")} {/* Translated 'Sign Up' */}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

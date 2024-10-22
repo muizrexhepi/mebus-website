@@ -1,17 +1,13 @@
+"use client";
+import { useTranslation } from "react-i18next";
 import Navbar from "./Navbar";
 import SearchBlock from "./SearchBlock";
 import Image from "next/image";
 
 const Hero = () => {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-col justify-start py-4 relative paddingX sm:pb-20 lg:pb-40">
-      {/* <div
-        className="h-[50vh] w-full absolute top-0 left-0 z-[-1] bg-cover bg-center"
-        style={{ backgroundImage: `url('/assets/images/mainBG.jpg')` }}
-      >
-        <div className="h-full w-full bg-black/20 backdrop-blur-sm" />
-      </div> */}
-
       <div className="h-[50vh] bg-accent-foreground/80 w-full absolute top-0 left-0 z-[-1] overflow-hidden">
         <Image
           priority
@@ -27,7 +23,7 @@ const Hero = () => {
       <Navbar className="max-w-6xl mx-auto" />
       <div className="space-y-4 sm:space-y-8 py-6 sm:py-0 w-full max-w-6xl md:mx-auto relative sm:top-20 lg:top-40">
         <h1 className="text-3xl sm:text-5xl md:text-6xl font-medium text-white hidden sm:block">
-          Navigate Roads <br className="block sm:hidden" /> with Comfort
+          {t("hero.title")}
         </h1>
         <SearchBlock />
       </div>

@@ -3,99 +3,196 @@
     "routes": "Rrugët",
     "bookings": "Rezervimet",
     "help": "Ndihmë",
-    "about": "Rreth"
+    "about": "Rreth nesh",
+    "contact": "Kontakt"
+  },
+  "extrasInfo": {
+    "title": "Opsionet e Fleksibilitetit të Udhëtimit",
+    "description": "Zgjidhni nga opsione të ndryshme fleksibiliteti për të anuluar ose modifikuar udhëtimin tuaj bazuar në nevojat tuaja.",
+    "free": "Falas"
+  },
+  "orderSummary": {
+    "returnTrip": "Udhëtim Kthyes",
+    "outboundTrip": "Udhëtim Vajtje",
+    "departure": "Nisja",
+    "duration": "Kohëzgjatja",
+    "operatedBy": "Ky udhëtim do të operohet nga",
+    "bookingDetails": "Detajet e rezervimit",
+    "bookingPrice": "Çmimi i rezervimit",
+    "adults": "Të rritur",
+    "children": "Fëmijë",
+    "premiumFlex": "Premium Flex",
+    "basicFlex": "Basic Flex",
+    "subtotal": "Nëntotali",
+    "amountUsedFromDeposit": "Shuma e përdorur nga depozita",
+    "total": "Totali"
+  },
+  "paymentMethod": {
+    "title": "Metoda e Pagesës",
+    "description": "Zgjidhni metodën tuaj të preferuar të pagesës. Mund të përdorni bilancin e llogarisë tuaj për pagesë të pjesshme ose të plotë, me çdo shumë të mbetur që do të paguhet me kartë",
+    "options": {
+      "creditCard": "Kartë Krediti",
+      "paypal": "PayPal",
+      "bankTransfer": "Transfertë Bankare"
+    },
+    "cardInformation": "Informacioni i Kartës",
+    "useAccountBalance": "Përdor bilancin e llogarisë",
+    "available": "në dispozicion",
+    "instructions": "Ju lutemi zgjidhni metodën tuaj të preferuar të pagesës.",
+    "processing": "Duke procesuar...",
+    "completePayment": "Përfundo Pagesën"
+  },
+  "passengerInfo": {
+    "child": "Fëmijë",
+    "adult": "I rritur",
+    "addPassenger": "Shto udhëtar",
+    "firstName": "Emri",
+    "firstNamePlaceholder": "Agim",
+    "lastName": "Mbiemri",
+    "lastNamePlaceholder": "Hoxha",
+    "email": "Email",
+    "emailPlaceholder": "agim@gmail.com",
+    "phoneNumber": "Numri i telefonit",
+    "phoneNumberPlaceholder": "Vendosni numrin e telefonit",
+    "birthdate": "Data e lindjes",
+    "birthdatePlaceholder": "VVVV-MM-DD",
+    "title": "Udhëtarët",
+    "instructions": "Ju lutemi vendosni detajet e të gjithë udhëtarëve. Sigurohuni që informacioni përputhet me ID-të e tyre qeveritare për hipje të qetë."
+  },
+  "flexFeatures": {
+    "premium": {
+      "name": "Premium Flex",
+      "cancel": "Anuloni udhëtimin tuaj deri në 48 orë para nisjes",
+      "change": "Ndryshoni detajet e udhëtimit deri në 24 orë para nisjes",
+      "reschedule": "Riplanifikoni rezervimin tuaj deri në 3 ditë para nisjes"
+    },
+    "basic": {
+      "name": "Basic Flex",
+      "cancel": "Anuloni udhëtimin tuaj deri në 5 ditë para nisjes",
+      "change": "Ndryshoni detajet e udhëtimit deri në 3 ditë para nisjes"
+    },
+    "no_flex": {
+      "name": "Pa Fleksibilitet"
+    }
+  },
+  "hero": {
+    "title": "Lundroni Rrugët me Komoditet"
+  },
+  "ticket": {
+    "selectReturn": "Zgjidh Kthimin",
+    "continue": "Vazhdo",
+    "selectOutbound": "Zgjidh Vajtjen"
+  },
+  "ticketDetails": {
+    "title": "Detajet e Biletës",
+    "viewLocation": "Shiko vendndodhjen në hartë",
+    "departureDate": "Data e Nisjes",
+    "departureTime": "Ora e Nisjes",
+    "transferTime": "Koha e transferimit",
+    "operatedBy": "Ky udhëtim do të operohet nga",
+    "features": {
+      "acHeating": "Kondicionim/Ngrohje",
+      "usbChargingPorts": "Porta karikimi USB",
+      "bus": "Autobus"
+    }
   },
   "footer": {
-    "missionStatement": "Misioni ynë është të pajisim eksploruesit modernë me çanta moderne, funksionale dhe elegante që e çojnë çdo aventurë në një nivel tjetër.",
-    "getUpdates": "Merrni përditësime",
+    "missionStatement": "Misioni ynë është të pajisim eksploruesit modernë me çanta moderne, funksionale dhe me stil që përmirësojnë çdo aventurë.",
+    "getUpdates": "Merrni Përditësime",
     "emailAddress": "Adresa e emailit",
     "subscribe": {
-      "emailPlaceholder": "Shkruani emailin tuaj",
+      "emailPlaceholder": "Vendosni emailin tuaj",
       "subscribeButton": "Abonohu",
       "subscribing": "Duke u abonuar...",
       "successMessage": "Faleminderit për abonimin. Ju lutemi kontrolloni emailin tuaj për konfirmim.",
       "errorMessage": {
-        "alreadySubscribed": "Emaili është i abonuar tashmë!",
+        "alreadySubscribed": "Emaili është tashmë i abonuar!",
         "genericError": "Ndodhi një gabim. Ju lutemi provoni përsëri."
       }
     },
     "sections": {
       "services": "Shërbimet",
       "partners": "Partnerët",
-      "legal": "Ligjor"
+      "legal": "Ligjore"
     },
     "links": {
-      "busroutes": "Rrugët e Autobusëve",
+      "busroutes": "Rrugët e Autobusit",
       "travelflexoptions": "Opsionet e Fleksibilitetit të Udhëtimit",
-      "customersupport": "Mbështetje për Klientët",
+      "customersupport": "Mbështetja e Klientit",
       "luggagepolicy": "Politika e Bagazheve",
-      "discountoffers": "Ofertat e Zbritjeve",
+      "discountoffers": "Ofertat me Zbritje",
       "help": "Ndihmë",
       "partnerapplication": "Aplikimi për Partner",
-      "becomeapartner": "Bëhuni Partner",
+      "becomeapartner": "Bëhu Partner",
       "activeoperators": "Operatorët Aktivë",
       "privacypolicy": "Politika e Privatësisë",
       "termsofservice": "Kushtet e Shërbimit",
       "cookiepolicy": "Politika e Cookies"
     },
     "copyright": "© 2024 Busly. Të gjitha të drejtat e rezervuara.",
-    "customerSupport": "Mbështetje për Klientët 24/7",
+    "customerSupport": "Mbështetje 24/7 për Klientët",
     "securePayment": "Pagesë e Sigurt",
     "helpFAQ": "Ndihmë & FAQ"
   },
   "aboutSection": {
-    "title": "Pse të udhëtoni me Busly?",
+    "title": "Pse të Udhëtoni me Busly?",
     "cards": {
       "budget": {
-        "title": "Udhëtime me Buxhet të Ulët",
-        "description": "Zbuloni tarifa të paqena në rrjetin tonë të gjerë. Busly e bën udhëtimin të aksesueshëm pa e thyer buxhetin tuaj."
+        "title": "Udhëtime me Çmime të Përballueshme",
+        "description": "Zbuloni tarifa të parezistueshme në rrjetin tonë të gjerë. Busly e bën udhëtimin të arritshëm pa shpenzuar shumë."
       },
       "network": {
-        "title": "Rrjeti i Gjerë i Rrugëve",
-        "description": "Konektimi në mbi 2,000 destinacione në 30 vende. Aventurën tuaj të ardhshme e keni vetëm një udhëtim me autobus larg."
+        "title": "Rrjet i Gjerë Rrugësh",
+        "description": "Lidhuni me mbi 2,000 destinacione në 30 vende. Aventura juaj e radhës është vetëm një udhëtim me autobus larg."
       },
       "booking": {
-        "title": "Eksperiencë e Shpejtë të Rezervimit",
-        "description": "Rezervoni biletat tuaja në sekonda me aplikacionin tonë miqësor. Udhëtimi juaj, në majë të gishtave."
+        "title": "Eksperiencë e Thjeshtë Rezervimi",
+        "description": "Rezervoni biletat tuaja në sekonda me aplikacionin tonë të thjeshtë për përdorim. Udhëtimi juaj, në majë të gishtave tuaj."
       },
       "punctuality": {
-        "title": "Nisje në Kohë",
+        "title": "Nisje të Përpikta",
         "description": "Koha është e çmuar. Mbështetuni te Busly për orare të besueshme dhe performancë në kohë."
       },
       "comfort": {
-        "title": "Komforti është Çelësi",
-        "description": "Shijoni vende të gjera, argëtim në bord dhe Wi-Fi falas për një udhëtim relaksues."
+        "title": "Komoditeti është Kyç",
+        "description": "Shijoni ndenjëse të gjera, argëtim në bord dhe Wi-Fi falas për një udhëtim relaksues."
       },
       "eco": {
-        "title": "Udhëtim Eco-Sjellës",
-        "description": "Zgjidhni gjelbërimin me flotën tonë ekonomikë dhe iniciativat e kompensimit të karbonit. Udhëtoni në mënyrë të përgjegjshme me Busly."
+        "title": "Udhëtim Miqësor me Mjedisin",
+        "description": "Zgjidhni të gjelbërt me flotën tonë efiçente në karburant dhe iniciativat e kompensimit të karbonit. Udhëtoni me përgjegjësi me Busly."
       }
     },
     "callToAction": {
-      "title": "Gati për të filluar aventurën tuaj të ardhshme?",
-      "description": "Bashkohuni me mijëra udhëtarë të kënaqur që zgjedhin Busly për udhëtime të besueshme, të përballueshme dhe të rehatshme. Qoftë duke planifikuar një arratisje fundjavë apo një ekspeditë përmes vendit, ne jemi këtu për ju.",
-      "button": "Eksploroni Rrugët e Busly"
+      "title": "Gati për Aventurën Tuaj të Radhës?",
+      "description": "Bashkohuni me mijëra udhëtarë të kënaqur që zgjedhin Busly për udhëtime të besueshme, të përballueshme dhe komode. Nëse po planifikoni një fundjavë pushimi apo një ekspeditë ndër-shtetërore, ne jemi këtu për ju.",
+      "button": "Eksploroni Rrugët Busly"
     }
   },
   "searchBlock": {
     "tripType": {
-      "oneWay": "Një Ditar",
-      "roundTrip": "Udhëtim i Tërë"
+      "oneWay": "Një drejtim",
+      "roundTrip": "Vajtje-ardhje"
     },
     "loading": "Duke ngarkuar stacionet...",
-    "searchError": "Gabim gjatë marrjes së stacioneve.",
-    "resetSearch": "Rivendosni Kërkimin"
+    "searchError": "Gabim në marrjen e stacioneve.",
+    "resetSearch": "Rivendos Kërkimin"
   },
   "searchForm": {
     "from": "Nga",
-    "to": "Te",
+    "to": "Për",
     "departure": "Nisja",
-    "passengers": "Pasagjerët",
-    "oneWay": "Një Ditar",
-    "roundTrip": "Udhëtim i Tërë",
+    "passengers": "Udhëtarët",
+    "oneWay": "Një drejtim",
+    "roundTrip": "Vajtje-ardhje",
     "searchButton": {
       "default": "Kërko",
-      "submitting": "Duke Kërkuar..."
+      "submitting": "Duke kërkuar..."
     }
-  }
+  },
+  "auth": {
+    "logout": "Dilni",
+    "signUp": "Regjistrohu",
+    "login": "Hyr"
+  },
+  "back": "Kthehu"
 }
