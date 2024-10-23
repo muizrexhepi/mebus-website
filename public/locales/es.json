@@ -6,6 +6,120 @@
     "about": "Sobre nosotros",
     "contact": "Contacto"
   },
+  "helpPage": {
+    "title": "Centro de Ayuda",
+    "description": "Bienvenido a nuestro Centro de Ayuda. Encuentra respuestas a preguntas comunes, aprende cómo utilizar nuestros servicios y obtén el apoyo que necesitas para una experiencia de reserva de autobús sin problemas.",
+    "howCanWeHelp": "¿Cómo podemos ayudarte hoy?",
+    "searchOrBrowse": "Busca en nuestra base de conocimientos o explora los temas a continuación",
+    "quickLinksTitle": "Enlaces Rápidos",
+    "quickLinksDescription": "Accede rápidamente a información y herramientas importantes",
+    "quickLinks": {
+      "howToBook": "Cómo Reservar",
+      "cancellationPolicy": "Política de Cancelación",
+      "paymentOptions": "Opciones de Pago",
+      "eTicketGuide": "Guía de E-Tickets",
+      "travelFlexOptions": "Opciones de Flexibilidad de Viaje",
+      "travelDuration": "Duración del Viaje",
+      "travelAdvisory": "Consejos de Viaje",
+      "contactSupport": "Contactar Soporte"
+    }
+  },
+  "infoTabs": {
+    "generalInfo": "Información General",
+    "bookingProcess": "Proceso de Reserva",
+    "manageBookings": "Gestionar Reservas",
+    "faqs": "Preguntas Frecuentes",
+    "generalTitle": "Información General",
+    "generalDescription": "Conoce nuestros servicios y políticas",
+    "aboutService": "Acerca de Nuestro Servicio de Autobús",
+    "aboutServiceContent": "Ofrecemos servicios de transporte en autobús confiables y cómodos en múltiples ciudades. Nuestra flota está compuesta por autobuses modernos equipados con comodidades como Wi-Fi, enchufes y entretenimiento a bordo.",
+    "routesDestinations": "Rutas y Destinos",
+    "routesDestinationsContent": "Operamos rutas que conectan ciudades importantes y destinos populares. Para ver nuestras rutas actuales, visita la sección 'Rutas' de nuestro sitio web o aplicación móvil.",
+    "luggagePolicy": "Política de Equipaje",
+    "luggagePolicyContent": "Cada pasajero tiene permitido una pieza de equipaje (máx. 20 kg) para el compartimiento de equipaje y una pieza de equipaje de mano (máx. 7 kg) para llevar a bordo. El equipaje adicional o de gran tamaño puede incurrir en tarifas adicionales.",
+    "petPolicy": "Política de Mascotas",
+    "petPolicyContent": "Solo se permiten animales de servicio en nuestros autobuses. Las mascotas, incluidos los animales de apoyo emocional, no están permitidos para la comodidad y seguridad de todos los pasajeros.",
+    "bookingTitle": "Proceso de Reserva",
+    "bookingDescription": "Aprende cómo reservar tus boletos de autobús",
+    "howToBook": "Cómo Reservar un Boleto",
+    "howToBookSteps": {
+      "1": "Ve a nuestro sitio web o abre nuestra aplicación móvil",
+      "2": "Ingresa tus lugares de salida y llegada",
+      "3": "Selecciona tu fecha de viaje",
+      "4": "Elige tu autobús y asientos preferidos",
+      "5": "Ingresa los detalles del pasajero",
+      "6": "Selecciona cualquier complemento (por ejemplo, equipaje extra)",
+      "7": "Revisa los detalles de tu reserva",
+      "8": "Procede al pago",
+      "9": "Recibe tu e-ticket por correo electrónico"
+    },
+    "paymentMethods": "Métodos de Pago",
+    "paymentMethodsContent": {
+      "title": "Aceptamos varios métodos de pago, incluidos:",
+      "methods": {
+        "cards": "Tarjetas de Crédito/Débito (Visa, MasterCard, American Express)",
+        "paypal": "PayPal",
+        "mobile": "Apple Pay y Google Pay (en dispositivos móviles)",
+        "bank": "Transferencias bancarias (para rutas selectas)"
+      }
+    },
+    "seatSelection": "Selección de Asientos",
+    "seatSelectionContent": "Puedes seleccionar tus asientos preferidos durante el proceso de reserva. La selección de asientos está sujeta a disponibilidad y puede incurrir en una tarifa adicional por asientos premium (por ejemplo, mayor espacio para las piernas).",
+    "groupBookings": "Reservas de Grupo",
+    "groupBookingsContent": "Para grupos de 10 o más, por favor contacta a nuestro departamento de reservas de grupo en groups@busbooking.com. Ofrecemos tarifas especiales y asistencia para viajes de grupos grandes.",
+    "manageTitle": "Gestionar Reservas",
+    "manageDescription": "Aprende cómo modificar o cancelar tus reservas",
+    "modifyBooking": "Cómo Modificar una Reserva",
+    "modifyBookingSteps": {
+      "intro": "Para modificar tu reserva:",
+      "1": "Inicia sesión en tu cuenta en nuestro sitio web o aplicación",
+      "2": "Ve a 'Mis Reservas'",
+      "3": "Selecciona la reserva que deseas modificar",
+      "4": "Haz clic en 'Modificar Reserva'",
+      "5": "Haz los cambios deseados",
+      "6": "Paga cualquier diferencia en la tarifa o tarifas",
+      "7": "Recibe una confirmación de tu reserva modificada",
+      "note": "Nota: Las modificaciones están sujetas a nuestra política de cambios y pueden incurrir en tarifas."
+    },
+    "cancellationPolicy": "Política de Cancelación",
+    "cancellationPolicyContent": {
+      "intro": "Nuestra política de cancelación es la siguiente:",
+      "policies": {
+        "full": "Más de 72 horas antes de la salida: Reembolso completo",
+        "half": "24-72 horas antes de la salida: Reembolso del 50%",
+        "none": "Menos de 24 horas antes de la salida: Sin reembolso"
+      },
+      "instructions": "Para cancelar una reserva, inicia sesión en tu cuenta, ve a 'Mis Reservas', selecciona la reserva que deseas cancelar y haz clic en 'Cancelar Reserva.'"
+    },
+    "refundProcess": "Proceso de Reembolso",
+    "refundProcessContent": "Los reembolsos se procesan en un plazo de 5 a 10 días hábiles, dependiendo de tu método de pago. El reembolso se emitirá a la forma de pago original utilizada para la reserva.",
+    "lostTicket": "Boleto Perdido",
+    "lostTicketContent": "Si has perdido tu e-ticket, puedes recuperarlo fácilmente iniciando sesión en tu cuenta y yendo a 'Mis Reservas.' Desde allí, puedes reenviar el e-ticket a tu correo electrónico o descargarlo directamente.",
+    "faqsTitle": "Preguntas Frecuentes",
+    "faqsDescription": "Encuentra respuestas a preguntas comunes sobre nuestro servicio de reserva de boletos de autobús",
+    "faqExamples": {
+      "1": {
+        "question": "¿Cómo puedo cambiar mi reserva?",
+        "answer": "Puedes cambiar tu reserva iniciando sesión en tu cuenta y yendo a 'Mis Reservas.' Selecciona la reserva que deseas cambiar y sigue las instrucciones."
+      },
+      "2": {
+        "question": "¿Qué debo hacer si mi autobús se retrasa?",
+        "answer": "Si tu autobús se retrasa, recibirás notificaciones por correo electrónico y a través de nuestra aplicación. Te recomendamos que llegues al punto de partida al menos 30 minutos antes de la salida programada."
+      },
+      "3": {
+        "question": "¿Puedo llevar mi mascota?",
+        "answer": "Solo se permiten animales de servicio en nuestros autobuses. Las mascotas no están permitidas."
+      },
+      "4": {
+        "question": "¿Cómo obtengo mi reembolso?",
+        "answer": "Los reembolsos se procesan automáticamente dentro de 5 a 10 días hábiles, dependiendo de la forma de pago utilizada."
+      },
+      "5": {
+        "question": "¿Qué debo hacer si olvidé mi contraseña?",
+        "answer": "Si olvidaste tu contraseña, puedes restablecerla haciendo clic en '¿Olvidaste tu contraseña?' en la página de inicio de sesión."
+      }
+    }
+  },
   "extrasInfo": {
     "title": "Opciones Flex de Viaje",
     "description": "Elige entre diferentes opciones de flexibilidad para cancelar o modificar tu viaje según tus necesidades.",
@@ -193,6 +307,67 @@
     "logout": "Cerrar sesión",
     "signUp": "Registrarse",
     "login": "Iniciar sesión"
+  },
+  "login": {
+    "title": "Inicia sesión en tu cuenta",
+    "subtitle": "¡Bienvenido de nuevo! Por favor, ingresa tus datos.",
+    "email": {
+      "label": "Correo electrónico",
+      "placeholder": "Dirección de correo electrónico"
+    },
+    "password": {
+      "label": "Contraseña",
+      "placeholder": "Contraseña"
+    },
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "signInButton": "Iniciar sesión",
+    "loading": "Cargando...",
+    "orContinueWith": "O continúa con",
+    "googleButton": "Google",
+    "facebookButton": "Facebook",
+    "noAccount": "¿No tienes una cuenta?",
+    "registerLink": "Regístrate aquí"
+  },
+  "register": {
+    "title": "Crea tu cuenta",
+    "subtitle": "¡Únete a nosotros y comienza a reservar tus boletos de autobús hoy!",
+    "name": {
+      "label": "Nombre",
+      "placeholder": "Nombre completo"
+    },
+    "email": {
+      "label": "Correo electrónico",
+      "placeholder": "Dirección de correo electrónico"
+    },
+    "password": {
+      "label": "Contraseña",
+      "placeholder": "Contraseña"
+    },
+    "signUpButton": "Registrarse",
+    "loading": "Cargando...",
+    "orContinueWith": "O continúa con",
+    "googleButton": "Google",
+    "facebookButton": "Facebook",
+    "haveAccount": "¿Ya tienes una cuenta?",
+    "loginLink": "Inicia sesión aquí",
+    "errors": {
+      "userExists": "¡Ya existe un usuario con el mismo ID, correo electrónico o teléfono!",
+      "generic": "Ocurrió un error durante el registro."
+    }
+  },
+  "reset": {
+    "title": "Restablecer tu contraseña",
+    "subtitle": "Ingresa tu correo electrónico para recibir un enlace de restablecimiento de contraseña.",
+    "email": {
+      "label": "Correo electrónico",
+      "placeholder": "Dirección de correo electrónico"
+    },
+    "sendButton": "Enviar enlace de restablecimiento",
+    "loading": "Cargando...",
+    "success": "¡Correo electrónico de restablecimiento de contraseña enviado con éxito!",
+    "error": "Error al enviar el correo electrónico de restablecimiento. Por favor, intenta nuevamente.",
+    "rememberPassword": "¿Recuerdas tu contraseña?",
+    "backToLogin": "Volver a iniciar sesión"
   },
   "back": "Volver"
 }

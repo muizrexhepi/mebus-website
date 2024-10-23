@@ -6,6 +6,106 @@
     "about": "Chi siamo",
     "contact": "Contatti"
   },
+  "helpPage": {
+    "title": "Centro Assistenza",
+    "description": "Benvenuto nel nostro Centro Assistenza. Trova risposte alle domande comuni, scopri come utilizzare i nostri servizi e ricevi il supporto di cui hai bisogno per un'esperienza di prenotazione dei biglietti per l'autobus senza intoppi.",
+    "howCanWeHelp": "Come possiamo aiutarti oggi?",
+    "searchOrBrowse": "Cerca nel nostro database di conoscenze o esplora gli argomenti qui sotto",
+    "quickLinksTitle": "Collegamenti Rapidi",
+    "quickLinksDescription": "Accedi rapidamente a informazioni e strumenti importanti",
+    "quickLinks": {
+      "howToBook": "Come Prenotare",
+      "cancellationPolicy": "Politica di Cancellazione",
+      "paymentOptions": "Opzioni di Pagamento",
+      "eTicketGuide": "Guida ai E-Ticket",
+      "travelFlexOptions": "Opzioni di Flessibilità di Viaggio",
+      "travelDuration": "Durata del Viaggio",
+      "travelAdvisory": "Avviso di Viaggio",
+      "contactSupport": "Contatta il Supporto"
+    }
+  },
+  "infoTabs": {
+    "generalInfo": "Informazioni Generali",
+    "bookingProcess": "Processo di Prenotazione",
+    "manageBookings": "Gestisci Prenotazioni",
+    "faqs": "FAQ",
+    "generalTitle": "Informazioni Generali",
+    "generalDescription": "Scopri i nostri servizi e le nostre politiche",
+    "aboutService": "Informazioni sul Nostro Servizio di Autobus",
+    "aboutServiceContent": "Offriamo servizi di trasporto in autobus affidabili e confortevoli tra più città. La nostra flotta è composta da autobus moderni dotati di comodità come Wi-Fi, prese di corrente e intrattenimento a bordo.",
+    "routesDestinations": "Percorsi e Destinazioni",
+    "routesDestinationsContent": "Operiamo percorsi che collegano le principali città e destinazioni popolari. Per visualizzare i nostri percorsi attuali, visita la sezione \"Percorsi\" del nostro sito web o della nostra app mobile.",
+    "luggagePolicy": "Politica dei Bagagli",
+    "luggagePolicyContent": "Ogni passeggero è autorizzato a portare un pezzo di bagaglio (max. 20 kg) per il compartimento bagagli e un pezzo di bagaglio a mano (max. 7 kg) da portare a bordo. Bagagli aggiuntivi o di dimensioni maggiori possono comportare costi extra.",
+    "petPolicy": "Politica per gli Animali Domestici",
+    "petPolicyContent": "Solo gli animali da servizio sono autorizzati sui nostri autobus. Gli animali domestici, inclusi quelli di supporto emotivo, non sono permessi per il comfort e la sicurezza di tutti i passeggeri.",
+    "bookingTitle": "Processo di Prenotazione",
+    "bookingDescription": "Scopri come prenotare i tuoi biglietti per l'autobus",
+    "howToBook": "Come Prenotare un Biglietto",
+    "howToBookSteps": {
+      "1": "Vai sul nostro sito web o apri la nostra app mobile",
+      "2": "Inserisci le tue località di partenza e arrivo",
+      "3": "Seleziona la data di viaggio",
+      "4": "Scegli il tuo autobus e i tuoi posti preferiti",
+      "5": "Inserisci i dettagli dei passeggeri",
+      "6": "Seleziona eventuali opzioni aggiuntive (ad es., bagaglio extra)",
+      "7": "Rivedi i dettagli della tua prenotazione",
+      "8": "Procedi al pagamento",
+      "9": "Ricevi il tuo e-ticket via email"
+    },
+    "paymentMethods": "Metodi di Pagamento",
+    "paymentMethodsContent": {
+      "title": "Accettiamo vari metodi di pagamento, tra cui:",
+      "methods": {
+        "cards": "Carte di Credito/Debito (Visa, MasterCard, American Express)",
+        "paypal": "PayPal",
+        "mobile": "Apple Pay e Google Pay (su dispositivi mobili)",
+        "bank": "Bonifici bancari (per percorsi selezionati)"
+      }
+    },
+    "seatSelection": "Selezione del Posto",
+    "seatSelectionContent": "Puoi selezionare i tuoi posti preferiti durante il processo di prenotazione. La selezione dei posti è soggetta a disponibilità e potrebbe comportare un costo aggiuntivo per i posti premium (ad es., maggior spazio per le gambe).",
+    "groupBookings": "Prenotazioni di Gruppo",
+    "groupBookingsContent": "Per gruppi di 10 o più, contatta il nostro dipartimento di prenotazione di gruppo all'indirizzo groups@busbooking.com. Offriamo tariffe speciali e assistenza per viaggi di gruppo numerosi.",
+    "manageTitle": "Gestisci Prenotazioni",
+    "manageDescription": "Scopri come modificare o annullare le tue prenotazioni",
+    "modifyBooking": "Come Modificare una Prenotazione",
+    "modifyBookingSteps": {
+      "intro": "Per modificare la tua prenotazione:",
+      "1": "Accedi al tuo account sul nostro sito web o app",
+      "2": "Vai su \"Le Mie Prenotazioni\"",
+      "3": "Seleziona la prenotazione che desideri modificare",
+      "4": "Clicca su \"Modifica Prenotazione\"",
+      "5": "Apporta le modifiche desiderate",
+      "6": "Paga eventuali differenze nel prezzo o costi",
+      "7": "Ricevi una conferma della tua prenotazione modificata",
+      "note": "Nota: Le modifiche sono soggette alla nostra politica di modifica e possono comportare costi."
+    },
+    "cancellationPolicy": "Politica di Cancellazione",
+    "cancellationPolicyContent": {
+      "intro": "La nostra politica di cancellazione è la seguente:",
+      "policies": {
+        "full": "Più di 72 ore prima della partenza: Rimborso completo",
+        "half": "24-72 ore prima della partenza: Rimborso del 50%",
+        "none": "Meno di 24 ore prima della partenza: Nessun rimborso"
+      },
+      "instructions": "Per annullare una prenotazione, accedi al tuo account, vai su \"Le Mie Prenotazioni,\" seleziona la prenotazione che desideri annullare e clicca su \"Annulla Prenotazione.\""
+    },
+    "refundProcess": "Processo di Rimborso",
+    "refundProcessContent": "I rimborsi vengono elaborati entro 5-10 giorni lavorativi, a seconda del metodo di pagamento. Il rimborso sarà emesso sulla forma di pagamento originale utilizzata per la prenotazione.",
+    "lostTicket": "Biglietto Smarrito",
+    "lostTicketContent": "Se hai smarrito il tuo e-ticket, puoi recuperarlo facilmente accedendo al tuo account e andando su \"Le Mie Prenotazioni.\" Da lì, puoi rinviare l'e-ticket alla tua email o scaricarlo direttamente.",
+    "faqsTitle": "Domande Frequenti",
+    "faqsDescription": "Trova risposte a domande comuni sui nostri servizi di prenotazione dei biglietti per l'autobus",
+    "arrivalTime": "Quanto prima dovrei arrivare alla stazione degli autobus?",
+    "arrivalTimeContent": "Ti consigliamo di arrivare almeno 15-30 minuti prima della tua ora di partenza programmata. Questo consente tempo per il check-in, il deposito bagagli e l'imbarco. Per percorsi popolari o durante le stagioni di viaggio di punta, potresti voler arrivare fino a 45 minuti prima.",
+    "changeName": "Posso cambiare il nome sul mio biglietto?",
+    "changeNameContent": "I cambi di nome non sono generalmente consentiti per motivi di sicurezza. Se hai bisogno di trasferire il tuo biglietto a qualcun altro, dovrai annullare la tua prenotazione esistente (soggetta alla nostra politica di cancellazione) e fare una nuova prenotazione a nome del nuovo passeggero.",
+    "missBus": "Cosa succede se perdo il mio autobus?",
+    "missBusContent": "Se perdi il tuo autobus, il tuo biglietto viene generalmente considerato nullo. Tuttavia, comprendiamo che possono verificarsi situazioni impreviste. Contatta il nostro servizio clienti il prima possibile e faremo del nostro meglio per sistemarti sul prossimo autobus disponibile, soggetto a disponibilità e possibili costi aggiuntivi.",
+    "powerOutlets": "Ci sono prese di corrente sull'autobus?",
+    "powerOutletsContent": "La maggior parte dei nostri autobus è dotata di prese di corrente per ogni posto. Tuttavia, la disponibilità può variare a seconda dell'autobus specifico e del percorso. Ti consigliamo di portare un caricabatterie portatile come backup, specialmente per viaggi più lunghi."
+  },
   "extrasInfo": {
     "title": "Opzioni Flex Viaggio",
     "description": "Scegli tra diverse opzioni di flessibilità per cancellare o modificare il tuo viaggio in base alle tue esigenze.",
@@ -190,9 +290,70 @@
     }
   },
   "auth": {
-    "logout": "Esci",
+    "logout": "Disconnetti",
     "signUp": "Registrati",
     "login": "Accedi"
+  },
+  "login": {
+    "title": "Accedi al tuo account",
+    "subtitle": "Bentornato! Inserisci i tuoi dati.",
+    "email": {
+      "label": "E-mail",
+      "placeholder": "Indirizzo e-mail"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Password"
+    },
+    "forgotPassword": "Hai dimenticato la password?",
+    "signInButton": "Accedi",
+    "loading": "Caricamento...",
+    "orContinueWith": "Oppure continua con",
+    "googleButton": "Google",
+    "facebookButton": "Facebook",
+    "noAccount": "Non hai un account?",
+    "registerLink": "Registrati qui"
+  },
+  "register": {
+    "title": "Crea il tuo account",
+    "subtitle": "Unisciti a noi e inizia a prenotare i tuoi biglietti per l'autobus oggi!",
+    "name": {
+      "label": "Nome",
+      "placeholder": "Nome completo"
+    },
+    "email": {
+      "label": "E-mail",
+      "placeholder": "Indirizzo e-mail"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Password"
+    },
+    "signUpButton": "Registrati",
+    "loading": "Caricamento...",
+    "orContinueWith": "Oppure continua con",
+    "googleButton": "Google",
+    "facebookButton": "Facebook",
+    "haveAccount": "Hai già un account?",
+    "loginLink": "Accedi qui",
+    "errors": {
+      "userExists": "Esiste già un utente con lo stesso ID, e-mail o numero di telefono!",
+      "generic": "Si è verificato un errore durante la registrazione."
+    }
+  },
+  "reset": {
+    "title": "Reimposta la tua password",
+    "subtitle": "Inserisci la tua e-mail per ricevere un link per reimpostare la password.",
+    "email": {
+      "label": "E-mail",
+      "placeholder": "Indirizzo e-mail"
+    },
+    "sendButton": "Invia link per reimpostare",
+    "loading": "Caricamento...",
+    "success": "E-mail per reimpostare la password inviata con successo!",
+    "error": "Invio dell'e-mail per reimpostare la password fallito. Riprova.",
+    "rememberPassword": "Ricordi la tua password?",
+    "backToLogin": "Torna al login"
   },
   "back": "Indietro"
 }

@@ -6,6 +6,119 @@
     "about": "À propos",
     "contact": "Contact"
   },
+  "helpPage": {
+    "title": "Centre d'Aide",
+    "description": "Bienvenue dans notre Centre d'Aide. Trouvez des réponses à des questions courantes, apprenez à utiliser nos services et obtenez l'assistance dont vous avez besoin pour une expérience de réservation de bus sans souci.",
+    "howCanWeHelp": "Comment pouvons-nous vous aider aujourd'hui ?",
+    "searchOrBrowse": "Recherchez dans notre base de connaissances ou explorez les sujets ci-dessous",
+    "quickLinksTitle": "Liens Rapides",
+    "quickLinksDescription": "Accédez rapidement à des informations et outils importants",
+    "quickLinks": {
+      "howToBook": "Comment Réserver",
+      "cancellationPolicy": "Politique d'Annulation",
+      "paymentOptions": "Options de Paiement",
+      "eTicketGuide": "Guide des E-Tickets",
+      "travelFlexOptions": "Options de Flexibilité de Voyage",
+      "travelDuration": "Durée du Voyage",
+      "travelAdvisory": "Conseils de Voyage",
+      "contactSupport": "Contacter le Support"
+    }
+  },
+  "infoTabs": {
+    "generalInfo": "Informations Générales",
+    "bookingProcess": "Processus de Réservation",
+    "manageBookings": "Gérer les Réservations",
+    "faqs": "Questions Fréquemment Posées",
+    "generalTitle": "Informations Générales",
+    "generalDescription": "Découvrez nos services et politiques",
+    "aboutService": "À Propos de Notre Service de Bus",
+    "aboutServiceContent": "Nous offrons des services de transport en bus fiables et confortables dans plusieurs villes. Notre flotte est composée de bus modernes équipés de commodités telles que le Wi-Fi, des prises électriques et des divertissements à bord.",
+    "routesDestinations": "Itinéraires et Destinations",
+    "routesDestinationsContent": "Nous exploitons des itinéraires qui relient des villes importantes et des destinations populaires. Pour voir nos itinéraires actuels, visitez la section 'Itinéraires' de notre site Web ou de notre application mobile.",
+    "luggagePolicy": "Politique de Bagages",
+    "luggagePolicyContent": "Chaque passager est autorisé à une pièce de bagage (max. 20 kg) pour le compartiment à bagages et une pièce de bagage à main (max. 7 kg) à emporter à bord. Les bagages supplémentaires ou de grande taille peuvent entraîner des frais supplémentaires.",
+    "petPolicy": "Politique sur les Animaux",
+    "petPolicyContent": "Seuls les animaux d'assistance sont autorisés dans nos bus. Les animaux de compagnie, y compris les animaux de soutien émotionnel, ne sont pas autorisés pour le confort et la sécurité de tous les passagers.",
+    "bookingTitle": "Processus de Réservation",
+    "bookingDescription": "Découvrez comment réserver vos billets de bus",
+    "howToBook": "Comment Réserver un Billet",
+    "howToBookSteps": {
+      "1": "Allez sur notre site Web ou ouvrez notre application mobile",
+      "2": "Entrez vos lieux de départ et d'arrivée",
+      "3": "Sélectionnez votre date de voyage",
+      "4": "Choisissez votre bus et vos sièges préférés",
+      "5": "Entrez les détails des passagers",
+      "6": "Sélectionnez tout complément (par exemple, bagage supplémentaire)",
+      "7": "Vérifiez les détails de votre réservation",
+      "8": "Procédez au paiement",
+      "9": "Recevez votre e-ticket par e-mail"
+    },
+    "paymentMethods": "Méthodes de Paiement",
+    "paymentMethodsContent": {
+      "title": "Nous acceptons plusieurs méthodes de paiement, y compris :",
+      "methods": {
+        "cards": "Cartes de Crédit/Débit (Visa, MasterCard, American Express)",
+        "paypal": "PayPal",
+        "mobile": "Apple Pay et Google Pay (sur appareils mobiles)",
+        "bank": "Virements bancaires (pour certains itinéraires)"
+      }
+    },
+    "seatSelection": "Sélection de Sièges",
+    "seatSelectionContent": "Vous pouvez choisir vos sièges préférés lors du processus de réservation. La sélection de sièges est soumise à disponibilité et peut entraîner des frais supplémentaires pour les sièges premium (par exemple, plus d'espace pour les jambes).",
+    "groupBookings": "Réservations de Groupe",
+    "groupBookingsContent": "Pour les groupes de 10 personnes ou plus, veuillez contacter notre département des réservations de groupe à groups@busbooking.com. Nous proposons des tarifs spéciaux et de l'assistance pour les voyages en groupe.",
+    "manageTitle": "Gérer les Réservations",
+    "manageDescription": "Découvrez comment modifier ou annuler vos réservations",
+    "modifyBooking": "Comment Modifier une Réservation",
+    "modifyBookingSteps": {
+      "intro": "Pour modifier votre réservation :",
+      "1": "Connectez-vous à votre compte sur notre site Web ou notre application",
+      "2": "Allez dans 'Mes Réservations'",
+      "3": "Sélectionnez la réservation que vous souhaitez modifier",
+      "4": "Cliquez sur 'Modifier la Réservation'",
+      "5": "Apportez les modifications souhaitées",
+      "6": "Payez toute différence de tarif ou frais",
+      "7": "Recevez une confirmation de votre réservation modifiée",
+      "note": "Remarque : Les modifications sont soumises à notre politique de changements et peuvent entraîner des frais."
+    },
+    "cancellationPolicy": "Politique d'Annulation",
+    "cancellationPolicyContent": {
+      "intro": "Notre politique d'annulation est la suivante :",
+      "policies": {
+        "full": "Plus de 72 heures avant le départ : Remboursement complet",
+        "half": "24 à 72 heures avant le départ : Remboursement de 50%",
+        "none": "Moins de 24 heures avant le départ : Aucun remboursement"
+      },
+      "instructions": "Pour annuler une réservation, connectez-vous à votre compte, allez dans 'Mes Réservations', sélectionnez la réservation que vous souhaitez annuler et cliquez sur 'Annuler la Réservation.'"
+    },
+    "refundProcess": "Processus de Remboursement",
+    "refundProcessContent": "Les remboursements sont traités dans un délai de 5 à 10 jours ouvrables, selon votre méthode de paiement. Le remboursement sera effectué sur la méthode de paiement d'origine utilisée pour la réservation.",
+    "lostTicket": "Billet Perdu",
+    "lostTicketContent": "Si vous perdez votre e-ticket, contactez notre service client au support@busbooking.com avec votre adresse e-mail et les détails de votre réservation. Nous vous enverrons un lien de réémission.",
+    "faqsTitle": "Questions Fréquemment Posées",
+    "faqExamples": {
+      "1": {
+        "question": "Comment puis-je modifier ma réservation ?",
+        "answer": "Vous pouvez modifier votre réservation en vous connectant à votre compte et en allant dans 'Mes Réservations.' Sélectionnez la réservation que vous souhaitez modifier et suivez les instructions."
+      },
+      "2": {
+        "question": "Que dois-je faire si mon bus a du retard ?",
+        "answer": "Si votre bus a du retard, vous recevrez des notifications par e-mail et via notre application. Nous vous recommandons d'arriver au point de départ au moins 30 minutes avant l'heure de départ prévue."
+      },
+      "3": {
+        "question": "Puis-je emmener mon animal de compagnie ?",
+        "answer": "Seuls les animaux d'assistance sont autorisés dans nos bus. Les animaux de compagnie ne sont pas autorisés."
+      },
+      "4": {
+        "question": "Comment obtenir mon remboursement ?",
+        "answer": "Les remboursements sont traités automatiquement dans un délai de 5 à 10 jours ouvrables, selon le mode de paiement utilisé."
+      },
+      "5": {
+        "question": "Que dois-je faire si j'ai oublié mon mot de passe ?",
+        "answer": "Si vous avez oublié votre mot de passe, vous pouvez le réinitialiser en cliquant sur 'Mot de passe oublié ?' sur la page de connexion."
+      }
+    }
+  },
   "extrasInfo": {
     "title": "Options Flex Voyage",
     "description": "Choisissez parmi différentes options de flexibilité pour annuler ou modifier votre voyage selon vos besoins.",
@@ -190,9 +303,70 @@
     }
   },
   "auth": {
-    "logout": "Déconnexion",
+    "logout": "Se déconnecter",
     "signUp": "S'inscrire",
     "login": "Se connecter"
+  },
+  "login": {
+    "title": "Connectez-vous à votre compte",
+    "subtitle": "Bienvenue de nouveau ! Veuillez entrer vos informations.",
+    "email": {
+      "label": "Email",
+      "placeholder": "Adresse e-mail"
+    },
+    "password": {
+      "label": "Mot de passe",
+      "placeholder": "Mot de passe"
+    },
+    "forgotPassword": "Mot de passe oublié ?",
+    "signInButton": "Se connecter",
+    "loading": "Chargement...",
+    "orContinueWith": "Ou continuez avec",
+    "googleButton": "Google",
+    "facebookButton": "Facebook",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "registerLink": "Inscrivez-vous ici"
+  },
+  "register": {
+    "title": "Créez votre compte",
+    "subtitle": "Rejoignez-nous et commencez à réserver vos billets de bus aujourd'hui !",
+    "name": {
+      "label": "Nom",
+      "placeholder": "Nom complet"
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "Adresse e-mail"
+    },
+    "password": {
+      "label": "Mot de passe",
+      "placeholder": "Mot de passe"
+    },
+    "signUpButton": "S'inscrire",
+    "loading": "Chargement...",
+    "orContinueWith": "Ou continuez avec",
+    "googleButton": "Google",
+    "facebookButton": "Facebook",
+    "haveAccount": "Vous avez déjà un compte ?",
+    "loginLink": "Connectez-vous ici",
+    "errors": {
+      "userExists": "Un utilisateur avec le même identifiant, email ou téléphone existe déjà !",
+      "generic": "Une erreur est survenue lors de l'inscription."
+    }
+  },
+  "reset": {
+    "title": "Réinitialiser votre mot de passe",
+    "subtitle": "Entrez votre adresse e-mail pour recevoir un lien de réinitialisation du mot de passe.",
+    "email": {
+      "label": "Email",
+      "placeholder": "Adresse e-mail"
+    },
+    "sendButton": "Envoyer le lien de réinitialisation",
+    "loading": "Chargement...",
+    "success": "Email de réinitialisation de mot de passe envoyé avec succès !",
+    "error": "Erreur lors de l'envoi de l'email de réinitialisation. Veuillez réessayer.",
+    "rememberPassword": "Vous vous souvenez de votre mot de passe ?",
+    "backToLogin": "Retour à la connexion"
   },
   "back": "Retour"
 }

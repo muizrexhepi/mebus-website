@@ -6,26 +6,121 @@
     "about": "Über uns",
     "contact": "Kontakt"
   },
+  "helpPage": {
+    "title": "Hilfezentrum",
+    "description": "Willkommen in unserem Hilfezentrum. Finden Sie Antworten auf häufige Fragen, lernen Sie, wie Sie unsere Dienste nutzen, und erhalten Sie die Unterstützung, die Sie für ein reibungsloses Busbuchungserlebnis benötigen.",
+    "howCanWeHelp": "Wie können wir Ihnen heute helfen?",
+    "searchOrBrowse": "Durchsuchen Sie unsere Wissensdatenbank oder stöbern Sie in den Themen unten",
+    "quickLinksTitle": "Schnelllinks",
+    "quickLinksDescription": "Greifen Sie schnell auf wichtige Informationen und Werkzeuge zu",
+    "quickLinks": {
+      "howToBook": "Wie man bucht",
+      "cancellationPolicy": "Stornierungsrichtlinien",
+      "paymentOptions": "Zahlungsoptionen",
+      "eTicketGuide": "E-Ticket-Anleitung",
+      "travelFlexOptions": "Reise Flex Optionen",
+      "travelDuration": "Reisedauer",
+      "travelAdvisory": "Reisehinweise",
+      "contactSupport": "Support kontaktieren"
+    }
+  },
+  "infoTabs": {
+    "generalInfo": "Allgemeine Informationen",
+    "bookingProcess": "Buchungsprozess",
+    "manageBookings": "Buchungen verwalten",
+    "faqs": "Häufig gestellte Fragen",
+    "generalTitle": "Allgemeine Informationen",
+    "generalDescription": "Erfahren Sie mehr über unsere Dienstleistungen und Richtlinien",
+    "aboutService": "Über unseren Busdienst",
+    "aboutServiceContent": "Wir bieten zuverlässige und komfortable Busverkehrsdienste in mehreren Städten an. Unsere Flotte besteht aus modernen Bussen, die mit Annehmlichkeiten wie WLAN, Stromanschlüssen und Bordunterhaltung ausgestattet sind.",
+    "routesDestinations": "Routen und Ziele",
+    "routesDestinationsContent": "Wir betreiben Routen, die wichtige Städte und beliebte Reiseziele verbinden. Um unsere aktuellen Routen zu sehen, besuchen Sie bitte den Abschnitt \"Routen\" auf unserer Website oder in unserer mobilen App.",
+    "luggagePolicy": "Gepäckrichtlinie",
+    "luggagePolicyContent": "Jeder Passagier darf ein Gepäckstück (max. 20 kg) für das Gepäckfach und ein Handgepäckstück (max. 7 kg) mit an Bord nehmen. Zusätzliches oder übergroßes Gepäck kann zusätzliche Gebühren verursachen.",
+    "petPolicy": "Haustierpolitik",
+    "petPolicyContent": "Nur Service-Tiere sind in unseren Bussen erlaubt. Haustiere, einschließlich emotionaler Unterstützungstiere, sind aus Gründen des Komforts und der Sicherheit aller Passagiere nicht gestattet.",
+    "bookingTitle": "Buchungsprozess",
+    "bookingDescription": "Erfahren Sie, wie Sie Ihre Bustickets buchen",
+    "howToBook": "Wie man ein Ticket bucht",
+    "howToBookSteps": {
+      "1": "Gehen Sie zu unserer Website oder öffnen Sie unsere mobile App",
+      "2": "Geben Sie Ihre Abfahrts- und Ankunftsorte ein",
+      "3": "Wählen Sie Ihr Reisedatum",
+      "4": "Wählen Sie Ihren bevorzugten Bus und die Plätze aus",
+      "5": "Geben Sie die Passagierdaten ein",
+      "6": "Wählen Sie zusätzliche Optionen (z. B. zusätzliches Gepäck)",
+      "7": "Überprüfen Sie Ihre Buchungsdetails",
+      "8": "Fahren Sie mit der Zahlung fort",
+      "9": "Erhalten Sie Ihr E-Ticket per E-Mail"
+    },
+    "paymentMethods": "Zahlungsmethoden",
+    "paymentMethodsContent": {
+      "title": "Wir akzeptieren verschiedene Zahlungsmethoden, einschließlich:",
+      "methods": {
+        "cards": "Kredit-/Debitkarten (Visa, MasterCard, American Express)",
+        "paypal": "PayPal",
+        "mobile": "Apple Pay und Google Pay (auf mobilen Geräten)",
+        "bank": "Banküberweisungen (für ausgewählte Routen)"
+      }
+    },
+    "seatSelection": "Sitzplatzwahl",
+    "seatSelectionContent": "Sie können während des Buchungsprozesses Ihre bevorzugten Sitze auswählen. Die Sitzplatzwahl unterliegt der Verfügbarkeit und kann zusätzliche Gebühren für Premium-Sitze (z. B. mehr Beinfreiheit) verursachen.",
+    "groupBookings": "Gruppenbuchungen",
+    "groupBookingsContent": "Für Gruppen von 10 oder mehr Personen kontaktieren Sie bitte unsere Gruppenbuchungsabteilung unter groups@busbooking.com. Wir bieten spezielle Tarife und Unterstützung für große Gruppenreisen an.",
+    "manageTitle": "Buchungen verwalten",
+    "manageDescription": "Erfahren Sie, wie Sie Ihre Buchungen ändern oder stornieren können",
+    "modifyBooking": "Wie man eine Buchung ändert",
+    "modifyBookingSteps": {
+      "intro": "Um Ihre Buchung zu ändern:",
+      "1": "Melden Sie sich bei Ihrem Konto auf unserer Website oder App an",
+      "2": "Gehen Sie zu \"Meine Buchungen\"",
+      "3": "Wählen Sie die Buchung aus, die Sie ändern möchten",
+      "4": "Klicken Sie auf \"Buchung ändern\"",
+      "5": "Nehmen Sie Ihre gewünschten Änderungen vor",
+      "6": "Zahlen Sie die Preisdifferenz oder Gebühren",
+      "7": "Erhalten Sie eine Bestätigung Ihrer geänderten Buchung",
+      "note": "Hinweis: Änderungen unterliegen unserer Änderungsrichtlinie und können Gebühren verursachen."
+    },
+    "cancellationPolicy": "Stornierungsrichtlinie",
+    "cancellationPolicyContent": {
+      "intro": "Unsere Stornierungsrichtlinie ist wie folgt:",
+      "policies": {
+        "full": "Mehr als 72 Stunden vor der Abfahrt: Vollständige Rückerstattung",
+        "half": "24-72 Stunden vor der Abfahrt: 50 % Rückerstattung",
+        "none": "Weniger als 24 Stunden vor der Abfahrt: Keine Rückerstattung"
+      },
+      "instructions": "Um eine Buchung zu stornieren, melden Sie sich bei Ihrem Konto an, gehen Sie zu \"Meine Buchungen\", wählen Sie die Buchung aus, die Sie stornieren möchten, und klicken Sie auf \"Buchung stornieren\"."
+    },
+    "refundProcess": "Rückerstattungsprozess",
+    "refundProcessContent": "Rückerstattungen werden innerhalb von 5-10 Werktagen bearbeitet, abhängig von Ihrer Zahlungsmethode. Die Rückerstattung wird auf die ursprüngliche Zahlungsmethode zurückerstattet, die für die Buchung verwendet wurde.",
+    "lostTicket": "Verlorenes Ticket",
+    "lostTicketContent": "Wenn Sie Ihr E-Ticket verloren haben, können Sie es einfach abrufen, indem Sie sich in Ihr Konto einloggen und zu \"Meine Buchungen\" gehen. Von dort aus können Sie das E-Ticket an Ihre E-Mail senden oder es direkt herunterladen.",
+    "faqsTitle": "Häufig gestellte Fragen",
+    "faqsDescription": "Finden Sie Antworten auf häufige Fragen zu unserem Busbuchungsdienst",
+    "arrivalTime": "Wie früh sollte ich am Busbahnhof ankommen?",
+    "arrivalTimeContent": "Wir empfehlen, mindestens 15-30 Minuten vor Ihrer geplanten Abfahrtszeit anzukommen. So bleibt genügend Zeit für den Check-in, die Gepäckaufbewahrung und das Boarding. Für beliebte Routen oder in der Hochsaison sollten Sie möglicherweise bis zu 45 Minuten früher ankommen.",
+    "changeName": "Kann ich den Namen auf meinem Ticket ändern?",
+    "changeNameContent": "Namensänderungen sind aus Sicherheitsgründen in der Regel nicht gestattet. Wenn Sie Ihr Ticket an jemand anderen übertragen müssen, müssen Sie Ihre bestehende Buchung stornieren (unterliegt unserer Stornierungsrichtlinie) und eine neue Buchung unter dem Namen des neuen Passagiers vornehmen.",
+    "missBus": "Was passiert, wenn ich meinen Bus verpasse?",
+    "missBusContent": "Wenn Sie Ihren Bus verpassen, wird Ihr Ticket normalerweise als ungültig betrachtet. Wir verstehen jedoch, dass unerwartete Situationen auftreten können. Kontaktieren Sie unseren Kundenservice so schnell wie möglich, und wir werden unser Bestes tun, um Sie auf den nächsten verfügbaren Bus zu setzen, abhängig von der Verfügbarkeit und möglicherweise zusätzlichen Gebühren.",
+    "powerOutlets": "Gibt es Steckdosen im Bus?",
+    "powerOutletsContent": "Die meisten unserer Busse sind mit Steckdosen für jeden Sitz ausgestattet. Die Verfügbarkeit kann jedoch je nach spezifischem Bus und Route variieren. Wir empfehlen, ein tragbares Ladegerät als Backup mitzubringen, insbesondere bei längeren Reisen."
+  },
   "extrasInfo": {
-    "title": "Reise-Flex-Optionen",
-    "description": "Wählen Sie zwischen verschiedenen Flexibilitätsoptionen, um Ihre Reise nach Ihren Bedürfnissen zu stornieren oder zu ändern.",
+    "title": "Reise Flex Optionen",
+    "description": "Wählen Sie aus verschiedenen Flexibilitätsoptionen, um Ihre Reise basierend auf Ihren Bedürfnissen zu stornieren oder zu ändern.",
     "free": "Kostenlos"
   },
   "orderSummary": {
     "returnTrip": "Rückfahrt",
-    "outboundTrip": "Hinfahrt",
+    "outboundTrip": "Hinreise",
     "departure": "Abfahrt",
     "duration": "Dauer",
-    "operatedBy": "Diese Fahrt wird durchgeführt von",
-    "bookingDetails": "Buchungsdetails",
-    "bookingPrice": "Buchungspreis",
-    "adults": "Erwachsene",
-    "children": "Kinder",
-    "premiumFlex": "Premium Flex",
-    "basicFlex": "Basic Flex",
-    "subtotal": "Zwischensumme",
-    "amountUsedFromDeposit": "Verwendeter Betrag aus Guthaben",
-    "total": "Gesamtsumme"
+    "arrival": "Ankunft",
+    "seat": "Sitzplatz",
+    "passenger": "Passagier",
+    "price": "Preis",
+    "total": "Gesamt"
   },
   "paymentMethod": {
     "title": "Zahlungsmethode",
@@ -192,40 +287,68 @@
   "auth": {
     "logout": "Abmelden",
     "signUp": "Registrieren",
-    "login": "Anmelden",
-    "createAccount": "Konto erstellen",
-    "email": "E-Mail",
-    "password": "Passwort",
-    "confirmPassword": "Passwort bestätigen",
-    "termsAndConditions": "Ich akzeptiere die <termsAndConditions>",
-    "successMessage": {
-      "login": "Erfolgreich angemeldet!",
-      "logout": "Erfolgreich abgemeldet!",
-      "registration": "Registrierung erfolgreich!"
+    "login": "Anmelden"
+  },
+  "login": {
+    "title": "Melden Sie sich bei Ihrem Konto an",
+    "subtitle": "Willkommen zurück! Bitte geben Sie Ihre Daten ein.",
+    "email": {
+      "label": "E-Mail",
+      "placeholder": "E-Mail-Adresse"
     },
-    "errorMessage": {
-      "invalidCredentials": "Ungültige Anmeldedaten.",
-      "emailExists": "Diese E-Mail-Adresse ist bereits registriert.",
-      "weakPassword": "Das Passwort ist zu schwach.",
-      "genericError": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
+    "password": {
+      "label": "Passwort",
+      "placeholder": "Passwort"
+    },
+    "forgotPassword": "Passwort vergessen?",
+    "signInButton": "Anmelden",
+    "loading": "Lädt...",
+    "orContinueWith": "Oder fortfahren mit",
+    "googleButton": "Google",
+    "facebookButton": "Facebook",
+    "noAccount": "Haben Sie kein Konto?",
+    "registerLink": "Hier registrieren"
+  },
+  "register": {
+    "title": "Erstellen Sie Ihr Konto",
+    "subtitle": "Treten Sie uns bei und buchen Sie noch heute Ihre Bustickets!",
+    "name": {
+      "label": "Name",
+      "placeholder": "Vollständiger Name"
+    },
+    "email": {
+      "label": "E-Mail",
+      "placeholder": "E-Mail-Adresse"
+    },
+    "password": {
+      "label": "Passwort",
+      "placeholder": "Passwort"
+    },
+    "signUpButton": "Registrieren",
+    "loading": "Lädt...",
+    "orContinueWith": "Oder fortfahren mit",
+    "googleButton": "Google",
+    "facebookButton": "Facebook",
+    "haveAccount": "Haben Sie bereits ein Konto?",
+    "loginLink": "Hier anmelden",
+    "errors": {
+      "userExists": "Ein Benutzer mit derselben ID, E-Mail oder Telefonnummer existiert bereits!",
+      "generic": "Ein Fehler ist während der Registrierung aufgetreten."
     }
   },
-  "location": {
-    "type": "Ortstyp",
-    "filter": {
-      "options": {
-        "all": "Alle",
-        "active": "Aktiv",
-        "inactive": "Inaktiv"
-      },
-      "search": "Suche"
-    }
+  "reset": {
+    "title": "Setzen Sie Ihr Passwort zurück",
+    "subtitle": "Geben Sie Ihre E-Mail-Adresse ein, um einen Link zum Zurücksetzen des Passworts zu erhalten.",
+    "email": {
+      "label": "E-Mail",
+      "placeholder": "E-Mail-Adresse"
+    },
+    "sendButton": "Link zum Zurücksetzen senden",
+    "loading": "Lädt...",
+    "success": "E-Mail zum Zurücksetzen des Passworts erfolgreich gesendet!",
+    "error": "Fehler beim Senden der Rücksetz-E-Mail. Bitte versuchen Sie es erneut.",
+    "rememberPassword": "Erinnern Sie sich an Ihr Passwort?",
+    "backToLogin": "Zurück zur Anmeldung"
   },
-  "info": {
-    "about": "Über uns",
-    "contact": "Kontakt",
-    "terms": "Nutzungsbedingungen",
-    "privacy": "Datenschutz",
-    "help": "Hilfe"
-  }
+  "back": "Zurück"
 }
