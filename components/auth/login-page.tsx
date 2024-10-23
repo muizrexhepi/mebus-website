@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
@@ -24,6 +25,7 @@ import { handleFacebookLogin, handleGoogleLogin } from "@/actions/oauth";
 import { account } from "@/appwrite.config";
 
 const LoginPage = () => {
+  const { t } = useTranslation();
   const [error, setError] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -54,7 +56,7 @@ const LoginPage = () => {
         window.dispatchEvent(new Event("userChange"));
         setError("");
         setIsLoading(false);
-        router.push("/"); // Redirect to home page after successful login
+        router.push("/");
       }
     } catch (error: any) {
       setError(error.message || "Something went wrong!");
@@ -69,11 +71,9 @@ const LoginPage = () => {
         <div className="text-center">
           <BusFront className="mx-auto h-12 w-12 text-primary" />
           <h1 className="mt-4 text-3xl font-extrabold text-gray-900">
-            Login to your account
+            {t("login.title")}
           </h1>
-          <p className="mt-2 text-sm text-gray-600">
-            Welcome back! Please enter your details.
-          </p>
+          <p className="mt-2 text-sm text-gray-600">{t("login.subtitle")}</p>
         </div>
         <Form {...form}>
           <form
@@ -86,13 +86,15 @@ const LoginPage = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="sr-only">Email</FormLabel>
+                    <FormLabel className="sr-only">
+                      {t("login.email.label")}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         disabled={isLoading}
                         type="email"
-                        placeholder="Email address"
+                        placeholder={t("login.email.placeholder")}
                         className="rounded-t-md"
                       />
                     </FormControl>
@@ -105,13 +107,15 @@ const LoginPage = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="sr-only">Password</FormLabel>
+                    <FormLabel className="sr-only">
+                      {t("login.password.label")}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         disabled={isLoading}
                         type="password"
-                        placeholder="Password"
+                        placeholder={t("login.password.placeholder")}
                         className="rounded-b-md"
                       />
                     </FormControl>
@@ -127,7 +131,7 @@ const LoginPage = () => {
                   href="/reset-password"
                   className="font-medium text-primary hover:text-primary-dark transition-colors"
                 >
-                  Forgot your password?
+                  {t("login.forgotPassword")}
                 </Link>
               </div>
             </div>
@@ -138,7 +142,7 @@ const LoginPage = () => {
               {isLoading ? (
                 <Loader className="h-5 w-5 animate-spin" />
               ) : (
-                "Sign in"
+                t("login.signInButton")
               )}
             </Button>
           </form>
@@ -151,7 +155,7 @@ const LoginPage = () => {
             </div>
             <div className="relative flex justify-center text-sm">
               <span className="px-2 bg-white text-gray-500">
-                Or continue with
+                {t("login.orContinueWith")}
               </span>
             </div>
           </div>
@@ -170,7 +174,7 @@ const LoginPage = () => {
                 alt="Google icon"
                 className="mr-2"
               />
-              Google
+              {t("login.googleButton")}
             </Button>
             <Button
               className="w-full"
@@ -185,19 +189,19 @@ const LoginPage = () => {
                 alt="Facebook icon"
                 className="mr-2"
               />
-              Facebook
+              {t("login.facebookButton")}
             </Button>
           </div>
         </div>
 
         <div className="text-center mt-4">
           <p className="text-sm text-gray-600">
-            Don't have an account?{" "}
+            {t("login.noAccount")}{" "}
             <Link
               href="/register"
               className="font-medium text-primary hover:text-primary-dark transition-colors"
             >
-              Register here
+              {t("login.registerLink")}
             </Link>
           </p>
         </div>

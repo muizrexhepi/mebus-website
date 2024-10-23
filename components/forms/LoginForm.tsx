@@ -1,13 +1,7 @@
+"use client";
 import React, { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "../ui/dialog";
-import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
@@ -22,7 +16,6 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import Link from "next/link";
 import { Loader } from "lucide-react";
 import Image from "next/image";
 import { FormError } from "@/components/form-error";
@@ -31,9 +24,11 @@ import { account } from "@/appwrite.config";
 import { useNavbarStore } from "@/store";
 
 const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
+  const { t } = useTranslation();
   const [error, setError] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { setOpenLogin, openLogin, setOpenReset } = useNavbarStore();
+
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -44,7 +39,6 @@ const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     setIsLoading(true);
-    console.log(values);
 
     try {
       const user = {
@@ -63,8 +57,7 @@ const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
         setOpenLogin(false);
       }
     } catch (error: any) {
-      setError(error.message || "Something went wrong!");
-      console.log(error);
+      setError(error.message || t("login.errors.generic"));
       setIsLoading(false);
     }
   };
@@ -73,7 +66,7 @@ const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
     <Dialog open={isOpen} onOpenChange={() => setOpenLogin(false)}>
       <DialogContent className="h-screen sm:h-fit flex flex-col justify-center">
         <DialogHeader>
-          <DialogTitle className="text-2xl">Login to your account</DialogTitle>
+          <DialogTitle className="text-2xl">{t("login.title")}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -83,9 +76,14 @@ const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>{t("login.email.label")}</FormLabel>
                     <FormControl>
-                      <Input {...field} disabled={isLoading} type="email" />
+                      <Input
+                        {...field}
+                        disabled={isLoading}
+                        type="email"
+                        placeholder={t("login.email.placeholder")}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -97,21 +95,26 @@ const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="flex justify-between items-center">
-                      <p>Password</p>
+                      <p>{t("login.password.label")}</p>
                       <Button
                         type="button"
-                        variant={"link"}
+                        variant="link"
                         onClick={() => {
                           setOpenReset(true);
                           setOpenLogin(!openLogin);
                         }}
                         className="text-sm font-medium text-indigo-500"
                       >
-                        Forgot password?
+                        {t("login.forgotPassword")}
                       </Button>
                     </FormLabel>
                     <FormControl>
-                      <Input {...field} disabled={isLoading} type="password" />
+                      <Input
+                        {...field}
+                        disabled={isLoading}
+                        type="password"
+                        placeholder={t("login.password.placeholder")}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -123,21 +126,23 @@ const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
               {isLoading ? (
                 <Loader className="h-3 w-3 animate-spin" />
               ) : (
-                "Login"
+                t("login.signInButton")
               )}
             </Button>
           </form>
         </Form>
         <div className="relative flex items-center">
           <div className="flex-grow border-t border-gray-400"></div>
-          <span className="flex-shrink mx-3 text-gray-700 text-sm">or</span>
+          <span className="flex-shrink mx-3 text-gray-700 text-sm">
+            {t("login.orContinueWith")}
+          </span>
           <div className="flex-grow border-t border-gray-400"></div>
         </div>
         <div className="space-y-3">
           <Button
             className="w-full relative"
             onClick={handleGoogleLogin}
-            variant={"outline"}
+            variant="outline"
             disabled={isLoading}
           >
             <Image
@@ -147,12 +152,12 @@ const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
               alt="Google icon"
               className="absolute left-4"
             />
-            Continue with Google
+            {t("login.googleButton")}
           </Button>
           <Button
             className="w-full relative"
             onClick={handleFacebookLogin}
-            variant={"outline"}
+            variant="outline"
             disabled={isLoading}
           >
             <Image
@@ -162,15 +167,9 @@ const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
               alt="Facebook icon"
               className="absolute left-4"
             />
-            Continue with Facebook
+            {t("login.facebookButton")}
           </Button>
         </div>
-        {/* <DialogFooter className="bg-[#f7fafc]/80 rounded flex justify-center items-center space-x-2 py-5 text-sm">
-          <p>New to MediSearch?</p>
-          <Link href={"/register"} className="text-indigo-500 font-semibold">
-            Create account
-          </Link>
-        </DialogFooter> */}
       </DialogContent>
     </Dialog>
   );

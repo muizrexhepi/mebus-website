@@ -13,6 +13,7 @@ import { useState } from "react";
 import useIsMobile from "./hooks/use-mobile";
 import PassengerSelectDialog from "./dialogs/PassengersDialog";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 interface PassengerSelectProps {
   updateUrl?: boolean;
@@ -26,6 +27,7 @@ export default function PassengerSelect({
   const isMobile = useIsMobile();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { t } = useTranslation();
 
   const updatePassengers = (updatedPassengers: typeof passengers) => {
     setPassengers(updatedPassengers);
@@ -70,7 +72,8 @@ export default function PassengerSelect({
         >
           <User2 className="w-4 h-4 text-primary mr-2" />
           <span className="capitalize">
-            Adults ({passengers.adults}), Children ({passengers.children})
+            {t("orderSummary.adults")} ({passengers.adults}),{" "}
+            {t("orderSummary.children")} ({passengers.children})
           </span>
         </div>
         <PassengerSelectDialog
@@ -88,18 +91,22 @@ export default function PassengerSelect({
         aria-label="Select number of passengers"
       >
         {passengers.adults > 1
-          ? `${passengers.adults} Adults`
-          : `${passengers.adults} Adult`}
+          ? `${passengers.adults} ${t("orderSummary.adults")}`
+          : `${passengers.adults} ${t("passengerInfo.adult")}`}
         {passengers.children > 0 &&
           `, ${passengers.children} ${
-            passengers.children > 1 ? "Children" : "Child"
+            passengers.children > 1
+              ? t("orderSummary.children")
+              : t("passengerInfo.child")
           }`}
       </SelectTrigger>
 
       <SelectContent>
         <div className="px-2">
           <div className="flex items-center justify-between py-2 border-b">
-            <span className="text-sm font-medium">Adults</span>
+            <span className="text-sm font-medium">
+              {t("orderSummary.adults")}
+            </span>
             <div className="flex items-center">
               <Button
                 variant="outline"
@@ -125,7 +132,9 @@ export default function PassengerSelect({
             </div>
           </div>
           <div className="flex items-center justify-between py-2">
-            <span className="text-sm font-medium">Children</span>
+            <span className="text-sm font-medium">
+              {t("orderSummary.children")}
+            </span>
             <div className="flex items-center">
               <Button
                 variant="outline"

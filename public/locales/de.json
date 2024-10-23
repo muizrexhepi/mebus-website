@@ -192,7 +192,40 @@
   "auth": {
     "logout": "Abmelden",
     "signUp": "Registrieren",
-    "login": "Anmelden"
+    "login": "Anmelden",
+    "createAccount": "Konto erstellen",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "confirmPassword": "Passwort bestätigen",
+    "termsAndConditions": "Ich akzeptiere die <termsAndConditions>",
+    "successMessage": {
+      "login": "Erfolgreich angemeldet!",
+      "logout": "Erfolgreich abgemeldet!",
+      "registration": "Registrierung erfolgreich!"
+    },
+    "errorMessage": {
+      "invalidCredentials": "Ungültige Anmeldedaten.",
+      "emailExists": "Diese E-Mail-Adresse ist bereits registriert.",
+      "weakPassword": "Das Passwort ist zu schwach.",
+      "genericError": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
+    }
   },
-  "back": "Zurück"
+  "location": {
+    "type": "Ortstyp",
+    "filter": {
+      "options": {
+        "all": "Alle",
+        "active": "Aktiv",
+        "inactive": "Inaktiv"
+      },
+      "search": "Suche"
+    }
+  },
+  "info": {
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "terms": "Nutzungsbedingungen",
+    "privacy": "Datenschutz",
+    "help": "Hilfe"
+  }
 }

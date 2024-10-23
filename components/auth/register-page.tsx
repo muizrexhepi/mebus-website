@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
@@ -25,6 +26,7 @@ import { account } from "@/appwrite.config";
 import { createUser } from "@/actions/users";
 
 const RegisterPage = () => {
+  const { t } = useTranslation();
   const [error, setError] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -64,15 +66,15 @@ const RegisterPage = () => {
         await account.createVerification(
           "https://mebus-website.vercel.app/email-verification"
         );
-        router.push("/"); // Redirect to home page after successful registration
+        router.push("/");
       }
 
       setError("");
     } catch (error: any) {
       if (error && error.code == 409) {
-        setError("A user with the same id, email, or phone already exists!");
+        setError(t("register.errors.userExists"));
       } else {
-        setError("An error occurred during registration.");
+        setError(t("register.errors.generic"));
       }
     }
 
@@ -85,11 +87,9 @@ const RegisterPage = () => {
         <div className="text-center">
           <BusFront className="mx-auto h-12 w-12 text-primary" />
           <h1 className="mt-4 text-3xl font-extrabold text-gray-900">
-            Create your account
+            {t("register.title")}
           </h1>
-          <p className="mt-2 text-sm text-gray-600">
-            Join us and start booking your bus tickets today!
-          </p>
+          <p className="mt-2 text-sm text-gray-600">{t("register.subtitle")}</p>
         </div>
         <Form {...form}>
           <form
@@ -102,13 +102,15 @@ const RegisterPage = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="sr-only">Name</FormLabel>
+                    <FormLabel className="sr-only">
+                      {t("register.name.label")}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         disabled={isLoading}
                         type="text"
-                        placeholder="Full name"
+                        placeholder={t("register.name.placeholder")}
                         className="rounded-t-md"
                       />
                     </FormControl>
@@ -121,13 +123,15 @@ const RegisterPage = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="sr-only">Email</FormLabel>
+                    <FormLabel className="sr-only">
+                      {t("register.email.label")}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         disabled={isLoading}
                         type="email"
-                        placeholder="Email address"
+                        placeholder={t("register.email.placeholder")}
                       />
                     </FormControl>
                     <FormMessage />
@@ -139,13 +143,15 @@ const RegisterPage = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="sr-only">Password</FormLabel>
+                    <FormLabel className="sr-only">
+                      {t("register.password.label")}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         disabled={isLoading}
                         type="password"
-                        placeholder="Password"
+                        placeholder={t("register.password.placeholder")}
                         className="rounded-b-md"
                       />
                     </FormControl>
@@ -161,7 +167,7 @@ const RegisterPage = () => {
               {isLoading ? (
                 <Loader className="h-5 w-5 animate-spin" />
               ) : (
-                "Sign up"
+                t("register.signUpButton")
               )}
             </Button>
           </form>
@@ -174,7 +180,7 @@ const RegisterPage = () => {
             </div>
             <div className="relative flex justify-center text-sm">
               <span className="px-2 bg-white text-gray-500">
-                Or continue with
+                {t("register.orContinueWith")}
               </span>
             </div>
           </div>
@@ -193,7 +199,7 @@ const RegisterPage = () => {
                 alt="Google icon"
                 className="mr-2"
               />
-              Google
+              {t("register.googleButton")}
             </Button>
             <Button
               className="w-full"
@@ -208,19 +214,19 @@ const RegisterPage = () => {
                 alt="Facebook icon"
                 className="mr-2"
               />
-              Facebook
+              {t("register.facebookButton")}
             </Button>
           </div>
         </div>
 
         <div className="text-center mt-4">
           <p className="text-sm text-gray-600">
-            Already have an account?{" "}
+            {t("register.haveAccount")}{" "}
             <Link
               href="/login"
               className="font-medium text-primary hover:text-primary-dark transition-colors"
             >
-              Login here
+              {t("register.loginLink")}
             </Link>
           </p>
         </div>

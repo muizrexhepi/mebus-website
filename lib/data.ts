@@ -92,15 +92,16 @@ export const FOOTER_LINKS = [
 
 
 export const QUICK_LINKS = [
-    { name: "how-to-book", icon: Book, label: "How to Book" },
-    { name: "cancellation-policy", icon: RefreshCcw, label: "Cancellation Policy" },
-    { name: "payment-options", icon: CreditCard, label: "Payment Options" },
-    { name: "e-ticket-guide", icon: TicketIcon, label: "E-Ticket Guide" },
-    { name: "travel-flex", icon: BaggageClaim, label: "Travel Flex Options" },
-    { name: "travel-duration", icon: Clock, label: "Travel Duration" },
-    { name: "travel-advisory", icon: AlertCircle, label: "Travel Advisory" },
-    { name: "contact-support", icon: HelpCircle, label: "Contact Support" },
-]
+  { name: "how-to-book", icon: Book, label: "howToBook" },
+  { name: "cancellation-policy", icon: RefreshCcw, label: "cancellationPolicy" },
+  { name: "payment-options", icon: CreditCard, label: "paymentOptions" },
+  { name: "e-ticket-guide", icon: TicketIcon, label: "eTicketGuide" },
+  { name: "travel-flex", icon: BaggageClaim, label: "travelFlexOptions" },
+  { name: "travel-duration", icon: Clock, label: "travelDuration" },
+  { name: "travel-advisory", icon: AlertCircle, label: "travelAdvisory" },
+  { name: "contact-support", icon: HelpCircle, label: "contactSupport" }
+];
+
 
 export interface FlexFeature {
   name: string;

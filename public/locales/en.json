@@ -6,6 +6,106 @@
     "about": "About",
     "contact": "Contact"
   },
+  "helpPage": {
+    "title": "Help Center",
+    "description": "Welcome to our Help Center. Find answers to common questions, learn how to use our services, and get the support you need for a smooth bus booking experience.",
+    "howCanWeHelp": "How can we help you today?",
+    "searchOrBrowse": "Search our knowledge base or browse topics below",
+    "quickLinksTitle": "Quick Links",
+    "quickLinksDescription": "Quickly access important information and tools",
+    "quickLinks": {
+      "howToBook": "How to Book",
+      "cancellationPolicy": "Cancellation Policy",
+      "paymentOptions": "Payment Options",
+      "eTicketGuide": "E-Ticket Guide",
+      "travelFlexOptions": "Travel Flex Options",
+      "travelDuration": "Travel Duration",
+      "travelAdvisory": "Travel Advisory",
+      "contactSupport": "Contact Support"
+    }
+  },
+  "infoTabs": {
+    "generalInfo": "General Info",
+    "bookingProcess": "Booking Process",
+    "manageBookings": "Manage Bookings",
+    "faqs": "FAQs",
+    "generalTitle": "General Information",
+    "generalDescription": "Learn about our services and policies",
+    "aboutService": "About Our Bus Service",
+    "aboutServiceContent": "We offer reliable and comfortable bus transportation services across multiple cities. Our fleet consists of modern buses equipped with amenities such as Wi-Fi, power outlets, and onboard entertainment.",
+    "routesDestinations": "Routes and Destinations",
+    "routesDestinationsContent": "We operate routes connecting major cities and popular destinations. To view our current routes, please visit the \"Routes\" section of our website or mobile app.",
+    "luggagePolicy": "Luggage Policy",
+    "luggagePolicyContent": "Each passenger is allowed one piece of luggage (max. 20kg) for the luggage compartment and one piece of hand luggage (max. 7kg) to take on board. Additional or oversized luggage may incur extra fees.",
+    "petPolicy": "Pet Policy",
+    "petPolicyContent": "Only service animals are allowed on our buses. Pets, including emotional support animals, are not permitted for the comfort and safety of all passengers.",
+    "bookingTitle": "Booking Process",
+    "bookingDescription": "Learn how to book your bus tickets",
+    "howToBook": "How to Book a Ticket",
+    "howToBookSteps": {
+      "1": "Go to our website or open our mobile app",
+      "2": "Enter your departure and arrival locations",
+      "3": "Select your travel date",
+      "4": "Choose your preferred bus and seats",
+      "5": "Enter passenger details",
+      "6": "Select any add-ons (e.g., extra luggage)",
+      "7": "Review your booking details",
+      "8": "Proceed to payment",
+      "9": "Receive your e-ticket via email"
+    },
+    "paymentMethods": "Payment Methods",
+    "paymentMethodsContent": {
+      "title": "We accept various payment methods including:",
+      "methods": {
+        "cards": "Credit/Debit Cards (Visa, MasterCard, American Express)",
+        "paypal": "PayPal",
+        "mobile": "Apple Pay and Google Pay (on mobile devices)",
+        "bank": "Bank transfers (for select routes)"
+      }
+    },
+    "seatSelection": "Seat Selection",
+    "seatSelectionContent": "You can select your preferred seats during the booking process. Seat selection is subject to availability and may incur an additional fee for premium seats (e.g., extra legroom).",
+    "groupBookings": "Group Bookings",
+    "groupBookingsContent": "For groups of 10 or more, please contact our group booking department at groups@busbooking.com. We offer special rates and assistance for large group travel.",
+    "manageTitle": "Manage Bookings",
+    "manageDescription": "Learn how to modify or cancel your bookings",
+    "modifyBooking": "How to Modify a Booking",
+    "modifyBookingSteps": {
+      "intro": "To modify your booking:",
+      "1": "Log in to your account on our website or app",
+      "2": "Go to \"My Bookings\"",
+      "3": "Select the booking you want to modify",
+      "4": "Click on \"Modify Booking\"",
+      "5": "Make your desired changes",
+      "6": "Pay any difference in fare or fees",
+      "7": "Receive a confirmation of your modified booking",
+      "note": "Note: Modifications are subject to our change policy and may incur fees."
+    },
+    "cancellationPolicy": "Cancellation Policy",
+    "cancellationPolicyContent": {
+      "intro": "Our cancellation policy is as follows:",
+      "policies": {
+        "full": "More than 72 hours before departure: Full refund",
+        "half": "24-72 hours before departure: 50% refund",
+        "none": "Less than 24 hours before departure: No refund"
+      },
+      "instructions": "To cancel a booking, log in to your account, go to \"My Bookings,\" select the booking you want to cancel, and click on \"Cancel Booking.\""
+    },
+    "refundProcess": "Refund Process",
+    "refundProcessContent": "Refunds are processed within 5-10 business days, depending on your payment method. The refund will be issued to the original form of payment used for the booking.",
+    "lostTicket": "Lost Ticket",
+    "lostTicketContent": "If you've lost your e-ticket, you can easily retrieve it by logging into your account and going to \"My Bookings.\" From there, you can resend the e-ticket to your email or download it directly.",
+    "faqsTitle": "Frequently Asked Questions",
+    "faqsDescription": "Find answers to common questions about our bus ticket booking service",
+    "arrivalTime": "How early should I arrive at the bus station?",
+    "arrivalTimeContent": "We recommend arriving at least 15-30 minutes before your scheduled departure time. This allows time for check-in, luggage storage, and boarding. For popular routes or during peak travel seasons, you may want to arrive up to 45 minutes early.",
+    "changeName": "Can I change the name on my ticket?",
+    "changeNameContent": "Name changes are generally not allowed for security reasons. If you need to transfer your ticket to someone else, you'll need to cancel your existing booking (subject to our cancellation policy) and make a new booking under the new passenger's name.",
+    "missBus": "What happens if I miss my bus?",
+    "missBusContent": "If you miss your bus, your ticket is typically considered void. However, we understand that unexpected situations can arise. Contact our customer service as soon as possible, and we'll do our best to accommodate you on the next available bus, subject to availability and possible additional fees.",
+    "powerOutlets": "Are there power outlets on the bus?",
+    "powerOutletsContent": "Most of our buses are equipped with power outlets for each seat. However, availability may vary depending on the specific bus and route. We recommend bringing a portable charger as a backup, especially for longer journeys."
+  },
   "extrasInfo": {
     "title": "Travel Flex Options",
     "description": "Choose from different flexibility options to cancel or modify your trip based on your needs.",
@@ -193,6 +293,67 @@
     "logout": "Logout",
     "signUp": "Sign Up",
     "login": "Login"
+  },
+  "login": {
+    "title": "Login to your account",
+    "subtitle": "Welcome back! Please enter your details.",
+    "email": {
+      "label": "Email",
+      "placeholder": "Email address"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Password"
+    },
+    "forgotPassword": "Forgot your password?",
+    "signInButton": "Sign in",
+    "loading": "Loading...",
+    "orContinueWith": "Or continue with",
+    "googleButton": "Google",
+    "facebookButton": "Facebook",
+    "noAccount": "Don't have an account?",
+    "registerLink": "Register here"
+  },
+  "register": {
+    "title": "Create your account",
+    "subtitle": "Join us and start booking your bus tickets today!",
+    "name": {
+      "label": "Name",
+      "placeholder": "Full name"
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "Email address"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Password"
+    },
+    "signUpButton": "Sign up",
+    "loading": "Loading...",
+    "orContinueWith": "Or continue with",
+    "googleButton": "Google",
+    "facebookButton": "Facebook",
+    "haveAccount": "Already have an account?",
+    "loginLink": "Login here",
+    "errors": {
+      "userExists": "A user with the same id, email, or phone already exists!",
+      "generic": "An error occurred during registration."
+    }
+  },
+  "reset": {
+    "title": "Reset your password",
+    "subtitle": "Enter your email to receive a password reset link.",
+    "email": {
+      "label": "Email",
+      "placeholder": "Email address"
+    },
+    "sendButton": "Send Reset Link",
+    "loading": "Loading...",
+    "success": "Password reset email sent successfully!",
+    "error": "Failed to send reset email. Please try again.",
+    "rememberPassword": "Remember your password?",
+    "backToLogin": "Back to login"
   },
   "back": "Back"
 }

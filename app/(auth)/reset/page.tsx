@@ -1,6 +1,8 @@
 "use client";
+
 import React, { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
@@ -22,6 +24,7 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 
 const ResetPassword = () => {
+  const { t } = useTranslation();
   const searchParams = useSearchParams();
   const [success, setSuccess] = useState<string | undefined>();
   const userId = searchParams.get("userId");
@@ -45,16 +48,16 @@ const ResetPassword = () => {
     setError(undefined);
     setSuccess(undefined);
     if (values.password !== values.confirmPassword) {
-      setError("Passwords must be matching!");
+      setError(t("reset.confirm.error.mismatch"));
       setIsLoading(false);
       return;
     } else {
       try {
         await account.updateRecovery(userId!, secret!, values.password);
-        setSuccess("Password changed successfully!");
+        setSuccess(t("reset.confirm.success"));
         setTimeout(() => router.push("/?login=true"), 2000);
       } catch (error: any) {
-        setError(error?.message || "Something went wrong!");
+        setError(error?.message || t("reset.confirm.error.general"));
       } finally {
         setIsLoading(false);
       }
@@ -67,11 +70,10 @@ const ResetPassword = () => {
         <div className="text-center">
           <BusFront className="mx-auto h-12 w-12 text-primary" />
           <h1 className="mt-4 text-3xl font-extrabold text-gray-900">
-            Finalize Password Reset
+            {t("reset.confirm.title")}
           </h1>
           <p className="mt-2 text-sm text-gray-600">
-            You're almost there! Enter your new password below to complete the
-            reset process.
+            {t("reset.confirm.subtitle")}
           </p>
         </div>
         <Form {...form}>
@@ -85,14 +87,18 @@ const ResetPassword = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>New Password</FormLabel>
+                    <FormLabel>
+                      {t("reset.confirm.newPassword.label")}
+                    </FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Input
                           {...field}
                           disabled={isLoading}
                           type="password"
-                          placeholder="Enter your new password"
+                          placeholder={t(
+                            "reset.confirm.newPassword.placeholder"
+                          )}
                           className="rounded-md pl-10"
                         />
                         <KeyRound className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -107,14 +113,18 @@ const ResetPassword = () => {
                 name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Confirm New Password</FormLabel>
+                    <FormLabel>
+                      {t("reset.confirm.confirmPassword.label")}
+                    </FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Input
                           {...field}
                           disabled={isLoading}
                           type="password"
-                          placeholder="Confirm your new password"
+                          placeholder={t(
+                            "reset.confirm.confirmPassword.placeholder"
+                          )}
                           className="rounded-md pl-10"
                         />
                         <CheckCircle className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -137,7 +147,7 @@ const ResetPassword = () => {
               {isLoading ? (
                 <Loader className="h-5 w-5 animate-spin" />
               ) : (
-                "Set New Password"
+                t("reset.confirm.submitButton")
               )}
             </Button>
           </form>
@@ -145,7 +155,7 @@ const ResetPassword = () => {
 
         <div className="text-center mt-4">
           <Link href="/login" className="font-medium text-primary text-sm">
-            Return to login
+            {t("reset.confirm.returnToLogin")}
           </Link>
         </div>
       </div>

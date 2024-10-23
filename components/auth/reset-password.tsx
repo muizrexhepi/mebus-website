@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,7 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 
 const ResetPasswordPage = () => {
+  const { t } = useTranslation();
   const [success, setSuccess] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -45,12 +47,10 @@ const ResetPasswordPage = () => {
         values.email,
         "https://mebus-website.vercel.app/reset"
       );
-      setSuccess("Password reset email sent successfully!");
+      setSuccess(t("reset.success"));
     } catch (error: any) {
       console.error(error);
-      setError(
-        error.message || "Failed to send reset email. Please try again."
-      );
+      setError(error.message || t("reset.error"));
     } finally {
       setIsLoading(false);
     }
@@ -62,11 +62,9 @@ const ResetPasswordPage = () => {
         <div className="text-center">
           <BusFront className="mx-auto h-12 w-12 text-primary" />
           <h1 className="mt-4 text-3xl font-extrabold text-gray-900">
-            Reset your password
+            {t("reset.title")}
           </h1>
-          <p className="mt-2 text-sm text-gray-600">
-            Enter your email to receive a password reset link.
-          </p>
+          <p className="mt-2 text-sm text-gray-600">{t("reset.subtitle")}</p>
         </div>
         <Form {...form}>
           <form
@@ -79,13 +77,15 @@ const ResetPasswordPage = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="sr-only">Email</FormLabel>
+                    <FormLabel className="sr-only">
+                      {t("reset.email.label")}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         disabled={isLoading}
                         type="email"
-                        placeholder="Email address"
+                        placeholder={t("reset.email.placeholder")}
                         className="rounded-md"
                       />
                     </FormControl>
@@ -102,7 +102,7 @@ const ResetPasswordPage = () => {
               {isLoading ? (
                 <Loader className="h-5 w-5 animate-spin" />
               ) : (
-                "Send Reset Link"
+                t("reset.sendButton")
               )}
             </Button>
           </form>
@@ -110,12 +110,12 @@ const ResetPasswordPage = () => {
 
         <div className="text-center mt-4">
           <p className="text-sm text-gray-600">
-            Remember your password?{" "}
+            {t("reset.rememberPassword")}{" "}
             <Link
               href="/login"
               className="font-medium text-primary hover:text-primary-dark transition-colors"
             >
-              Back to login
+              {t("reset.backToLogin")}
             </Link>
           </p>
         </div>
