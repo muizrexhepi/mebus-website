@@ -4,7 +4,97 @@
     "bookings": "Rezervimet",
     "help": "Ndihmë",
     "about": "Rreth nesh",
-    "contact": "Kontakt"
+    "contact": "Kontakt",
+    "account": "Akounti"
+  },
+  "helpPage": {
+    "title": "Qendra e Ndihmës",
+    "description": "Mirësevini në Qendrën tonë të Ndihmës. Gjeni përgjigje për pyetje të shpeshta, mësoni se si të përdorni shërbimet tona dhe merrni ndihmën që ju nevojitet për të rezervuar autobusë pa stres.",
+    "howCanWeHelp": "Si mund t'ju ndihmojmë sot?",
+    "searchOrBrowse": "Kërkoni në bazën tonë të njohurive ose eksploroni temat më poshtë",
+    "quickLinksTitle": "Lidhje të Shpejta",
+    "quickLinksDescription": "Qasje në informacion dhe mjete të rëndësishme",
+    "quickLinks": {
+      "howToBook": "Si të Rezervoni",
+      "cancellationPolicy": "Politika e Anulimit",
+      "paymentOptions": "Opsionet e Pagesës",
+      "eTicketGuide": "Udhëzues për Biletat Elektronike",
+      "travelFlexOptions": "Opsionet e Fleksibilitetit të Udhëtimit",
+      "travelDuration": "Kohëzgjatja e Udhëtimit",
+      "travelAdvisory": "Këshilla për Udhëtimin",
+      "contactSupport": "Kontaktoni Mbështetje"
+    }
+  },
+  "infoTabs": {
+    "generalInfo": "Informacione të Përgjithshme",
+    "bookingProcess": "Procesi i Rezervimit",
+    "manageBookings": "Menaxhoni Rezervimet",
+    "faqs": "Pyetje të Shpeshta",
+    "generalTitle": "Informacione të Përgjithshme",
+    "generalDescription": "Zbuloni shërbimet dhe politikat tona",
+    "aboutService": "Rreth Shërbimit Tonë të Autobusëve",
+    "aboutServiceContent": "Ne ofrojmë shërbime të besueshme dhe komode për transport me autobuz në disa qytete. Flota jonë përfshin autobuzë modernë të pajisur me komoditete si Wi-Fi, socket elektrik dhe argëtim në bord.",
+    "routesDestinations": "Rrugët dhe Destinacionet",
+    "routesDestinationsContent": "Ne menaxhojmë rrugë që lidhin qytete të rëndësishme dhe destinacione të njohura. Për të parë rrugët tona aktuale, vizitoni seksionin 'Rrugët' në faqen tonë të internetit ose aplikacionin tonë mobil.",
+    "luggagePolicy": "Politika e Bagazhit",
+    "luggagePolicyContent": "Çdo pasagjer ka të drejtë në një copë bagazhi (maks. 20 kg) për hapësirën e bagazhit dhe një copë bagazhi me vete (maks. 7 kg). Bagazhet shtesë ose të mëdha mund të sjellin kosto shtesë.",
+    "petPolicy": "Politika për Kafshët",
+    "petPolicyContent": "Vetëm kafshët ndihmëse janë të lejuara në autobusët tanë. Kafshët shtëpiake, përfshirë kafshët për mbështetje emocionale, nuk janë të lejuara për komoditetin dhe sigurinë e të gjithë pasagjerëve.",
+    "bookingTitle": "Procesi i Rezervimit",
+    "bookingDescription": "Zbuloni se si të rezervoni biletën tuaj të autobusit",
+    "howToBook": "Si të Rezervoni një Bilet",
+    "howToBookSteps": {
+      "1": "Shkoni në faqen tonë të internetit ose hapni aplikacionin tonë mobil",
+      "2": "Shkruani vendet tuaja të nisjes dhe mbërritjes",
+      "3": "Zgjidhni datën e udhëtimit",
+      "4": "Zgjidhni autobus dhe vendet tuaja të preferuara",
+      "5": "Jepni detajet e pasagjerëve",
+      "6": "Zgjidhni opsione shtesë (p.sh. bagazh shtesë)",
+      "7": "Kontrolloni detajet e rezervimit tuaj",
+      "8": "Kryeni pagesën",
+      "9": "Merrni biletën elektronike përmes emailit"
+    },
+    "paymentMethods": "Metodat e Pagesës",
+    "paymentMethodsContent": {
+      "title": "Pranojmë disa metoda pagesash, duke përfshirë:",
+      "methods": {
+        "cards": "Kartat e Kreditit/ Debitit (Visa, MasterCard, American Express)",
+        "paypal": "PayPal",
+        "mobile": "Apple Pay dhe Google Pay (në pajisje mobile)",
+        "bank": "Transfer bankar (për disa rrugë)"
+      }
+    },
+    "seatSelection": "Zgjedhja e Vendeve",
+    "seatSelectionContent": "Mund të zgjidhni vendet tuaja të preferuara gjatë procesit të rezervimit. Zgjedhja e vendeve varet nga disponueshmëria dhe mund të sjellë kosto shtesë për vendet premium (p.sh. më shumë hapësirë për këmbët).",
+    "groupBookings": "Rezervimet për Grupa",
+    "groupBookingsContent": "Për grupe prej 10 personash ose më shumë, ju lutemi kontaktoni departamentin tonë të rezervimeve për grupe në groups@busbooking.com. Ne ofrojmë çmime të veçanta dhe mbështetje për udhëtime grupore.",
+    "manageTitle": "Menaxhoni Rezervimet",
+    "manageDescription": "Zbuloni se si mund të menaxhoni rezervat tuaja",
+    "lostTicket": "Bileta e Humbur",
+    "lostTicketContent": "Nëse humbni biletën tuaj elektronike, kontaktoni ekipin tonë të mbështetjes në support@busbooking.com me emailin tuaj dhe detajet e rezervimit tuaj. Ne do t'ju dërgojmë një lidhje për rishtimin.",
+    "faqsTitle": "Pyetje të Shpeshta",
+    "faqExamples": {
+      "1": {
+        "question": "Si mund ta ndryshoj rezervimin tim?",
+        "answer": "Mund ta ndryshoni rezervimin tuaj duke u kyçur në profilin tuaj dhe duke shkuar te 'Rezervimet e Mia.' Zgjidhni rezervimin që dëshironi të ndryshoni dhe ndiqni udhëzimet."
+      },
+      "2": {
+        "question": "Çfarë të bëj nëse autobusi im vonohet?",
+        "answer": "Nëse autobusi juaj vonohet, do të merrni njoftime përmes emailit dhe përmes aplikacionit tonë. Ju rekomandojmë të arrini në pikën e nisjes të paktën 30 minuta përpara kohës së planifikuar të nisjes."
+      },
+      "3": {
+        "question": "Mund të sjell një kafshë shtëpiake?",
+        "answer": "Vetëm kafshët ndihmëse janë të lejuara në autobusët tanë. Kafshët shtëpiake nuk lejohet."
+      },
+      "4": {
+        "question": "Si mund të marr kthimin tim?",
+        "answer": "Kthimet përpunohen automatikisht brenda 5 deri në 10 ditë pune, në varësi të metodës së pagesës që është përdorur."
+      },
+      "5": {
+        "question": "Çfarë të bëj nëse kam harruar fjalëkalimin tim?",
+        "answer": "Nëse keni harruar fjalëkalimin tuaj, mund ta rivendosni duke klikuar 'Keni harruar fjalëkalimin?' në faqen e hyrjes."
+      }
+    }
   },
   "extrasInfo": {
     "title": "Opsionet e Fleksibilitetit të Udhëtimit",
@@ -190,9 +280,70 @@
     }
   },
   "auth": {
-    "logout": "Dilni",
+    "logout": "Shkyçuni",
     "signUp": "Regjistrohu",
     "login": "Hyr"
+  },
+  "login": {
+    "title": "Hyni në profilin tuaj",
+    "subtitle": "Mirësevini përsëri! Ju lutemi, jepni informacionet tuaja.",
+    "email": {
+      "label": "Email",
+      "placeholder": "Adresa e emailit"
+    },
+    "password": {
+      "label": "Fjalëkalimi",
+      "placeholder": "Fjalëkalimi"
+    },
+    "forgotPassword": "Keni harruar fjalëkalimin?",
+    "signInButton": "Hyr",
+    "loading": "Po ngarkohet...",
+    "orContinueWith": "Ose vazhdoni me",
+    "googleButton": "Google",
+    "facebookButton": "Facebook",
+    "noAccount": "Nuk keni një llogari?",
+    "registerLink": "Regjistrohuni këtu"
+  },
+  "register": {
+    "title": "Krijoni profilin tuaj",
+    "subtitle": "Bashkohuni me ne dhe filloni të rezervoni biletat e autobusëve sot!",
+    "name": {
+      "label": "Emri",
+      "placeholder": "Emri i plotë"
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "Adresa e emailit"
+    },
+    "password": {
+      "label": "Fjalëkalimi",
+      "placeholder": "Fjalëkalimi"
+    },
+    "signUpButton": "Regjistrohu",
+    "loading": "Po ngarkohet...",
+    "orContinueWith": "Ose vazhdoni me",
+    "googleButton": "Google",
+    "facebookButton": "Facebook",
+    "haveAccount": "Keni tashmë një llogari?",
+    "loginLink": "Hyni këtu",
+    "errors": {
+      "userExists": "Një përdorues me të njëjtin identitet, email ose telefon tashmë ekziston!",
+      "generic": "Ndodhi një gabim gjatë regjistrimit."
+    }
+  },
+  "reset": {
+    "title": "Rivendosni fjalëkalimin tuaj",
+    "subtitle": "Jepni adresën tuaj të emailit për të marrë një lidhje për rivendosjen e fjalëkalimit.",
+    "email": {
+      "label": "Email",
+      "placeholder": "Adresa e emailit"
+    },
+    "sendButton": "Dërgo lidhjen për rivendosje",
+    "loading": "Po ngarkohet...",
+    "success": "Lidhja për rivendosjen e fjalëkalimit u dërgua me sukses!",
+    "error": "Gabim gjatë dërgimit të lidhjes për rivendosje. Ju lutemi, provoni përsëri.",
+    "rememberPassword": "E mbani mend fjalëkalimin tuaj?",
+    "backToLogin": "Kthehu te hyrja"
   },
   "back": "Kthehu"
 }

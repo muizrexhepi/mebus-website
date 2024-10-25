@@ -119,7 +119,7 @@ const UserNavbarMenu = () => {
       <DropdownMenuContent align="end" className="w-42 rounded-xl mt-2">
         <DropdownMenuItem asChild>
           <Link href="/account" className="w-full">
-            {t("nav.routes")} {/* Translated "Account" */}
+            {t("nav.account")}
           </Link>
         </DropdownMenuItem>
         {/* <DropdownMenuItem asChild>
