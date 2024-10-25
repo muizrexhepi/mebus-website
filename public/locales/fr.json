@@ -96,28 +96,15 @@
     "lostTicket": "Billet Perdu",
     "lostTicketContent": "Si vous perdez votre e-ticket, contactez notre service client au support@busbooking.com avec votre adresse e-mail et les détails de votre réservation. Nous vous enverrons un lien de réémission.",
     "faqsTitle": "Questions Fréquemment Posées",
-    "faqExamples": {
-      "1": {
-        "question": "Comment puis-je modifier ma réservation ?",
-        "answer": "Vous pouvez modifier votre réservation en vous connectant à votre compte et en allant dans 'Mes Réservations.' Sélectionnez la réservation que vous souhaitez modifier et suivez les instructions."
-      },
-      "2": {
-        "question": "Que dois-je faire si mon bus a du retard ?",
-        "answer": "Si votre bus a du retard, vous recevrez des notifications par e-mail et via notre application. Nous vous recommandons d'arriver au point de départ au moins 30 minutes avant l'heure de départ prévue."
-      },
-      "3": {
-        "question": "Puis-je emmener mon animal de compagnie ?",
-        "answer": "Seuls les animaux d'assistance sont autorisés dans nos bus. Les animaux de compagnie ne sont pas autorisés."
-      },
-      "4": {
-        "question": "Comment obtenir mon remboursement ?",
-        "answer": "Les remboursements sont traités automatiquement dans un délai de 5 à 10 jours ouvrables, selon le mode de paiement utilisé."
-      },
-      "5": {
-        "question": "Que dois-je faire si j'ai oublié mon mot de passe ?",
-        "answer": "Si vous avez oublié votre mot de passe, vous pouvez le réinitialiser en cliquant sur 'Mot de passe oublié ?' sur la page de connexion."
-      }
-    }
+    "faqsDescription": "Trouvez des réponses aux questions courantes sur notre service de réservation de billets de bus",
+    "arrivalTime": "Combien de temps à l'avance dois-je arriver à la gare routière ?",
+    "arrivalTimeContent": "Nous vous recommandons d'arriver au moins 15-30 minutes avant l'heure de départ prévue. Cela permet d'avoir le temps pour l'enregistrement, le dépôt des bagages et l'embarquement. Pour les itinéraires populaires ou pendant les périodes de forte affluence, il est conseillé d'arriver jusqu'à 45 minutes à l'avance.",
+    "changeName": "Puis-je modifier le nom sur mon billet ?",
+    "changeNameContent": "Les changements de nom ne sont généralement pas autorisés pour des raisons de sécurité. Si vous devez transférer votre billet à quelqu'un d'autre, vous devrez annuler votre réservation existante (selon notre politique d'annulation) et effectuer une nouvelle réservation au nom du nouveau passager.",
+    "missBus": "Que se passe-t-il si je rate mon bus ?",
+    "missBusContent": "Si vous ratez votre bus, votre billet est généralement considéré comme non valide. Cependant, nous comprenons que des situations imprévues peuvent survenir. Contactez notre service client dès que possible, et nous ferons de notre mieux pour vous placer sur le prochain bus disponible, sous réserve de disponibilité et d'éventuels frais supplémentaires.",
+    "powerOutlets": "Y a-t-il des prises électriques dans le bus ?",
+    "powerOutletsContent": "La plupart de nos bus sont équipés de prises électriques pour chaque siège. Cependant, la disponibilité peut varier selon le bus et l'itinéraire spécifique. Nous vous recommandons d'apporter un chargeur portable en secours, particulièrement pour les longs trajets."
   },
   "extrasInfo": {
     "title": "Options Flex Voyage",

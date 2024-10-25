@@ -50,7 +50,10 @@ export const WelcomeEmail = () => (
           </Text>
           <Text style={footer}>
             If you did not sign up for this, please{" "}
-            <Link href="#">unsubscribe here</Link>.
+            <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/unsubscribe`}>
+              unsubscribe here
+            </Link>
+            .
           </Text>
         </Section>
       </Container>

@@ -100,11 +100,14 @@ const Footer = () => {
           >
             {t("footer.missionStatement")}
           </p>
-          <div className="flex flex-col sm:my-0 my-4 space-y-4 min-w-[250px] w-full sm:w-full">
+          <div className="flex flex-col sm:my-0 my-4 space-y-4 pt-2 min-w-[250px] w-full sm:w-full">
             <h1 className="font-medium text-lg text-white">
               {t("footer.getUpdates")}
             </h1>
-            <form onSubmit={handleSubscribe} className="space-y-2 w-[80%]">
+            <form
+              onSubmit={handleSubscribe}
+              className="space-y-2 w-full sm:w-[80%]"
+            >
               <label htmlFor="email-input" className="sr-only">
                 {t("footer.emailAddress")}
               </label>

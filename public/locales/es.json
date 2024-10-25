@@ -97,28 +97,14 @@
     "lostTicketContent": "Si has perdido tu e-ticket, puedes recuperarlo fácilmente iniciando sesión en tu cuenta y yendo a 'Mis Reservas.' Desde allí, puedes reenviar el e-ticket a tu correo electrónico o descargarlo directamente.",
     "faqsTitle": "Preguntas Frecuentes",
     "faqsDescription": "Encuentra respuestas a preguntas comunes sobre nuestro servicio de reserva de boletos de autobús",
-    "faqExamples": {
-      "1": {
-        "question": "¿Cómo puedo cambiar mi reserva?",
-        "answer": "Puedes cambiar tu reserva iniciando sesión en tu cuenta y yendo a 'Mis Reservas.' Selecciona la reserva que deseas cambiar y sigue las instrucciones."
-      },
-      "2": {
-        "question": "¿Qué debo hacer si mi autobús se retrasa?",
-        "answer": "Si tu autobús se retrasa, recibirás notificaciones por correo electrónico y a través de nuestra aplicación. Te recomendamos que llegues al punto de partida al menos 30 minutos antes de la salida programada."
-      },
-      "3": {
-        "question": "¿Puedo llevar mi mascota?",
-        "answer": "Solo se permiten animales de servicio en nuestros autobuses. Las mascotas no están permitidas."
-      },
-      "4": {
-        "question": "¿Cómo obtengo mi reembolso?",
-        "answer": "Los reembolsos se procesan automáticamente dentro de 5 a 10 días hábiles, dependiendo de la forma de pago utilizada."
-      },
-      "5": {
-        "question": "¿Qué debo hacer si olvidé mi contraseña?",
-        "answer": "Si olvidaste tu contraseña, puedes restablecerla haciendo clic en '¿Olvidaste tu contraseña?' en la página de inicio de sesión."
-      }
-    }
+    "arrivalTime": "¿Con cuánta anticipación debo llegar a la estación de autobuses?",
+    "arrivalTimeContent": "Recomendamos llegar al menos 15-30 minutos antes de la hora programada de salida. Esto permite tiempo para el check-in, almacenamiento de equipaje y abordaje. Para rutas populares o durante temporadas altas de viaje, se recomienda llegar hasta 45 minutos antes.",
+    "changeName": "¿Puedo cambiar el nombre en mi boleto?",
+    "changeNameContent": "Los cambios de nombre generalmente no están permitidos por razones de seguridad. Si necesita transferir su boleto a otra persona, deberá cancelar su reserva existente (sujeto a nuestra política de cancelación) y hacer una nueva reserva bajo el nombre del nuevo pasajero.",
+    "missBus": "¿Qué sucede si pierdo mi autobús?",
+    "missBusContent": "Si pierde su autobús, su boleto generalmente se considera nulo. Sin embargo, entendemos que pueden surgir situaciones inesperadas. Contacte a nuestro servicio al cliente lo antes posible, y haremos nuestro mejor esfuerzo para acomodarlo en el próximo autobús disponible, sujeto a disponibilidad y posibles cargos adicionales.",
+    "powerOutlets": "¿Hay enchufes eléctricos en el autobús?",
+    "powerOutletsContent": "La mayoría de nuestros autobuses están equipados con enchufes eléctricos para cada asiento. Sin embargo, la disponibilidad puede variar según el autobús específico y la ruta. Recomendamos traer un cargador portátil como respaldo, especialmente para viajes más largos."
   },
   "extrasInfo": {
     "title": "Opciones Flex de Viaje",

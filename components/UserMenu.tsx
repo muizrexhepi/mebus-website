@@ -62,7 +62,7 @@ const UserNavbarMenu = () => {
           className="block px-4 py-2 text-sm font-medium"
           onClick={() => setIsOpen(false)}
         >
-          {t("nav.routes")} {/* Translated "Account" */}
+          {t("nav.account")} {/* Translated "Account" */}
         </Link>
         <Link
           href="/bookings"

@@ -28,73 +28,84 @@
   "infoTabs": {
     "generalInfo": "Informacione të Përgjithshme",
     "bookingProcess": "Procesi i Rezervimit",
-    "manageBookings": "Menaxhoni Rezervimet",
+    "manageBookings": "Menaxhimi i Rezervimeve",
     "faqs": "Pyetje të Shpeshta",
     "generalTitle": "Informacione të Përgjithshme",
-    "generalDescription": "Zbuloni shërbimet dhe politikat tona",
+    "generalDescription": "Mësoni rreth shërbimeve dhe politikave tona",
     "aboutService": "Rreth Shërbimit Tonë të Autobusëve",
-    "aboutServiceContent": "Ne ofrojmë shërbime të besueshme dhe komode për transport me autobuz në disa qytete. Flota jonë përfshin autobuzë modernë të pajisur me komoditete si Wi-Fi, socket elektrik dhe argëtim në bord.",
+    "aboutServiceContent": "Ne ofrojmë shërbime të besueshme dhe komode transporti me autobuz në shumë qytete. Flota jonë përbëhet nga autobusë modernë të pajisur me komoditete si Wi-Fi, priza elektrike dhe argëtim në bord.",
     "routesDestinations": "Rrugët dhe Destinacionet",
-    "routesDestinationsContent": "Ne menaxhojmë rrugë që lidhin qytete të rëndësishme dhe destinacione të njohura. Për të parë rrugët tona aktuale, vizitoni seksionin 'Rrugët' në faqen tonë të internetit ose aplikacionin tonë mobil.",
+    "routesDestinationsContent": "Ne operojmë rrugë që lidhin qytetet kryesore dhe destinacionet e njohura. Për të parë rrugët tona aktuale, ju lutemi vizitoni seksionin \"Rrugët\" në faqen tonë të internetit ose aplikacionin mobil.",
     "luggagePolicy": "Politika e Bagazhit",
-    "luggagePolicyContent": "Çdo pasagjer ka të drejtë në një copë bagazhi (maks. 20 kg) për hapësirën e bagazhit dhe një copë bagazhi me vete (maks. 7 kg). Bagazhet shtesë ose të mëdha mund të sjellin kosto shtesë.",
+    "luggagePolicyContent": "Çdo pasagjer lejohet të ketë një copë bagazhi (maks. 20kg) për ndarjen e bagazheve dhe një bagazh dore (maks. 7kg) për ta marrë në bord. Bagazhet shtesë ose të mëdha mund të kenë tarifa shtesë.",
     "petPolicy": "Politika për Kafshët",
-    "petPolicyContent": "Vetëm kafshët ndihmëse janë të lejuara në autobusët tanë. Kafshët shtëpiake, përfshirë kafshët për mbështetje emocionale, nuk janë të lejuara për komoditetin dhe sigurinë e të gjithë pasagjerëve.",
+    "petPolicyContent": "Vetëm kafshët e shërbimit lejohen në autobusët tanë. Kafshët shtëpiake, përfshirë kafshët për mbështetje emocionale, nuk lejohen për komoditetin dhe sigurinë e të gjithë pasagjerëve.",
     "bookingTitle": "Procesi i Rezervimit",
-    "bookingDescription": "Zbuloni se si të rezervoni biletën tuaj të autobusit",
-    "howToBook": "Si të Rezervoni një Bilet",
+    "bookingDescription": "Mësoni si të rezervoni biletat tuaja të autobusit",
+    "howToBook": "Si të Rezervoni një Biletë",
     "howToBookSteps": {
       "1": "Shkoni në faqen tonë të internetit ose hapni aplikacionin tonë mobil",
-      "2": "Shkruani vendet tuaja të nisjes dhe mbërritjes",
+      "2": "Vendosni vendndodhjet e nisjes dhe mbërritjes",
       "3": "Zgjidhni datën e udhëtimit",
-      "4": "Zgjidhni autobus dhe vendet tuaja të preferuara",
-      "5": "Jepni detajet e pasagjerëve",
-      "6": "Zgjidhni opsione shtesë (p.sh. bagazh shtesë)",
-      "7": "Kontrolloni detajet e rezervimit tuaj",
-      "8": "Kryeni pagesën",
+      "4": "Zgjidhni autobusin dhe vendet tuaja të preferuara",
+      "5": "Vendosni të dhënat e pasagjerëve",
+      "6": "Zgjidhni opsionet shtesë (p.sh., bagazh shtesë)",
+      "7": "Rishikoni detajet e rezervimit",
+      "8": "Vazhdoni me pagesën",
       "9": "Merrni biletën elektronike përmes emailit"
     },
     "paymentMethods": "Metodat e Pagesës",
     "paymentMethodsContent": {
-      "title": "Pranojmë disa metoda pagesash, duke përfshirë:",
+      "title": "Ne pranojmë metoda të ndryshme pagese përfshirë:",
       "methods": {
-        "cards": "Kartat e Kreditit/ Debitit (Visa, MasterCard, American Express)",
+        "cards": "Karta Krediti/Debiti (Visa, MasterCard, American Express)",
         "paypal": "PayPal",
         "mobile": "Apple Pay dhe Google Pay (në pajisje mobile)",
-        "bank": "Transfer bankar (për disa rrugë)"
+        "bank": "Transferta bankare (për rrugë të caktuara)"
       }
     },
     "seatSelection": "Zgjedhja e Vendeve",
-    "seatSelectionContent": "Mund të zgjidhni vendet tuaja të preferuara gjatë procesit të rezervimit. Zgjedhja e vendeve varet nga disponueshmëria dhe mund të sjellë kosto shtesë për vendet premium (p.sh. më shumë hapësirë për këmbët).",
-    "groupBookings": "Rezervimet për Grupa",
-    "groupBookingsContent": "Për grupe prej 10 personash ose më shumë, ju lutemi kontaktoni departamentin tonë të rezervimeve për grupe në groups@busbooking.com. Ne ofrojmë çmime të veçanta dhe mbështetje për udhëtime grupore.",
-    "manageTitle": "Menaxhoni Rezervimet",
-    "manageDescription": "Zbuloni se si mund të menaxhoni rezervat tuaja",
+    "seatSelectionContent": "Ju mund të zgjidhni vendet tuaja të preferuara gjatë procesit të rezervimit. Zgjedhja e vendeve varet nga disponueshmëria dhe mund të ketë një tarifë shtesë për vendet premium (p.sh., hapësirë shtesë për këmbët).",
+    "groupBookings": "Rezervimet Grupore",
+    "groupBookingsContent": "Për grupe prej 10 ose më shumë personash, ju lutemi kontaktoni departamentin tonë të rezervimeve grupore në groups@busbooking.com. Ne ofrojmë tarifa të veçanta dhe asistencë për udhëtime në grup.",
+    "manageTitle": "Menaxhimi i Rezervimeve",
+    "manageDescription": "Mësoni si të modifikoni ose anuloni rezervimet tuaja",
+    "modifyBooking": "Si të Modifikoni një Rezervim",
+    "modifyBookingSteps": {
+      "intro": "Për të modifikuar rezervimin tuaj:",
+      "1": "Identifikohuni në llogarinë tuaj në faqen tonë të internetit ose aplikacion",
+      "2": "Shkoni te \"Rezervimet e Mia\"",
+      "3": "Zgjidhni rezervimin që dëshironi të modifikoni",
+      "4": "Klikoni në \"Modifiko Rezervimin\"",
+      "5": "Bëni ndryshimet e dëshiruara",
+      "6": "Paguani çdo ndryshim në tarifë ose tarifa shtesë",
+      "7": "Merrni konfirmimin e rezervimit të modifikuar",
+      "note": "Shënim: Modifikimet i nënshtrohen politikës sonë të ndryshimit dhe mund të kenë tarifa."
+    },
+    "cancellationPolicy": "Politika e Anulimit",
+    "cancellationPolicyContent": {
+      "intro": "Politika jonë e anulimit është si më poshtë:",
+      "policies": {
+        "full": "Më shumë se 72 orë para nisjes: Rimbursim i plotë",
+        "half": "24-72 orë para nisjes: 50% rimbursim",
+        "none": "Më pak se 24 orë para nisjes: Pa rimbursim"
+      },
+      "instructions": "Për të anuluar një rezervim, identifikohuni në llogarinë tuaj, shkoni te \"Rezervimet e Mia,\" zgjidhni rezervimin që dëshironi të anuloni dhe klikoni në \"Anulo Rezervimin.\""
+    },
+    "refundProcess": "Procesi i Rimbursimit",
+    "refundProcessContent": "Rimbursimet përpunohen brenda 5-10 ditëve pune, në varësi të metodës suaj të pagesës. Rimbursimi do të bëhet në formën origjinale të pagesës të përdorur për rezervimin.",
     "lostTicket": "Bileta e Humbur",
-    "lostTicketContent": "Nëse humbni biletën tuaj elektronike, kontaktoni ekipin tonë të mbështetjes në support@busbooking.com me emailin tuaj dhe detajet e rezervimit tuaj. Ne do t'ju dërgojmë një lidhje për rishtimin.",
+    "lostTicketContent": "Nëse keni humbur biletën tuaj elektronike, mund ta rikuperoni lehtësisht duke u identifikuar në llogarinë tuaj dhe duke shkuar te \"Rezervimet e Mia.\" Nga aty, mund ta ridërgoni biletën elektronike në emailin tuaj ose ta shkarkoni direkt.",
     "faqsTitle": "Pyetje të Shpeshta",
-    "faqExamples": {
-      "1": {
-        "question": "Si mund ta ndryshoj rezervimin tim?",
-        "answer": "Mund ta ndryshoni rezervimin tuaj duke u kyçur në profilin tuaj dhe duke shkuar te 'Rezervimet e Mia.' Zgjidhni rezervimin që dëshironi të ndryshoni dhe ndiqni udhëzimet."
-      },
-      "2": {
-        "question": "Çfarë të bëj nëse autobusi im vonohet?",
-        "answer": "Nëse autobusi juaj vonohet, do të merrni njoftime përmes emailit dhe përmes aplikacionit tonë. Ju rekomandojmë të arrini në pikën e nisjes të paktën 30 minuta përpara kohës së planifikuar të nisjes."
-      },
-      "3": {
-        "question": "Mund të sjell një kafshë shtëpiake?",
-        "answer": "Vetëm kafshët ndihmëse janë të lejuara në autobusët tanë. Kafshët shtëpiake nuk lejohet."
-      },
-      "4": {
-        "question": "Si mund të marr kthimin tim?",
-        "answer": "Kthimet përpunohen automatikisht brenda 5 deri në 10 ditë pune, në varësi të metodës së pagesës që është përdorur."
-      },
-      "5": {
-        "question": "Çfarë të bëj nëse kam harruar fjalëkalimin tim?",
-        "answer": "Nëse keni harruar fjalëkalimin tuaj, mund ta rivendosni duke klikuar 'Keni harruar fjalëkalimin?' në faqen e hyrjes."
-      }
-    }
+    "faqsDescription": "Gjeni përgjigje për pyetjet e zakonshme rreth shërbimit tonë të rezervimit të biletave të autobusit",
+    "arrivalTime": "Sa herët duhet të arrij në stacionin e autobusit?",
+    "arrivalTimeContent": "Ne rekomandojmë të arrini të paktën 15-30 minuta para orës së planifikuar të nisjes. Kjo ju jep kohë për check-in, ruajtjen e bagazheve dhe hipjen në bord. Për rrugët e njohura ose gjatë sezonit të pikut të udhëtimit, mund të dëshironi të arrini deri në 45 minuta më herët.",
+    "changeName": "A mund të ndryshoj emrin në biletën time?",
+    "changeNameContent": "Ndryshimet e emrit zakonisht nuk lejohen për arsye sigurie. Nëse keni nevojë t'ia transferoni biletën dikujt tjetër, do t'ju duhet të anuloni rezervimin ekzistues (subjekt i politikës sonë të anulimit) dhe të bëni një rezervim të ri në emër të pasagjerit të ri.",
+    "missBus": "Çfarë ndodh nëse humbas autobusin?",
+    "missBusContent": "Nëse humbisni autobusin, bileta juaj zakonisht konsiderohet e pavlefshme. Megjithatë, ne kuptojmë që mund të ndodhin situata të papritura. Kontaktoni shërbimin tonë të klientit sa më shpejt të jetë e mundur dhe ne do të bëjmë më të mirën për t'ju akomoduar në autobusin e ardhshëm të disponueshëm, në varësi të disponueshmërisë dhe tarifave të mundshme shtesë.",
+    "powerOutlets": "A ka priza elektrike në autobus?",
+    "powerOutletsContent": "Shumica e autobusëve tanë janë të pajisur me priza elektrike për çdo vend. Megjithatë, disponueshmëria mund të ndryshojë në varësi të autobusit dhe rrugës specifike. Ne rekomandojmë të sillni një karikues portativ si rezervë, veçanërisht për udhëtime më të gjata."
   },
   "extrasInfo": {
     "title": "Opsionet e Fleksibilitetit të Udhëtimit",
