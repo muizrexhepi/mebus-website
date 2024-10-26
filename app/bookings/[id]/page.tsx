@@ -67,8 +67,7 @@ export default function BookingDetailsPage({
 }) {
   const [booking, setBookings] = useState<Booking>();
   const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
-  const [isExtraPaymentNeeded, setIsExtraPaymentNeeded] =
-    useState<boolean>(false);
+  const [isExtraPaymentNeeded, setIsExtraPaymentNeeded] = useState<boolean>(false);
   const [availableDates, setAvailableDates] = useState<any>([]);
   const { isLoading, setIsLoading } = useLoadingStore();
   const [selectedDate, setSelectedDate] = useState<any>(null);

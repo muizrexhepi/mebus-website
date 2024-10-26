@@ -87,13 +87,13 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
         </div>
         <div className="flex items-center space-x-4">
           <Clock className="h-5 w-5 text-emerald-700" />
-          <span className="font-semibold">{formatTime(ticket.time)}</span>
+          <span className="font-semibold">{moment.utc(ticket.stops[0].departure_date).format("HH:mm")}</span>
         </div>
       </div>
       <Separator />
 
       <div className="px-5">
-        {ticket.stops.map((stop: Stop, index: number) => (
+        {ticket?.stops?.map((stop: Stop, index: number) => (
           <Fragment key={stop._id}>
             <div className="flex items-start">
               <div className="flex flex-col items-center mr-4">

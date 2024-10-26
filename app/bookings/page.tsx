@@ -64,6 +64,7 @@ const BookingsDashboard: React.FC = () => {
     if (user) {
       const fetchBookings = async () => {
         try {
+          console.log({dindallin: user.$id})
           const res = await axios.get(
             `${environment.apiurl}/booking/client/${user.$id}?select=departure_date metadata destinations labels price`
           );

@@ -81,11 +81,25 @@ const PaymentMethod = () => {
     return adultPrice * adultCount + childPrice * childCount;
   };
 
+  const calculateOperatorTicketTotal = (ticket: Ticket) => {
+    const adultPrice = ticket.stops[0].price;
+    const childPrice = ticket.stops[0].children_price;
+    const adultCount = passengers.filter((p) => p.age > 10).length;
+    const childCount = passengers.filter((p) => p.age <= 10).length;
+    return adultPrice * adultCount + childPrice * childCount;
+  };
+
   const outboundTotal = outboundTicket
     ? calculateTicketTotal(outboundTicket)
     : 0;
   const returnTotal = returnTicket ? calculateTicketTotal(returnTicket) : 0;
+  const operatorOutboundTotal = outboundTicket
+    ? calculateOperatorTicketTotal(outboundTicket)
+    : 0;
+  const operatorReturnTotal = returnTicket ? calculateOperatorTicketTotal(returnTicket) : 0;
+  const operatorTotalPrice = operatorOutboundTotal + operatorReturnTotal;
   const totalPrice = outboundTotal + returnTotal + flexPrice;
+
 
   const handleUseDepositChange = (checked: boolean) => {
     if (!checked) {
@@ -204,6 +218,7 @@ const PaymentMethod = () => {
           platform: "web",
           flex_price: isReturn ? 0 : flexPrice,
           total_price: ticketTotal + (isReturn ? 0 : flexPrice),
+          operator_price: operatorTotalPrice,
           departure_station,
           arrival_station,
           departure_station_label,
