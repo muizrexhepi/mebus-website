@@ -166,7 +166,8 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
       <Separator />
       <InfoBlock
         desc={t("ticketDetails.operatedBy")}
-        title={ticket.metadata?.operator_company_name}
+        title={ticket?.operatorInfo?.name}
+        href={ticket?.operatorInfo?._id}
       />
     </div>
   );
