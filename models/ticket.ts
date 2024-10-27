@@ -31,7 +31,7 @@ export interface Ticket {
         },
     },
     metadata: TicketMetadata;
-
+    operatorInfo: any;
 }
 
 export interface TicketMetadata {

@@ -19,7 +19,7 @@ import {
 import { Loader } from "lucide-react";
 import Image from "next/image";
 import { FormError } from "@/components/form-error";
-import { handleFacebookLogin, handleGoogleLogin } from "@/actions/oauth";
+import { handleFacebookLogin, handleGoogleCallback, handleGoogleLogin } from "@/actions/oauth";
 import { account } from "@/appwrite.config";
 import { useNavbarStore } from "@/store";
 
@@ -39,6 +39,7 @@ const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     setIsLoading(true);
+    console.log(values);
 
     try {
       const user = {
@@ -50,17 +51,29 @@ const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
         user.email,
         user.password
       );
+      
       if (newUser) {
+        const user = await account.get()
+        console.log({user})
+        if(user.labels[0] === "operator") {
+          await account.deleteSessions();
+          return setError("This email is used by another user.");
+        }
         window.dispatchEvent(new Event("userChange"));
         setError("");
         setIsLoading(false);
-        setOpenLogin(false);
+        
       }
     } catch (error: any) {
-      setError(error.message || t("login.errors.generic"));
+      setError(error.message || "Something went wrong!");
+      console.log(error);
+      setIsLoading(false);
+    } finally {
       setIsLoading(false);
     }
   };
+
+  
 
   return (
     <Dialog open={isOpen} onOpenChange={() => setOpenLogin(false)}>
@@ -69,7 +82,10 @@ const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
           <DialogTitle className="text-2xl">{t("login.title")}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={() => {
+            form.handleSubmit(onSubmit)
+            handleGoogleCallback()
+          }} className="space-y-6">
             <div className="space-y-4">
               <FormField
                 control={form.control}

@@ -79,14 +79,7 @@ export function FlexUpgradeSheet({
                 <SheetTitle className="text-2xl font-semibold">
                   Change Travel Date
                 </SheetTitle>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <X className="h-4 w-4" />
-                  <span className="sr-only">Close</span>
-                </Button>
+             
               </div>
             </SheetHeader>
             <div className="space-y-6 lg:flex lg:space-x-6 lg:space-y-0">

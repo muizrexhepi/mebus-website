@@ -52,7 +52,14 @@ const LoginPage = () => {
         user.email,
         user.password
       );
+      
       if (newUser) {
+        const user = await account.get()
+        console.log({user})
+        if(user.labels[0] === "operator") {
+          await account.deleteSessions();
+          return setError("This email is used by another user.");
+        }
         window.dispatchEvent(new Event("userChange"));
         setError("");
         setIsLoading(false);
@@ -61,6 +68,8 @@ const LoginPage = () => {
     } catch (error: any) {
       setError(error.message || "Something went wrong!");
       console.log(error);
+      setIsLoading(false);
+    } finally {
       setIsLoading(false);
     }
   };

@@ -33,17 +33,14 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
 
     if (isSelectingReturn) {
       if (ticket._id !== returnTicket?._id) {
-        // Only set the return ticket if it's not already selected
         setReturnTicket(ticket);
       }
       router.push(`/checkout`);
     } else {
       if (ticket._id !== outboundTicket?._id) {
-        // Only set the outbound ticket if it's not already selected
         setOutboundTicket(ticket);
       }
 
-      // Only toggle return selection for round trips
       if (tripType === "round-trip") {
         setIsSelectingReturn(true);
       } else {
@@ -71,7 +68,7 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
       <div className="p-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
           <div className="flex gap-2 items-center mb-2 sm:mb-0 justify-between w-full">
-            <Badge>{ticket.metadata.operator_name}</Badge>
+            <Badge>{ticket.operatorInfo?.name}</Badge>
             <div className="flex items-center text-sm text-muted-foreground">
               <CalendarDays className="w-4 h-4 mr-2" />
               {departureDate.format("ddd, MMMM D, YYYY")}

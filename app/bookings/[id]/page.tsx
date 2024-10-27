@@ -433,13 +433,13 @@ export default function BookingDetailsPage({
                   </h1>
                   <div className="space-y-2">
                     <div className="grid grid-cols-2 gap-2">
-                      <span className="font-medium">Full Name:</span>
+                      <span className="font-medium truncate line-clamp-1">Full Name:</span>
                       <span>{passenger?.full_name}</span>
-                      <span className="font-medium">Email:</span>
+                      <span className="font-medium truncate line-clamp-1">Email:</span>
                       <span>{passenger?.email}</span>
-                      <span className="font-medium">Phone:</span>
+                      <span className="font-medium truncate line-clamp-1">Phone:</span>
                       <span>{passenger?.phone}</span>
-                      <span className="font-medium">Price:</span>
+                      <span className="font-medium truncate line-clamp-1">Price:</span>
                       <span className="font-semibold">
                         ${passenger?.price?.toFixed(2)}
                       </span>
@@ -511,7 +511,7 @@ export default function BookingDetailsPage({
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex items-center space-x-2">
                 <MailIcon className="text-primary" />
                 <span>{booking?.passengers[0]?.email}</span>
@@ -531,11 +531,11 @@ export default function BookingDetailsPage({
           <CardContent className="space-y-2">
             <div className="grid grid-cols-2 gap-2">
               <span className="text-sm text-gray-600">Charge ID:</span>
-              <span className="font-mono text-xs bg-gray-100 p-1 rounded">
+              <span className="truncate font-mono text-xs bg-gray-100 p-1 rounded">
                 {booking?.charge?.id}
               </span>
               <span className="text-sm text-gray-600">Payment Intent ID:</span>
-              <span className="font-mono text-xs bg-gray-100 p-1 rounded">
+              <span className="truncate font-mono text-xs bg-gray-100 p-1 rounded">
                 {booking?.metadata?.payment_intent_id}
               </span>
             </div>
