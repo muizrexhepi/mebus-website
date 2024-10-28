@@ -7,16 +7,14 @@ import { environment } from "@/environment";
 export async function handleGoogleLogin() {  
     account.createOAuth2Session(
       OAuthProvider.Google,
-      "https://mebus-website.vercel.app",
-      "https://mebus-website.vercel.app/fail"
+      environment.domainurl + "?oauth=true",
+      `${environment.domainurl}/fail`
     )
 }
 
 export async function handleGoogleCallback() {
   try {
     const user = await account.get();
-    console.log({user})
-
     const newUser = await axios.post(`${environment.apiurl}/user/create/db`,{
       name: user.name,
       email: user.email,
@@ -33,8 +31,8 @@ export async function handleGoogleCallback() {
 export async function handleFacebookLogin() {
     account.createOAuth2Session(
       OAuthProvider.Facebook,
-      "https://mebus-website.vercel.app",
-      "https://mebus-website.vercel.app/fail"
+      environment.domainurl,
+      `${environment.domainurl}/fail`
     );
   }
 

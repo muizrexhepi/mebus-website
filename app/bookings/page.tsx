@@ -30,6 +30,7 @@ import { ToastAction } from "@/components/ui/toast";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import useUser from "@/components/hooks/use-user";
+import moment from "moment-timezone";
 
 const BookingsDashboard: React.FC = () => {
   const { user } = useUser();
@@ -64,11 +65,9 @@ const BookingsDashboard: React.FC = () => {
     if (user) {
       const fetchBookings = async () => {
         try {
-          console.log({dindallin: user.$id})
           const res = await axios.get(
             `${environment.apiurl}/booking/client/${user.$id}?select=departure_date metadata destinations labels price`
           );
-          console.log({ buchung: res.data.data });
           setBookings(res.data.data);
         } catch (error) {
           console.error("Failed to fetch bookings:", error);
@@ -83,13 +82,11 @@ const BookingsDashboard: React.FC = () => {
       const response = await axios.post(
         `${environment.apiurl}/booking/download/pdf/e-ticket/${booking_id}`,
         {},
-        { responseType: "blob" } // Set the response type to blob
+        { responseType: "blob" } 
       );
 
-      // Create a Blob from the response data
       const blob = new Blob([response.data], { type: "application/pdf" });
 
-      // Create a link element and trigger the download
       const link = document.createElement("a");
       link.href = window.URL.createObjectURL(blob);
       link.download = `booking_${booking_id}.pdf`;
@@ -279,28 +276,49 @@ const BookingsDashboard: React.FC = () => {
       </div>
       <h2 className="text-3xl font-semibold mb-4">My Bookings</h2>
       <p className="text-gray-600 mb-6">
-        See your scheduled events from your calendar events links.
+          Explore and manage your bookings below. Review your upcoming trips, check your past reservations, and stay informed about your travel plans.
       </p>
-      <Tabs defaultValue="upcoming">
+      <Tabs defaultValue="all">
         <TabsList className="mb-6">
+        <TabsTrigger value="all" className="font-medium">
+            All
+          </TabsTrigger>
           <TabsTrigger value="upcoming" className="font-medium">
             Upcoming
           </TabsTrigger>
           <TabsTrigger value="past" className="font-medium">
             Past
           </TabsTrigger>
-          <TabsTrigger value="cancelled" className="font-medium">
-            Cancelled
-          </TabsTrigger>
+
         </TabsList>
+        <TabsContent value="all">
+            <div className="space-y-6">
+                {user
+                    ? bookings
+                        ?.map((booking) => renderBookingCard(booking))
+                    : noUserBookings?.map((booking) => renderBookingCard(booking))}
+                {renderNoBookingsMessage()}
+            </div>
+        </TabsContent>
         <TabsContent value="upcoming">
           <div className="space-y-6">
             {user
-              ? bookings?.map((booking) => renderBookingCard(booking))
+              ? bookings?.filter((booking) => moment(booking.departure_date).isAfter(moment.utc()))?.map((booking) => renderBookingCard(booking))
               : noUserBookings?.map((booking) => renderBookingCard(booking))}
             {renderNoBookingsMessage()}
           </div>
         </TabsContent>
+        <TabsContent value="past">
+            <div className="space-y-6">
+                {user
+                    ? bookings
+                        ?.filter((booking) => moment(booking.departure_date).isBefore(moment.utc()))
+                        ?.map((booking) => renderBookingCard(booking))
+                    : noUserBookings?.map((booking) => renderBookingCard(booking))}
+                {renderNoBookingsMessage()}
+            </div>
+        </TabsContent>
+
       </Tabs>
     </div>
   );

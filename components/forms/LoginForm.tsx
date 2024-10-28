@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -22,12 +22,14 @@ import { FormError } from "@/components/form-error";
 import { handleFacebookLogin, handleGoogleCallback, handleGoogleLogin } from "@/actions/oauth";
 import { account } from "@/appwrite.config";
 import { useNavbarStore } from "@/store";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
   const { t } = useTranslation();
   const [error, setError] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { setOpenLogin, openLogin, setOpenReset } = useNavbarStore();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -39,7 +41,6 @@ const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     setIsLoading(true);
-    console.log(values);
 
     try {
       const user = {
@@ -73,7 +74,26 @@ const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
     }
   };
 
-  
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    const handleCallback = async () => {
+      try {
+        console.log({authimi: searchParams.get("oauth")})
+        if(searchParams.get("oauth") !== null) {
+          const res = await handleGoogleCallback();
+          window.dispatchEvent(new Event("userChange"));
+          router.push("/")
+        }
+        console.log("requrest nisht gekommt auf ge gogol")
+      } catch (error) {
+        console.error('Callback error:', error);
+        router.push('/auth/fail');
+      }
+    };
+
+    handleCallback();
+  }, [router]);
 
   return (
     <Dialog open={isOpen} onOpenChange={() => setOpenLogin(false)}>
@@ -84,7 +104,6 @@ const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
         <Form {...form}>
           <form onSubmit={() => {
             form.handleSubmit(onSubmit)
-            handleGoogleCallback()
           }} className="space-y-6">
             <div className="space-y-4">
               <FormField
