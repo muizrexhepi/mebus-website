@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -19,17 +19,15 @@ import {
 import { Loader } from "lucide-react";
 import Image from "next/image";
 import { FormError } from "@/components/form-error";
-import { handleFacebookLogin, handleGoogleCallback, handleGoogleLogin } from "@/actions/oauth";
+import { handleFacebookLogin, handleGoogleLogin } from "@/actions/oauth";
 import { account } from "@/appwrite.config";
 import { useNavbarStore } from "@/store";
-import { useRouter, useSearchParams } from "next/navigation";
 
 const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
   const { t } = useTranslation();
   const [error, setError] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { setOpenLogin, openLogin, setOpenReset } = useNavbarStore();
-  const router = useRouter();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -52,48 +50,17 @@ const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
         user.email,
         user.password
       );
-      
       if (newUser) {
-        const user = await account.get()
-        console.log({user})
-        if(user.labels[0] === "operator") {
-          await account.deleteSessions();
-          return setError("This email is used by another user.");
-        }
         window.dispatchEvent(new Event("userChange"));
         setError("");
         setIsLoading(false);
-        
+        setOpenLogin(false);
       }
     } catch (error: any) {
-      setError(error.message || "Something went wrong!");
-      console.log(error);
-      setIsLoading(false);
-    } finally {
+      setError(error.message || t("login.errors.generic"));
       setIsLoading(false);
     }
   };
-
-  const searchParams = useSearchParams()
-
-  useEffect(() => {
-    const handleCallback = async () => {
-      try {
-        console.log({authimi: searchParams.get("oauth")})
-        if(searchParams.get("oauth") !== null) {
-          const res = await handleGoogleCallback();
-          window.dispatchEvent(new Event("userChange"));
-          router.push("/")
-        }
-        console.log("requrest nisht gekommt auf ge gogol")
-      } catch (error) {
-        console.error('Callback error:', error);
-        router.push('/auth/fail');
-      }
-    };
-
-    handleCallback();
-  }, [router]);
 
   return (
     <Dialog open={isOpen} onOpenChange={() => setOpenLogin(false)}>
@@ -102,9 +69,7 @@ const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
           <DialogTitle className="text-2xl">{t("login.title")}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={() => {
-            form.handleSubmit(onSubmit)
-          }} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-4">
               <FormField
                 control={form.control}

@@ -11,6 +11,7 @@ import {
   Edit,
   View,
   Download,
+  Loader,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -33,12 +34,14 @@ import useUser from "@/components/hooks/use-user";
 import moment from "moment-timezone";
 
 const BookingsDashboard: React.FC = () => {
-  const { user } = useUser();
+  const { user, loading } = useUser();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [noUserBookings, setNoUserBookings] = useState<Booking[]>([]);
   const [showFlexAlert, setShowFlexAlert] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
+
+  console.log({ user });
 
   const handleNoFlexAction = () => {
     setShowFlexAlert(true);
@@ -82,7 +85,7 @@ const BookingsDashboard: React.FC = () => {
       const response = await axios.post(
         `${environment.apiurl}/booking/download/pdf/e-ticket/${booking_id}`,
         {},
-        { responseType: "blob" } 
+        { responseType: "blob" }
       );
 
       const blob = new Blob([response.data], { type: "application/pdf" });
@@ -111,7 +114,7 @@ const BookingsDashboard: React.FC = () => {
   };
 
   const renderNoBookingsMessage = () => {
-    if (!user && (!noUserBookings || noUserBookings.length === 0)) {
+    if (!user && (!noUserBookings || noUserBookings.length === 0) && !loading) {
       return (
         <div className="text-center space-y-4 mt-8">
           <p className="text-gray-500">
@@ -122,7 +125,7 @@ const BookingsDashboard: React.FC = () => {
           </Button>
         </div>
       );
-    } else if (user && (!bookings || bookings.length === 0)) {
+    } else if (user && (!bookings || bookings.length === 0) && !loading) {
       return (
         <div className="text-center space-y-4 mt-8">
           <p className="text-gray-500">
@@ -276,11 +279,12 @@ const BookingsDashboard: React.FC = () => {
       </div>
       <h2 className="text-3xl font-semibold mb-4">My Bookings</h2>
       <p className="text-gray-600 mb-6">
-          Explore and manage your bookings below. Review your upcoming trips, check your past reservations, and stay informed about your travel plans.
+        Explore and manage your bookings below. Review your upcoming trips,
+        check your past reservations, and stay informed about your travel plans.
       </p>
       <Tabs defaultValue="all">
         <TabsList className="mb-6">
-        <TabsTrigger value="all" className="font-medium">
+          <TabsTrigger value="all" className="font-medium">
             All
           </TabsTrigger>
           <TabsTrigger value="upcoming" className="font-medium">
@@ -289,36 +293,43 @@ const BookingsDashboard: React.FC = () => {
           <TabsTrigger value="past" className="font-medium">
             Past
           </TabsTrigger>
-
         </TabsList>
         <TabsContent value="all">
-            <div className="space-y-6">
-                {user
-                    ? bookings
-                        ?.map((booking) => renderBookingCard(booking))
-                    : noUserBookings?.map((booking) => renderBookingCard(booking))}
-                {renderNoBookingsMessage()}
-            </div>
+          <div className="space-y-6">
+            {loading ? (
+              <Loader className="h-6 w-6 animate-spin mx-auto" />
+            ) : user ? (
+              bookings?.map((booking) => renderBookingCard(booking))
+            ) : (
+              noUserBookings?.map((booking) => renderBookingCard(booking))
+            )}
+            {renderNoBookingsMessage()}
+          </div>
         </TabsContent>
         <TabsContent value="upcoming">
           <div className="space-y-6">
             {user
-              ? bookings?.filter((booking) => moment(booking.departure_date).isAfter(moment.utc()))?.map((booking) => renderBookingCard(booking))
+              ? bookings
+                  ?.filter((booking) =>
+                    moment(booking.departure_date).isAfter(moment.utc())
+                  )
+                  ?.map((booking) => renderBookingCard(booking))
               : noUserBookings?.map((booking) => renderBookingCard(booking))}
             {renderNoBookingsMessage()}
           </div>
         </TabsContent>
         <TabsContent value="past">
-            <div className="space-y-6">
-                {user
-                    ? bookings
-                        ?.filter((booking) => moment(booking.departure_date).isBefore(moment.utc()))
-                        ?.map((booking) => renderBookingCard(booking))
-                    : noUserBookings?.map((booking) => renderBookingCard(booking))}
-                {renderNoBookingsMessage()}
-            </div>
+          <div className="space-y-6">
+            {user
+              ? bookings
+                  ?.filter((booking) =>
+                    moment(booking.departure_date).isBefore(moment.utc())
+                  )
+                  ?.map((booking) => renderBookingCard(booking))
+              : noUserBookings?.map((booking) => renderBookingCard(booking))}
+            {renderNoBookingsMessage()}
+          </div>
         </TabsContent>
-
       </Tabs>
     </div>
   );

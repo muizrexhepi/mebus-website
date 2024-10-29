@@ -31,6 +31,8 @@ export async function handleGoogleCallback() {
 export async function handleFacebookLogin() {
     account.createOAuth2Session(
       OAuthProvider.Facebook,
+      // 'http://localhost:3000',
+      // 'http://localhost:3000/fail',
       environment.domainurl,
       `${environment.domainurl}/fail`
     );

@@ -1,4 +1,4 @@
-import { AlertCircle, BaggageClaim, Bell, Book, BookImageIcon, Clock, CreditCard, DollarSign, Facebook, Globe, Heart, HeartPulse, HelpCircle, Instagram, Linkedin, MapPin, RefreshCcw, TicketIcon, Twitter, User, X } from "lucide-react";
+import { AlertCircle, BaggageClaim, Bell, Book, BookImageIcon, Clock, CreditCard, DollarSign, Facebook, Globe, Heart, HeartPulse, HelpCircle, Instagram, Linkedin, Lock, MapPin, RefreshCcw, Shield, TicketIcon, Twitter, User, X } from "lucide-react";
 
 export const NAV_LINKS = [
     {
@@ -85,6 +85,10 @@ export const FOOTER_LINKS = [
       {
         name: "Cookie Policy",
         link: "/legal/cookie-policy",
+      },
+      {
+        name: "Data Policy",
+        link: "/legal/data-policy",
       },
     ],
   },
@@ -225,9 +229,15 @@ export const TRAVEL_FLEX_PERMISSIONS: TravelFlexPermissions = {
     },
     {
       href: "/account/login-security",
-      icon: User,
+      icon: Lock,
       title: "Security",
       description: "Manage your account security settings.",
+    },
+    {
+      href: "/account/data-privacy",
+      icon: Shield,
+      title: "Data and Privacy",
+      description: "Control your data and privacy settings.",
     },
     {
       href: "/bookings",
@@ -241,12 +251,12 @@ export const TRAVEL_FLEX_PERMISSIONS: TravelFlexPermissions = {
       title: "Notifications",
       description: "Customize your notification preferences.",
     },
-    {
-      href: "/account/saved-destinations",
-      icon: Heart,
-      title: "Saved Destinations",
-      description: "Quickly access your saved destinations.",
-    },
+    // {
+    //   href: "/account/saved-destinations",
+    //   icon: Heart,
+    //   title: "Saved Destinations",
+    //   description: "Quickly access your saved destinations.",
+    // },
     {
       href: "/account/deposit",
       icon: DollarSign,

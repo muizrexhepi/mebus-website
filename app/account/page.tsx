@@ -42,7 +42,7 @@ export default function Component() {
             <p className="text-xl font-medium">
               Account balance:{" "}
               <span className="font-normal">
-                {Symbols.EURO} {(accountBalanceInCents / 100).toFixed(2) || 0.00}
+                {Symbols.EURO} {(accountBalanceInCents / 100).toFixed(2) || 0.0}
               </span>
             </p>
           </div>

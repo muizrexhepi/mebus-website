@@ -1,5 +1,7 @@
 import RegisterPage from "@/components/auth/register-page";
+import { Loader2 } from "lucide-react";
 import { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Register | Busly",
@@ -31,10 +33,20 @@ export const metadata: Metadata = {
   },
 };
 
+function RegisterPageLoading() {
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      <Loader2 className="h-8 w-8 animate-spin" />
+    </div>
+  );
+}
+
 export default function RegisterServerPage() {
   return (
     <main>
-      <RegisterPage />
+      <Suspense fallback={<RegisterPageLoading />}>
+        <RegisterPage />
+      </Suspense>
     </main>
   );
 }

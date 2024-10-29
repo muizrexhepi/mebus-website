@@ -29,11 +29,14 @@ import {
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/hooks/use-toast";
 import useUser from "@/components/hooks/use-user";
+import { Switch } from "@/components/ui/switch";
 
 export default function LoginSecurity() {
   const { user, loading } = useUser();
   const [oldPassword, setOldPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
+  const [twoFactorEnabled, setTwoFactorEnabled] = useState<boolean>(false);
+  const [loginNotifications, setLoginNotifications] = useState<boolean>(false);
   const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
   const { toast } = useToast();
   const router = useRouter();
@@ -92,6 +95,42 @@ export default function LoginSecurity() {
     }
   };
 
+  const handleTwoFactorToggle = async () => {
+    try {
+      // Here you would typically call your backend to enable/disable 2FA
+      setTwoFactorEnabled(!twoFactorEnabled);
+      toast({
+        description: `Two-factor authentication ${
+          twoFactorEnabled ? "disabled" : "enabled"
+        }.`,
+      });
+    } catch (error) {
+      console.error("Failed to toggle two-factor authentication:", error);
+      toast({
+        description:
+          "Failed to update two-factor authentication. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleLoginNotificationsToggle = async () => {
+    try {
+      // Here you would typically call your backend to enable/disable login notifications
+      setLoginNotifications(!loginNotifications);
+      toast({
+        description: `Login notifications ${
+          loginNotifications ? "disabled" : "enabled"
+        }.`,
+      });
+    } catch (error) {
+      console.error("Failed to toggle login notifications:", error);
+      toast({
+        description: "Failed to update login notifications. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
   return (
     <div className="">
       <div className="space-y-8">
@@ -156,6 +195,34 @@ export default function LoginSecurity() {
               </DialogContent>
             </Dialog>
           </div>
+          <div
+            className={`grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6`}
+          >
+            <div>
+              <div className="text-base">Two-Factor Authentication</div>
+              <div className="text-neutral-800/60 max-w-2xl text-sm">
+                Add an extra layer of security to your account
+              </div>
+            </div>
+            <Switch
+              checked={twoFactorEnabled}
+              onCheckedChange={handleTwoFactorToggle}
+            />
+          </div>
+          <div
+            className={`grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6`}
+          >
+            <div>
+              <div className="text-base">Login Notifications</div>
+              <div className="text-neutral-800/60 max-w-2xl text-sm">
+                Receive alerts about new sign-ins to your account
+              </div>
+            </div>
+            <Switch
+              checked={loginNotifications}
+              onCheckedChange={handleLoginNotificationsToggle}
+            />
+          </div>
         </div>
 
         <div>
@@ -184,6 +251,23 @@ export default function LoginSecurity() {
                 Verify
               </Button>
             )}
+          </div>
+          <div
+            className={`grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6`}
+          >
+            <div>
+              <div className="text-base">Active Sessions</div>
+              <div className="text-neutral-800/60 max-w-2xl text-sm">
+                Manage devices where you're currently logged in
+              </div>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => router.push("/account/active-sessions")}
+            >
+              Manage
+            </Button>
           </div>
           <div
             className={`grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6`}

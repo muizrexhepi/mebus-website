@@ -32,6 +32,7 @@ const FOOTER_LINKS = [
       { name: "Privacy Policy", link: "/legal/privacy-policy" },
       { name: "Terms of Service", link: "/legal/terms-of-service" },
       { name: "Cookie Policy", link: "/legal/cookie-policy" },
+      { name: "Data Policy", link: "/legal/data-policy" },
     ],
   },
 ];
@@ -55,7 +56,7 @@ const Footer = () => {
 
       if (response.status === 400) {
         toast({
-          title: t("footer.subscribe.errorMessage.alreadySubscribed"),
+          // title: t("footer.subscribe.errorMessage.alreadySubscribed"),
           description: t("footer.subscribe.errorMessage.alreadySubscribed"),
           variant: "destructive",
         });
@@ -75,7 +76,7 @@ const Footer = () => {
       }
     } catch (error) {
       toast({
-        title: t("footer.subscribe.errorMessage.genericError"),
+        // title: t("footer.subscribe.errorMessage.genericError"),
         description: t("footer.subscribe.errorMessage.genericError"),
         variant: "destructive",
       });

@@ -40,7 +40,6 @@ const LoginPage = () => {
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     setIsLoading(true);
-    console.log(values);
 
     try {
       const user = {
@@ -52,27 +51,53 @@ const LoginPage = () => {
         user.email,
         user.password
       );
-      
       if (newUser) {
-        const user = await account.get()
-        console.log({user})
-        if(user.labels[0] === "operator") {
-          await account.deleteSessions();
-          return setError("This email is used by another user.");
-        }
         window.dispatchEvent(new Event("userChange"));
         setError("");
         setIsLoading(false);
         router.push("/");
       }
     } catch (error: any) {
-      setError(error.message || "Something went wrong!");
-      console.log(error);
-      setIsLoading(false);
-    } finally {
+      setError(error.message || t("login.errors.generic"));
       setIsLoading(false);
     }
   };
+
+  // const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
+  //   setIsLoading(true);
+  //   console.log(values);
+
+  //   try {
+  //     const user = {
+  //       email: values.email,
+  //       password: values.password,
+  //     };
+
+  //     const newUser = await account.createEmailPasswordSession(
+  //       user.email,
+  //       user.password
+  //     );
+
+  //     if (newUser) {
+  //       const user = await account.get()
+  //       console.log({user})
+  //       if(user.labels[0] === "operator") {
+  //         await account.deleteSessions();
+  //         return setError("This email is used by another user.");
+  //       }
+  //       window.dispatchEvent(new Event("userChange"));
+  //       setError("");
+  //       setIsLoading(false);
+  //       router.push("/");
+  //     }
+  //   } catch (error: any) {
+  //     setError(error.message || "Something went wrong!");
+  //     console.log(error);
+  //     setIsLoading(false);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
