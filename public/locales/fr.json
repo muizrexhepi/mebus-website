@@ -355,5 +355,67 @@
     "rememberPassword": "Vous vous souvenez de votre mot de passe ?",
     "backToLogin": "Retour à la connexion"
   },
-  "back": "Retour"
+  "back": "Retour",
+  "bookings": {
+    "noBookingsYet": "Vous n'avez pas encore de réservations de billets de bus."
+    ,
+    "bookYourFirstTicket": "Réservez Votre Premier Billet"
+    ,
+    "manageBookings": "Explorez et gérez vos réservations ci-dessous. Consultez vos voyages à venir, vérifiez vos réservations passées et restez informé de vos projets de voyage."
+    ,"myBookings": "Mes Réservations"
+
+  },
+    "actions": {
+      "actions": "Actions",
+      "rescheduleBooking": "Reprogrammer la réservation",
+      "editDetails": "Modifier les détails",
+      "viewDetails": "Voir les détails",
+      "downloadBooking": "Télécharger la réservation",
+      "cancelBooking": "Annuler la réservation"
+    },
+      "bookingDetailsPage": {
+        "bookingDetails": "Détails de la réservation",
+        "tripInformation": "Informations sur le voyage",
+        "changeDepartureDate": "Changer la date de départ",
+        "passengerInformation": "Informations sur le passager",
+        "passenger": "Passager",
+        "passengers": "Passagers",
+        "fullName": "Nom complet",
+        "email": "E-mail",
+        "phone": "Téléphone",
+        "price": "Prix",
+        "paymentInformation": "Informations de paiement",
+        "totalPrice": "Prix total",
+        "paymentStatus": "Statut du paiement",
+        "chargeDetails": "Détails de la charge",
+        "amountCharged": "Montant facturé",
+        "currency": "Devise",
+        "card": "Carte",
+        "paid": "Payé",
+        "contactInformation": "Informations de contact",
+        "bookingMetadata": "Métadonnées de réservation",
+        "chargeId": "ID de charge",
+        "paymentIntentId": "ID d'intention de paiement",
+        "back": "Retour",
+        "amountUsedFromDeposit": "Montant utilisé de votre dépôt",
+        "viewReceipt": "Voir le reçu"
+      },
+      "account": {
+        "account": "Compte",
+        "accountBalance": "Solde du compte",
+        "profile": "Profil",
+        "profileDesc": "Gérez et fournissez des informations personnelles sur la façon dont nous pouvons vous contacter.",
+        "security": "Sécurité",
+        "securityDesc": "Gérez les paramètres de sécurité de votre compte.",
+        "dataAndPrivacy": "Données et Confidentialité",
+        "dataAndPrivacyDesc": "Contrôlez vos paramètres de données et de confidentialité.",
+        "bookings": "Réservations",
+        "bookingsDesc": "Voir et gérer vos réservations à venir et passées en un seul endroit.",
+        "notifications": "Notifications",
+        "notificationsDesc": "Personnalisez vos préférences de notification.",
+        "depositFunds": "Déposer des fonds",
+        "depositFundsDesc": "Déposez rapidement des fonds pour faciliter les paiements futurs sans utiliser votre carte à chaque fois."
+      }
+    
+  
 }

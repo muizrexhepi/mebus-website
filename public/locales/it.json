@@ -355,5 +355,68 @@
     "rememberPassword": "Ricordi la tua password?",
     "backToLogin": "Torna al login"
   },
-  "back": "Indietro"
+  "back": "Indietro",
+  "bookings": {
+    "noBookingsYet": "Non hai ancora prenotazioni di biglietti dell'autobus."
+    ,
+    "bookYourFirstTicket": "Prenota il Tuo Primo Biglietto"
+    ,
+    "manageBookings": "Esplora e gestisci le tue prenotazioni qui sotto. Rivedi i tuoi prossimi viaggi, controlla le tue prenotazioni passate e rimani informato sui tuoi piani di viaggio."
+    ,"myBookings": "Le Mie Prenotazioni"
+
+  },
+      "actions": {
+        "actions": "Акции",
+        "rescheduleBooking": "Префрли резервирање",
+        "editDetails": "Уреди ги деталите",
+        "viewDetails": "Погледни ги деталите",
+        "downloadBooking": "Преземи ја резервирањето",
+        "cancelBooking": "Откажи ја резервирањето"
+      },
+        "bookingDetailsPage": {
+          "bookingDetails": "Dettagli della prenotazione",
+          "tripInformation": "Informazioni sul viaggio",
+          "changeDepartureDate": "Cambia la data di partenza",
+          "passengerInformation": "Informazioni sul passeggero",
+          "passenger": "Passeggero",
+          "passengers": "Passeggeri",
+          "fullName": "Nome completo",
+          "email": "Email",
+          "phone": "Telefono",
+          "price": "Prezzo",
+          "paymentInformation": "Informazioni di pagamento",
+          "totalPrice": "Prezzo totale",
+          "paymentStatus": "Stato del pagamento",
+          "chargeDetails": "Dettagli dell'addebito",
+          "amountCharged": "Importo addebitato",
+          "currency": "Valuta",
+          "card": "Carta",
+          "paid": "Pagato",
+          "contactInformation": "Informazioni di contatto",
+          "bookingMetadata": "Metadati della prenotazione",
+          "chargeId": "ID di addebito",
+          "paymentIntentId": "ID di intento di pagamento",
+          "back": "Indietro",
+          "amountUsedFromDeposit": "Importo utilizzato dal tuo deposito",
+          "viewReceipt": "Visualizza ricevuta"
+        },
+        "account": {
+          "account": "Account",
+          "accountBalance": "Saldo dell'account",
+          "profile": "Profilo",
+          "profileDesc": "Gestisci e fornisci dettagli personali su come possiamo contattarti.",
+          "security": "Sicurezza",
+          "securityDesc": "Gestisci le impostazioni di sicurezza del tuo account.",
+          "dataAndPrivacy": "Dati e Privacy",
+          "dataAndPrivacyDesc": "Controlla le tue impostazioni sui dati e sulla privacy.",
+          "bookings": "Prenotazioni",
+          "bookingsDesc": "Visualizza e gestisci le tue prenotazioni future e passate in un unico posto.",
+          "notifications": "Notifiche",
+          "notificationsDesc": "Personalizza le tue preferenze di notifica.",
+          "depositFunds": "Deposita fondi",
+          "depositFundsDesc": "Deposita rapidamente fondi per pagamenti futuri facili senza utilizzare la tua carta ogni volta."
+        }
+      
+    
+  
 }

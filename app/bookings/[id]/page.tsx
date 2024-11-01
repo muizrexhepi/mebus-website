@@ -48,6 +48,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "@/components/hooks/use-toast";
 import { FlexUpgradeSheet } from "@/components/dialogs/FlexUpgradeDialog";
+import { useTranslation } from "react-i18next";
 const stripePromise = loadStripe(
   environment.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
@@ -74,6 +75,7 @@ export default function BookingDetailsPage({
   const [newDepartureDate, setNewDepartureDate] = useState<AvailableDate>();
   const [priceToBePaid, setPriceToBePaid] = useState<any>();
   const { isPaymentSuccess } = usePaymentSuccessStore();
+  const {t} = useTranslation()
 
   const fetchBooking = async (noCache?: boolean) => {
     setIsLoading(true);
@@ -246,7 +248,7 @@ export default function BookingDetailsPage({
       </div>
       <div className="flex flex-col sm:flex-row justify-between items-start gap-2 sm:items-center">
         <div className="">
-          <h2 className="text-3xl font-semibold">Booking Details</h2>
+          <h2 className="text-3xl font-semibold">{t("bookingDetailsPage.bookingDetails")}</h2>
           <p className="text-sm text-neutral-800/60">
             Booking ID: {booking?._id}
           </p>
@@ -353,11 +355,11 @@ export default function BookingDetailsPage({
             className="mt-4"
             variant={"secondary"}
           >
-            Change departure date
+            {t("bookingDetailsPage.changeDepartureDate")}
           </Button>
           <Link href={"/bookings"} className="">
             <Button variant="outline" className="">
-              <ChevronLeft className="mr-2 h-4 w-4" /> Back
+              <ChevronLeft className="mr-2 h-4 w-4" /> {t("bookingDetailsPage.back")}
             </Button>
           </Link>
         </div>
@@ -373,7 +375,7 @@ export default function BookingDetailsPage({
           <CardHeader>
             <CardTitle className="flex items-center">
               <BusIcon className="mr-2" />
-              Trip Information
+              {t("bookingDetailsPage.tripInformation")}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -408,7 +410,7 @@ export default function BookingDetailsPage({
               </div>
               <InfoBlock
                 className="col-span-2 sm:col-span-1"
-                desc="This trip will be operated by"
+                desc={t("orderSummary.operatedBy")}
                 title={booking?.operator?.name}
                 href={booking?.operator?._id}
               />
@@ -420,7 +422,7 @@ export default function BookingDetailsPage({
           <CardHeader>
             <CardTitle className="flex items-center">
               <UserIcon className="mr-2" />
-              Passenger Information
+              {t("bookingDetailsPage.passengerInformation")}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -433,13 +435,13 @@ export default function BookingDetailsPage({
                   </h1>
                   <div className="space-y-2">
                     <div className="grid grid-cols-2 gap-2">
-                      <span className="font-medium truncate line-clamp-1">Full Name:</span>
+                      <span className="font-medium truncate line-clamp-1">{t("bookingDetailsPage.fullName")}:</span>
                       <span>{passenger?.full_name}</span>
-                      <span className="font-medium truncate line-clamp-1">Email:</span>
+                      <span className="font-medium truncate line-clamp-1">{t("bookingDetailsPage.email")}:</span>
                       <span>{passenger?.email}</span>
-                      <span className="font-medium truncate line-clamp-1">Phone:</span>
+                      <span className="font-medium truncate line-clamp-1">{t("bookingDetailsPage.phone")}:</span>
                       <span>{passenger?.phone}</span>
-                      <span className="font-medium truncate line-clamp-1">Price:</span>
+                      <span className="font-medium truncate line-clamp-1">{t("bookingDetailsPage.price")}:</span>
                       <span className="font-semibold">
                         ${passenger?.price?.toFixed(2)}
                       </span>
@@ -455,28 +457,28 @@ export default function BookingDetailsPage({
           <CardHeader>
             <CardTitle className="flex items-center">
               <CreditCardIcon className="mr-2" />
-              Payment Information
+                {t("bookingDetailsPage.paymentInformation")}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex justify-between items-center">
-              <span className="font-semibold">Total Price:</span>
+              <span className="font-semibold">{t("bookingDetailsPage.totalPrice")}:</span>
               <span className="text-2xl font-bold">
                 ${booking?.price?.toFixed(2)}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span>Payment Status:</span>
+              <span>{t("bookingDetailsPage.paymentStatus")}:</span>
               <Badge>{booking?.is_paid ? "Paid" : "Unpaid"}</Badge>
             </div>
             {booking?.charge && (
               <>
                 <div className="space-y-2">
-                  <div className="font-semibold">Charge Details:</div>
+                  <div className="font-semibold">{t("bookingDetailsPage.chargeDetails")}:</div>
                   <div className="grid grid-cols-2 gap-2">
                     {booking?.metadata?.deposited_money?.used && (
                       <>
-                        <span>Amount used from your deposit:</span>
+                        <span>{t("bookingDetailsPage.amountUsedFromDeposit")}:</span>
                         <span>
                           $
                           {(
@@ -486,11 +488,11 @@ export default function BookingDetailsPage({
                         </span>
                       </>
                     )}
-                    <span>Amount Charged:</span>
+                    <span>{t("bookingDetailsPage.amountCharged")}:</span>
                     <span>${(booking?.charge?.amount / 100).toFixed(2)}</span>
-                    <span>Currency:</span>
+                    <span>{t("bookingDetailsPage.currency")}:</span>
                     <span>{booking?.charge?.currency?.toUpperCase()}</span>
-                    <span>Card:</span>
+                    <span>{t("bookingDetailsPage.card")}:</span>
                     <span>
                       {booking?.charge?.payment_method_details?.card?.brand?.toUpperCase()}{" "}
                       ****{" "}
@@ -507,7 +509,7 @@ export default function BookingDetailsPage({
           <CardHeader>
             <CardTitle className="flex items-center">
               <PhoneIcon className="mr-2" />
-              Contact Information
+              {t("bookingDetailsPage.contactInformation")}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -526,15 +528,15 @@ export default function BookingDetailsPage({
 
         <Card>
           <CardHeader>
-            <CardTitle>Booking Metadata</CardTitle>
+            <CardTitle>{t("bookingDetailsPage.bookingMetadata")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="grid grid-cols-2 gap-2">
-              <span className="text-sm text-gray-600">Charge ID:</span>
+              <span className="text-sm text-gray-600">{t("bookingDetailsPage.chargeId")}:</span>
               <span className="truncate font-mono text-xs bg-gray-100 p-1 rounded">
                 {booking?.charge?.id}
               </span>
-              <span className="text-sm text-gray-600">Payment Intent ID:</span>
+              <span className="text-sm text-gray-600">{t("bookingDetailsPage.paymentIntentId")}:</span>
               <span className="truncate font-mono text-xs bg-gray-100 p-1 rounded">
                 {booking?.metadata?.payment_intent_id}
               </span>
@@ -543,7 +545,7 @@ export default function BookingDetailsPage({
               <div className="mt-4">
                 <Link href={booking?.charge.receipt_url}>
                   <Button variant="outline" size="sm">
-                    View Receipt
+                  {t("bookingDetailsPage.viewReceipt")}
                   </Button>
                 </Link>
               </div>

@@ -357,5 +357,64 @@
     "rememberPassword": "Remember your password?",
     "backToLogin": "Back to login"
   },
-  "back": "Back"
+  "back": "Back",
+  "bookings": {
+    "noBookingsYet": "You don't have any bus ticket bookings yet.",
+    "bookYourFirstTicket": "Book Your First Ticket",
+    "manageBookings": "Explore and manage your bookings below. Review your upcoming trips, check your past reservations, and stay informed about your travel plans.",
+    "myBookings": "My Bookings"
+  },
+  "actions": {
+    "actions": "Actions",
+    "rescheduleBooking": "Reschedule booking",
+    "editDetails": "Edit details",
+    "viewDetails": "View details",
+    "downloadBooking": "Download booking",
+    "cancelBooking": "Cancel booking"
+  },
+  "bookingDetailsPage": {
+    "bookingDetails": "Booking details",
+    "tripInformation": "Trip information",
+    "changeDepartureDate": "Change departure date",
+    "passengerInformation": "Passenger Information",
+    "passenger": "Passenger",
+    "passengers": "Passengers",
+    "fullName": "Full name",
+    "email": "Email",
+    "phone": "Phone",
+    "price": "Price",
+    "paymentInformation": "Payment information",
+    "totalPrice": "Total price",
+    "paymentStatus": "Payment status",
+    "chargeDetails": "Charge details",
+    "amountCharged": "Amount charged",
+    "currency": "Curency",
+    "card": "Card",
+    "paid": "Paid",
+    "contactInformation": "Contact Information",
+    "bookingMetadata": "Booking metadata",
+    "chargeId": "Charge ID",
+    "paymentIntentId": "Payment Intent ID",
+    "back": "Back",
+    "amountUsedFromDeposit": "Amount used from your deposit",
+    "viewReceipt": "View receipt"
+    
+  },
+  "account": {
+    "account": "Account",
+    "accountBalance": "Account balance",
+    "profile": "Profile",
+    "profileDesc": "Manage and provide personal details how we can reach you.",
+    "security": "Security",
+    "securityDesc": "Manage your account security settings.",
+    "dataAndPrivacy": "Data and Privacy",
+    "dataAndPrivacyDesc": "Control your data and privacy settings.",
+    "bookings": "Bookings",
+    "bookingsDesc": "View and manage your upcoming and past reservations in one place.",
+    "notifications": "Notifications",
+    "notificationsDesc": "Customize your notification preferences.",
+    "depositFunds": "Deposit funds",
+    "depositFundsDesc": "Quickly deposit funds for easy future payments without using your card each time."
+  }
+  
 }

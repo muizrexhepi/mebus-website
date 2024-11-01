@@ -3,18 +3,17 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import {
   MapPinIcon,
-  PiggyBankIcon,
   LeafIcon,
   SmartphoneIcon,
   ClockIcon,
   HeartIcon,
   GlobeIcon,
+  CurrencyIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
@@ -31,7 +30,7 @@ export default function AboutSection() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
         <Card className="bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
           <CardHeader>
-            <PiggyBankIcon className="h-8 w-8 text-primary mb-2" />
+            <CurrencyIcon className="h-8 w-8 text-primary mb-2" />
             <CardTitle className="text-xl font-semibold">
               {t("aboutSection.cards.budget.title")}
             </CardTitle>

@@ -350,5 +350,63 @@
     "rememberPassword": "Erinnern Sie sich an Ihr Passwort?",
     "backToLogin": "Zurück zur Anmeldung"
   },
-  "back": "Zurück"
+  "back": "Zurück",
+  "bookings": {
+    "noBookingsYet": "Sie haben noch keine Busfahrkartenbuchungen.",
+    "bookYourFirstTicket": "Buchen Sie Ihr Erstes Ticket",
+    "manageBookings": "Erkunden und verwalten Sie Ihre Buchungen unten. Überprüfen Sie Ihre bevorstehenden Reisen, überprüfen Sie Ihre vergangenen Reservierungen und bleiben Sie über Ihre Reisepläne informiert.",
+    "myBookings": "Meine Buchungen"
+  },
+  "actions": {
+    "actions": "Aktionen",
+    "rescheduleBooking": "Buchung neu planen",
+    "editDetails": "Details bearbeiten",
+    "viewDetails": "Details anzeigen",
+    "downloadBooking": "Buchung herunterladen",
+    "cancelBooking": "Buchung stornieren"
+  },
+  "bookingDetailsPage": {
+    "bookingDetails": "Buchungsdetails",
+    "tripInformation": "Reiseinformationen",
+    "changeDepartureDate": "Abfahrtsdatum ändern",
+    "passengerInformation": "Passagierinformationen",
+    "passenger": "Passagier",
+    "passengers": "Passagiere",
+    "fullName": "Vollständiger Name",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "price": "Preis",
+    "paymentInformation": "Zahlungsinformationen",
+    "totalPrice": "Gesamtpreis",
+    "paymentStatus": "Zahlungsstatus",
+    "chargeDetails": "Gebühreninformationen",
+    "amountCharged": "Betrag belastet",
+    "currency": "Währung",
+    "card": "Karte",
+    "paid": "Bezahlt",
+    "contactInformation": "Kontaktinformationen",
+    "bookingMetadata": "Buchungsmetadaten",
+    "chargeId": "Gebühren-ID",
+    "paymentIntentId": "Zahlungsabsicht-ID",
+    "back": "Zurück",
+    "amountUsedFromDeposit": "Betrag, der aus Ihrer Einzahlung verwendet wurde",
+    "viewReceipt": "Rechnung anzeigen"
+
+  },
+  "account": {
+    "account": "Konto",
+    "accountBalance": "Kontostand",
+    "profile": "Profil",
+    "profileDesc": "Verwalten Sie persönliche Daten, wie wir Sie erreichen können.",
+    "security": "Sicherheit",
+    "securityDesc": "Verwalten Sie die Sicherheitseinstellungen Ihres Kontos.",
+    "dataAndPrivacy": "Daten und Datenschutz",
+    "dataAndPrivacyDesc": "Steuern Sie Ihre Daten- und Datenschutzeinstellungen.",
+    "bookings": "Buchungen",
+    "bookingsDesc": "Sehen Sie sich Ihre bevorstehenden und vergangenen Reservierungen an und verwalten Sie diese an einem Ort.",
+    "notifications": "Benachrichtigungen",
+    "notificationsDesc": "Passen Sie Ihre Benachrichtigungseinstellungen an.",
+    "depositFunds": "Geld einzahlen",
+    "depositFundsDesc": "Zahlen Sie schnell Geld ein, um zukünftige Zahlungen zu erleichtern, ohne jedes Mal Ihre Karte zu verwenden."
+  }
 }

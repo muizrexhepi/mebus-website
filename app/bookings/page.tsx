@@ -32,6 +32,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import useUser from "@/components/hooks/use-user";
 import moment from "moment-timezone";
+import { useTranslation } from "react-i18next";
 
 const BookingsDashboard: React.FC = () => {
   const { user, loading } = useUser();
@@ -40,6 +41,7 @@ const BookingsDashboard: React.FC = () => {
   const [showFlexAlert, setShowFlexAlert] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
+  const { t } = useTranslation();
 
   console.log({ user });
 
@@ -118,7 +120,7 @@ const BookingsDashboard: React.FC = () => {
       return (
         <div className="text-center space-y-4 mt-8">
           <p className="text-gray-500">
-            You don't have any bus ticket bookings yet.
+           { t("bookings.noBookingsYet")}
           </p>
           <Button asChild>
             <Link href="/">Book Your First Ticket</Link>
@@ -205,7 +207,7 @@ const BookingsDashboard: React.FC = () => {
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <Button variant="outline" className="w-full sm:w-auto">
-                  Actions
+                    {t("actions.actions")}
                   <ChevronDownIcon className="ml-2 h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -221,7 +223,8 @@ const BookingsDashboard: React.FC = () => {
                   }
                 >
                   <ClockIcon className="h-4 w-4" />
-                  Reschedule booking
+                  {t("actions.rescheduleBooking")}
+
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="gap-2"
@@ -234,21 +237,24 @@ const BookingsDashboard: React.FC = () => {
                   }
                 >
                   <Edit className="h-4 w-4" />
-                  Edit details
+                  {t("actions.editDetails")}
+
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="gap-2"
                   onClick={() => router.push(`/bookings/${booking._id}`)}
                 >
                   <View className="h-4 w-4" />
-                  View details
+                  {t("actions.viewDetails")}
+
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="gap-2"
                   onClick={() => downloadBooking(booking?._id)}
                 >
                   <Download className="h-4 w-4" />
-                  Download booking
+                  {t("actions.downloadBooking")}
+
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
@@ -262,7 +268,8 @@ const BookingsDashboard: React.FC = () => {
                   }
                 >
                   <XCircle className="h-4 w-4" />
-                  Cancel booking
+                  {t("actions.cancelBooking")}
+
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -277,10 +284,9 @@ const BookingsDashboard: React.FC = () => {
       <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 px-4 sm:px-8 py-4 z-20">
         <Navbar className="max-w-6xl" />
       </div>
-      <h2 className="text-3xl font-semibold mb-4">My Bookings</h2>
+      <h2 className="text-3xl font-semibold mb-4">{t("bookings.myBookings")}</h2>
       <p className="text-gray-600 mb-6">
-        Explore and manage your bookings below. Review your upcoming trips,
-        check your past reservations, and stay informed about your travel plans.
+        {t("bookings.manageBookings")}
       </p>
       <Tabs defaultValue="all">
         <TabsList className="mb-6">

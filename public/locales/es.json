@@ -355,5 +355,67 @@
     "rememberPassword": "¿Recuerdas tu contraseña?",
     "backToLogin": "Volver a iniciar sesión"
   },
-  "back": "Volver"
+  "back": "Volver",
+  "bookings": {
+    "noBookingsYet": "Aún no tienes ninguna reserva de billete de autobús."
+    ,
+    "bookYourFirstTicket": "Reserva Tu Primer Billete"
+    ,
+    "manageBookings": "Explora y gestiona tus reservas a continuación. Revisa tus próximos viajes, verifica tus reservas pasadas y mantente informado sobre tus planes de viaje."
+    ,"myBookings": "Mis Reservas"
+
+  },
+    "actions": {
+      "actions": "Acciones",
+      "rescheduleBooking": "Reprogramar reserva",
+      "editDetails": "Editar detalles",
+      "viewDetails": "Ver detalles",
+      "downloadBooking": "Descargar reserva",
+      "cancelBooking": "Cancelar reserva"
+    },
+      "bookingDetailsPage": {
+        "bookingDetails": "Detalles de la reserva",
+        "tripInformation": "Información del viaje",
+        "changeDepartureDate": "Cambiar la fecha de salida",
+        "passengerInformation": "Información del pasajero",
+        "passenger": "Pasajero",
+        "passengers": "Pasajeros",
+        "fullName": "Nombre completo",
+        "email": "Correo electrónico",
+        "phone": "Teléfono",
+        "price": "Precio",
+        "paymentInformation": "Información de pago",
+        "totalPrice": "Precio total",
+        "paymentStatus": "Estado del pago",
+        "chargeDetails": "Detalles del cargo",
+        "amountCharged": "Monto cargado",
+        "currency": "Moneda",
+        "card": "Tarjeta",
+        "paid": "Pagado",
+        "contactInformation": "Información de contacto",
+        "bookingMetadata": "Metadatos de la reserva",
+        "chargeId": "ID de cargo",
+        "paymentIntentId": "ID de intención de pago",
+        "back": "Atrás",
+        "amountUsedFromDeposit": "Cantidad utilizada de su depósito",
+        "viewReceipt": "Ver recibo"
+      },
+      "account": {
+        "account": "Cuenta",
+        "accountBalance": "Saldo de la cuenta",
+        "profile": "Perfil",
+        "profileDesc": "Administra y proporciona detalles personales sobre cómo podemos contactarte.",
+        "security": "Seguridad",
+        "securityDesc": "Gestiona la configuración de seguridad de tu cuenta.",
+        "dataAndPrivacy": "Datos y Privacidad",
+        "dataAndPrivacyDesc": "Controla la configuración de tus datos y privacidad.",
+        "bookings": "Reservas",
+        "bookingsDesc": "Ve y gestiona tus reservas futuras y pasadas en un solo lugar.",
+        "notifications": "Notificaciones",
+        "notificationsDesc": "Personaliza tus preferencias de notificación.",
+        "depositFunds": "Depositar fondos",
+        "depositFundsDesc": "Deposita fondos rápidamente para facilitar futuros pagos sin usar tu tarjeta cada vez."
+      }
+    
+  
 }

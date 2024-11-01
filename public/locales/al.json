@@ -356,5 +356,64 @@
     "rememberPassword": "E mbani mend fjalëkalimin tuaj?",
     "backToLogin": "Kthehu te hyrja"
   },
-  "back": "Kthehu"
+  "back": "Kthehu",
+  "bookings": {
+    "noBookingsYet": "Nuk keni ende asnjë rezervim bilete autobusi.",
+    "bookYourFirstTicket": "Rezervo Biletën Tënde të Parë",
+    "manageBookings": "Eksploroni dhe menaxhoni rezervimet tuaja më poshtë. Rishikoni udhëtimet tuaja të ardhshme, kontrolloni rezervimet tuaja të kaluara dhe qëndroni të informuar për planet tuaja të udhëtimit.",
+    "myBookings": "Rezervimet e mija"
+  },
+  "actions": {
+    "actions": "Veprime",
+    "rescheduleBooking": "Rregullo rezervimin",
+    "editDetails": "Redakto detajet",
+    "viewDetails": "Shiko detajet",
+    "downloadBooking": "Shkarko rezervimin",
+    "cancelBooking": "Anulo rezervimin"
+  },
+  
+    "bookingDetailsPage": {
+      "bookingDetails": "Detajet e rezervimit",
+      "tripInformation": "Informacioni i udhëtimit",
+      "changeDepartureDate": "Ndrysho datën e nisjes",
+      "passengerInformation": "Informacioni i udhëtarit",
+      "passenger": "Udhëtar",
+      "passengers": "Udhëtarët",
+      "fullName": "Emri i plotë",
+      "email": "Email",
+      "phone": "Telefon",
+      "price": "Çmimi",
+      "paymentInformation": "Informacioni i pagesës",
+      "totalPrice": "Çmimi total",
+      "paymentStatus": "Statusi i pagesës",
+      "chargeDetails": "Detajet e tarifës",
+      "amountCharged": "Shuma e ngarkuar",
+      "currency": "Monedha",
+      "card": "Kartë",
+      "paid": "E paguar",
+      "contactInformation": "Informacioni për kontakt",
+      "bookingMetadata": "Metadatot e rezervimit",
+      "chargeId": "ID e tarifës",
+      "paymentIntentId": "ID e pagesës",
+      "back": "Kthehu",
+        "amountUsedFromDeposit": "Shuma e përdorur nga depozita juaj",
+        "viewReceipt": "Shiko faturën"
+    },
+    "account": {
+      "account": "Llogaria",
+      "accountBalance": "Bilanci i llogarisë",
+      "profile": "Profili",
+      "profileDesc": "Menaxhoni dhe ofroni detaje personale se si mund t'ju arrijmë.",
+      "security": "Siguria",
+      "securityDesc": "Menaxhoni cilësimet e sigurisë së llogarisë tuaj.",
+      "dataAndPrivacy": "Të dhënat dhe Privatësia",
+      "dataAndPrivacyDesc": "Kontrolloni cilësimet tuaja për të dhënat dhe privatësinë.",
+      "bookings": "Rezervimet",
+      "bookingsDesc": "Shikoni dhe menaxhoni rezervimet tuaja të ardhshme dhe të kaluara në një vend.",
+      "notifications": "Njoftimet",
+      "notificationsDesc": "Personalizoni preferencat tuaja për njoftime.",
+      "depositFunds": "Depozitoni fonde",
+      "depositFundsDesc": "Depozitoni shpejt fonde për pagesa të lehta në të ardhmen pa përdorur kartën tuaj çdo herë."
+    }
+  
 }
