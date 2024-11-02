@@ -97,7 +97,6 @@ const BookingsDashboard: React.FC = () => {
       link.download = `booking_${booking_id}.pdf`;
       link.click();
 
-      // Clean up
       window.URL.revokeObjectURL(link.href);
 
       toast({
@@ -141,6 +140,37 @@ const BookingsDashboard: React.FC = () => {
     }
     return null;
   };
+
+  const handleCancelBookingAndRefund = async (booking_id: string, payment_intent_id: string, flex: string, refund_amount_in_cents: number) => {
+    try {
+      console.log("here")
+      if(!booking_id) {
+        return toast({
+          description: "No booking_id provided",
+          variant: "destructive"
+        })
+      }
+      if(!payment_intent_id) {
+        return toast({
+          description: "No payment_intent_id provided",
+          variant: "destructive"
+        })
+      }
+
+      const response = await axios.post(`${environment.apiurl}/booking/cancel-and-refund/${booking_id}/${payment_intent_id}`, {
+        intent: "cancel",
+        flex: flex,
+        amount_in_cents: refund_amount_in_cents,
+      });
+      console.log({response});
+    } catch (error: any) {
+      console.log(error);
+      return toast({
+        description: error.response.data.message,
+        variant: "destructive"
+      })
+    }
+  }
 
   const renderBookingCard = (booking: Booking) => {
     const departureDate = new Date(booking.departure_date);
@@ -198,10 +228,12 @@ const BookingsDashboard: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <Badge className="capitalize absolute bottom-2 right-0 sm:relative sm:bottom-0">
-                {booking.metadata.travel_flex == "no_flex"
-                  ? "No flexibility"
-                  : booking.metadata.travel_flex}
+              <Badge className={`capitalize absolute bottom-2 right-0 sm:relative sm:bottom-0 ${booking.metadata.refund_action?.is_refunded && "bg-red-500"}`}>
+                {!booking.metadata.refund_action?.is_refunded ? booking.metadata.travel_flex == "no_flex"
+                    ? "No flexibility"
+                    : booking.metadata.travel_flex
+                  : "Refunded"
+                }
               </Badge>
             </div>
             <DropdownMenu>
@@ -214,6 +246,7 @@ const BookingsDashboard: React.FC = () => {
               <DropdownMenuContent align="start">
                 <DropdownMenuItem
                   className="gap-2"
+                  disabled={booking.metadata.refund_action?.is_refunded}
                   onClick={
                     isNoFlex
                       ? handleNoFlexAction
@@ -228,6 +261,7 @@ const BookingsDashboard: React.FC = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="gap-2"
+                  disabled={booking.metadata.refund_action?.is_refunded}
                   onClick={
                     isNoFlex
                       ? handleNoFlexAction
@@ -251,6 +285,7 @@ const BookingsDashboard: React.FC = () => {
                 <DropdownMenuItem
                   className="gap-2"
                   onClick={() => downloadBooking(booking?._id)}
+                  disabled={booking.metadata.refund_action?.is_refunded}
                 >
                   <Download className="h-4 w-4" />
                   {t("actions.downloadBooking")}
@@ -258,13 +293,12 @@ const BookingsDashboard: React.FC = () => {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
+                  disabled={booking.metadata.refund_action?.is_refunded}
                   className="gap-2"
                   onClick={
                     isNoFlex
                       ? handleNoFlexAction
-                      : () => {
-                          /* Cancel logic */
-                        }
+                      : () => handleCancelBookingAndRefund(booking._id, booking.metadata.payment_intent_id, booking.metadata.travel_flex, Math.round((booking.price * 100) * 0.70))
                   }
                 >
                   <XCircle className="h-4 w-4" />

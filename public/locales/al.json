@@ -369,7 +369,9 @@
     "editDetails": "Redakto detajet",
     "viewDetails": "Shiko detajet",
     "downloadBooking": "Shkarko rezervimin",
-    "cancelBooking": "Anulo rezervimin"
+    "cancelBooking": "Anulo rezervimin",
+    "confirmCancellation": "Konfirmo",
+    "cancel": "Anulo"
   },
   
     "bookingDetailsPage": {
@@ -414,6 +416,10 @@
       "notificationsDesc": "Personalizoni preferencat tuaja për njoftime.",
       "depositFunds": "Depozitoni fonde",
       "depositFundsDesc": "Depozitoni shpejt fonde për pagesa të lehta në të ardhmen pa përdorur kartën tuaj çdo herë."
+    },
+    "modals": {
+      "confirmCancellation": "A jeni te sigurt qe deshironi ta anuloni rezervimin?",
+      "cancellationWarning": "Nese po atehere do tiu kthehen vetem 70% te cmimit te rezervimit."
     }
   
 }

@@ -50,9 +50,15 @@ export interface BookingMetadata {
     deposited_money: {
         used: boolean;
         amount_in_cents: number;
-    }
+    },
+    refund_action?: IRefund;
+
 }
 
+export interface IRefund {
+    amount_in_cents: number;
+    is_refunded : boolean;
+}
 
 export enum Platforms {
     IOS = "ios",
