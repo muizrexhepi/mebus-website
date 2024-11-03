@@ -139,15 +139,15 @@ const TicketList: React.FC = () => {
   };
   console.log({ isSelectingReturn });
 
-  if (isLoading) {
-    return (
-      <div className="space-y-3">
-        {Array.from({ length: 5 }).map((_, index) => (
-          <TicketSkeletonton key={index} />
-        ))}
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="space-y-3">
+  //       {Array.from({ length: 5 }).map((_, index) => (
+  //         <TicketSkeletonton key={index} />
+  //       ))}
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="flex flex-col gap-8">

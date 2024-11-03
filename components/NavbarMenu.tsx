@@ -92,12 +92,12 @@ const NavbarMenu = () => {
         </Link>
         <Separator className="!mb-4" />
         <div className="flex flex-col gap-2 w-full px-4">
-          <Button className="w-full" variant={"outline"}>
-            <Link href={"/login"}>{t("auth.login")}</Link>{" "}
+          <Button className="w-full" variant={"outline"} asChild>
+            <Link href={"/login"}>{t("auth.login")}</Link>
             {/* Translated 'Login' */}
           </Button>
-          <Button className="w-full">
-            <Link href={"/register"}>{t("auth.signUp")}</Link>{" "}
+          <Button className="w-full" asChild>
+            <Link href={"/register"}>{t("auth.signUp")}</Link>
             {/* Translated 'Sign Up' */}
           </Button>
         </div>

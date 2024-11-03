@@ -156,6 +156,43 @@ const TravelFlexOptionsPage = () => {
           </CardContent>
         </Card>
 
+        {/* Travel Flex Policy Section */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>Travel Flex Policy</CardTitle>
+            <CardDescription>
+              Important details regarding refunds, fees, and limitations
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4">
+              Please review the following policy to understand how your chosen
+              Flex Option may affect your booking.
+            </p>
+            <ul className="list-disc list-inside space-y-2">
+              <li>
+                <strong>Refund Eligibility:</strong> Premium Flex and Basic Flex
+                allow partial refunds, subject to a 10% processing fee if
+                canceled within the eligible timeframe.
+              </li>
+              <li>
+                <strong>Change Fees:</strong> Premium Flex changes are free of
+                charge, while Basic Flex incurs a minor fee for each
+                modification.
+              </li>
+              <li>
+                <strong>Non-refundable Options:</strong> No Flexibility is
+                non-refundable and does not permit any changes or cancellations.
+              </li>
+              <li>
+                <strong>Other Conditions:</strong> Travel Flex Options do not
+                cover delays caused by force majeure, including weather or other
+                unforeseen events.
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
+
         <Card className="mb-8">
           <CardHeader>
             <CardTitle>How to Use Your Flex Option</CardTitle>
@@ -195,7 +232,9 @@ const TravelFlexOptionsPage = () => {
               help with modifying your booking, our support team is ready to
               assist you.
             </p>
-            <Button>Contact Support</Button>
+            <Button asChild>
+              <Link href={"/help/contact-support"}>Contact Support</Link>
+            </Button>
           </CardContent>
         </Card>
       </main>
