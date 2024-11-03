@@ -96,10 +96,11 @@ const PaymentMethod = () => {
   const operatorOutboundTotal = outboundTicket
     ? calculateOperatorTicketTotal(outboundTicket)
     : 0;
-  const operatorReturnTotal = returnTicket ? calculateOperatorTicketTotal(returnTicket) : 0;
+  const operatorReturnTotal = returnTicket
+    ? calculateOperatorTicketTotal(returnTicket)
+    : 0;
   const operatorTotalPrice = operatorOutboundTotal + operatorReturnTotal;
   const totalPrice = outboundTotal + returnTotal + flexPrice;
-
 
   const handleUseDepositChange = (checked: boolean) => {
     if (!checked) {
@@ -350,13 +351,6 @@ const PaymentMethod = () => {
       </div>
 
       <div className="flex items-center justify-end gap-4">
-        <Button
-          onClick={() => router.back()}
-          className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-          variant="outline"
-        >
-          {t("back")}
-        </Button>
         <Button
           onClick={
             totalPrice <= depositAmount

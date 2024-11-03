@@ -85,13 +85,17 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
                 <div className="relative flex items-center">
                   <div className="flex-grow border-t border-gray-400"></div>
                   <span className="flex-shrink mx-2 text-neutral-700 font-medium text-lg sm:text-xl">
-                    {durationFormatted != "NaN:NaN hrs" ? durationFormatted : "00:00"}
+                    {durationFormatted != "NaN:NaN hrs"
+                      ? durationFormatted
+                      : "00:00"}
                   </span>
                   <div className="flex-grow border-t border-gray-400"></div>
                 </div>
               </div>
               <div className="text-base sm:text-lg md:text-xl">
-                {arrivalTime.format("HH:mm") != "Invalid date" ? arrivalTime.format("HH:mm") : "00:00"}
+                {arrivalTime.format("HH:mm") != "Invalid date"
+                  ? arrivalTime.format("HH:mm")
+                  : "00:00"}
               </div>
             </div>
             <div className="flex justify-between items-center">
@@ -122,7 +126,7 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
               className="w-fit text-sm sm:text-base bg-emerald-700 hover:bg-emerald-600"
               onClick={handleTicketSelection}
             >
-              {isReturn && !outboundTicket
+              {isReturn && outboundTicket
                 ? t("ticket.selectReturn")
                 : tripType !== "round-trip"
                 ? t("ticket.continue")

@@ -1,11 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Calendar, InfoIcon, TimerIcon } from "lucide-react";
+import { Circle, MapPin } from "lucide-react";
 import moment from "moment-timezone";
 import { Ticket } from "@/models/ticket";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
-import InfoBlock from "../InfoBlock";
 import useSearchStore, { useDepositStore, useCheckoutStore } from "@/store";
 
 interface PriceSummaryItemProps {
@@ -27,66 +26,60 @@ const PriceSummaryItem: React.FC<PriceSummaryItemProps> = ({
   </div>
 );
 
-const TicketSummary = ({
-  ticket,
-  isReturn,
-}: {
+interface TripProps {
   ticket: Ticket;
   isReturn: boolean;
-}) => {
-  const { t } = useTranslation();
+}
+
+function TicketSummary({ ticket, isReturn }: TripProps) {
+  const departureDate = moment.utc(ticket.stops[0].departure_date);
+  const arrivalDate = moment.utc(ticket.stops[0].arrival_time);
+  const isNextDay = !departureDate.isSame(arrivalDate, "day");
 
   return (
-    <div className="flex flex-col">
-      <h2 className="font-medium text-base mt-2">
-        {isReturn
-          ? t("orderSummary.returnTrip")
-          : t("orderSummary.outboundTrip")}
-      </h2>
-      <div className="flex items-center mt-2 gap-8">
-        <div className="flex items-center gap-2 justify-between w-full">
-          <p className="text-black capitalize">
-            {isReturn ? ticket.stops[0].to.city : ticket.stops[0].from.city}
-          </p>
-          <hr className="h-[0.5px] w-full bg-gray-800" />
-          <p className="text-black capitalize">
-            {isReturn ? ticket.stops[0].from.city : ticket.stops[0].to.city}
-          </p>
+    <div className="w-full rounded-xl p-4 bg-white shadow-md">
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="text-base font-medium">
+            {departureDate.format("ddd, D MMM")}
+            {isNextDay && ` → ${arrivalDate.format("ddd, D MMM")}`}
+          </div>
+          <div className="px-3 py-1 bg-gray-100 rounded-full text-sm text-gray-600">
+            {ticket.operatorInfo.name}
+          </div>
+        </div>
+
+        <div className="relative ml-1">
+          <div className="absolute left-[5px] top-[20px] h-[calc(100%-40px)] w-[1px] border-l border-dashed border-gray-300" />
+
+          <div className="flex items-center gap-4 mb-6">
+            <Circle className="h-2.5 w-2.5 fill-black stroke-black" />
+            <div className="flex-1 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="capitalize">{ticket.stops[0].from.name}</span>
+                <MapPin className="h-4 w-4 text-gray-400" />
+              </div>
+              <span className="font-medium">
+                {departureDate.format("HH:mm")}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <Circle className="h-2.5 w-2.5 fill-black stroke-black" />
+            <div className="flex-1 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="capitalize">{ticket.stops[0].to.name}</span>
+                <MapPin className="h-4 w-4 text-gray-400" />
+              </div>
+              <span className="font-medium">{arrivalDate.format("HH:mm")}</span>
+            </div>
+          </div>
         </div>
       </div>
-      <div className="flex flex-col gap-2 mt-2">
-        <div className="flex items-center gap-2">
-          <Calendar color="gray" size={20} />
-          <p className="text-black text-sm">{t("orderSummary.departure")}:</p>
-          <p className="font-medium text-black text-sm">
-            {moment
-              .utc(ticket.stops[0].departure_date)
-              .format("dddd, DD-MM-YYYY / HH:mm")}
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <TimerIcon color="gray" size={20} />
-          <p className="text-black text-sm">{t("orderSummary.duration")}</p>
-          <p className="font-medium text-black text-sm">
-            {moment
-              .duration(
-                moment(ticket.stops[0].arrival_time).diff(
-                  moment(ticket.stops[0].departure_date)
-                )
-              )
-              .asHours()
-              .toFixed(2)}{" "}
-            hrs
-          </p>
-        </div>
-      </div>
-      <InfoBlock
-        desc={t("orderSummary.operatedBy")}
-        title={ticket.metadata.operator_company_name}
-      />
     </div>
   );
-};
+}
 
 const OrderSummary = ({ className }: { className?: string }) => {
   const { t } = useTranslation();
@@ -173,8 +166,8 @@ const OrderSummary = ({ className }: { className?: string }) => {
 
   return (
     <>
-      <div className="bg-white rounded-xl p-4 block shadow-md">
-        <h1 className="font-medium text-lg">
+      <div className="space-y-4">
+        <h1 className="font-medium text-2xl">
           {t("orderSummary.bookingDetails")}
         </h1>
         {outboundTicket && (
@@ -187,9 +180,9 @@ const OrderSummary = ({ className }: { className?: string }) => {
       <div
         className={cn("bg-white rounded-xl p-4 shadow-md space-y-3", className)}
       >
-        <h1 className="font-medium text-lg">
+        {/* <h1 className="font-medium text-lg">
           {t("orderSummary.bookingPrice")}
-        </h1>
+        </h1> */}
         <div className="flex flex-col gap-1">
           {outboundDetails && (
             <>
@@ -221,6 +214,7 @@ const OrderSummary = ({ className }: { className?: string }) => {
               />
               <PriceSummaryItem
                 label={t("orderSummary.children")}
+                className={`${childrenAmount < 1 && "hidden"}`}
                 amount={returnDetails.childPrice}
                 quantity={returnDetails.childCount}
               />
