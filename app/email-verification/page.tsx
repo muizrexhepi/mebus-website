@@ -17,14 +17,14 @@ const EmailVerificationPage = () => {
 
       promise.then(
         function (response) {
-          console.log(response); // Success
+
         },
         function (error) {
-          console.log(error); // Failure
+
         }
       );
     } catch (error) {
-      console.log(error);
+      
     }
   }, []);
 

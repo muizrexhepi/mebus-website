@@ -82,7 +82,6 @@ const DepositForm = () => {
           },
           config
         );
-        console.log({ depositRes });
         toast({
           description: `You successfully deposited €${depositAmount}`,
         });
@@ -187,7 +186,7 @@ const DepositPage = () => {
           <Card className="bg-primary text-white">
             <CardHeader>
               <CardTitle className="text-2xl">
-                Why Deposit with Busly?
+                Why Deposit with GoBusly?
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">

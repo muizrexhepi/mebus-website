@@ -50,13 +50,11 @@ const PartnerApplicationForm: React.FC = () => {
   // NODE JS VERSION
   // const onSubmit = async (values: PartnerApplicationFormValues) => {
   //   setIsLoading(true);
-  //   console.log(values);
 
   //   try {
   //     const response: ApiResponse = await axios.post(`${environment.apiurl}/applicant/create`, values);
   //     setError("");
   //     setMessage(response.data.message)
-  //     console.log("Application submitted successfully");
   //   } catch (error: any) {
   //     setError(error?.response?.data?.message || "Something went wrong!");
   //   } finally {
@@ -66,14 +64,12 @@ const PartnerApplicationForm: React.FC = () => {
 
   const onSubmit = async (values: PartnerApplicationFormValues) => {
     setIsLoading(true);
-    console.log(values);
 
     try {
       const response = await axios.post(
         `${environment.apiurl}/applicant/create`,
         values
       );
-      console.log({ respili: response });
       if (response.status !== 201) {
         setError("Something went wront, please try again");
         return;
@@ -82,7 +78,6 @@ const PartnerApplicationForm: React.FC = () => {
       setMessage(
         "Application submitted successfully. Please check your email for confirmation."
       );
-      console.log("Application submitted successfully");
     } catch (error: any) {
       setError(error?.response?.data?.message || "Something went wrong!");
     } finally {

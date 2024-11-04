@@ -30,12 +30,11 @@ export default function Component() {
             `${environment.apiurl}/user/${user.$id}?select=balance_in_cents`
           );
           setAccountBalanceInCents(accountBalance.data.data.balance_in_cents);
-          console.log({ user, accountBalance: accountBalance.data.data });
         };
 
         fetchAccountBalance();
       } catch (error) {
-        console.log({ error });
+        console.error({ error });
       }
     }
   }, [user]);

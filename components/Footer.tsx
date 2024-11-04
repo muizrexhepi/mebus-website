@@ -94,7 +94,7 @@ const Footer = () => {
       >
         <div className="flex-1 w-full flex-col sm:flex sm:flex-row sm:items-center md:items-start justify-between md:justify-start md:flex-col mr-10">
           <Link href="/">
-            <h1 className="font-semibold text-2xl text-white/95">Busly</h1>
+            <h1 className="font-semibold text-2xl text-white/95">GoBusly</h1>
           </Link>
           <p
             className={`font-normal text-white/70 text-[18px] leading-[30.8px] mt-4 max-w-[310px]`}

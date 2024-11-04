@@ -45,7 +45,6 @@ export default function BusRoutesClient({
     const fetchStations = async () => {
       try {
         const data = await getStations();
-        console.log({ data });
         setStations(data);
       } catch (error) {
         console.error("Error fetching stations:", error);

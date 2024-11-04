@@ -21,14 +21,12 @@ declare interface CreateUserParams {
 
 export const createUser = async (user: CreateUserParams) => {
   try {
-    console.log({user:user})
     const newUser = await axios.post(`${environment.apiurl}/user/create/db`,{
       name:user.name,
       email:user.email,
       password:user.password
 
     })
-    console.log({useriRi:newUser.data.data})
 
       
     return parseStringify(newUser?.data?.data);
@@ -51,7 +49,7 @@ export const getUserBalance = async (userId: string ) => {
     );
     return accountBalance.data.data.balance_in_cents;
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 }
 
@@ -60,7 +58,6 @@ export const getUser = async (userId:string) => {
     const user = await users.get(
       userId 
   );
-    console.log({useri:user})
     return parseStringify(user);
   } catch (error) {
     console.error(
@@ -74,7 +71,6 @@ export const deleteUser = async (userId:string) => {
   try {
     if (userId) {
       const result = await users.delete(userId);
-      console.log(result);
     } else {
       console.error("User ID is missing or user is not found.");
     }

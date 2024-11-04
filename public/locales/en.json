@@ -231,17 +231,17 @@
       "termsofservice": "Terms of Service",
       "cookiepolicy": "Cookie Policy"
     },
-    "copyright": "© 2024 Busly. All Rights Reserved.",
+    "copyright": "© 2024 GoBusly. All Rights Reserved.",
     "customerSupport": "24/7 Customer Support",
     "securePayment": "Secure Payment",
     "helpFAQ": "Help & FAQ"
   },
   "aboutSection": {
-    "title": "Why Travel with Busly?",
+    "title": "Why Travel with GoBusly?",
     "cards": {
       "budget": {
         "title": "Budget-Friendly Journeys",
-        "description": "Discover unbeatable fares on our extensive network. Busly makes travel accessible without breaking the bank."
+        "description": "Discover unbeatable fares on our extensive network. GoBusly makes travel accessible without breaking the bank."
       },
       "network": {
         "title": "Expansive Route Network",
@@ -253,7 +253,7 @@
       },
       "punctuality": {
         "title": "Punctual Departures",
-        "description": "Time is precious. Count on Busly for reliable schedules and on-time performance."
+        "description": "Time is precious. Count on GoBusly for reliable schedules and on-time performance."
       },
       "comfort": {
         "title": "Comfort is Key",
@@ -261,13 +261,13 @@
       },
       "eco": {
         "title": "Eco-Conscious Travel",
-        "description": "Choose green with our fuel-efficient fleet and carbon offset initiatives. Travel responsibly with Busly."
+        "description": "Choose green with our fuel-efficient fleet and carbon offset initiatives. Travel responsibly with GoBusly."
       }
     },
     "callToAction": {
       "title": "Ready to Embark on Your Next Adventure?",
-      "description": "Join thousands of satisfied travelers who choose Busly for reliable, affordable, and comfortable journeys. Whether you're planning a weekend getaway or a cross-country expedition, we've got you covered.",
-      "button": "Explore Busly Routes"
+      "description": "Join thousands of satisfied travelers who choose GoBusly for reliable, affordable, and comfortable journeys. Whether you're planning a weekend getaway or a cross-country expedition, we've got you covered.",
+      "button": "Explore GoBusly Routes"
     }
   },
   "searchBlock": {

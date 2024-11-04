@@ -4,7 +4,7 @@ import SecondaryNavbar from "@/components/SecondaryNavbar";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Busly | Checkout",
+  title: "GoBusly | Checkout",
 };
 
 const Checkout = () => {

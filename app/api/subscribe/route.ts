@@ -4,7 +4,7 @@ import { Resend } from 'resend';
 import { Client, Databases, Query, ID } from 'node-appwrite';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const COMPANY_NAME = 'Busly';
+const COMPANY_NAME = 'GoBusly';
 
 const client = new Client()
     .setEndpoint('https://cloud.appwrite.io/v1') 
@@ -38,7 +38,6 @@ export async function POST(request: NextRequest) {
       { email }
     );
 
-    console.log({subscriber});
 
     await resend.emails.send({
       from: `${COMPANY_NAME} <newsletter@portal.insylink.com>`,

@@ -14,8 +14,8 @@ export async function generateMetadata({
     .split("-")
     .map((city) => city.charAt(0).toUpperCase() + city.slice(1));
 
-  const title = `Buses from ${departureCity} to ${arrivalCity} | Busly`;
-  const description = `Search and book your bus tickets from ${departureCity} to ${arrivalCity} with Busly. Travel comfortably across Europe.`;
+  const title = `Buses from ${departureCity} to ${arrivalCity} | GoBusly`;
+  const description = `Search and book your bus tickets from ${departureCity} to ${arrivalCity} with GoBusly. Travel comfortably across Europe.`;
   return {
     title,
     description,

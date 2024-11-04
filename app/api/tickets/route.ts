@@ -13,7 +13,6 @@ export async function GET(request: NextRequest) {
   const page = parseInt(searchParams.get('page') || '1', 10);
   const limit = 6;
 
-  console.log({departureDate,departureStation,arrivalStation,adults,children,page})
 
   if (!departureStation || !arrivalStation) {
     return NextResponse.json({ error: 'Missing required parameters' }, { status: 400 });
@@ -21,7 +20,6 @@ export async function GET(request: NextRequest) {
 
   try {
     const res = await axios.get(`${environment.apiurl}/ticket/search?departureStation=${departureStation}&arrivalStation=${arrivalStation}&departureDate=${departureDate}&adults=${adults}&children=${children}`);
-    console.log({reskomadata:res.data.data})
     const tickets: Ticket[] = res.data.data || [];
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + limit;

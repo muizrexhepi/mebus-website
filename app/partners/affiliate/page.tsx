@@ -16,9 +16,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Busly | Affiliate Program",
+  title: "GoBusly | Affiliate Program",
   description:
-    "Join the Busly Affiliate Program and earn commissions by promoting our bus ticket booking service.",
+    "Join the GoBusly Affiliate Program and earn commissions by promoting our bus ticket booking service.",
 };
 
 export default function AffiliateProgram() {
@@ -36,7 +36,7 @@ export default function AffiliateProgram() {
             <span className="text-primary">Earn While You Promote</span>
           </h1>
           <p className="text-xl text-muted-foreground mb-8">
-            Become a Busly affiliate and earn commissions by promoting our bus
+            Become a GoBusly affiliate and earn commissions by promoting our bus
             ticket booking service to your audience.
           </p>
           <Link href="/affiliates/apply">
@@ -59,7 +59,7 @@ export default function AffiliateProgram() {
       <section className="py-16 bg-gray-100">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-3xl font-semibold mb-4 text-center">
-            Why become a Busly affiliate?
+            Why become a GoBusly affiliate?
           </h2>
           <p className="text-center mb-12 text-lg max-w-2xl mx-auto">
             Join our affiliate program and start earning commissions by
@@ -123,10 +123,10 @@ export default function AffiliateProgram() {
       <section className="py-16 flex max-w-6xl mx-auto flex-col lg:flex-row items-center justify-between gap-12 px-4 sm:px-8 xl:px-0">
         <div className="lg:w-1/2">
           <h2 className="text-3xl font-semibold mb-4">
-            How to become a Busly affiliate
+            How to become a GoBusly affiliate
           </h2>
           <p className="mb-8 text-lg">
-            Start earning commissions with Busly in just a few simple steps
+            Start earning commissions with GoBusly in just a few simple steps
           </p>
           <div className="space-y-8">
             {[
@@ -143,7 +143,7 @@ export default function AffiliateProgram() {
               {
                 title: "Promote",
                 description:
-                  "Use your unique affiliate link and promotional materials to advertise Busly to your audience.",
+                  "Use your unique affiliate link and promotional materials to advertise GoBusly to your audience.",
               },
               {
                 title: "Earn",
@@ -177,7 +177,7 @@ export default function AffiliateProgram() {
       <section className="py-16 bg-primary max-w-6xl mx-auto text-white text-center rounded-lg">
         <h2 className="text-3xl font-semibold mb-4">Ready to start earning?</h2>
         <p className="mb-8 max-w-2xl mx-auto text-lg px-4 xl:px-0">
-          Join the Busly Affiliate Program today and start earning commissions
+          Join the GoBusly Affiliate Program today and start earning commissions
           by promoting our reliable bus ticket booking service. Turn your
           audience into revenue!
         </p>

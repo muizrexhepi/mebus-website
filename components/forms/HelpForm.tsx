@@ -10,7 +10,6 @@ const HelpForm = () => {
 
   const handleSearch = (e: any) => {
     e.preventDefault();
-    console.log("Searching for:", searchQuery);
   };
   return (
     <form onSubmit={handleSearch} className="flex space-x-2">

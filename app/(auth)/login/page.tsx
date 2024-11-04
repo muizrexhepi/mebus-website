@@ -5,31 +5,31 @@ import { Loader2 } from "lucide-react";
 
 // Move metadata to a separate constant to avoid re-computation
 export const metadata: Metadata = {
-  title: "Login | Busly",
+  title: "Login | GoBusly",
   description:
-    "Access your Busly account. Book bus tickets, manage your trips, and enjoy seamless travel planning.",
-  keywords: "login, sign in, Busly account, bus booking, travel planning",
+    "Access your GoBusly account. Book bus tickets, manage your trips, and enjoy seamless travel planning.",
+  keywords: "login, sign in, GoBusly account, bus booking, travel planning",
   openGraph: {
-    title: "Login to Your Busly Account",
+    title: "Login to Your GoBusly Account",
     description:
-      "Access your Busly account to book bus tickets, manage your trips, and enjoy seamless travel planning.",
+      "Access your GoBusly account to book bus tickets, manage your trips, and enjoy seamless travel planning.",
     type: "website",
-    url: "https://www.busly.com/login",
+    url: "https://www.GoBusly.com/login",
     // Use relative paths for images to leverage Next.js Image Optimization
     images: [
       {
         url: "/images/og-image-login.jpg",
         width: 1200,
         height: 630,
-        alt: "Busly Login",
+        alt: "GoBusly Login",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Login to Your Busly Account",
+    title: "Login to Your GoBusly Account",
     description:
-      "Access your Busly account to book bus tickets, manage your trips, and enjoy seamless travel planning.",
+      "Access your GoBusly account to book bus tickets, manage your trips, and enjoy seamless travel planning.",
     images: ["/images/twitter-image-login.jpg"],
   },
 };

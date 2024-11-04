@@ -125,7 +125,7 @@ export default function PersonalInfo() {
         setEditingInfo(null);
         toast({ description: "Changes saved successfully." });
       } catch (error) {
-        console.log("Failed to save changes:", error);
+        console.error("Failed to save changes:", error);
         toast({
           description: "Failed to save changes. Please try again.",
           variant: "destructive",

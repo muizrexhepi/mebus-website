@@ -42,7 +42,6 @@ const RegisterPage = () => {
 
   const onSubmit = async (values: z.infer<typeof registerSchema>) => {
     setIsLoading(true);
-    console.log(values);
     try {
       const user = {
         name: values.name,
@@ -51,7 +50,6 @@ const RegisterPage = () => {
       };
 
       const dbUser = await createUser(user);
-      console.log({ dbUser });
 
       const newUser = await account.create(
         dbUser,

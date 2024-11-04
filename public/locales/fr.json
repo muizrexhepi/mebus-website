@@ -229,17 +229,17 @@
       "termsofservice": "Conditions d'utilisation",
       "cookiepolicy": "Politique des cookies"
     },
-    "copyright": "© 2024 Busly. Tous droits réservés.",
+    "copyright": "© 2024 GoBusly. Tous droits réservés.",
     "customerSupport": "Service client 24/7",
     "securePayment": "Paiement sécurisé",
     "helpFAQ": "Aide & FAQ"
   },
   "aboutSection": {
-    "title": "Pourquoi voyager avec Busly ?",
+    "title": "Pourquoi voyager avec GoBusly ?",
     "cards": {
       "budget": {
         "title": "Voyages économiques",
-        "description": "Découvrez des tarifs imbattables sur notre vaste réseau. Busly rend le voyage accessible sans se ruiner."
+        "description": "Découvrez des tarifs imbattables sur notre vaste réseau. GoBusly rend le voyage accessible sans se ruiner."
       },
       "network": {
         "title": "Réseau d'itinéraires étendu",
@@ -251,7 +251,7 @@
       },
       "punctuality": {
         "title": "Départs ponctuels",
-        "description": "Le temps est précieux. Comptez sur Busly pour des horaires fiables et une performance ponctuelle."
+        "description": "Le temps est précieux. Comptez sur GoBusly pour des horaires fiables et une performance ponctuelle."
       },
       "comfort": {
         "title": "Le confort est essentiel",
@@ -259,13 +259,13 @@
       },
       "eco": {
         "title": "Voyage écoresponsable",
-        "description": "Optez pour le vert avec notre flotte économe en carburant et nos initiatives de compensation carbone. Voyagez de manière responsable avec Busly."
+        "description": "Optez pour le vert avec notre flotte économe en carburant et nos initiatives de compensation carbone. Voyagez de manière responsable avec GoBusly."
       }
     },
     "callToAction": {
       "title": "Prêt pour votre prochaine aventure ?",
-      "description": "Rejoignez des milliers de voyageurs satisfaits qui choisissent Busly pour des voyages fiables, abordables et confortables. Que vous planifiez une escapade le weekend ou un voyage à travers le pays, nous sommes là pour vous.",
-      "button": "Explorer les itinéraires Busly"
+      "description": "Rejoignez des milliers de voyageurs satisfaits qui choisissent GoBusly pour des voyages fiables, abordables et confortables. Que vous planifiez une escapade le weekend ou un voyage à travers le pays, nous sommes là pour vous.",
+      "button": "Explorer les itinéraires GoBusly"
     }
   },
   "searchBlock": {

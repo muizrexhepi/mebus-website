@@ -16,7 +16,6 @@ export const languageResources = {
 const getLanguageFromLocalStorage = () => {
     if (typeof window !== 'undefined') {
         const savedLanguage = localStorage.getItem('language');
-        console.log({ savedLanguage });
         return savedLanguage || 'en'; 
     }
     return 'en'; 

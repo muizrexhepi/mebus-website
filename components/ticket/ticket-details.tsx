@@ -26,11 +26,9 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
       minute: "2-digit",
     });
   };
-  console.log({ ticket });
 
   const handleLocation = (location: { lat?: number; lng?: number }) => {
     if (!location || !location.lat || !location.lng) {
-      console.log("No lat lng");
       return toast({
         description: t("ticketDetails.invalidCoordinates"),
         variant: "destructive",

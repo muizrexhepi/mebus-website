@@ -65,7 +65,6 @@ const LoginPage = () => {
 
   // const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
   //   setIsLoading(true);
-  //   console.log(values);
 
   //   try {
   //     const user = {
@@ -80,7 +79,6 @@ const LoginPage = () => {
 
   //     if (newUser) {
   //       const user = await account.get()
-  //       console.log({user})
   //       if(user.labels[0] === "operator") {
   //         await account.deleteSessions();
   //         return setError("This email is used by another user.");
@@ -92,7 +90,6 @@ const LoginPage = () => {
   //     }
   //   } catch (error: any) {
   //     setError(error.message || "Something went wrong!");
-  //     console.log(error);
   //     setIsLoading(false);
   //   } finally {
   //     setIsLoading(false);

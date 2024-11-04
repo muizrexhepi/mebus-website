@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
 
     // Send email to the applicant
     await resend.emails.send({
-      from: 'Busly <noreply@yourcompany.com>',
+      from: 'GoBusly <noreply@yourcompany.com>',
       to: email,
       subject: 'Application Received',
       html: `

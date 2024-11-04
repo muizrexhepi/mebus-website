@@ -28,7 +28,7 @@ export async function generateMetadata({
   const operator = operatorRes.data.data;
 
   return {
-    title: `${operator.name} Routes | Busly`,
+    title: `${operator.name} Routes | GoBusly`,
     description: `View all bus routes operated by ${operator.name}. Detailed information on destinations, stations, and luggage policies.`,
   };
 }
@@ -109,7 +109,6 @@ const OperatorRoutesPage: React.FC<{ params: { id: string } }> = async ({
   const operatorRes = await axios.get(`${environment.apiurl}/operator/${id}`);
   const operator = operatorRes.data.data;
 
-  console.log({ routes, operator });
 
   return (
     <div className="min-h-screen flex flex-col">

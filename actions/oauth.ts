@@ -24,7 +24,7 @@ export async function handleGoogleCallback() {
   
     return newUser;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 

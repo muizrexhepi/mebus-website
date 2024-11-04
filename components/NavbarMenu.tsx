@@ -114,7 +114,7 @@ const NavbarMenu = () => {
           className="w-[300px] sm:w-[400px] bg-white p-0 z-[99]"
         >
           <SheetHeader className="p-4 text-left border-b">
-            <SheetTitle className="text-2xl font-bold">Busly</SheetTitle>
+            <SheetTitle className="text-2xl font-bold">GoBusly</SheetTitle>
           </SheetHeader>
           <nav className="flex flex-col h-full">{MenuItems}</nav>
         </SheetContent>

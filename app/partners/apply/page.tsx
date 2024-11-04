@@ -15,9 +15,9 @@ import PartnerApplicationForm from "@/components/forms/PartnerApplyForm";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Busly | Partner Application",
+  title: "GoBusly | Partner Application",
   description:
-    "Join Busly as a partner and expand your business reach, boost revenue, and enjoy secure operations through our platform.",
+    "Join GoBusly as a partner and expand your business reach, boost revenue, and enjoy secure operations through our platform.",
 };
 
 const PartnerApplicationPage: React.FC = () => {
@@ -50,7 +50,7 @@ const PartnerApplicationPage: React.FC = () => {
             <Card className="bg-primary text-white">
               <CardHeader>
                 <CardTitle className="text-2xl">
-                  Why Partner with Busly?
+                  Why Partner with GoBusly?
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">

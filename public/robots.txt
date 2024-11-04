@@ -11,4 +11,4 @@ Allow: /partners/apply
 Allow: /help/travel-flex
 Allow: /help
 Allow: /
-Sitemap: https://www.busly.eu/sitemap.xml
+Sitemap: https://www.GoBusly.eu/sitemap.xml

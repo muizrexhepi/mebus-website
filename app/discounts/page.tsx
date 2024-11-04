@@ -4,25 +4,25 @@ import SecondaryFooter from "@/components/SecondaryFooter";
 import ClientMebusDiscountOffers from "@/components/help/DiscountTabs";
 
 export const metadata = {
-  title: "Busly - Discounts and Offers",
+  title: "GoBusly - Discounts and Offers",
   description:
-    "Discover exclusive discounts, deals, and special offers for your next bus trip with Busly. Save more on your travels today!",
+    "Discover exclusive discounts, deals, and special offers for your next bus trip with GoBusly. Save more on your travels today!",
   keywords:
-    "Busly, Discounts, Bus Deals, Offers, Special Offers, Bus Travel Savings, Travel Discounts",
-  authors: [{ name: "Busly" }],
+    "GoBusly, Discounts, Bus Deals, Offers, Special Offers, Bus Travel Savings, Travel Discounts",
+  authors: [{ name: "GoBusly" }],
   robots: "index, follow",
   openGraph: {
-    title: "Busly - Discounts and Offers",
+    title: "GoBusly - Discounts and Offers",
     description:
-      "Explore Busly discounts and special offers to save on your bus bookings. Check out the latest deals today!",
-    url: "https://www.busly.eu/discounts",
+      "Explore GoBusly discounts and special offers to save on your bus bookings. Check out the latest deals today!",
+    url: "https://www.GoBusly.eu/discounts",
     type: "website",
     images: [
       {
-        url: "https://www.busly.eu/images/discounts-banner.jpg",
+        url: "https://www.GoBusly.eu/images/discounts-banner.jpg",
         width: 1200,
         height: 630,
-        alt: "Busly Discounts and Offers",
+        alt: "GoBusly Discounts and Offers",
       },
     ],
   },
@@ -78,7 +78,7 @@ export default function MebusDiscountOffers() {
       <div className="mt-12">
         <h2 className="text-2xl font-semibold mb-4">How to Redeem Offers</h2>
         <ol className="list-decimal list-inside space-y-2">
-          <li>Choose your desired trip on the Busly app or website</li>
+          <li>Choose your desired trip on the GoBusly app or website</li>
           <li>Proceed to the checkout page</li>
           <li>Enter the offer code in the designated field</li>
           <li>The discount will be applied to your total fare</li>
@@ -98,7 +98,7 @@ export default function MebusDiscountOffers() {
             applied retroactively
           </li>
           <li>
-          Busly reserves the right to modify or cancel offers at any time
+          GoBusly reserves the right to modify or cancel offers at any time
           </li>
           <li>
             Additional terms may apply to specific offers. Please check offer

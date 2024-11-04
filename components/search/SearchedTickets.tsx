@@ -73,7 +73,6 @@ const TicketList: React.FC = () => {
       const data = await response.json();
       const newTickets: Ticket[] = data.data || [];
 
-      console.log({ newTickets });
 
       if (newTickets.length === 0) {
         setNoData(true);
@@ -137,7 +136,6 @@ const TicketList: React.FC = () => {
       }
     }
   };
-  console.log({ isSelectingReturn });
 
   // if (isLoading) {
   //   return (

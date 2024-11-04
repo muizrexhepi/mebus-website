@@ -11,7 +11,7 @@ const SecondaryNavbar = () => {
   return (
     <div className="w-full flex justify-between items-center max-w-6xl mx-auto">
       <Link href={"/"}>
-        <h1 className="font-semibold text-2xl text-white/95">Busly</h1>
+        <h1 className="font-semibold text-2xl text-white/95">GoBusly</h1>
       </Link>
       <div className="flex items-center gap-2">
         <LanguageDialog />

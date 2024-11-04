@@ -2,25 +2,25 @@ import Navbar from "@/components/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 
 export const metadata = {
-  title: "Busly - Terms of Service",
+  title: "GoBusly - Terms of Service",
   description:
-    "Read the Busly Terms of Service to understand your rights and obligations when using our bus ticket booking app.",
+    "Read the GoBusly Terms of Service to understand your rights and obligations when using our bus ticket booking app.",
   keywords:
-    "Busly, Terms of Service, Legal, User Rights, Bus Ticket Booking, Agreement",
-  authors: [{ name: "Busly" }],
+    "GoBusly, Terms of Service, Legal, User Rights, Bus Ticket Booking, Agreement",
+  authors: [{ name: "GoBusly" }],
   robots: "index, follow",
   openGraph: {
-    title: "Busly - Terms of Service",
+    title: "GoBusly - Terms of Service",
     description:
-      "Review the Terms of Service for Busly to understand the legal agreement and guidelines governing the use of our platform.",
-    url: "https://www.busly.eu/terms-of-service",
+      "Review the Terms of Service for GoBusly to understand the legal agreement and guidelines governing the use of our platform.",
+    url: "https://www.GoBusly.eu/terms-of-service",
     type: "website",
     images: [
       {
-        url: "https://www.busly.eu/images/terms-of-service-banner.jpg",
+        url: "https://www.GoBusly.eu/images/terms-of-service-banner.jpg",
         width: 1200,
         height: 630,
-        alt: "Busly Terms of Service",
+        alt: "GoBusly Terms of Service",
       },
     ],
   },
@@ -35,9 +35,9 @@ export default function MebusTermsOfService() {
       <h1 className="text-4xl font-bold text-center mb-8">Terms of Service</h1>
       <div className="max-w-4xl mx-auto">
         <p className="mb-8">
-          Welcome to Busly. These Terms of Service (&quot;Terms&quot;) govern
-          your use of the Busly bus ticket booking application and services. By
-          using Busly, you agree to these Terms. Please read them carefully.
+          Welcome to GoBusly. These Terms of Service (&quot;Terms&quot;) govern
+          your use of the GoBusly bus ticket booking application and services. By
+          using GoBusly, you agree to these Terms. Please read them carefully.
         </p>
 
         <h2 className="text-2xl font-semibold mb-4" id="toc">
@@ -96,7 +96,7 @@ export default function MebusTermsOfService() {
             1. Acceptance of Terms
           </h2>
           <p>
-            By accessing or using the Busly app, you agree to be bound by these
+            By accessing or using the GoBusly app, you agree to be bound by these
             Terms. If you do not agree to these Terms, please do not use our
             service.
           </p>
@@ -105,7 +105,7 @@ export default function MebusTermsOfService() {
         <section id="use-of-service" className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">2. Use of Service</h2>
           <p className="mb-4">
-            You agree to use Busly only for lawful purposes and in accordance
+            You agree to use GoBusly only for lawful purposes and in accordance
             with these Terms. You are prohibited from:
           </p>
           <ul className="list-disc list-inside space-y-2">
@@ -124,7 +124,7 @@ export default function MebusTermsOfService() {
         <section id="account" className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">3. User Account</h2>
           <p className="mb-4">
-            To use certain features of Busly, you may need to create an account.
+            To use certain features of GoBusly, you may need to create an account.
             You are responsible for:
           </p>
           <ul className="list-disc list-inside space-y-2">
@@ -138,14 +138,14 @@ export default function MebusTermsOfService() {
           <h2 className="text-2xl font-semibold mb-4">
             4. Bookings and Payments
           </h2>
-          <p className="mb-4">When you book a bus ticket through Busly:</p>
+          <p className="mb-4">When you book a bus ticket through GoBusly:</p>
           <ul className="list-disc list-inside space-y-2">
             <li>You agree to pay the specified fare and any applicable fees</li>
             <li>
               You are responsible for providing accurate booking information
             </li>
             <li>
-              Busly acts as an intermediary between you and the bus operators
+              GoBusly acts as an intermediary between you and the bus operators
             </li>
             <li>
               The bus operator&apos;s terms and conditions may also apply to
@@ -166,7 +166,7 @@ export default function MebusTermsOfService() {
             <li>Cancellations must be made within the specified time frame</li>
             <li>Refunds are subject to the bus operator&apos;s policies</li>
             <li>
-            Busly may charge a processing fee for cancellations and refunds
+            GoBusly may charge a processing fee for cancellations and refunds
             </li>
           </ul>
         </section>
@@ -176,8 +176,8 @@ export default function MebusTermsOfService() {
             6. Privacy and Data Protection
           </h2>
           <p>
-            Your use of Busly is also governed by our Privacy Policy. By using
-            Busly, you consent to the collection, use, and sharing of your
+            Your use of GoBusly is also governed by our Privacy Policy. By using
+            GoBusly, you consent to the collection, use, and sharing of your
             information as described in the Privacy Policy.
           </p>
         </section>
@@ -189,11 +189,11 @@ export default function MebusTermsOfService() {
           <p className="mb-4">To the fullest extent permitted by law:</p>
           <ul className="list-disc list-inside space-y-2">
             <li>
-              Busly is not liable for any indirect, incidental, special, or
+              GoBusly is not liable for any indirect, incidental, special, or
               consequential damages
             </li>
             <li>
-              Busly is not responsible for the actions, services, or products of
+              GoBusly is not responsible for the actions, services, or products of
               third-party bus operators
             </li>
             <li>
@@ -207,8 +207,8 @@ export default function MebusTermsOfService() {
           <h2 className="text-2xl font-semibold mb-4">8. Changes to Terms</h2>
           <p>
             We may update these Terms from time to time. We will notify you of
-            any changes by posting the new Terms in the Busly app and updating
-            the &quot;Last Updated&quot; date. Your continued use of Busly after
+            any changes by posting the new Terms in the GoBusly app and updating
+            the &quot;Last Updated&quot; date. Your continued use of GoBusly after
             such changes constitutes your acceptance of the new Terms.
           </p>
         </section>
@@ -218,8 +218,8 @@ export default function MebusTermsOfService() {
           <p className="mb-4">
             If you have any questions about these Terms, please contact us at:
           </p>
-          <p>Busly Legal Team</p>
-          <p>Email: legal@busly.eu</p>
+          <p>GoBusly Legal Team</p>
+          <p>Email: legal@GoBusly.eu</p>
           <p>Address: 456 Data Protection Avenue, Privacyville, ST 67890</p>
           <p>Phone: (555) 987-6543</p>
         </section>

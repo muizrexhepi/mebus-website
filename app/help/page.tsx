@@ -4,9 +4,9 @@ import { Metadata } from "next";
 import HelpPageClient from "@/components/help/HelpPageClient";
 
 export const metadata: Metadata = {
-  title: "Help Center | Busly - Your Reliable Bus Booking Service",
+  title: "Help Center | GoBusly - Your Reliable Bus Booking Service",
   description:
-    "Find answers to your questions and get support for your bus bookings with Busly. Access our knowledge base, learn how to use our services, and reach out for assistance.",
+    "Find answers to your questions and get support for your bus bookings with GoBusly. Access our knowledge base, learn how to use our services, and reach out for assistance.",
 };
 
 export default function HelpPage() {

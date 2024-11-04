@@ -12,12 +12,12 @@ const roboto = Roboto({
   subsets: ["latin-ext"],
 });
 export const metadata: Metadata = {
-  title: "Busly | Travel Europe & Balkans",
+  title: "GoBusly | Travel Europe & Balkans",
   description:
-    "Busly is your go-to platform for affordable, convenient, and fast bus travel across Europe and the Balkans. Discover and book bus tickets to your favorite destinations with ease.",
+    "GoBusly is your go-to platform for affordable, convenient, and fast bus travel across Europe and the Balkans. Discover and book bus tickets to your favorite destinations with ease.",
   keywords: [
     "bus ticket booking",
-    "Busly",
+    "GoBusly",
     "Europe travel",
     "Flixbus alternative",
     "cheap bus tickets",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     "online bus booking",
     "bus routes Europe",
     "bus travel deals",
-    "Busly travel app",
+    "GoBusly travel app",
     "Balkans bus operators",
     "Balkan travel",
     "bus routes Balkans",
@@ -45,18 +45,18 @@ export const metadata: Metadata = {
     "Montenegro bus travel",
   ],
   openGraph: {
-    title: "Busly | Travel Europe & Balkans",
+    title: "GoBusly | Travel Europe & Balkans",
     description:
-      "Discover the most affordable and convenient bus routes across Europe and the Balkans with Busly. Book your bus tickets online for seamless travel to top destinations.",
-    url: "https://www.busly.eu",
+      "Discover the most affordable and convenient bus routes across Europe and the Balkans with GoBusly. Book your bus tickets online for seamless travel to top destinations.",
+    url: "https://www.GoBusly.eu",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Busly | Travel Europe & Balkans",
+    title: "GoBusly | Travel Europe & Balkans",
     description:
-      "Find and book bus tickets across Europe and the Balkans at the best prices. Experience seamless bus travel with Busly.",
-    creator: "@Busly",
+      "Find and book bus tickets across Europe and the Balkans at the best prices. Experience seamless bus travel with GoBusly.",
+    creator: "@GoBusly",
   },
 };
 

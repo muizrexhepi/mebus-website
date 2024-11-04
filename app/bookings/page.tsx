@@ -43,8 +43,6 @@ const BookingsDashboard: React.FC = () => {
   const router = useRouter();
   const { t } = useTranslation();
 
-  console.log({ user });
-
   const handleNoFlexAction = () => {
     setShowFlexAlert(true);
     toast({
@@ -62,7 +60,6 @@ const BookingsDashboard: React.FC = () => {
         localStorage.getItem("noUserBookings") || "[]"
       );
       setNoUserBookings(savedBookings);
-      console.log("Saved bookings from localStorage:", savedBookings);
     }
   }, []);
 
@@ -143,7 +140,6 @@ const BookingsDashboard: React.FC = () => {
 
   const handleCancelBookingAndRefund = async (booking_id: string, payment_intent_id: string, flex: string, refund_amount_in_cents: number) => {
     try {
-      console.log("here")
       if(!booking_id) {
         return toast({
           description: "No booking_id provided",
@@ -162,9 +158,7 @@ const BookingsDashboard: React.FC = () => {
         flex: flex,
         amount_in_cents: refund_amount_in_cents,
       });
-      console.log({response});
     } catch (error: any) {
-      console.log(error);
       return toast({
         description: error.response.data.message,
         variant: "destructive"

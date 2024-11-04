@@ -48,7 +48,6 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
 
       const { clientSecret } = res.data.data;
 
-      console.log({ clientSecret, res });
 
       const { error: confirmError, paymentIntent } =
         await stripe.confirmCardPayment(clientSecret, {
@@ -58,7 +57,6 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
           },
         });
 
-      console.log({ confirmError });
       if (confirmError) {
         toast({
           description: confirmError.message || "Something went wrong!",
@@ -73,7 +71,6 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
             description: "Payment succeeded",
           });
         }
-        console.log({ isPaymentSuccess });
         router.push(`/booking/${bookingId}`);
       }
     } catch (err: any) {

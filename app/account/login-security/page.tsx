@@ -82,7 +82,6 @@ export default function LoginSecurity() {
   const handleDeleteAccount = async () => {
     try {
       const deleted = await deleteUser(user?.$id);
-      console.log({ deleted });
       toast({ description: "Account deleted successfully." });
       router.push("/");
       setIsAlertOpen(false); // Close the alert dialog on success

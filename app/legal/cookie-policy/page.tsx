@@ -2,17 +2,17 @@ import Navbar from "@/components/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 
 export const metadata = {
-  title: "Busly - Cookie Policy",
+  title: "GoBusly - Cookie Policy",
   description:
-    "Learn about how Busly uses cookies and similar technologies to provide, enhance, and improve the functionality of our bus ticket booking app.",
+    "Learn about how GoBusly uses cookies and similar technologies to provide, enhance, and improve the functionality of our bus ticket booking app.",
   keywords:
-    "Busly, Cookie Policy, Cookies, Privacy, Tracking, Web Technologies",
-  authors: [{ name: "Busly" }],
+    "GoBusly, Cookie Policy, Cookies, Privacy, Tracking, Web Technologies",
+  authors: [{ name: "GoBusly" }],
   robots: "index, follow",
   openGraph: {
-    title: "Busly - Cookie Policy",
+    title: "GoBusly - Cookie Policy",
     description:
-      "Busly uses cookies and similar technologies to enhance your experience. Read our Cookie Policy to understand how we use and manage cookies.",
+      "GoBusly uses cookies and similar technologies to enhance your experience. Read our Cookie Policy to understand how we use and manage cookies.",
     url: "https://www.eusly.eu/cookie-policy",
     type: "website",
     images: [
@@ -20,7 +20,7 @@ export const metadata = {
         url: "https://www.eusly.eu/images/cookie-policy-banner.jpg",
         width: 1200,
         height: 630,
-        alt: "Busly Cookie Policy",
+        alt: "GoBusly Cookie Policy",
       },
     ],
   },
@@ -35,7 +35,7 @@ export default function MebusCookiePolicy() {
       <h1 className="text-4xl font-bold text-center mb-8">Cookie Policy</h1>
       <div className="max-w-4xl mx-auto">
         <p className="mb-8">
-          This Cookie Policy explains how Busly ("we", "us", or "our") uses
+          This Cookie Policy explains how GoBusly ("we", "us", or "our") uses
           cookies and similar technologies when you use our bus ticket booking
           app. We use these technologies to enhance your user experience,
           analyze app usage, and assist in our marketing efforts.
@@ -210,8 +210,8 @@ export default function MebusCookiePolicy() {
             If you have any questions about our use of cookies or this Cookie
             Policy, please contact us at:
           </p>
-          <p>Busly Privacy Team</p>
-          <p>Email: privacy@busly.eu</p>
+          <p>GoBusly Privacy Team</p>
+          <p>Email: privacy@GoBusly.eu</p>
           <p>Address: 456 Data Protection Avenue, Privacyville, ST 67890</p>
           <p>Phone: (555) 987-6543</p>
         </section>

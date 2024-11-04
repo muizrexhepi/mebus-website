@@ -7,11 +7,11 @@ import { Button } from "@/components/ui/button";
 import { GlobeIcon, BusFront, Users, TrendingUp } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About Us | Busly",
+  title: "About Us | GoBusly",
   description:
-    "Discover the Busly story: from serving HakBus to revolutionizing bus travel across the Balkans. Learn about our mission, values, and commitment to connecting people and places.",
+    "Discover the GoBusly story: from serving HakBus to revolutionizing bus travel across the Balkans. Learn about our mission, values, and commitment to connecting people and places.",
   keywords:
-    "Busly, bus ticketing, Balkans, online booking, transportation, travel innovation",
+    "GoBusly, bus ticketing, Balkans, online booking, transportation, travel innovation",
 };
 
 export default function AboutUs() {
@@ -25,7 +25,7 @@ export default function AboutUs() {
           <h1 className="text-4xl font-bold text-center mb-8">Our Journey</h1>
           <p className="text-xl text-gray-600 text-center mb-12 max-w-3xl mx-auto">
             From a single partnership to a region-wide revolution in bus travel,
-            Busly has been on an incredible journey of growth and innovation.
+            GoBusly has been on an incredible journey of growth and innovation.
           </p>
 
           <div className="space-y-16">
@@ -57,20 +57,20 @@ export default function AboutUs() {
               <div className="md:w-1/2">
                 <h2 className="text-2xl font-semibold mb-4 flex items-center">
                   <Users className="h-6 w-6 text-primary mr-2" />
-                  Birth of Busly
+                  Birth of GoBusly
                 </h2>
                 <p className="text-gray-600">
                   Inspired by our success with HakBus, we identified a gap in
                   the market. Many bus operators in the Balkans lacked online
                   sales capabilities, limiting their reach and inconveniencing
-                  passengers. This realization led to the creation of Busly, a
+                  passengers. This realization led to the creation of GoBusly, a
                   platform designed to serve the entire region.
                 </p>
               </div>
               <div className="md:w-1/2">
                 <Image
                   src="/placeholder.svg?height=300&width=500"
-                  alt="Busly launch"
+                  alt="GoBusly launch"
                   width={500}
                   height={300}
                   className="rounded-lg shadow-md"
@@ -85,7 +85,7 @@ export default function AboutUs() {
                   Expanding Horizons
                 </h2>
                 <p className="text-gray-600">
-                  Today, Busly is more than just a ticketing system; it's a
+                  Today, GoBusly is more than just a ticketing system; it's a
                   platform that connects bus operators across the Balkans with
                   their passengers. We're bridging the digital divide, bringing
                   the convenience of online booking to a region where it was
@@ -95,7 +95,7 @@ export default function AboutUs() {
               <div className="md:w-1/2">
                 <Image
                   src="/placeholder.svg?height=300&width=500"
-                  alt="Busly expansion"
+                  alt="GoBusly expansion"
                   width={500}
                   height={300}
                   className="rounded-lg shadow-md"
@@ -109,7 +109,7 @@ export default function AboutUs() {
           <h2 className="text-3xl font-bold mb-6 text-center">Our Mission</h2>
           <div className="max-w-3xl mx-auto">
             <p className="text-gray-600 mb-4">
-              At Busly, we're committed to modernizing bus travel throughout the
+              At GoBusly, we're committed to modernizing bus travel throughout the
               Balkan region. Our platform empowers small and large operators
               alike to offer online ticketing, expanding their customer base and
               streamlining operations.
@@ -122,7 +122,7 @@ export default function AboutUs() {
             </p>
             <p className="text-gray-600">
               From our humble beginnings with HakBus to our growing network of
-              operators, Busly is transforming the way people travel in the
+              operators, GoBusly is transforming the way people travel in the
               Balkans.
             </p>
           </div>
@@ -133,7 +133,7 @@ export default function AboutUs() {
             Ready to Explore the Balkans?
           </h3>
           <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-            Join thousands of satisfied travelers who choose Busly for reliable,
+            Join thousands of satisfied travelers who choose GoBusly for reliable,
             affordable, and comfortable journeys. Whether you're planning a
             weekend getaway or a cross-country expedition, we've got you
             covered.
@@ -144,7 +144,7 @@ export default function AboutUs() {
               className="bg-primary text-white hover:bg-primary-dark"
             >
               <GlobeIcon className="mr-2 h-5 w-5" />
-              Discover Busly Routes
+              Discover GoBusly Routes
             </Button>
           </Link>
         </section>

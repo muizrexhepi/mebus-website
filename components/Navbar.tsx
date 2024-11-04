@@ -22,7 +22,7 @@ const Navbar = ({ className }: { className?: string }) => {
     <div className={cn("w-full flex justify-between items-center", className)}>
       <div className="flex items-center gap-8">
         <Link href={"/"}>
-          <h1 className="font-semibold text-2xl text-white/95">Busly</h1>
+          <h1 className="font-semibold text-2xl text-white/95">GoBusly</h1>
         </Link>
         <div className="lg:flex gap-6 items-center hidden">
           {NAV_LINKS.map((link, index) => (

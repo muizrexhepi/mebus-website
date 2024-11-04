@@ -224,17 +224,17 @@
       "termsofservice": "Nutzungsbedingungen",
       "cookiepolicy": "Cookie-Richtlinie"
     },
-    "copyright": "© 2024 Busly. Alle Rechte vorbehalten.",
+    "copyright": "© 2024 GoBusly. Alle Rechte vorbehalten.",
     "customerSupport": "24/7 Kundenservice",
     "securePayment": "Sichere Zahlung",
     "helpFAQ": "Hilfe & FAQ"
   },
   "aboutSection": {
-    "title": "Warum mit Busly reisen?",
+    "title": "Warum mit GoBusly reisen?",
     "cards": {
       "budget": {
         "title": "Budgetfreundliche Reisen",
-        "description": "Entdecken Sie unschlagbare Preise in unserem umfangreichen Netzwerk. Busly macht Reisen erschwinglich."
+        "description": "Entdecken Sie unschlagbare Preise in unserem umfangreichen Netzwerk. GoBusly macht Reisen erschwinglich."
       },
       "network": {
         "title": "Umfangreiches Routennetz",
@@ -246,7 +246,7 @@
       },
       "punctuality": {
         "title": "Pünktliche Abfahrten",
-        "description": "Zeit ist kostbar. Verlassen Sie sich bei Busly auf zuverlässige Fahrpläne und pünktliche Leistung."
+        "description": "Zeit ist kostbar. Verlassen Sie sich bei GoBusly auf zuverlässige Fahrpläne und pünktliche Leistung."
       },
       "comfort": {
         "title": "Komfort ist der Schlüssel",
@@ -254,13 +254,13 @@
       },
       "eco": {
         "title": "Umweltbewusstes Reisen",
-        "description": "Wählen Sie grün mit unserer kraftstoffeffizienten Flotte und CO2-Ausgleichsinitiativen. Reisen Sie verantwortungsvoll mit Busly."
+        "description": "Wählen Sie grün mit unserer kraftstoffeffizienten Flotte und CO2-Ausgleichsinitiativen. Reisen Sie verantwortungsvoll mit GoBusly."
       }
     },
     "callToAction": {
       "title": "Bereit für Ihr nächstes Abenteuer?",
-      "description": "Schließen Sie sich Tausenden zufriedener Reisender an, die Busly für zuverlässige, erschwingliche und komfortable Reisen wählen. Ob Sie einen Wochenendausflug oder eine Reise quer durchs Land planen, wir sind für Sie da.",
-      "button": "Busly-Routen erkunden"
+      "description": "Schließen Sie sich Tausenden zufriedener Reisender an, die GoBusly für zuverlässige, erschwingliche und komfortable Reisen wählen. Ob Sie einen Wochenendausflug oder eine Reise quer durchs Land planen, wir sind für Sie da.",
+      "button": "GoBusly-Routen erkunden"
     }
   },
   "searchBlock": {

@@ -7,7 +7,7 @@ import SecondaryFooter from "@/components/SecondaryFooter";
 import BusRoutesClient from "@/components/routes/BusRoutesClient";
 
 export const metadata: Metadata = {
-  title: "Explore Bus Routes | Busly",
+  title: "Explore Bus Routes | GoBusly",
   description:
     "Find and book bus routes across the country. Plan your journey with ease using our interactive map and search features.",
   keywords: "bus routes, book bus, travel, transportation",

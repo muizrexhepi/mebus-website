@@ -142,8 +142,6 @@ const PaymentMethod = () => {
         { passengers, amount_in_cents: finalPrice * 100 }
       );
 
-      console.log("Passengers before booking:", passengers);
-
       const { clientSecret } = res.data.data;
       const { error: confirmError, paymentIntent } =
         await stripe.confirmCardPayment(clientSecret, {
@@ -205,7 +203,6 @@ const PaymentMethod = () => {
     const departure_station_label = ticket.stops[0].from.name;
     const arrival_station_label = ticket.stops[0].to.name;
     const passengersWithPrices = calculatePassengerPrices(passengers, ticket);
-    console.log({ passengers, passengersWithPrices });
     const ticketTotal = isReturn ? returnTotal : outboundTotal;
     return axios
       .post(
@@ -231,7 +228,6 @@ const PaymentMethod = () => {
         }
       )
       .then((res: AxiosResponse<ApiResponse>) => {
-        console.log({ buchungi: res.data.data });
         if (typeof window != "undefined") {
           const savedBookings = JSON.parse(
             localStorage.getItem("noUserBookings") || "[]"
@@ -239,7 +235,6 @@ const PaymentMethod = () => {
 
           const newBooking = res.data.data;
           const allBookings = [...savedBookings, newBooking];
-          console.log({ allBookings });
           localStorage.setItem("noUserBookings", JSON.stringify(allBookings));
         }
       });
@@ -263,9 +258,6 @@ const PaymentMethod = () => {
     }
   };
 
-  useEffect(() => {
-    console.log({eq: totalPrice <= depositAmount, totalPrice, depositAmount})
-  }, [depositAmount])
 
   return (
     <div className="space-y-6">

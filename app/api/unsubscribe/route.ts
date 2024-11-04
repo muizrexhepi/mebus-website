@@ -16,7 +16,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 });
     }
 
-    // Find the subscriber document
     const subscribers = await databases.listDocuments(
       process.env.APPWRITE_DATABASE_ID!,
       process.env.APPWRITE_COLLECTION_ID!,

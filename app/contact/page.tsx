@@ -6,9 +6,9 @@ import ContactForm from "@/components/contact/ContactForm";
 import SecondaryFooter from "@/components/SecondaryFooter";
 
 export const metadata: Metadata = {
-  title: "Contact Support | Busly - Your Reliable Bus Booking Service",
+  title: "Contact Support | GoBusly - Your Reliable Bus Booking Service",
   description:
-    "Get in touch with Busly support for all your bus booking needs. We offer 24/7 customer support, easy online booking, and hassle-free travel experiences.",
+    "Get in touch with GoBusly support for all your bus booking needs. We offer 24/7 customer support, easy online booking, and hassle-free travel experiences.",
 };
 
 const ContactInfo: React.FC<{
@@ -48,8 +48,8 @@ const Contact: React.FC = () => {
             title="Phone Support"
             content={
               <div className="space-y-2">
-                <p>Toll-Free: 1-800-Busly-01</p>
-                <p>International: +1-555-Busly-02</p>
+                <p>Toll-Free: 1-800-GoBusly-01</p>
+                <p>International: +1-555-GoBusly-02</p>
                 <p className="text-sm text-gray-500">Available 24/7</p>
               </div>
             }
@@ -59,8 +59,8 @@ const Contact: React.FC = () => {
             title="Email Support"
             content={
               <div className="space-y-2">
-                <p>General Inquiries: support@busly.com</p>
-                <p>Booking Assistance: bookings@busly.com</p>
+                <p>General Inquiries: support@GoBusly.com</p>
+                <p>Booking Assistance: bookings@GoBusly.com</p>
                 <p className="text-sm text-gray-500">
                   Response within 24 hours
                 </p>
@@ -72,7 +72,7 @@ const Contact: React.FC = () => {
             title="Main Office"
             content={
               <div className="space-y-2">
-                <p>456 Busly Terminal, Suite 789</p>
+                <p>456 GoBusly Terminal, Suite 789</p>
                 <p>New York, NY 10001</p>
                 <div className="flex items-center space-x-2 text-sm text-gray-500">
                   <Clock size={16} />
@@ -93,7 +93,7 @@ const Contact: React.FC = () => {
         <div className="space-y-6">
           <div>
             <h3 className="font-semibold text-lg mb-2">
-              How do I book a Busly ticket?
+              How do I book a GoBusly ticket?
             </h3>
             <p className="text-gray-600">
               Use our online booking system: enter your travel details, select
@@ -103,7 +103,7 @@ const Contact: React.FC = () => {
           </div>
           <div>
             <h3 className="font-semibold text-lg mb-2">
-              What&apos;s Busly&apos;s cancellation policy?
+              What&apos;s GoBusly&apos;s cancellation policy?
             </h3>
             <p className="text-gray-600">
               We offer a flexible cancellation policy allowing changes up to 15
@@ -114,10 +114,10 @@ const Contact: React.FC = () => {
           </div>
           <div>
             <h3 className="font-semibold text-lg mb-2">
-              What amenities are available on Busly?
+              What amenities are available on GoBusly?
             </h3>
             <p className="text-gray-600">
-              Busly offers free Wi-Fi, power outlets, onboard entertainment,
+              GoBusly offers free Wi-Fi, power outlets, onboard entertainment,
               spacious legroom, restrooms, and air conditioning. Amenities may
               vary by bus type, so please check your trip details for specifics.
             </p>

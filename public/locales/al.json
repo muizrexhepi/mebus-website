@@ -5,7 +5,7 @@
     "help": "Ndihmë",
     "about": "Rreth nesh",
     "contact": "Kontakt",
-    "account": "Akounti"
+    "account": "Akaunti"
   },
   "helpPage": {
     "title": "Qendra e Ndihmës",
@@ -230,17 +230,17 @@
       "termsofservice": "Kushtet e Shërbimit",
       "cookiepolicy": "Politika e Cookies"
     },
-    "copyright": "© 2024 Busly. Të gjitha të drejtat e rezervuara.",
+    "copyright": "© 2024 GoBusly. Të gjitha të drejtat e rezervuara.",
     "customerSupport": "Mbështetje 24/7 për Klientët",
     "securePayment": "Pagesë e Sigurt",
     "helpFAQ": "Ndihmë & FAQ"
   },
   "aboutSection": {
-    "title": "Pse të Udhëtoni me Busly?",
+    "title": "Pse të Udhëtoni me GoBusly?",
     "cards": {
       "budget": {
         "title": "Udhëtime me Çmime të Përballueshme",
-        "description": "Zbuloni tarifa të parezistueshme në rrjetin tonë të gjerë. Busly e bën udhëtimin të arritshëm pa shpenzuar shumë."
+        "description": "Zbuloni tarifa të parezistueshme në rrjetin tonë të gjerë. GoBusly e bën udhëtimin të arritshëm pa shpenzuar shumë."
       },
       "network": {
         "title": "Rrjet i Gjerë Rrugësh",
@@ -252,7 +252,7 @@
       },
       "punctuality": {
         "title": "Nisje të Përpikta",
-        "description": "Koha është e çmuar. Mbështetuni te Busly për orare të besueshme dhe performancë në kohë."
+        "description": "Koha është e çmuar. Mbështetuni te GoBusly për orare të besueshme dhe performancë në kohë."
       },
       "comfort": {
         "title": "Komoditeti është Kyç",
@@ -260,13 +260,13 @@
       },
       "eco": {
         "title": "Udhëtim Miqësor me Mjedisin",
-        "description": "Zgjidhni të gjelbërt me flotën tonë efiçente në karburant dhe iniciativat e kompensimit të karbonit. Udhëtoni me përgjegjësi me Busly."
+        "description": "Zgjidhni të gjelbërt me flotën tonë efiçente në karburant dhe iniciativat e kompensimit të karbonit. Udhëtoni me përgjegjësi me GoBusly."
       }
     },
     "callToAction": {
       "title": "Gati për Aventurën Tuaj të Radhës?",
-      "description": "Bashkohuni me mijëra udhëtarë të kënaqur që zgjedhin Busly për udhëtime të besueshme, të përballueshme dhe komode. Nëse po planifikoni një fundjavë pushimi apo një ekspeditë ndër-shtetërore, ne jemi këtu për ju.",
-      "button": "Eksploroni Rrugët Busly"
+      "description": "Bashkohuni me mijëra udhëtarë të kënaqur që zgjedhin GoBusly për udhëtime të besueshme, të përballueshme dhe komode. Nëse po planifikoni një fundjavë pushimi apo një ekspeditë ndër-shtetërore, ne jemi këtu për ju.",
+      "button": "Eksploroni Rrugët GoBusly"
     }
   },
   "searchBlock": {

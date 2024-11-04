@@ -40,7 +40,7 @@ const ResetPasswordForm = ({ isOpen }: { isOpen: boolean }) => {
 
   const onSubmit = async (values: z.infer<typeof resetPasswordSchema>) => {
     setIsLoading(true);
-    console.log(values);
+    
     try {
       const user = {
         email: values.email,
@@ -53,17 +53,14 @@ const ResetPasswordForm = ({ isOpen }: { isOpen: boolean }) => {
 
       promise.then(
         function (response) {
-          console.log({ succes: response }); // Success
           setSuccess("Email verification sent!");
           setIsLoading(false);
         },
         function (error) {
-          console.log({ failure: error }); // Failure
         }
       );
       setError("");
     } catch (error) {
-      console.log(error);
       setIsLoading(false);
     }
   };

@@ -168,15 +168,6 @@ export default function BookingDetailsPage({
   const canEdit = daysUntilDeparture >= permissions?.CAN_EDIT!;
   const canReschedule = daysUntilDeparture >= permissions?.RESCHEDULE!;
 
-  console.log({
-    daysUntilDeparture,
-    travelFlex,
-    permissions,
-    canCancel,
-    canEdit,
-    canReschedule,
-  });
-
   const departureDate = moment
     .utc(booking?.departure_date)
     .format("dddd, DD-MM-YYYY");
@@ -204,7 +195,6 @@ export default function BookingDetailsPage({
         }
       );
 
-      console.log({ response: response.data });
 
       fetchBooking(true);
       setIsDatePickerOpen(false);
@@ -213,7 +203,6 @@ export default function BookingDetailsPage({
         description: response.data.message,
       });
     } catch (error: any) {
-      console.log(error);
       toast({
         variant: "destructive",
         description: error.response.data.message,

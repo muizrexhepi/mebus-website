@@ -15,13 +15,13 @@ import {
 export const WelcomeEmail = () => (
   <Html>
     <Head />
-    <Preview>Welcome to Busly - Your Trusted Travel Partner!</Preview>
+    <Preview>Welcome to GoBusly - Your Trusted Travel Partner!</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={heading}>Welcome to Busly!</Heading>
+        <Heading style={heading}>Welcome to GoBusly!</Heading>
         <Section>
           <Text style={text}>
-            Thank you for joining Busly, your go-to platform for booking bus
+            Thank you for joining GoBusly, your go-to platform for booking bus
             tickets seamlessly. We're excited to have you on board!
           </Text>
           <Text style={text}>Here's what you can expect from us:</Text>
@@ -46,7 +46,7 @@ export const WelcomeEmail = () => (
           <Text style={footerText}>
             Safe travels,
             <br />
-            The Busly Team
+            The GoBusly Team
           </Text>
           <Text style={footer}>
             If you did not sign up for this, please{" "}
