@@ -79,37 +79,50 @@ const BookingsDashboard: React.FC = () => {
     }
   }, [user]);
 
-  const downloadBooking = async (booking_id: string) => {
+  const downloadBooking = async (booking_id: string, booking?: Booking) => {
     try {
-      const response = await axios.post(
-        `${environment.apiurl}/booking/download/pdf/e-ticket/${booking_id}`,
-        {},
-        { responseType: "blob" }
-      );
+      console.log({booking})
+        let pdfUrl;
 
-      const blob = new Blob([response.data], { type: "application/pdf" });
+        if (booking && booking.metadata && booking.metadata.download_url) {
+            pdfUrl = booking.metadata.download_url;
+        } else {
+            const response = await axios.post(
+                `${environment.apiurl}/booking/download/pdf/e-ticket/${booking_id}`,
+                {}
+            );
+            pdfUrl = response.data.data;
+        }
 
-      const link = document.createElement("a");
-      link.href = window.URL.createObjectURL(blob);
-      link.download = `booking_${booking_id}.pdf`;
-      link.click();
+        const downloadResponse = await axios.get(pdfUrl, { responseType: 'blob' });
+        const blob = new Blob([downloadResponse.data], { type: "application/pdf" });
 
-      window.URL.revokeObjectURL(link.href);
+        const link = document.createElement("a");
+        link.href = window.URL.createObjectURL(blob);
+        link.download = `${booking_id}.pdf`; 
 
-      toast({
-        title: "Download Successful",
-        description: "Your booking PDF has been downloaded.",
-      });
+        document.body.appendChild(link); 
+        link.click(); 
+        document.body.removeChild(link);
+
+        window.URL.revokeObjectURL(link.href); 
+
+        toast({
+            title: "Download Successful",
+            description: "Your booking PDF has been downloaded.",
+        });
     } catch (error) {
-      console.error("Failed to download booking:", error);
-      toast({
-        title: "Download Failed",
-        description:
-          "There was an error downloading your booking. Please try again.",
-        variant: "destructive",
-      });
+        toast({
+            title: "Download Failed",
+            description: "There was an error downloading your booking. Please try again.",
+            variant: "destructive",
+        });
     }
-  };
+};
+
+
+
+  
 
   const renderNoBookingsMessage = () => {
     if (!user && (!noUserBookings || noUserBookings.length === 0) && !loading) {
@@ -167,18 +180,6 @@ const BookingsDashboard: React.FC = () => {
   }
 
   const renderBookingCard = (booking: Booking) => {
-    const departureDate = new Date(booking.departure_date);
-    const monthString = departureDate.toLocaleString("en-US", {
-      month: "short",
-    });
-    const dayString = departureDate.toLocaleString("en-US", {
-      weekday: "short",
-    });
-    const dateNumber = departureDate.getDate();
-    const timeString = departureDate.toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
     const isNoFlex = booking.metadata.travel_flex === "no_flex";
 
     return (
@@ -187,14 +188,12 @@ const BookingsDashboard: React.FC = () => {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0 relative">
             <div className="flex items-center space-x-6 w-full sm:w-auto ">
               <div className="text-center w-20 flex-shrink-0 border-r pr-3">
-                <p className="text-sm text-gray-500">{monthString}</p>
-                <p className="text-3xl font-semibold">{dateNumber}</p>
-                <p className="text-sm text-gray-500">{dayString}</p>
+                <p className="text-sm text-black bold">{moment.utc(booking.departure_date).format("dddd, DD-MM-YYYY")}</p>
               </div>
               <div className="flex flex-col space-y-2 whitespace-nowrap">
                 <div className="flex items-center space-x-2 text-sm text-gray-500">
                   <ClockIcon className="h-4 w-4" />
-                  <span>{timeString}</span>
+                  <span>{moment.utc(booking.departure_date).format("HH:mm")}</span>
                 </div>
                 <div className="flex items-center space-x-2 text-sm text-gray-500">
                   <DollarSign className="h-4 w-4" />
@@ -278,7 +277,7 @@ const BookingsDashboard: React.FC = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="gap-2"
-                  onClick={() => downloadBooking(booking?._id)}
+                  onClick={() => downloadBooking(booking?._id, booking)}
                   disabled={booking.metadata.refund_action?.is_refunded}
                 >
                   <Download className="h-4 w-4" />
@@ -344,23 +343,26 @@ const BookingsDashboard: React.FC = () => {
           <div className="space-y-6">
             {user
               ? bookings
-                  ?.filter((booking) =>
-                    moment(booking.departure_date).isAfter(moment.utc())
-                  )
+                  ?.filter((booking) =>moment.utc(booking.departure_date).isAfter(moment.utc()))
                   ?.map((booking) => renderBookingCard(booking))
-              : noUserBookings?.map((booking) => renderBookingCard(booking))}
+              : noUserBookings
+                  ?.filter((booking) =>moment.utc(booking.departure_date).isAfter(moment.utc()))
+                  ?.map((booking) => renderBookingCard(booking))
+              }
             {renderNoBookingsMessage()}
           </div>
         </TabsContent>
         <TabsContent value="past">
           <div className="space-y-6">
-            {user
-              ? bookings
-                  ?.filter((booking) =>
-                    moment(booking.departure_date).isBefore(moment.utc())
-                  )
-                  ?.map((booking) => renderBookingCard(booking))
-              : noUserBookings?.map((booking) => renderBookingCard(booking))}
+            {
+              user
+                ? bookings
+                    ?.filter((booking) =>moment.utc(booking.departure_date).isBefore(moment.utc()))
+                    ?.map((booking) => renderBookingCard(booking))
+                : noUserBookings
+                    ?.filter((booking) =>moment.utc(booking.departure_date).isBefore(moment.utc()))
+                    ?.map((booking) => renderBookingCard(booking))
+              }
             {renderNoBookingsMessage()}
           </div>
         </TabsContent>

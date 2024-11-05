@@ -52,7 +52,7 @@ export interface BookingMetadata {
         amount_in_cents: number;
     },
     refund_action?: IRefund;
-
+    download_url?: string
 }
 
 export interface IRefund {
