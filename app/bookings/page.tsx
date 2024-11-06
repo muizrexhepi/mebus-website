@@ -111,10 +111,10 @@ const BookingsDashboard: React.FC = () => {
             title: "Download Successful",
             description: "Your booking PDF has been downloaded.",
         });
-    } catch (error) {
+    } catch (error: any) {
         toast({
             title: "Download Failed",
-            description: "There was an error downloading your booking. Please try again.",
+            description: error?.response?.message,
             variant: "destructive",
         });
     }
