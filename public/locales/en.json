@@ -415,6 +415,117 @@
     "notificationsDesc": "Customize your notification preferences.",
     "depositFunds": "Deposit funds",
     "depositFundsDesc": "Quickly deposit funds for easy future payments without using your card each time."
-  }
+  },
+  "personalInfo": {
+    "title": "Personal Info",
+    "name": "Name",
+    "emailAddress": "Email Address",
+    "phoneNumber": "Phone Number",
+    "address": "Address",
+    "edit": "Edit"
+  },
+  "security": {
+    "loginSecurity": "Login Security",
+    "password": "Password",
+    "edit": "Edit",
+    "TFA": "Two-Factor Authentication",
+    "loginNotifications": "Login Notifications",
+    "account": "Account",
+    "verifyEmail": "Verify Email", 
+    "activeSessions": "Active Sessions",
+    "deleteAcc": "Delete Account",
+    "addExtraSecurity": "Add an extra layer of security to your account",
+    "newLoginNotifications": "Receive alerts about new sign-ins to your account",
+    "manageSessions": "Manage devices where you're currently logged in",
+    "editPassword":"Edit Password",
+    "makeChangesToYourPw": "Make changes to your password here. Click save when you're done.",
+    "oldPw": "Old Password",
+    "newPw": "New Password",
+    "verify": "Verify",
+    "verified": "Verified"
+
+  },
+  "dataPrivacy": {
+    "dataPrivacy": "Data and Privacy",
+    "dataExport": "Data Export",
+    "download data": "Download a copy of your personal data",
+    "exportData": "Export Data",
+    "requestDataDeletion": "Request Data Deletion",
+    "parmanentlyDeleteData": "Permanently delete all your data from our systems",
+    "deleteData": "Delete Data",
+    "deleteDataAlert": "This action will permanently delete all your data. Please enter your password to confirm.",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "confirmDeletion": "Confirm Deletion",
+    "areYouSure": "Are you absolutely sure?",
+    "cannotBeUndone": "This action cannot be undone. All of your data will be permanently deleted from our servers.",
+    "cancel": "Cancel",
+    "yes": "Yes, delete my data"
+
+
+  },
+  "notifications": {
+    "title": "Notifications",
+    "bookingConfirmations": "Booking Confirmations",
+    "bookingConfirmationsDesc": "Receive notifications for successful bookings",
+    "DepartureReminders": "Departure Reminders",
+    "DepartureRemindersDesc": "Get reminders before your scheduled departure",
+    "promotions": "Promotions and Offers",
+    "promotionsDesc": "Receive updates about special deals and discounts",
+    "accountUpdates": "Get notified about important account-related changes" ,
+    "savePreferences": "Save Preferences",
+    "enabled": "Notifications are enabled",
+    "disabled": "All notifications are disabled"
+
+  },
+    "pageMetadata": {
+      "title": "How to Book - Help Center",
+      "description": "Learn how to book your bus ticket step by step. Get tips for a smooth booking process and find answers to common questions.",
+      "mainTitle": "How to Book Your Trip",
+      "backButton": {
+        "label": "Back to Help Center",
+        "icon": "ChevronLeft"
+      },
+      "bookingProcess": {
+        "title": "Booking Process",
+        "description": "Follow these steps to book your bus ticket",
+        "steps": [
+          "Visit our website or launch our mobile application",
+          "Input your departure and destination locations",
+          "Select your preferred travel date",
+          "Choose your desired bus service and seat",
+          "Provide passenger information",
+          "Add any optional services (e.g., extra luggage allowance)",
+          "Verify your booking details",
+          "Complete the payment process",
+          "Receive your electronic ticket via email"
+        ]
+      },
+      "bookingTips": {
+        "title": "Booking Tips",
+        "description": "Maximize your booking experience with these helpful tips",
+        "tips": [
+          "Book early to secure preferred seats and potentially lower fares",
+          "Check for current promotions or seasonal discounts",
+          "Consider flexible travel dates for better deals",
+          "Review the cancellation and refund policies",
+          "Ensure all booking details are accurate before confirmation",
+          "Sign up for our newsletter to receive exclusive offers"
+        ]
+      },
+      "customerSupport": {
+        "title": "Customer Support",
+        "description": "We're here to assist you with your booking",
+        "content": {
+          "text": "If you need any assistance or have questions about your booking, our dedicated support team is ready to help.",
+          "button": {
+            "label": "Contact Support",
+            "link": "/help/contact-support"
+          }
+        }
+      }
+    }
+  
+
   
 }

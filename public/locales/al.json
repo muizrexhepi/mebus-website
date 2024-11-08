@@ -177,7 +177,7 @@
     }
   },
   "hero": {
-    "title": "Lundroni Rrugët me Komoditet"
+    "title": "Udhëtoni Rrugët me Komoditet"
   },
   "ticket": {
     "selectReturn": "Zgjidh Kthimin",
@@ -420,6 +420,116 @@
     "modals": {
       "confirmCancellation": "A jeni te sigurt qe deshironi ta anuloni rezervimin?",
       "cancellationWarning": "Nese po atehere do tiu kthehen vetem 70% te cmimit te rezervimit."
+    },
+    "personalInfo": {
+      "title": "Informacione Personale",
+      "name": "Emri",
+      "emailAddress": "Email Adresa",
+      "phoneNumber": "Numri i Telefonit",
+      "address": "Adresa",
+      "edit": "Redakto"
+    },
+    "security": {
+  "loginSecurity": "Siguria e Hyrjes",
+  "password": "Fjalëkalimi",
+  "edit": "Redakto",
+  "TFA": "Autentikimi me Dy Faktorë",
+  "loginNotifications": "Njoftime për Hyrje",
+  "account": "Llogaria",
+  "verifyEmail": "Verifiko Email-in", 
+  "activeSessions": "Seancat Aktive",
+  "deleteAcc": "Fshi Llogarinë",
+  "addExtraSecurity": "Shto një shtresë shtesë sigurie në llogarinë tuaj",
+  "newLoginNotifications": "Merr njoftime për hyrjet e reja në llogarinë tuaj",
+  "manageSessions": "Menaxho pajisjet ku jeni aktualisht të lidhur",
+  "editPassword": "Ndrysho Fjalëkalimin",
+  "makeChangesToYourPw": "Bëni ndryshime në fjalëkalimin tuaj këtu. Klikoni ruaj kur të përfundoni.",
+  "oldPw": "Fjalëkalimi i Vjetër",
+  "newPw": "Fjalëkalimi i Ri",
+  "verify": "Verifiko",
+  "verified": "E Verifikuar"
+},
+"dataPrivacy": {
+  "dataPrivacy": "Të Dhënat dhe Privatësia",
+  "dataExport": "Eksporti i të Dhënave",
+  "download data": "Shkarko një kopje të të dhënave tuaja personale",
+  "exportData": "Eksporto të Dhëna",
+  "requestDataDeletion": "Kërko Fshirjen e të Dhënave",
+  "parmanentlyDeleteData": "Fshij të gjitha të dhënat tuaja nga sistemet tona përgjithmonë",
+  "deleteData": "Fshij të Dhëna",
+  "deleteDataAlert": "Kjo veprim do të fshijë përgjithmonë të gjitha të dhënat tuaja. Ju lutemi shkruani fjalëkalimin për të konfirmuar.",
+  "password": "Fjalëkalimi",
+  "passwordPlaceholder": "Shkruani fjalëkalimin tuaj",
+  "confirmDeletion": "Konfirmo Fshirjen",
+  "areYouSure": "A jeni plotësisht të sigurt?",
+  "cannotBeUndone": "Kjo veprim nuk mund të zhbëhet. Të gjitha të dhënat tuaja do të fshihen përgjithmonë nga serverët tanë.",
+  "cancel": "Anulo",
+  "yes": "Po, fshi të dhënat e mia"
+}
+,
+"notifications": {
+  "title": "Njoftime",
+  "bookingConfirmations": "Konfirmime të Rezervimeve",
+  "bookingConfirmationsDesc": "Merrni njoftime për rezervime të suksesshme",
+  "DepartureReminders": "Kujtesa për Nisje",
+  "DepartureRemindersDesc": "Merrni kujtesa përpara nisjes së planifikuar",
+  "promotions": "Promocione dhe Oferta",
+  "promotionsDesc": "Merrni përditësime për oferta dhe zbritje speciale",
+  "accountUpdates": "Merrni njoftime për ndryshime të rëndësishme të llogarisë",
+  "savePreferences": "Ruaj Preferencat",
+  "enabled": "Njoftimet janë të aktivizuara",
+  "disabled": "Të gjitha njoftimet janë të çaktivizuara"
+}
+,
+  "pageMetadata": {
+    "title": "Si të Rezervoni - Qendra e Ndihmës",
+    "description": "Mësoni hap pas hapi si të rezervoni biletën tuaj të autobusit. Merrni këshilla për një proces rezervimi pa probleme dhe gjeni përgjigje për pyetjet e zakonshme.",
+    "mainTitle": "Si të Rezervoni Udhëtimin Tuaj",
+    "backButton": {
+      "label": "Kthehu te Qendra e Ndihmës",
+      "icon": "ChevronLeft"
+    },
+    "bookingProcess": {
+      "title": "Procesi i Rezervimit",
+      "description": "Ndiqni këto hapa për të rezervuar biletën tuaj të autobusit",
+      "steps": [
+        "Vizitoni faqen tonë të internetit ose hapni aplikacionin tonë celular",
+        "Futni vendndodhjen e nisjes dhe destinacionin tuaj",
+        "Zgjidhni datën tuaj të preferuar të udhëtimit",
+        "Zgjidhni shërbimin dhe vendin tuaj të preferuar në autobus",
+        "Jepni informacionin e pasagjerit",
+        "Shtoni shërbime opsionale (p.sh., leje për bagazh shtesë)",
+        "Verifikoni detajet e rezervimit tuaj",
+        "Përfundoni procesin e pagesës",
+        "Merrni biletën tuaj elektronike me email"
+      ]
+    },
+    "bookingTips": {
+      "title": "Këshilla për Rezervimin",
+      "description": "Maksimizoni përvojën tuaj të rezervimit me këto këshilla të dobishme",
+      "tips": [
+        "Rezervoni herët për të siguruar vendet e preferuara dhe mundësisht tarifa më të ulëta",
+        "Kontrolloni për promocione aktuale ose zbritje sezonale",
+        "Konsideroni datat fleksibël të udhëtimit për oferta më të mira",
+        "Rishikoni politikat e anulimit dhe rimbursimit",
+        "Sigurohuni që të gjitha detajet e rezervimit janë të sakta para konfirmimit",
+        "Regjistrohuni për buletinin tonë për të marrë oferta ekskluzive"
+      ]
+    },
+    "customerSupport": {
+      "title": "Shërbimi ndaj Klientit",
+      "description": "Jemi këtu për t'ju ndihmuar me rezervimin tuaj",
+      "content": {
+        "text": "Nëse keni nevojë për ndihmë ose keni pyetje në lidhje me rezervimin tuaj, ekipi ynë i përkushtuar i mbështetjes është gati për t'ju ndihmuar.",
+        "button": {
+          "label": "Kontaktoni Mbështetjen",
+          "link": "/help/contact-support"
+        }
+      }
     }
+  }
+
+
+
   
 }

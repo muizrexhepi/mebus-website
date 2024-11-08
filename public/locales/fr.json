@@ -415,7 +415,117 @@
         "notificationsDesc": "Personnalisez vos préférences de notification.",
         "depositFunds": "Déposer des fonds",
         "depositFundsDesc": "Déposez rapidement des fonds pour faciliter les paiements futurs sans utiliser votre carte à chaque fois."
+      },
+      "personalInfo": {
+  "title": "Informations Personnelles",
+  "name": "Nom",
+  "emailAddress": "Adresse Email",
+  "phoneNumber": "Numéro de Téléphone",
+  "address": "Adresse",
+  "edit": "Modifier"
+},
+"security": {
+  "loginSecurity": "Sécurité de Connexion",
+  "password": "Mot de Passe",
+  "edit": "Modifier",
+  "TFA": "Authentification à Deux Facteurs",
+  "loginNotifications": "Notifications de Connexion",
+  "account": "Compte",
+  "verifyEmail": "Vérifier l'Email", 
+  "activeSessions": "Sessions Actives",
+  "deleteAcc": "Supprimer le Compte",
+  "addExtraSecurity": "Ajoutez une couche de sécurité supplémentaire à votre compte",
+  "newLoginNotifications": "Recevez des alertes concernant les nouvelles connexions à votre compte",
+  "manageSessions": "Gérez les appareils sur lesquels vous êtes actuellement connecté",
+  "editPassword": "Modifier le Mot de Passe",
+  "makeChangesToYourPw": "Apportez des modifications à votre mot de passe ici. Cliquez sur enregistrer lorsque vous avez terminé.",
+  "oldPw": "Ancien Mot de Passe",
+  "newPw": "Nouveau Mot de Passe",
+  "verify": "Vérifier",
+  "verified": "Vérifié"
+}
+,
+"dataPrivacy": {
+  "dataPrivacy": "Données et Confidentialité",
+  "dataExport": "Exportation de Données",
+  "download data": "Téléchargez une copie de vos données personnelles",
+  "exportData": "Exporter les Données",
+  "requestDataDeletion": "Demander la Suppression des Données",
+  "parmanentlyDeleteData": "Supprimez définitivement toutes vos données de nos systèmes",
+  "deleteData": "Supprimer les Données",
+  "deleteDataAlert": "Cette action supprimera définitivement toutes vos données. Veuillez entrer votre mot de passe pour confirmer.",
+  "password": "Mot de Passe",
+  "passwordPlaceholder": "Entrez votre mot de passe",
+  "confirmDeletion": "Confirmer la Suppression",
+  "areYouSure": "Êtes-vous absolument sûr?",
+  "cannotBeUndone": "Cette action ne peut pas être annulée. Toutes vos données seront définitivement supprimées de nos serveurs.",
+  "cancel": "Annuler",
+  "yes": "Oui, supprimer mes données"
+}
+,
+"notifications": {
+  "title": "Notifications",
+  "bookingConfirmations": "Confirmations de Réservation",
+  "bookingConfirmationsDesc": "Recevez des notifications pour les réservations réussies",
+  "DepartureReminders": "Rappels de Départ",
+  "DepartureRemindersDesc": "Recevez des rappels avant votre départ prévu",
+  "promotions": "Promotions et Offres",
+  "promotionsDesc": "Recevez des mises à jour sur les offres spéciales et les réductions",
+  "accountUpdates": "Soyez informé des changements importants liés à votre compte",
+  "savePreferences": "Enregistrer les Préférences",
+  "enabled": "Les notifications sont activées",
+  "disabled": "Toutes les notifications sont désactivées"
+}
+,
+  "pageMetadata": {
+    "title": "Comment réserver - Centre d'aide",
+    "description": "Apprenez étape par étape comment réserver votre billet de bus. Obtenez des conseils pour un processus de réservation fluide et trouvez des réponses aux questions fréquentes.",
+    "mainTitle": "Comment réserver votre voyage",
+    "backButton": {
+      "label": "Retour au Centre d'aide",
+      "icon": "ChevronLeft"
+    },
+    "bookingProcess": {
+      "title": "Processus de réservation",
+      "description": "Suivez ces étapes pour réserver votre billet de bus",
+      "steps": [
+        "Visitez notre site web ou lancez notre application mobile",
+        "Saisissez vos lieux de départ et de destination",
+        "Sélectionnez votre date de voyage préférée",
+        "Choisissez votre service de bus et siège souhaités",
+        "Fournissez les informations des passagers",
+        "Ajoutez des services optionnels (par exemple, une franchise de bagages supplémentaire)",
+        "Vérifiez les détails de votre réservation",
+        "Finalisez le processus de paiement",
+        "Recevez votre billet électronique par e-mail"
+      ]
+    },
+    "bookingTips": {
+      "title": "Conseils de réservation",
+      "description": "Optimisez votre expérience de réservation avec ces conseils utiles",
+      "tips": [
+        "Réservez tôt pour garantir les sièges préférés et des tarifs potentiellement plus bas",
+        "Consultez les promotions en cours ou les réductions saisonnières",
+        "Envisagez des dates de voyage flexibles pour obtenir de meilleures offres",
+        "Vérifiez les politiques d'annulation et de remboursement",
+        "Assurez-vous que tous les détails de la réservation sont corrects avant de confirmer",
+        "Inscrivez-vous à notre newsletter pour recevoir des offres exclusives"
+      ]
+    },
+    "customerSupport": {
+      "title": "Service client",
+      "description": "Nous sommes là pour vous aider avec votre réservation",
+      "content": {
+        "text": "Si vous avez besoin d'aide ou avez des questions sur votre réservation, notre équipe d'assistance est prête à vous aider.",
+        "button": {
+          "label": "Contacter le support",
+          "link": "/help/contact-support"
+        }
       }
+    }
+  }
+
+
     
   
 }

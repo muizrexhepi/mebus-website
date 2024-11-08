@@ -28,23 +28,12 @@ export default function BookingConfirmationPage() {
 
     useEffect(() => {
         getBookingByIdWithChargeData(id!).then((data) => {
-            console.log({ data })
             if (data?.metadata?.refund_action?.is_refunded) {
                 setIsRefunded(true);
             }
             setBooking(data);
         });
     }, [id]);
-
-    const formatDate = (date: Date) => {
-        return new Date(date).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        })
-    }
 
     const getFlexBadgeColor = (flex: Flex) => {
         switch (flex) {

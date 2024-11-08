@@ -26,7 +26,7 @@ const HelpPageClient = () => {
         {t("helpPage.description")}
       </p>
 
-      <Card className="mb-8 shadow-lg">
+      {/* <Card className="mb-8 shadow-lg">
         <CardHeader>
           <CardTitle className="text-2xl">
             {t("helpPage.howCanWeHelp")}
@@ -36,7 +36,7 @@ const HelpPageClient = () => {
         <CardContent>
           <HelpForm />
         </CardContent>
-      </Card>
+      </Card> */}
 
       <InfoTabs />
 

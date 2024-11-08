@@ -30,6 +30,7 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/components/hooks/use-toast";
 import useUser from "@/components/hooks/use-user";
 import { Switch } from "@/components/ui/switch";
+import { useTranslation } from "react-i18next";
 
 export default function LoginSecurity() {
   const { user, loading } = useUser();
@@ -40,6 +41,7 @@ export default function LoginSecurity() {
   const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
   const { toast } = useToast();
   const router = useRouter();
+  const {t} = useTranslation();
 
   const handleOldPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOldPassword(e.target.value);
@@ -96,7 +98,6 @@ export default function LoginSecurity() {
 
   const handleTwoFactorToggle = async () => {
     try {
-      // Here you would typically call your backend to enable/disable 2FA
       setTwoFactorEnabled(!twoFactorEnabled);
       toast({
         description: `Two-factor authentication ${
@@ -115,7 +116,6 @@ export default function LoginSecurity() {
 
   const handleLoginNotificationsToggle = async () => {
     try {
-      // Here you would typically call your backend to enable/disable login notifications
       setLoginNotifications(!loginNotifications);
       toast({
         description: `Login notifications ${
@@ -134,34 +134,33 @@ export default function LoginSecurity() {
     <div className="">
       <div className="space-y-8">
         <div>
-          <h2 className="text-3xl font-semibold">Login Security</h2>
+          <h2 className="text-3xl font-semibold">{t("security.loginSecurity")}</h2>
         </div>
         <div className="space-y-6">
           <div
             className={`grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6`}
           >
             <div>
-              <div className="text-base">Password</div>
+              <div className="text-base">{t("security.password")}</div>
               <div className="text-neutral-800/60 max-w-2xl text-sm">*****</div>
             </div>
             <Dialog>
               <DialogTrigger asChild>
                 <Button variant="outline" size="sm">
-                  Edit
+                  {t("security.edit")}
                 </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>Edit password</DialogTitle>
+                  <DialogTitle>{t("security.editPassword")}</DialogTitle>
                   <DialogDescription>
-                    Make changes to your password here. Click save when
-                    you&apos;re done.
+                  {t("security.makeChangesToYourPw")}
                   </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="oldPassword" className="text-right">
-                      Old Password
+                    {t("security.oldPw")}
                     </Label>
                     <Input
                       id="oldPassword"
@@ -174,7 +173,7 @@ export default function LoginSecurity() {
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="newPassword" className="text-right">
-                      New Password
+                    {t("security.newPw")}
                     </Label>
                     <Input
                       id="newPassword"
@@ -198,9 +197,9 @@ export default function LoginSecurity() {
             className={`grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6`}
           >
             <div>
-              <div className="text-base">Two-Factor Authentication</div>
+              <div className="text-base">{t("security.TFA")}</div>
               <div className="text-neutral-800/60 max-w-2xl text-sm">
-                Add an extra layer of security to your account
+              {t("security.addExtraSecurity")}
               </div>
             </div>
             <Switch
@@ -212,9 +211,9 @@ export default function LoginSecurity() {
             className={`grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6`}
           >
             <div>
-              <div className="text-base">Login Notifications</div>
+              <div className="text-base">{t("security.loginNotifications")}</div>
               <div className="text-neutral-800/60 max-w-2xl text-sm">
-                Receive alerts about new sign-ins to your account
+              {t("security.newLoginNotifications")}
               </div>
             </div>
             <Switch
@@ -225,13 +224,13 @@ export default function LoginSecurity() {
         </div>
 
         <div>
-          <h2 className="text-3xl font-semibold">Account</h2>
+          <h2 className="text-3xl font-semibold">{t("security.account")}</h2>
         </div>
         <div className="space-y-6">
           <div
             className={`grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6`}
           >
-            <div className="text-base">Verify Email</div>
+            <div className="text-base">{t("security.verifyEmail")}</div>
             {user?.emailVerification ? (
               <Button
                 disabled
@@ -239,7 +238,7 @@ export default function LoginSecurity() {
                 size="sm"
                 onClick={handleEmailVerification}
               >
-                Verified
+                {t("security.verified")}
               </Button>
             ) : (
               <Button
@@ -247,7 +246,7 @@ export default function LoginSecurity() {
                 size="sm"
                 onClick={handleEmailVerification}
               >
-                Verify
+                {t("security.verify")}
               </Button>
             )}
           </div>
@@ -255,9 +254,9 @@ export default function LoginSecurity() {
             className={`grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6`}
           >
             <div>
-              <div className="text-base">Active Sessions</div>
+              <div className="text-base">{t("security.activeSessions")}</div>
               <div className="text-neutral-800/60 max-w-2xl text-sm">
-                Manage devices where you're currently logged in
+              {t("security.manageSessions")}
               </div>
             </div>
             <Button
@@ -271,7 +270,7 @@ export default function LoginSecurity() {
           <div
             className={`grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6`}
           >
-            <div className="text-base">Delete Account</div>
+            <div className="text-base">{t("security.deleteAcc")}</div>
             <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
               <AlertDialogTrigger asChild>
                 <Button

@@ -415,7 +415,117 @@
           "notificationsDesc": "Personalizza le tue preferenze di notifica.",
           "depositFunds": "Deposita fondi",
           "depositFundsDesc": "Deposita rapidamente fondi per pagamenti futuri facili senza utilizzare la tua carta ogni volta."
+        },
+        "personalInfo": {
+  "title": "Informazioni Personali",
+  "name": "Nome",
+  "emailAddress": "Indirizzo Email",
+  "phoneNumber": "Numero di Telefono",
+  "address": "Indirizzo",
+  "edit": "Modifica"
+},
+"security": {
+  "loginSecurity": "Sicurezza di Accesso",
+  "password": "Password",
+  "edit": "Modifica",
+  "TFA": "Autenticazione a Due Fattori",
+  "loginNotifications": "Notifiche di Accesso",
+  "account": "Account",
+  "verifyEmail": "Verifica Email", 
+  "activeSessions": "Sessioni Attive",
+  "deleteAcc": "Elimina Account",
+  "addExtraSecurity": "Aggiungi un ulteriore livello di sicurezza al tuo account",
+  "newLoginNotifications": "Ricevi avvisi sui nuovi accessi al tuo account",
+  "manageSessions": "Gestisci i dispositivi in cui sei attualmente connesso",
+  "editPassword": "Modifica Password",
+  "makeChangesToYourPw": "Apporta modifiche alla tua password qui. Clicca su salva quando hai terminato.",
+  "oldPw": "Vecchia Password",
+  "newPw": "Nuova Password",
+  "verify": "Verifica",
+  "verified": "Verificato"
+}
+,
+"dataPrivacy": {
+  "dataPrivacy": "Dati e Privacy",
+  "dataExport": "Esportazione Dati",
+  "download data": "Scarica una copia dei tuoi dati personali",
+  "exportData": "Esporta Dati",
+  "requestDataDeletion": "Richiedi Eliminazione Dati",
+  "parmanentlyDeleteData": "Elimina definitivamente tutti i tuoi dati dai nostri sistemi",
+  "deleteData": "Elimina Dati",
+  "deleteDataAlert": "Questa azione eliminerà definitivamente tutti i tuoi dati. Inserisci la tua password per confermare.",
+  "password": "Password",
+  "passwordPlaceholder": "Inserisci la tua password",
+  "confirmDeletion": "Conferma Eliminazione",
+  "areYouSure": "Sei assolutamente sicuro?",
+  "cannotBeUndone": "Questa azione non può essere annullata. Tutti i tuoi dati saranno eliminati definitivamente dai nostri server.",
+  "cancel": "Annulla",
+  "yes": "Sì, elimina i miei dati"
+}
+,
+"notifications": {
+  "title": "Notifiche",
+  "bookingConfirmations": "Conferme di Prenotazione",
+  "bookingConfirmationsDesc": "Ricevi notifiche per le prenotazioni effettuate con successo",
+  "DepartureReminders": "Promemoria di Partenza",
+  "DepartureRemindersDesc": "Ricevi promemoria prima della tua partenza programmata",
+  "promotions": "Promozioni e Offerte",
+  "promotionsDesc": "Ricevi aggiornamenti su offerte speciali e sconti",
+  "accountUpdates": "Ricevi notifiche sui cambiamenti importanti relativi al tuo account",
+  "savePreferences": "Salva Preferenze",
+  "enabled": "Le notifiche sono abilitate",
+  "disabled": "Tutte le notifiche sono disabilitate"
+}
+,
+  "pageMetadata": {
+    "title": "Come prenotare - Centro assistenza",
+    "description": "Scopri passo passo come prenotare il tuo biglietto dell'autobus. Ottieni suggerimenti per un processo di prenotazione senza problemi e trova risposte alle domande frequenti.",
+    "mainTitle": "Come prenotare il tuo viaggio",
+    "backButton": {
+      "label": "Torna al Centro assistenza",
+      "icon": "ChevronLeft"
+    },
+    "bookingProcess": {
+      "title": "Processo di prenotazione",
+      "description": "Segui questi passaggi per prenotare il tuo biglietto dell'autobus",
+      "steps": [
+        "Visita il nostro sito web o avvia la nostra applicazione mobile",
+        "Inserisci le tue località di partenza e destinazione",
+        "Seleziona la tua data di viaggio preferita",
+        "Scegli il servizio di autobus e il posto desiderato",
+        "Fornisci le informazioni sui passeggeri",
+        "Aggiungi servizi opzionali (ad esempio, franchigia bagaglio extra)",
+        "Verifica i dettagli della tua prenotazione",
+        "Completa il processo di pagamento",
+        "Ricevi il tuo biglietto elettronico via email"
+      ]
+    },
+    "bookingTips": {
+      "title": "Suggerimenti per la prenotazione",
+      "description": "Massimizza la tua esperienza di prenotazione con questi utili suggerimenti",
+      "tips": [
+        "Prenota in anticipo per assicurarti i posti preferiti e tariffe potenzialmente più basse",
+        "Controlla le promozioni attuali o gli sconti stagionali",
+        "Considera date di viaggio flessibili per offerte migliori",
+        "Rivedi le politiche di cancellazione e rimborso",
+        "Assicurati che tutti i dettagli della prenotazione siano corretti prima della conferma",
+        "Iscriviti alla nostra newsletter per ricevere offerte esclusive"
+      ]
+    },
+    "customerSupport": {
+      "title": "Assistenza clienti",
+      "description": "Siamo qui per aiutarti con la tua prenotazione",
+      "content": {
+        "text": "Se hai bisogno di assistenza o hai domande sulla tua prenotazione, il nostro team di supporto dedicato è pronto ad aiutarti.",
+        "button": {
+          "label": "Contatta il supporto",
+          "link": "/help/contact-support"
         }
+      }
+    }
+  }
+
+
       
     
   

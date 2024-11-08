@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 
 export default function PersonalInfo() {
   const [user, setUser] = useState<any>(null);
@@ -22,37 +23,38 @@ export default function PersonalInfo() {
   const [editedValue, setEditedValue] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { toast } = useToast();
+  const {t} = useTranslation();
 
   const PERSONAL_INFO = [
     {
-      label: "Name",
+      label: t("personalInfo..name"),
       value: user?.name || "Not provided",
-      action: user?.name ? "Edit" : "Add",
+      action: user?.name ? t("personalInfo.edit") : "Add",
       update: async (newValue: string) => {
         await account.updateName(newValue);
       },
     },
     {
-      label: "Email Address",
+      label: t("personalInfo.emailAddress"),
       value: user?.email || "Not provided",
-      action: user?.email ? "Edit" : "Add",
+      action: user?.email ? t("personalInfo.edit") : "Add",
       update: async (newValue: string, password: string) => {
         await account.updateEmail(newValue, password);
       },
     },
     {
-      label: "Phone Number",
+      label: t("personalInfo.phoneNumber"),
       value: user?.phone || "Add a number so the operators can get in touch.",
-      action: user?.phone ? "Edit" : "Add",
+      action: user?.phone ? t("personalInfo.edit") : "Add",
       update: async (newValue: string, password: string) => {
         await account.updatePhone(newValue, password);
         // await account.createPhoneVerification();
       },
     },
     {
-      label: "Address",
+      label: t("personalInfo.address"),
       value: user?.prefs?.address || "Not provided",
-      action: user?.prefs?.address ? "Edit" : "Add",
+      action: user?.prefs?.address ? t("personalInfo.edit") : "Add",
       update: async (newValue: string) => {
         await account.updatePrefs({ address: newValue });
       },
@@ -104,10 +106,10 @@ export default function PersonalInfo() {
     <div className="">
       <div className="space-y-8">
         <div>
-          <h2 className="text-3xl font-semibold">Personal Info</h2>
+          <h2 className="text-3xl font-semibold">{t("personalInfo.title")}</h2>
         </div>
         <div className="space-y-6">
-          {PERSONAL_INFO.map((item, index) => (
+          {PERSONAL_INFO?.map((item, index) => (
             <div
               key={index}
               className={`grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6`}

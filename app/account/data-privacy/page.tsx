@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/components/hooks/use-toast";
 import useUser from "@/components/hooks/use-user";
+import { useTranslation } from "react-i18next";
 
 export default function DataAndPrivacy() {
   const { user, loading } = useUser();
@@ -35,6 +36,7 @@ export default function DataAndPrivacy() {
   const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
   const { toast } = useToast();
   const router = useRouter();
+  const {t} = useTranslation();
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -42,8 +44,6 @@ export default function DataAndPrivacy() {
 
   const handleDataDeletionRequest = async () => {
     try {
-      // Here you would typically send the data deletion request to your backend
-      // For this example, we'll just show a success message
       toast({ description: "Data deletion request submitted successfully." });
       setPassword("");
       setIsAlertOpen(false);
@@ -59,8 +59,6 @@ export default function DataAndPrivacy() {
 
   const handleDataExport = async () => {
     try {
-      // Here you would typically trigger a data export process
-      // For this example, we'll just show a success message
       toast({
         description:
           "Data export request submitted. You'll receive an email shortly.",
@@ -78,20 +76,20 @@ export default function DataAndPrivacy() {
     <div className="">
       <div className="space-y-8">
         <div>
-          <h2 className="text-3xl font-semibold">Data and Privacy</h2>
+          <h2 className="text-3xl font-semibold">{t("dataPrivacy.dataPrivacy")}</h2>
         </div>
         <div className="space-y-6">
           <div
             className={`grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6`}
           >
             <div>
-              <div className="text-base">Data Export</div>
+              <div className="text-base">{t("dataPrivacy.dataExport")}</div>
               <div className="text-neutral-800/60 max-w-2xl text-sm">
-                Download a copy of your personal data
+              {t("dataPrivacy.download data")}
               </div>
             </div>
             <Button variant="outline" size="sm" onClick={handleDataExport}>
-              Export Data
+            {t("dataPrivacy.exportData")}
             </Button>
           </div>
 
@@ -99,35 +97,34 @@ export default function DataAndPrivacy() {
             className={`grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6`}
           >
             <div>
-              <div className="text-base">Request Data Deletion</div>
+              <div className="text-base">{t("dataPrivacy.requestDataDeletion")}</div>
               <div className="text-neutral-800/60 max-w-2xl text-sm">
-                Permanently delete all your data from our systems
+              {t("dataPrivacy.parmanentlyDeleteData")}
               </div>
             </div>
             <Dialog>
               <DialogTrigger asChild>
                 <Button variant="destructive" size="sm">
-                  Delete Data
+                {t("dataPrivacy.deleteData")}
                 </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>Request Data Deletion</DialogTitle>
+                  <DialogTitle>{t("dataPrivacy.requestDataDeletion")}</DialogTitle>
                   <DialogDescription>
-                    This action will permanently delete all your data. Please
-                    enter your password to confirm.
+                  {t("dataPrivacy.deletionAlert")}
                   </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="password" className="text-right">
-                      Password
+                    {t("dataPrivacy.password")}
                     </Label>
                     <Input
                       id="password"
                       type="password"
                       value={password}
-                      placeholder="Enter your password"
+                      placeholder={t("dataPrivacy.passwordPlaceholder")}
                       className="col-span-3"
                       onChange={handlePasswordChange}
                     />
@@ -137,27 +134,26 @@ export default function DataAndPrivacy() {
                   <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
                     <AlertDialogTrigger asChild>
                       <Button variant="destructive" disabled={!password}>
-                        Confirm Deletion
+                      {t("dataPrivacy.confirmDeletion")}
                       </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
                         <AlertDialogTitle>
-                          Are you absolutely sure?
+                          {t("dataPrivacy.areYouSure")}
                         </AlertDialogTitle>
                         <AlertDialogDescription>
-                          This action cannot be undone. All of your data will be
-                          permanently deleted from our servers.
+                        {t("dataPrivacy.cannotBeUndone")}
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel
                           onClick={() => setIsAlertOpen(false)}
                         >
-                          Cancel
+                          {t("dataPrivacy.cancel")}
                         </AlertDialogCancel>
                         <AlertDialogAction onClick={handleDataDeletionRequest}>
-                          Yes, delete my data
+                          {t("dataPrivacy.yes")}
                         </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>

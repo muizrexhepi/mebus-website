@@ -6,6 +6,7 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/hooks/use-toast";
 import { BellIcon, BellOffIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState({
@@ -16,6 +17,7 @@ export default function NotificationsPage() {
   });
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+  const {t} = useTranslation();
 
   useEffect(() => {
     setTimeout(() => {
@@ -28,7 +30,6 @@ export default function NotificationsPage() {
   };
 
   const handleSavePreferences = async () => {
-    // Simulating API call to save user's notification preferences
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       toast({ description: "Notification preferences updated successfully." });
@@ -53,14 +54,14 @@ export default function NotificationsPage() {
     <div className="">
       <div className="space-y-8">
         <div>
-          <h2 className="text-3xl font-semibold">Notifications</h2>
+          <h2 className="text-3xl font-semibold">{t("notifications.title")}</h2>
         </div>
         <div className="space-y-6">
           <div className="grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6">
             <div>
-              <div className="text-base font-medium">Booking Confirmations</div>
+              <div className="text-base font-medium">{t("notifications.bookingConfirmations")}</div>
               <div className="text-neutral-800/60 text-sm">
-                Receive notifications for successful bookings
+              {t("notifications.bookingConfirmationsDesc")}
               </div>
             </div>
             <Switch
@@ -70,9 +71,9 @@ export default function NotificationsPage() {
           </div>
           <div className="grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6">
             <div>
-              <div className="text-base font-medium">Departure Reminders</div>
+              <div className="text-base font-medium">{t("notifications.DepartureReminders")}</div>
               <div className="text-neutral-800/60 text-sm">
-                Get reminders before your scheduled departure
+              {t("notifications.DepartureRemindersDesc")}
               </div>
             </div>
             <Switch
@@ -82,9 +83,9 @@ export default function NotificationsPage() {
           </div>
           <div className="grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6">
             <div>
-              <div className="text-base font-medium">Promotions and Offers</div>
+              <div className="text-base font-medium">{t("notifications.promotions")}</div>
               <div className="text-neutral-800/60 text-sm">
-                Receive updates about special deals and discounts
+              {t("notifications.promotionsDesc")}
               </div>
             </div>
             <Switch
@@ -94,9 +95,9 @@ export default function NotificationsPage() {
           </div>
           <div className="grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6">
             <div>
-              <div className="text-base font-medium">Account Updates</div>
+              <div className="text-base font-medium">{t("notifications.accountUpdates")}</div>
               <div className="text-neutral-800/60 text-sm">
-                Get notified about important account-related changes
+              {t("notifications.accountUpdates")}
               </div>
             </div>
             <Switch
@@ -114,11 +115,11 @@ export default function NotificationsPage() {
             )}
             <Label>
               {Object.values(notifications).some(Boolean)
-                ? "Notifications are enabled"
-                : "All notifications are disabled"}
+                ? t("notifications.enabled")
+                : t("notifications.disabled")}
             </Label>
           </div>
-          <Button onClick={handleSavePreferences}>Save Preferences</Button>
+          <Button onClick={handleSavePreferences}>{t("notifications.savePreferences")}</Button>
         </div>
       </div>
     </div>
