@@ -4,7 +4,7 @@ import { NAV_LINKS, FOOTER_LINKS, QUICK_LINKS } from "@/lib/data";
 
 const operator_id = "66cba19d1a6e55b32932c59b";
 
-const BASE_URL = "https://www.GoBusly.eu";
+const BASE_URL = "https://www.gobusly.com";
 
 const generateCityPairs = (stations: { city: string }[]) => {
   const pairs = [];
