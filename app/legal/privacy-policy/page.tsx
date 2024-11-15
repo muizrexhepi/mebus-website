@@ -13,11 +13,11 @@ export const metadata = {
     title: "GoBusly - Privacy Policy",
     description:
       "GoBusly is committed to protecting your privacy and ensuring the security of your personal information. Learn more about our privacy practices.",
-    url: "https://www.GoBusly.eu/privacy-policy",
+    url: "https://www.gobusly.com/privacy-policy",
     type: "website",
     images: [
       {
-        url: "https://www.GoBusly.eu/images/privacy-policy-banner.jpg",
+        url: "https://www.gobusly.com/images/privacy-policy-banner.jpg",
         width: 1200,
         height: 630,
         alt: "GoBusly Privacy Policy",
@@ -35,10 +35,10 @@ export default function MebusPrivacyPolicy() {
       <h1 className="text-4xl font-bold text-center mb-8">Privacy Policy</h1>
       <div className="max-w-4xl mx-auto">
         <p className="mb-8">
-          At GoBusly, we are committed to protecting your privacy and ensuring the
-          security of your personal information. This Privacy Policy outlines
-          our practices concerning the collection, use, and sharing of your data
-          when you use our bus ticket booking app.
+          At GoBusly, we are committed to protecting your privacy and ensuring
+          the security of your personal information. This Privacy Policy
+          outlines our practices concerning the collection, use, and sharing of
+          your data when you use our bus ticket booking app.
         </p>
 
         <h2 className="text-2xl font-semibold mb-4" id="toc">
@@ -167,8 +167,8 @@ export default function MebusPrivacyPolicy() {
               In response to legal requests or to comply with applicable laws
             </li>
             <li>
-              To protect the rights, property, or safety of GoBusly, our users, or
-              others
+              To protect the rights, property, or safety of GoBusly, our users,
+              or others
             </li>
             <li>
               In connection with, or during negotiations of, any merger, sale of

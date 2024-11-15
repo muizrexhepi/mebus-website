@@ -15,11 +15,11 @@ export const metadata = {
     title: "GoBusly - Discounts and Offers",
     description:
       "Explore GoBusly discounts and special offers to save on your bus bookings. Check out the latest deals today!",
-    url: "https://www.GoBusly.eu/discounts",
+    url: "https://www.gobusly.com/discounts",
     type: "website",
     images: [
       {
-        url: "https://www.GoBusly.eu/images/discounts-banner.jpg",
+        url: "https://www.gobusly.com/images/discounts-banner.jpg",
         width: 1200,
         height: 630,
         alt: "GoBusly Discounts and Offers",
@@ -98,7 +98,7 @@ export default function MebusDiscountOffers() {
             applied retroactively
           </li>
           <li>
-          GoBusly reserves the right to modify or cancel offers at any time
+            GoBusly reserves the right to modify or cancel offers at any time
           </li>
           <li>
             Additional terms may apply to specific offers. Please check offer

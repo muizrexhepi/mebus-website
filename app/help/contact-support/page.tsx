@@ -59,8 +59,8 @@ const Contact: React.FC = () => {
             title="Email Support"
             content={
               <div className="space-y-2">
-                <p>General Inquiries: support@GoBusly.eu</p>
-                <p>Booking Assistance: bookings@GoBusly.eu</p>
+                <p>General Inquiries: support@gobusly.com</p>
+                <p>Booking Assistance: bookings@gobusly.com</p>
                 <p className="text-sm text-gray-500">
                   Response within 24 hours
                 </p>

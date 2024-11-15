@@ -6,6 +6,7 @@ import ReactQueryProvider from "./ReactQueryProvider";
 import { Toaster } from "@/components/ui/toaster";
 import CookieConsent from "@/components/CookieConsent";
 import TranslationProvider from "@/components/TranslationProvider";
+import { Analytics } from "@vercel/analytics/react";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -48,7 +49,7 @@ export const metadata: Metadata = {
     title: "GoBusly | Travel Europe & Balkans",
     description:
       "Discover the most affordable and convenient bus routes across Europe and the Balkans with GoBusly. Book your bus tickets online for seamless travel to top destinations.",
-    url: "https://www.GoBusly.eu",
+    url: "https://www.gobusly.com",
     type: "website",
   },
   twitter: {
@@ -68,6 +69,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={roboto.className}>
+        <Analytics />
         <ReactQueryProvider>
           <Toaster />
           <TranslationProvider>

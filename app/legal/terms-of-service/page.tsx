@@ -13,11 +13,11 @@ export const metadata = {
     title: "GoBusly - Terms of Service",
     description:
       "Review the Terms of Service for GoBusly to understand the legal agreement and guidelines governing the use of our platform.",
-    url: "https://www.GoBusly.eu/terms-of-service",
+    url: "https://www.gobusly.com/terms-of-service",
     type: "website",
     images: [
       {
-        url: "https://www.GoBusly.eu/images/terms-of-service-banner.jpg",
+        url: "https://www.gobusly.com/images/terms-of-service-banner.jpg",
         width: 1200,
         height: 630,
         alt: "GoBusly Terms of Service",
@@ -36,8 +36,9 @@ export default function MebusTermsOfService() {
       <div className="max-w-4xl mx-auto">
         <p className="mb-8">
           Welcome to GoBusly. These Terms of Service (&quot;Terms&quot;) govern
-          your use of the GoBusly bus ticket booking application and services. By
-          using GoBusly, you agree to these Terms. Please read them carefully.
+          your use of the GoBusly bus ticket booking application and services.
+          By using GoBusly, you agree to these Terms. Please read them
+          carefully.
         </p>
 
         <h2 className="text-2xl font-semibold mb-4" id="toc">
@@ -96,9 +97,9 @@ export default function MebusTermsOfService() {
             1. Acceptance of Terms
           </h2>
           <p>
-            By accessing or using the GoBusly app, you agree to be bound by these
-            Terms. If you do not agree to these Terms, please do not use our
-            service.
+            By accessing or using the GoBusly app, you agree to be bound by
+            these Terms. If you do not agree to these Terms, please do not use
+            our service.
           </p>
         </section>
 
@@ -124,8 +125,8 @@ export default function MebusTermsOfService() {
         <section id="account" className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">3. User Account</h2>
           <p className="mb-4">
-            To use certain features of GoBusly, you may need to create an account.
-            You are responsible for:
+            To use certain features of GoBusly, you may need to create an
+            account. You are responsible for:
           </p>
           <ul className="list-disc list-inside space-y-2">
             <li>Maintaining the confidentiality of your account credentials</li>
@@ -166,7 +167,7 @@ export default function MebusTermsOfService() {
             <li>Cancellations must be made within the specified time frame</li>
             <li>Refunds are subject to the bus operator&apos;s policies</li>
             <li>
-            GoBusly may charge a processing fee for cancellations and refunds
+              GoBusly may charge a processing fee for cancellations and refunds
             </li>
           </ul>
         </section>
@@ -193,8 +194,8 @@ export default function MebusTermsOfService() {
               consequential damages
             </li>
             <li>
-              GoBusly is not responsible for the actions, services, or products of
-              third-party bus operators
+              GoBusly is not responsible for the actions, services, or products
+              of third-party bus operators
             </li>
             <li>
               Our liability is limited to the amount you paid for the specific
@@ -208,8 +209,8 @@ export default function MebusTermsOfService() {
           <p>
             We may update these Terms from time to time. We will notify you of
             any changes by posting the new Terms in the GoBusly app and updating
-            the &quot;Last Updated&quot; date. Your continued use of GoBusly after
-            such changes constitutes your acceptance of the new Terms.
+            the &quot;Last Updated&quot; date. Your continued use of GoBusly
+            after such changes constitutes your acceptance of the new Terms.
           </p>
         </section>
 
