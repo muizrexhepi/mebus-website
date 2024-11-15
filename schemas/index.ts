@@ -1,7 +1,18 @@
 "use client"
  
-import { z } from "zod"
- 
+import { z } from 'zod'
+
+export const passengerSchema = z.object({
+    // full_name: z.string().min(1, 'Full name is required').regex(/^[a-zA-Z\s]+$/, 'Name must contain only letters and spaces'),    
+    first_name: z.string().min(1, 'First name is required').regex(/^[a-zA-Z\s]+$/, 'First name must contain only letters and spaces'),    
+    last_name: z.string().min(1, 'Last name is required').regex(/^[a-zA-Z\s]+$/, 'Last name must contain only letters and spaces'),    
+    email: z.string().email('Invalid email').optional(),
+    phone: z.string().min(10, 'Phone number must be at least 10 digits').optional(),
+    birthdate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Birthdate must be in YYYY-MM-DD format').optional(),
+    age: z.number().min(0),
+    price: z.number(),
+  });
+  
 export const LoginSchema = z.object({
     email: z.string().email({
       message: "Email is required"
@@ -18,10 +29,14 @@ export const LoginSchema = z.object({
     email: z.string().email({
       message: "Email is required"
     }),
-    password: z.string().min(8, {
-      message: "Minimum 8 characters"
-    })
-  });
+    password: z
+    .string()
+    .min(8, "Password must be at least 8 characters")  // Your current length check
+    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")  // Require an uppercase letter
+    .regex(/[0-9]/, "Password must contain at least one number")  // Require at least one number
+    .regex(/[@$!%*?&]/, "Password must contain at least one special character")  // Require a special character
+    .min(1, "Password is required"),  // Ensure the password field isn't empty
+});
 
   
   export const resetPasswordSchema = z.object({

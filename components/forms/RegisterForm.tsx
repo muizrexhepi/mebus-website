@@ -23,6 +23,7 @@ import { handleFacebookLogin, handleGoogleLogin } from "@/actions/oauth";
 import { account } from "@/appwrite.config";
 import { useNavbarStore } from "@/store";
 import { createUser } from "@/actions/users";
+import StrengthInput from "../strength-input";
 
 const RegisterForm = ({ isOpen }: { isOpen: boolean }) => {
   const { t } = useTranslation();
@@ -130,10 +131,9 @@ const RegisterForm = ({ isOpen }: { isOpen: boolean }) => {
                   <FormItem>
                     <FormLabel>{t("register.password.label")}</FormLabel>
                     <FormControl>
-                      <Input
+                      <StrengthInput
                         {...field}
                         disabled={isLoading}
-                        type="password"
                         placeholder={t("register.password.placeholder")}
                       />
                     </FormControl>

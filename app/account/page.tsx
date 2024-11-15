@@ -12,11 +12,10 @@ import { Bell, Book, DollarSign, Lock, Shield, User } from "lucide-react";
 type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 interface AccountSetting {
   href: string;
-  icon: IconComponent; 
+  icon: IconComponent;
   title: string;
   description: string;
 }
-
 
 export default function Component() {
   const { user } = useUser();
@@ -31,7 +30,6 @@ export default function Component() {
           );
           setAccountBalanceInCents(accountBalance.data.data.balance_in_cents);
         };
-
         fetchAccountBalance();
       } catch (error) {
         console.error({ error });
@@ -39,51 +37,50 @@ export default function Component() {
     }
   }, [user]);
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const ACCOUNT_SETTINGS: AccountSetting[] = [
     {
       href: "/account/personal-info",
       icon: User,
-      title: t('account.profile'),
-      description: t('account.profileDesc'),
+      title: t("account.profile"),
+      description: t("account.profileDesc"),
     },
     {
       href: "/account/login-security",
       icon: Lock,
-      title: t('account.security'),
-      description: t('account.securityDesc'),
+      title: t("account.security"),
+      description: t("account.securityDesc"),
     },
     {
       href: "/account/data-privacy",
       icon: Shield,
-      title: t('account.dataAndPrivacy'),
-      description: t('account.dataAndPrivacyDesc'),
+      title: t("account.dataAndPrivacy"),
+      description: t("account.dataAndPrivacyDesc"),
     },
     {
       href: "/bookings",
       icon: Book,
-      title: t('account.bookings'),
-      description: t('account.bookingsDesc'),
+      title: t("account.bookings"),
+      description: t("account.bookingsDesc"),
     },
     {
       href: "/account/notifications",
       icon: Bell,
-      title: t('account.notifications'),
-      description: t('account.notificationsDesc'),
+      title: t("account.notifications"),
+      description: t("account.notificationsDesc"),
     },
     {
       href: "/account/deposit",
       icon: DollarSign,
-      title: t('account.depositFunds'),
-      description: t('account.depositFundsDesc'),
-    }
+      title: t("account.depositFunds"),
+      description: t("account.depositFundsDesc"),
+    },
   ];
 
   const renderIcon = (IconComponent: any) => {
     return <IconComponent className="w-8 h-8 text-primary" />;
   };
-
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 md:space-y-16">
@@ -95,7 +92,7 @@ export default function Component() {
               {user?.name}, <span className="font-normal">{user?.email}</span>
             </p>
             <p className="text-xl font-medium">
-                {t("account.accountBalance")}:{" "}
+              {t("account.accountBalance")}:{" "}
               <span className="font-normal">
                 {Symbols.EURO} {(accountBalanceInCents / 100).toFixed(2) || 0.0}
               </span>

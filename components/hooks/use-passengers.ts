@@ -1,7 +1,9 @@
 import { Ticket } from "@/models/ticket";
 
 export interface PassengerData {
-    full_name: string;
+  first_name:string;
+  last_name:string;
+    // full_name: string;
     email: string;
     phone: string;
     birthdate: string;
@@ -25,6 +27,7 @@ export interface PassengerData {
   
     return passengers.map(passenger => ({
       ...passenger,
+      full_name: [passenger.first_name, passenger.last_name].filter(Boolean).join(' '),
       price: passenger.age <= max_child_age ? childPrice : adultPrice,
     }));
   };

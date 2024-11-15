@@ -24,6 +24,7 @@ import { FormError } from "@/components/form-error";
 import { handleFacebookLogin, handleGoogleLogin } from "@/actions/oauth";
 import { account } from "@/appwrite.config";
 import { createUser } from "@/actions/users";
+import StrengthInput from "../strength-input";
 
 const RegisterPage = () => {
   const { t } = useTranslation();
@@ -145,13 +146,18 @@ const RegisterPage = () => {
                       {t("register.password.label")}
                     </FormLabel>
                     <FormControl>
-                      <Input
+                      <StrengthInput
                         {...field}
+                        disabled={isLoading}
+                        placeholder={t("register.password.placeholder")}
+                      />
+                      {/* <Input
+                        {...field}asd
                         disabled={isLoading}
                         type="password"
                         placeholder={t("register.password.placeholder")}
                         className="rounded-b-md"
-                      />
+                      /> */}
                     </FormControl>
                     <FormMessage />
                   </FormItem>

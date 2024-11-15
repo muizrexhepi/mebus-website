@@ -204,6 +204,7 @@ const PaymentMethod = () => {
     const arrival_station_label = ticket.stops[0].to.name;
     const passengersWithPrices = calculatePassengerPrices(passengers, ticket);
     const ticketTotal = isReturn ? returnTotal : outboundTotal;
+    console.log({ passengersWithPrices });
     return axios
       .post(
         `${environment.apiurl}/booking/create/${ticket.operator}/${
@@ -258,7 +259,6 @@ const PaymentMethod = () => {
     }
   };
 
-
   return (
     <div className="space-y-6">
       <div className="bg-white rounded-xl shadow-md overflow-hidden">
@@ -311,7 +311,7 @@ const PaymentMethod = () => {
                         Number(e.target.value),
                         isGreater ? totalPrice : balance / 100
                       );
-                    
+
                       setDepositAmount(Math.round(value * 100) / 100);
                     }}
                     className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
@@ -323,7 +323,9 @@ const PaymentMethod = () => {
 
           {
             <div
-            className={`${Math.abs(totalPrice - depositAmount) < 0.01 ? "hidden" : ""} space-y-4`}
+              className={`${
+                Math.abs(totalPrice - depositAmount) < 0.01 ? "hidden" : ""
+              } space-y-4`}
             >
               <h3 className="font-medium text-gray-700">
                 {t("paymentMethod.cardInformation")}

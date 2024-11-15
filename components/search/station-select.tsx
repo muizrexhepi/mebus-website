@@ -39,6 +39,17 @@ const StationSelect: React.FC<CustomSelectProps> = ({
       } else if (departure === "to") {
         setSearchTerm(toCity);
       }
+      return;
+    } else {
+      if (departure === "from") {
+        setSearchTerm(stations[0]?.city || "");
+        setFromCity(stations[0]?.city || "");
+        setFrom(stations[0]?._id || "");
+      } else if (departure === "to") {
+        setSearchTerm(stations[1]?.city || "");
+        setToCity(stations[1]?.city || "");
+        setTo(stations[1]?._id || "");
+      }
     }
   }, [departure, setFromCity, setFrom, setToCity, setTo]);
 
