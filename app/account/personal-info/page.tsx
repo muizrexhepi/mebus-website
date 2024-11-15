@@ -25,6 +25,7 @@ export default function PersonalInfo() {
   const { toast } = useToast();
   const {t} = useTranslation();
 
+  
   const PERSONAL_INFO = [
     {
       label: t("personalInfo.name"),
