@@ -13,7 +13,7 @@ export const metadata = {
     title: "GoBusly - Terms of Service",
     description:
       "Review the Terms of Service for GoBusly to understand the legal agreement and guidelines governing the use of our platform.",
-    url: "https://www.gobusly.com/terms-of-service",
+    url: "https://www.gobusly.com/legal/terms-of-service",
     type: "website",
     images: [
       {

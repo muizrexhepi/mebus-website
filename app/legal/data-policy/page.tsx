@@ -20,10 +20,29 @@ import {
 import Navbar from "@/components/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 
-export const metadata: Metadata = {
-  title: "Data Deletion Instructions - Help Center",
+export const metadata = {
+  title: "GoBusly - Data Policy",
   description:
-    "Learn how to request the deletion of your personal data from our systems and understand our data retention policies.",
+    "Read the GoBusly Data Policy to understand how we collect, use, and protect your personal information when using our bus ticket booking app.",
+  keywords:
+    "GoBusly, Data Policy, Privacy, User Data, Personal Information, Data Protection, Bus Ticket Booking",
+  authors: [{ name: "GoBusly" }],
+  robots: "index, follow",
+  openGraph: {
+    title: "GoBusly - Data Policy",
+    description:
+      "Review the GoBusly Data Policy to understand how your personal data is handled, stored, and protected while using our platform.",
+    url: "https://www.gobusly.com/legal/data-policy",
+    type: "website",
+    images: [
+      {
+        url: "https://www.gobusly.com/images/data-policy-banner.jpg",
+        width: 1200,
+        height: 630,
+        alt: "GoBusly Data Policy",
+      },
+    ],
+  },
 };
 
 const DataDeletionPage = () => {

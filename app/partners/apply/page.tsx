@@ -3,13 +3,7 @@ import Navbar from "@/components/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  ArrowLeft,
-  ChevronLeft,
-  Globe,
-  Shield,
-  TrendingUp,
-} from "lucide-react";
+import { ChevronLeft, Globe, Shield, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import PartnerApplicationForm from "@/components/forms/PartnerApplyForm";
 import { Metadata } from "next";
@@ -18,6 +12,26 @@ export const metadata: Metadata = {
   title: "GoBusly | Partner Application",
   description:
     "Join GoBusly as a partner and expand your business reach, boost revenue, and enjoy secure operations through our platform.",
+  keywords: [
+    "partner application",
+    "bus travel partner",
+    "GoBusly partnership",
+    "expand your business",
+    "increase revenue",
+    "bus ticket booking partner",
+    "travel agency partnership",
+    "Balkan bus operators",
+    "bus network expansion",
+    "secure bus operations",
+    "fraud protection in travel",
+    "GoBusly partner benefits",
+    "online bus booking system",
+    "partner with GoBusly",
+    "bus route distribution",
+    "travel business partnership",
+    "Balkan travel agencies",
+    "transportation business partnership",
+  ],
 };
 
 const PartnerApplicationPage: React.FC = () => {

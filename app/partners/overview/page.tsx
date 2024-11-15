@@ -21,7 +21,27 @@ export const metadata: Metadata = {
   title: "GoBusly | Partner Overview",
   description:
     "Learn how to partner with GoBusly, expand your reach, and grow your bus operation with our cutting-edge online platform.",
+  keywords:
+    "GoBusly, Partner Overview, Bus Operations, Business Partnership, Bus Booking, Expand Reach, Online Platform",
+  authors: [{ name: "GoBusly" }],
+  robots: "index, follow",
+  openGraph: {
+    title: "GoBusly | Partner Overview",
+    description:
+      "Explore how partnering with GoBusly can help grow your bus business and reach more customers through our innovative online booking platform.",
+    url: "https://www.gobusly.com/partners/overview",
+    type: "website",
+    images: [
+      {
+        url: "https://www.gobusly.com/images/partner-overview-banner.jpg",
+        width: 1200,
+        height: 630,
+        alt: "GoBusly Partner Overview",
+      },
+    ],
+  },
 };
+
 export default function OperatorPartnership() {
   return (
     <div className="mx-auto xl:px-0 pt-20">
@@ -178,8 +198,8 @@ export default function OperatorPartnership() {
       <section className="py-16 bg-primary max-w-6xl mx-auto text-white text-center rounded-lg">
         <h2 className="text-3xl font-semibold mb-4">Ready to get started?</h2>
         <p className="mb-8 max-w-2xl mx-auto text-lg px-4 xl:px-0">
-          Join the GoBusly network today and transform your bus operation with our
-          advanced online ticketing system. Expand your customer base,
+          Join the GoBusly network today and transform your bus operation with
+          our advanced online ticketing system. Expand your customer base,
           streamline your operations, and boost your revenue.
         </p>
         <Link href={"/partners/apply"}>

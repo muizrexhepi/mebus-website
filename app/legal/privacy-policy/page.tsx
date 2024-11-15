@@ -13,7 +13,7 @@ export const metadata = {
     title: "GoBusly - Privacy Policy",
     description:
       "GoBusly is committed to protecting your privacy and ensuring the security of your personal information. Learn more about our privacy practices.",
-    url: "https://www.gobusly.com/privacy-policy",
+    url: "https://www.gobusly.com/legal/privacy-policy",
     type: "website",
     images: [
       {

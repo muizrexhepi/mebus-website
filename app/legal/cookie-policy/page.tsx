@@ -13,11 +13,11 @@ export const metadata = {
     title: "GoBusly - Cookie Policy",
     description:
       "GoBusly uses cookies and similar technologies to enhance your experience. Read our Cookie Policy to understand how we use and manage cookies.",
-    url: "https://www.eusly.eu/cookie-policy",
+    url: "https://www.gobusly.com/legal/cookie-policy",
     type: "website",
     images: [
       {
-        url: "https://www.eusly.eu/images/cookie-policy-banner.jpg",
+        url: "https://www.gobusly.com/images/cookie-policy-banner.jpg",
         width: 1200,
         height: 630,
         alt: "GoBusly Cookie Policy",
