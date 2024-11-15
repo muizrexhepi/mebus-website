@@ -27,7 +27,7 @@ export default function PersonalInfo() {
 
   const PERSONAL_INFO = [
     {
-      label: t("personalInfo..name"),
+      label: t("personalInfo.name"),
       value: user?.name || "Not provided",
       action: user?.name ? t("personalInfo.edit") : "Add",
       update: async (newValue: string) => {
