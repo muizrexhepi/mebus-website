@@ -22,6 +22,7 @@ import {
 import { Separator } from "./ui/separator";
 import useIsMobile from "./hooks/use-mobile";
 import { useTranslation } from "react-i18next"; // Importing the translation hook
+import Image from "next/image";
 
 const NavbarMenu = () => {
   const { t } = useTranslation(); // Using the translation hook
@@ -114,7 +115,16 @@ const NavbarMenu = () => {
           className="w-[300px] sm:w-[400px] bg-white p-0 z-[99]"
         >
           <SheetHeader className="p-4 text-left border-b">
-            <SheetTitle className="text-2xl font-bold">GoBusly</SheetTitle>
+            <SheetTitle className="text-2xl font-bold pt-2">
+              <Image
+                src={"/assets/icons/dark-logo.svg"}
+                alt="Logo"
+                width={100}
+                height={40}
+                className="object-contain"
+                priority
+              />
+            </SheetTitle>
           </SheetHeader>
           <nav className="flex flex-col h-full">{MenuItems}</nav>
         </SheetContent>

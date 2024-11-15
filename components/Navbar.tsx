@@ -12,6 +12,7 @@ import ResetPasswordForm from "./forms/ResetForm";
 import { cn } from "@/lib/utils";
 import useUser from "./hooks/use-user";
 import { useTranslation } from "react-i18next";
+import Image from "next/image";
 
 const Navbar = ({ className }: { className?: string }) => {
   const { user } = useUser();
@@ -22,7 +23,14 @@ const Navbar = ({ className }: { className?: string }) => {
     <div className={cn("w-full flex justify-between items-center", className)}>
       <div className="flex items-center gap-8">
         <Link href={"/"}>
-          <h1 className="font-semibold text-2xl text-white/95">GoBusly</h1>
+          <Image
+            src={"/assets/icons/logo.svg"}
+            alt="Logo"
+            width={100}
+            height={40}
+            className="object-contain"
+            priority
+          />
         </Link>
         <div className="lg:flex gap-6 items-center hidden">
           {NAV_LINKS.map((link, index) => (

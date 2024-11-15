@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { FormEvent, useState } from "react";
 import { useToast } from "./hooks/use-toast";
+import Image from "next/image";
 
 const FOOTER_LINKS = [
   {
@@ -94,7 +95,14 @@ const Footer = () => {
       >
         <div className="flex-1 w-full flex-col sm:flex sm:flex-row sm:items-center md:items-start justify-between md:justify-start md:flex-col mr-10">
           <Link href="/">
-            <h1 className="font-semibold text-2xl text-white/95">GoBusly</h1>
+            <Image
+              src={"/assets/icons/logo.svg"}
+              alt="Logo"
+              width={180}
+              height={60}
+              className="object-contain"
+              priority
+            />
           </Link>
           <p
             className={`font-normal text-white/70 text-[18px] leading-[30.8px] mt-4 max-w-[310px]`}
