@@ -1,8 +1,7 @@
-import { getStationsByOperatorId } from "@/actions/station";
+import { getStations } from "@/actions/station";
 import { MetadataRoute } from "next";
 import { NAV_LINKS, FOOTER_LINKS, QUICK_LINKS } from "@/lib/data";
 
-const operator_id = "66cba19d1a6e55b32932c59b";
 
 const BASE_URL = "https://www.gobusly.com";
 
@@ -43,7 +42,7 @@ const removeDuplicateUrls = (urls: { url: string; lastModified: string }[]) => {
 };
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const stations = await getStationsByOperatorId(operator_id);
+  const stations = await getStations();
   const cityPairs = generateCityPairs(stations);
 
   const staticUrls = [
