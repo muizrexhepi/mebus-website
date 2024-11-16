@@ -4,9 +4,6 @@ import Link from "next/link";
 import {
   ChevronLeft,
   AlertCircle,
-  Clock,
-  Edit,
-  Repeat,
   HeadphonesIcon,
   CheckCircle,
   XCircle,
@@ -23,9 +20,34 @@ import Navbar from "@/components/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 
 export const metadata: Metadata = {
-  title: "Travel Flex Options - Help Center",
+  title: "Travel Flex Options - Help Center | GoBusly",
   description:
-    "Learn about our travel flex options and choose the right flexibility for your journey.",
+    "Learn about our travel flex options and choose the right flexibility for your journey with GoBusly. Discover how to make changes to your booking and the benefits of flexible travel.",
+  keywords:
+    "GoBusly, Travel Flex Options, Flexible Travel, Bus Booking Flexibility, Change Booking, Travel Options, Customer Support",
+  authors: [{ name: "GoBusly" }],
+  robots: "index, follow",
+  openGraph: {
+    title: "Travel Flex Options - Help Center | GoBusly",
+    description:
+      "Learn about our travel flex options and choose the right flexibility for your journey with GoBusly. Get tips on how to make booking changes and benefit from flexible travel.",
+    url: "https://www.gobusly.com/help/travel-flex",
+    type: "article",
+    images: [
+      {
+        url: "https://www.gobusly.com/images/travel-flex-options-banner.jpg",
+        width: 1200,
+        height: 630,
+        alt: "GoBusly Travel Flex Options",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Travel Flex Options - Help Center | GoBusly",
+    description:
+      "Explore GoBusly's travel flex options and how to make changes to your bookings for more flexible travel.",
+  },
 };
 
 interface FlexFeature {

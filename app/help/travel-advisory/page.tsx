@@ -13,9 +13,34 @@ import Navbar from "@/components/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 
 export const metadata: Metadata = {
-  title: "Travel Advisory - Help Center",
+  title: "Travel Advisory - Help Center | GoBusly",
   description:
-    "Stay informed with the latest travel advisories. Learn about safety tips, travel restrictions, and essential advice for your journey.",
+    "Stay informed with the latest travel advisories from GoBusly. Learn about safety tips, travel restrictions, and essential advice for a safe journey.",
+  keywords:
+    "GoBusly, Travel Advisory, Travel Restrictions, Safety Tips, Travel Advice, Bus Travel, Travel Updates, Journey Safety",
+  authors: [{ name: "GoBusly" }],
+  robots: "index, follow",
+  openGraph: {
+    title: "Travel Advisory - Help Center | GoBusly",
+    description:
+      "Get the latest travel advisories, including safety tips and restrictions. Stay informed with GoBusly for a safe and smooth journey.",
+    url: "https://www.gobusly.com/help/travel-advisory",
+    type: "article",
+    images: [
+      {
+        url: "https://www.gobusly.com/images/travel-advisory-banner.jpg",
+        width: 1200,
+        height: 630,
+        alt: "GoBusly Travel Advisory",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Travel Advisory - Help Center | GoBusly",
+    description:
+      "Stay up-to-date with GoBusly's travel advisories. Get the latest safety tips, travel restrictions, and important travel advice.",
+  },
 };
 
 export default function TravelAdvisoryPage() {

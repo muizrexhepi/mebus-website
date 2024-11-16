@@ -24,7 +24,6 @@ import { FormError } from "@/components/form-error";
 import { handleFacebookLogin, handleGoogleLogin } from "@/actions/oauth";
 import { account } from "@/appwrite.config";
 import { createUser } from "@/actions/users";
-import StrengthInput from "../strength-input";
 
 const RegisterPage = () => {
   const { t } = useTranslation();
@@ -63,7 +62,7 @@ const RegisterPage = () => {
         window.dispatchEvent(new Event("userChange"));
         await account.createEmailPasswordSession(user.email, user.password);
         await account.createVerification(
-          "https://mebus-website.vercel.app/email-verification"
+          "https://www.gobusly.com/email-verification"
         );
         router.push("/");
       }
@@ -146,18 +145,18 @@ const RegisterPage = () => {
                       {t("register.password.label")}
                     </FormLabel>
                     <FormControl>
-                      <StrengthInput
+                      {/* <Input
                         {...field}
                         disabled={isLoading}
                         placeholder={t("register.password.placeholder")}
-                      />
-                      {/* <Input
-                        {...field}asd
+                      /> */}
+                      <Input
+                        {...field}
                         disabled={isLoading}
                         type="password"
                         placeholder={t("register.password.placeholder")}
                         className="rounded-b-md"
-                      /> */}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

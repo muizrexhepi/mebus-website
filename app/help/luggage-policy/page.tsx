@@ -19,7 +19,7 @@ export const metadata = {
     title: "GoBusly - Luggage Policy",
     description:
       "Understand the GoBusly luggage policy for bus travelers, including baggage allowances, weight limits, and prohibited items.",
-    url: "https://www.GoBusly.com/luggage-policy",
+    url: "https://www.GoBusly.com/help/luggage-policy",
     type: "website",
     images: [
       {
@@ -41,10 +41,10 @@ export default function MebusLuggagePolicy() {
       <h1 className="text-4xl font-bold text-center mb-8">Luggage Policy</h1>
       <div className="max-w-4xl mx-auto">
         <p className="mb-8">
-          At GoBusly, we aim to make your journey comfortable and hassle-free. Our
-          luggage policy is designed to ensure that all passengers can travel
-          with their necessary belongings while maintaining the safety and
-          comfort of everyone on board.
+          At GoBusly, we aim to make your journey comfortable and hassle-free.
+          Our luggage policy is designed to ensure that all passengers can
+          travel with their necessary belongings while maintaining the safety
+          and comfort of everyone on board.
         </p>
 
         <h2 className="text-2xl font-semibold mb-4" id="toc">

@@ -7,13 +7,16 @@ import { Toaster } from "@/components/ui/toaster";
 import CookieConsent from "@/components/CookieConsent";
 import TranslationProvider from "@/components/TranslationProvider";
 import { Analytics } from "@vercel/analytics/react";
+import LoginForm from "@/components/forms/LoginForm";
+import RegisterForm from "@/components/forms/RegisterForm";
+import ResetPasswordForm from "@/components/forms/ResetForm";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
   subsets: ["latin-ext"],
 });
 export const metadata: Metadata = {
-  title: "GoBusly | Travel Europe & Balkans",
+  title: "Travel Europe & Balkans | GoBusly",
   description:
     "GoBusly is your go-to platform for affordable, convenient, and fast bus travel across Europe and the Balkans. Discover and book bus tickets to your favorite destinations with ease.",
   keywords: [
@@ -46,7 +49,7 @@ export const metadata: Metadata = {
     "Montenegro bus travel",
   ],
   openGraph: {
-    title: "GoBusly | Travel Europe & Balkans",
+    title: "Travel Europe & Balkans | GoBusly",
     description:
       "Discover the most affordable and convenient bus routes across Europe and the Balkans with GoBusly. Book your bus tickets online for seamless travel to top destinations.",
     url: "https://www.gobusly.com",
@@ -54,7 +57,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "GoBusly | Travel Europe & Balkans",
+    title: "Travel Europe & Balkans | GoBusly",
     description:
       "Find and book bus tickets across Europe and the Balkans at the best prices. Experience seamless bus travel with GoBusly.",
     creator: "@GoBusly",
@@ -73,6 +76,9 @@ export default function RootLayout({
         <ReactQueryProvider>
           <Toaster />
           <TranslationProvider>
+            <LoginForm />
+            <RegisterForm />
+            <ResetPasswordForm />
             <ThemeProvider
               attribute="class"
               defaultTheme="light"

@@ -23,6 +23,7 @@ import Image from "next/image";
 import { FormError } from "@/components/form-error";
 import { handleFacebookLogin, handleGoogleLogin } from "@/actions/oauth";
 import { account } from "@/appwrite.config";
+import { loginUser } from "@/actions/auth";
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -42,23 +43,30 @@ const LoginPage = () => {
     setIsLoading(true);
 
     try {
-      const user = {
-        email: values.email,
-        password: values.password,
-      };
+      const result = await loginUser(values);
 
-      const newUser = await account.createEmailPasswordSession(
-        user.email,
-        user.password
-      );
-      if (newUser) {
+      if (!result.success || !result.credentials) {
+        setError(result.error || t("login.errors.generic"));
+        return;
+      }
+
+      try {
+        const session = await account.createEmailPasswordSession(
+          result.credentials.email,
+          result.credentials.password
+        );
+
         window.dispatchEvent(new Event("userChange"));
-        setError("");
-        setIsLoading(false);
         router.push("/");
+        setError("");
+      } catch (appwriteError: any) {
+        console.error("Appwrite session creation failed:", appwriteError);
+        setError(appwriteError.message || t("login.errors.generic"));
       }
     } catch (error: any) {
+      console.error("Login error:", error);
       setError(error.message || t("login.errors.generic"));
+    } finally {
       setIsLoading(false);
     }
   };

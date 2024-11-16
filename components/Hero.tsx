@@ -4,9 +4,21 @@ import { useTranslation } from "react-i18next";
 import Navbar from "./Navbar";
 import SearchBlock from "./SearchBlock";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import { handleOauthCallback } from "@/actions/oauth";
 
 const Hero = () => {
   const { t } = useTranslation();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.get("oauth") == "true") {
+      handleOauthCallback();
+    } else {
+      console.log("falch");
+    }
+  }, [searchParams]);
 
   return (
     <div className="flex flex-col justify-start py-4 relative paddingX sm:pb-20 lg:pb-40">

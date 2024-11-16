@@ -21,9 +21,34 @@ import Navbar from "@/components/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 
 export const metadata: Metadata = {
-  title: "Cancellation Policy - Help Center",
+  title: "Cancellation Policy - Help Center | GoBusly",
   description:
-    "Understand our cancellation policy and learn about the benefits of our travel flex options for more flexible booking terms.",
+    "Understand GoBusly's cancellation policy and learn about the benefits of our travel flex options for more flexible booking terms.",
+  keywords:
+    "GoBusly, Cancellation Policy, Travel Flex Options, Flexible Booking, Bus Ticket Cancellation, Customer Support, Travel Terms, Booking Changes",
+  authors: [{ name: "GoBusly" }],
+  robots: "index, follow",
+  openGraph: {
+    title: "Cancellation Policy - Help Center | GoBusly",
+    description:
+      "Learn about GoBusly's cancellation policy and the advantages of travel flex options for flexible booking terms.",
+    url: "https://www.gobusly.com/help/cancellation-policy",
+    type: "article",
+    images: [
+      {
+        url: "https://www.gobusly.com/images/cancellation-policy-banner.jpg",
+        width: 1200,
+        height: 630,
+        alt: "GoBusly Cancellation Policy",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cancellation Policy - Help Center | GoBusly",
+    description:
+      "Explore GoBusly's cancellation policy and the benefits of flexible booking with travel flex options.",
+  },
 };
 
 const CancellationPolicyPage = () => {

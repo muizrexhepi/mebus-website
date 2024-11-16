@@ -60,12 +60,11 @@ const StrengthInput = React.forwardRef<HTMLInputElement, InputProps>(
               {...props}
               ref={ref}
               disabled={disabled}
-              id="input-51"
               className="pe-9"
               placeholder="Password"
               type={isVisible ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              // value={password}
+              // onChange={(e) => setPassword(e.target.value)}
               aria-invalid={strengthScore < 4}
               aria-describedby="password-strength"
             />

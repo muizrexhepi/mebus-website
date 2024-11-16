@@ -98,8 +98,8 @@ const Footer = () => {
             <Image
               src={"/assets/icons/logo.svg"}
               alt="Logo"
-              width={180}
-              height={60}
+              width={160}
+              height={50}
               className="object-contain"
               priority
             />

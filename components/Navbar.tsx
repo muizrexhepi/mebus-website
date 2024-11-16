@@ -2,13 +2,9 @@
 
 import { NAV_LINKS } from "@/lib/data";
 import Link from "next/link";
-import LoginForm from "./forms/LoginForm";
-import RegisterForm from "./forms/RegisterForm";
 import UserNavbarMenu from "./UserMenu";
 import NavbarMenu from "./NavbarMenu";
-import { useNavbarStore } from "@/store";
 import LanguageDialog from "./LanguageDialog";
-import ResetPasswordForm from "./forms/ResetForm";
 import { cn } from "@/lib/utils";
 import useUser from "./hooks/use-user";
 import { useTranslation } from "react-i18next";
@@ -16,7 +12,6 @@ import Image from "next/image";
 
 const Navbar = ({ className }: { className?: string }) => {
   const { user } = useUser();
-  const { openLogin, openRegister, openReset } = useNavbarStore();
   const { t } = useTranslation();
 
   return (
@@ -45,10 +40,6 @@ const Navbar = ({ className }: { className?: string }) => {
         <LanguageDialog />
         {user ? <UserNavbarMenu /> : <NavbarMenu />}
       </div>
-
-      <LoginForm isOpen={openLogin} />
-      <RegisterForm isOpen={openRegister} />
-      <ResetPasswordForm isOpen={openReset} />
     </div>
   );
 };

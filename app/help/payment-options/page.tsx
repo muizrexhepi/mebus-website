@@ -13,9 +13,34 @@ import Navbar from "@/components/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 
 export const metadata: Metadata = {
-  title: "Payment Options - Help Center",
+  title: "Payment Options - Help Center | GoBusly",
   description:
-    "Learn about the different payment methods available for booking your bus tickets. Manage your payment preferences and find out about upcoming payment options.",
+    "Learn about the different payment methods available for booking your bus tickets with GoBusly. Manage your payment preferences and explore upcoming payment options.",
+  keywords:
+    "GoBusly, Payment Options, Bus Ticket Payment, Payment Methods, Manage Payment Preferences, Payment Choices, Bus Booking, Upcoming Payment Methods",
+  authors: [{ name: "GoBusly" }],
+  robots: "index, follow",
+  openGraph: {
+    title: "Payment Options - Help Center | GoBusly",
+    description:
+      "Explore the various payment methods available for your GoBusly bus bookings. Learn how to manage your payment preferences and discover future payment options.",
+    url: "https://www.gobusly.com/help/payment-options",
+    type: "article",
+    images: [
+      {
+        url: "https://www.gobusly.com/images/payment-options-banner.jpg",
+        width: 1200,
+        height: 630,
+        alt: "GoBusly Payment Options",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Payment Options - Help Center | GoBusly",
+    description:
+      "Discover all the payment methods available for booking your GoBusly bus tickets. Learn how to manage payment preferences and upcoming options.",
+  },
 };
 
 export default function PaymentOptionsPage() {

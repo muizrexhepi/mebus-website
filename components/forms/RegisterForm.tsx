@@ -23,13 +23,12 @@ import { handleFacebookLogin, handleGoogleLogin } from "@/actions/oauth";
 import { account } from "@/appwrite.config";
 import { useNavbarStore } from "@/store";
 import { createUser } from "@/actions/users";
-import StrengthInput from "../strength-input";
 
-const RegisterForm = ({ isOpen }: { isOpen: boolean }) => {
+const RegisterForm = () => {
   const { t } = useTranslation();
   const [error, setError] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { setOpenRegister } = useNavbarStore();
+  const { setOpenRegister, openRegister } = useNavbarStore();
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -63,7 +62,7 @@ const RegisterForm = ({ isOpen }: { isOpen: boolean }) => {
         window.dispatchEvent(new Event("userChange"));
         await account.createEmailPasswordSession(user.email, user.password);
         await account.createVerification(
-          "https://mebus-website.vercel.app/email-verification"
+          "https://www.gobusly.com/email-verification"
         );
       }
 
@@ -80,7 +79,7 @@ const RegisterForm = ({ isOpen }: { isOpen: boolean }) => {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={() => setOpenRegister(false)}>
+    <Dialog open={openRegister} onOpenChange={() => setOpenRegister(false)}>
       <DialogContent className="h-screen sm:h-fit flex flex-col justify-center">
         <DialogHeader>
           <DialogTitle className="text-2xl">{t("register.title")}</DialogTitle>
@@ -131,9 +130,10 @@ const RegisterForm = ({ isOpen }: { isOpen: boolean }) => {
                   <FormItem>
                     <FormLabel>{t("register.password.label")}</FormLabel>
                     <FormControl>
-                      <StrengthInput
+                      <Input
                         {...field}
                         disabled={isLoading}
+                        type="password"
                         placeholder={t("register.password.placeholder")}
                       />
                     </FormControl>

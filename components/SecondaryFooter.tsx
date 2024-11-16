@@ -36,7 +36,7 @@ const SecondaryFooter = ({ className }: { className?: string }) => {
               Help
             </Link>
             <Link
-              href="/partner-login"
+              href="https://operator.gobusly.com"
               className="text-sm text-black/70 hover:text-black transition-colors"
             >
               Partner Login

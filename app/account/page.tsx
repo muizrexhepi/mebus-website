@@ -1,13 +1,11 @@
 "use client";
 import Link from "next/link";
-import { ComponentType, SVGProps, useEffect, useState } from "react";
+import { ComponentType, SVGProps, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import axios from "axios";
-import { environment } from "@/environment";
-import { Symbols } from "@/symbols";
 import useUser from "@/components/hooks/use-user";
 import { useTranslation } from "react-i18next";
-import { Bell, Book, DollarSign, Lock, Shield, User } from "lucide-react";
+import { Bell, Book, Lock, Shield, User } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 interface AccountSetting {
@@ -17,25 +15,28 @@ interface AccountSetting {
   description: string;
 }
 
-export default function Component() {
+export default function Account() {
   const { user } = useUser();
-  const [accountBalanceInCents, setAccountBalanceInCents] = useState<number>(0);
+  const router = useRouter();
+  console.log({ user });
 
-  useEffect(() => {
-    if (user) {
-      try {
-        const fetchAccountBalance = async () => {
-          const accountBalance = await axios.get(
-            `${environment.apiurl}/user/${user.$id}?select=balance_in_cents`
-          );
-          setAccountBalanceInCents(accountBalance.data.data.balance_in_cents);
-        };
-        fetchAccountBalance();
-      } catch (error) {
-        console.error({ error });
-      }
-    }
-  }, [user]);
+  // const [accountBalanceInCents, setAccountBalanceInCents] = useState<number>(0);
+
+  // useEffect(() => {
+  //   if (user) {
+  //     try {
+  //       const fetchAccountBalance = async () => {
+  //         const accountBalance = await axios.get(
+  //           `${environment.apiurl}/user/${user.$id}?select=balance_in_cents`
+  //         );
+  //         setAccountBalanceInCents(accountBalance.data.data.balance_in_cents);
+  //       };
+  //       fetchAccountBalance();
+  //     } catch (error) {
+  //       console.error({ error });
+  //     }
+  //   }
+  // }, [user]);
 
   const { t } = useTranslation();
 
@@ -70,17 +71,13 @@ export default function Component() {
       title: t("account.notifications"),
       description: t("account.notificationsDesc"),
     },
-    {
-      href: "/account/deposit",
-      icon: DollarSign,
-      title: t("account.depositFunds"),
-      description: t("account.depositFundsDesc"),
-    },
+    // {
+    //   href: "/account/deposit",
+    //   icon: DollarSign,
+    //   title: t("account.depositFunds"),
+    //   description: t("account.depositFundsDesc"),
+    // },
   ];
-
-  const renderIcon = (IconComponent: any) => {
-    return <IconComponent className="w-8 h-8 text-primary" />;
-  };
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 md:space-y-16">
@@ -91,17 +88,17 @@ export default function Component() {
             <p className="text-xl font-medium">
               {user?.name}, <span className="font-normal">{user?.email}</span>
             </p>
-            <p className="text-xl font-medium">
+            {/* <p className="text-xl font-medium">
               {t("account.accountBalance")}:{" "}
               <span className="font-normal">
                 {Symbols.EURO} {(accountBalanceInCents / 100).toFixed(2) || 0.0}
               </span>
-            </p>
+            </p> */}
           </div>
         ) : (
           <div className="space-y-2">
             <Skeleton className="h-6 w-1/3" />
-            <Skeleton className="h-6 w-[25%]" />
+            {/* <Skeleton className="h-6 w-[25%]" /> */}
           </div>
         )}
       </div>

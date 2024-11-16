@@ -6,9 +6,34 @@ import ContactForm from "@/components/contact/ContactForm";
 import SecondaryFooter from "@/components/SecondaryFooter";
 
 export const metadata: Metadata = {
-  title: "Contact Support | GoBusly - Your Reliable Bus Booking Service",
+  title: "Contact Support - Help Center | GoBusly",
   description:
     "Get in touch with GoBusly support for all your bus booking needs. We offer 24/7 customer support, easy online booking, and hassle-free travel experiences.",
+  keywords:
+    "GoBusly, Contact Support, Customer Support, Bus Booking Assistance, 24/7 Support, Travel Help, Customer Service, Online Booking",
+  authors: [{ name: "GoBusly" }],
+  robots: "index, follow",
+  openGraph: {
+    title: "Contact Support - Help Center | GoBusly",
+    description:
+      "Reach out to GoBusly's support team for all your bus booking inquiries. We provide 24/7 assistance for a smooth and hassle-free experience.",
+    url: "https://www.gobusly.com/help/contact-support",
+    type: "website",
+    images: [
+      {
+        url: "https://www.gobusly.com/images/contact-support-banner.jpg",
+        width: 1200,
+        height: 630,
+        alt: "GoBusly Contact Support",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact Support - Help Center | GoBusly",
+    description:
+      "Need help with your bus booking? Get 24/7 support from GoBusly's customer service for a seamless travel experience.",
+  },
 };
 
 const ContactInfo: React.FC<{

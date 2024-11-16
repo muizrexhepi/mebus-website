@@ -14,9 +14,34 @@ import Navbar from "@/components/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 
 export const metadata: Metadata = {
-  title: "E-Ticket Guide - Help Center",
+  title: "E-Ticket Guide - Help Center | GoBusly",
   description:
-    "Learn how to use your e-ticket for bus travel. Get tips on accessing, presenting, and managing your electronic ticket.",
+    "Learn how to use your e-ticket for bus travel with GoBusly. Get tips on accessing, presenting, and managing your electronic ticket for a smooth journey.",
+  keywords:
+    "GoBusly, E-Ticket Guide, Electronic Ticket, Bus Travel, E-Ticket Access, Ticket Management, Bus Ticket Tips, Travel Guide",
+  authors: [{ name: "GoBusly" }],
+  robots: "index, follow",
+  openGraph: {
+    title: "E-Ticket Guide - Help Center | GoBusly",
+    description:
+      "Learn how to manage and use your GoBusly e-ticket for bus travel. Get all the tips you need for a hassle-free journey.",
+    url: "https://www.gobusly.com/help/e-ticket-guide",
+    type: "article",
+    images: [
+      {
+        url: "https://www.gobusly.com/images/e-ticket-guide-banner.jpg",
+        width: 1200,
+        height: 630,
+        alt: "GoBusly E-Ticket Guide",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "E-Ticket Guide - Help Center | GoBusly",
+    description:
+      "Get the complete guide to using your GoBusly e-ticket for bus travel. Learn how to access, manage, and present your electronic ticket.",
+  },
 };
 
 const ETicketGuidePage = () => {

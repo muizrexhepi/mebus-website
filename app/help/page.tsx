@@ -4,7 +4,7 @@ import { Metadata } from "next";
 import HelpPageClient from "@/components/help/HelpPageClient";
 
 export const metadata: Metadata = {
-  title: "Help Center | GoBusly - Your Reliable Bus Booking Service",
+  title: "Help Center | GoBusly",
   description:
     "Find answers to your questions and get support for your bus bookings with GoBusly. Access our knowledge base, learn how to use our services, and reach out for assistance.",
   keywords:
@@ -12,10 +12,10 @@ export const metadata: Metadata = {
   authors: [{ name: "GoBusly" }],
   robots: "index, follow",
   openGraph: {
-    title: "Help Center | GoBusly - Your Reliable Bus Booking Service",
+    title: "Help Center | GoBusly",
     description:
       "Find answers to your questions and get the support you need for your bus bookings with GoBusly. Browse our knowledge base and reach out for customer assistance.",
-    url: "https://www.gobusly.com/help-center",
+    url: "https://www.gobusly.com/help",
     type: "website",
     images: [
       {
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Help Center | GoBusly - Your Reliable Bus Booking Service",
+    title: "Help Center | GoBusly",
     description:
       "Get the help you need for your GoBusly bus bookings. Access FAQs, troubleshooting, and reach customer support.",
   },

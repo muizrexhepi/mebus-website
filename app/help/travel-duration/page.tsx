@@ -23,9 +23,34 @@ import Navbar from "@/components/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 
 export const metadata: Metadata = {
-  title: "Travel Duration - Help Center",
+  title: "Travel Duration - Help Center | GoBusly",
   description:
-    "Understand factors affecting bus journey durations and get tips for comfortable long-distance travel.",
+    "Understand the factors affecting bus journey durations and get tips for comfortable long-distance travel with GoBusly. Learn how to manage your travel time efficiently.",
+  keywords:
+    "GoBusly, Travel Duration, Bus Journey Time, Long-Distance Travel, Travel Tips, Bus Travel Efficiency, Customer Support",
+  authors: [{ name: "GoBusly" }],
+  robots: "index, follow",
+  openGraph: {
+    title: "Travel Duration - Help Center | GoBusly",
+    description:
+      "Learn about factors that affect bus journey durations and discover tips for making long-distance travel more comfortable with GoBusly.",
+    url: "https://www.gobusly.com/help/travel-duration",
+    type: "article",
+    images: [
+      {
+        url: "https://www.gobusly.com/images/travel-duration-banner.jpg",
+        width: 1200,
+        height: 630,
+        alt: "GoBusly Travel Duration Tips",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Travel Duration - Help Center | GoBusly",
+    description:
+      "Discover how different factors influence bus journey times and learn tips for comfortable long-distance travel with GoBusly.",
+  },
 };
 
 const TravelDurationPage = () => {

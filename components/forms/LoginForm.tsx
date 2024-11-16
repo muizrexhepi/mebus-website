@@ -22,8 +22,9 @@ import { FormError } from "@/components/form-error";
 import { handleFacebookLogin, handleGoogleLogin } from "@/actions/oauth";
 import { account } from "@/appwrite.config";
 import { useNavbarStore } from "@/store";
+import { loginUser } from "@/actions/auth";
 
-const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
+const LoginForm = () => {
   const { t } = useTranslation();
   const [error, setError] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -41,29 +42,36 @@ const LoginForm = ({ isOpen }: { isOpen: boolean }) => {
     setIsLoading(true);
 
     try {
-      const user = {
-        email: values.email,
-        password: values.password,
-      };
+      const result = await loginUser(values);
 
-      const newUser = await account.createEmailPasswordSession(
-        user.email,
-        user.password
-      );
-      if (newUser) {
+      if (!result.success || !result.credentials) {
+        setError(result.error || t("login.errors.generic"));
+        return;
+      }
+
+      try {
+        const session = await account.createEmailPasswordSession(
+          result.credentials.email,
+          result.credentials.password
+        );
+
         window.dispatchEvent(new Event("userChange"));
-        setError("");
-        setIsLoading(false);
         setOpenLogin(false);
+        setError("");
+      } catch (appwriteError: any) {
+        console.error("Appwrite session creation failed:", appwriteError);
+        setError(appwriteError.message || t("login.errors.generic"));
       }
     } catch (error: any) {
+      console.error("Login error:", error);
       setError(error.message || t("login.errors.generic"));
+    } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={() => setOpenLogin(false)}>
+    <Dialog open={openLogin} onOpenChange={() => setOpenLogin(false)}>
       <DialogContent className="h-screen sm:h-fit flex flex-col justify-center">
         <DialogHeader>
           <DialogTitle className="text-2xl">{t("login.title")}</DialogTitle>

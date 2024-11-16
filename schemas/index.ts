@@ -34,7 +34,7 @@ export const LoginSchema = z.object({
     .min(8, "Password must be at least 8 characters")  // Your current length check
     .regex(/[A-Z]/, "Password must contain at least one uppercase letter")  // Require an uppercase letter
     .regex(/[0-9]/, "Password must contain at least one number")  // Require at least one number
-    .regex(/[@$!%*?&]/, "Password must contain at least one special character")  // Require a special character
+    .regex(/[@$!%*?&.]/, "Password must contain at least one special character")  // Require a special character
     .min(1, "Password is required"),  // Ensure the password field isn't empty
 });
 

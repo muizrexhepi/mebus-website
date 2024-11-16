@@ -24,10 +24,10 @@ import { FormSuccess } from "@/components/form-success";
 import { useNavbarStore } from "@/store";
 import { useRouter } from "next/navigation";
 
-const ResetPasswordForm = ({ isOpen }: { isOpen: boolean }) => {
+const ResetPasswordForm = () => {
   const [success, setSuccess] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();
-  const { setOpenReset, setOpenLogin } = useNavbarStore();
+  const { setOpenReset, setOpenLogin, openReset } = useNavbarStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const form = useForm<z.infer<typeof resetPasswordSchema>>({
     resolver: zodResolver(resetPasswordSchema),
@@ -40,7 +40,7 @@ const ResetPasswordForm = ({ isOpen }: { isOpen: boolean }) => {
 
   const onSubmit = async (values: z.infer<typeof resetPasswordSchema>) => {
     setIsLoading(true);
-    
+
     try {
       const user = {
         email: values.email,
@@ -56,8 +56,7 @@ const ResetPasswordForm = ({ isOpen }: { isOpen: boolean }) => {
           setSuccess("Email verification sent!");
           setIsLoading(false);
         },
-        function (error) {
-        }
+        function (error) {}
       );
       setError("");
     } catch (error) {
@@ -66,7 +65,7 @@ const ResetPasswordForm = ({ isOpen }: { isOpen: boolean }) => {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={() => setOpenReset(false)}>
+    <Dialog open={openReset} onOpenChange={() => setOpenReset(false)}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-2xl">Reset your password</DialogTitle>
