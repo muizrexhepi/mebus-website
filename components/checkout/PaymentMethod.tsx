@@ -204,7 +204,7 @@ const PaymentMethod = () => {
     const arrival_station_label = ticket.stops[0].to.name;
     const passengersWithPrices = calculatePassengerPrices(passengers, ticket);
     const ticketTotal = isReturn ? returnTotal : outboundTotal;
-    console.log({ passengersWithPrices });
+    console.log({ ticketTotal, returnTotal, outboundTotal });
     return axios
       .post(
         `${environment.apiurl}/booking/create/${ticket.operator}/${
@@ -217,7 +217,9 @@ const PaymentMethod = () => {
           platform: "web",
           flex_price: isReturn ? 0 : flexPrice,
           total_price: ticketTotal + (isReturn ? 0 : flexPrice),
-          operator_price: operatorTotalPrice,
+          operator_price: isReturn
+            ? operatorReturnTotal
+            : operatorOutboundTotal,
           departure_station,
           arrival_station,
           departure_station_label,
