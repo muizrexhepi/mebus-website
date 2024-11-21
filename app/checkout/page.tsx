@@ -1,10 +1,10 @@
+import Footer from "@/components/Footer";
 import CheckoutForm from "@/components/forms/CheckoutForm";
-import SecondaryFooter from "@/components/SecondaryFooter";
 import SecondaryNavbar from "@/components/SecondaryNavbar";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "GoBusly | Checkout",
+  title: "Checkout | GoBusly",
 };
 
 const Checkout = () => {
@@ -16,7 +16,7 @@ const Checkout = () => {
       <div className="min-h-screen px-4 sm:px-8 max-w-6xl mx-auto py-8 xl:px-0 space-y-4">
         <CheckoutForm />
       </div>
-      <SecondaryFooter />
+      <Footer />
     </div>
   );
 };

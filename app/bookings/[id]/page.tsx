@@ -68,14 +68,15 @@ export default function BookingDetailsPage({
 }) {
   const [booking, setBookings] = useState<Booking>();
   const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
-  const [isExtraPaymentNeeded, setIsExtraPaymentNeeded] = useState<boolean>(false);
+  const [isExtraPaymentNeeded, setIsExtraPaymentNeeded] =
+    useState<boolean>(false);
   const [availableDates, setAvailableDates] = useState<any>([]);
   const { isLoading, setIsLoading } = useLoadingStore();
   const [selectedDate, setSelectedDate] = useState<any>(null);
   const [newDepartureDate, setNewDepartureDate] = useState<AvailableDate>();
   const [priceToBePaid, setPriceToBePaid] = useState<any>();
   const { isPaymentSuccess } = usePaymentSuccessStore();
-  const {t} = useTranslation()
+  const { t } = useTranslation();
 
   const fetchBooking = async (noCache?: boolean) => {
     setIsLoading(true);
@@ -195,7 +196,6 @@ export default function BookingDetailsPage({
         }
       );
 
-
       fetchBooking(true);
       setIsDatePickerOpen(false);
       toast({
@@ -237,7 +237,9 @@ export default function BookingDetailsPage({
       </div>
       <div className="flex flex-col sm:flex-row justify-between items-start gap-2 sm:items-center">
         <div className="">
-          <h2 className="text-3xl font-semibold">{t("bookingDetailsPage.bookingDetails")}</h2>
+          <h2 className="text-3xl font-semibold">
+            {t("bookingDetailsPage.bookingDetails")}
+          </h2>
           <p className="text-sm text-neutral-800/60">
             Booking ID: {booking?._id}
           </p>
@@ -257,86 +259,6 @@ export default function BookingDetailsPage({
             priceToBePaid={priceToBePaid}
             handleChangeDepartureDate={handleChangeDepartureDate}
           />
-
-          {/* <Dialog open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
-        <DialogContent className="sm:max-w-[800px]">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-semibold">
-              Please select one of the available travel dates
-            </DialogTitle>
-          </DialogHeader>
-          <div className="flex space-x-4">
-            <div className="w-2/5">
-              <Calendar
-                mode="single"
-                selected={selectedDate}
-                disabled={isDateDisabled}
-                onSelect={handleDateSelect}
-                className="rounded-md border"
-              />
-            </div>
-                 <Badge variant="secondary">
-                          Child: {date.children_price.toFixed(2)}
-                        </Badge> 
-            <div className="w-3/5">
-              <div className="h-[400px] overflow-y-auto pr-2">
-                {availableDates && availableDates.map((date: AvailableDate, index: number) => (
-                  <Card 
-                    onClick={() => handleSelectDepartureDate(date)} 
-                    key={index} 
-                    className={`${newDepartureDate?._id === date?._id && "border-green-500 border-2"} cursor-pointer mb-2`}
-                  >
-                    <CardContent className="p-4">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <CalendarIcon className="h-5 w-5 text-primary" />
-                        <span className="font-medium">
-                          {moment.utc(date.departure_date).format("dddd, DD-MM-YYYY / HH:mm")}
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-2">
-                          <EuroIcon className="h-5 w-5 text-green-600" />
-                          <span>Price for {booking.passengers.length} passengers: {calculatePrice(booking, date)} {Symbols.EURO}</span>
-                        </div>
-                  
-                      </div>
-                      <div className="mt-2">
-                        <OperatorBadge date={date} />
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {
-            isExtraPaymentNeeded && (
-              <div>
-                <Elements stripe={stripePromise}>
-                  {!isPaymentSuccess && (
-                    <PaymentForm
-                      redirect={false}
-                      bookingId={booking?._id}
-                      totalPrice={priceToBePaid}
-                    />
-                  )}
-                </Elements>
-              </div>
-            )
-          }
-
-
-          <div className="gap-4 flex">
-            <Button onClick={() => setIsDatePickerOpen(false)} disabled={isPaymentSuccess} className="mt-4 w-full bg-red-500 hover:bg-red-700">
-              Close
-            </Button>
-            <Button onClick={handleChangeDepartureDate} className="mt-4 w-full">
-              Save
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog> */}
         </div>
         <div className="flex items-end gap-2">
           <Button
@@ -348,7 +270,8 @@ export default function BookingDetailsPage({
           </Button>
           <Link href={"/bookings"} className="">
             <Button variant="outline" className="">
-              <ChevronLeft className="mr-2 h-4 w-4" /> {t("bookingDetailsPage.back")}
+              <ChevronLeft className="mr-2 h-4 w-4" />{" "}
+              {t("bookingDetailsPage.back")}
             </Button>
           </Link>
         </div>
@@ -424,13 +347,21 @@ export default function BookingDetailsPage({
                   </h1>
                   <div className="space-y-2">
                     <div className="grid grid-cols-2 gap-2">
-                      <span className="font-medium truncate line-clamp-1">{t("bookingDetailsPage.fullName")}:</span>
+                      <span className="font-medium truncate line-clamp-1">
+                        {t("bookingDetailsPage.fullName")}:
+                      </span>
                       <span>{passenger?.full_name}</span>
-                      <span className="font-medium truncate line-clamp-1">{t("bookingDetailsPage.email")}:</span>
+                      <span className="font-medium truncate line-clamp-1">
+                        {t("bookingDetailsPage.email")}:
+                      </span>
                       <span>{passenger?.email}</span>
-                      <span className="font-medium truncate line-clamp-1">{t("bookingDetailsPage.phone")}:</span>
+                      <span className="font-medium truncate line-clamp-1">
+                        {t("bookingDetailsPage.phone")}:
+                      </span>
                       <span>{passenger?.phone}</span>
-                      <span className="font-medium truncate line-clamp-1">{t("bookingDetailsPage.price")}:</span>
+                      <span className="font-medium truncate line-clamp-1">
+                        {t("bookingDetailsPage.price")}:
+                      </span>
                       <span className="font-semibold">
                         ${passenger?.price?.toFixed(2)}
                       </span>
@@ -446,12 +377,14 @@ export default function BookingDetailsPage({
           <CardHeader>
             <CardTitle className="flex items-center">
               <CreditCardIcon className="mr-2" />
-                {t("bookingDetailsPage.paymentInformation")}
+              {t("bookingDetailsPage.paymentInformation")}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex justify-between items-center">
-              <span className="font-semibold">{t("bookingDetailsPage.totalPrice")}:</span>
+              <span className="font-semibold">
+                {t("bookingDetailsPage.totalPrice")}:
+              </span>
               <span className="text-2xl font-bold">
                 ${booking?.price?.toFixed(2)}
               </span>
@@ -463,11 +396,15 @@ export default function BookingDetailsPage({
             {booking?.charge && (
               <>
                 <div className="space-y-2">
-                  <div className="font-semibold">{t("bookingDetailsPage.chargeDetails")}:</div>
+                  <div className="font-semibold">
+                    {t("bookingDetailsPage.chargeDetails")}:
+                  </div>
                   <div className="grid grid-cols-2 gap-2">
                     {booking?.metadata?.deposited_money?.used && (
                       <>
-                        <span>{t("bookingDetailsPage.amountUsedFromDeposit")}:</span>
+                        <span>
+                          {t("bookingDetailsPage.amountUsedFromDeposit")}:
+                        </span>
                         <span>
                           $
                           {(
@@ -521,11 +458,15 @@ export default function BookingDetailsPage({
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="grid grid-cols-2 gap-2">
-              <span className="text-sm text-gray-600">{t("bookingDetailsPage.chargeId")}:</span>
+              <span className="text-sm text-gray-600">
+                {t("bookingDetailsPage.chargeId")}:
+              </span>
               <span className="truncate font-mono text-xs bg-gray-100 p-1 rounded">
                 {booking?.charge?.id}
               </span>
-              <span className="text-sm text-gray-600">{t("bookingDetailsPage.paymentIntentId")}:</span>
+              <span className="text-sm text-gray-600">
+                {t("bookingDetailsPage.paymentIntentId")}:
+              </span>
               <span className="truncate font-mono text-xs bg-gray-100 p-1 rounded">
                 {booking?.metadata?.payment_intent_id}
               </span>
@@ -534,7 +475,7 @@ export default function BookingDetailsPage({
               <div className="mt-4">
                 <Link href={booking?.charge.receipt_url}>
                   <Button variant="outline" size="sm">
-                  {t("bookingDetailsPage.viewReceipt")}
+                    {t("bookingDetailsPage.viewReceipt")}
                   </Button>
                 </Link>
               </div>

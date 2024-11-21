@@ -46,6 +46,7 @@ const InputField: React.FC<InputFieldProps> = ({
         countryCallingCodeEditable={false}
         defaultCountry="MK"
         value={value}
+        onBlur={onBlur}
         onChange={(value) => onChange(value || "")}
         className="font-normal text-black rounded-lg border-gray-300 border p-2 bg-white"
       />

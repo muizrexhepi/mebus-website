@@ -44,28 +44,28 @@ const PaymentMethod = () => {
   const { user } = useUser();
   const [balance, setBalance] = useState<number>(0);
   const [isGreater, setIsGreater] = useState<boolean>(false);
-  const { useDeposit, setDepositAmount, setUseDeposit, depositAmount } =
-    useDepositStore();
+  // const { useDeposit, setDepositAmount, setUseDeposit, depositAmount } =
+  //   useDepositStore();
 
-  useEffect(() => {
-    const fetchDepositAmount = async () => {
-      if (user) {
-        try {
-          const balance = await getUserBalance(user.$id);
+  // useEffect(() => {
+  //   const fetchDepositAmount = async () => {
+  //     if (user) {
+  //       try {
+  //         const balance = await getUserBalance(user.$id);
 
-          if (balance / 100 > totalPrice) {
-            setIsGreater(true);
-          }
+  //         if (balance / 100 > totalPrice) {
+  //           setIsGreater(true);
+  //         }
 
-          setBalance(balance);
-        } catch (error) {
-          console.error("Failed to fetch deposit amount:", error);
-        }
-      }
-    };
+  //         setBalance(balance);
+  //       } catch (error) {
+  //         console.error("Failed to fetch deposit amount:", error);
+  //       }
+  //     }
+  //   };
 
-    fetchDepositAmount();
-  }, [user]);
+  //   fetchDepositAmount();
+  // }, [user]);
 
   useEffect(() => {
     if (!selectedFlex) {
@@ -102,16 +102,16 @@ const PaymentMethod = () => {
   const operatorTotalPrice = operatorOutboundTotal + operatorReturnTotal;
   const totalPrice = outboundTotal + returnTotal + flexPrice;
 
-  const handleUseDepositChange = (checked: boolean) => {
-    if (!checked) {
-      setDepositAmount(0);
-    }
-    setUseDeposit(checked);
-  };
+  // const handleUseDepositChange = (checked: boolean) => {
+  //   if (!checked) {
+  //     setDepositAmount(0);
+  //   }
+  //   setUseDeposit(checked);
+  // };
 
-  const finalPrice = useDeposit
-    ? Math.max(totalPrice - depositAmount, 0)
-    : totalPrice;
+  // const finalPrice = useDeposit
+  //   ? Math.max(totalPrice - depositAmount, 0)
+  //   : totalPrice;
 
   useEffect(() => {
     if (stripe && elements) {
@@ -139,7 +139,7 @@ const PaymentMethod = () => {
     try {
       const res = await axios.post<{ data: { clientSecret: string } }>(
         `${environment.apiurl}/payment/create-payment-intent`,
-        { passengers, amount_in_cents: finalPrice * 100 }
+        { passengers, amount_in_cents: totalPrice * 100 }
       );
 
       const { clientSecret } = res.data.data;
@@ -158,14 +158,13 @@ const PaymentMethod = () => {
         });
       } else if (paymentIntent.status === "succeeded") {
         await createBookings(paymentIntent.id);
-
         router.push("/checkout/success");
+        resetCheckout();
       }
     } catch (err: any) {
       toast({ description: err.response.data.message, variant: "destructive" });
     } finally {
       setLoading(false);
-      resetCheckout();
     }
   };
 
@@ -224,8 +223,9 @@ const PaymentMethod = () => {
           arrival_station,
           departure_station_label,
           arrival_station_label,
-          is_using_deposited_money: useDeposit,
-          deposit_spent: isReturn ? 0 : depositAmount * 100 || 0,
+          is_using_deposited_money: false,
+          // deposit_spent: isReturn ? 0 : depositAmount * 100 || 0,
+          deposit_spent: 0,
           stop: ticket.stops[0],
           is_return: isReturn,
         }
@@ -278,7 +278,7 @@ const PaymentMethod = () => {
             {t("paymentMethod.description")}
           </p>
 
-          {balance > 0 && (
+          {/* {balance > 0 && (
             <div className="bg-gray-50 rounded-lg p-4 mb-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -321,12 +321,12 @@ const PaymentMethod = () => {
                 </div>
               )}
             </div>
-          )}
+          )} */}
 
           {
             <div
               className={`${
-                Math.abs(totalPrice - depositAmount) < 0.01 ? "hidden" : ""
+                Math.abs(totalPrice) < 0.01 ? "hidden" : ""
               } space-y-4`}
             >
               <h3 className="font-medium text-gray-700">
@@ -335,15 +335,15 @@ const PaymentMethod = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div
                   id="card-number-element"
-                  className="col-span-2 p-3 border border-gray-300 rounded-md h-12"
+                  className="col-span-2 p-3.5 border border-gray-300 rounded-md"
                 ></div>
                 <div
                   id="card-expiry-element"
-                  className="p-3 border border-gray-300 rounded-md h-12"
+                  className="p-3.5 border border-gray-300 rounded-md"
                 ></div>
                 <div
                   id="card-cvc-element"
-                  className="p-3 border border-gray-300 rounded-md h-12"
+                  className="p-3.5 border border-gray-300 rounded-md"
                 ></div>
               </div>
             </div>
@@ -354,11 +354,11 @@ const PaymentMethod = () => {
       <div className="flex items-center justify-end gap-4">
         <Button
           onClick={
-            totalPrice <= depositAmount
-              ? handleFullDepositPayment
-              : handlePayment
+            // totalPrice <= depositAmount
+            //   ? handleFullDepositPayment
+            handlePayment
           }
-          className="px-6 py-2 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+          className="px-6 py-3.5 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 w-full sm:w-fit"
           disabled={!stripe || loading}
         >
           {loading

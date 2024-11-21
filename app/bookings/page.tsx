@@ -81,56 +81,54 @@ const BookingsDashboard: React.FC = () => {
 
   const downloadBooking = async (booking_id: string, booking?: Booking) => {
     try {
-      console.log({booking})
-        let pdfUrl;
+      console.log({ booking });
+      let pdfUrl;
 
-        if (booking && booking.metadata && booking.metadata.download_url) {
-            pdfUrl = booking.metadata.download_url;
-        } else {
-            const response = await axios.post(
-                `${environment.apiurl}/booking/download/pdf/e-ticket/${booking_id}`,
-                {}
-            );
-            pdfUrl = response.data.data;
-        }
+      if (booking && booking.metadata && booking.metadata.download_url) {
+        pdfUrl = booking.metadata.download_url;
+      } else {
+        const response = await axios.post(
+          `${environment.apiurl}/booking/download/pdf/e-ticket/${booking_id}`,
+          {}
+        );
+        pdfUrl = response.data.data;
+      }
 
-        const downloadResponse = await axios.get(pdfUrl, { responseType: 'blob' });
-        const blob = new Blob([downloadResponse.data], { type: "application/pdf" });
+      const downloadResponse = await axios.get(pdfUrl, {
+        responseType: "blob",
+      });
+      const blob = new Blob([downloadResponse.data], {
+        type: "application/pdf",
+      });
 
-        const link = document.createElement("a");
-        link.href = window.URL.createObjectURL(blob);
-        link.download = `${booking_id}.pdf`; 
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = `${booking_id}.pdf`;
 
-        document.body.appendChild(link); 
-        link.click(); 
-        document.body.removeChild(link);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
-        window.URL.revokeObjectURL(link.href); 
+      window.URL.revokeObjectURL(link.href);
 
-        toast({
-            title: "Download Successful",
-            description: "Your booking PDF has been downloaded.",
-        });
+      toast({
+        title: "Download Successful",
+        description: "Your booking PDF has been downloaded.",
+      });
     } catch (error: any) {
-        toast({
-            title: "Download Failed",
-            description: error?.response?.message,
-            variant: "destructive",
-        });
+      toast({
+        title: "Download Failed",
+        description: error?.response?.message,
+        variant: "destructive",
+      });
     }
-};
-
-
-
-  
+  };
 
   const renderNoBookingsMessage = () => {
     if (!user && (!noUserBookings || noUserBookings.length === 0) && !loading) {
       return (
         <div className="text-center space-y-4 mt-8">
-          <p className="text-gray-500">
-           { t("bookings.noBookingsYet")}
-          </p>
+          <p className="text-gray-500">{t("bookings.noBookingsYet")}</p>
           <Button asChild>
             <Link href="/">Book Your First Ticket</Link>
           </Button>
@@ -151,33 +149,41 @@ const BookingsDashboard: React.FC = () => {
     return null;
   };
 
-  const handleCancelBookingAndRefund = async (booking_id: string, payment_intent_id: string, flex: string, refund_amount_in_cents: number) => {
+  const handleCancelBookingAndRefund = async (
+    booking_id: string,
+    payment_intent_id: string,
+    flex: string,
+    refund_amount_in_cents: number
+  ) => {
     try {
-      if(!booking_id) {
+      if (!booking_id) {
         return toast({
           description: "No booking_id provided",
-          variant: "destructive"
-        })
+          variant: "destructive",
+        });
       }
-      if(!payment_intent_id) {
+      if (!payment_intent_id) {
         return toast({
           description: "No payment_intent_id provided",
-          variant: "destructive"
-        })
+          variant: "destructive",
+        });
       }
 
-      const response = await axios.post(`${environment.apiurl}/booking/cancel-and-refund/${booking_id}/${payment_intent_id}`, {
-        intent: "cancel",
-        flex: flex,
-        amount_in_cents: refund_amount_in_cents,
-      });
+      const response = await axios.post(
+        `${environment.apiurl}/booking/cancel-and-refund/${booking_id}/${payment_intent_id}`,
+        {
+          intent: "cancel",
+          flex: flex,
+          amount_in_cents: refund_amount_in_cents,
+        }
+      );
     } catch (error: any) {
       return toast({
         description: error.response.data.message,
-        variant: "destructive"
-      })
+        variant: "destructive",
+      });
     }
-  }
+  };
 
   const renderBookingCard = (booking: Booking) => {
     const isNoFlex = booking.metadata.travel_flex === "no_flex";
@@ -188,12 +194,16 @@ const BookingsDashboard: React.FC = () => {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0 relative">
             <div className="flex items-center space-x-6 w-full sm:w-auto ">
               <div className="text-center w-20 flex-shrink-0 border-r pr-3">
-                <p className="text-sm text-black bold">{moment.utc(booking.departure_date).format("dddd, DD-MM-YYYY")}</p>
+                <p className="text-sm text-black bold">
+                  {moment.utc(booking.departure_date).format("ddd, MM YYYY")}
+                </p>
               </div>
               <div className="flex flex-col space-y-2 whitespace-nowrap">
                 <div className="flex items-center space-x-2 text-sm text-gray-500">
                   <ClockIcon className="h-4 w-4" />
-                  <span>{moment.utc(booking.departure_date).format("HH:mm")}</span>
+                  <span>
+                    {moment.utc(booking.departure_date).format("HH:mm")}
+                  </span>
                 </div>
                 <div className="flex items-center space-x-2 text-sm text-gray-500">
                   <DollarSign className="h-4 w-4" />
@@ -221,18 +231,22 @@ const BookingsDashboard: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <Badge className={`capitalize absolute bottom-2 right-0 sm:relative sm:bottom-0 ${booking.metadata.refund_action?.is_refunded && "bg-red-500"}`}>
-                {!booking.metadata.refund_action?.is_refunded ? booking.metadata.travel_flex == "no_flex"
+              <Badge
+                className={`capitalize absolute bottom-2 right-0 sm:relative sm:bottom-0 ${
+                  booking.metadata.refund_action?.is_refunded && "bg-red-500"
+                }`}
+              >
+                {!booking.metadata.refund_action?.is_refunded
+                  ? booking.metadata.travel_flex == "no_flex"
                     ? "No flexibility"
                     : booking.metadata.travel_flex
-                  : "Refunded"
-                }
+                  : "Refunded"}
               </Badge>
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <Button variant="outline" className="w-full sm:w-auto">
-                    {t("actions.actions")}
+                  {t("actions.actions")}
                   <ChevronDownIcon className="ml-2 h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -250,7 +264,6 @@ const BookingsDashboard: React.FC = () => {
                 >
                   <ClockIcon className="h-4 w-4" />
                   {t("actions.rescheduleBooking")}
-
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="gap-2"
@@ -265,7 +278,6 @@ const BookingsDashboard: React.FC = () => {
                 >
                   <Edit className="h-4 w-4" />
                   {t("actions.editDetails")}
-
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="gap-2"
@@ -273,7 +285,6 @@ const BookingsDashboard: React.FC = () => {
                 >
                   <View className="h-4 w-4" />
                   {t("actions.viewDetails")}
-
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="gap-2"
@@ -282,7 +293,6 @@ const BookingsDashboard: React.FC = () => {
                 >
                   <Download className="h-4 w-4" />
                   {t("actions.downloadBooking")}
-
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
@@ -291,12 +301,17 @@ const BookingsDashboard: React.FC = () => {
                   onClick={
                     isNoFlex
                       ? handleNoFlexAction
-                      : () => handleCancelBookingAndRefund(booking._id, booking.metadata.payment_intent_id, booking.metadata.travel_flex, Math.round((booking.price * 100) * 0.70))
+                      : () =>
+                          handleCancelBookingAndRefund(
+                            booking._id,
+                            booking.metadata.payment_intent_id,
+                            booking.metadata.travel_flex,
+                            Math.round(booking.price * 100 * 0.7)
+                          )
                   }
                 >
                   <XCircle className="h-4 w-4" />
                   {t("actions.cancelBooking")}
-
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -311,10 +326,10 @@ const BookingsDashboard: React.FC = () => {
       <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 px-4 sm:px-8 py-4 z-20">
         <Navbar className="max-w-6xl" />
       </div>
-      <h2 className="text-3xl font-semibold mb-4">{t("bookings.myBookings")}</h2>
-      <p className="text-gray-600 mb-6">
-        {t("bookings.manageBookings")}
-      </p>
+      <h2 className="text-3xl font-semibold mb-4">
+        {t("bookings.myBookings")}
+      </h2>
+      <p className="text-gray-600 mb-6">{t("bookings.manageBookings")}</p>
       <Tabs defaultValue="all">
         <TabsList className="mb-6">
           <TabsTrigger value="all" className="font-medium">
@@ -332,9 +347,11 @@ const BookingsDashboard: React.FC = () => {
             {loading ? (
               <Loader className="h-6 w-6 animate-spin mx-auto" />
             ) : user ? (
-              bookings?.map((booking) => renderBookingCard(booking))
+              bookings?.map((booking) => renderBookingCard(booking)).reverse()
             ) : (
-              noUserBookings?.map((booking) => renderBookingCard(booking))
+              noUserBookings
+                ?.map((booking) => renderBookingCard(booking))
+                .reverse()
             )}
             {renderNoBookingsMessage()}
           </div>
@@ -343,26 +360,35 @@ const BookingsDashboard: React.FC = () => {
           <div className="space-y-6">
             {user
               ? bookings
-                  ?.filter((booking) =>moment.utc(booking.departure_date).isAfter(moment.utc()))
+                  ?.filter((booking) =>
+                    moment.utc(booking.departure_date).isAfter(moment.utc())
+                  )
                   ?.map((booking) => renderBookingCard(booking))
+                  .reverse()
               : noUserBookings
-                  ?.filter((booking) =>moment.utc(booking.departure_date).isAfter(moment.utc()))
+                  ?.filter((booking) =>
+                    moment.utc(booking.departure_date).isAfter(moment.utc())
+                  )
                   ?.map((booking) => renderBookingCard(booking))
-              }
+                  .reverse()}
             {renderNoBookingsMessage()}
           </div>
         </TabsContent>
         <TabsContent value="past">
           <div className="space-y-6">
-            {
-              user
-                ? bookings
-                    ?.filter((booking) =>moment.utc(booking.departure_date).isBefore(moment.utc()))
-                    ?.map((booking) => renderBookingCard(booking))
-                : noUserBookings
-                    ?.filter((booking) =>moment.utc(booking.departure_date).isBefore(moment.utc()))
-                    ?.map((booking) => renderBookingCard(booking))
-              }
+            {user
+              ? bookings
+                  ?.filter((booking) =>
+                    moment.utc(booking.departure_date).isBefore(moment.utc())
+                  )
+                  ?.map((booking) => renderBookingCard(booking))
+                  .reverse()
+              : noUserBookings
+                  ?.filter((booking) =>
+                    moment.utc(booking.departure_date).isBefore(moment.utc())
+                  )
+                  ?.map((booking) => renderBookingCard(booking))
+                  .reverse()}
             {renderNoBookingsMessage()}
           </div>
         </TabsContent>
