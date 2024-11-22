@@ -66,16 +66,24 @@ export default function PassengerSelect({
   if (isMobile) {
     return (
       <>
-        <div
-          className="h-14 px-4 flex items-center border border-input bg-background text-sm ring-offset-background cursor-pointer rounded-lg"
+        <Button
+          variant="outline"
+          className="w-full h-14 flex items-center justify-start bg-primary-bg/5 rounded-xl border-none ring-0"
           onClick={() => setIsDialogOpen(true)}
         >
-          <User2 className="w-4 h-4 text-primary mr-2" />
-          <span className="capitalize">
-            {t("orderSummary.adults")} ({passengers.adults}),{" "}
-            {t("orderSummary.children")} ({passengers.children})
+          <User2 className="w-6 h-6 text-primary mr-2" />
+          <span className="font-medium">
+            {passengers.adults > 1
+              ? `${passengers.adults} ${t("orderSummary.adults")}`
+              : `${passengers.adults} ${t("passengerInfo.adult")}`}
+            {passengers.children > 0 &&
+              `, ${passengers.children} ${
+                passengers.children > 1
+                  ? t("orderSummary.children")
+                  : t("passengerInfo.child")
+              }`}
           </span>
-        </div>
+        </Button>
         <PassengerSelectDialog
           isOpen={isDialogOpen}
           onClose={() => setIsDialogOpen(false)}
@@ -87,18 +95,22 @@ export default function PassengerSelect({
   return (
     <Select>
       <SelectTrigger
-        className="outline-none h-14 hover:bg-accent transition-colors text-base truncate"
+        className="outline-none h-14 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 transition-colors text-base truncate"
         aria-label="Select number of passengers"
       >
-        {passengers.adults > 1
-          ? `${passengers.adults} ${t("orderSummary.adults")}`
-          : `${passengers.adults} ${t("passengerInfo.adult")}`}
-        {passengers.children > 0 &&
-          `, ${passengers.children} ${
-            passengers.children > 1
-              ? t("orderSummary.children")
-              : t("passengerInfo.child")
-          }`}
+        <div className="flex items-center">
+          <User2 className="w-4 h-4 text-primary mr-2" />
+
+          {passengers.adults > 1
+            ? `${passengers.adults} ${t("orderSummary.adults")}`
+            : `${passengers.adults} ${t("passengerInfo.adult")}`}
+          {passengers.children > 0 &&
+            `, ${passengers.children} ${
+              passengers.children > 1
+                ? t("orderSummary.children")
+                : t("passengerInfo.child")
+            }`}
+        </div>
       </SelectTrigger>
 
       <SelectContent>

@@ -61,6 +61,7 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
     }
   };
 
+  const months = Array.from({ length: 12 }, (_, i) => i);
   const buttonText = date ? format(date, "LLL dd, y") : "Pick a date";
 
   if (isMobile) {
@@ -68,11 +69,11 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
       <>
         <Button
           variant="outline"
-          className="w-full h-14 flex items-center justify-start"
+          className="w-full h-14 flex items-center justify-start bg-primary-bg/5 rounded-xl border-none ring-0"
           onClick={() => setIsDialogOpen(true)}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          <span>{buttonText}</span>
+          <CalendarIcon className="mr-2 h-6 w-6" />
+          <span className="font-medium">{buttonText}</span>
         </Button>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogContent className="sm:max-w-[425px] py-20 h-full sm:h-auto flex flex-col px-0">
@@ -81,20 +82,30 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
             </DialogHeader>
             <ScrollArea className="flex-grow">
               <div className="p-4">
-                <Calendar
-                  mode="single"
-                  selected={date}
-                  onSelect={handleDateSelect}
-                  initialFocus
-                  className="w-full"
-                />
+                {months.map((monthIndex) => {
+                  const monthDate = new Date(2024, monthIndex, 1);
+
+                  return (
+                    <div key={monthIndex} className="mb-4">
+                      <Calendar
+                        mode="single"
+                        disableNavigation
+                        selected={date}
+                        onSelect={handleDateSelect}
+                        initialFocus
+                        month={monthDate}
+                        className="w-full"
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </ScrollArea>
             <DialogFooter>
-              <div className="p-4 absolute bottom-4 left-0 w-full border-t">
+              <div className="px-4 py-8 absolute bottom-0 bg-white left-0 w-full border-t">
                 <Button
                   onClick={() => setIsDialogOpen(false)}
-                  className="w-full"
+                  className="w-full h-14 bg-primary-bg"
                 >
                   Confirm
                 </Button>
@@ -111,7 +122,7 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="w-full h-14 flex items-center justify-start"
+          className="w-full h-14 flex items-center justify-start bg-primary-bg/5 rounded-xl border-none ring-0"
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
           <span>{buttonText}</span>

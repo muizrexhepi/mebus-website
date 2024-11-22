@@ -17,7 +17,7 @@ interface SearchFormProps {
   updateUrl?: boolean;
 }
 
-const SearchForm: React.FC<SearchFormProps> = ({
+export const SearchForm: React.FC<SearchFormProps> = ({
   loading,
   updateUrl,
   stations,
@@ -30,7 +30,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   return (
     <div
       className={cn(
-        "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 items-end gap-3 sm:gap-2 lg:gap-1",
+        "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 items-end gap-2 lg:gap-1",
         {
           "lg:grid-cols-4": updateUrl,
         }
@@ -38,7 +38,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
     >
       {["from", "to"].map((departure) => (
         <div key={departure} className="w-full">
-          <p className="text-black font-normal text-lg">
+          <p className="hidden sm:block text-black font-medium text-base">
             {t(`searchForm.${departure}`)}
           </p>
           {loading ? (
@@ -53,17 +53,15 @@ const SearchForm: React.FC<SearchFormProps> = ({
         </div>
       ))}
       <div className="w-full">
-        <p className="text-black font-normal text-lg">
+        <p className="hidden sm:block text-black font-medium text-base">
           {t("searchForm.departure")}
         </p>{" "}
-        {/* Translated label */}
         {loading ? <InputSkeleton /> : datePickerComponent}
       </div>
       <div>
-        <p className="text-black font-normal text-lg">
+        <p className="hidden sm:block text-black font-medium text-base">
           {t("searchForm.passengers")}
         </p>{" "}
-        {/* Translated label */}
         {loading ? (
           <InputSkeleton />
         ) : (
@@ -73,7 +71,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
       <Button
         type="submit"
         className={cn(
-          "p-6 flex items-center gap-2 text-base w-full sm:col-span-2 h-14 lg:col-span-1",
+          "p-6 flex items-center gap-2 text-base w-full sm:col-span-2 rounded-xl h-14 lg:col-span-1 bg-primary-bg hover:bg-primary-bg/95",
           {
             hidden: updateUrl,
           }
@@ -90,5 +88,3 @@ const SearchForm: React.FC<SearchFormProps> = ({
     </div>
   );
 };
-
-export default SearchForm;

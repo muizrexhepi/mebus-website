@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { X, MapPin } from "lucide-react";
+import { X, MapPin, Locate } from "lucide-react";
 import Cookies from "js-cookie";
 import { Station } from "@/models/station";
 import { ScrollArea } from "../ui/scroll-area";
@@ -64,7 +64,7 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
               placeholder="Search for a city"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full"
+              className="w-full h-14 border-none ring-0 font-medium bg-primary-bg/5"
             />
           </div>
         </DialogHeader>
@@ -83,13 +83,18 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
                     onClick={() => onSelect(station)}
                     type="button"
                   >
-                    <MapPin className="w-6 h-6 text-primary mr-2" />
+                    {departure === "from" ? (
+                      <Locate className="w-6 h-6 text-primary mr-2" />
+                    ) : (
+                      <MapPin className="w-6 h-6 text-primary mr-2" />
+                    )}
                     <span className="capitalize">{station.city}</span>
                   </Button>
                 ))}
                 <div className="mt-2 mb-4 border-t border-gray-200" />
               </>
             )}
+
             {filteredStations.map((station: Station) => (
               <Button
                 key={station._id}
@@ -98,7 +103,11 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
                 onClick={() => onSelect(station)}
                 type="button"
               >
-                <MapPin className="w-6 h-6 text-primary mr-2" />
+                {departure === "from" ? (
+                  <Locate className="w-6 h-6 text-primary mr-2" />
+                ) : (
+                  <MapPin className="w-6 h-6 text-primary mr-2" />
+                )}
                 <span className="capitalize">{station.city}</span>
               </Button>
             ))}

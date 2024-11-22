@@ -27,13 +27,13 @@ const Navbar = ({ className }: { className?: string }) => {
             priority
           />
         </Link>
-        <div className="lg:flex gap-6 items-center hidden">
+        {/* <div className="lg:flex gap-6 items-center hidden">
           {NAV_LINKS.map((link, index) => (
             <Link href={link.url} key={index} className="text-white/95 text-lg">
               {t(`nav.${link.name.toLowerCase()}`)}{" "}
             </Link>
           ))}
-        </div>
+        </div> */}
       </div>
 
       <div className="flex items-center gap-2">

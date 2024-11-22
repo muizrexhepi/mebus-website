@@ -6,7 +6,7 @@ import { getStations } from "@/actions/station";
 import { Station } from "@/models/station";
 import DatePicker from "./date-picker";
 import { DateRangePicker } from "./daterange-picker";
-import SearchForm from "./forms/SearchForm";
+import { SearchForm } from "./forms/SearchForm";
 import { useTranslation } from "react-i18next";
 
 const SearchBlock = () => {
@@ -104,8 +104,8 @@ const SearchBlock = () => {
   }, [tripType]);
 
   return (
-    <div className="bg-white rounded-xl p-7 flex flex-col gap-4 w-full min-h-fit shadow-md">
-      <div className="space-y-6 flex-1">
+    <div className="bg-white rounded-xl p-5 sm:p-7 flex flex-col gap-4 w-full min-h-fit shadow-md">
+      <div className="space-y-4 flex-1">
         <div className="w-full flex flex-col gap-2 md:flex-row justify-start md:justify-between items-start md:items-center">
           <div className="flex items-center gap-4">
             <div className="flex gap-4">
@@ -116,7 +116,7 @@ const SearchBlock = () => {
                   value="one-way"
                   checked={tripType === "one-way"}
                   onChange={() => handleTripTypeChange("one-way")}
-                  className="h-7 w-7 accent-emerald-700"
+                  className="h-7 w-7 accent-primary-bg"
                 />
                 <span>{t("searchBlock.tripType.oneWay")}</span>
               </label>
@@ -127,7 +127,7 @@ const SearchBlock = () => {
                   value="round-trip"
                   checked={tripType === "round-trip"}
                   onChange={() => handleTripTypeChange("round-trip")}
-                  className="h-7 w-7 accent-emerald-700"
+                  className="h-7 w-7 accent-primary-bg"
                 />
                 <span>{t("searchBlock.tripType.roundTrip")}</span>
               </label>

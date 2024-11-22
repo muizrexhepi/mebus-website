@@ -7,7 +7,7 @@ import { getStations } from "@/actions/station";
 import { Station } from "@/models/station";
 import DatePicker from "../date-picker";
 import { DateRangePicker } from "../daterange-picker";
-import SearchForm from "../forms/SearchForm";
+import { SearchForm } from "../forms/SearchForm";
 import { useTranslation } from "react-i18next";
 
 const SearchSection = () => {

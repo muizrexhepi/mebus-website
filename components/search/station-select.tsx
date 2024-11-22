@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Station } from "@/models/station";
 import useSearchStore from "@/store";
-import { MapPin } from "lucide-react";
+import { Locate, MapPin } from "lucide-react";
 import Cookies from "js-cookie";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -137,13 +137,20 @@ const StationSelect: React.FC<CustomSelectProps> = ({
   if (isMobile) {
     return (
       <>
-        <div
-          className="h-14 px-4 flex items-center border border-input bg-background text-sm ring-offset-background cursor-pointer rounded-lg"
+        <Button
+          variant={"outline"}
+          className="w-full h-14 flex items-center justify-start bg-primary-bg/5 rounded-xl border-none ring-0"
           onClick={() => setIsDialogOpen(true)}
         >
-          <MapPin className="w-6 h-6 text-primary mr-2" />
-          <span className="capitalize">{searchTerm || "Select a city"}</span>
-        </div>
+          {departure === "from" ? (
+            <Locate className="w-6 h-6 text-primary mr-2" />
+          ) : (
+            <MapPin className="w-6 h-6 text-primary mr-2" />
+          )}
+          <span className="capitalize font-medium">
+            {searchTerm || "Select a city"}
+          </span>
+        </Button>
         <CitySelectDialog
           isOpen={isDialogOpen}
           onClose={() => setIsDialogOpen(false)}
@@ -158,7 +165,11 @@ const StationSelect: React.FC<CustomSelectProps> = ({
   return (
     <div className="relative">
       <div className="relative">
-        <MapPin className="absolute w-5 h-5 text-primary left-3 top-1/2 transform -translate-y-1/2" />
+        {departure == "from" ? (
+          <Locate className="absolute w-5 h-5 text-primary left-3 top-1/2 transform -translate-y-1/2" />
+        ) : (
+          <MapPin className="absolute w-5 h-5 text-primary left-3 top-1/2 transform -translate-y-1/2" />
+        )}
         <Input
           type="text"
           placeholder="Search for a city"
@@ -166,12 +177,12 @@ const StationSelect: React.FC<CustomSelectProps> = ({
           onFocus={handleFocus}
           onBlur={handleBlur}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full h-14 pl-10 capitalize text-base"
+          className="w-full h-14 pl-10 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 capitalize text-base"
         />
       </div>
       {openOptions && (
-        <div className="absolute top-14 w-[calc(100%+100px)] bg-white z-20 left-0 mt-4 shadow-sm h-fit max-h-80 overflow-y-auto rounded-lg">
-          {recentStations.length > 0 && searchTerm == "" && (
+        <div className="absolute top-14 w-[200%] bg-white z-20 left-0 mt-4 shadow-md h-fit max-h-80 overflow-y-auto rounded-lg">
+          {/* {recentStations.length > 0 && searchTerm == "" && (
             <>
               <h3 className="font-semibold mb-2 bg-muted p-2 px-4">
                 Recent Searches
@@ -185,22 +196,29 @@ const StationSelect: React.FC<CustomSelectProps> = ({
                   type="button"
                 >
                   <MapPin className="w-5 h-5 text-primary mr-2" />
-                  <span className="capitalize">{station.city}</span>
+                  <div className="space-y-1">
+                    <span className="capitalize">{station.city}</span>
+                  </div>
                 </Button>
               ))}
-              <div className="mb-2 border-t border-gray-200" />
+              <div className="mb-2 border-t border-gray-200" />        
             </>
-          )}
+          )} */}
           {filteredStations.map((station: Station) => (
             <Button
               key={station._id}
               variant="ghost"
-              className="w-full justify-start text-left mb-2"
+              className="w-full justify-start text-left h-20"
               onClick={() => handleSelect(station)}
               type="button"
             >
-              <MapPin className="w-6 h-6 text-primary mr-2" />
-              <span className="capitalize">{station.city}</span>
+              <MapPin className="w-6 h-6 text-primary mr-3" />
+              <div className="flex flex-col">
+                <h1 className="capitalize font-medium text-base">
+                  {station.city}
+                </h1>
+                <span className="text-primary/60 text-sm">{station.name}</span>
+              </div>
             </Button>
           ))}
         </div>
