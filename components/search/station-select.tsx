@@ -56,6 +56,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
   const handleSelect = (station: Station) => {
     const value = station._id;
     const label = station.city;
+    const name = station.name;
 
     setSearchTerm(label);
 
@@ -69,7 +70,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
 
     updateRecentStations(
       departure === "from" ? "recentFromStations" : "recentToStations",
-      { _id: value!, city: label }
+      { _id: value!, city: label, name: name }
     );
     setOpenOptions(false);
 
@@ -105,7 +106,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
 
   const updateRecentStations = (
     cookieName: string,
-    newStation: { _id: string; city: string }
+    newStation: { _id: string; city: string; name: string }
   ) => {
     const recentStations = JSON.parse(Cookies.get(cookieName) || "[]");
     const updatedRecentStations = [
@@ -182,28 +183,33 @@ const StationSelect: React.FC<CustomSelectProps> = ({
       </div>
       {openOptions && (
         <div className="absolute top-14 w-[200%] bg-white z-20 left-0 mt-4 shadow-md h-fit max-h-80 overflow-y-auto rounded-lg">
-          {/* {recentStations.length > 0 && searchTerm == "" && (
+          {recentStations.length > 0 && searchTerm == "" && (
             <>
-              <h3 className="font-semibold mb-2 bg-muted p-2 px-4">
+              <h3 className="font-semibold bg-muted p-2 px-4">
                 Recent Searches
               </h3>
               {recentStations.map((station: Station) => (
                 <Button
                   key={station._id}
                   variant="ghost"
-                  className="w-full justify-start text-left mb-2"
+                  className="w-full justify-start text-left h-20"
                   onClick={() => handleSelect(station)}
                   type="button"
                 >
-                  <MapPin className="w-5 h-5 text-primary mr-2" />
-                  <div className="space-y-1">
-                    <span className="capitalize">{station.city}</span>
+                  <MapPin className="w-6 h-6 text-primary mr-3" />
+                  <div className="flex flex-col">
+                    <h1 className="capitalize font-medium text-base">
+                      {station.city}
+                    </h1>
+                    <span className="text-primary/60 text-sm">
+                      {station.name}
+                    </span>
                   </div>
                 </Button>
               ))}
-              <div className="mb-2 border-t border-gray-200" />        
+              <div className="border-t border-gray-200" />
             </>
-          )} */}
+          )}
           {filteredStations.map((station: Station) => (
             <Button
               key={station._id}

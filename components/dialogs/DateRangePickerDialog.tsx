@@ -43,8 +43,11 @@ const DateRangePickerDialog: React.FC<DateRangePickerDialogProps> = ({
           </div>
         </ScrollArea>
         <DialogFooter>
-          <div className="p-4 absolute bottom-4 left-0 w-full border-t">
-            <Button onClick={() => onClose()} className="w-full">
+          <div className="px-4 py-8 absolute bottom-0 bg-white left-0 w-full border-t">
+            <Button
+              onClick={() => onClose()}
+              className="w-full h-14 bg-primary-bg text-base"
+            >
               Confirm
             </Button>
           </div>

@@ -84,6 +84,7 @@ export default function PassengerSelect({
               }`}
           </span>
         </Button>
+
         <PassengerSelectDialog
           isOpen={isDialogOpen}
           onClose={() => setIsDialogOpen(false)}
@@ -100,7 +101,6 @@ export default function PassengerSelect({
       >
         <div className="flex items-center">
           <User2 className="w-4 h-4 text-primary mr-2" />
-
           {passengers.adults > 1
             ? `${passengers.adults} ${t("orderSummary.adults")}`
             : `${passengers.adults} ${t("passengerInfo.adult")}`}
@@ -113,65 +113,91 @@ export default function PassengerSelect({
         </div>
       </SelectTrigger>
 
-      <SelectContent>
-        <div className="px-2">
-          <div className="flex items-center justify-between py-2 border-b">
-            <span className="text-sm font-medium">
-              {t("orderSummary.adults")}
-            </span>
-            <div className="flex items-center">
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8"
-                onClick={() => decrementPassengers("adults")}
-                disabled={passengers.adults <= 1}
-                aria-label="Decrease number of adults"
-              >
-                <Minus className="h-4 w-4" />
-              </Button>
-              <span className="mx-2 w-8 text-center">{passengers.adults}</span>
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8"
-                onClick={() => incrementPassengers("adults")}
-                disabled={passengers.adults >= 9}
-                aria-label="Increase number of adults"
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
+      <SelectContent className="w-[320px] p-4">
+        <div className="space-y-6">
+          {/* Adults Section */}
+          <div className="space-y-2">
+            <div className="flex justify-between items-center">
+              <div>
+                <h3 className="font-semibold text-base">
+                  {t("orderSummary.adults")}
+                </h3>
+                {/* <p className="text-sm text-gray-500">Aged 16+</p> */}
+              </div>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-10 w-10 rounded-lg border-gray-200"
+                  onClick={() => decrementPassengers("adults")}
+                  disabled={passengers.adults <= 1}
+                >
+                  <Minus className="h-4 w-4" />
+                </Button>
+                <span className="w-8 text-center font-medium">
+                  {passengers.adults}
+                </span>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-10 w-10 rounded-lg border-gray-200"
+                  onClick={() => incrementPassengers("adults")}
+                  disabled={passengers.adults >= 9}
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </div>
-          <div className="flex items-center justify-between py-2">
-            <span className="text-sm font-medium">
-              {t("orderSummary.children")}
-            </span>
-            <div className="flex items-center">
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8"
-                onClick={() => decrementPassengers("children")}
-                disabled={passengers.children <= 0}
-                aria-label="Decrease number of children"
-              >
-                <Minus className="h-4 w-4" />
-              </Button>
-              <span className="mx-2 w-8 text-center">
-                {passengers.children}
-              </span>
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8"
-                onClick={() => incrementPassengers("children")}
-                disabled={passengers.children >= 9}
-                aria-label="Increase number of children"
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
+
+          {/* Children Section */}
+          <div className="space-y-2">
+            <div className="flex justify-between items-center">
+              <div>
+                <h3 className="font-semibold text-base">
+                  {t("orderSummary.children")}
+                </h3>
+                <p className="text-sm text-gray-500">Aged 0 to 15</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-10 w-10 rounded-lg border-gray-200"
+                  onClick={() => decrementPassengers("children")}
+                  disabled={passengers.children <= 0}
+                >
+                  <Minus className="h-4 w-4" />
+                </Button>
+                <span className="w-8 text-center font-medium">
+                  {passengers.children}
+                </span>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-10 w-10 rounded-lg border-gray-200"
+                  onClick={() => incrementPassengers("children")}
+                  disabled={passengers.children >= 9}
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
+          </div>
+
+          <div className="space-y-4">
+            <p className="text-sm text-gray-500">
+              Your age at the time of travel must meet the requirements for the
+              selected ticket type. Some bus operators have restrictions on
+              minors traveling alone.
+            </p>
+            <p className="text-sm text-gray-500">
+              Age limits and policies for traveling with children may vary, so
+              please check with the bus operator before booking.
+            </p>
+            {/* <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+    Apply
+  </Button> */}
           </div>
         </div>
       </SelectContent>

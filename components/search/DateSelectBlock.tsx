@@ -28,7 +28,7 @@ const DateButton: React.FC<DateButtonProps> = ({
     variant={isSelected ? "default" : "outline"}
     className={`flex-1 py-2 px-4 h-20 rounded-xl ${
       isSelected
-        ? "bg-emerald-700 text-primary-foreground pointer-events-none"
+        ? "bg-primary-bg text-primary-foreground pointer-events-none"
         : ""
     }`}
     disabled={

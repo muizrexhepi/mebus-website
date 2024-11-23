@@ -35,22 +35,18 @@
 @layer base {
   * {
     @apply border-border;
-    
   }
   body {
     @apply bg-background text-foreground;
   }
-  
-
-  
 }
 
 .paddingX {
-  @apply px-4 sm:px-8 lg:px-12 xl:px-20
+  @apply px-4 sm:px-8 lg:px-12 xl:px-20;
 }
 
 .paddingY {
-  @apply py-[100px] sm:py-40
+  @apply py-[100px] sm:py-40;
 }
 *::-webkit-scrollbar {
   display: none;
@@ -65,5 +61,15 @@
 }
 
 .PhoneInputInput {
-  @apply bg-white outline-none border-none
+  @apply bg-white outline-none border-none;
+}
+
+::-moz-selection {
+  color: #fff;
+  background: #55aac4;
+}
+
+::selection {
+  color: #fff;
+  background: #55aac4;
 }

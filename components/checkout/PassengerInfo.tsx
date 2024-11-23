@@ -40,7 +40,7 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => (
   <div className="space-y-1">
     <p className="font-normal text-sm text-black/70">{label}</p>
-    {type === "tel" ? (
+    {/* {type === "tel" ? (
       <PhoneInput
         international
         countryCallingCodeEditable={false}
@@ -48,22 +48,20 @@ const InputField: React.FC<InputFieldProps> = ({
         value={value}
         onBlur={onBlur}
         onChange={(value) => onChange(value || "")}
-        className="font-normal text-black rounded-lg border-gray-300 border p-2 bg-white"
+        className="font-normal text-black rounded-xl p-2 bg-primary-bg/5 h-12"
       />
-    ) : (
-      <Input
-        type={type}
-        className={`font-normal text-black rounded-lg border-gray-300 border p-2"
-          ${
-            error ? "border-red-500 bg-red-500/10" : "border-gray-300 bg-white"
-          }`}
-        placeholder={placeholder}
-        value={value}
-        onBlur={onBlur}
-        onChange={(e) => onChange(e.target.value)}
-        required={required}
-      />
-    )}
+    ) : ( */}
+    <Input
+      type={type}
+      className={`font-normal text-black rounded-xl h-12 bg-primary-bg/5 p-2"
+          ${error ? "border-red-500 bg-red-500/10" : "border-none"}`}
+      placeholder={placeholder}
+      value={value}
+      onBlur={onBlur}
+      onChange={(e) => onChange(e.target.value)}
+      required={required}
+    />
+    {/* )} */}
     {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
   </div>
 );
@@ -110,18 +108,17 @@ const PassengerInfo: React.FC = () => {
         price: 0,
       }),
     ];
-    if (user && initialPassengers.length > 0) {
+    if (user) {
       console.log({ user });
       initialPassengers[0] = {
         ...initialPassengers[0],
-        first_name: user.name.split("")[0] || "",
-        last_name: user.name.split("")[1] || "",
+        first_name: user.name.split(" ")[0] || "",
+        last_name: user.name.split(" ")[1] || "",
         // full_name: `${user.firstName} ${user.lastName}`,
         email: user.email,
         phone: user.phone || "",
       };
     }
-    setValidationErrors(Array(adults + children).fill({}));
     setPassengers(initialPassengers);
   }, [adults, children, setPassengers, user]);
 
@@ -150,7 +147,7 @@ const PassengerInfo: React.FC = () => {
       updatedPassengers[index].age = age;
     }
     console.log({ passengers });
-
+    setValidationErrors(Array(adults + children).fill({}));
     setPassengers(updatedPassengers);
   };
 
@@ -298,7 +295,7 @@ const PassengerInfo: React.FC = () => {
   return (
     <div className="flex flex-col shadow-md bg-white rounded-xl p-4 gap-2">
       <div className="flex items-center gap-4">
-        <span className="flex items-center justify-center w-8 h-8 bg-emerald-100 text-emerald-800 rounded-full font-semibold">
+        <span className="flex items-center justify-center w-8 h-8 bg-secondary-bg/20 text-primary-bg rounded-full font-semibold">
           1
         </span>
         <p className="text-[#353535] font-medium text-lg">

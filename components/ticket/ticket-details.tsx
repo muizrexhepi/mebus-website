@@ -28,6 +28,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
   };
 
   const handleLocation = (location: { lat?: number; lng?: number }) => {
+    console.log({ location });
     if (!location || !location.lat || !location.lng) {
       return toast({
         description: t("ticketDetails.invalidCoordinates"),
@@ -47,9 +48,9 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
       <div className="space-y-4 items-center justify-between px-4 pt-4">
         <div
           className="flex items-center space-x-4 cursor-pointer"
-          onClick={() => handleLocation(ticket.location.from)}
+          onClick={() => handleLocation(ticket?.location?.from)}
         >
-          <MapPin className="h-5 w-5 text-emerald-700" />
+          <MapPin className="h-5 w-5 text-primary-bg" />
           <div>
             <p className="font-medium capitalize">
               {ticket.stops[0].from.city}
@@ -63,7 +64,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
           className="flex items-center space-x-4 cursor-pointer"
           onClick={() => handleLocation(ticket.location.to)}
         >
-          <MapPin className="h-5 w-5 text-emerald-700" />
+          <MapPin className="h-5 w-5 text-primary-bg" />
           <div>
             <p className="font-medium capitalize">
               {ticket.stops[ticket.stops.length - 1].to.city}
@@ -78,14 +79,16 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
 
       <div className="flex sm:items-center sm:flex-row flex-col items-start justify-between px-4 py gap-2">
         <div className="flex items-center space-x-4">
-          <Calendar className="h-5 w-5 text-emerald-700" />
+          <Calendar className="h-5 w-5 text-primary-bg" />
           <span className="font-semibold">
             {formatDate(ticket.departure_date)}
           </span>
         </div>
         <div className="flex items-center space-x-4">
-          <Clock className="h-5 w-5 text-emerald-700" />
-          <span className="font-semibold">{moment.utc(ticket.stops[0].departure_date).format("HH:mm")}</span>
+          <Clock className="h-5 w-5 text-primary-bg" />
+          <span className="font-semibold">
+            {moment.utc(ticket.stops[0].departure_date).format("HH:mm")}
+          </span>
         </div>
       </div>
       <Separator />
@@ -95,20 +98,24 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
           <Fragment key={stop._id}>
             <div className="flex items-start">
               <div className="flex flex-col items-center mr-4">
-                <div className="w-3 h-3 bg-emerald-600 rounded-full" />
+                <div className="w-3 h-3 bg-primary-bg rounded-full" />
                 <div className="w-0.5 h-2 bg-gray-300 mt-1" />
                 <div className="w-0.5 h-2 bg-gray-300 my-1" />
-                <div className="w-3 h-3 bg-emerald-600 rounded-full" />
+                <div className="w-3 h-3 bg-primary-bg rounded-full" />
               </div>
               <div className="flex-1 -mt-1 ml-1">
                 <div className="flex w-full justify-between items-center">
-                  <p className="font-medium capitalize">{stop.from.name}</p>
+                  <p className="font-medium capitalize line-clamp-1 truncate">
+                    {stop.from.name}
+                  </p>
                   <span className="font-medium">
                     {moment.utc(stop.departure_date).format("HH:mm")}
                   </span>
                 </div>
                 <div className="flex w-full justify-between items-center">
-                  <p className="font-medium capitalize mt-3">{stop.to.name}</p>
+                  <p className="font-medium capitalize line-clamp-1 truncate mt-3">
+                    {stop.to.name}
+                  </p>
                   <span className="font-medium">
                     {moment.utc(stop.arrival_time).format("HH:mm")}
                   </span>
@@ -147,11 +154,11 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
         {ticket.metadata?.features?.map((feature, index) => (
           <div key={index} className="flex items-center space-x-4">
             {feature === "ac/heating" ? (
-              <Snowflake className="h-5 w-5 shrink-0 text-emerald-700" />
+              <Snowflake className="h-5 w-5 shrink-0 text-primary-bg" />
             ) : feature === "usb charging ports" ? (
-              <Plug className="h-5 w-5 shrink-0 text-emerald-700" />
+              <Plug className="h-5 w-5 shrink-0 text-primary-bg" />
             ) : (
-              <Bus className="h-5 w-5 shrink-0 text-emerald-700" />
+              <Bus className="h-5 w-5 shrink-0 text-primary-bg" />
             )}
             <span className="capitalize">
               {feature === "ac/heating"
@@ -161,7 +168,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
           </div>
         ))}
       </div>
-      <Separator />
+      {/* <Separator /> */}
       <InfoBlock
         desc={t("ticketDetails.operatedBy")}
         title={ticket?.operatorInfo?.name}

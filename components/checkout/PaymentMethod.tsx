@@ -266,7 +266,7 @@ const PaymentMethod = () => {
       <div className="bg-white rounded-xl shadow-md overflow-hidden">
         <div className="p-6">
           <div className="flex items-center gap-4">
-            <span className="flex items-center justify-center w-8 h-8 bg-emerald-100 text-emerald-800 rounded-full font-semibold">
+            <span className="flex items-center justify-center w-8 h-8 bg-secondary-bg/20 text-primary-bg rounded-full font-semibold">
               3
             </span>
             <p className="text-[#353535] font-medium text-lg ">
@@ -358,7 +358,7 @@ const PaymentMethod = () => {
             //   ? handleFullDepositPayment
             handlePayment
           }
-          className="px-6 py-3.5 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 w-full sm:w-fit"
+          className="px-6 py-3.5 bg-primary-bg text-white rounded-md hover:bg-primary-bg/95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-bg h-12 rounded-xl w-full sm:w-fit"
           disabled={!stripe || loading}
         >
           {loading

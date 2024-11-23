@@ -23,9 +23,8 @@ export default function PersonalInfo() {
   const [editedValue, setEditedValue] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { toast } = useToast();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
-  
   const PERSONAL_INFO = [
     {
       label: t("personalInfo.name"),
@@ -169,7 +168,7 @@ export default function PersonalInfo() {
                     <Input
                       id="password"
                       type="password"
-                      value={password}
+                      value={user.password}
                       className="col-span-3"
                       onChange={handlePasswordChange}
                     />

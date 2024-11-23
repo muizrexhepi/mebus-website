@@ -73,7 +73,6 @@ const TicketList: React.FC = () => {
       const data = await response.json();
       const newTickets: Ticket[] = data.data || [];
 
-
       if (newTickets.length === 0) {
         setNoData(true);
         setHasMore(false);
@@ -190,7 +189,7 @@ const TicketList: React.FC = () => {
                   </div>
                   <SheetFooter className="p-4">
                     <Button
-                      className="w-full"
+                      className="w-full h-14 bg-primary-bg rounded-xl hover:bg-primary-bg/95 text-base"
                       onClick={() => handleTicketSelection(ticket)}
                     >
                       {isSelectingReturn

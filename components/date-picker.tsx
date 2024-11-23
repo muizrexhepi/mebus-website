@@ -61,8 +61,9 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
     }
   };
 
-  const months = Array.from({ length: 12 }, (_, i) => i);
   const buttonText = date ? format(date, "LLL dd, y") : "Pick a date";
+  const currentMonth = new Date().getMonth(); // 0-based month index
+  const months = Array.from({ length: 13 }, (_, i) => (currentMonth + i) % 12);
 
   if (isMobile) {
     return (
@@ -82,11 +83,14 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
             </DialogHeader>
             <ScrollArea className="flex-grow">
               <div className="p-4">
-                {months.map((monthIndex) => {
-                  const monthDate = new Date(2024, monthIndex, 1);
+                {months.map((monthIndex, i) => {
+                  const year =
+                    new Date().getFullYear() +
+                    Math.floor((currentMonth + i) / 12);
+                  const monthDate = new Date(year, monthIndex, 1);
 
                   return (
-                    <div key={monthIndex} className="mb-4">
+                    <div key={monthIndex + year} className="mb-4">
                       <Calendar
                         mode="single"
                         disableNavigation
@@ -105,7 +109,7 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
               <div className="px-4 py-8 absolute bottom-0 bg-white left-0 w-full border-t">
                 <Button
                   onClick={() => setIsDialogOpen(false)}
-                  className="w-full h-14 bg-primary-bg"
+                  className="w-full h-14 bg-primary-bg text-base"
                 >
                   Confirm
                 </Button>

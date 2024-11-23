@@ -45,7 +45,7 @@ const TravelFlex: React.FC = () => {
           key={flex.value}
           className={`rounded-xl border p-4 cursor-pointer ${
             selectedFlex === flex.value
-              ? "border-emerald-700 bg-emerald-50"
+              ? "border-primary-bg bg-secondary-bg/20"
               : "border-gray-300"
           }`}
           onClick={() => handleFlexSelection(flex)}
@@ -56,14 +56,14 @@ const TravelFlex: React.FC = () => {
             })}
           >
             <p className="font-medium text-black">{t(flex.name)}</p>
-            <p className="font-medium text-emerald-700">
+            <p className="font-medium text-primary-bg">
               {flex.price > 0 ? `+ ${flex.price}€` : t("extrasInfo.free")}
             </p>
           </div>
           <ul className="text-sm text-gray-600">
             {flex.features.map((featureKey, index) => (
               <li key={index} className="flex items-center gap-2 mb-1">
-                <Check size={16} className="text-emerald-700" />
+                <Check size={16} className="text-primary-bg" />
                 {t(featureKey)}
               </li>
             ))}
@@ -80,7 +80,7 @@ const Extras: React.FC = () => {
   return (
     <div className="flex flex-col rounded-xl shadow-md bg-white p-4 gap-4">
       <div className="flex items-center gap-4">
-        <span className="flex items-center justify-center w-8 h-8 bg-emerald-100 text-emerald-800 rounded-full font-semibold">
+        <span className="flex items-center justify-center w-8 h-8 bg-secondary-bg/20 text-primary-bg rounded-full font-semibold">
           2
         </span>
         <p className="text-[#353535] font-medium text-lg">

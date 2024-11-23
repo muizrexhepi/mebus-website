@@ -123,7 +123,7 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
               {ticket.stops[0].other_prices.our_price.toFixed(2)}
             </div>
             <Button
-              className="w-fit text-sm sm:text-base bg-emerald-700 hover:bg-emerald-600"
+              className="w-fit text-sm sm:text-base bg-primary-bg hover:bg-primary-bg/95 rounded-xl"
               onClick={handleTicketSelection}
             >
               {isReturn && outboundTicket
