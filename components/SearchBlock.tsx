@@ -116,7 +116,7 @@ const SearchBlock = () => {
                   value="one-way"
                   checked={tripType === "one-way"}
                   onChange={() => handleTripTypeChange("one-way")}
-                  className="h-7 w-7 accent-primary-bg"
+                  className="h-7 w-7 accent-primary-accent"
                 />
                 <span>{t("searchBlock.tripType.oneWay")}</span>
               </label>
@@ -127,7 +127,7 @@ const SearchBlock = () => {
                   value="round-trip"
                   checked={tripType === "round-trip"}
                   onChange={() => handleTripTypeChange("round-trip")}
-                  className="h-7 w-7 accent-primary-bg"
+                  className="h-7 w-7 accent-primary-accent"
                 />
                 <span>{t("searchBlock.tripType.roundTrip")}</span>
               </label>

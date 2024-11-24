@@ -182,7 +182,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
         />
       </div>
       {openOptions && (
-        <div className="absolute top-14 w-[200%] bg-white z-20 left-0 mt-4 shadow-md h-fit max-h-80 overflow-y-auto rounded-lg">
+        <div className="absolute top-14 w-[200%] bg-white z-20 left-0 mt-2 border h-fit max-h-80 overflow-y-auto rounded-lg">
           {recentStations.length > 0 && searchTerm == "" && (
             <>
               <h3 className="font-semibold bg-muted p-2 px-4">

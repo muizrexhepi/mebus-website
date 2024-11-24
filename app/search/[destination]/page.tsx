@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import SecondaryNavbar from "@/components/SecondaryNavbar";
 import SearchSection from "@/components/search/SearchSection";
 import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
 
 export async function generateMetadata({
   params,
@@ -26,7 +27,7 @@ const SearchPage = async () => {
   return (
     <div className="min-h-screen bg-[#f3f3f3]">
       <div className="w-full flex justify-center items-center bg-gradient-to-tr from-primary-bg/95 via-primary-bg to-primary-bg/95 px-4 sm:px-8 py-4 xl:px-0">
-        <SecondaryNavbar />
+        <Navbar className="max-w-6xl mx-auto z-20 " />
       </div>
       <SearchSection />
       <div className="px-4 sm:px-8 max-w-6xl mx-auto py-4 space-y-4 xl:px-0 min-h-screen">

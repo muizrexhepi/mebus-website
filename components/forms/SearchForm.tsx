@@ -71,7 +71,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({
       <Button
         type="submit"
         className={cn(
-          "p-6 flex items-center gap-2 text-base w-full sm:col-span-2 rounded-xl h-14 lg:col-span-1 bg-primary-bg hover:bg-primary-bg/95",
+          "p-6 flex items-center gap-2 text-base w-full sm:col-span-2 rounded-xl h-14 lg:col-span-1 bg-gradient-to-tr from-[#ff6700] to-[#ff007f]",
           {
             hidden: updateUrl,
           }

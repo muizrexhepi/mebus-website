@@ -73,3 +73,19 @@
   color: #fff;
   background: #55aac4;
 }
+
+input[type="radio"] {
+  background-color: white;
+  border: 2px solid #ccc; /* Optional: Add a border for better visibility */
+  border-radius: 50%; /* Ensures the radio button stays circular */
+  appearance: none; /* Removes default styles */
+  width: 1.7rem; /* Set a consistent width */
+  height: 1.7rem; /* Set a consistent height */
+  outline: none; /* Removes focus outline */
+  cursor: pointer; /* Ensures it looks interactive */
+}
+
+input[type="radio"]:checked {
+  background-color: #ff5722; /* Change this to your primary color */
+  border-color: #ff5722; /* Optional: match the border color */
+}

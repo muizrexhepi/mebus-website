@@ -1,12 +1,11 @@
 "use client";
-
 import { useTranslation } from "react-i18next";
 import Navbar from "./Navbar";
 import SearchBlock from "./SearchBlock";
-import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { handleOauthCallback } from "@/actions/oauth";
+import Image from "next/image";
 
 const Hero = () => {
   const { t } = useTranslation();
@@ -15,27 +14,43 @@ const Hero = () => {
   useEffect(() => {
     if (searchParams.get("oauth") == "true") {
       handleOauthCallback();
-    } else {
-      console.log("falch");
     }
   }, [searchParams]);
 
   return (
-    <div className="flex flex-col justify-between gap-12 pb-12 pt-8 relative paddingX bg-gradient-to-tr from-primary-bg/95 via-primary-bg to-primary-bg/95 z-[0]">
+    <div className="relative flex flex-col justify-between pb-12">
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-white/5 rounded-full blur-xl" />
-        <div className="absolute top-40 right-20 w-48 h-48 bg-white/5 rounded-full blur-xl" />
-        <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-white/5 rounded-full blur-xl" />
+        <Image
+          src="/assets/images/mainBG.jpg"
+          alt="Background"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary-bg/90 via-primary-bg/80 to-primary-bg/95" />
       </div>
 
-      {/* <div className="py-6 absolute top-0 left-0 w-full"> */}
-      <Navbar className="max-w-6xl mx-auto z-20" />
-      {/* </div> */}
-      <div className="space-y-4 sm:space-y-8 sm:py-0 w-full max-w-6xl md:mx-auto z-20">
-        {/* <h1 className="text-3xl sm:text-4xl font-medium text-white hidden sm:block">
-          {t("hero.title")}
-        </h1> */}
-        <SearchBlock />
+      {/* Content */}
+      <div className="relative z-20 w-full">
+        <div className="max-w-7xl mx-auto paddingX">
+          <Navbar className="py-4" />
+
+          <div className="space-y-6 sm:pt-16 md:pt-20">
+            <div className="max-w-3xl hidden sm:block">
+              <h1 className="text-4xl sm:text-5xl font-medium text-white mb-2">
+                {t("hero.title")}
+                <span className="text-primary-accent text-6xl">.</span>
+              </h1>
+              {/* <p className="text-xl sm:text-2xl text-white/80">
+                {t("hero.subtitle", "Travel with comfort and convenience")}
+              </p> */}
+            </div>
+
+            <div className="mt-8 relative z-30">
+              <SearchBlock />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
