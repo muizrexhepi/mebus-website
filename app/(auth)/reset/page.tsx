@@ -18,10 +18,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Link from "next/link";
-import { Loader, BusFront, KeyRound, CheckCircle } from "lucide-react";
+import { Loader, KeyRound, CheckCircle } from "lucide-react";
 import { account } from "@/appwrite.config";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
+import Image from "next/image";
 
 const ResetPassword = () => {
   const { t } = useTranslation();
@@ -65,30 +66,28 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-xl w-full space-y-8 p-8 bg-white rounded-xl shadow-lg">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-secondary/5 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <BusFront className="mx-auto h-12 w-12 text-primary" />
-          <h1 className="mt-4 text-3xl font-extrabold text-gray-900">
-            {t("reset.confirm.title")}
+          <Image src={'/assets/icons/icon.svg'} width={90} height={90} alt="logo" className="mx-auto" />
+          <h1 className="mt-6 text-4xl font-extrabold text-gray-900">
+            {t("security.resetPwTitle")}
           </h1>
-          <p className="mt-2 text-sm text-gray-600">
-            {t("reset.confirm.subtitle")}
-          </p>
+        
         </div>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="mt-8 space-y-6"
           >
-            <div className="rounded-md shadow-sm space-y-4">
+            <div className="space-y-4">
               <FormField
                 control={form.control}
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>
-                      {t("reset.confirm.newPassword.label")}
+                    <FormLabel className="font-medium text-base">
+                      {t("security.newPw")}
                     </FormLabel>
                     <FormControl>
                       <div className="relative">
@@ -97,11 +96,11 @@ const ResetPassword = () => {
                           disabled={isLoading}
                           type="password"
                           placeholder={t(
-                            "reset.confirm.newPassword.placeholder"
+                            "security.newPw"
                           )}
-                          className="rounded-md pl-10"
+                          className="w-full h-14 px-4 pl-12 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0  text-base"
                         />
-                        <KeyRound className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                        <KeyRound className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                       </div>
                     </FormControl>
                     <FormMessage />
@@ -113,8 +112,8 @@ const ResetPassword = () => {
                 name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>
-                      {t("reset.confirm.confirmPassword.label")}
+                    <FormLabel className="font-medium text-base">
+                      {t("security.confirmNewPw")}
                     </FormLabel>
                     <FormControl>
                       <div className="relative">
@@ -122,12 +121,10 @@ const ResetPassword = () => {
                           {...field}
                           disabled={isLoading}
                           type="password"
-                          placeholder={t(
-                            "reset.confirm.confirmPassword.placeholder"
-                          )}
-                          className="rounded-md pl-10"
+                          placeholder={t("security.confirmNewPw")}
+                          className="w-full h-14 px-4 pl-12 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0  text-base"
                         />
-                        <CheckCircle className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                        <CheckCircle className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                       </div>
                     </FormControl>
                     <FormMessage />
@@ -139,23 +136,26 @@ const ResetPassword = () => {
             <FormSuccess message={success} />
             <FormError message={error} />
 
-            <Button
-              className="w-full bg-primary"
-              type="submit"
+            <Button 
+              className="w-full button-gradient text-base h-14 rounded-xl" 
+              type="submit" 
               disabled={isLoading}
             >
               {isLoading ? (
                 <Loader className="h-5 w-5 animate-spin" />
               ) : (
-                t("reset.confirm.submitButton")
+                t("actions.confirmCancellation")
               )}
             </Button>
           </form>
         </Form>
 
-        <div className="text-center mt-4">
-          <Link href="/login" className="font-medium text-primary text-sm">
-            {t("reset.confirm.returnToLogin")}
+        <div className="text-center mt-8">
+          <Link
+            href="/login"
+            className="font-medium text-primary hover:text-primary-dark transition-colors"
+          >
+            {t("security.returnToLogin")}
           </Link>
         </div>
       </div>
@@ -167,8 +167,8 @@ export default function ResetPasswordConfirmPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
-          <Loader className="h-8 w-8 animate-spin text-indigo-600" />
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-secondary/5">
+          <Loader className="h-8 w-8 animate-spin text-primary" />
         </div>
       }
     >

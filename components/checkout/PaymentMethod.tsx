@@ -358,7 +358,7 @@ const PaymentMethod = () => {
             //   ? handleFullDepositPayment
             handlePayment
           }
-          className="px-6 py-3.5 bg-primary-bg text-white rounded-md hover:bg-primary-bg/95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-bg h-12 rounded-xl w-full sm:w-fit"
+          className="px-6 py-3.5 button-gradient text-white hover:bg-primary-bg/95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-bg h-12 rounded-xl w-full sm:w-fit"
           disabled={!stripe || loading}
         >
           {loading

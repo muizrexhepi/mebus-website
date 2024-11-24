@@ -65,12 +65,12 @@ export default function Account() {
       title: t("account.bookings"),
       description: t("account.bookingsDesc"),
     },
-    {
-      href: "/account/notifications",
-      icon: Bell,
-      title: t("account.notifications"),
-      description: t("account.notificationsDesc"),
-    },
+    // {
+    //   href: "/account/notifications",
+    //   icon: Bell,
+    //   title: t("account.notifications"),
+    //   description: t("account.notificationsDesc"),
+    // },
     // {
     //   href: "/account/deposit",
     //   icon: DollarSign,

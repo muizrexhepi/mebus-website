@@ -355,6 +355,7 @@
     "error": "Gabim gjatë dërgimit të lidhjes për rivendosje. Ju lutemi, provoni përsëri.",
     "rememberPassword": "E mbani mend fjalëkalimin tuaj?",
     "backToLogin": "Kthehu te hyrja"
+    
   },
   "back": "Kthehu",
   "bookings": {
@@ -446,6 +447,9 @@
   "makeChangesToYourPw": "Bëni ndryshime në fjalëkalimin tuaj këtu. Klikoni ruaj kur të përfundoni.",
   "oldPw": "Fjalëkalimi i Vjetër",
   "newPw": "Fjalëkalimi i Ri",
+  "confirmNewPw": "Konfirmo fjalëkalimim e ri",
+  "resetPwTitle": "Riktheni fjalëkalimim tuaj",
+  "returnToLogin": "Kthehu në login",
   "verify": "Verifiko",
   "verified": "E Verifikuar"
 },

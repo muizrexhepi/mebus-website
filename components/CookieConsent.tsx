@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import { X, Bus, Cookie } from "lucide-react";
+import { X, Cookie } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -75,46 +75,39 @@ export default function CookieConsent() {
 
   return (
     <>
-      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white shadow-lg border-t-4 border-emerald-700">
-        <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
-            <div className="flex items-center mb-4 md:mb-0">
-              <Bus className="h-8 w-8 text-emerald-700 mr-4" />
-              <div>
-                <h2 className="text-xl font-bold text-gray-800">
-                  We value your privacy
-                </h2>
-                <p className="text-sm text-gray-600 mt-1">
-                  We use cookies to enhance your booking experience and provide
-                  personalized services.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Button
-                onClick={() => setShowModal(true)}
-                variant="outline"
-                className="text-emerald-700 border-emerald-700"
-              >
-                <Cookie className="h-4 w-4 mr-2" />
-                Customize
-              </Button>
-              <Button
-                onClick={handleAcceptAll}
-                variant="default"
-                className="bg-emerald-700 hover:bg-emerald-600"
-              >
-                Accept All
-              </Button>
-              <Button
-                onClick={() => setShowConsent(false)}
-                variant="ghost"
-                className="text-gray-500"
-                aria-label="Close"
-              >
-                <X className="h-5 w-5" />
-              </Button>
-            </div>
+      <div className="fixed bottom-4 right-4 z-50 max-w-sm bg-primary-bg text-primary-foreground rounded-lg shadow-lg overflow-hidden">
+        <div className="p-4">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">Cookie Preferences</h2>
+            <Button
+              onClick={() => setShowConsent(false)}
+              variant="ghost"
+              size="icon"
+              className="text-primary-foreground hover:text-primary-foreground/80"
+              aria-label="Close"
+            >
+              <X className="h-5 w-5" />
+            </Button>
+          </div>
+          <p className="text-sm mb-4">
+            We use cookies to enhance your experience and provide personalized services.
+          </p>
+          <div className="flex flex-col space-y-2">
+            <Button
+              onClick={() => setShowModal(true)}
+              variant="secondary"
+              className="w-full justify-start"
+            >
+              <Cookie className="h-4 w-4 mr-2" />
+              Customize
+            </Button>
+            <Button
+              onClick={handleAcceptAll}
+              variant="secondary"
+              className="w-full bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+            >
+              Accept All
+            </Button>
           </div>
         </div>
       </div>
@@ -122,7 +115,7 @@ export default function CookieConsent() {
       <Dialog open={showModal} onOpenChange={setShowModal}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-gray-800">
+            <DialogTitle className="text-2xl font-bold">
               Cookie Preferences
             </DialogTitle>
           </DialogHeader>
@@ -134,7 +127,7 @@ export default function CookieConsent() {
                   Essential Cookies
                 </Label>
               </div>
-              <p className="text-sm text-gray-600 mt-1 ml-6">
+              <p className="text-sm text-muted-foreground mt-1 ml-6">
                 These cookies are required for basic site functionality and
                 cannot be disabled.
               </p>
@@ -150,7 +143,7 @@ export default function CookieConsent() {
                   Functional Cookies
                 </Label>
               </div>
-              <p className="text-sm text-gray-600 mt-1 ml-6">
+              <p className="text-sm text-muted-foreground mt-1 ml-6">
                 These cookies allow us to remember choices you make to give you
                 better functionality and personal features.
               </p>
@@ -166,7 +159,7 @@ export default function CookieConsent() {
                   Analytics Cookies
                 </Label>
               </div>
-              <p className="text-sm text-gray-600 mt-1 ml-6">
+              <p className="text-sm text-muted-foreground mt-1 ml-6">
                 These cookies help us understand how visitors interact with our
                 website, helping us improve our services and user experience.
               </p>
@@ -182,7 +175,7 @@ export default function CookieConsent() {
                   Marketing Cookies
                 </Label>
               </div>
-              <p className="text-sm text-gray-600 mt-1 ml-6">
+              <p className="text-sm text-muted-foreground mt-1 ml-6">
                 These cookies are used to make advertising messages more
                 relevant to you and your interests.
               </p>
@@ -191,7 +184,7 @@ export default function CookieConsent() {
           <DialogFooter>
             <Button
               onClick={handleSavePreferences}
-              className="bg-emerald-700 hover:bg-emerald-600"
+              className=" bg-gradient-to-tr from-[#ff6700] to-[#ff007f] text-primary-foreground"
             >
               Save Preferences
             </Button>
@@ -201,3 +194,4 @@ export default function CookieConsent() {
     </>
   );
 }
+

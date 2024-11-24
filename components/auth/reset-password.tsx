@@ -18,10 +18,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Link from "next/link";
-import { Loader, BusFront } from "lucide-react";
+import { Loader } from "lucide-react";
 import { account } from "@/appwrite.config";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
+import Image from "next/image";
 
 const ResetPasswordPage = () => {
   const { t } = useTranslation();
@@ -45,7 +46,7 @@ const ResetPasswordPage = () => {
     try {
       await account.createRecovery(
         values.email,
-        "https://mebus-website.vercel.app/reset"
+        "https://www.gobusly.com/reset"
       );
       setSuccess(t("reset.success"));
     } catch (error: any) {
@@ -57,11 +58,11 @@ const ResetPasswordPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-xl w-full space-y-8 p-6 sm:p-10 bg-white rounded-xl shadow-lg">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-secondary/5 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <BusFront className="mx-auto h-12 w-12 text-primary" />
-          <h1 className="mt-4 text-3xl font-extrabold text-gray-900">
+          <Image src={'/assets/icons/icon.svg'} width={90} height={90} alt="logo" className="mx-auto" />
+          <h1 className="mt-6 text-4xl font-extrabold text-gray-900">
             {t("reset.title")}
           </h1>
           <p className="mt-2 text-sm text-gray-600">{t("reset.subtitle")}</p>
@@ -71,13 +72,13 @@ const ResetPasswordPage = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="mt-8 space-y-6"
           >
-            <div className="rounded-md shadow-sm -space-y-px">
+            <div className="space-y-4">
               <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="sr-only">
+                    <FormLabel className="font-medium text-base">
                       {t("reset.email.label")}
                     </FormLabel>
                     <FormControl>
@@ -86,7 +87,7 @@ const ResetPasswordPage = () => {
                         disabled={isLoading}
                         type="email"
                         placeholder={t("reset.email.placeholder")}
-                        className="rounded-md"
+                        className="w-full h-14 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0  text-base"
                       />
                     </FormControl>
                     <FormMessage />
@@ -98,7 +99,11 @@ const ResetPasswordPage = () => {
             <FormSuccess message={success} />
             <FormError message={error} />
 
-            <Button className="w-full" type="submit" disabled={isLoading}>
+            <Button 
+              className="w-full button-gradient text-base h-14 rounded-xl" 
+              type="submit" 
+              disabled={isLoading}
+            >
               {isLoading ? (
                 <Loader className="h-5 w-5 animate-spin" />
               ) : (
@@ -108,7 +113,7 @@ const ResetPasswordPage = () => {
           </form>
         </Form>
 
-        <div className="text-center mt-4">
+        <div className="text-center mt-8">
           <p className="text-sm text-gray-600">
             {t("reset.rememberPassword")}{" "}
             <Link

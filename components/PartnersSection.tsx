@@ -3,14 +3,14 @@ import React from "react";
 const PartnersSection = () => {
   // Sample array of partner logos - replace src with actual logo paths
   const partners = [
-    { name: "RedBus", src: "/api/placeholder/120/40" },
-    { name: "Greyhound", src: "/api/placeholder/120/40" },
-    { name: "MegaBus", src: "/api/placeholder/120/40" },
-    { name: "BoltBus", src: "/api/placeholder/120/40" },
-    { name: "Coach USA", src: "/api/placeholder/120/40" },
-    { name: "Peter Pan", src: "/api/placeholder/120/40" },
-    { name: "GoAhead", src: "/api/placeholder/120/40" },
-    { name: "National Express", src: "/api/placeholder/120/40" },
+    { name: "Hak Bus", src: "/assets/images/hakbus.png" },
+    { name: "Ido Tours", src: "/assets/images/idotours.png" },
+    { name: "Euro Bus", src: "/assets/images/eurobus.png" },
+    { name: "Euro Turist", src: "/assets/images/euroturist.png" },
+    { name: "Nasir Tours", src: "/assets/images/nasiri.png" },
+    { name: "Bashkim Tours", src: "/assets/images/bashkimi.png" },
+    { name: "Hisar Turizam", src: "/assets/images/hisar.png" },
+    { name: "Amr Tours", src: "/assets/images/amr.png" },
   ];
 
   return (
@@ -27,7 +27,7 @@ const PartnersSection = () => {
               coaches to local shuttles, so you can focus on your journey
               without the hassle of visiting multiple websites.
             </p>
-            <button className="bg-primary-bg hover:bg-primary-bg/95 text-white font-semibold px-8 py-3 rounded-xl transition-colors">
+            <button className="button-gradient text-white font-semibold px-8 py-3 rounded-xl transition-colors">
               Get started
             </button>
           </div>

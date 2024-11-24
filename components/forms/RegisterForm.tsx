@@ -143,7 +143,7 @@ const RegisterForm = () => {
               />
             </div>
             <FormError message={error} />
-            <Button className="w-full" type="submit" disabled={isLoading}>
+            <Button className="w-full button-gradient" type="submit" disabled={isLoading}>
               {isLoading ? (
                 <Loader className="h-3 w-3 animate-spin" />
               ) : (

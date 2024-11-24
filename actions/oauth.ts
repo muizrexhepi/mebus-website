@@ -7,10 +7,10 @@ import { environment } from "@/environment";
 export async function handleGoogleLogin() {  
     account.createOAuth2Session(
       OAuthProvider.Google,
-      'http://localhost:3000?oauth=true',
-      'http://localhost:3000/fail',
-      // environment.domainurl + "?oauth=true",
-      // `${environment.domainurl}/fail`
+      // 'http://localhost:3000?oauth=true',
+      // 'http://localhost:3000/fail',
+      environment.domainurl + "?oauth=true",
+      `${environment.domainurl}/fail`
     )
 }
 
@@ -18,10 +18,10 @@ export async function handleGoogleLogin() {
 export async function handleFacebookLogin() {
     account.createOAuth2Session(
       OAuthProvider.Facebook,
-      'http://localhost:3000?oauth=true',
-      'http://localhost:3000/fail',
-      // environment.domainurl,
-      // `${environment.domainurl}/fail`
+      // 'http://localhost:3000?oauth=true',
+      // 'http://localhost:3000/fail',
+      environment.domainurl,
+      `${environment.domainurl}/fail`
     );
   }
 

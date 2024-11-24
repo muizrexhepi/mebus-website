@@ -89,3 +89,8 @@ input[type="radio"]:checked {
   background-color: #ff5722; /* Change this to your primary color */
   border-color: #ff5722; /* Optional: match the border color */
 }
+
+
+.button-gradient {
+  @apply bg-gradient-to-tr from-[#ff6700] to-[#ff007f];
+}
