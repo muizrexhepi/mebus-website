@@ -18,18 +18,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Link from "next/link";
-import { Loader, BusFront } from "lucide-react";
+import { Eye, EyeOff, Loader } from "lucide-react";
 import Image from "next/image";
 import { FormError } from "@/components/form-error";
 import { handleFacebookLogin, handleGoogleLogin } from "@/actions/oauth";
 import { account } from "@/appwrite.config";
 import { createUser } from "@/actions/users";
+import { cn } from "@/lib/utils";
 
 const RegisterPage = () => {
   const { t } = useTranslation();
   const [error, setError] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -77,6 +79,10 @@ const RegisterPage = () => {
     }
 
     setIsLoading(false);
+  };
+
+  const togglePasswrod = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -152,13 +158,36 @@ const RegisterPage = () => {
                       {t("register.password.label")}
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        {...field}
-                        disabled={isLoading}
-                        type="password"
-                        placeholder={t("register.password.placeholder")}
-                        className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 text-base"
-                      />
+                      <div className="relative">
+                        <Input
+                          {...field}
+                          disabled={isLoading}
+                          type={showPassword ? "text" : "password"}
+                          placeholder={t("register.password.placeholder")}
+                          className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 text-base"
+                        />
+                        {!showPassword ? (
+                          <Eye
+                            className={cn(
+                              "absolute right-3 top-3 cursor-pointer text-primary/70",
+                              {
+                                hidden: !field.value,
+                              }
+                            )}
+                            onClick={togglePasswrod}
+                          />
+                        ) : (
+                          <EyeOff
+                            className={cn(
+                              "absolute right-3 top-3 cursor-pointer text-primary/70",
+                              {
+                                hidden: !field.value,
+                              }
+                            )}
+                            onClick={togglePasswrod}
+                          />
+                        )}
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

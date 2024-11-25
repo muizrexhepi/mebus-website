@@ -25,6 +25,7 @@ import { account } from "@/appwrite.config";
 import { useNavbarStore } from "@/store";
 import { createUser } from "@/actions/users";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const RegisterForm = () => {
   const { t } = useTranslation();
@@ -183,12 +184,22 @@ const RegisterForm = () => {
                             />
                             {!showPassword ? (
                               <Eye
-                                className="absolute right-3 top-3 cursor-pointer text-primary/70"
+                                className={cn(
+                                  "absolute right-3 top-3 cursor-pointer text-primary/70",
+                                  {
+                                    hidden: !field.value,
+                                  }
+                                )}
                                 onClick={togglePasswrod}
                               />
                             ) : (
                               <EyeOff
-                                className="absolute right-3 top-3 cursor-pointer text-primary/70"
+                                className={cn(
+                                  "absolute right-3 top-3 cursor-pointer text-primary/70",
+                                  {
+                                    hidden: !field.value,
+                                  }
+                                )}
                                 onClick={togglePasswrod}
                               />
                             )}

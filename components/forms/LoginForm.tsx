@@ -25,6 +25,7 @@ import { account } from "@/appwrite.config";
 import { useNavbarStore } from "@/store";
 import { loginUser } from "@/actions/auth";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const LoginForm = () => {
   const { t } = useTranslation();
@@ -170,12 +171,22 @@ const LoginForm = () => {
                             />
                             {!showPassword ? (
                               <Eye
-                                className="absolute right-3 top-3 cursor-pointer text-primary/70"
+                                className={cn(
+                                  "absolute right-3 top-3 cursor-pointer text-primary/70",
+                                  {
+                                    hidden: !field.value,
+                                  }
+                                )}
                                 onClick={togglePasswrod}
                               />
                             ) : (
                               <EyeOff
-                                className="absolute right-3 top-3 cursor-pointer text-primary/70"
+                                className={cn(
+                                  "absolute right-3 top-3 cursor-pointer text-primary/70",
+                                  {
+                                    hidden: !field.value,
+                                  }
+                                )}
                                 onClick={togglePasswrod}
                               />
                             )}
