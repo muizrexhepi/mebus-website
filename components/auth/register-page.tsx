@@ -107,7 +107,7 @@ const RegisterPage = () => {
                         disabled={isLoading}
                         type="text"
                         placeholder={t("register.name.placeholder")}
-                        className="w-full h-14 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 capitalize text-base"
+                        className="w-full h-14 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 text-base"
                       />
                     </FormControl>
                     <FormMessage />
@@ -126,7 +126,7 @@ const RegisterPage = () => {
                         disabled={isLoading}
                         type="email"
                         placeholder={t("register.email.placeholder")}
-                        className="w-full h-14 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 capitalize text-base"
+                        className="w-full h-14 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 text-base"
                       />
                     </FormControl>
                     <FormMessage />
@@ -145,7 +145,7 @@ const RegisterPage = () => {
                         disabled={isLoading}
                         type="password"
                         placeholder={t("register.password.placeholder")}
-                        className="w-full h-14 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 capitalize text-base"
+                        className="w-full h-14 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 text-base"
                       />
                     </FormControl>
                     <FormMessage />
