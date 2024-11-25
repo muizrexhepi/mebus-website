@@ -300,6 +300,8 @@
     "login": "Login"
   },
   "login": {
+    "getFullExperience": "Access the full booking experience",
+    "experienceDescription": "Sign in to book tickets easily, track your trips, and manage your bookings in one place.",
     "title": "Login to your account",
     "subtitle": "Welcome back! Please enter your details.",
     "email": {
@@ -344,7 +346,9 @@
     "errors": {
       "userExists": "A user with the same id, email, or phone already exists!",
       "generic": "An error occurred during registration."
-    }
+    },
+    "getFullExperience": "Get the full experience",
+    "experienceDescription": "Sign up to book bus tickets effortlessly, access exclusive deals, and enjoy a smooth booking experience."
   },
   "reset": {
     "title": "Reset your password",

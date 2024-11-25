@@ -89,7 +89,10 @@ const UserNavbarMenu = () => {
         </Link>
         <Separator className="!mb-4" />
         <div className="px-4">
-          <Button className="w-full" onClick={handleLogout}>
+          <Button
+            className="button-gradient w-full h-12 text-base text-white rounded-xl"
+            onClick={handleLogout}
+          >
             {t("auth.logout")} {/* Translated "Logout" */}
           </Button>
         </div>
@@ -103,15 +106,15 @@ const UserNavbarMenu = () => {
         <SheetTrigger asChild>{MenuTrigger}</SheetTrigger>
         <SheetContent
           side="right"
-          className="w-[300px] sm:w-[400px] bg-white p-0 z-[99]"
+          className="w-full sm:w-[400px] bg-white p-0 z-[99]"
         >
           <SheetHeader className="p-4 text-left border-b">
             <SheetTitle className="text-2xl font-bold pt-2">
               <Image
                 src={"/assets/icons/dark-logo.svg"}
                 alt="Logo"
-                width={100}
-                height={40}
+                width={140}
+                height={60}
                 className="object-contain"
                 priority
               />
@@ -150,7 +153,7 @@ const UserNavbarMenu = () => {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={handleLogout}>
-          {t("auth.logout")} {/* Translated "Logout" */}
+          {t("auth.logout")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -23,6 +23,8 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { useNavbarStore } from "@/store";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
+import Image from "next/image";
 
 const ResetPasswordForm = () => {
   const [success, setSuccess] = useState<string | undefined>();
@@ -35,7 +37,7 @@ const ResetPasswordForm = () => {
       email: "",
     },
   });
-
+  const { t } = useTranslation();
   const router = useRouter();
 
   const onSubmit = async (values: z.infer<typeof resetPasswordSchema>) => {
@@ -66,45 +68,93 @@ const ResetPasswordForm = () => {
 
   return (
     <Dialog open={openReset} onOpenChange={() => setOpenReset(false)}>
-      <DialogContent>
+      <DialogContent className="">
         <DialogHeader>
-          <DialogTitle className="text-2xl">Reset your password</DialogTitle>
+          <div className="text-center">
+            <Image
+              src={"/assets/icons/icon.svg"}
+              width={90}
+              height={90}
+              alt="logo"
+              className="mx-auto"
+            />
+            <h1 className="mt-6 text-4xl font-extrabold text-gray-900">
+              {t("reset.title")}
+            </h1>
+            <p className="mt-2 text-sm text-gray-600">{t("reset.subtitle")}</p>
+          </div>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="mt-8 space-y-6"
+          >
             <div className="space-y-4">
               <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel className="font-medium text-base">
+                      {t("reset.email.label")}
+                    </FormLabel>
                     <FormControl>
-                      <Input {...field} disabled={isLoading} type="email" />
+                      <Input
+                        {...field}
+                        disabled={isLoading}
+                        type="email"
+                        placeholder={t("reset.email.placeholder")}
+                        className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0  text-base"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
+
             <FormSuccess message={success} />
             <FormError message={error} />
-            <Button className="w-full" type="submit" disabled={isLoading}>
-              {isLoading ? <Loader className="h-3 w-3 animate-spin" /> : "Send"}
+
+            <Button
+              className="w-full button-gradient text-base h-12 rounded-xl"
+              type="submit"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Loader className="h-5 w-5 animate-spin" />
+              ) : (
+                t("reset.sendButton")
+              )}
             </Button>
           </form>
         </Form>
-        <Button
+        <div className="text-center mt-4">
+          <p className="text-sm text-gray-600">
+            {t("reset.rememberPassword")}{" "}
+            <Link
+              href="/"
+              onClick={() => {
+                setOpenReset(false);
+                setOpenLogin(true);
+              }}
+              className="font-medium text-primary-accent transition-colors"
+            >
+              {t("reset.backToLogin")}
+            </Link>
+          </p>
+        </div>
+        {/* <Button
           variant="link"
           onClick={() => {
             router.push("/");
             setOpenReset(false);
             setOpenLogin(true);
           }}
-          className="text-sm text-center font-semibold text-indigo-500"
+          className="text-sm text-center font-normal w-fit mx-auto text-indigo-700 hover:no-underline"
         >
           Return to login
-        </Button>
+        </Button> */}
       </DialogContent>
     </Dialog>
   );

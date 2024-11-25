@@ -61,7 +61,13 @@ const ResetPasswordPage = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-secondary/5 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <Image src={'/assets/icons/icon.svg'} width={90} height={90} alt="logo" className="mx-auto" />
+          <Image
+            src={"/assets/icons/icon.svg"}
+            width={90}
+            height={90}
+            alt="logo"
+            className="mx-auto"
+          />
           <h1 className="mt-6 text-4xl font-extrabold text-gray-900">
             {t("reset.title")}
           </h1>
@@ -87,7 +93,7 @@ const ResetPasswordPage = () => {
                         disabled={isLoading}
                         type="email"
                         placeholder={t("reset.email.placeholder")}
-                        className="w-full h-14 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0  text-base"
+                        className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0  text-base"
                       />
                     </FormControl>
                     <FormMessage />
@@ -99,9 +105,9 @@ const ResetPasswordPage = () => {
             <FormSuccess message={success} />
             <FormError message={error} />
 
-            <Button 
-              className="w-full button-gradient text-base h-14 rounded-xl" 
-              type="submit" 
+            <Button
+              className="w-full button-gradient text-base h-12 rounded-xl"
+              type="submit"
               disabled={isLoading}
             >
               {isLoading ? (

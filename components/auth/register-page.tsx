@@ -83,8 +83,14 @@ const RegisterPage = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-secondary/5 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <Image src={'/assets/icons/icon.svg'} width={90} height={90} alt="logo" className="mx-auto" />
-          <h1 className="mt-6 text-4xl font-extrabold text-gray-900">
+          <Image
+            src={"/assets/icons/icon.svg"}
+            width={90}
+            height={90}
+            alt="logo"
+            className="mx-auto"
+          />
+          <h1 className="mt-6 text-3xl sm:text-4xl font-extrabold text-gray-900">
             {t("register.title")}
           </h1>
           <p className="mt-2 text-sm text-gray-600">{t("register.subtitle")}</p>
@@ -100,14 +106,16 @@ const RegisterPage = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-medium text-base">{t("register.name.label")}</FormLabel>
+                    <FormLabel className="font-medium text-base">
+                      {t("register.name.label")}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         disabled={isLoading}
                         type="text"
                         placeholder={t("register.name.placeholder")}
-                        className="w-full h-14 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 text-base"
+                        className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 text-base"
                       />
                     </FormControl>
                     <FormMessage />
@@ -119,14 +127,16 @@ const RegisterPage = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-medium text-base">{t("register.email.label")}</FormLabel>
+                    <FormLabel className="font-medium text-base">
+                      {t("register.email.label")}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         disabled={isLoading}
                         type="email"
                         placeholder={t("register.email.placeholder")}
-                        className="w-full h-14 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 text-base"
+                        className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 text-base"
                       />
                     </FormControl>
                     <FormMessage />
@@ -138,14 +148,16 @@ const RegisterPage = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-medium text-base">{t("register.password.label")}</FormLabel>
+                    <FormLabel className="font-medium text-base">
+                      {t("register.password.label")}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         disabled={isLoading}
                         type="password"
                         placeholder={t("register.password.placeholder")}
-                        className="w-full h-14 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 text-base"
+                        className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 text-base"
                       />
                     </FormControl>
                     <FormMessage />
@@ -156,9 +168,9 @@ const RegisterPage = () => {
 
             <FormError message={error} />
 
-            <Button 
-              className="w-full button-gradient text-base h-14 rounded-xl" 
-              type="submit" 
+            <Button
+              className="w-full button-gradient text-base h-12 rounded-xl"
+              type="submit"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -171,20 +183,17 @@ const RegisterPage = () => {
         </Form>
 
         <div className="mt-6">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-gradient-to-br from-primary/5 to-secondary/5 text-gray-500">
-                {t("register.orContinueWith")}
-              </span>
-            </div>
+          <div className="relative flex items-center">
+            <div className="flex-grow border-t border-gray-300"></div>
+            <span className="flex-shrink mx-3 text-gray-700 text-sm">
+              {t("login.orContinueWith")}
+            </span>
+            <div className="flex-grow border-t border-gray-300"></div>
           </div>
 
           <div className="mt-6 grid grid-cols-2 gap-3">
             <Button
-              className="w-full h-14 rounded-xl"
+              className="w-full h-12 rounded-xl"
               onClick={handleGoogleLogin}
               variant="outline"
               disabled={isLoading}
@@ -196,10 +205,12 @@ const RegisterPage = () => {
                 alt="Google icon"
                 className="mr-2"
               />
-              <span className="sr-only sm:not-sr-only">{t("register.googleButton")}</span>
+              <span className="sr-only sm:not-sr-only">
+                {t("register.googleButton")}
+              </span>
             </Button>
             <Button
-              className="w-full h-14 rounded-xl"
+              className="w-full h-12 rounded-xl"
               onClick={handleFacebookLogin}
               variant="outline"
               disabled={isLoading}
@@ -211,7 +222,9 @@ const RegisterPage = () => {
                 alt="Facebook icon"
                 className="mr-2"
               />
-              <span className="sr-only sm:not-sr-only">{t("register.facebookButton")}</span>
+              <span className="sr-only sm:not-sr-only">
+                {t("register.facebookButton")}
+              </span>
             </Button>
           </div>
         </div>

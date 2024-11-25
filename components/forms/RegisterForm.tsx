@@ -1,7 +1,8 @@
 "use client";
+
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Dialog, DialogContent } from "../ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
@@ -16,19 +17,21 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { Loader } from "lucide-react";
+import { Eye, EyeOff, Loader } from "lucide-react";
 import Image from "next/image";
 import { FormError } from "@/components/form-error";
 import { handleFacebookLogin, handleGoogleLogin } from "@/actions/oauth";
 import { account } from "@/appwrite.config";
 import { useNavbarStore } from "@/store";
 import { createUser } from "@/actions/users";
+import Link from "next/link";
 
 const RegisterForm = () => {
   const { t } = useTranslation();
   const [error, setError] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { setOpenRegister, openRegister } = useNavbarStore();
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -78,118 +81,198 @@ const RegisterForm = () => {
     setIsLoading(false);
   };
 
+  const togglePasswrod = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <Dialog open={openRegister} onOpenChange={() => setOpenRegister(false)}>
-      <DialogContent className="h-screen sm:h-fit flex flex-col justify-center">
-        <DialogHeader>
-          <DialogTitle className="text-2xl">{t("register.title")}</DialogTitle>
-        </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="space-y-4">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("register.name.label")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        disabled={isLoading}
-                        type="text"
-                        placeholder={t("register.name.placeholder")}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+      <DialogContent className="sm:max-w-[900px] p-0 h-screen sm:h-fit">
+        <div className="grid lg:grid-cols-2 h-full">
+          {/* Left Side - Branding */}
+          <div className="hidden lg:flex flex-col justify-center w-full items-center p-8 bg-gradient-to-br from-primary/10 to-primary/5">
+            <div className="flex justify-center items-center flex-col mx-auto space-y-6">
+              <Image
+                src="/assets/icons/icon.svg"
+                width={250}
+                height={250}
+                alt="logo"
+                className="mb-8"
               />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("register.email.label")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        disabled={isLoading}
-                        type="email"
-                        placeholder={t("register.email.placeholder")}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("register.password.label")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        disabled={isLoading}
-                        type="password"
-                        placeholder={t("register.password.placeholder")}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+
+              <div className="space-y-2 text-center">
+                <h2 className="text-2xl font-bold">
+                  {t("register.getFullExperience")}
+                </h2>
+                <p className="text-muted-foreground">
+                  {t("register.experienceDescription")}
+                </p>
+              </div>
             </div>
-            <FormError message={error} />
-            <Button className="w-full button-gradient" type="submit" disabled={isLoading}>
-              {isLoading ? (
-                <Loader className="h-3 w-3 animate-spin" />
-              ) : (
-                t("register.signUpButton")
-              )}
-            </Button>
-          </form>
-        </Form>
-        <div className="relative flex items-center">
-          <div className="flex-grow border-t border-gray-400"></div>
-          <span className="flex-shrink mx-3 text-gray-700 text-sm">
-            {t("register.orContinueWith")}
-          </span>
-          <div className="flex-grow border-t border-gray-400"></div>
-        </div>
-        <div className="space-y-3">
-          <Button
-            className="w-full relative"
-            onClick={handleGoogleLogin}
-            variant="outline"
-            disabled={isLoading}
-          >
-            <Image
-              src="/assets/icons/googleIcon.svg"
-              width={20}
-              height={20}
-              alt="Google icon"
-              className="absolute left-4"
-            />
-            {t("register.googleButton")}
-          </Button>
-          <Button
-            className="w-full relative"
-            onClick={handleFacebookLogin}
-            variant="outline"
-            disabled={isLoading}
-          >
-            <Image
-              src="/assets/icons/facebookIcon.svg"
-              width={20}
-              height={20}
-              alt="Facebook icon"
-              className="absolute left-4"
-            />
-            {t("register.facebookButton")}
-          </Button>
+          </div>
+
+          {/* Right Side - Register Form */}
+          <div className="p-6 sm:p-8 my-auto">
+            <div className="max-w-[360px] mx-auto space-y-6">
+              <div className="space-y-2 text-center lg:hidden">
+                <h1 className="text-2xl font-bold tracking-tight">
+                  {t("register.title")}
+                </h1>
+                <p className="text-sm text-muted-foreground">
+                  {t("register.subtitle")}
+                </p>
+              </div>
+
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-4"
+                >
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem className="space-y-0">
+                        <FormLabel>{t("register.name.label")}</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            disabled={isLoading}
+                            type="text"
+                            placeholder={t("register.name.placeholder")}
+                            className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 text-base"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem className="space-y-0">
+                        <FormLabel>{t("register.email.label")}</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            disabled={isLoading}
+                            type="email"
+                            placeholder={t("register.email.placeholder")}
+                            className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 text-base"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem className="space-y-0">
+                        <FormLabel>{t("register.password.label")}</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Input
+                              {...field}
+                              disabled={isLoading}
+                              type={showPassword ? "text" : "password"}
+                              placeholder={t("register.password.placeholder")}
+                              className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 text-base"
+                            />
+                            {!showPassword ? (
+                              <Eye
+                                className="absolute right-3 top-3 cursor-pointer text-primary/70"
+                                onClick={togglePasswrod}
+                              />
+                            ) : (
+                              <EyeOff
+                                className="absolute right-3 top-3 cursor-pointer text-primary/70"
+                                onClick={togglePasswrod}
+                              />
+                            )}
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormError message={error} />
+                  <Button
+                    className="w-full h-12 rounded-xl button-gradient text-base"
+                    type="submit"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <Loader className="h-5 w-5 animate-spin" />
+                    ) : (
+                      t("register.signUpButton")
+                    )}
+                  </Button>
+                </form>
+              </Form>
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">
+                    {t("login.orContinueWith")}
+                  </span>
+                </div>
+              </div>
+              <div className="grid gap-4">
+                <Button
+                  className="w-full h-12 rounded-xl"
+                  onClick={handleGoogleLogin}
+                  variant="outline"
+                  disabled={isLoading}
+                >
+                  <Image
+                    src="/assets/icons/googleIcon.svg"
+                    width={20}
+                    height={20}
+                    alt="Google icon"
+                    className="mr-2"
+                  />
+                  {t("login.googleButton")}
+                </Button>
+                <Button
+                  className="w-full h-12 rounded-xl"
+                  onClick={handleFacebookLogin}
+                  variant="outline"
+                  disabled={isLoading}
+                >
+                  <Image
+                    src="/assets/icons/facebookIcon.svg"
+                    width={20}
+                    height={20}
+                    alt="Facebook icon"
+                    className="mr-2"
+                  />
+                  {t("login.facebookButton")}
+                </Button>
+              </div>
+              <p className="text-sm text-primary-bg/70 text-center">
+                By creating an account you agree to our{" "}
+                <Link
+                  className="text-primary-accent"
+                  href={"/legal/terms-of-service"}
+                >
+                  Terms of Service
+                </Link>{" "}
+                and{" "}
+                <Link
+                  className="text-primary-accent"
+                  href={"/legal/privacy-policy"}
+                >
+                  Privacy Policy
+                </Link>
+                .{" "}
+              </p>
+            </div>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 const FeaturesSection = () => {
@@ -11,7 +12,13 @@ const FeaturesSection = () => {
               {/* Background blobs */}
               <div className="absolute inset-0 bg-blue-100 rounded-full opacity-20 scale-90 group-hover:scale-95 transition-transform" />
               <div className="absolute inset-0 bg-red-100 rounded-full opacity-20 -rotate-6 group-hover:rotate-0 transition-transform" />
-
+              {/* <Image
+                alt="Info Image 1"
+                width={500}
+                height={500}
+                className="w-full h-full object-contain rounded-xl z-10"
+                src={"/assets/icons/infoimg1.svg"}
+              /> */}
               {/* Illustration */}
               <div className="relative aspect-square p-8">
                 <div className="bg-white rounded-2xl p-6 shadow-lg transform -rotate-6 group-hover:rotate-0 transition-transform">
@@ -41,6 +48,13 @@ const FeaturesSection = () => {
               <div className="absolute inset-0 bg-red-100 rounded-full opacity-20 -rotate-6 group-hover:rotate-0 transition-transform" />
 
               {/* Illustration */}
+              {/* <Image
+                alt="Info Image 1"
+                width={500}
+                height={500}
+                className="w-full h-full object-cover rounded-xl z-10"
+                src={"/assets/icons/infoimg2.svg"}
+              /> */}
               <div className="relative aspect-square p-8">
                 <div className="bg-white rounded-full w-32 h-32 shadow-lg absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                   <div className="absolute inset-2 bg-pink-100 rounded-full">
@@ -66,7 +80,13 @@ const FeaturesSection = () => {
               {/* Background blobs */}
               <div className="absolute inset-0 bg-blue-100 rounded-full opacity-20 scale-90 group-hover:scale-95 transition-transform" />
               <div className="absolute inset-0 bg-red-100 rounded-full opacity-20 -rotate-6 group-hover:rotate-0 transition-transform" />
-
+              {/* <Image
+                alt="Info Image 1"
+                width={500}
+                height={500}
+                className="w-full h-full object-contain rounded-xl z-10"
+                src={"/assets/icons/infoimg3.svg"}
+              /> */}
               {/* Illustration */}
               <div className="relative aspect-square p-8">
                 <div className="bg-white rounded-2xl w-48 h-24 shadow-lg absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform -rotate-12 group-hover:rotate-0 transition-transform">

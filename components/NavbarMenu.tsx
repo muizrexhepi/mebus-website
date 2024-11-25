@@ -93,11 +93,15 @@ const NavbarMenu = () => {
         </Link>
         <Separator className="!mb-4" />
         <div className="flex flex-col gap-2 w-full px-4">
-          <Button className="w-full" variant={"outline"} asChild>
+          <Button
+            className="w-full h-12 rounded-xl"
+            variant={"outline"}
+            asChild
+          >
             <Link href={"/login"}>{t("auth.login")}</Link>
             {/* Translated 'Login' */}
           </Button>
-          <Button className="w-full" asChild>
+          <Button className="w-full h-12 rounded-xl button-gradient" asChild>
             <Link href={"/register"}>{t("auth.signUp")}</Link>
             {/* Translated 'Sign Up' */}
           </Button>
@@ -112,15 +116,15 @@ const NavbarMenu = () => {
         <SheetTrigger asChild>{MenuTrigger}</SheetTrigger>
         <SheetContent
           side="right"
-          className="w-[300px] sm:w-[400px] bg-white p-0 z-[99]"
+          className="w-full sm:w-[400px] bg-white p-0 z-[99]"
         >
           <SheetHeader className="p-4 text-left border-b">
             <SheetTitle className="text-2xl font-bold pt-2">
               <Image
                 src={"/assets/icons/dark-logo.svg"}
                 alt="Logo"
-                width={100}
-                height={40}
+                width={140}
+                height={60}
                 className="object-contain"
                 priority
               />

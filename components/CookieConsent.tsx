@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import { X, Cookie } from 'lucide-react';
+import { X, Cookie } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -75,7 +75,7 @@ export default function CookieConsent() {
 
   return (
     <>
-      <div className="fixed bottom-4 right-4 z-50 max-w-sm bg-primary-bg text-primary-foreground rounded-lg shadow-lg overflow-hidden">
+      <div className="fixed bottom-4 right-4 left-4 sm:left-auto z-50 max-w-sm bg-primary-bg text-primary-foreground rounded-lg shadow-lg overflow-hidden">
         <div className="p-4">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold">Cookie Preferences</h2>
@@ -90,13 +90,14 @@ export default function CookieConsent() {
             </Button>
           </div>
           <p className="text-sm mb-4">
-            We use cookies to enhance your experience and provide personalized services.
+            We use cookies to enhance your experience and provide personalized
+            services.
           </p>
           <div className="flex flex-col space-y-2">
             <Button
               onClick={() => setShowModal(true)}
               variant="secondary"
-              className="w-full justify-start"
+              className="w-full justify-center h-12 rounded-xl"
             >
               <Cookie className="h-4 w-4 mr-2" />
               Customize
@@ -104,7 +105,7 @@ export default function CookieConsent() {
             <Button
               onClick={handleAcceptAll}
               variant="secondary"
-              className="w-full bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+              className="w-full rounded-xl h-12 button-gradient text-white"
             >
               Accept All
             </Button>
@@ -184,7 +185,7 @@ export default function CookieConsent() {
           <DialogFooter>
             <Button
               onClick={handleSavePreferences}
-              className=" bg-gradient-to-tr from-[#ff6700] to-[#ff007f] text-primary-foreground"
+              className=" button-gradient h-12 text-white"
             >
               Save Preferences
             </Button>
@@ -194,4 +195,3 @@ export default function CookieConsent() {
     </>
   );
 }
-
