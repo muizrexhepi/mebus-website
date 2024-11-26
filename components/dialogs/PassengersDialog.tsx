@@ -103,7 +103,7 @@ const PassengerSelectDialog: React.FC<PassengerSelectDialogProps> = ({
                 </Button>
               </div>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-4 mt-8">
               <p className="text-sm text-gray-500">
                 Your age at the time of travel must meet the requirements for
                 the selected ticket type. Some bus operators have restrictions
@@ -113,9 +113,6 @@ const PassengerSelectDialog: React.FC<PassengerSelectDialogProps> = ({
                 Age limits and policies for traveling with children may vary, so
                 please check with the bus operator before booking.
               </p>
-              {/* <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-    Apply
-  </Button> */}
             </div>
           </div>
         </ScrollArea>
@@ -123,7 +120,7 @@ const PassengerSelectDialog: React.FC<PassengerSelectDialogProps> = ({
           <div className="px-4 py-8 absolute bottom-0 bg-white left-0 w-full border-t">
             <Button
               onClick={() => onClose()}
-              className="w-full h-14 bg-primary-bg text-base"
+              className="w-full h-12 button-gradient text-base"
             >
               Confirm
             </Button>

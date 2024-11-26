@@ -36,12 +36,12 @@ export const metadata: Metadata = {
 
 export default function HelpPage() {
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-8 xl:px-0 pt-32">
-      <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-gradient-to-tr from-primary-bg/95 via-primary-bg to-primary-bg/95  paddingX py-4 z-20">
+    <div className="max-w-6xl mx-auto px-4 sm:px-8 xl:px-0 pt-12">
+      {/* <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-gradient-to-tr from-primary-bg/95 via-primary-bg to-primary-bg/95  paddingX py-4 z-20">
         <Navbar className="max-w-6xl" />
-      </div>
+      </div> */}
       <HelpPageClient />
-      <SecondaryFooter />
+      {/* <SecondaryFooter /> */}
     </div>
   );
 }

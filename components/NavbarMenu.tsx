@@ -61,35 +61,35 @@ const NavbarMenu = () => {
           className="block px-4 py-2 text-sm font-medium"
           onClick={() => setIsOpen(false)}
         >
-          {t("nav.routes")} {/* Translated 'Routes' */}
+          {t("nav.routes")}
         </Link>
         <Link
           href="/bookings"
           className="block px-4 py-2 text-sm font-medium"
           onClick={() => setIsOpen(false)}
         >
-          {t("nav.bookings")} {/* Translated 'Bookings' */}
+          {t("nav.bookings")}
         </Link>
-        <Link
+        {/* <Link
           href="/about"
           className="block px-4 py-2 text-sm font-medium"
           onClick={() => setIsOpen(false)}
         >
-          {t("nav.about")} {/* Translated 'About Us' */}
-        </Link>
+          {t("nav.about")}
+        </Link> */}
         <Link
           href="/help"
           className="block px-4 py-2 text-sm font-medium"
           onClick={() => setIsOpen(false)}
         >
-          {t("nav.help")} {/* Translated 'Help & Support' */}
+          {t("nav.help")}
         </Link>
         <Link
-          href="/contact"
+          href="/help/contact-support"
           className="block px-4 py-2 text-sm font-medium"
           onClick={() => setIsOpen(false)}
         >
-          {t("nav.contact")} {/* Translated 'Contact Us' */}
+          {t("nav.contact")}
         </Link>
         <Separator className="!mb-4" />
         <div className="flex flex-col gap-2 w-full px-4">
@@ -99,11 +99,10 @@ const NavbarMenu = () => {
             asChild
           >
             <Link href={"/login"}>{t("auth.login")}</Link>
-            {/* Translated 'Login' */}
           </Button>
           <Button className="w-full h-12 rounded-xl button-gradient" asChild>
             <Link href={"/register"}>{t("auth.signUp")}</Link>
-            {/* Translated 'Sign Up' */}
+            {/* Translated 'Sig Up' */}
           </Button>
         </div>
       </div>
@@ -146,7 +145,7 @@ const NavbarMenu = () => {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/contact" className="w-full">
+          <Link href="/help/contact-support" className="w-full">
             {t("nav.contact")} {/* Translated 'Contact Us' */}
           </Link>
         </DropdownMenuItem>

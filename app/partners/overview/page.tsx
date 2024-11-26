@@ -1,17 +1,13 @@
-import Navbar from "@/components/Navbar";
-import SecondaryFooter from "@/components/SecondaryFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  CheckCircle,
-  ArrowRight,
-  Bus,
   Globe,
   CreditCard,
   Users,
   TrendingUp,
   BarChart,
   Shield,
+  ArrowRight,
 } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
@@ -44,12 +40,8 @@ export const metadata: Metadata = {
 
 export default function OperatorPartnership() {
   return (
-    <div className="mx-auto xl:px-0 pt-20">
-      <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 paddingX py-4 z-20">
-        <Navbar className="max-w-6xl" />
-      </div>
-
-      <section className="flex flex-col lg:flex-row items-center justify-between gap-12 py-16 max-w-6xl mx-auto px-4 sm:px-8 xl:px-0">
+    <div className="mx-auto xl:px-0 py-12">
+      <section className="flex flex-col lg:flex-row items-center justify-between gap-12 pb-12 max-w-6xl mx-auto px-4 sm:px-8 xl:px-0">
         <div className="lg:w-1/2">
           <h1 className="text-3xl sm:text-5xl font-bold mb-6">
             Partner with GoBusly
@@ -61,7 +53,7 @@ export default function OperatorPartnership() {
             provide the technology, you provide the rides!
           </p>
           <Link href={"/partners/apply"}>
-            <Button size="lg" className="font-semibold">
+            <Button variant={"primary"} className="h-12 font-semibold">
               Become a Partner <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </Link>
@@ -72,7 +64,7 @@ export default function OperatorPartnership() {
             height={1080}
             src="/assets/images/busOperatorPartnership.jpg"
             alt="Bus operator partnership"
-            className="rounded-lg shadow-lg"
+            className="rounded-xl shadow-lg"
           />
         </div>
       </section>
@@ -190,12 +182,12 @@ export default function OperatorPartnership() {
             height={1080}
             src="/assets/images/busOperatorPartnershipProcess.jpg"
             alt="Partnership process"
-            className="rounded-lg shadow-lg h-[400px]"
+            className="rounded-xl shadow-lg h-[400px]"
           />
         </div>
       </section>
 
-      <section className="py-16 bg-primary max-w-6xl mx-auto text-white text-center rounded-lg">
+      <section className="py-16 button-gradient max-w-6xl mx-auto text-white text-center rounded-xl">
         <h2 className="text-3xl font-semibold mb-4">Ready to get started?</h2>
         <p className="mb-8 max-w-2xl mx-auto text-lg px-4 xl:px-0">
           Join the GoBusly network today and transform your bus operation with
@@ -211,8 +203,6 @@ export default function OperatorPartnership() {
           </Button>
         </Link>
       </section>
-
-      <SecondaryFooter />
     </div>
   );
 }

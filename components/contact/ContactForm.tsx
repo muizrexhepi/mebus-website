@@ -31,7 +31,7 @@ export default function ContactForm() {
   };
 
   return (
-    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+    <Card className=" h-fit">
       <CardHeader>
         <CardTitle className="text-2xl">Send Us a Message</CardTitle>
         <CardDescription>
@@ -41,28 +41,39 @@ export default function ContactForm() {
       <CardContent>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
+            <div className="space-y-1">
               <Label htmlFor="first-name">First name</Label>
-              <Input id="first-name" placeholder="John" required />
+              <Input
+                id="first-name"
+                placeholder="John"
+                required
+                className="h-12 bg-primary-bg/5 rounded-xl border-none"
+              />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-1">
               <Label htmlFor="last-name">Last name</Label>
-              <Input id="last-name" placeholder="Doe" required />
+              <Input
+                id="last-name"
+                placeholder="Doe"
+                required
+                className="h-12 bg-primary-bg/5 rounded-xl border-none"
+              />
             </div>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1">
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
               placeholder="john.doe@example.com"
               type="email"
               required
+              className="h-12 bg-primary-bg/5 rounded-xl border-none"
             />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1">
             <Label htmlFor="subject">Subject</Label>
             <Select required>
-              <SelectTrigger>
+              <SelectTrigger className="h-12 bg-primary-bg/5 rounded-xl border-none">
                 <SelectValue placeholder="Select a subject" />
               </SelectTrigger>
               <SelectContent>
@@ -74,15 +85,19 @@ export default function ContactForm() {
               </SelectContent>
             </Select>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1">
             <Label htmlFor="message">Message</Label>
             <Textarea
+              className="resize-none bg-primary-bg/5 rounded-xl border-none"
               id="message"
               placeholder="Type your message here"
               required
             />
           </div>
-          <Button type="submit" className="w-full bg-primary text-white">
+          <Button
+            type="submit"
+            className="w-full h-12 rounded-xl button-gradient text-white"
+          >
             Send Message
           </Button>
         </form>

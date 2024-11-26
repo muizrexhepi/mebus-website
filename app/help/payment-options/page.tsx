@@ -9,8 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Navbar from "@/components/Navbar";
-import SecondaryFooter from "@/components/SecondaryFooter";
 
 export const metadata: Metadata = {
   title: "Payment Options - Help Center | GoBusly",
@@ -46,10 +44,7 @@ export const metadata: Metadata = {
 export default function PaymentOptionsPage() {
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 paddingX py-4 z-20">
-        <Navbar className="max-w-4xl" />
-      </div>
-      <main className="flex-grow container max-w-4xl mx-auto px-4 sm:px-8 xl:px-0 pt-32 pb-12">
+      <main className="flex-grow container max-w-4xl mx-auto px-4 sm:px-8 xl:px-0 pt-12">
         <div className="flex flex-col gap-4 sm:flex-row items-start sm:items-center justify-between">
           <h1 className="text-3xl font-bold md:mb-8 text-primary">
             Payment Options
@@ -61,7 +56,6 @@ export default function PaymentOptionsPage() {
           </Link>
         </div>
 
-        {/* Current Payment Methods */}
         <Card className="mb-8">
           <CardHeader>
             <CardTitle>Accepted Payment Methods</CardTitle>
@@ -162,7 +156,6 @@ export default function PaymentOptionsPage() {
           </CardContent>
         </Card>
       </main>
-      <SecondaryFooter className="max-w-4xl" />
     </div>
   );
 }

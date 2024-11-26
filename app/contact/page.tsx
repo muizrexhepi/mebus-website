@@ -6,9 +6,34 @@ import ContactForm from "@/components/contact/ContactForm";
 import SecondaryFooter from "@/components/SecondaryFooter";
 
 export const metadata: Metadata = {
-  title: "Contact Support | GoBusly - Your Reliable Bus Booking Service",
+  title: "Contact Support - Professional Assistance | GoBusly",
   description:
-    "Get in touch with GoBusly support for all your bus booking needs. We offer 24/7 customer support, easy online booking, and hassle-free travel experiences.",
+    "Connect with GoBusly's professional support team for comprehensive bus booking services. Expert assistance, seamless communication, and dedicated customer care.",
+  keywords:
+    "GoBusly, Professional Support, Customer Service, Bus Booking, Expert Assistance, Travel Support",
+  authors: [{ name: "GoBusly" }],
+  robots: "index, follow",
+  openGraph: {
+    title: "Contact Support - Professional Assistance | GoBusly",
+    description:
+      "Experience top-tier customer support with GoBusly. Our professional team ensures a smooth and reliable booking experience.",
+    url: "https://www.gobusly.com/help/contact-support",
+    type: "website",
+    images: [
+      {
+        url: "https://www.gobusly.com/images/contact-support-banner.jpg",
+        width: 1200,
+        height: 630,
+        alt: "GoBusly Professional Support",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact Support - Professional Assistance | GoBusly",
+    description:
+      "Professional bus booking support at your fingertips. Reliable, efficient, and customer-focused.",
+  },
 };
 
 const ContactInfo: React.FC<{
@@ -16,10 +41,12 @@ const ContactInfo: React.FC<{
   title: string;
   content: React.ReactNode;
 }> = ({ icon, title, content }) => (
-  <div className="flex items-start space-x-4">
-    <div className="text-emerald-700">{icon}</div>
+  <div className="flex items-start space-x-4 p-4 bg-primary-bg/5 rounded-xl hover:shadow-sm transition-all duration-300">
+    <div className="text-primary-bg p-2 rounded-full bg-primary-bg/10">
+      {icon}
+    </div>
     <div>
-      <h3 className="font-semibold text-lg">{title}</h3>
+      <h3 className="font-semibold text-lg text-neutral-800">{title}</h3>
       {content}
     </div>
   </div>
@@ -27,105 +54,80 @@ const ContactInfo: React.FC<{
 
 const Contact: React.FC = () => {
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-8 xl:px-0 pt-32">
-      <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 paddingX py-4 z-20">
+    <div className="max-w-6xl mx-auto sm:px-8 xl:px-0 pt-32">
+      <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-primary-bg/95 shadow-sm paddingX py-4 z-20">
         <Navbar className="max-w-6xl" />
       </div>
 
-      <h1 className="text-4xl font-bold mb-4 text-neutral-800">
-        Contact Support
-      </h1>
-      <p className="text-gray-600 mb-12 max-w-2xl">
-        Our dedicated support team is here to assist you with any questions or
-        concerns. Choose your preferred method of contact or send us a message
-        directly.
-      </p>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div>
+          <h1 className="text-4xl font-bold mb-6 text-neutral-900 border-b-4 border-primary-accent pb-4">
+            Contact Support
+          </h1>
+          <p className="text-gray-600 mb-12 text-lg leading-relaxed">
+            Our dedicated professional support team is committed to providing
+            exceptional assistance. We offer multiple communication channels to
+            ensure your convenience and satisfaction.
+          </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
-        <div className="space-y-8">
-          <ContactInfo
-            icon={<Phone size={24} />}
-            title="Phone Support"
-            content={
-              <div className="space-y-2">
-                <p>Toll-Free: 1-800-GoBusly-01</p>
-                <p>International: +1-555-GoBusly-02</p>
-                <p className="text-sm text-gray-500">Available 24/7</p>
-              </div>
-            }
-          />
-          <ContactInfo
-            icon={<Mail size={24} />}
-            title="Email Support"
-            content={
-              <div className="space-y-2">
-                <p>General Inquiries: support@GoBusly.com</p>
-                <p>Booking Assistance: bookings@GoBusly.com</p>
-                <p className="text-sm text-gray-500">
-                  Response within 24 hours
-                </p>
-              </div>
-            }
-          />
-          <ContactInfo
-            icon={<MapPin size={24} />}
-            title="Main Office"
-            content={
-              <div className="space-y-2">
-                <p>456 GoBusly Terminal, Suite 789</p>
-                <p>New York, NY 10001</p>
-                <div className="flex items-center space-x-2 text-sm text-gray-500">
-                  <Clock size={16} />
-                  <span>Mon-Fri: 9AM-6PM</span>
+          <div className="space-y-6">
+            <ContactInfo
+              icon={<Phone size={24} strokeWidth={1.5} />}
+              title="Professional Phone Support"
+              content={
+                <div className="space-y-2">
+                  <p className="text-neutral-700">
+                    Toll-Free: 1-800-GoBusly-01
+                  </p>
+                  <p className="text-neutral-700">
+                    International: +1-555-GoBusly-02
+                  </p>
+                  <p className="text-sm text-primary-accent font-medium">
+                    24/7 Expert Support
+                  </p>
                 </div>
-              </div>
-            }
-          />
+              }
+            />
+            <ContactInfo
+              icon={<Mail size={24} strokeWidth={1.5} />}
+              title="Professional Email Support"
+              content={
+                <div className="space-y-2">
+                  <p className="text-neutral-700">
+                    General Inquiries: support@gobusly.com
+                  </p>
+                  <p className="text-neutral-700">
+                    Booking Assistance: bookings@gobusly.com
+                  </p>
+                  <p className="text-sm text-primary-accent font-medium">
+                    Guaranteed 24-Hour Response
+                  </p>
+                </div>
+              }
+            />
+            <ContactInfo
+              icon={<MapPin size={24} strokeWidth={1.5} />}
+              title="Corporate Headquarters"
+              content={
+                <div className="space-y-2">
+                  <p className="text-neutral-700">SEEU Techpark, GoBusly</p>
+                  <p className="text-neutral-700">Tetovo, 1200</p>
+                  <div className="flex items-center space-x-2 text-sm text-primary-accent font-medium">
+                    <Clock size={16} strokeWidth={1.5} />
+                    <span>Business Hours: Mon-Fri, 9AM-6PM</span>
+                  </div>
+                </div>
+              }
+            />
+          </div>
         </div>
 
         <ContactForm />
       </div>
 
-      {/* <div className="mb-16">
-        <h2 className="text-2xl font-semibold mb-4">
-          Frequently Asked Questions
-        </h2>
-        <div className="space-y-6">
-          <div>
-            <h3 className="font-semibold text-lg mb-2">
-              How do I book a GoBusly ticket?
-            </h3>
-            <p className="text-gray-600">
-              Use our online booking system: enter your travel details, select
-              your preferred bus and seats, and complete the payment process.
-              You&apos;ll receive a confirmation email with your ticket details.
-            </p>
-          </div>
-          <div>
-            <h3 className="font-semibold text-lg mb-2">
-              What&apos;s GoBusly&apos;s cancellation policy?
-            </h3>
-            <p className="text-gray-600">
-              We offer a flexible cancellation policy allowing changes up to 15
-              minutes before departure. Refund amounts vary based on the time of
-              cancellation. Please check our terms and conditions for detailed
-              information.
-            </p>
-          </div>
-          <div>
-            <h3 className="font-semibold text-lg mb-2">
-              What amenities are available on GoBusly?
-            </h3>
-            <p className="text-gray-600">
-              GoBusly offers free Wi-Fi, power outlets, onboard entertainment,
-              spacious legroom, restrooms, and air conditioning. Amenities may
-              vary by bus type, so please check your trip details for specifics.
-            </p>
-          </div>
-        </div>
-      </div> */}
-
-      <SecondaryFooter />
+      <div className="mt-16 w-[100vw] relative left-1/2 -translate-x-1/2">
+        <SecondaryFooter />
+      </div>
     </div>
   );
 };

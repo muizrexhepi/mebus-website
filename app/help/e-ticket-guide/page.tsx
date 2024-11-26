@@ -10,8 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Navbar from "@/components/Navbar";
-import SecondaryFooter from "@/components/SecondaryFooter";
 
 export const metadata: Metadata = {
   title: "E-Ticket Guide - Help Center | GoBusly",
@@ -47,10 +45,7 @@ export const metadata: Metadata = {
 const ETicketGuidePage = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 paddingX py-4 z-20">
-        <Navbar className="max-w-4xl" />
-      </div>
-      <main className="flex-grow container max-w-4xl mx-auto px-4 sm:px-8 xl:px-0 pt-32 pb-12">
+      <main className="flex-grow container max-w-4xl mx-auto px-4 sm:px-8 xl:px-0 pt-12">
         <div className="flex flex-col gap-4 sm:flex-row items-start sm:items-center justify-between">
           <h1 className="text-3xl font-bold md:mb-8 text-primary">
             E-Ticket Guide
@@ -144,11 +139,12 @@ const ETicketGuidePage = () => {
               If you&apos;re experiencing issues with your e-ticket or have any
               questions, our support team is ready to help.
             </p>
-            <Button>Contact Support</Button>
+            <Button className="rounded-xl button-gradient">
+              Contact Support
+            </Button>
           </CardContent>
         </Card>
       </main>
-      <SecondaryFooter className="max-w-4xl" />
     </div>
   );
 };

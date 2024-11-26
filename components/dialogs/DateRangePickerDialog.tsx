@@ -46,7 +46,7 @@ const DateRangePickerDialog: React.FC<DateRangePickerDialogProps> = ({
           <div className="px-4 py-8 absolute bottom-0 bg-white left-0 w-full border-t">
             <Button
               onClick={() => onClose()}
-              className="w-full h-14 bg-primary-bg text-base"
+              className="w-full h-12 button-gradient text-base"
             >
               Confirm
             </Button>

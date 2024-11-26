@@ -4,6 +4,7 @@ import SecondaryNavbar from "@/components/SecondaryNavbar";
 import SearchSection from "@/components/search/SearchSection";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import SecondaryFooter from "@/components/SecondaryFooter";
 
 export async function generateMetadata({
   params,
@@ -35,7 +36,7 @@ const SearchPage = async () => {
           <SearchedTickets />
         </div>
       </div>
-      <Footer />
+      <SecondaryFooter />
     </div>
   );
 };

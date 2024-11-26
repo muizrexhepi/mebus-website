@@ -1,6 +1,4 @@
 import React from "react";
-import Navbar from "@/components/Navbar";
-import SecondaryFooter from "@/components/SecondaryFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChevronLeft, Globe, Shield, TrendingUp } from "lucide-react";
@@ -36,21 +34,17 @@ export const metadata: Metadata = {
 
 const PartnerApplicationPage: React.FC = () => {
   return (
-    <div className="mx-auto px-4 sm:px-8 xl:px-0 pt-10 sm:pt-20">
-      <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 paddingX py-4 z-20">
-        <Navbar className="max-w-6xl" />
-      </div>
-
-      <div className="max-w-6xl mx-auto py-16">
+    <div className="mx-auto px-4 sm:px-8 xl:px-0 py-12">
+      <div className="max-w-6xl mx-auto">
         <Link href="/partners/overview">
-          <Button variant="outline" className="mb-4">
+          <Button variant="outline" className="rounded-xl mb-4">
             <ChevronLeft className="mr-2 h-4 w-4" /> Back
           </Button>
         </Link>
 
         <div className="flex flex-col lg:flex-row gap-12">
           <div className="lg:w-2/3">
-            <Card>
+            <Card className=" rounded-xl">
               <CardHeader>
                 <CardTitle>Partner Application Form</CardTitle>
               </CardHeader>
@@ -61,7 +55,7 @@ const PartnerApplicationPage: React.FC = () => {
           </div>
 
           <div className="lg:w-1/3 space-y-6">
-            <Card className="bg-primary text-white">
+            <Card className="bg-primary-bg text-white rounded-xl">
               <CardHeader>
                 <CardTitle className="text-2xl">
                   Why Partner with GoBusly?
@@ -100,7 +94,7 @@ const PartnerApplicationPage: React.FC = () => {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className=" rounded-xl">
               <CardHeader>
                 <CardTitle>Need Help?</CardTitle>
               </CardHeader>
@@ -110,7 +104,7 @@ const PartnerApplicationPage: React.FC = () => {
                   partnership program, please don&apos;t hesitate to contact us.
                 </p>
                 <Link href={"/contact"}>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full h-12 rounded-xl">
                     Contact Support
                   </Button>
                 </Link>
@@ -119,8 +113,6 @@ const PartnerApplicationPage: React.FC = () => {
           </div>
         </div>
       </div>
-
-      <SecondaryFooter />
     </div>
   );
 };

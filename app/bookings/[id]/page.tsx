@@ -116,9 +116,6 @@ export default function BookingDetailsPage({
   if (isLoading) {
     return (
       <div className="h-screen w-full max-w-5xl space-y-3 py-20 paddingX mx-auto">
-        <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 paddingX py-4 z-20">
-          <SecondaryNavbar />
-        </div>
         <div className="flex justify-between items-center">
           <Skeleton className="h-14 w-40" />
           <Skeleton className="h-12 w-26" />
@@ -232,9 +229,6 @@ export default function BookingDetailsPage({
 
   return (
     <div className="space-y-4 max-w-5xl mx-auto py-20 paddingX">
-      <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 paddingX py-4 z-20">
-        <SecondaryNavbar />
-      </div>
       <div className="flex flex-col sm:flex-row justify-between items-start gap-2 sm:items-center">
         <div className="">
           <h2 className="text-3xl font-semibold">

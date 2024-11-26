@@ -1,7 +1,5 @@
 import React from "react";
 import { Metadata } from "next";
-import Navbar from "@/components/Navbar";
-import SecondaryFooter from "@/components/SecondaryFooter";
 import { environment } from "@/environment";
 import axios from "axios";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -32,19 +30,19 @@ const CompanyInfo: React.FC<{ companyMetadata: CompanyMetadata }> = ({
     <h1 className="font-semibold text-lg mb-2">Company Information</h1>
     <div className="grid grid-cols-2 gap-2 text-sm">
       <div>
-        <BuildingIcon className="w-4 h-4 inline mr-2 text-emerald-700" />
+        <BuildingIcon className="w-4 h-4 inline mr-2 text-primary-bg" />
         {companyMetadata?.name}
       </div>
       <div>
-        <MailIcon className="w-4 h-4 inline mr-2 text-emerald-700" />
+        <MailIcon className="w-4 h-4 inline mr-2 text-primary-bg" />
         {companyMetadata?.email}
       </div>
       <div>
-        <PhoneIcon className="w-4 h-4 inline mr-2 text-emerald-700" />
+        <PhoneIcon className="w-4 h-4 inline mr-2 text-primary-bg" />
         {companyMetadata?.phone}
       </div>
       <div>
-        <MapPinIcon className="w-4 h-4 inline mr-2 text-emerald-700" />
+        <MapPinIcon className="w-4 h-4 inline mr-2 text-primary-bg" />
         {companyMetadata?.country}
       </div>
     </div>
@@ -57,7 +55,7 @@ const ActiveOperators: React.FC<{ operators: Operator[] }> = ({
   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
     {operators.map((operator) => (
       <Card key={operator?._id} className="overflow-hidden">
-        <CardHeader className="bg-emerald-700 text-white">
+        <CardHeader className="bg-primary-bg text-white">
           <CardTitle className="flex items-center justify-between">
             <span>{operator?.name}</span>
             <Link href={`/partners/active-operators/${operator?._id}`}>
@@ -73,21 +71,21 @@ const ActiveOperators: React.FC<{ operators: Operator[] }> = ({
         <CardContent className="mt-4">
           <div className="space-y-2">
             <div className="flex items-center">
-              <MailIcon className="w-4 h-4 mr-2 text-emerald-700" />
+              <MailIcon className="w-4 h-4 mr-2 text-primary-bg" />
               <span>{operator?.email}</span>
             </div>
             <div className="flex items-center">
-              <UserIcon className="w-4 h-4 mr-2 text-emerald-700" />
+              <UserIcon className="w-4 h-4 mr-2 text-primary-bg" />
               <span>ID: {operator?._id}</span>
             </div>
             <div className="flex items-center">
-              <CalendarIcon className="w-4 h-4 mr-2 text-emerald-700" />
+              <CalendarIcon className="w-4 h-4 mr-2 text-primary-bg" />
               <span>
                 Joined: {new Date(operator?.createdAt).toLocaleDateString()}
               </span>
             </div>
             <div className="flex items-center">
-              <AlertCircleIcon className="w-4 h-4 mr-2 text-emerald-700" />
+              <AlertCircleIcon className="w-4 h-4 mr-2 text-primary-bg" />
               <span>Max Child Age: {operator?.max_child_age || 12}</span>
             </div>
           </div>
@@ -104,11 +102,7 @@ const ActiveOperatorsPage: React.FC = async () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 paddingX py-4 z-20">
-        <Navbar className="max-w-6xl" />
-      </div>
-
-      <main className="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-8 xl:px-0 pt-32 pb-16">
+      <main className="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-8 xl:px-0 py-12">
         <h1 className="text-4xl font-bold mb-4 text-neutral-800">
           Active Operators
         </h1>
@@ -120,8 +114,6 @@ const ActiveOperatorsPage: React.FC = async () => {
 
         <ActiveOperators operators={operators} />
       </main>
-
-      <SecondaryFooter />
     </div>
   );
 };

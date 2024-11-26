@@ -80,13 +80,13 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
       <div className="flex sm:items-center sm:flex-row flex-col items-start justify-between px-4 py gap-2">
         <div className="flex items-center space-x-4">
           <Calendar className="h-5 w-5 text-primary-bg" />
-          <span className="font-semibold">
+          <span className="font-medium">
             {formatDate(ticket.departure_date)}
           </span>
         </div>
         <div className="flex items-center space-x-4">
           <Clock className="h-5 w-5 text-primary-bg" />
-          <span className="font-semibold">
+          <span className="font-medium">
             {moment.utc(ticket.stops[0].departure_date).format("HH:mm")}
           </span>
         </div>
@@ -105,18 +105,18 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
               </div>
               <div className="flex-1 -mt-1 ml-1">
                 <div className="flex w-full justify-between items-center">
-                  <p className="font-medium capitalize line-clamp-1 truncate">
+                  <p className="text-black/70 font-medium text-sm capitalize line-clamp-1 truncate">
                     {stop.from.name}
                   </p>
-                  <span className="font-medium">
+                  <span className="font-medium shrink-0">
                     {moment.utc(stop.departure_date).format("HH:mm")}
                   </span>
                 </div>
-                <div className="flex w-full justify-between items-center">
-                  <p className="font-medium capitalize line-clamp-1 truncate mt-3">
+                <div className="flex w-full justify-between items-end">
+                  <p className="text-black/70 font-medium text-sm capitalize line-clamp-1 truncate mt-3">
                     {stop.to.name}
                   </p>
-                  <span className="font-medium">
+                  <span className="font-medium shrink-0">
                     {moment.utc(stop.arrival_time).format("HH:mm")}
                   </span>
                 </div>
