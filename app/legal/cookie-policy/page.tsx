@@ -28,10 +28,7 @@ export const metadata = {
 
 export default function MebusCookiePolicy() {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-8 xl:px-0 pt-32">
-      <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 px-4 sm:px-8 py-4 z-20">
-        <Navbar className="max-w-4xl" />
-      </div>
+    <div className="max-w-4xl mx-auto px-4 sm:px-8 xl:px-0 py-12">
       <h1 className="text-4xl font-bold text-center mb-8">Cookie Policy</h1>
       <div className="max-w-4xl mx-auto">
         <p className="mb-8">
@@ -222,7 +219,6 @@ export default function MebusCookiePolicy() {
           </p>
         </div>
       </div>
-      <SecondaryFooter className="max-w-4xl" />
     </div>
   );
 }

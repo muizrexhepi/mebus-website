@@ -212,9 +212,9 @@ const BookingsDashboard: React.FC = () => {
               </div>
               <div className="flex items-center space-x-2 w-full sm:w-auto justify-end h-14 sm:h-24 sm:justify-start">
                 <div className="flex flex-col justify-between h-full">
-                  <div className="h-3 w-3 rounded-full bg-emerald-700" />
-                  <div className="flex-1 ml-[5px] border-l-1 border-dotted border-emerald-700 border w-0" />
-                  <div className="h-3 w-3 rounded-full bg-emerald-700" />
+                  <div className="h-3 w-3 rounded-full bg-primary-accent" />
+                  <div className="flex-1 ml-[5px] border-l-1 border-dotted border-primary-accent border w-0" />
+                  <div className="h-3 w-3 rounded-full bg-primary-accent" />
                 </div>
                 <div className="flex flex-col h-full justify-between">
                   <div className="text-sm font-medium capitalize flex flex-col">
@@ -322,7 +322,7 @@ const BookingsDashboard: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col max-w-4xl mx-auto px-4 md:px-6 space-y-4 py-12">
+    <div className="flex flex-col max-w-4xl mx-auto px-4 md:px-6 space-y-4 py-12 min-h-screen">
       <h2 className="text-3xl font-semibold mb-4">
         {t("bookings.myBookings")}
       </h2>

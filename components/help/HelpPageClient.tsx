@@ -50,7 +50,7 @@ const HelpPageClient = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid sm:rid-cols-2 md:grid-cols-4 gap-4">
             {QUICK_LINKS.map((link) => (
               <Link href={`/help/${link.name}`} key={link.name}>
                 <Button

@@ -310,6 +310,7 @@ export default function BusRoutesClient({
               )}
             </div>
             <Button
+              variant={"primary"}
               className="h-14 sm:col-span-2 lg:col-span-1 z-[10]"
               type="button"
               onClick={handleTicketSearch}
@@ -348,6 +349,7 @@ export default function BusRoutesClient({
                     Available seats: 6
                   </div>
                   <Button
+                    variant={"primary"}
                     size="sm"
                     className="mt-2"
                     onClick={(e) => handleBook(route, e)}

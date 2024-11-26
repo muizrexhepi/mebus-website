@@ -25,7 +25,7 @@ const FOOTER_LINKS = [
       { name: "Travel Flex Options", link: "/help/travel-flex" },
       { name: "Customer Support", link: "/help/contact-support" },
       { name: "Luggage Policy", link: "/help/luggage-policy" },
-      { name: "Discount Offers", link: "/discounts" },
+      // { name: "Discount Offers", link: "/discounts" },
       { name: "Help", link: "/help" },
     ],
   },

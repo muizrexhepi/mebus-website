@@ -3,8 +3,8 @@ import axios from "axios";
 import { environment } from "@/environment";
 import { Route } from "@/models/route";
 import Navbar from "@/components/Navbar";
-import SecondaryFooter from "@/components/SecondaryFooter";
 import BusRoutesClient from "@/components/routes/BusRoutesClient";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Explore Bus Routes | GoBusly",
@@ -28,13 +28,13 @@ export default async function BusRoutes() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
-      <div className="bg-primary paddingX w-full py-4">
+      <div className="bg-primary-bg paddingX w-full py-4">
         <Navbar className="max-w-6xl mx-auto" />
       </div>
       <main className="flex-grow w-full mx-auto">
         <BusRoutesClient initialRoutes={routes} />
       </main>
-      <SecondaryFooter className="max-w-6xl" />
+      <Footer />
     </div>
   );
 }
