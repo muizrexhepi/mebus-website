@@ -319,7 +319,13 @@
     "googleButton": "Google",
     "facebookButton": "Facebook",
     "noAccount": "Don't have an account?",
-    "registerLink": "Register here"
+    "registerLink": "Register here",
+    "mfaVerification": "Multi-factor Authentication Verification",
+    "mfaEmailDescription": "We've sent a verification code to your email. Please enter it below.",
+    "mfaTotpDescription": "Enter the code from your authenticator app to proceed.",
+    "mfaCode": "Verification Code",
+    "mfaCodePlaceholder": "Enter your verification code",
+    "verifyButton": "Verify"
   },
   "register": {
     "title": "Create your account",

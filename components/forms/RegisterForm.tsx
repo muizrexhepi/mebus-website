@@ -72,6 +72,7 @@ const RegisterForm = () => {
 
       setError("");
     } catch (error: any) {
+      console.log({ error });
       if (error && error.code === 409) {
         setError(t("register.errors.userExists"));
       } else {

@@ -36,12 +36,21 @@ export default function LoginSecurity() {
   const { user, loading } = useUser();
   const [oldPassword, setOldPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
-  const [twoFactorEnabled, setTwoFactorEnabled] = useState<boolean>(false);
+  const [twoFactorEnabled, setTwoFactorEnabled] = useState<boolean>(
+    user?.mfa || false
+  );
   const [loginNotifications, setLoginNotifications] = useState<boolean>(false);
   const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
   const { toast } = useToast();
   const router = useRouter();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
+
+  // Add useEffect to update state when user changes
+  useEffect(() => {
+    if (user) {
+      setTwoFactorEnabled(user.mfa || false);
+    }
+  }, [user]);
 
   const handleOldPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOldPassword(e.target.value);
@@ -69,7 +78,7 @@ export default function LoginSecurity() {
   const handleEmailVerification = async () => {
     try {
       await account.createVerification(
-        "https://mebus-website.vercel.app/email-verification"
+        "https://www.gobusly.com/email-verification"
       );
       toast({ description: "Email sent successfully." });
     } catch (error) {
@@ -86,7 +95,7 @@ export default function LoginSecurity() {
       const deleted = await deleteUser(user?.$id);
       toast({ description: "Account deleted successfully." });
       router.push("/");
-      setIsAlertOpen(false); // Close the alert dialog on success
+      setIsAlertOpen(false);
     } catch (error) {
       console.error("Failed to delete account:", error);
       toast({
@@ -96,16 +105,25 @@ export default function LoginSecurity() {
     }
   };
 
-  const handleTwoFactorToggle = async () => {
+  const handleTwoFactorToggle = async (checked: boolean) => {
     try {
-      setTwoFactorEnabled(!twoFactorEnabled);
+      // Update local state immediately for responsiveness
+      setTwoFactorEnabled(checked);
+
+      // Call Appwrite to update MFA
+      const result = await account.updateMFA(checked);
+
       toast({
         description: `Two-factor authentication ${
-          twoFactorEnabled ? "disabled" : "enabled"
+          checked ? "enabled" : "disabled"
         }.`,
       });
     } catch (error) {
       console.error("Failed to toggle two-factor authentication:", error);
+
+      // Revert state if API call fails
+      setTwoFactorEnabled(!checked);
+
       toast({
         description:
           "Failed to update two-factor authentication. Please try again.",
@@ -114,27 +132,42 @@ export default function LoginSecurity() {
     }
   };
 
-  const handleLoginNotificationsToggle = async () => {
+  const handleLoginNotificationsToggle = async (checked: boolean) => {
     try {
-      setLoginNotifications(!loginNotifications);
+      // Update local state immediately for responsiveness
+      setLoginNotifications(checked);
+
+      // Here you would typically call an API to update login notifications
+      // For now, this is a placeholder
+
       toast({
-        description: `Login notifications ${
-          loginNotifications ? "disabled" : "enabled"
-        }.`,
+        description: `Login notifications ${checked ? "enabled" : "disabled"}.`,
       });
     } catch (error) {
       console.error("Failed to toggle login notifications:", error);
+
+      // Revert state if API call fails
+      setLoginNotifications(!checked);
+
       toast({
         description: "Failed to update login notifications. Please try again.",
         variant: "destructive",
       });
     }
   };
+
+  // Prevent rendering if user is still loading
+  if (loading) {
+    return null;
+  }
+
   return (
     <div className="">
       <div className="space-y-8">
         <div>
-          <h2 className="text-3xl font-semibold">{t("security.loginSecurity")}</h2>
+          <h2 className="text-3xl font-semibold">
+            {t("security.loginSecurity")}
+          </h2>
         </div>
         <div className="space-y-6">
           <div
@@ -154,13 +187,13 @@ export default function LoginSecurity() {
                 <DialogHeader>
                   <DialogTitle>{t("security.editPassword")}</DialogTitle>
                   <DialogDescription>
-                  {t("security.makeChangesToYourPw")}
+                    {t("security.makeChangesToYourPw")}
                   </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="oldPassword" className="text-right">
-                    {t("security.oldPw")}
+                      {t("security.oldPw")}
                     </Label>
                     <Input
                       id="oldPassword"
@@ -173,7 +206,7 @@ export default function LoginSecurity() {
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="newPassword" className="text-right">
-                    {t("security.newPw")}
+                      {t("security.newPw")}
                     </Label>
                     <Input
                       id="newPassword"
@@ -199,7 +232,7 @@ export default function LoginSecurity() {
             <div>
               <div className="text-base">{t("security.TFA")}</div>
               <div className="text-neutral-800/60 max-w-2xl text-sm">
-              {t("security.addExtraSecurity")}
+                {t("security.addExtraSecurity")}
               </div>
             </div>
             <Switch
@@ -211,9 +244,11 @@ export default function LoginSecurity() {
             className={`grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6`}
           >
             <div>
-              <div className="text-base">{t("security.loginNotifications")}</div>
+              <div className="text-base">
+                {t("security.loginNotifications")}
+              </div>
               <div className="text-neutral-800/60 max-w-2xl text-sm">
-              {t("security.newLoginNotifications")}
+                {t("security.newLoginNotifications")}
               </div>
             </div>
             <Switch
@@ -256,7 +291,7 @@ export default function LoginSecurity() {
             <div>
               <div className="text-base">{t("security.activeSessions")}</div>
               <div className="text-neutral-800/60 max-w-2xl text-sm">
-              {t("security.manageSessions")}
+                {t("security.manageSessions")}
               </div>
             </div>
             <Button

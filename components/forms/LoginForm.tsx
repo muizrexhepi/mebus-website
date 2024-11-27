@@ -17,6 +17,12 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 import { Eye, EyeOff, Loader } from "lucide-react";
 import Image from "next/image";
 import { FormError } from "@/components/form-error";
@@ -26,15 +32,27 @@ import { useNavbarStore } from "@/store";
 import { loginUser } from "@/actions/auth";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { AuthenticationFactor } from "appwrite";
+import moment from "moment-timezone";
+import { REGEXP_ONLY_DIGITS } from "input-otp";
+
+const MFAVerificationSchema = z.object({
+  mfaCode: z.string().min(1, { message: "MFA code is required" }),
+});
 
 const LoginForm = () => {
   const { t } = useTranslation();
   const [error, setError] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [mfaChallenge, setMfaChallenge] = useState<{
+    challengeId: string;
+    type: AuthenticationFactor;
+  } | null>(null);
   const { setOpenLogin, openLogin, setOpenReset } = useNavbarStore();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-
-  const form = useForm<z.infer<typeof LoginSchema>>({
+  const [openOTP, setOpenOTP] = useState<boolean>(false);
+  const [remainingTime, setRemainingTime] = useState<any>();
+  const loginForm = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: "",
@@ -42,8 +60,16 @@ const LoginForm = () => {
     },
   });
 
+  const mfaForm = useForm<z.infer<typeof MFAVerificationSchema>>({
+    resolver: zodResolver(MFAVerificationSchema),
+    defaultValues: {
+      mfaCode: "",
+    },
+  });
+
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     setIsLoading(true);
+    setError(undefined);
 
     try {
       const result = await loginUser(values);
@@ -63,26 +89,214 @@ const LoginForm = () => {
         setOpenLogin(false);
         setError("");
       } catch (appwriteError: any) {
-        console.error("Appwrite session creation failed:", appwriteError);
-        setError(appwriteError.message || t("login.errors.generic"));
+        if (appwriteError.type === "user_more_factors_required") {
+          const factors = await account.listMfaFactors();
+
+          if (factors.email) {
+            try {
+              const challenge = await account.createMfaChallenge(
+                AuthenticationFactor.Email
+              );
+              const expiresAt = moment.utc(challenge.expire);
+              const now = moment.utc();
+              const timeRemaining = moment.duration(expiresAt.diff(now));
+
+              const timerInterval = setInterval(() => {
+                const currentTime = moment.utc();
+                const remainingDuration = moment.duration(
+                  expiresAt.diff(currentTime)
+                );
+
+                if (remainingDuration.asSeconds() <= 0) {
+                  // Timer has expired
+                  clearInterval(timerInterval);
+                  setOpenOTP(false);
+                  setError(t("login.errors.mfaChallengeExpired"));
+                  return;
+                }
+
+                // Update timer state
+                setRemainingTime({
+                  minutes: remainingDuration.minutes(),
+                  seconds: remainingDuration.seconds(),
+                });
+              }, 1000);
+
+              console.log({ challenge });
+              setOpenOTP(true);
+              setMfaChallenge({
+                challengeId: challenge.$id,
+                type: AuthenticationFactor.Email,
+              });
+            } catch (challengeError) {
+              console.error("MFA challenge creation failed:", challengeError);
+              setOpenOTP(false);
+              setError(t("login.errors.mfaChallengeFailed"));
+            }
+          } else if (factors.totp) {
+            setMfaChallenge({
+              challengeId: "",
+              type: AuthenticationFactor.Totp,
+            });
+            setOpenOTP(true);
+          } else {
+            setError(t("login.errors.noMfaMethodAvailable"));
+          }
+        } else {
+          console.error("Appwrite session creation failed:", appwriteError);
+          setError(appwriteError.message || t("login.errors.generic"));
+        }
       }
     } catch (error: any) {
       console.error("Login error:", error);
       setError(error.message || t("login.errors.generic"));
+      setOpenOTP(false);
+    } finally {
+      setOpenOTP(false);
+      setIsLoading(false);
+    }
+  };
+
+  const onMFAVerify = async (values: z.infer<typeof MFAVerificationSchema>) => {
+    if (!mfaChallenge) return;
+
+    setIsLoading(true);
+    try {
+      if (mfaChallenge.type === AuthenticationFactor.Email) {
+        await account.updateMfaChallenge(
+          mfaChallenge.challengeId,
+          values.mfaCode
+        );
+
+        setOpenLogin(false);
+        window.dispatchEvent(new Event("userChange"));
+      } else if (mfaChallenge.type === AuthenticationFactor.Totp) {
+        console.log("TOTP verification not implemented");
+        setError(t("login.errors.totpNotSupported"));
+      }
+    } catch (error: any) {
+      console.error("MFA verification failed:", error);
+      setError(error.message || t("login.errors.mfaVerificationFailed"));
     } finally {
       setIsLoading(false);
     }
   };
 
-  const togglePasswrod = () => {
+  const togglePassword = () => {
     setShowPassword(!showPassword);
   };
 
+  if (mfaChallenge) {
+    return (
+      <Dialog open={openLogin} onOpenChange={() => setOpenLogin(false)}>
+        <DialogContent className="sm:max-w-[400px] p-6">
+          <Form {...mfaForm}>
+            <form
+              onSubmit={mfaForm.handleSubmit(onMFAVerify)}
+              className="space-y-4"
+            >
+              <div className="text-center space-y-2">
+                <h2 className="text-xl font-bold">
+                  {t("login.mfaVerification")}
+                </h2>
+                <p className="text-muted-foreground">
+                  {mfaChallenge.type === AuthenticationFactor.Email
+                    ? t("login.mfaEmailDescription")
+                    : t("login.mfaTotpDescription")}
+                </p>
+              </div>
+
+              <FormField
+                control={mfaForm.control}
+                name="mfaCode"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex justify-between items-center">
+                      {t("login.mfaCode")}
+                      {remainingTime && (
+                        <p className="text-primary-bg font-semibold text-sm text-center">
+                          {remainingTime.minutes.toString().padStart(2, "0")} :
+                          {remainingTime.seconds.toString().padStart(2, "0")}
+                        </p>
+                      )}
+                    </FormLabel>
+                    <FormControl>
+                      <InputOTP
+                        maxLength={6}
+                        disabled={isLoading}
+                        pattern={REGEXP_ONLY_DIGITS}
+                        className="flex-1"
+                        {...field}
+                      >
+                        <InputOTPGroup className="flex flex-grow h-12">
+                          <InputOTPSlot
+                            index={0}
+                            className="flex-grow h-full bg-primary-bg/5"
+                          />
+                          <InputOTPSlot
+                            index={1}
+                            className="flex-grow h-full bg-primary-bg/5"
+                          />
+                          <InputOTPSlot
+                            index={2}
+                            className="flex-grow h-full bg-primary-bg/5"
+                          />
+                        </InputOTPGroup>
+                        <InputOTPSeparator />
+                        <InputOTPGroup className="flex flex-grow h-12">
+                          <InputOTPSlot
+                            index={3}
+                            className="flex-grow h-full bg-primary-bg/5"
+                          />
+                          <InputOTPSlot
+                            index={4}
+                            className="flex-grow h-full bg-primary-bg/5"
+                          />
+                          <InputOTPSlot
+                            index={5}
+                            className="flex-grow h-full bg-primary-bg/5"
+                          />
+                        </InputOTPGroup>
+                      </InputOTP>
+                      {/* <Input
+                        {...field}
+                        disabled={isLoading}
+                        placeholder={t("login.mfaCodePlaceholder")}
+                        className="w-full h-12 bg-primary-bg/5 border-none rounded-xl px-4"
+                      /> */}
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormError message={error} />
+
+              <Button
+                className="w-full h-12 rounded-xl"
+                type="submit"
+                variant={"primary"}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <Loader className="h-5 w-5 animate-spin" />
+                ) : (
+                  t("login.verifyButton")
+                )}
+              </Button>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  // Regular login form
   return (
     <Dialog open={openLogin} onOpenChange={() => setOpenLogin(false)}>
       <DialogContent className="sm:max-w-[900px] p-0 h-screen sm:h-fit">
         <div className="grid lg:grid-cols-2 h-full">
-          {/* Left Side - Branding */}
+          {/* Left Side - Branding (unchanged) */}
           <div className="hidden lg:flex flex-col justify-center w-full items-center p-8 bg-gradient-to-br from-primary/10 to-primary/5">
             <div className="flex justify-center items-center flex-col mx-auto space-y-6">
               <Image
@@ -116,13 +330,14 @@ const LoginForm = () => {
                 </p>
               </div>
 
-              <Form {...form}>
+              <Form {...loginForm}>
                 <form
-                  onSubmit={form.handleSubmit(onSubmit)}
+                  onSubmit={loginForm.handleSubmit(onSubmit)}
                   className="space-y-4"
                 >
+                  {/* Email and Password fields (unchanged) */}
                   <FormField
-                    control={form.control}
+                    control={loginForm.control}
                     name="email"
                     render={({ field }) => (
                       <FormItem className="space-y-0">
@@ -141,7 +356,7 @@ const LoginForm = () => {
                     )}
                   />
                   <FormField
-                    control={form.control}
+                    control={loginForm.control}
                     name="password"
                     render={({ field }) => (
                       <FormItem className="space-y-0">
@@ -177,7 +392,7 @@ const LoginForm = () => {
                                     hidden: !field.value,
                                   }
                                 )}
-                                onClick={togglePasswrod}
+                                onClick={togglePassword}
                               />
                             ) : (
                               <EyeOff
@@ -187,7 +402,7 @@ const LoginForm = () => {
                                     hidden: !field.value,
                                   }
                                 )}
-                                onClick={togglePasswrod}
+                                onClick={togglePassword}
                               />
                             )}
                           </div>
@@ -210,6 +425,8 @@ const LoginForm = () => {
                   </Button>
                 </form>
               </Form>
+
+              {/* Rest of the component remains unchanged */}
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t" />
