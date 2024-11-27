@@ -41,11 +41,11 @@ export default function LoginSecurity() {
   );
   const [loginNotifications, setLoginNotifications] = useState<boolean>(false);
   const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
-  const { toast } = useToast();
+  const [isPhoneVerificationModalOpen, setIsPhoneVerificationModalOpen] = useState<boolean>(false);
+  const [otpCode, setOtpCode] = useState<string>("");  const { toast } = useToast();
   const router = useRouter();
   const { t } = useTranslation();
 
-  // Add useEffect to update state when user changes
   useEffect(() => {
     if (user) {
       setTwoFactorEnabled(user.mfa || false);
@@ -89,10 +89,46 @@ export default function LoginSecurity() {
       });
     }
   };
+  const handlePhoneVerification = async () => {
+    try {
+      setIsPhoneVerificationModalOpen(true);
+      
+      await account.createPhoneVerification();
+      
+      toast({ description: "Verification code sent." });
+    } catch (error) {
+      console.error("Failed to initiate phone verification:", error);
+      toast({
+        description: "Failed to send verification code. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleOtpVerification = async () => {
+    try {
+      await account.updatePhoneVerification(
+        user?.$id, 
+        otpCode
+      );
+
+      setIsPhoneVerificationModalOpen(false);
+      setOtpCode(""); 
+
+      toast({ description: "Phone number verified successfully." });
+    } catch (error) {
+      console.error("Failed to verify phone number:", error);
+      toast({
+        description: "Invalid verification code. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
 
   const handleDeleteAccount = async () => {
     try {
-      const deleted = await deleteUser(user?.$id);
+      await deleteUser(user?.$id);
       toast({ description: "Account deleted successfully." });
       router.push("/");
       setIsAlertOpen(false);
@@ -107,10 +143,8 @@ export default function LoginSecurity() {
 
   const handleTwoFactorToggle = async (checked: boolean) => {
     try {
-      // Update local state immediately for responsiveness
       setTwoFactorEnabled(checked);
 
-      // Call Appwrite to update MFA
       const result = await account.updateMFA(checked);
 
       toast({
@@ -121,7 +155,6 @@ export default function LoginSecurity() {
     } catch (error) {
       console.error("Failed to toggle two-factor authentication:", error);
 
-      // Revert state if API call fails
       setTwoFactorEnabled(!checked);
 
       toast({
@@ -134,11 +167,7 @@ export default function LoginSecurity() {
 
   const handleLoginNotificationsToggle = async (checked: boolean) => {
     try {
-      // Update local state immediately for responsiveness
       setLoginNotifications(checked);
-
-      // Here you would typically call an API to update login notifications
-      // For now, this is a placeholder
 
       toast({
         description: `Login notifications ${checked ? "enabled" : "disabled"}.`,
@@ -146,7 +175,6 @@ export default function LoginSecurity() {
     } catch (error) {
       console.error("Failed to toggle login notifications:", error);
 
-      // Revert state if API call fails
       setLoginNotifications(!checked);
 
       toast({
@@ -156,13 +184,50 @@ export default function LoginSecurity() {
     }
   };
 
-  // Prevent rendering if user is still loading
   if (loading) {
     return null;
   }
 
   return (
     <div className="">
+            <Dialog 
+        open={isPhoneVerificationModalOpen} 
+        onOpenChange={setIsPhoneVerificationModalOpen}
+      >
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Verify Phone Number</DialogTitle>
+            <DialogDescription>
+              Enter the 6-digit verification code sent to your phone
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="otpCode" className="text-right">
+                OTP Code
+              </Label>
+              <Input
+                id="otpCode"
+                type="text"
+                value={otpCode}
+                placeholder="Enter 6-digit code"
+                className="col-span-3"
+                onChange={(e) => setOtpCode(e.target.value)}
+                maxLength={6}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button 
+              type="submit" 
+              onClick={handleOtpVerification}
+              disabled={otpCode.length !== 6}
+            >
+              Verify
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       <div className="space-y-8">
         <div>
           <h2 className="text-3xl font-semibold">
@@ -280,6 +345,29 @@ export default function LoginSecurity() {
                 variant="outline"
                 size="sm"
                 onClick={handleEmailVerification}
+              >
+                {t("security.verify")}
+              </Button>
+            )}
+          </div>
+          <div
+            className={`grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6`}
+          >
+            <div className="text-base">{t("security.verifyPhone")}</div>
+            {user?.phoneVerification ? (
+              <Button
+                disabled
+                variant="outline"
+                size="sm"
+                onClick={handlePhoneVerification}
+              >
+                {t("security.verified")}
+              </Button>
+            ) : (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handlePhoneVerification}
               >
                 {t("security.verify")}
               </Button>
