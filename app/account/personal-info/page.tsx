@@ -48,7 +48,6 @@ export default function PersonalInfo() {
       action: user?.phone ? t("personalInfo.edit") : "Add",
       update: async (newValue: string, password: string) => {
         await account.updatePhone(newValue, password);
-        // await account.createPhoneVerification();
       },
     },
     {

@@ -2,14 +2,15 @@ import WelcomeEmail from '@/components/email-subscribe-template';
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { Client, Databases, Query, ID } from 'node-appwrite';
+import { environment } from '@/environment';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const COMPANY_NAME = 'GoBusly';
 
 const client = new Client()
     .setEndpoint('https://cloud.appwrite.io/v1') 
-    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID!)
-    .setKey(process.env.APPWRITE_API_KEY!); 
+    .setProject(environment.APPWRITE_PROJECT_ID)
+    .setKey(environment.APPWRITE_API_KEY)
 
 const databases = new Databases(client);
 
