@@ -5,7 +5,6 @@ import { ChevronLeft, Bus } from "lucide-react";
 import { Route } from "@/models/route";
 import Navbar from "@/components/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
-import { environment } from "@/environment";
 import RoutesList from "@/components/help/RoutesList";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,7 +24,7 @@ export default async function RoutesAndStopsPage() {
   let routes: Route[] = [];
 
   try {
-    const res = await axios.get(`${environment.apiurl}/route`);
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/route`);
     routes = res.data.data || [];
   } catch (error) {
     console.error("Failed to fetch routes", error);

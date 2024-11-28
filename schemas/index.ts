@@ -80,3 +80,7 @@ export const PartnerApplicationSchema = z.object({
   registrationNumber: z.string().min(1, "Company registration number is required"),
   additionalInfo: z.string().optional(),
 });
+
+export const MFAVerificationSchema = z.object({
+  mfaCode: z.string().min(1, { message: "MFA code is required" }),
+});

@@ -1,7 +1,6 @@
 "use server";
 import { Client, Account } from "node-appwrite";
 import { cookies } from "next/headers";
-import { environment } from "@/environment";
 
 export async function createSessionClient() {
   const client = new Client()
@@ -25,8 +24,8 @@ export async function createSessionClient() {
 export async function createAdminClient() {
   const client = new Client()
     .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
-    .setProject(environment.APPWRITE_PROJECT_ID)
-    .setKey(environment.APPWRITE_API_KEY)
+    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT)
+    .setKey(process.env.NEXT_APPWRITE_KEY)
 
   return {
     get account() {

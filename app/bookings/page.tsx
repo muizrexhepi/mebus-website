@@ -22,7 +22,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import axios from "axios";
-import { environment } from "@/environment";
 import { Booking } from "@/models/booking";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
@@ -68,7 +67,7 @@ const BookingsDashboard: React.FC = () => {
       const fetchBookings = async () => {
         try {
           const res = await axios.get(
-            `${environment.apiurl}/booking/client/${user.$id}?select=departure_date metadata destinations labels price`
+            `${process.env.NEXT_PUBLIC_API_URL}/booking/client/${user.$id}?select=departure_date metadata destinations labels price`
           );
           setBookings(res.data.data);
         } catch (error) {
@@ -88,7 +87,7 @@ const BookingsDashboard: React.FC = () => {
         pdfUrl = booking.metadata.download_url;
       } else {
         const response = await axios.post(
-          `${environment.apiurl}/booking/download/pdf/e-ticket/${booking_id}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/booking/download/pdf/e-ticket/${booking_id}`,
           {}
         );
         pdfUrl = response.data.data;
@@ -170,7 +169,7 @@ const BookingsDashboard: React.FC = () => {
       }
 
       const response = await axios.post(
-        `${environment.apiurl}/booking/cancel-and-refund/${booking_id}/${payment_intent_id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/booking/cancel-and-refund/${booking_id}/${payment_intent_id}`,
         {
           intent: "cancel",
           flex: flex,

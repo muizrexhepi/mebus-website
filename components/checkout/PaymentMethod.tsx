@@ -4,16 +4,11 @@ import React, { useEffect, useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import axios, { AxiosResponse } from "axios";
 import { Button } from "@/components/ui/button";
-import { environment } from "@/environment";
 import { useToast } from "@/components/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { calculatePassengerPrices } from "../hooks/use-passengers";
 import { Ticket } from "@/models/ticket";
-import { account } from "@/appwrite.config";
-import { Checkbox } from "@/components/ui/checkbox";
-import { getUserBalance } from "@/actions/users";
-import { Input } from "../ui/input";
-import { useDepositStore, useCheckoutStore } from "@/store";
+import { useCheckoutStore } from "@/store";
 import { ApiResponse } from "@/interfaces/api";
 import useUser from "../hooks/use-user";
 import { useTranslation } from "react-i18next";
@@ -138,7 +133,7 @@ const PaymentMethod = () => {
 
     try {
       const res = await axios.post<{ data: { clientSecret: string } }>(
-        `${environment.apiurl}/payment/create-payment-intent`,
+        `${process.env.NEXT_PUBLIC_API_URL}/payment/create-payment-intent`,
         { passengers, amount_in_cents: totalPrice * 100 }
       );
 
@@ -206,7 +201,7 @@ const PaymentMethod = () => {
     console.log({ ticketTotal, returnTotal, outboundTotal });
     return axios
       .post(
-        `${environment.apiurl}/booking/create/${ticket.operator}/${
+        `${process.env.NEXT_PUBLIC_API_URL}/booking/create/${ticket.operator}/${
           user ? user.$id : null
         }/${ticket._id}`,
         {

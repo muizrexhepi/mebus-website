@@ -12,7 +12,7 @@ const Hero = () => {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (searchParams.get("oauth") == "true") {
+    if (searchParams.get("oauth") === "true") {
       handleOauthCallback();
     }
   }, [searchParams]);
@@ -41,9 +41,6 @@ const Hero = () => {
                 {t("hero.title")}
                 <span className="text-primary-accent text-6xl">.</span>
               </h1>
-              {/* <p className="text-xl sm:text-2xl text-white/80">
-                {t("hero.subtitle", "Travel with comfort and convenience")}
-              </p> */}
             </div>
 
             <div className="mt-8 relative z-30">

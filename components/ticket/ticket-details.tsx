@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 
 export default function TicketDetails({ ticket }: { ticket: Ticket }) {
   const { t } = useTranslation();
-
   const formatDate = (date: Date) => {
     return new Date(date).toLocaleDateString("en-US", {
       weekday: "short",
@@ -48,7 +47,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
       <div className="space-y-4 items-center justify-between px-4 pt-4">
         <div
           className="flex items-center space-x-4 cursor-pointer"
-          onClick={() => handleLocation(ticket?.location?.from)}
+          onClick={() => handleLocation(ticket?.stops[0]?.from?.location)}
         >
           <MapPin className="h-5 w-5 text-primary-bg" />
           <div>
@@ -62,7 +61,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
         </div>
         <div
           className="flex items-center space-x-4 cursor-pointer"
-          onClick={() => handleLocation(ticket.location.to)}
+          onClick={() => handleLocation(ticket?.stops[0]?.to?.location)}
         >
           <MapPin className="h-5 w-5 text-primary-bg" />
           <div>

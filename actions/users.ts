@@ -2,13 +2,12 @@
 import * as sdk from 'node-appwrite'
 import { parseStringify } from "@/lib/utils";
 import axios from 'axios'
-import { environment } from '@/environment';
 
 
 const client = new sdk.Client()
     .setEndpoint('https://cloud.appwrite.io/v1') 
-    .setProject(environment.APPWRITE_PROJECT_ID)
-    .setKey(environment.APPWRITE_API_KEY)
+    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT)
+    .setKey(process.env.NEXT_APPWRITE_KEY)
     .setSession('')
 
 const users = new sdk.Users(client);
@@ -22,7 +21,7 @@ declare interface CreateUserParams {
 
 export const createUser = async (user: CreateUserParams) => {
   try {
-    const newUser = await axios.post(`${environment.apiurl}/user/create/db`,{
+    const newUser = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/create/db`,{
       name:user.name,
       email:user.email,
       password:user.password
@@ -46,7 +45,7 @@ export const createUser = async (user: CreateUserParams) => {
 export const getUserBalance = async (userId: string ) => {
   try {
     const accountBalance = await axios.get(
-      `${environment.apiurl}/user/${userId}?select=balance_in_cents`
+      `${process.env.NEXT_PUBLIC_API_URL}/user/${userId}?select=balance_in_cents`
     );
     return accountBalance.data.data.balance_in_cents;
   } catch (error) {

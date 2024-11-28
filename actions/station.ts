@@ -1,11 +1,10 @@
 "use server";
 
-import { environment } from "@/environment";
 import { cache } from "react";
 
 export const getStationsByOperatorId = cache(async (operator_id: string) => {
   try {
-    const res = await fetch(`${environment.apiurl}/station/operator/${operator_id}?select=_id name city country`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/station/operator/${operator_id}?select=_id name city country`);
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
@@ -19,7 +18,7 @@ export const getStationsByOperatorId = cache(async (operator_id: string) => {
 
 export const getStations = cache(async () => {
   try {
-    const res = await fetch(`${environment.apiurl}/station?select=name city country location`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/station?select=name city country location`);
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }

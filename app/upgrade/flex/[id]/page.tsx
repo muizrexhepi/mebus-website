@@ -9,10 +9,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCheckoutStore } from "@/store";
 import TravelFlex from "@/components/checkout/TravelFlex";
 import PaymentForm from "@/components/forms/PaymentForm";
-import { environment } from "@/environment";
 
 const stripePromise = loadStripe(
-  environment.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
 
 const UpgradeFlexPage: React.FC<{ params: { id: string } }> = ({ params }) => {

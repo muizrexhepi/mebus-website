@@ -1,6 +1,5 @@
 import React from "react";
 import { Metadata } from "next";
-import { environment } from "@/environment";
 import axios from "axios";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -97,7 +96,8 @@ const ActiveOperators: React.FC<{ operators: Operator[] }> = ({
 );
 
 const ActiveOperatorsPage: React.FC = async () => {
-  const res = (await axios.get(`${environment.apiurl}/operator`)) || [];
+  const res =
+    (await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/operator`)) || [];
   const operators: Operator[] = res.data.data;
 
   return (

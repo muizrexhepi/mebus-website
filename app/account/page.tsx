@@ -27,7 +27,7 @@ export default function Account() {
   //     try {
   //       const fetchAccountBalance = async () => {
   //         const accountBalance = await axios.get(
-  //           `${environment.apiurl}/user/${user.$id}?select=balance_in_cents`
+  //           `${process.env.NEXT_PUBLIC_API_URL}/user/${user.$id}?select=balance_in_cents`
   //         );
   //         setAccountBalanceInCents(accountBalance.data.data.balance_in_cents);
   //       };

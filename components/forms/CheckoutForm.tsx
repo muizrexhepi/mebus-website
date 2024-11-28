@@ -2,14 +2,13 @@
 
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import { environment } from "@/environment";
 import PassengerInfo from "../checkout/PassengerInfo";
 import Extras from "../checkout/ExtrasInfo";
 import PaymentMethod from "../checkout/PaymentMethod";
 import OrderSummary from "../checkout/OrderSummary";
 
 const stripePromise = loadStripe(
-  environment.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
 
 const CheckoutForm = () => {

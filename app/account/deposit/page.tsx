@@ -11,7 +11,6 @@ import {
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useToast } from "@/components/hooks/use-toast";
-import { environment } from "@/environment";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,7 +20,7 @@ import Link from "next/link";
 import useUser from "@/components/hooks/use-user";
 
 const stripePromise = loadStripe(
-  environment.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
 
 const DepositForm = () => {
@@ -42,7 +41,7 @@ const DepositForm = () => {
 
     try {
       const authToken = await axios.post(
-        `${environment.apiurl}/user/generate/auth-token`,
+        `${process.env.NEXT_PUBLIC_API_URL}/user/generate/auth-token`,
         { user }
       );
       const config = {
@@ -52,7 +51,7 @@ const DepositForm = () => {
       };
 
       const res = await axios.post(
-        `${environment.apiurl}/payment/create-payment-intent`,
+        `${process.env.NEXT_PUBLIC_API_URL}/payment/create-payment-intent`,
         {
           amount_in_cents: depositAmount * 100,
         }
@@ -74,7 +73,7 @@ const DepositForm = () => {
         });
       } else {
         const depositRes = await axios.post(
-          `${environment.apiurl}/payment/deposit`,
+          `${process.env.NEXT_PUBLIC_API_URL}/payment/deposit`,
           {
             user_id: user.$id,
             amount_in_cents: depositAmount * 100,

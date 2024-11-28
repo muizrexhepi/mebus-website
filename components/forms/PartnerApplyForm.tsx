@@ -19,8 +19,6 @@ import { FormError } from "@/components/form-error";
 import { PartnerApplicationSchema } from "@/schemas";
 import axios from "axios";
 import { FormSuccess } from "../form-success";
-import { ApiResponse } from "@/interfaces/api";
-import { environment } from "@/environment";
 
 type PartnerApplicationFormValues = z.infer<typeof PartnerApplicationSchema>;
 
@@ -52,7 +50,7 @@ const PartnerApplicationForm: React.FC = () => {
   //   setIsLoading(true);
 
   //   try {
-  //     const response: ApiResponse = await axios.post(`${environment.apiurl}/applicant/create`, values);
+  //     const response: ApiResponse = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/applicant/create`, values);
   //     setError("");
   //     setMessage(response.data.message)
   //   } catch (error: any) {
@@ -67,7 +65,7 @@ const PartnerApplicationForm: React.FC = () => {
 
     try {
       const response = await axios.post(
-        `${environment.apiurl}/applicant/create`,
+        `${process.env.NEXT_PUBLIC_API_URL}/applicant/create`,
         values
       );
       if (response.status !== 201) {

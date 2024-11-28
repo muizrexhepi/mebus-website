@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import axios from "axios";
-import { environment } from "@/environment";
 import { Route } from "@/models/route";
 import Navbar from "@/components/Navbar";
 import BusRoutesClient from "@/components/routes/BusRoutesClient";
@@ -15,7 +14,9 @@ export const metadata: Metadata = {
 
 async function getRoutes() {
   try {
-    const res = await axios.get(`${environment.apiurl}/route/map-display`);
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/route/map-display`
+    );
     return res.data.data || [];
   } catch (error) {
     console.error("Failed to fetch routes", error);

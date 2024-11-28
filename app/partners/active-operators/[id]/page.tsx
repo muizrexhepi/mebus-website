@@ -1,7 +1,6 @@
 import React from "react";
 import { Metadata } from "next";
 import axios from "axios";
-import { environment } from "@/environment";
 import Navbar from "@/components/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -23,7 +22,7 @@ export async function generateMetadata({
   params: { id: string };
 }): Promise<Metadata> {
   const operatorRes = await axios.get(
-    `${environment.apiurl}/operator/${params.id}`
+    `${process.env.NEXT_PUBLIC_API_URL}/operator/${params.id}`
   );
   const operator = operatorRes.data.data;
 
@@ -102,13 +101,14 @@ const OperatorRoutesPage: React.FC<{ params: { id: string } }> = async ({
   params: { id },
 }) => {
   const routesRes = await axios.get(
-    `${environment.apiurl}/route/operator/${id}`
+    `${process.env.NEXT_PUBLIC_API_URL}/route/operator/${id}`
   );
   const routes: Route[] = routesRes.data.data;
 
-  const operatorRes = await axios.get(`${environment.apiurl}/operator/${id}`);
+  const operatorRes = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/operator/${id}`
+  );
   const operator = operatorRes.data.data;
-
 
   return (
     <div className="min-h-screen flex flex-col">

@@ -41,8 +41,10 @@ export default function LoginSecurity() {
   );
   const [loginNotifications, setLoginNotifications] = useState<boolean>(false);
   const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
-  const [isPhoneVerificationModalOpen, setIsPhoneVerificationModalOpen] = useState<boolean>(false);
-  const [otpCode, setOtpCode] = useState<string>("");  const { toast } = useToast();
+  const [isPhoneVerificationModalOpen, setIsPhoneVerificationModalOpen] =
+    useState<boolean>(false);
+  const [otpCode, setOtpCode] = useState<string>("");
+  const { toast } = useToast();
   const router = useRouter();
   const { t } = useTranslation();
 
@@ -89,12 +91,13 @@ export default function LoginSecurity() {
       });
     }
   };
+
   const handlePhoneVerification = async () => {
     try {
       setIsPhoneVerificationModalOpen(true);
-      
+
       await account.createPhoneVerification();
-      
+
       toast({ description: "Verification code sent." });
     } catch (error) {
       console.error("Failed to initiate phone verification:", error);
@@ -107,13 +110,10 @@ export default function LoginSecurity() {
 
   const handleOtpVerification = async () => {
     try {
-      await account.updatePhoneVerification(
-        user?.$id, 
-        otpCode
-      );
+      await account.updatePhoneVerification(user?.$id, otpCode);
 
       setIsPhoneVerificationModalOpen(false);
-      setOtpCode(""); 
+      setOtpCode("");
 
       toast({ description: "Phone number verified successfully." });
     } catch (error) {
@@ -124,7 +124,6 @@ export default function LoginSecurity() {
       });
     }
   };
-
 
   const handleDeleteAccount = async () => {
     try {
@@ -190,8 +189,8 @@ export default function LoginSecurity() {
 
   return (
     <div className="">
-            <Dialog 
-        open={isPhoneVerificationModalOpen} 
+      <Dialog
+        open={isPhoneVerificationModalOpen}
         onOpenChange={setIsPhoneVerificationModalOpen}
       >
         <DialogContent className="sm:max-w-[425px]">
@@ -218,8 +217,8 @@ export default function LoginSecurity() {
             </div>
           </div>
           <DialogFooter>
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               onClick={handleOtpVerification}
               disabled={otpCode.length !== 6}
             >

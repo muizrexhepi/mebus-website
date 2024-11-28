@@ -7,15 +7,10 @@ import {
   UserIcon,
   ClockIcon,
   BusIcon,
-  BuildingIcon,
   PhoneIcon,
   MailIcon,
   CalendarIcon,
-  ArrowLeft,
   ChevronLeft,
-  DollarSignIcon,
-  EuroIcon,
-  Loader2,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -25,32 +20,20 @@ import moment from "moment-timezone";
 import { getBookingByIdWithChargeData } from "@/actions/bookings";
 import InfoBlock from "@/components/InfoBlock";
 import { Separator } from "@/components/ui/separator";
-import SecondaryNavbar from "@/components/SecondaryNavbar";
-import { TRAVEL_FLEX_PERMISSIONS, TRAVEL_FLEX_TYPES } from "@/lib/data";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Calendar } from "@/components/ui/calendar";
+import { TRAVEL_FLEX_PERMISSIONS } from "@/lib/data";
 import { Booking } from "@/models/booking";
-import { environment } from "@/environment";
 import axios from "axios";
 import { useLoadingStore, usePaymentSuccessStore } from "@/store";
 import { Skeleton } from "@/components/ui/skeleton";
 import { isBefore, startOfDay } from "date-fns";
 import { Operator } from "@/models/operator";
-import { Symbols } from "@/symbols";
-import PaymentForm from "@/components/forms/PaymentForm";
-import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "@/components/hooks/use-toast";
 import { FlexUpgradeSheet } from "@/components/dialogs/FlexUpgradeDialog";
 import { useTranslation } from "react-i18next";
+
 const stripePromise = loadStripe(
-  environment.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
 
 export interface AvailableDate {
@@ -90,7 +73,9 @@ export default function BookingDetailsPage({
   const fetchAvailableDates = async () => {
     try {
       const response = await axios.get(
-        `${environment.apiurl}/ticket/search/available-dates?departureStation=${
+        `${
+          process.env.NEXT_PUBLIC_API_URL
+        }/ticket/search/available-dates?departureStation=${
           booking?.destinations?.departure_station
         }&arrivalStation=${
           booking?.destinations?.arrival_station
@@ -186,7 +171,7 @@ export default function BookingDetailsPage({
   const handleChangeDepartureDate = async () => {
     try {
       const response = await axios.post(
-        `${environment.apiurl}/booking/change/departure-date/${booking._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/booking/change/departure-date/${booking._id}`,
         {
           operator_id: newDepartureDate?.operator_info._id,
           new_departure_date: newDepartureDate?.departure_date,

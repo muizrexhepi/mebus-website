@@ -327,6 +327,14 @@
     "mfaCodePlaceholder": "Enter your verification code",
     "verifyButton": "Verify"
   },
+  "mfa": {
+    "selectMethod": "Select MFA Method",
+    "emailVerification": "Email Verification",
+    "phoneVerification": "Phone Verification",
+    "authenticatorApp": "Authenticator App",
+    "recoveryCode": "Recovery Code",
+    "continueButton": "Continue"
+  },
   "register": {
     "title": "Create your account",
     "subtitle": "Join us and start booking your bus tickets today!",

@@ -7,9 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import CookieConsent from "@/components/CookieConsent";
 import TranslationProvider from "@/components/TranslationProvider";
 import { Analytics } from "@vercel/analytics/react";
-import LoginForm from "@/components/forms/LoginForm";
-import RegisterForm from "@/components/forms/RegisterForm";
-import ResetPasswordForm from "@/components/forms/ResetForm";
+import AuthProvider from "@/components/auth-provider";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -73,23 +71,22 @@ export default function RootLayout({
     <html lang="en">
       <body className={roboto.className}>
         <Analytics />
-        <ReactQueryProvider>
-          <Toaster />
-          <TranslationProvider>
-            <LoginForm />
-            <RegisterForm />
-            <ResetPasswordForm />
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="light"
-              enableSystem
-              disableTransitionOnChange
-            >
-              {children}
-              <CookieConsent />
-            </ThemeProvider>
-          </TranslationProvider>
-        </ReactQueryProvider>
+        <AuthProvider>
+          <ReactQueryProvider>
+            <Toaster />
+            <TranslationProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="light"
+                enableSystem
+                disableTransitionOnChange
+              >
+                {children}
+                <CookieConsent />
+              </ThemeProvider>
+            </TranslationProvider>
+          </ReactQueryProvider>
+        </AuthProvider>
       </body>
     </html>
   );

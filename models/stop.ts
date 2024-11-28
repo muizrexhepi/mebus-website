@@ -12,6 +12,16 @@ export interface Stop {
         our_price: number;
         our_children_price: number;
     },
+    location: {
+        from: {
+            lat: number;
+            lng: number;
+        },
+        to: {
+            lat: number;
+            lng: number;
+        },
+    },
     max_buying_time: string;
     arrival_time: Date;
     days_of_week: string[];

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Ticket } from "@/models/ticket";
 import axios from 'axios';
-import { environment } from '@/environment';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
@@ -19,7 +18,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const res = await axios.get(`${environment.apiurl}/ticket/search?departureStation=${departureStation}&arrivalStation=${arrivalStation}&departureDate=${departureDate}&adults=${adults}&children=${children}`);
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/ticket/search?departureStation=${departureStation}&arrivalStation=${arrivalStation}&departureDate=${departureDate}&adults=${adults}&children=${children}`);
     const tickets: Ticket[] = res.data.data || [];
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + limit;

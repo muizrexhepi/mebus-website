@@ -1,14 +1,13 @@
 'use server'
 import * as sdk from 'node-appwrite'
-import { environment } from '@/environment';
 import { LoginSchema } from '@/schemas';
 import axios from 'axios';
 import { z } from 'zod';
 
 const client = new sdk.Client()
     .setEndpoint('https://cloud.appwrite.io/v1') 
-    .setProject(environment.APPWRITE_PROJECT_ID)
-    .setKey(environment.APPWRITE_API_KEY)
+    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT)
+    .setKey(process.env.NEXT_APPWRITE_KEY)
     .setSession('')
 
 
@@ -24,7 +23,7 @@ type AuthResponse = {
 
   export async function loginUser(formData: z.infer<typeof LoginSchema>): Promise<AuthResponse> {
     try {
-        const dbRes = await axios.post(`${environment.apiurl}/user/login`, {
+        const dbRes = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/login`, {
             email: formData.email,
             password: formData.password
         });

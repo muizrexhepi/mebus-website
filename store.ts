@@ -3,6 +3,7 @@ import { Ticket } from './models/ticket';
 import { PassengerData } from './components/hooks/use-passengers';
 import { addDays, format } from 'date-fns';
 import { createJSONStorage, persist, PersistOptions } from 'zustand/middleware';
+import { AuthenticationFactor, Models } from 'appwrite';
 
 export interface Passengers {
   adults: number;
@@ -164,6 +165,10 @@ export const useLoadingStore = create<ILoading>((set)=>({
   setIsLoading:(isLoading)=>set({isLoading})
 }))
 
+export interface RemainingTime {
+  minutes: number;
+  seconds: number;
+}
 
 
 interface INavbarMenu {
@@ -176,6 +181,70 @@ interface INavbarMenu {
     openReset:boolean;
     setOpenReset:(openLanguages:boolean)=>void;
 }
+
+
+
+type CurrentForm = 'login' | 'mfaOptions' | 'mfaVerification';
+
+interface IMFAStore {
+  openMFAModal: boolean;
+  setOpenMFAModal: (openMFAModal: boolean) => void;
+  openEmailMFAModal: boolean;
+  setOpenEmailMFAModal: (openEmailMFAModal: boolean) => void;
+  openPhoneMFAModal: boolean;
+  setOpenPhoneMFAModal: (openPhoneMFAModal: boolean) => void;
+  openRecoverycodeMFAModal: boolean;
+  setOpenRecoverycodeMFAModal: (openRecoverycodeMFAModal: boolean) => void;
+  mfaFactors: Models.MfaFactors; 
+  setMFAFactors: (mfaFactors: Models.MfaFactors) => void; 
+  remainingTime: RemainingTime | null;
+  setRemainingTime: (time: RemainingTime) => void;
+  mfaChallenge: Models.MfaChallenge | null;
+  setMfaChallenge: (challenge: Models.MfaChallenge | null) => void;
+  error?: string;
+  setError: (error: string | undefined) => void;
+  mfaType: string;  
+  setMfaType: (type: string) => void; 
+  currentForm: CurrentForm;
+  setCurrentForm: (form: CurrentForm) => void;
+}
+
+export const useMFAStore = create<IMFAStore>((set) => ({
+  openMFAModal: false,
+  setOpenMFAModal: (openMFAModal) => set({ openMFAModal }),
+  
+  openEmailMFAModal: false,
+  setOpenEmailMFAModal: (openEmailMFAModal) => set({ openEmailMFAModal }),
+
+  openPhoneMFAModal: false,
+  setOpenPhoneMFAModal: (openPhoneMFAModal) => set({ openPhoneMFAModal }),
+  
+  openRecoverycodeMFAModal: false,
+  setOpenRecoverycodeMFAModal: (openRecoverycodeMFAModal: boolean) => set({ openRecoverycodeMFAModal }),
+
+  mfaFactors: {
+    totp: false,
+    phone: false,
+    email: false,
+    recoveryCode: false,
+  },
+  setMFAFactors: (mfaFactors) => set({ mfaFactors }),
+
+  remainingTime: null,
+  setRemainingTime: (time) => set({ remainingTime: time }),
+  
+  mfaChallenge: null,
+  setMfaChallenge: (mfaChallenge) => set({ mfaChallenge }),
+
+  error: '',
+  setError: (error) => set({ error }),
+
+  mfaType: '', 
+  setMfaType: (type: string) => set({ mfaType: type }),  
+
+  currentForm: 'login',
+  setCurrentForm: (form: CurrentForm) => set({ currentForm: form }),
+}));
 
 export const useNavbarStore= create<INavbarMenu>((set)=>({
   openLogin:false,

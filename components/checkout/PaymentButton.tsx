@@ -6,7 +6,6 @@
 // import { calculatePassengerPrices } from "@/hooks/use-passengers";
 // import { toast } from "@/components/ui/toast";
 // import { Button } from "@/components/ui/button";
-// import { environment } from "@/environment";
 
 // interface PaymentButtonProps {
 //   loading: boolean;
@@ -86,7 +85,7 @@
 
 //     try {
 //       const response = await axios.post<{ data: { clientSecret: string } }>(
-//         `${environment.apiurl}/payment/create-payment-intent`,
+//         `${process.env.NEXT_PUBLIC_API_URL}/payment/create-payment-intent`,
 //         { passengers, amount_in_cents: totalPrice * 100 }
 //       );
 
@@ -144,7 +143,7 @@
 //     const ticketTotal = isReturn ? returnTotal : outboundTotal;
 
 //     try {
-//       await axios.post(`${environment.apiurl}/booking/create`, {
+//       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/booking/create`, {
 //         passengers: passengersWithPrices,
 //         travel_flex: selectedFlex,
 //         payment_intent_id: paymentIntentId,

@@ -17,7 +17,6 @@ import {
 } from "../ui/sheet";
 import { Button } from "../ui/button";
 import TicketDetails from "../ticket/ticket-details";
-import { environment } from "@/environment";
 import NoTicketsAvailable from "./NoTicketsAvailable";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
@@ -57,7 +56,7 @@ const TicketList: React.FC = () => {
       setIsLoading(true);
       setLoading(true);
       const response = await fetch(
-        `${environment.apiurl}/ticket/search?departureStation=${
+        `${process.env.NEXT_PUBLIC_API_URL}/ticket/search?departureStation=${
           isSelectingReturn ? to : from
         }&arrivalStation=${isSelectingReturn ? from : to}&departureDate=${
           isSelectingReturn ? returnDate : departureDate

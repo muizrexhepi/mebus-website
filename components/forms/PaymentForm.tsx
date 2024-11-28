@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { environment } from "@/environment";
 import { Button } from "@/components/ui/button";
 import {
   useStripe,
@@ -42,12 +41,11 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
 
     try {
       const res = await axios.post(
-        `${environment.apiurl}/payment/create-payment-intent`,
+        `${process.env.NEXT_PUBLIC_API_URL}/payment/create-payment-intent`,
         { amount_in_cents: totalPrice * 100, bookingId }
       );
 
       const { clientSecret } = res.data.data;
-
 
       const { error: confirmError, paymentIntent } =
         await stripe.confirmCardPayment(clientSecret, {
@@ -86,7 +84,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
   const updateBooking = async (paymentIntentId: string) => {
     try {
       await axios.post(
-        `${environment.apiurl}/booking/${bookingId}/upgrade-flex`,
+        `${process.env.NEXT_PUBLIC_API_URL}/booking/${bookingId}/upgrade-flex`,
         {
           travel_flex: selectedFlex,
           payment_intent_id: paymentIntentId,

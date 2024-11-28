@@ -1,16 +1,14 @@
 import { account } from "@/appwrite.config";
 import { OAuthProvider } from "appwrite";
-import { createUser } from "./users";
 import axios from "axios";
-import { environment } from "@/environment";
 
 export async function handleGoogleLogin() {  
     account.createOAuth2Session(
       OAuthProvider.Google,
       // 'http://localhost:3000?oauth=true',
       // 'http://localhost:3000/fail',
-      environment.domainurl + "?oauth=true",
-      `${environment.domainurl}/fail`
+      process.env.NEXT_PUBLIC_BASE_URL + "?oauth=true",
+      `${process.env.NEXT_PUBLIC_BASE_URL}/fail`
     )
 }
 
@@ -20,15 +18,15 @@ export async function handleFacebookLogin() {
       OAuthProvider.Facebook,
       // 'http://localhost:3000?oauth=true',
       // 'http://localhost:3000/fail',
-      environment.domainurl,
-      `${environment.domainurl}/fail`
+      process.env.NEXT_PUBLIC_BASE_URL,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/fail`
     );
   }
 
   export async function handleOauthCallback() {
     try {
       const user = await account.get();
-      const newUser = await axios.post(`${environment.apiurl}/user/create/db`,{
+      const newUser = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/create/db`,{
         name: user.name,
         email: user.email,
         password: null,
