@@ -3,7 +3,7 @@ import { Ticket } from './models/ticket';
 import { PassengerData } from './components/hooks/use-passengers';
 import { addDays, format } from 'date-fns';
 import { createJSONStorage, persist, PersistOptions } from 'zustand/middleware';
-import { AuthenticationFactor, Models } from 'appwrite';
+import { Models } from 'appwrite';
 
 export interface Passengers {
   adults: number;
@@ -12,12 +12,24 @@ export interface Passengers {
 
 interface PaymentSuccessStore {
   isPaymentSuccess: boolean;
+  bookingDetails: {
+    bookingId: string;
+    transactionId: string;
+    departureStation: string;
+    arrivalStation: string;
+    departureDate: Date;
+    price: number;
+    operator: any;
+  } | null;
   setIsPaymentSuccess: (success: boolean) => void;
+  setBookingDetails: (details: PaymentSuccessStore["bookingDetails"]) => void;
 }
 
 export const usePaymentSuccessStore = create<PaymentSuccessStore>((set) => ({
   isPaymentSuccess: false,
+  bookingDetails: null,
   setIsPaymentSuccess: (success: boolean) => set({ isPaymentSuccess: success }),
+  setBookingDetails: (details) => set({ bookingDetails: details }),
 }));
 
 
@@ -183,22 +195,12 @@ interface INavbarMenu {
 }
 
 
-
 type CurrentForm = 'login' | 'mfaOptions' | 'mfaVerification';
 
 interface IMFAStore {
-  openMFAModal: boolean;
-  setOpenMFAModal: (openMFAModal: boolean) => void;
-  openEmailMFAModal: boolean;
-  setOpenEmailMFAModal: (openEmailMFAModal: boolean) => void;
-  openPhoneMFAModal: boolean;
-  setOpenPhoneMFAModal: (openPhoneMFAModal: boolean) => void;
-  openRecoverycodeMFAModal: boolean;
-  setOpenRecoverycodeMFAModal: (openRecoverycodeMFAModal: boolean) => void;
   mfaFactors: Models.MfaFactors; 
   setMFAFactors: (mfaFactors: Models.MfaFactors) => void; 
-  remainingTime: RemainingTime | null;
-  setRemainingTime: (time: RemainingTime) => void;
+
   mfaChallenge: Models.MfaChallenge | null;
   setMfaChallenge: (challenge: Models.MfaChallenge | null) => void;
   error?: string;
@@ -210,18 +212,6 @@ interface IMFAStore {
 }
 
 export const useMFAStore = create<IMFAStore>((set) => ({
-  openMFAModal: false,
-  setOpenMFAModal: (openMFAModal) => set({ openMFAModal }),
-  
-  openEmailMFAModal: false,
-  setOpenEmailMFAModal: (openEmailMFAModal) => set({ openEmailMFAModal }),
-
-  openPhoneMFAModal: false,
-  setOpenPhoneMFAModal: (openPhoneMFAModal) => set({ openPhoneMFAModal }),
-  
-  openRecoverycodeMFAModal: false,
-  setOpenRecoverycodeMFAModal: (openRecoverycodeMFAModal: boolean) => set({ openRecoverycodeMFAModal }),
-
   mfaFactors: {
     totp: false,
     phone: false,
@@ -230,9 +220,7 @@ export const useMFAStore = create<IMFAStore>((set) => ({
   },
   setMFAFactors: (mfaFactors) => set({ mfaFactors }),
 
-  remainingTime: null,
-  setRemainingTime: (time) => set({ remainingTime: time }),
-  
+
   mfaChallenge: null,
   setMfaChallenge: (mfaChallenge) => set({ mfaChallenge }),
 

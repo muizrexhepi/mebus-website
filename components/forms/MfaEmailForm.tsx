@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -18,7 +19,7 @@ import {
 } from "@/components/ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { FormError } from "@/components/form-error";
-import { Loader } from "lucide-react";
+import { ChevronLeft, Loader } from "lucide-react";
 import { useMFAStore } from "@/store";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -28,7 +29,7 @@ import { useMfaVerification } from "../hooks/use-mfaVerification";
 
 export const MfaEmailForm = () => {
   const { t } = useTranslation();
-  const { remainingTime, error } = useMFAStore();
+  const { error, setCurrentForm } = useMFAStore();
 
   const mfaForm = useForm<z.infer<typeof MFAVerificationSchema>>({
     resolver: zodResolver(MFAVerificationSchema),
@@ -39,14 +40,39 @@ export const MfaEmailForm = () => {
 
   const { onMFAVerify, isLoading } = useMfaVerification();
 
+  const [timeLeft, setTimeLeft] = useState(15 * 60);
+
+  useEffect(() => {
+    if (timeLeft <= 0) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [timeLeft]);
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(
+      2,
+      "0"
+    )}`;
+  };
+
   return (
-    <div className="max-w-[360px] mx-auto space-y-6">
-      <div className="space-y-2 text-center">
+    <div className="max-w-[400px] mx-auto space-y-8 pt-32 sm:pt-6">
+      <ChevronLeft
+        className="absolute left-6 top-6 w-6 h-6 shrink-0 cursor-pointer"
+        onClick={() => setCurrentForm("mfaVerification")}
+      />
+      <div className="space-y-0 text-center lg:text-start">
         <h1 className="text-2xl font-bold tracking-tight">
-          {t("login.mfaVerification")}
+          {t("mfa.emailVerification")}
         </h1>
         <p className="text-sm text-muted-foreground">
-          {t("login.mfaEmailDescription")}
+          {t("mfa.emailDescription")}
         </p>
       </div>
 
@@ -62,12 +88,9 @@ export const MfaEmailForm = () => {
               <FormItem className="space-y-2">
                 <FormLabel className="flex justify-between items-center">
                   {t("login.mfaCode")}
-                  {remainingTime && (
-                    <p className="text-primary-bg font-semibold text-sm text-center">
-                      {remainingTime.minutes.toString().padStart(2, "0")}:
-                      {remainingTime.seconds.toString().padStart(2, "0")}
-                    </p>
-                  )}
+                  <span className="text-xs font-medium text-muted-foreground">
+                    {formatTime(timeLeft)}
+                  </span>
                 </FormLabel>
                 <FormControl>
                   <InputOTP
@@ -80,7 +103,7 @@ export const MfaEmailForm = () => {
                     <InputOTPGroup className="flex flex-grow h-12">
                       <InputOTPSlot
                         index={0}
-                        className="flex-grow h-full bg-primary-bg/5"
+                        className="flex-grow h-full bg-primary-bg/5 rounded-l-xl"
                       />
                       <InputOTPSlot
                         index={1}
@@ -88,7 +111,7 @@ export const MfaEmailForm = () => {
                       />
                       <InputOTPSlot
                         index={2}
-                        className="flex-grow h-full bg-primary-bg/5"
+                        className="flex-grow h-full bg-primary-bg/5 rounded-r-xl"
                       />
                     </InputOTPGroup>
                     <InputOTPSeparator />

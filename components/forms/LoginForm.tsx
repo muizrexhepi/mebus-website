@@ -30,8 +30,7 @@ const LoginForm = () => {
   const { setOpenLogin, setOpenReset } = useNavbarStore();
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const { setError, error, setMFAFactors, setOpenMFAModal, setCurrentForm } =
-    useMFAStore();
+  const { setError, error, setMFAFactors, setCurrentForm } = useMFAStore();
 
   const loginForm = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -58,17 +57,16 @@ const LoginForm = () => {
           result.credentials.email,
           result.credentials.password
         );
-
-        window.dispatchEvent(new Event("userChange"));
+        console.log({ session });
         if (session) {
           setOpenLogin(false);
           setError("");
+          window.dispatchEvent(new Event("userChange"));
         }
       } catch (appwriteError: any) {
         if (appwriteError.type === "user_more_factors_required") {
           const factors = await account.listMfaFactors();
           setMFAFactors(factors);
-
           if (factors) {
             setCurrentForm("mfaOptions");
           } else {
@@ -92,14 +90,20 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pt-32 sm:pt-0">
+      <div className="space-y-2 text-center lg:hidden">
+        <h1 className="text-2xl font-bold tracking-tight">
+          {t("login.title")}
+        </h1>
+        <p className="text-sm text-muted-foreground">{t("login.subtitle")}</p>
+      </div>
       <Form {...loginForm}>
         <form onSubmit={loginForm.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={loginForm.control}
             name="email"
             render={({ field }) => (
-              <FormItem className="space-y-0">
+              <FormItem className="space-y-1">
                 <FormLabel>{t("login.email.label")}</FormLabel>
                 <FormControl>
                   <Input

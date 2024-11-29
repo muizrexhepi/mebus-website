@@ -96,13 +96,15 @@ const NavbarMenu = () => {
           <Button
             className="w-full h-12 rounded-xl"
             variant={"outline"}
-            asChild
+            onClick={handleLogin}
           >
-            <Link href={"/login"}>{t("auth.login")}</Link>
+            {t("auth.login")}
           </Button>
-          <Button className="w-full h-12 rounded-xl button-gradient" asChild>
-            <Link href={"/register"}>{t("auth.signUp")}</Link>
-            {/* Translated 'Sig Up' */}
+          <Button
+            className="w-full h-12 rounded-xl button-gradient"
+            onClick={handleSignUp}
+          >
+            {t("auth.signUp")}
           </Button>
         </div>
       </div>

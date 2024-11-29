@@ -32,6 +32,7 @@ import Navbar from "@/components/Navbar";
 import useUser from "@/components/hooks/use-user";
 import moment from "moment-timezone";
 import { useTranslation } from "react-i18next";
+import jsPDF from "jspdf";
 
 const BookingsDashboard: React.FC = () => {
   const { user, loading } = useUser();
@@ -78,46 +79,50 @@ const BookingsDashboard: React.FC = () => {
     }
   }, [user]);
 
-  const downloadBooking = async (booking_id: string, booking?: Booking) => {
+  const downloadBooking = (booking: Booking) => {
     try {
-      console.log({ booking });
-      let pdfUrl;
+      const doc = new jsPDF();
 
-      if (booking && booking.metadata && booking.metadata.download_url) {
-        pdfUrl = booking.metadata.download_url;
-      } else {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/booking/download/pdf/e-ticket/${booking_id}`,
-          {}
-        );
-        pdfUrl = response.data.data;
+      // Set up the PDF
+      doc.setFontSize(18);
+      doc.text("Booking Details", 20, 20);
+
+      doc.setFontSize(12);
+      doc.text(`Booking ID: ${booking._id}`, 20, 30);
+      doc.text(`From: ${booking.destinations.departure_station_label}`, 20, 40);
+      doc.text(`To: ${booking.destinations.arrival_station_label}`, 20, 50);
+      doc.text(
+        `Departure: ${moment
+          .utc(booking.departure_date)
+          .format("YYYY-MM-DD HH:mm")}`,
+        20,
+        60
+      );
+      doc.text(`Price: $${booking.price.toFixed(2)}`, 20, 70);
+
+      if (booking.passengers && booking.passengers.length > 0) {
+        doc.text("Passenger Information:", 20, 80);
+        booking.passengers.forEach((passenger, index) => {
+          const yPos = 90 + index * 30;
+          doc.text(`Name: ${passenger.full_name}`, 25, yPos);
+          doc.text(`Email: ${passenger.email}`, 25, yPos + 10);
+          doc.text(`Phone: ${passenger.phone}`, 25, yPos + 20);
+        });
       }
 
-      const downloadResponse = await axios.get(pdfUrl, {
-        responseType: "blob",
-      });
-      const blob = new Blob([downloadResponse.data], {
-        type: "application/pdf",
-      });
-
-      const link = document.createElement("a");
-      link.href = window.URL.createObjectURL(blob);
-      link.download = `${booking_id}.pdf`;
-
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      window.URL.revokeObjectURL(link.href);
+      // Save the PDF
+      doc.save(`booking_${booking._id}.pdf`);
 
       toast({
         title: "Download Successful",
-        description: "Your booking PDF has been downloaded.",
+        description: "Your booking PDF has been generated and downloaded.",
       });
-    } catch (error: any) {
+    } catch (error) {
+      console.error("Error generating PDF:", error);
       toast({
         title: "Download Failed",
-        description: error?.response?.message,
+        description:
+          "There was an error generating your PDF. Please try again.",
         variant: "destructive",
       });
     }
@@ -287,7 +292,7 @@ const BookingsDashboard: React.FC = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="gap-2"
-                  onClick={() => downloadBooking(booking?._id, booking)}
+                  onClick={() => downloadBooking(booking)}
                   disabled={booking.metadata.refund_action?.is_refunded}
                 >
                   <Download className="h-4 w-4" />

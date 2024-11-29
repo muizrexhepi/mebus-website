@@ -328,13 +328,15 @@
     "verifyButton": "Verify"
   },
   "mfa": {
-    "selectMethod": "Select MFA Method",
+    "selectMethod": "Multi factor authentication",
     "emailVerification": "Email Verification",
+    "emailDescription": "Please verify your email to proceed.",
     "phoneVerification": "Phone Verification",
     "authenticatorApp": "Authenticator App",
     "recoveryCode": "Recovery Code",
     "continueButton": "Continue"
   },
+
   "register": {
     "title": "Create your account",
     "subtitle": "Join us and start booking your bus tickets today!",

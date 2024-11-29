@@ -2,59 +2,27 @@
 
 import { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { Loader } from "lucide-react";
+import { ChevronLeft, Loader2, Mail, Phone, Eye, EyeOff } from "lucide-react";
 import { AuthenticationFactor } from "appwrite";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { FormError } from "@/components/form-error";
 import { useMFAStore } from "@/store";
 import { account } from "@/appwrite.config";
+import { FormError } from "@/components/form-error";
 
-const mfaSchema = z.object({
-  method: z.enum(["email", "phone", "totp", "recoverycode"]),
-});
-
-type MFAMethod = z.infer<typeof mfaSchema>["method"];
+type MFAMethod = "email" | "phone";
 
 const MFA_FACTORS: Record<MFAMethod, AuthenticationFactor> = {
   email: AuthenticationFactor.Email,
   phone: AuthenticationFactor.Phone,
-  totp: AuthenticationFactor.Totp,
-  recoverycode: AuthenticationFactor.Recoverycode,
 };
 
 export const MFAOptionsForm = () => {
   const { t } = useTranslation();
-  const {
-    mfaType,
-    mfaFactors,
-    setOpenMFAModal,
-    setOpenEmailMFAModal,
-    setOpenPhoneMFAModal,
-    setOpenRecoverycodeMFAModal,
-    setMfaChallenge,
-    setMfaType,
-    setCurrentForm,
-  } = useMFAStore();
+  const { mfaFactors, setMfaChallenge, setMfaType, setCurrentForm } =
+    useMFAStore();
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | undefined>();
-
-  const mfaForm = useForm<z.infer<typeof mfaSchema>>({
-    resolver: zodResolver(mfaSchema),
-    defaultValues: {
-      method: undefined,
-    },
-  });
 
   const handleOptionClick = useCallback(
     async (option: MFAMethod) => {
@@ -65,21 +33,7 @@ export const MFAOptionsForm = () => {
         const challenge = await account.createMfaChallenge(MFA_FACTORS[option]);
         setMfaChallenge(challenge);
         setMfaType(option);
-        setOpenMFAModal(false);
         setCurrentForm("mfaVerification");
-
-        switch (option) {
-          case "email":
-            setOpenEmailMFAModal(true);
-            break;
-          case "phone":
-          case "totp":
-            setOpenPhoneMFAModal(true);
-            break;
-          case "recoverycode":
-            setOpenRecoverycodeMFAModal(true);
-            break;
-        }
       } catch (error) {
         console.error("Error creating MFA challenge:", error);
         setError(t("mfa.errors.setupFailed"));
@@ -87,76 +41,56 @@ export const MFAOptionsForm = () => {
         setIsLoading(false);
       }
     },
-    [
-      setMfaChallenge,
-      setMfaType,
-      setOpenMFAModal,
-      setCurrentForm,
-      setOpenEmailMFAModal,
-      setOpenPhoneMFAModal,
-      setOpenRecoverycodeMFAModal,
-      t,
-    ]
+    [setMfaChallenge, setMfaType, setCurrentForm, t]
   );
 
-  const onSubmit = (values: z.infer<typeof mfaSchema>) => {
-    handleOptionClick(values.method);
-  };
-
   return (
-    <div className="max-w-[360px] mx-auto space-y-6">
-      <Form {...mfaForm}>
-        <form onSubmit={mfaForm.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            control={mfaForm.control}
-            name="method"
-            render={({ field }) => (
-              <FormItem className="space-y-3">
-                <FormLabel className="text-base font-semibold">
-                  {t("mfa.selectMethod")}
-                </FormLabel>
-                <FormControl>
-                  <div className="space-y-2">
-                    {Object.entries(MFA_FACTORS).map(
-                      ([key, value]) =>
-                        mfaFactors?.[key as keyof typeof mfaFactors] && (
-                          <Button
-                            key={key}
-                            type="button"
-                            className={`w-full h-12 rounded-xl transition-colors duration-200 ${
-                              mfaType === key
-                                ? "bg-primary-bg text-white"
-                                : "border border-primary-bg hover:bg-primary-bg hover:text-white"
-                            }`}
-                            onClick={() => {
-                              field.onChange(key);
-                              handleOptionClick(key as MFAMethod);
-                            }}
-                            disabled={isLoading}
-                          >
-                            {t(`mfa.${key}Verification`)}
-                          </Button>
-                        )
-                    )}
-                  </div>
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          {error && <FormError message={error} />}
-          <Button
-            className="button-gradient rounded-xl"
-            type="submit"
-            disabled={isLoading || !mfaForm.getValues().method}
-          >
-            {isLoading ? (
-              <Loader className="h-5 w-5 animate-spin" />
-            ) : (
-              t("mfa.continueButton")
-            )}
-          </Button>
-        </form>
-      </Form>
+    <div className="w-full max-w-[400px] mx-auto space-y-8 pt-32 sm:pt-6">
+      <ChevronLeft
+        className="absolute left-6 top-6 w-6 h-6 shrink-0 cursor-pointer"
+        onClick={() => setCurrentForm("login")}
+      />
+      <div className="space-y-0 text-center lg:text-start mb-6">
+        <h2 className="text-2xl font-semibold">
+          {t("mfa.selectMethod", "Multi factor authentication")}
+        </h2>
+        <p className="text-sm text-muted-foreground">
+          {t(
+            "mfa.selectMethodDescription",
+            "Choose your preferred verification method"
+          )}
+        </p>
+      </div>
+
+      <div className="space-y-4">
+        {Object.entries(MFA_FACTORS).map(
+          ([key, value]) =>
+            mfaFactors?.[key as MFAMethod] && (
+              <Button
+                key={key}
+                variant="outline"
+                className="w-full h-12 justify-start text-base font-normal hover:bg-accent bg-primary-bg/5 rounded-xl"
+                onClick={() => handleOptionClick(key as MFAMethod)}
+                disabled={isLoading}
+              >
+                {key === "email" ? (
+                  <Mail className="mr-2 h-4 w-4" />
+                ) : (
+                  <Phone className="mr-2 h-4 w-4" />
+                )}
+                {key === "email" ? "Email Verification" : "Phone Verification"}
+              </Button>
+            )
+        )}
+      </div>
+
+      <FormError message={error} />
+
+      {isLoading && (
+        <div className="mt-3 flex justify-center">
+          <Loader2 className="h-5 w-5 animate-spin text-primary" />
+        </div>
+      )}
     </div>
   );
 };

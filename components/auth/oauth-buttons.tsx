@@ -7,7 +7,7 @@ export const OauthButtons = ({ isLoading }: { isLoading: boolean }) => {
   const { t } = useTranslation();
 
   return (
-    <div className="grid gap-4">
+    <div className="grid  gap-4">
       <Button
         className="w-full h-12 rounded-xl"
         onClick={handleGoogleLogin}

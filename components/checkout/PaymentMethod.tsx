@@ -8,10 +8,11 @@ import { useToast } from "@/components/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { calculatePassengerPrices } from "../hooks/use-passengers";
 import { Ticket } from "@/models/ticket";
-import { useCheckoutStore } from "@/store";
+import { useCheckoutStore, usePaymentSuccessStore } from "@/store";
 import { ApiResponse } from "@/interfaces/api";
 import useUser from "../hooks/use-user";
 import { useTranslation } from "react-i18next";
+import { Booking } from "@/models/booking";
 
 const PaymentMethod = () => {
   const stripe = useStripe();
@@ -23,7 +24,8 @@ const PaymentMethod = () => {
   const router = useRouter();
   const { toast } = useToast();
   const { t } = useTranslation();
-
+  const { setBookingDetails, bookingDetails, setIsPaymentSuccess } =
+    usePaymentSuccessStore();
   const {
     passengers,
     outboundTicket,
@@ -32,35 +34,10 @@ const PaymentMethod = () => {
     flexPrice,
 
     setSelectedFlex,
-    setFlexPrice,
     resetCheckout,
   } = useCheckoutStore();
 
   const { user } = useUser();
-  const [balance, setBalance] = useState<number>(0);
-  const [isGreater, setIsGreater] = useState<boolean>(false);
-  // const { useDeposit, setDepositAmount, setUseDeposit, depositAmount } =
-  //   useDepositStore();
-
-  // useEffect(() => {
-  //   const fetchDepositAmount = async () => {
-  //     if (user) {
-  //       try {
-  //         const balance = await getUserBalance(user.$id);
-
-  //         if (balance / 100 > totalPrice) {
-  //           setIsGreater(true);
-  //         }
-
-  //         setBalance(balance);
-  //       } catch (error) {
-  //         console.error("Failed to fetch deposit amount:", error);
-  //       }
-  //     }
-  //   };
-
-  //   fetchDepositAmount();
-  // }, [user]);
 
   useEffect(() => {
     if (!selectedFlex) {
@@ -88,25 +65,16 @@ const PaymentMethod = () => {
     ? calculateTicketTotal(outboundTicket)
     : 0;
   const returnTotal = returnTicket ? calculateTicketTotal(returnTicket) : 0;
+
   const operatorOutboundTotal = outboundTicket
     ? calculateOperatorTicketTotal(outboundTicket)
     : 0;
+
   const operatorReturnTotal = returnTicket
     ? calculateOperatorTicketTotal(returnTicket)
     : 0;
-  const operatorTotalPrice = operatorOutboundTotal + operatorReturnTotal;
+
   const totalPrice = outboundTotal + returnTotal + flexPrice;
-
-  // const handleUseDepositChange = (checked: boolean) => {
-  //   if (!checked) {
-  //     setDepositAmount(0);
-  //   }
-  //   setUseDeposit(checked);
-  // };
-
-  // const finalPrice = useDeposit
-  //   ? Math.max(totalPrice - depositAmount, 0)
-  //   : totalPrice;
 
   useEffect(() => {
     if (stripe && elements) {
@@ -136,7 +104,7 @@ const PaymentMethod = () => {
         `${process.env.NEXT_PUBLIC_API_URL}/payment/create-payment-intent`,
         { passengers, amount_in_cents: totalPrice * 100 }
       );
-
+      console.log({ paymentRes: res.data });
       const { clientSecret } = res.data.data;
       const { error: confirmError, paymentIntent } =
         await stripe.confirmCardPayment(clientSecret, {
@@ -198,9 +166,12 @@ const PaymentMethod = () => {
     const arrival_station_label = ticket.stops[0].to.name;
     const passengersWithPrices = calculatePassengerPrices(passengers, ticket);
     const ticketTotal = isReturn ? returnTotal : outboundTotal;
-    console.log({ ticketTotal, returnTotal, outboundTotal });
-    return axios
-      .post(
+
+    const { setIsPaymentSuccess, setBookingDetails } =
+      usePaymentSuccessStore.getState();
+
+    try {
+      const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/booking/create/${ticket.operator}/${
           user ? user.$id : null
         }/${ticket._id}`,
@@ -219,23 +190,39 @@ const PaymentMethod = () => {
           departure_station_label,
           arrival_station_label,
           is_using_deposited_money: false,
-          // deposit_spent: isReturn ? 0 : depositAmount * 100 || 0,
           deposit_spent: 0,
           stop: ticket.stops[0],
           is_return: isReturn,
         }
-      )
-      .then((res: AxiosResponse<ApiResponse>) => {
-        if (typeof window != "undefined") {
-          const savedBookings = JSON.parse(
-            localStorage.getItem("noUserBookings") || "[]"
-          );
+      );
 
-          const newBooking = res.data.data;
-          const allBookings = [...savedBookings, newBooking];
-          localStorage.setItem("noUserBookings", JSON.stringify(allBookings));
-        }
+      const newBooking: Booking = response.data.data;
+
+      if (typeof window !== "undefined") {
+        const savedBookings = JSON.parse(
+          localStorage.getItem("noUserBookings") || "[]"
+        );
+        const allBookings = [...savedBookings, newBooking];
+        localStorage.setItem("noUserBookings", JSON.stringify(allBookings));
+      }
+      console.log({ newBooking });
+      setIsPaymentSuccess(true);
+      setBookingDetails({
+        bookingId: newBooking._id,
+        transactionId: newBooking.metadata.payment_intent_id,
+        departureStation: departure_station_label,
+        arrivalStation: arrival_station_label,
+        departureDate: new Date(newBooking.departure_date),
+        price: ticketTotal + (isReturn ? 0 : flexPrice),
+        operator: ticket.metadata.operator_name,
       });
+    } catch (error) {
+      console.error("Booking creation failed:", error);
+
+      // Ensure to reset the store state in case of failure
+      setIsPaymentSuccess(false);
+      setBookingDetails(null);
+    }
   };
 
   const handleFullDepositPayment = async () => {
