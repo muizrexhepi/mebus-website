@@ -291,7 +291,7 @@ const PaymentMethod = () => {
       const user = await account.get();
       console.log({ acc: user });
       const response = await fetch(
-        `http://localhost:1234/payment/customer/retrieve-payment-methods/${user.prefs.stripe_customer_id}`
+        `${process.env.NEXT_PUBLIC_API_URL}/payment/customer/retrieve-payment-methods/${user?.prefs?.stripe_customer_id}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch payment methods");
