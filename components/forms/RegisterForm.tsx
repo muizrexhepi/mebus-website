@@ -54,14 +54,8 @@ const RegisterForm = () => {
       };
 
       const dbUser = await createUser(user);
-      const newUser = await account.create(
-        dbUser,
-        user.email,
-        user.password,
-        user.name
-      );
 
-      if (newUser) {
+      if (dbUser) {
         setOpenRegister(false);
         window.dispatchEvent(new Event("userChange"));
         await account.createEmailPasswordSession(user.email, user.password);

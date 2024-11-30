@@ -13,6 +13,8 @@ import { ApiResponse } from "@/interfaces/api";
 import useUser from "../hooks/use-user";
 import { useTranslation } from "react-i18next";
 import { Booking } from "@/models/booking";
+import { Switch } from "../ui/switch";
+import { account } from "@/appwrite.config";
 
 const PaymentMethod = () => {
   const stripe = useStripe();
@@ -24,6 +26,10 @@ const PaymentMethod = () => {
   const router = useRouter();
   const { toast } = useToast();
   const { t } = useTranslation();
+  const [saveCardInfo, setSaveCardInfo] = useState<boolean>(false)
+  const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
+  const [useSavedCard, setUseSavedCard] = useState(false);
+
   const { setBookingDetails, bookingDetails, setIsPaymentSuccess } =
     usePaymentSuccessStore();
   const {
@@ -100,10 +106,21 @@ const PaymentMethod = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post<{ data: { clientSecret: string } }>(
-        `${process.env.NEXT_PUBLIC_API_URL}/payment/create-payment-intent`,
+      console.log({ pmid: user?.prefs?.stripe_payment_method_id })
+
+      const res = await axios.post<any>(
+        `${process.env.NEXT_PUBLIC_API_URL}/payment/create-payment-intent?customer_id=${user?.prefs?.stripe_customer_id}&payment_method_id=${user?.prefs?.stripe_payment_method_id}&use_saved_card=${useSavedCard}`,
         { passengers, amount_in_cents: totalPrice * 100 }
       );
+
+      console.log({ auto_capture: res.data })
+
+      if (res.data.auto_capture) {
+        await createBookings(res.data.data.id);
+        return router.push("/checkout/success");
+        // resetCheckout();
+      }
+
       console.log({ paymentRes: res.data });
       const { clientSecret } = res.data.data;
       const { error: confirmError, paymentIntent } =
@@ -172,8 +189,7 @@ const PaymentMethod = () => {
 
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/booking/create/${ticket.operator}/${
-          user ? user.$id : null
+        `${process.env.NEXT_PUBLIC_API_URL}/booking/create/${ticket.operator}/${user ? user.$id : null
         }/${ticket._id}`,
         {
           passengers: passengersWithPrices,
@@ -219,11 +235,27 @@ const PaymentMethod = () => {
     } catch (error) {
       console.error("Booking creation failed:", error);
 
-      // Ensure to reset the store state in case of failure
       setIsPaymentSuccess(false);
       setBookingDetails(null);
+    } finally {
+      if (saveCardInfo && !user?.prefs?.stripe_payment_method_id) {
+        handleSaveCardInfo();
+      }
     }
   };
+
+  const handleSaveCardInfo = async () => {
+    try {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/payment/create-setup-intent?customer_id=${user?.prefs?.stripe_customer_id}&user_id=${user?.$id}`);
+      console.log({ res })
+    } catch (error: any) {
+      console.log(error)
+      toast({
+        description: error?.response?.data?.message,
+        variant: "destructive"
+      })
+    }
+  }
 
   const handleFullDepositPayment = async () => {
     setLoading(true);
@@ -240,6 +272,76 @@ const PaymentMethod = () => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  async function fetchPaymentMethods() {
+    try {
+      const user = await account.get()
+      console.log({ acc: user })
+      const response = await fetch(`http://localhost:1234/payment/customer/retrieve-payment-methods/${user.prefs.stripe_customer_id}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch payment methods');
+      }
+      const data: any = await response.json();
+      console.log(data.data)
+      setPaymentMethods(data.data.data);
+    } catch (err) {
+      console.log({ err })
+    }
+  }
+
+  useEffect(() => {
+    fetchPaymentMethods()
+  }, [])
+
+
+  enum CardNetwork {
+    Visa = 'visa',
+    Mastercard = 'mastercard',
+    AmericanExpress = 'amex',
+    Discover = 'discover',
+    DinersClub = 'diners',
+    JCB = 'jcb',
+    UnionPay = 'unionpay',
+    Unknown = 'unknown'
+  }
+
+
+  const renderNetworkLogo = (network: string) => {
+    switch (network.toLowerCase()) {
+      case CardNetwork.Visa:
+        return (
+          <svg viewBox="0 0 48 32" className="h-6 w-10" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="48" height="32" rx="4" fill="#1434CB" />
+            <path d="M19.425 21.6L21.525 10.4H24.6L22.5 21.6H19.425ZM30.975 10.8C30.375 10.575 29.4 10.325 28.2 10.325C25.575 10.325 23.7 11.725 23.7 13.65C23.7 15.05 24.975 15.825 25.95 16.3C26.95 16.775 27.3 17.075 27.3 17.5C27.3 18.15 26.55 18.45 25.875 18.45C24.9 18.45 24.4 18.3 23.55 17.9L23.25 17.75L22.875 20.35C23.625 20.725 24.9 21.05 26.225 21.05C29.025 21.05 30.875 19.675 30.875 17.625C30.875 16.125 29.9 15.05 28.05 14.125C27.175 13.625 26.625 13.325 26.625 12.85C26.625 12.425 27.1 11.975 28.125 11.975C28.95 11.975 29.575 12.15 30.075 12.4L30.375 12.55L30.975 10.8Z" fill="white" />
+            <path d="M35.25 10.4H37.725L40.05 21.6H37.2L36.825 19.575H33.75L33.075 21.6H30.3L33.6 10.675C33.9 10.5 34.425 10.4 35.25 10.4ZM36.375 17.45L35.7 14.225L35.025 17.45H36.375Z" fill="white" />
+            <path d="M14.025 10.4L11.1 17.85L10.725 15.9L9.375 12.325C9.375 12.325 9.075 10.4 7.5 10.4H3L2.925 10.675C2.925 10.675 4.725 11.075 6.3 12.325L8.85 21.6H11.85L17.025 10.4H14.025Z" fill="white" />
+          </svg>
+        );
+      case CardNetwork.Mastercard:
+        return (
+          <svg viewBox="0 0 48 32" className="h-6 w-10" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="48" height="32" rx="4" fill="#F79E1B" />
+            <circle cx="19" cy="16" r="10" fill="#EB001B" />
+            <circle cx="29" cy="16" r="10" fill="#FF5F00" />
+            <path d="M24 12.5C25.1272 13.3991 25.8207 14.6997 26 16C25.8207 17.3003 25.1272 18.6009 24 19.5C22.8728 18.6009 22.1793 17.3003 22 16C22.1793 14.6997 22.8728 13.3991 24 12.5Z" fill="white" />
+          </svg>
+        );
+      case CardNetwork.AmericanExpress:
+        return (
+          <svg viewBox="0 0 48 32" className="h-6 w-10" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="48" height="32" rx="4" fill="#2557D6" />
+            <path d="M9.5 14.925H11.85L10.675 12.625L9.5 14.925ZM37.025 10.4L34.1 17.85L33.725 15.9L32.375 12.325C32.375 12.325 32.075 10.4 30.5 10.4H26.025L25.95 10.675C25.95 10.675 27.75 11.075 29.325 12.325L31.875 21.6H34.875L42.075 10.4H37.025Z" fill="white" />
+            <path d="M19.425 21.6L21.525 10.4H24.6L22.5 21.6H19.425ZM30.975 10.8C30.375 10.575 29.4 10.325 28.2 10.325C25.575 10.325 23.7 11.725 23.7 13.65C23.7 15.05 24.975 15.825 25.95 16.3C26.95 16.775 27.3 17.075 27.3 17.5C27.3 18.15 26.55 18.45 25.875 18.45C24.9 18.45 24.4 18.3 23.55 17.9L23.25 17.75L22.875 20.35C23.625 20.725 24.9 21.05 26.225 21.05C29.025 21.05 30.875 19.675 30.875 17.625C30.875 16.125 29.9 15.05 28.05 14.125C27.175 13.625 26.625 13.325 26.625 12.85C26.625 12.425 27.1 11.975 28.125 11.975C28.95 11.975 29.575 12.15 30.075 12.4L30.375 12.55L30.975 10.8Z" fill="white" />
+          </svg>
+        );
+      default:
+        return (
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+          </svg>
+        );
     }
   };
 
@@ -307,27 +409,86 @@ const PaymentMethod = () => {
 
           {
             <div
-              className={`${
-                Math.abs(totalPrice) < 0.01 ? "hidden" : ""
-              } space-y-4`}
+              className={`${Math.abs(totalPrice) < 0.01 ? "hidden" : ""
+                } space-y-4`}
             >
-              <h3 className="font-medium text-gray-700">
-                {t("paymentMethod.cardInformation")}
-              </h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div
-                  id="card-number-element"
-                  className="col-span-2 p-3.5 border border-gray-300 rounded-md"
-                ></div>
-                <div
-                  id="card-expiry-element"
-                  className="p-3.5 border border-gray-300 rounded-md"
-                ></div>
-                <div
-                  id="card-cvc-element"
-                  className="p-3.5 border border-gray-300 rounded-md"
-                ></div>
+              <div className="flex-col flex gap-4 justify-between">
+
+
+                {!user?.prefs?.stripe_payment_method_id && <div className="text-gray-700 text-sm flex gap-2 items-center">
+                  <p>Save card info for future payments</p>
+                  <Switch onCheckedChange={() => setSaveCardInfo(!saveCardInfo)} />
+                </div>}
+
+                {user?.prefs?.stripe_payment_method_id && (
+                  <div className="space-y-2 ">
+                    <h3 className="font-medium text-gray-700">Choose your saved payment methods</h3>
+                    {paymentMethods?.map((method) => (
+                      <div
+                        key={method?.id}
+                        onClick={() => setUseSavedCard(!useSavedCard)}
+                        className={`
+                          cursor-pointer p-3 border border-gray-300 rounded-md
+                          ${useSavedCard
+                            ? 'bg-blue-50 border-blue-500 hover:bg-blue-100'
+                            : 'hover:bg-gray-100'
+                          }
+                          flex items-center justify-between
+                        `}
+                      >
+                        <div className="flex gap-2">
+                          {renderNetworkLogo(method?.card?.brand)}  <h3 className="font-medium text-gray-700">••••{method?.card?.last4}</h3>
+                          <h3 className="font-medium text-gray-700">(Exp: {method?.card?.exp_month}/{method?.card?.exp_year})</h3>
+                        </div>
+                        {useSavedCard && (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5 text-blue-600"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+
+                <div className={`relative ${useSavedCard && "hidden"}`}>
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background px-2 text-muted-foreground">
+                      {t("login.orContinueWith")}
+                    </span>
+                  </div>
+                </div>
+                <h3 className={`font-medium text-gray-700 ${useSavedCard && "hidden"}`}>
+                  {t("paymentMethod.cardInformation")}
+                </h3>
+                <div className={`grid grid-cols-2 gap-4 ${useSavedCard && "hidden"}`}>
+                  <div
+                    id="card-number-element"
+                    className="col-span-2 p-3.5 border border-gray-300 rounded-md"
+                  ></div>
+                  <div
+                    id="card-expiry-element"
+                    className="p-3.5 border border-gray-300 rounded-md"
+                  ></div>
+                  <div
+                    id="card-cvc-element"
+                    className="p-3.5 border border-gray-300 rounded-md"
+                  ></div>
+                </div>
               </div>
+
             </div>
           }
         </div>
