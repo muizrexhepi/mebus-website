@@ -5,36 +5,39 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
 export function SettingsBreadcrumb() {
   const pathname = usePathname();
-  const breadCrumblink = pathname.split("/").splice(2, 1);
+  const segments = pathname.split("/").slice(1);
 
-  const formattedLink = breadCrumblink
-    .join(" ")
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (char) => char.toUpperCase());
+  const formatSegment = (segment: string) =>
+    segment.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
 
   return (
-    <Breadcrumb className={`${pathname == "/account" && "hidden"}`}>
+    <Breadcrumb className={`${pathname === "/account" && "hidden"}`}>
       <BreadcrumbList>
-        <BreadcrumbItem>
-          <BreadcrumbLink
-            href="/account"
-            className="font-medium text-black hover:underline"
-          >
-            Account
-          </BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <BreadcrumbLink className="capitalize">
-            {formattedLink}
-          </BreadcrumbLink>
-        </BreadcrumbItem>
+        {segments.map((segment, index) => {
+          const href = "/" + segments.slice(0, index + 1).join("/");
+          const isLast = index === segments.length - 1;
+
+          return (
+            <BreadcrumbItem key={href}>
+              <BreadcrumbLink
+                href={isLast ? undefined : href}
+                className={`${
+                  isLast
+                    ? "font-medium text-primary-accent hover:text-primary-accent/95"
+                    : "font-medium text-black hover:underline"
+                } capitalize`}
+              >
+                {formatSegment(segment)}
+              </BreadcrumbLink>
+              {!isLast && <BreadcrumbSeparator />}
+            </BreadcrumbItem>
+          );
+        })}
       </BreadcrumbList>
     </Breadcrumb>
   );

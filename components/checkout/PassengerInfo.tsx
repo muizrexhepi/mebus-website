@@ -6,8 +6,6 @@ import { PassengerData } from "@/components/hooks/use-passengers";
 import useSearchStore, { useCheckoutStore } from "@/store";
 import PassengerSelector from "./PassengerSelector";
 import { X } from "lucide-react";
-import PhoneInput from "react-phone-number-input";
-import "react-phone-number-input/style.css";
 import useUser from "../hooks/use-user";
 import { useTranslation } from "react-i18next";
 import { passengerSchema } from "@/schemas";
@@ -40,17 +38,6 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => (
   <div className="space-y-1">
     <p className="font-normal text-sm text-black/70">{label}</p>
-    {/* {type === "tel" ? (
-      <PhoneInput
-        international
-        countryCallingCodeEditable={false}
-        defaultCountry="MK"
-        value={value}
-        onBlur={onBlur}
-        onChange={(value) => onChange(value || "")}
-        className="font-normal text-black rounded-xl p-2 bg-primary-bg/5 h-12"
-      />
-    ) : ( */}
     <Input
       type={type}
       className={`font-normal text-black rounded-xl h-12 bg-primary-bg/5 p-2"
@@ -61,7 +48,6 @@ const InputField: React.FC<InputFieldProps> = ({
       onChange={(e) => onChange(e.target.value)}
       required={required}
     />
-    {/* )} */}
     {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
   </div>
 );
@@ -86,41 +72,45 @@ const PassengerInfo: React.FC = () => {
   const { user } = useUser();
 
   useEffect(() => {
-    if (passengers.length === adults + children) {
-      return;
-    }
+    const useUserInfo = user && user.prefs.useAsPassengerInfo == true;
 
-    const initialPassengers: PassengerData[] = [
-      ...Array(adults).fill({
-        full_name: "",
-        email: "",
-        phone: "",
-        birthdate: "",
-        age: 33,
-        price: 0,
-      }),
-      ...Array(children).fill({
-        full_name: "",
-        email: "",
-        phone: "",
-        birthdate: "",
-        age: 0,
-        price: 0,
-      }),
-    ];
-    if (user) {
+    if (useUserInfo) {
       console.log({ user });
-      initialPassengers[0] = {
-        ...initialPassengers[0],
+      passengers[0] = {
+        ...passengers[0],
         first_name: user.name.split(" ")[0] || "",
         last_name: user.name.split(" ")[1] || "",
-        // full_name: `${user.firstName} ${user.lastName}`,
         email: user.email,
         phone: user.phone || "",
       };
     }
-    setPassengers(initialPassengers);
-  }, [adults, children, setPassengers, user]);
+  }, [user]);
+
+  useEffect(() => {
+    if (passengers.length === adults + children) {
+      return;
+    }
+
+    const newPassengers: PassengerData[] = [];
+
+    for (let i = 0; i < adults + children; i++) {
+      if (i < passengers.length) {
+        newPassengers.push(passengers[i]);
+      } else {
+        newPassengers.push({
+          first_name: "",
+          last_name: "",
+          email: "",
+          phone: "",
+          birthdate: "",
+          age: i < adults ? 33 : 0,
+          price: 0,
+        });
+      }
+    }
+
+    setPassengers(newPassengers);
+  }, [adults, children, setPassengers, passengers]);
 
   const updatePassenger = (
     index: number,
@@ -175,6 +165,8 @@ const PassengerInfo: React.FC = () => {
       }
     }
   };
+
+  console.log({ passengers });
 
   const renderPassengerInputs = (passengerIndex: number, isChild: boolean) => {
     const passenger = passengers[passengerIndex];

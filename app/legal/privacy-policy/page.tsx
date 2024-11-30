@@ -1,6 +1,3 @@
-import Navbar from "@/components/Navbar";
-import SecondaryFooter from "@/components/SecondaryFooter";
-
 export const metadata = {
   title: "GoBusly - Privacy Policy",
   description:
@@ -28,7 +25,7 @@ export const metadata = {
 
 export default function MebusPrivacyPolicy() {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-8 xl:px-0  py-12">
+    <div className="max-w-4xl mx-auto px-4 sm:px-8 xl:px-0 py-12">
       <h1 className="text-4xl font-bold text-center mb-8">Privacy Policy</h1>
       <div className="max-w-4xl mx-auto">
         <p className="mb-8">
@@ -238,16 +235,15 @@ export default function MebusPrivacyPolicy() {
           </p>
         </section>
 
-        <section id="contact-us" className="mb-8">
+        <section id="contact" className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">7. Contact Us</h2>
           <p className="mb-4">
-            If you have any questions about this Privacy Policy or our privacy
-            practices, please contact us at:
+            If you have any questions about these Terms, please contact us at:
           </p>
-          <p>GoBusly Privacy Team</p>
-          <p>Email: privacy@GoBusly.eu</p>
+          <p>GoBusly Legal Team</p>
+          <p>Email: gobuslyinternal@gmail.com</p>
           <p>Address: 456 Data Protection Avenue, Privacyville, ST 67890</p>
-          <p>Phone: (555) 987-6543</p>
+          <p>Phone: (+389) 70-250-259</p>
         </section>
 
         <div className="mt-8 pt-8 border-t border-gray-200">

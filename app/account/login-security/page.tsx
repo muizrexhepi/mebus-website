@@ -168,12 +168,14 @@ export default function LoginSecurity() {
     try {
       setLoginNotifications(checked);
 
+      const logs = await account.listLogs();
+      const sessions = await account.listSessions();
+      console.log({ logs, sessions });
       toast({
         description: `Login notifications ${checked ? "enabled" : "disabled"}.`,
       });
     } catch (error) {
       console.error("Failed to toggle login notifications:", error);
-
       setLoginNotifications(!checked);
 
       toast({
@@ -384,7 +386,9 @@ export default function LoginSecurity() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => router.push("/account/active-sessions")}
+              onClick={() =>
+                router.push("/account/login-security/active-sessions")
+              }
             >
               Manage
             </Button>

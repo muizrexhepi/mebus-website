@@ -1,4 +1,5 @@
 "use client";
+
 import { account } from "@/appwrite.config";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/components/hooks/use-toast";
 import { useTranslation } from "react-i18next";
 
@@ -22,6 +24,7 @@ export default function PersonalInfo() {
   const [editingInfo, setEditingInfo] = useState<any>(null);
   const [editedValue, setEditedValue] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [useAsPassengerInfo, setUseAsPassengerInfo] = useState<boolean>(false);
   const { toast } = useToast();
   const { t } = useTranslation();
 
@@ -50,14 +53,14 @@ export default function PersonalInfo() {
         await account.updatePhone(newValue, password);
       },
     },
-    {
-      label: t("personalInfo.address"),
-      value: user?.prefs?.address || "Not provided",
-      action: user?.prefs?.address ? t("personalInfo.edit") : "Add",
-      update: async (newValue: string) => {
-        await account.updatePrefs({ address: newValue });
-      },
-    },
+    // {
+    //   label: t("personalInfo.address"),
+    //   value: user?.prefs?.address || "Not provided",
+    //   action: user?.prefs?.address ? t("personalInfo.edit") : "Add",
+    //   update: async (newValue: string) => {
+    //     await account.updatePrefs({ address: newValue });
+    //   },
+    // },
   ];
 
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,6 +75,7 @@ export default function PersonalInfo() {
     try {
       const user = await account.get();
       setUser(user);
+      setUseAsPassengerInfo(user.prefs?.useAsPassengerInfo || false);
       setIsLoading(false);
     } catch (error) {
       setUser(null);
@@ -98,6 +102,20 @@ export default function PersonalInfo() {
           variant: "destructive",
         });
       }
+    }
+  };
+
+  const handleUseAsPassengerInfoChange = async (checked: boolean) => {
+    try {
+      await account.updatePrefs({ useAsPassengerInfo: checked });
+      setUseAsPassengerInfo(checked);
+      toast({ description: "Passenger info preference updated successfully." });
+    } catch (error) {
+      toast({
+        description:
+          "Failed to update passenger info preference. Please try again.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -131,6 +149,17 @@ export default function PersonalInfo() {
               </Button>
             </div>
           ))}
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="use-as-passenger-info"
+              checked={useAsPassengerInfo}
+              className="data-[state=checked]:bg-primary-accent"
+              onCheckedChange={handleUseAsPassengerInfoChange}
+            />
+            <Label htmlFor="use-as-passenger-info">
+              Use these details as primary passenger
+            </Label>
+          </div>
           <Dialog
             open={editingInfo !== null}
             onOpenChange={() => setEditingInfo(null)}
@@ -167,7 +196,7 @@ export default function PersonalInfo() {
                     <Input
                       id="password"
                       type="password"
-                      value={user.password}
+                      value={password}
                       className="col-span-3"
                       onChange={handlePasswordChange}
                     />

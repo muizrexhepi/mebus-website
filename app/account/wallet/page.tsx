@@ -1,12 +1,18 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { AlertCircle, CreditCard, Plus } from 'lucide-react';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Skeleton } from '@/components/ui/skeleton';
-import { account } from '@/appwrite.config';
+import { useEffect, useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { AlertCircle, CreditCard, Plus } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Skeleton } from "@/components/ui/skeleton";
+import { account } from "@/appwrite.config";
 
 interface PaymentMethod {
   id: string;
@@ -18,7 +24,6 @@ interface PaymentMethod {
   };
 }
 
-
 export default function WalletPage() {
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -27,17 +32,19 @@ export default function WalletPage() {
   useEffect(() => {
     async function fetchPaymentMethods() {
       try {
-        const user = await account.get()
-        console.log({acc: user})
-        const response = await fetch(`http://localhost:1234/payment/customer/retrieve-payment-methods/${user.prefs.stripe_customer_id}`);
+        const user = await account.get();
+        console.log({ acc: user });
+        const response = await fetch(
+          `http://localhost:1234/payment/customer/retrieve-payment-methods/${user.prefs.stripe_customer_id}`
+        );
         if (!response.ok) {
-          throw new Error('Failed to fetch payment methods');
+          throw new Error("Failed to fetch payment methods");
         }
         const data: any = await response.json();
-        console.log(data.data)
+        console.log(data.data);
         setPaymentMethods(data.data.data);
       } catch (err) {
-        setError('Error fetching payment methods');
+        setError("Error fetching payment methods");
       } finally {
         setIsLoading(false);
       }
@@ -75,10 +82,14 @@ function PaymentMethodCard({ method }: { method: PaymentMethod }) {
           <CreditCard className="mr-2" />
           {method.card.brand.toUpperCase()} ••••{method.card.last4}
         </CardTitle>
-        <CardDescription>Expires {method.card.exp_month}/{method.card.exp_year}</CardDescription>
+        <CardDescription>
+          Expires {method.card.exp_month}/{method.card.exp_year}
+        </CardDescription>
       </CardHeader>
       <CardContent>
-        <Button variant="outline" className="w-full">Manage</Button>
+        <Button variant="outline" className="w-full">
+          Manage
+        </Button>
       </CardContent>
     </Card>
   );
@@ -88,7 +99,10 @@ function AddPaymentMethodCard() {
   return (
     <Card className="flex flex-col items-center justify-center h-full">
       <CardContent>
-        <Button variant="ghost" className="w-full h-full flex flex-col items-center justify-center">
+        <Button
+          variant="ghost"
+          className="w-full h-full flex flex-col items-center justify-center"
+        >
           <Plus className="h-12 w-12 mb-2" />
           <span>Add Payment Method</span>
         </Button>
@@ -109,7 +123,7 @@ function ErrorAlert({ message }: { message: string }) {
 
 function LoadingSkeleton() {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto py-8">
       <Skeleton className="h-10 w-48 mb-6" />
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {[...Array(3)].map((_, i) => (
@@ -127,4 +141,3 @@ function LoadingSkeleton() {
     </div>
   );
 }
-

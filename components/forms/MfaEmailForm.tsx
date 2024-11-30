@@ -64,7 +64,7 @@ export const MfaEmailForm = () => {
   return (
     <div className="max-w-[400px] mx-auto space-y-8 pt-32 sm:pt-6">
       <ChevronLeft
-        className="absolute left-6 top-6 w-6 h-6 shrink-0 cursor-pointer"
+        className="absolute left-6 top-12 sm:top-6 w-6 h-6 shrink-0 cursor-pointer"
         onClick={() => setCurrentForm("mfaVerification")}
       />
       <div className="space-y-0 text-center lg:text-start">
@@ -139,7 +139,7 @@ export const MfaEmailForm = () => {
           <FormError message={error} />
 
           <Button
-            className="w-full h-12 rounded-xl button-gradient text-base"
+            className="w-full h-12 button-gradient"
             type="submit"
             disabled={isLoading}
           >

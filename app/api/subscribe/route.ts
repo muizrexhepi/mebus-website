@@ -4,6 +4,7 @@ import { Resend } from 'resend';
 import { Client, Databases, Query, ID } from 'node-appwrite';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+
 const COMPANY_NAME = 'GoBusly';
 
 const client = new Client()
@@ -40,7 +41,7 @@ export async function POST(request: NextRequest) {
 
 
     await resend.emails.send({
-      from: `${COMPANY_NAME} <newsletter@portal.insylink.com>`,
+      from: `${COMPANY_NAME} <newsletter@gobusly.com>`,
       to: email,
       subject: `Welcome to ${COMPANY_NAME}'s Newsletter!`,
       react: WelcomeEmail(),

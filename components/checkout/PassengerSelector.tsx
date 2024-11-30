@@ -19,6 +19,7 @@ const AddPassenger = () => {
   const { t } = useTranslation();
 
   const addPassenger = (type: "adults" | "children") => {
+    console.log("adding", type);
     setPassengers({
       ...passengers,
       [type]: passengers[type] + 1,

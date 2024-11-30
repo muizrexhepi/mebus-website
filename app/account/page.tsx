@@ -4,7 +4,7 @@ import { ComponentType, SVGProps, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import useUser from "@/components/hooks/use-user";
 import { useTranslation } from "react-i18next";
-import { Bell, Book, Lock, Shield, User } from "lucide-react";
+import { Bell, Book, Lock, Shield, User, Wallet } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
@@ -64,6 +64,12 @@ export default function Account() {
       icon: Book,
       title: t("account.bookings"),
       description: t("account.bookingsDesc"),
+    },
+    {
+      href: "/account/wallet",
+      icon: Wallet,
+      title: t("account.wallet"),
+      description: t("account.walletDesc"),
     },
     // {
     //   href: "/account/notifications",

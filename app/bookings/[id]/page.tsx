@@ -31,6 +31,8 @@ import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "@/components/hooks/use-toast";
 import { FlexUpgradeSheet } from "@/components/dialogs/FlexUpgradeDialog";
 import { useTranslation } from "react-i18next";
+import PrintableBooking from "../(components)/PrintableBooking";
+import DownloadableBookingPDF from "../(components)/DownloadableBooking";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -214,7 +216,9 @@ export default function BookingDetailsPage({
 
   return (
     <div className="space-y-4 max-w-5xl mx-auto py-20 paddingX">
-      <div className="flex flex-col sm:flex-row justify-between items-start gap-2 sm:items-center">
+      <DownloadableBookingPDF booking={booking} />
+
+      {/* <div className="flex flex-col sm:flex-row justify-between items-start gap-2 sm:items-center">
         <div className="">
           <h2 className="text-3xl font-semibold">
             {t("bookingDetailsPage.bookingDetails")}
@@ -254,14 +258,9 @@ export default function BookingDetailsPage({
             </Button>
           </Link>
         </div>
-        {/* <Link href={"/bookings"} className="hidden sm:block">
-          <Button variant="outline" className="mb-4">
-            <ChevronLeft className="mr-2 h-4 w-4" /> Back
-          </Button>
-        </Link> */}
-      </div>
+      </div> */}
 
-      <div className="space-y-6">
+      {/* <div className="space-y-6">
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
@@ -461,7 +460,7 @@ export default function BookingDetailsPage({
             )}
           </CardContent>
         </Card>
-      </div>
+      </div> */}
     </div>
   );
 }

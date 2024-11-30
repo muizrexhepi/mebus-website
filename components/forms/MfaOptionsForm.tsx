@@ -47,7 +47,7 @@ export const MFAOptionsForm = () => {
   return (
     <div className="w-full max-w-[400px] mx-auto space-y-8 pt-32 sm:pt-6">
       <ChevronLeft
-        className="absolute left-6 top-6 w-6 h-6 shrink-0 cursor-pointer"
+        className="absolute left-6 top-12 sm:top-6 w-6 h-6 shrink-0 cursor-pointer"
         onClick={() => setCurrentForm("login")}
       />
       <div className="space-y-0 text-center lg:text-start mb-6">
@@ -69,7 +69,7 @@ export const MFAOptionsForm = () => {
               <Button
                 key={key}
                 variant="outline"
-                className="w-full h-12 justify-start text-base font-normal hover:bg-accent bg-primary-bg/5 rounded-xl"
+                className="w-full h-12 justify-start text-base font-normal hover:bg-accent bg-primary-bg/5 rounded-lg"
                 onClick={() => handleOptionClick(key as MFAMethod)}
                 disabled={isLoading}
               >

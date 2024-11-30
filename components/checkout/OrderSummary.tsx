@@ -57,7 +57,7 @@ function TicketSummary({ ticket, isReturn }: TripProps) {
             <div className="flex-1 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="capitalize">{ticket.stops[0].from.name}</span>
-                <MapPin className="h-4 w-4 text-gray-400" />
+                <MapPin className="h-4 w-4 text-primary-bg" />
               </div>
               <span className="font-medium">
                 {departureDate.format("HH:mm")}
@@ -70,7 +70,7 @@ function TicketSummary({ ticket, isReturn }: TripProps) {
             <div className="flex-1 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="capitalize">{ticket.stops[0].to.name}</span>
-                <MapPin className="h-4 w-4 text-gray-400" />
+                <MapPin className="h-4 w-4 text-primary-bg" />
               </div>
               <span className="font-medium">{arrivalDate.format("HH:mm")}</span>
             </div>
