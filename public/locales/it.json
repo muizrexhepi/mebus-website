@@ -6,6 +6,39 @@
     "about": "Chi siamo",
     "contact": "Contatti"
   },
+  "infoSection": {
+    "feature1": {
+      "title": "Confronta i prezzi degli autobus tra i fornitori",
+      "description": "Trova le migliori offerte confrontando i prezzi di più operatori di autobus in un unico posto. Risparmia tempo e denaro nel tuo viaggio."
+    },
+    "feature2": {
+      "title": "Prenota i biglietti istantaneamente",
+      "description": "Processo di prenotazione facile e sicuro con conferma immediata. Ricevi i tuoi biglietti elettronici direttamente sul tuo telefono."
+    },
+    "feature3": {
+      "title": "Segui il tuo viaggio",
+      "description": "Aggiornamenti in tempo reale sulla posizione dell'autobus, orari di arrivo e eventuali modifiche al programma. Rimani informato durante tutto il viaggio."
+    }
+  },
+  "languageDialog": {
+    "languageCurrency": "Lingua e valuta",
+    "language": {
+      "label": "Lingua",
+      "placeholder": "Seleziona la lingua"
+    },
+    "currency": {
+      "label": "Valuta",
+      "placeholder": "Seleziona la valuta"
+    },
+    "saveButton": {
+      "text": "Salva preferenze"
+    }
+  },
+  "partnersSection": {
+    "heading": "Tutte le tue opzioni di viaggio in autobus in un unico posto",
+    "description": "Più di 500 operatori di autobus fidati in tutto il paese, da autobus interurbani a navette locali, così puoi concentrarti sul tuo viaggio senza il fastidio di visitare più siti web.",
+    "buttonText": "Inizia"
+  },
   "helpPage": {
     "title": "Centro Assistenza",
     "description": "Benvenuto nel nostro Centro Assistenza. Trova risposte alle domande comuni, scopri come utilizzare i nostri servizi e ricevi il supporto di cui hai bisogno per un'esperienza di prenotazione dei biglietti per l'autobus senza intoppi.",
@@ -201,6 +234,8 @@
     "getUpdates": "Ricevi Aggiornamenti",
     "emailAddress": "Indirizzo email",
     "subscribe": {
+      "title": "Rimani Aggiornato con le Offerte di Viaggio",
+      "description": "Iscriviti alla nostra newsletter per ricevere gli ultimi orari degli autobus, sconti esclusivi e consigli di viaggio direttamente nella tua casella di posta.",
       "emailPlaceholder": "Inserisci la tua email",
       "subscribeButton": "Iscriviti",
       "subscribing": "Iscrizione in corso...",
@@ -357,132 +392,126 @@
   },
   "back": "Indietro",
   "bookings": {
-    "noBookingsYet": "Non hai ancora prenotazioni di biglietti dell'autobus."
-    ,
-    "bookYourFirstTicket": "Prenota il Tuo Primo Biglietto"
-    ,
-    "manageBookings": "Esplora e gestisci le tue prenotazioni qui sotto. Rivedi i tuoi prossimi viaggi, controlla le tue prenotazioni passate e rimani informato sui tuoi piani di viaggio."
-    ,"myBookings": "Le Mie Prenotazioni"
-
+    "noBookingsYet": "Non hai ancora prenotazioni di biglietti dell'autobus.",
+    "bookYourFirstTicket": "Prenota il Tuo Primo Biglietto",
+    "manageBookings": "Esplora e gestisci le tue prenotazioni qui sotto. Rivedi i tuoi prossimi viaggi, controlla le tue prenotazioni passate e rimani informato sui tuoi piani di viaggio.",
+    "myBookings": "Le Mie Prenotazioni"
   },
-      "actions": {
-        "actions": "Акции",
-        "rescheduleBooking": "Префрли резервирање",
-        "editDetails": "Уреди ги деталите",
-        "viewDetails": "Погледни ги деталите",
-        "downloadBooking": "Преземи ја резервирањето",
-        "cancelBooking": "Откажи ја резервирањето"
-      },
-        "bookingDetailsPage": {
-          "bookingDetails": "Dettagli della prenotazione",
-          "tripInformation": "Informazioni sul viaggio",
-          "changeDepartureDate": "Cambia la data di partenza",
-          "passengerInformation": "Informazioni sul passeggero",
-          "passenger": "Passeggero",
-          "passengers": "Passeggeri",
-          "fullName": "Nome completo",
-          "email": "Email",
-          "phone": "Telefono",
-          "price": "Prezzo",
-          "paymentInformation": "Informazioni di pagamento",
-          "totalPrice": "Prezzo totale",
-          "paymentStatus": "Stato del pagamento",
-          "chargeDetails": "Dettagli dell'addebito",
-          "amountCharged": "Importo addebitato",
-          "currency": "Valuta",
-          "card": "Carta",
-          "paid": "Pagato",
-          "contactInformation": "Informazioni di contatto",
-          "bookingMetadata": "Metadati della prenotazione",
-          "chargeId": "ID di addebito",
-          "paymentIntentId": "ID di intento di pagamento",
-          "back": "Indietro",
-          "amountUsedFromDeposit": "Importo utilizzato dal tuo deposito",
-          "viewReceipt": "Visualizza ricevuta"
-        },
-        "account": {
-          "account": "Account",
-          "accountBalance": "Saldo dell'account",
-          "profile": "Profilo",
-          "profileDesc": "Gestisci e fornisci dettagli personali su come possiamo contattarti.",
-          "security": "Sicurezza",
-          "securityDesc": "Gestisci le impostazioni di sicurezza del tuo account.",
-          "dataAndPrivacy": "Dati e Privacy",
-          "dataAndPrivacyDesc": "Controlla le tue impostazioni sui dati e sulla privacy.",
-          "bookings": "Prenotazioni",
-          "bookingsDesc": "Visualizza e gestisci le tue prenotazioni future e passate in un unico posto.",
-          "notifications": "Notifiche",
-          "notificationsDesc": "Personalizza le tue preferenze di notifica.",
-          "depositFunds": "Deposita fondi",
-          "depositFundsDesc": "Deposita rapidamente fondi per pagamenti futuri facili senza utilizzare la tua carta ogni volta.",
-          "wallet": "Portafoglio",
-          "walletDesc": "Visualizza e gestisci i tuoi metodi di pagamento",
-          "yourWallet": "Il tuo portafoglio",
-          "removePm": "Rimuovi metodo di pagamento",
-          "removePmAreYouSure": "Sei sicuro di voler rimuovere questo metodo di pagamento? Non preoccuparti, puoi salvarlo di nuovo o aggiungerne uno nuovo in seguito.",
-          "pmExpires": "Scade"
-        },
-        "personalInfo": {
-  "title": "Informazioni Personali",
-  "name": "Nome",
-  "emailAddress": "Indirizzo Email",
-  "phoneNumber": "Numero di Telefono",
-  "address": "Indirizzo",
-  "edit": "Modifica"
-},
-"security": {
-  "loginSecurity": "Sicurezza di Accesso",
-  "password": "Password",
-  "edit": "Modifica",
-  "TFA": "Autenticazione a Due Fattori",
-  "loginNotifications": "Notifiche di Accesso",
-  "account": "Account",
-  "verifyEmail": "Verifica Email", 
-  "activeSessions": "Sessioni Attive",
-  "deleteAcc": "Elimina Account",
-  "addExtraSecurity": "Aggiungi un ulteriore livello di sicurezza al tuo account",
-  "newLoginNotifications": "Ricevi avvisi sui nuovi accessi al tuo account",
-  "manageSessions": "Gestisci i dispositivi in cui sei attualmente connesso",
-  "editPassword": "Modifica Password",
-  "makeChangesToYourPw": "Apporta modifiche alla tua password qui. Clicca su salva quando hai terminato.",
-  "oldPw": "Vecchia Password",
-  "newPw": "Nuova Password",
-  "verify": "Verifica",
-  "verified": "Verificato"
-}
-,
-"dataPrivacy": {
-  "dataPrivacy": "Dati e Privacy",
-  "dataExport": "Esportazione Dati",
-  "download data": "Scarica una copia dei tuoi dati personali",
-  "exportData": "Esporta Dati",
-  "requestDataDeletion": "Richiedi Eliminazione Dati",
-  "parmanentlyDeleteData": "Elimina definitivamente tutti i tuoi dati dai nostri sistemi",
-  "deleteData": "Elimina Dati",
-  "deleteDataAlert": "Questa azione eliminerà definitivamente tutti i tuoi dati. Inserisci la tua password per confermare.",
-  "password": "Password",
-  "passwordPlaceholder": "Inserisci la tua password",
-  "confirmDeletion": "Conferma Eliminazione",
-  "areYouSure": "Sei assolutamente sicuro?",
-  "cannotBeUndone": "Questa azione non può essere annullata. Tutti i tuoi dati saranno eliminati definitivamente dai nostri server.",
-  "cancel": "Annulla",
-  "yes": "Sì, elimina i miei dati"
-}
-,
-"notifications": {
-  "title": "Notifiche",
-  "bookingConfirmations": "Conferme di Prenotazione",
-  "bookingConfirmationsDesc": "Ricevi notifiche per le prenotazioni effettuate con successo",
-  "DepartureReminders": "Promemoria di Partenza",
-  "DepartureRemindersDesc": "Ricevi promemoria prima della tua partenza programmata",
-  "promotions": "Promozioni e Offerte",
-  "promotionsDesc": "Ricevi aggiornamenti su offerte speciali e sconti",
-  "accountUpdates": "Ricevi notifiche sui cambiamenti importanti relativi al tuo account",
-  "savePreferences": "Salva Preferenze",
-  "enabled": "Le notifiche sono abilitate",
-  "disabled": "Tutte le notifiche sono disabilitate"
-}
-,
+  "actions": {
+    "actions": "Акции",
+    "rescheduleBooking": "Префрли резервирање",
+    "editDetails": "Уреди ги деталите",
+    "viewDetails": "Погледни ги деталите",
+    "downloadBooking": "Преземи ја резервирањето",
+    "cancelBooking": "Откажи ја резервирањето"
+  },
+  "bookingDetailsPage": {
+    "bookingDetails": "Dettagli della prenotazione",
+    "tripInformation": "Informazioni sul viaggio",
+    "changeDepartureDate": "Cambia la data di partenza",
+    "passengerInformation": "Informazioni sul passeggero",
+    "passenger": "Passeggero",
+    "passengers": "Passeggeri",
+    "fullName": "Nome completo",
+    "email": "Email",
+    "phone": "Telefono",
+    "price": "Prezzo",
+    "paymentInformation": "Informazioni di pagamento",
+    "totalPrice": "Prezzo totale",
+    "paymentStatus": "Stato del pagamento",
+    "chargeDetails": "Dettagli dell'addebito",
+    "amountCharged": "Importo addebitato",
+    "currency": "Valuta",
+    "card": "Carta",
+    "paid": "Pagato",
+    "contactInformation": "Informazioni di contatto",
+    "bookingMetadata": "Metadati della prenotazione",
+    "chargeId": "ID di addebito",
+    "paymentIntentId": "ID di intento di pagamento",
+    "back": "Indietro",
+    "amountUsedFromDeposit": "Importo utilizzato dal tuo deposito",
+    "viewReceipt": "Visualizza ricevuta"
+  },
+  "account": {
+    "account": "Account",
+    "accountBalance": "Saldo dell'account",
+    "profile": "Profilo",
+    "profileDesc": "Gestisci e fornisci dettagli personali su come possiamo contattarti.",
+    "security": "Sicurezza",
+    "securityDesc": "Gestisci le impostazioni di sicurezza del tuo account.",
+    "dataAndPrivacy": "Dati e Privacy",
+    "dataAndPrivacyDesc": "Controlla le tue impostazioni sui dati e sulla privacy.",
+    "bookings": "Prenotazioni",
+    "bookingsDesc": "Visualizza e gestisci le tue prenotazioni future e passate in un unico posto.",
+    "notifications": "Notifiche",
+    "notificationsDesc": "Personalizza le tue preferenze di notifica.",
+    "depositFunds": "Deposita fondi",
+    "depositFundsDesc": "Deposita rapidamente fondi per pagamenti futuri facili senza utilizzare la tua carta ogni volta.",
+    "wallet": "Portafoglio",
+    "walletDesc": "Visualizza e gestisci i tuoi metodi di pagamento",
+    "yourWallet": "Il tuo portafoglio",
+    "removePm": "Rimuovi metodo di pagamento",
+    "removePmAreYouSure": "Sei sicuro di voler rimuovere questo metodo di pagamento? Non preoccuparti, puoi salvarlo di nuovo o aggiungerne uno nuovo in seguito.",
+    "pmExpires": "Scade"
+  },
+  "personalInfo": {
+    "title": "Informazioni Personali",
+    "name": "Nome",
+    "emailAddress": "Indirizzo Email",
+    "phoneNumber": "Numero di Telefono",
+    "address": "Indirizzo",
+    "edit": "Modifica"
+  },
+  "security": {
+    "loginSecurity": "Sicurezza di Accesso",
+    "password": "Password",
+    "edit": "Modifica",
+    "TFA": "Autenticazione a Due Fattori",
+    "loginNotifications": "Notifiche di Accesso",
+    "account": "Account",
+    "verifyEmail": "Verifica Email",
+    "activeSessions": "Sessioni Attive",
+    "deleteAcc": "Elimina Account",
+    "addExtraSecurity": "Aggiungi un ulteriore livello di sicurezza al tuo account",
+    "newLoginNotifications": "Ricevi avvisi sui nuovi accessi al tuo account",
+    "manageSessions": "Gestisci i dispositivi in cui sei attualmente connesso",
+    "editPassword": "Modifica Password",
+    "makeChangesToYourPw": "Apporta modifiche alla tua password qui. Clicca su salva quando hai terminato.",
+    "oldPw": "Vecchia Password",
+    "newPw": "Nuova Password",
+    "verify": "Verifica",
+    "verified": "Verificato"
+  },
+  "dataPrivacy": {
+    "dataPrivacy": "Dati e Privacy",
+    "dataExport": "Esportazione Dati",
+    "download data": "Scarica una copia dei tuoi dati personali",
+    "exportData": "Esporta Dati",
+    "requestDataDeletion": "Richiedi Eliminazione Dati",
+    "parmanentlyDeleteData": "Elimina definitivamente tutti i tuoi dati dai nostri sistemi",
+    "deleteData": "Elimina Dati",
+    "deleteDataAlert": "Questa azione eliminerà definitivamente tutti i tuoi dati. Inserisci la tua password per confermare.",
+    "password": "Password",
+    "passwordPlaceholder": "Inserisci la tua password",
+    "confirmDeletion": "Conferma Eliminazione",
+    "areYouSure": "Sei assolutamente sicuro?",
+    "cannotBeUndone": "Questa azione non può essere annullata. Tutti i tuoi dati saranno eliminati definitivamente dai nostri server.",
+    "cancel": "Annulla",
+    "yes": "Sì, elimina i miei dati"
+  },
+  "notifications": {
+    "title": "Notifiche",
+    "bookingConfirmations": "Conferme di Prenotazione",
+    "bookingConfirmationsDesc": "Ricevi notifiche per le prenotazioni effettuate con successo",
+    "DepartureReminders": "Promemoria di Partenza",
+    "DepartureRemindersDesc": "Ricevi promemoria prima della tua partenza programmata",
+    "promotions": "Promozioni e Offerte",
+    "promotionsDesc": "Ricevi aggiornamenti su offerte speciali e sconti",
+    "accountUpdates": "Ricevi notifiche sui cambiamenti importanti relativi al tuo account",
+    "savePreferences": "Salva Preferenze",
+    "enabled": "Le notifiche sono abilitate",
+    "disabled": "Tutte le notifiche sono disabilitate"
+  },
   "pageMetadata": {
     "title": "Come prenotare - Centro assistenza",
     "description": "Scopri passo passo come prenotare il tuo biglietto dell'autobus. Ottieni suggerimenti per un processo di prenotazione senza problemi e trova risposte alle domande frequenti.",
@@ -530,9 +559,4 @@
       }
     }
   }
-
-
-      
-    
-  
 }

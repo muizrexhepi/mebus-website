@@ -1,7 +1,10 @@
-import Image from "next/image";
+"use client";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const FeaturesSection = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="w-full bg-primary-bg/5 py-12 overflow-hidden ">
       <div className="max-w-6xl mx-auto px-4">
@@ -32,11 +35,16 @@ const FeaturesSection = () => {
             </div>
 
             <h3 className="text-2xl font-bold text-primary-bg mb-4">
-              Compare bus prices across providers
+              {t(
+                "infoSection.feature1.title",
+                "Compare bus prices across providers"
+              )}
             </h3>
             <p className="text-gray-600">
-              Find the best deals by comparing prices from multiple bus
-              operators in one place. Save time and money on your journey.
+              {t(
+                "infoSection.feature1.description",
+                "Find the best deals by comparing prices from multiple bus operators in one place. Save time and money on your journey."
+              )}
             </p>
           </div>
 
@@ -64,13 +72,14 @@ const FeaturesSection = () => {
                 <div className="absolute bottom-4 right-4 w-24 h-12 bg-green-500 rounded-lg transform rotate-12 group-hover:rotate-0 transition-transform opacity-40" />
               </div>
             </div>
-
             <h3 className="text-2xl font-bold text-primary-bg mb-4">
-              Book tickets instantly
+              {t("infoSection.feature2.title", " Book tickets instantly")}
             </h3>
             <p className="text-gray-600">
-              Easy and secure booking process with instant confirmation. Get
-              your e-tickets delivered right to your phone.
+              {t(
+                "infoSection.feature2.description",
+                "Easy and secure booking process with instant confirmation. Get your e-tickets delivered right to your phone."
+              )}
             </p>
           </div>
 
@@ -96,13 +105,14 @@ const FeaturesSection = () => {
                 <div className="absolute top-4 right-8 w-12 h-12 bg-yellow-400 rounded-lg transform rotate-45 group-hover:rotate-0 transition-transform opacity-40" />
               </div>
             </div>
-
             <h3 className="text-2xl font-bold text-primary-bg mb-4">
-              Track your journey
+              {t("infoSection.feature3.title", " Track your journey")}
             </h3>
             <p className="text-gray-600">
-              Real-time updates on bus location, arrival times, and any schedule
-              changes. Stay informed throughout your trip.
+              {t(
+                "infoSection.feature3.description",
+                " Real-time updates on bus location, arrival times, and any schedule changes. Stay informed throughout your trip."
+              )}
             </p>
           </div>
         </div>

@@ -7,6 +7,53 @@
     "contact": "Kontakt",
     "account": "Akaunti"
   },
+  "infoSection": {
+    "feature1": {
+      "title": "Krahasoni çmimet e autobusëve nga ofruesit",
+      "description": "Gjeni ofertat më të mira duke krahasuar çmimet nga shumë operatorë të autobusëve në një vend. Kurseni kohë dhe para në udhëtimin tuaj."
+    },
+    "feature2": {
+      "title": "Rezervoni bileta menjëherë",
+      "description": "Proces i thjeshtë dhe të sigurt i rezervimit me konfirmim menjëherë. Merrni biletat e tuaja elektronike direkt në telefonin tuaj."
+    },
+    "feature3": {
+      "title": "Përcillni udhëtimin tuaj",
+      "description": "Përditësime në kohë reale mbi vendndodhjen e autobusit, oraret e mbërritjes dhe çdo ndryshim orari. Qëndroni të informuar gjatë gjithë udhëtimit tuaj."
+    }
+  },
+  "languageDialog": {
+    "languageCurrency": "Gjuha dhe valuta",
+    "language": {
+      "label": "Gjuha",
+      "placeholder": "Zgjidhni gjuhën"
+    },
+    "currency": {
+      "label": "Valuta",
+      "placeholder": "Zgjidhni valutanë"
+    },
+    "saveButton": {
+      "text": "Ruaj preferencat"
+    }
+  },
+  "partnersSection": {
+    "heading": "Të gjitha opsionet tuaja të udhëtimit me autobuz në një vend",
+    "description": "Mbi 500 operatorë autobusi të besueshëm në të gjithë vendin, nga autobusët ndërqytetas deri te shuttles lokale, kështu që mund të fokusoheni në udhëtimin tuaj pa pasur nevojë të vizitoni disa faqe interneti.",
+    "buttonText": "Filloni"
+  },
+  "aboutSection": {
+    "title": "Thjeshtësimi i udhëtimeve me autobus nëpër Evropë dhe Ballkan",
+    "intro": {
+      "p1": "Mirësevini në <b>GoBusly</b>, platformën tuaj për udhëtime të pandërprera me autobus nëpër Evropë dhe Ballkan. Pavarësisht nëse po udhëtoni midis qyteteve të zhurmshme ose po shkoni në qytete dhe fshatra të bukur, GoBusly ju lidh me operatorët më të besueshëm të autobusëve në rajon.",
+      "p2": "Platforma jonë ofron akses në një rrjet të gjerë operatorësh të besueshëm, duke siguruar mbulim për të dyja itinerarët e njohura dhe destinacionet jashtë rrugëve të njohura. Nga autobusët modernë me paisje premium deri te opsionet ekonomike, GoBusly i përgjigjet nevojave të çdo udhëtari, duke e bërë udhëtimin tuaj sa më të rehatshëm dhe të përshtatshëm të jetë e mundur.",
+      "p3": "Me GoBusly, mund të eksploroni lehtësisht destinacione në shtete si Shqipëria, Maqedonia e Veriut, Serbia, Greqia dhe më gjerë. Zbulo bukurinë e Ballkanit me një platformë besuese rezervimi që thjeshton planet tuaja të udhëtimit."
+    },
+    "operatorsTitle": "Lidhja juaj me operatorët e besueshëm të autobusëve",
+    "operatorsDescription": {
+      "p1": "GoBusly bashkëpunon me operatorët kryesorë të autobusëve në Evropë dhe Ballkan, duke ofruar një gamë shërbimesh të përshtatura për nevojat tuaja të udhëtimit. Pavarësisht nëse po rezervoni një rrugë ekspres ndërmjet qyteteve të mëdha ose një lidhje lokale për në qytete më të vogla, do të gjeni mundësi të besueshme në platformën tonë.",
+      "p2": "Platforma jonë ka mjete kërkimi miqësore për përdoruesin që ju lejojnë të filtroni sipas operatorit, itinerarit dhe mundësive. Me orare të sakta, çmime konkurruese dhe nisje të shumta ditore, GoBusly siguron që të gjeni një autobus që i përshtatet orarit dhe buxhetit tuaj.",
+      "linkText": "Eksploro operatorët dhe itinerarët që janë të disponueshëm në GoBusly →"
+    }
+  },
   "helpPage": {
     "title": "Qendra e Ndihmës",
     "description": "Mirësevini në Qendrën tonë të Ndihmës. Gjeni përgjigje për pyetje të shpeshta, mësoni se si të përdorni shërbimet tona dhe merrni ndihmën që ju nevojitet për të rezervuar autobusë pa stres.",
@@ -202,6 +249,8 @@
     "getUpdates": "Merrni Përditësime",
     "emailAddress": "Adresa e emailit",
     "subscribe": {
+      "title": "Qëndroni të Pashitur me Oferatat e Udhëtimit",
+      "description": "Abonohuni në newsletter-in tonë për oraret më të fundit të autobusëve, ulje ekskluzive dhe këshilla udhëtimi të dërguara drejtpërdrejt në kutinë tuaj të postës.",
       "emailPlaceholder": "Vendosni emailin tuaj",
       "subscribeButton": "Abonohu",
       "subscribing": "Duke u abonuar...",
@@ -235,40 +284,7 @@
     "securePayment": "Pagesë e Sigurt",
     "helpFAQ": "Ndihmë & FAQ"
   },
-  "aboutSection": {
-    "title": "Pse të Udhëtoni me GoBusly?",
-    "cards": {
-      "budget": {
-        "title": "Udhëtime me Çmime të Përballueshme",
-        "description": "Zbuloni tarifa të parezistueshme në rrjetin tonë të gjerë. GoBusly e bën udhëtimin të arritshëm pa shpenzuar shumë."
-      },
-      "network": {
-        "title": "Rrjet i Gjerë Rrugësh",
-        "description": "Lidhuni me mbi 2,000 destinacione në 30 vende. Aventura juaj e radhës është vetëm një udhëtim me autobus larg."
-      },
-      "booking": {
-        "title": "Eksperiencë e Thjeshtë Rezervimi",
-        "description": "Rezervoni biletat tuaja në sekonda me aplikacionin tonë të thjeshtë për përdorim. Udhëtimi juaj, në majë të gishtave tuaj."
-      },
-      "punctuality": {
-        "title": "Nisje të Përpikta",
-        "description": "Koha është e çmuar. Mbështetuni te GoBusly për orare të besueshme dhe performancë në kohë."
-      },
-      "comfort": {
-        "title": "Komoditeti është Kyç",
-        "description": "Shijoni ndenjëse të gjera, argëtim në bord dhe Wi-Fi falas për një udhëtim relaksues."
-      },
-      "eco": {
-        "title": "Udhëtim Miqësor me Mjedisin",
-        "description": "Zgjidhni të gjelbërt me flotën tonë efiçente në karburant dhe iniciativat e kompensimit të karbonit. Udhëtoni me përgjegjësi me GoBusly."
-      }
-    },
-    "callToAction": {
-      "title": "Gati për Aventurën Tuaj të Radhës?",
-      "description": "Bashkohuni me mijëra udhëtarë të kënaqur që zgjedhin GoBusly për udhëtime të besueshme, të përballueshme dhe komode. Nëse po planifikoni një fundjavë pushimi apo një ekspeditë ndër-shtetërore, ne jemi këtu për ju.",
-      "button": "Eksploroni Rrugët GoBusly"
-    }
-  },
+
   "searchBlock": {
     "tripType": {
       "oneWay": "Një drejtim",
@@ -355,7 +371,6 @@
     "error": "Gabim gjatë dërgimit të lidhjes për rivendosje. Ju lutemi, provoni përsëri.",
     "rememberPassword": "E mbani mend fjalëkalimin tuaj?",
     "backToLogin": "Kthehu te hyrja"
-    
   },
   "back": "Kthehu",
   "bookings": {
@@ -374,123 +389,121 @@
     "confirmCancellation": "Konfirmo",
     "cancel": "Anulo"
   },
-  
-    "bookingDetailsPage": {
-      "bookingDetails": "Detajet e rezervimit",
-      "tripInformation": "Informacioni i udhëtimit",
-      "changeDepartureDate": "Ndrysho datën e nisjes",
-      "passengerInformation": "Informacioni i udhëtarit",
-      "passenger": "Udhëtar",
-      "passengers": "Udhëtarët",
-      "fullName": "Emri i plotë",
-      "email": "Email",
-      "phone": "Telefon",
-      "price": "Çmimi",
-      "paymentInformation": "Informacioni i pagesës",
-      "totalPrice": "Çmimi total",
-      "paymentStatus": "Statusi i pagesës",
-      "chargeDetails": "Detajet e tarifës",
-      "amountCharged": "Shuma e ngarkuar",
-      "currency": "Monedha",
-      "card": "Kartë",
-      "paid": "E paguar",
-      "contactInformation": "Informacioni për kontakt",
-      "bookingMetadata": "Metadatot e rezervimit",
-      "chargeId": "ID e tarifës",
-      "paymentIntentId": "ID e pagesës",
-      "back": "Kthehu",
-        "amountUsedFromDeposit": "Shuma e përdorur nga depozita juaj",
-        "viewReceipt": "Shiko faturën"
-    },
-    "account": {
-      "account": "Llogaria",
-      "accountBalance": "Bilanci i llogarisë",
-      "profile": "Profili",
-      "profileDesc": "Menaxhoni dhe ofroni detaje personale se si mund t'ju arrijmë.",
-      "security": "Siguria",
-      "securityDesc": "Menaxhoni cilësimet e sigurisë së llogarisë tuaj.",
-      "dataAndPrivacy": "Të dhënat dhe Privatësia",
-      "dataAndPrivacyDesc": "Kontrolloni cilësimet tuaja për të dhënat dhe privatësinë.",
-      "bookings": "Rezervimet",
-      "bookingsDesc": "Shikoni dhe menaxhoni rezervimet tuaja të ardhshme dhe të kaluara në një vend.",
-      "notifications": "Njoftimet",
-      "notificationsDesc": "Personalizoni preferencat tuaja për njoftime.",
-      "depositFunds": "Depozitoni fonde",
-      "depositFundsDesc": "Depozitoni shpejt fonde për pagesa të lehta në të ardhmen pa përdorur kartën tuaj çdo herë.",
-      "wallet": "Portofoli",
-      "walletDesc": "Shikoni dhe menaxhoni metodat tuaja të pagesës",
-      "yourWallet": "Portofoli juaj",
-      "removePm": "Hiq metodën e pagesës",
-      "removePmAreYouSure": "A jeni i sigurt që doni ta hiqni këtë metodë pagese? Mos u shqetësoni, mund ta ruani përsëri ose të shtoni një të re më vonë.",
-      "pmExpires": "Skadon"
-    },
-    "modals": {
-      "confirmCancellation": "A jeni te sigurt qe deshironi ta anuloni rezervimin?",
-      "cancellationWarning": "Nese po atehere do tiu kthehen vetem 70% te cmimit te rezervimit."
-    },
-    "personalInfo": {
-      "title": "Informacione Personale",
-      "name": "Emri",
-      "emailAddress": "Email Adresa",
-      "phoneNumber": "Numri i Telefonit",
-      "address": "Adresa",
-      "edit": "Redakto"
-    },
-    "security": {
-  "loginSecurity": "Siguria e Hyrjes",
-  "password": "Fjalëkalimi",
-  "edit": "Redakto",
-  "TFA": "Autentikimi me Dy Faktorë",
-  "loginNotifications": "Njoftime për Hyrje",
-  "account": "Llogaria",
-  "verifyEmail": "Verifiko Email-in", 
-  "activeSessions": "Seancat Aktive",
-  "deleteAcc": "Fshi Llogarinë",
-  "addExtraSecurity": "Shto një shtresë shtesë sigurie në llogarinë tuaj",
-  "newLoginNotifications": "Merr njoftime për hyrjet e reja në llogarinë tuaj",
-  "manageSessions": "Menaxho pajisjet ku jeni aktualisht të lidhur",
-  "editPassword": "Ndrysho Fjalëkalimin",
-  "makeChangesToYourPw": "Bëni ndryshime në fjalëkalimin tuaj këtu. Klikoni ruaj kur të përfundoni.",
-  "oldPw": "Fjalëkalimi i Vjetër",
-  "newPw": "Fjalëkalimi i Ri",
-  "confirmNewPw": "Konfirmo fjalëkalimim e ri",
-  "resetPwTitle": "Riktheni fjalëkalimim tuaj",
-  "returnToLogin": "Kthehu në login",
-  "verify": "Verifiko",
-  "verified": "E Verifikuar"
-},
-"dataPrivacy": {
-  "dataPrivacy": "Të Dhënat dhe Privatësia",
-  "dataExport": "Eksporti i të Dhënave",
-  "download data": "Shkarko një kopje të të dhënave tuaja personale",
-  "exportData": "Eksporto të Dhëna",
-  "requestDataDeletion": "Kërko Fshirjen e të Dhënave",
-  "parmanentlyDeleteData": "Fshij të gjitha të dhënat tuaja nga sistemet tona përgjithmonë",
-  "deleteData": "Fshij të Dhëna",
-  "deleteDataAlert": "Kjo veprim do të fshijë përgjithmonë të gjitha të dhënat tuaja. Ju lutemi shkruani fjalëkalimin për të konfirmuar.",
-  "password": "Fjalëkalimi",
-  "passwordPlaceholder": "Shkruani fjalëkalimin tuaj",
-  "confirmDeletion": "Konfirmo Fshirjen",
-  "areYouSure": "A jeni plotësisht të sigurt?",
-  "cannotBeUndone": "Kjo veprim nuk mund të zhbëhet. Të gjitha të dhënat tuaja do të fshihen përgjithmonë nga serverët tanë.",
-  "cancel": "Anulo",
-  "yes": "Po, fshi të dhënat e mia"
-}
-,
-"notifications": {
-  "title": "Njoftime",
-  "bookingConfirmations": "Konfirmime të Rezervimeve",
-  "bookingConfirmationsDesc": "Merrni njoftime për rezervime të suksesshme",
-  "DepartureReminders": "Kujtesa për Nisje",
-  "DepartureRemindersDesc": "Merrni kujtesa përpara nisjes së planifikuar",
-  "promotions": "Promocione dhe Oferta",
-  "promotionsDesc": "Merrni përditësime për oferta dhe zbritje speciale",
-  "accountUpdates": "Merrni njoftime për ndryshime të rëndësishme të llogarisë",
-  "savePreferences": "Ruaj Preferencat",
-  "enabled": "Njoftimet janë të aktivizuara",
-  "disabled": "Të gjitha njoftimet janë të çaktivizuara"
-}
-,
+
+  "bookingDetailsPage": {
+    "bookingDetails": "Detajet e rezervimit",
+    "tripInformation": "Informacioni i udhëtimit",
+    "changeDepartureDate": "Ndrysho datën e nisjes",
+    "passengerInformation": "Informacioni i udhëtarit",
+    "passenger": "Udhëtar",
+    "passengers": "Udhëtarët",
+    "fullName": "Emri i plotë",
+    "email": "Email",
+    "phone": "Telefon",
+    "price": "Çmimi",
+    "paymentInformation": "Informacioni i pagesës",
+    "totalPrice": "Çmimi total",
+    "paymentStatus": "Statusi i pagesës",
+    "chargeDetails": "Detajet e tarifës",
+    "amountCharged": "Shuma e ngarkuar",
+    "currency": "Monedha",
+    "card": "Kartë",
+    "paid": "E paguar",
+    "contactInformation": "Informacioni për kontakt",
+    "bookingMetadata": "Metadatot e rezervimit",
+    "chargeId": "ID e tarifës",
+    "paymentIntentId": "ID e pagesës",
+    "back": "Kthehu",
+    "amountUsedFromDeposit": "Shuma e përdorur nga depozita juaj",
+    "viewReceipt": "Shiko faturën"
+  },
+  "account": {
+    "account": "Llogaria",
+    "accountBalance": "Bilanci i llogarisë",
+    "profile": "Profili",
+    "profileDesc": "Menaxhoni dhe ofroni detaje personale se si mund t'ju arrijmë.",
+    "security": "Siguria",
+    "securityDesc": "Menaxhoni cilësimet e sigurisë së llogarisë tuaj.",
+    "dataAndPrivacy": "Të dhënat dhe Privatësia",
+    "dataAndPrivacyDesc": "Kontrolloni cilësimet tuaja për të dhënat dhe privatësinë.",
+    "bookings": "Rezervimet",
+    "bookingsDesc": "Shikoni dhe menaxhoni rezervimet tuaja të ardhshme dhe të kaluara në një vend.",
+    "notifications": "Njoftimet",
+    "notificationsDesc": "Personalizoni preferencat tuaja për njoftime.",
+    "depositFunds": "Depozitoni fonde",
+    "depositFundsDesc": "Depozitoni shpejt fonde për pagesa të lehta në të ardhmen pa përdorur kartën tuaj çdo herë.",
+    "wallet": "Portofoli",
+    "walletDesc": "Shikoni dhe menaxhoni metodat tuaja të pagesës",
+    "yourWallet": "Portofoli juaj",
+    "removePm": "Hiq metodën e pagesës",
+    "removePmAreYouSure": "A jeni i sigurt që doni ta hiqni këtë metodë pagese? Mos u shqetësoni, mund ta ruani përsëri ose të shtoni një të re më vonë.",
+    "pmExpires": "Skadon"
+  },
+  "modals": {
+    "confirmCancellation": "A jeni te sigurt qe deshironi ta anuloni rezervimin?",
+    "cancellationWarning": "Nese po atehere do tiu kthehen vetem 70% te cmimit te rezervimit."
+  },
+  "personalInfo": {
+    "title": "Informacione Personale",
+    "name": "Emri",
+    "emailAddress": "Email Adresa",
+    "phoneNumber": "Numri i Telefonit",
+    "address": "Adresa",
+    "edit": "Redakto"
+  },
+  "security": {
+    "loginSecurity": "Siguria e Hyrjes",
+    "password": "Fjalëkalimi",
+    "edit": "Redakto",
+    "TFA": "Autentikimi me Dy Faktorë",
+    "loginNotifications": "Njoftime për Hyrje",
+    "account": "Llogaria",
+    "verifyEmail": "Verifiko Email-in",
+    "activeSessions": "Seancat Aktive",
+    "deleteAcc": "Fshi Llogarinë",
+    "addExtraSecurity": "Shto një shtresë shtesë sigurie në llogarinë tuaj",
+    "newLoginNotifications": "Merr njoftime për hyrjet e reja në llogarinë tuaj",
+    "manageSessions": "Menaxho pajisjet ku jeni aktualisht të lidhur",
+    "editPassword": "Ndrysho Fjalëkalimin",
+    "makeChangesToYourPw": "Bëni ndryshime në fjalëkalimin tuaj këtu. Klikoni ruaj kur të përfundoni.",
+    "oldPw": "Fjalëkalimi i Vjetër",
+    "newPw": "Fjalëkalimi i Ri",
+    "confirmNewPw": "Konfirmo fjalëkalimim e ri",
+    "resetPwTitle": "Riktheni fjalëkalimim tuaj",
+    "returnToLogin": "Kthehu në login",
+    "verify": "Verifiko",
+    "verified": "E Verifikuar"
+  },
+  "dataPrivacy": {
+    "dataPrivacy": "Të Dhënat dhe Privatësia",
+    "dataExport": "Eksporti i të Dhënave",
+    "download data": "Shkarko një kopje të të dhënave tuaja personale",
+    "exportData": "Eksporto të Dhëna",
+    "requestDataDeletion": "Kërko Fshirjen e të Dhënave",
+    "parmanentlyDeleteData": "Fshij të gjitha të dhënat tuaja nga sistemet tona përgjithmonë",
+    "deleteData": "Fshij të Dhëna",
+    "deleteDataAlert": "Kjo veprim do të fshijë përgjithmonë të gjitha të dhënat tuaja. Ju lutemi shkruani fjalëkalimin për të konfirmuar.",
+    "password": "Fjalëkalimi",
+    "passwordPlaceholder": "Shkruani fjalëkalimin tuaj",
+    "confirmDeletion": "Konfirmo Fshirjen",
+    "areYouSure": "A jeni plotësisht të sigurt?",
+    "cannotBeUndone": "Kjo veprim nuk mund të zhbëhet. Të gjitha të dhënat tuaja do të fshihen përgjithmonë nga serverët tanë.",
+    "cancel": "Anulo",
+    "yes": "Po, fshi të dhënat e mia"
+  },
+  "notifications": {
+    "title": "Njoftime",
+    "bookingConfirmations": "Konfirmime të Rezervimeve",
+    "bookingConfirmationsDesc": "Merrni njoftime për rezervime të suksesshme",
+    "DepartureReminders": "Kujtesa për Nisje",
+    "DepartureRemindersDesc": "Merrni kujtesa përpara nisjes së planifikuar",
+    "promotions": "Promocione dhe Oferta",
+    "promotionsDesc": "Merrni përditësime për oferta dhe zbritje speciale",
+    "accountUpdates": "Merrni njoftime për ndryshime të rëndësishme të llogarisë",
+    "savePreferences": "Ruaj Preferencat",
+    "enabled": "Njoftimet janë të aktivizuara",
+    "disabled": "Të gjitha njoftimet janë të çaktivizuara"
+  },
   "pageMetadata": {
     "title": "Si të Rezervoni - Qendra e Ndihmës",
     "description": "Mësoni hap pas hapi si të rezervoni biletën tuaj të autobusit. Merrni këshilla për një proces rezervimi pa probleme dhe gjeni përgjigje për pyetjet e zakonshme.",
@@ -538,8 +551,4 @@
       }
     }
   }
-
-
-
-  
 }

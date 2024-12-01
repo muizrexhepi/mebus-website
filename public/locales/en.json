@@ -7,6 +7,53 @@
     "contact": "Contact",
     "account": "Account"
   },
+  "infoSection": {
+    "feature1": {
+      "title": "Compare bus prices across providers",
+      "description": "Find the best deals by comparing prices from multiple bus operators in one place. Save time and money on your journey."
+    },
+    "feature2": {
+      "title": "Book tickets instantly",
+      "description": "Easy and secure booking process with instant confirmation. Get your e-tickets delivered right to your phone."
+    },
+    "feature3": {
+      "title": "Track your journey",
+      "description": "Real-time updates on bus location, arrival times, and any schedule changes. Stay informed throughout your trip."
+    }
+  },
+  "languageDialog": {
+    "languageCurrency": "Language and currency",
+    "language": {
+      "label": "Language",
+      "placeholder": "Select language"
+    },
+    "currency": {
+      "label": "Currency",
+      "placeholder": "Select currency"
+    },
+    "saveButton": {
+      "text": "Save Preferences"
+    }
+  },
+  "partnersSection": {
+    "heading": "All your bus travel options in one place",
+    "description": "More than 500 trusted bus operators nationwide, from intercity coaches to local shuttles, so you can focus on your journey without the hassle of visiting multiple websites.",
+    "buttonText": "Get started"
+  },
+  "aboutSection": {
+    "title": "Simplifying Bus Travel Across Europe and the Balkans",
+    "intro": {
+      "p1": "Welcome to <b>GoBusly</b>, your go-to platform for seamless bus travel across Europe and the Balkans. Whether you&apos;re traveling between bustling cities or heading to charming towns and villages, GoBusly connects you to the region&apos;s most reliable bus operators.",
+      "p2": "Our platform offers access to a wide network of trusted operators, ensuring coverage for both popular routes and off-the-beaten-path destinations. From modern coaches with premium amenities to budget-friendly options, GoBusly caters to every traveler&apos;s needs, making your journey as comfortable and convenient as possible.",
+      "p3": "With GoBusly, you can easily explore destinations in countries like Albania, North Macedonia, Serbia, Greece, and beyond. Discover the beauty of the Balkans with a reliable booking platform that simplifies your travel plans."
+    },
+    "operatorsTitle": "Connecting You to Trusted Bus Operators",
+    "operatorsDescription": {
+      "p1": "GoBusly collaborates with leading bus operators across Europe and the Balkans, offering a variety of services tailored to your travel needs. Whether you&apos;re booking an express route between major cities or a local connection to smaller towns, you&apos;ll find dependable options on our platform.",
+      "p2": "Our platform features user-friendly search tools that let you filter by operator, route, and amenities. With accurate schedules, competitive prices, and multiple daily departures, GoBusly ensures you&apos;ll find a bus that fits your schedule and budget.",
+      "linkText": "Explore operators and routes available on GoBusly →"
+    }
+  },
   "helpPage": {
     "title": "Help Center",
     "description": "Welcome to our Help Center. Find answers to common questions, learn how to use our services, and get the support you need for a smooth bus booking experience.",
@@ -239,40 +286,6 @@
     "securePayment": "Secure Payment",
     "helpFAQ": "Help & FAQ"
   },
-  "aboutSection": {
-    "title": "Why Travel with GoBusly?",
-    "cards": {
-      "budget": {
-        "title": "Budget-Friendly Journeys",
-        "description": "Discover unbeatable fares on our extensive network. GoBusly makes travel accessible without breaking the bank."
-      },
-      "network": {
-        "title": "Expansive Route Network",
-        "description": "Connect to over 2,000 destinations across 30 countries. Your next adventure is just a bus ride away."
-      },
-      "booking": {
-        "title": "Seamless Booking Experience",
-        "description": "Book your tickets in seconds with our user-friendly app. Your journey, at your fingertips."
-      },
-      "punctuality": {
-        "title": "Punctual Departures",
-        "description": "Time is precious. Count on GoBusly for reliable schedules and on-time performance."
-      },
-      "comfort": {
-        "title": "Comfort is Key",
-        "description": "Enjoy spacious seating, onboard entertainment, and complimentary Wi-Fi for a relaxing journey."
-      },
-      "eco": {
-        "title": "Eco-Conscious Travel",
-        "description": "Choose green with our fuel-efficient fleet and carbon offset initiatives. Travel responsibly with GoBusly."
-      }
-    },
-    "callToAction": {
-      "title": "Ready to Embark on Your Next Adventure?",
-      "description": "Join thousands of satisfied travelers who choose GoBusly for reliable, affordable, and comfortable journeys. Whether you're planning a weekend getaway or a cross-country expedition, we've got you covered.",
-      "button": "Explore GoBusly Routes"
-    }
-  },
   "searchBlock": {
     "tripType": {
       "oneWay": "One-way",
@@ -438,11 +451,11 @@
     "depositFunds": "Deposit funds",
     "depositFundsDesc": "Quickly deposit funds for easy future payments without using your card each time.",
     "wallet": "Wallet",
-    "walletDesc":"View and manage your payment methods",
+    "walletDesc": "View and manage your payment methods",
     "yourWallet": "Your wallet",
     "removePm": "Remove payment method",
     "removePmAreYouSure": "Are you sure you want to remove this payment method? Don’t worry, you can always save it again or add a new one later.",
-    "pmExpires": "Expires"    
+    "pmExpires": "Expires"
   },
   "personalInfo": {
     "title": "Personal Info",

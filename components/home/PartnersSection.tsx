@@ -1,7 +1,10 @@
+"use client";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const PartnersSection = () => {
-  // Sample array of partner logos - replace src with actual logo paths
+  const { t } = useTranslation();
+
   const partners = [
     { name: "Hak Bus", src: "/assets/images/hakbus.png" },
     { name: "Ido Tours", src: "/assets/images/idotours.png" },
@@ -17,22 +20,18 @@ const PartnersSection = () => {
     <div className="w-full bg-white py-12">
       <div className="max-w-6xl mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Left content section */}
           <div className="space-y-6 max-w-xl">
             <h2 className="text-4xl font-bold text-primary-bg">
-              All your bus travel options in one place
+              {t("partnersSection.heading")}
             </h2>
             <p className="text-gray-600 text-base">
-              More than 500 trusted bus operators nationwide, from intercity
-              coaches to local shuttles, so you can focus on your journey
-              without the hassle of visiting multiple websites.
+              {t("partnersSection.description")}
             </p>
             <button className="button-gradient text-white font-semibold px-8 py-3 rounded-xl transition-colors">
-              Get started
+              {t("partnersSection.buttonText")}
             </button>
           </div>
 
-          {/* Right logos grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
             {partners.map((partner, index) => (
               <div
@@ -45,7 +44,6 @@ const PartnersSection = () => {
                     alt={`${partner.name} logo`}
                     className="object-contain w-full h-full filter grayscale hover:grayscale-0 transition-all duration-300"
                   />
-                  {/* Hover effect */}
                   <div className="absolute inset-0 bg-primary-bg/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg" />
                 </div>
               </div>

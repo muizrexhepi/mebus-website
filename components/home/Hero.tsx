@@ -36,7 +36,7 @@ const Hero = () => {
           <Navbar className="py-4" />
 
           <div className="space-y-6 sm:pt-16 md:pt-20">
-            <div className="max-w-3xl hidden sm:block">
+            <div className="max-w-4xl hidden sm:block">
               <h1 className="text-4xl sm:text-5xl font-medium text-white mb-2">
                 {t("hero.title")}
                 <span className="text-primary-accent text-6xl">.</span>

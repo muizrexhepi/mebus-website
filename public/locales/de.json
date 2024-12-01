@@ -6,6 +6,53 @@
     "about": "Über uns",
     "contact": "Kontakt"
   },
+  "infoSection": {
+    "feature1": {
+      "title": "Vergleichen Sie die Preise der Busse verschiedener Anbieter",
+      "description": "Finden Sie die besten Angebote, indem Sie die Preise mehrerer Busanbieter an einem Ort vergleichen. Sparen Sie Zeit und Geld auf Ihrer Reise."
+    },
+    "feature2": {
+      "title": "Buchen Sie Tickets sofort",
+      "description": "Einfache und sichere Buchung mit sofortiger Bestätigung. Erhalten Sie Ihre E-Tickets direkt auf Ihrem Telefon."
+    },
+    "feature3": {
+      "title": "Verfolgen Sie Ihre Reise",
+      "description": "Echtzeit-Updates zur Position des Busses, Ankunftszeiten und etwaige Fahrplanänderungen. Bleiben Sie während Ihrer gesamten Reise informiert."
+    }
+  },
+  "languageDialog": {
+    "languageCurrency": "Sprache und Währung",
+    "language": {
+      "label": "Sprache",
+      "placeholder": "Sprache auswählen"
+    },
+    "currency": {
+      "label": "Währung",
+      "placeholder": "Währung auswählen"
+    },
+    "saveButton": {
+      "text": "Einstellungen speichern"
+    }
+  },
+  "partnersSection": {
+    "heading": "Alle Ihre Busreiseoptionen an einem Ort",
+    "description": "Mehr als 500 vertrauenswürdige Busunternehmen landesweit, von Fernbussen bis hin zu lokalen Shuttles, damit Sie sich auf Ihre Reise konzentrieren können, ohne mehrere Websites besuchen zu müssen.",
+    "buttonText": "Loslegen"
+  },
+  "aboutSection": {
+    "title": "Busreisen in Europa und den Balkan vereinfachen",
+    "intro": {
+      "p1": "Willkommen bei <b>GoBusly</b>, Ihrer Anlaufstelle für nahtlose Busreisen durch Europa und den Balkan. Egal, ob Sie zwischen geschäftigen Städten reisen oder charmante Städte und Dörfer besuchen, GoBusly verbindet Sie mit den zuverlässigsten Busbetreibern der Region.",
+      "p2": "Unsere Plattform bietet Zugang zu einem umfangreichen Netzwerk vertrauenswürdiger Betreiber, das sowohl beliebte Strecken als auch abgelegene Ziele abdeckt. Vom modernen Fernbus mit Premium-Ausstattung bis hin zu kostengünstigen Optionen – GoBusly erfüllt die Bedürfnisse aller Reisenden und sorgt dafür, dass Ihre Reise so komfortabel und praktisch wie möglich ist.",
+      "p3": "Mit GoBusly können Sie problemlos Ziele in Ländern wie Albanien, Nordmazedonien, Serbien, Griechenland und darüber hinaus entdecken. Entdecken Sie die Schönheit des Balkans mit einer zuverlässigen Buchungsplattform, die Ihre Reisepläne vereinfacht."
+    },
+    "operatorsTitle": "Verbindung zu vertrauenswürdigen Busbetreibern",
+    "operatorsDescription": {
+      "p1": "GoBusly arbeitet mit führenden Busbetreibern in Europa und auf dem Balkan zusammen und bietet eine Vielzahl von Dienstleistungen, die auf Ihre Reisebedürfnisse abgestimmt sind. Egal, ob Sie eine Expressroute zwischen großen Städten oder eine lokale Verbindung zu kleineren Städten buchen, Sie finden zuverlässige Optionen auf unserer Plattform.",
+      "p2": "Unsere Plattform bietet benutzerfreundliche Suchtools, mit denen Sie nach Betreiber, Route und Annehmlichkeiten filtern können. Mit genauen Fahrplänen, wettbewerbsfähigen Preisen und mehreren täglichen Abfahrten sorgt GoBusly dafür, dass Sie einen Bus finden, der zu Ihrem Zeitplan und Budget passt.",
+      "linkText": "Entdecken Sie die verfügbaren Betreiber und Routen auf GoBusly →"
+    }
+  },
   "helpPage": {
     "title": "Hilfezentrum",
     "description": "Willkommen in unserem Hilfezentrum. Finden Sie Antworten auf häufige Fragen, lernen Sie, wie Sie unsere Dienste nutzen, und erhalten Sie die Unterstützung, die Sie für ein reibungsloses Busbuchungserlebnis benötigen.",
@@ -196,6 +243,8 @@
     "getUpdates": "Updates erhalten",
     "emailAddress": "E-Mail-Adresse",
     "subscribe": {
+      "title": "Bleiben Sie mit Reiseangeboten auf dem Laufenden",
+      "description": "Abonnieren Sie unseren Newsletter, um die neuesten Busfahrpläne, exklusive Rabatte und Reisetipps direkt in Ihrem Posteingang zu erhalten.",
       "emailPlaceholder": "E-Mail eingeben",
       "subscribeButton": "Abonnieren",
       "subscribing": "Wird abonniert...",
@@ -229,40 +278,7 @@
     "securePayment": "Sichere Zahlung",
     "helpFAQ": "Hilfe & FAQ"
   },
-  "aboutSection": {
-    "title": "Warum mit GoBusly reisen?",
-    "cards": {
-      "budget": {
-        "title": "Budgetfreundliche Reisen",
-        "description": "Entdecken Sie unschlagbare Preise in unserem umfangreichen Netzwerk. GoBusly macht Reisen erschwinglich."
-      },
-      "network": {
-        "title": "Umfangreiches Routennetz",
-        "description": "Verbinden Sie sich mit über 2.000 Zielen in 30 Ländern. Ihr nächstes Abenteuer ist nur eine Busfahrt entfernt."
-      },
-      "booking": {
-        "title": "Reibungslose Buchungserfahrung",
-        "description": "Buchen Sie Ihre Tickets in Sekunden mit unserer benutzerfreundlichen App. Ihre Reise auf Knopfdruck."
-      },
-      "punctuality": {
-        "title": "Pünktliche Abfahrten",
-        "description": "Zeit ist kostbar. Verlassen Sie sich bei GoBusly auf zuverlässige Fahrpläne und pünktliche Leistung."
-      },
-      "comfort": {
-        "title": "Komfort ist der Schlüssel",
-        "description": "Genießen Sie geräumige Sitzplätze, Bordunterhaltung und kostenloses WLAN für eine entspannte Reise."
-      },
-      "eco": {
-        "title": "Umweltbewusstes Reisen",
-        "description": "Wählen Sie grün mit unserer kraftstoffeffizienten Flotte und CO2-Ausgleichsinitiativen. Reisen Sie verantwortungsvoll mit GoBusly."
-      }
-    },
-    "callToAction": {
-      "title": "Bereit für Ihr nächstes Abenteuer?",
-      "description": "Schließen Sie sich Tausenden zufriedener Reisender an, die GoBusly für zuverlässige, erschwingliche und komfortable Reisen wählen. Ob Sie einen Wochenendausflug oder eine Reise quer durchs Land planen, wir sind für Sie da.",
-      "button": "GoBusly-Routen erkunden"
-    }
-  },
+
   "searchBlock": {
     "tripType": {
       "oneWay": "Einfache Fahrt",
@@ -391,7 +407,6 @@
     "back": "Zurück",
     "amountUsedFromDeposit": "Betrag, der aus Ihrer Einzahlung verwendet wurde",
     "viewReceipt": "Rechnung anzeigen"
-
   },
   "account": {
     "account": "Konto",
@@ -408,74 +423,71 @@
     "notificationsDesc": "Passen Sie Ihre Benachrichtigungseinstellungen an.",
     "depositFunds": "Geld einzahlen",
     "depositFundsDesc": "Zahlen Sie schnell Geld ein, um zukünftige Zahlungen zu erleichtern, ohne jedes Mal Ihre Karte zu verwenden.",
-      "wallet": "Brieftasche",
-      "walletDesc": "Anzeigen und verwalten Sie Ihre Zahlungsmethoden",
-      "yourWallet": "Ihre Brieftasche",
-      "removePm": "Zahlungsmethode entfernen",
-      "removePmAreYouSure": "Sind Sie sicher, dass Sie diese Zahlungsmethode entfernen möchten? Keine Sorge, Sie können sie später erneut speichern oder eine neue hinzufügen.",
-      "pmExpires": "Läuft ab"
-    
+    "wallet": "Brieftasche",
+    "walletDesc": "Anzeigen und verwalten Sie Ihre Zahlungsmethoden",
+    "yourWallet": "Ihre Brieftasche",
+    "removePm": "Zahlungsmethode entfernen",
+    "removePmAreYouSure": "Sind Sie sicher, dass Sie diese Zahlungsmethode entfernen möchten? Keine Sorge, Sie können sie später erneut speichern oder eine neue hinzufügen.",
+    "pmExpires": "Läuft ab"
   },
   "personalInfo": {
-  "title": "Persönliche Informationen",
-  "name": "Name",
-  "emailAddress": "E-Mail-Adresse",
-  "phoneNumber": "Telefonnummer",
-  "address": "Adresse",
-  "edit": "Bearbeiten"
-},
-"security": {
-  "loginSecurity": "Anmeldesicherheit",
-  "password": "Passwort",
-  "edit": "Bearbeiten",
-  "TFA": "Zwei-Faktor-Authentifizierung",
-  "loginNotifications": "Anmeldebenachrichtigungen",
-  "account": "Konto",
-  "verifyEmail": "E-Mail Verifizieren", 
-  "activeSessions": "Aktive Sitzungen",
-  "deleteAcc": "Konto Löschen",
-  "addExtraSecurity": "Fügen Sie Ihrem Konto eine zusätzliche Sicherheitsebene hinzu",
-  "newLoginNotifications": "Erhalten Sie Benachrichtigungen über neue Anmeldungen bei Ihrem Konto",
-  "manageSessions": "Verwalten Sie Geräte, auf denen Sie derzeit angemeldet sind",
-  "editPassword": "Passwort Bearbeiten",
-  "makeChangesToYourPw": "Nehmen Sie hier Änderungen an Ihrem Passwort vor. Klicken Sie auf Speichern, wenn Sie fertig sind.",
-  "oldPw": "Altes Passwort",
-  "newPw": "Neues Passwort",
-  "verify": "Verifizieren",
-  "verified": "Verifiziert"
-},
-"dataPrivacy": {
-  "dataPrivacy": "Daten und Datenschutz",
-  "dataExport": "Datenexport",
-  "download data": "Laden Sie eine Kopie Ihrer persönlichen Daten herunter",
-  "exportData": "Daten exportieren",
-  "requestDataDeletion": "Löschung der Daten anfordern",
-  "parmanentlyDeleteData": "Löschen Sie alle Ihre Daten dauerhaft aus unseren Systemen",
-  "deleteData": "Daten löschen",
-  "deleteDataAlert": "Diese Aktion wird alle Ihre Daten dauerhaft löschen. Bitte geben Sie Ihr Passwort ein, um zu bestätigen.",
-  "password": "Passwort",
-  "passwordPlaceholder": "Geben Sie Ihr Passwort ein",
-  "confirmDeletion": "Löschung bestätigen",
-  "areYouSure": "Sind Sie ganz sicher?",
-  "cannotBeUndone": "Diese Aktion kann nicht rückgängig gemacht werden. Alle Ihre Daten werden dauerhaft von unseren Servern gelöscht.",
-  "cancel": "Abbrechen",
-  "yes": "Ja, löschen Sie meine Daten"
-}
-,
-"notifications": {
-  "title": "Benachrichtigungen",
-  "bookingConfirmations": "Buchungsbestätigungen",
-  "bookingConfirmationsDesc": "Erhalten Sie Benachrichtigungen über erfolgreiche Buchungen",
-  "DepartureReminders": "Abfahrtserinnerungen",
-  "DepartureRemindersDesc": "Erhalten Sie Erinnerungen vor Ihrer geplanten Abfahrt",
-  "promotions": "Aktionen und Angebote",
-  "promotionsDesc": "Erhalten Sie Updates zu Sonderangeboten und Rabatten",
-  "accountUpdates": "Werden Sie über wichtige Änderungen an Ihrem Konto benachrichtigt",
-  "savePreferences": "Einstellungen speichern",
-  "enabled": "Benachrichtigungen sind aktiviert",
-  "disabled": "Alle Benachrichtigungen sind deaktiviert"
-}
-,
+    "title": "Persönliche Informationen",
+    "name": "Name",
+    "emailAddress": "E-Mail-Adresse",
+    "phoneNumber": "Telefonnummer",
+    "address": "Adresse",
+    "edit": "Bearbeiten"
+  },
+  "security": {
+    "loginSecurity": "Anmeldesicherheit",
+    "password": "Passwort",
+    "edit": "Bearbeiten",
+    "TFA": "Zwei-Faktor-Authentifizierung",
+    "loginNotifications": "Anmeldebenachrichtigungen",
+    "account": "Konto",
+    "verifyEmail": "E-Mail Verifizieren",
+    "activeSessions": "Aktive Sitzungen",
+    "deleteAcc": "Konto Löschen",
+    "addExtraSecurity": "Fügen Sie Ihrem Konto eine zusätzliche Sicherheitsebene hinzu",
+    "newLoginNotifications": "Erhalten Sie Benachrichtigungen über neue Anmeldungen bei Ihrem Konto",
+    "manageSessions": "Verwalten Sie Geräte, auf denen Sie derzeit angemeldet sind",
+    "editPassword": "Passwort Bearbeiten",
+    "makeChangesToYourPw": "Nehmen Sie hier Änderungen an Ihrem Passwort vor. Klicken Sie auf Speichern, wenn Sie fertig sind.",
+    "oldPw": "Altes Passwort",
+    "newPw": "Neues Passwort",
+    "verify": "Verifizieren",
+    "verified": "Verifiziert"
+  },
+  "dataPrivacy": {
+    "dataPrivacy": "Daten und Datenschutz",
+    "dataExport": "Datenexport",
+    "download data": "Laden Sie eine Kopie Ihrer persönlichen Daten herunter",
+    "exportData": "Daten exportieren",
+    "requestDataDeletion": "Löschung der Daten anfordern",
+    "parmanentlyDeleteData": "Löschen Sie alle Ihre Daten dauerhaft aus unseren Systemen",
+    "deleteData": "Daten löschen",
+    "deleteDataAlert": "Diese Aktion wird alle Ihre Daten dauerhaft löschen. Bitte geben Sie Ihr Passwort ein, um zu bestätigen.",
+    "password": "Passwort",
+    "passwordPlaceholder": "Geben Sie Ihr Passwort ein",
+    "confirmDeletion": "Löschung bestätigen",
+    "areYouSure": "Sind Sie ganz sicher?",
+    "cannotBeUndone": "Diese Aktion kann nicht rückgängig gemacht werden. Alle Ihre Daten werden dauerhaft von unseren Servern gelöscht.",
+    "cancel": "Abbrechen",
+    "yes": "Ja, löschen Sie meine Daten"
+  },
+  "notifications": {
+    "title": "Benachrichtigungen",
+    "bookingConfirmations": "Buchungsbestätigungen",
+    "bookingConfirmationsDesc": "Erhalten Sie Benachrichtigungen über erfolgreiche Buchungen",
+    "DepartureReminders": "Abfahrtserinnerungen",
+    "DepartureRemindersDesc": "Erhalten Sie Erinnerungen vor Ihrer geplanten Abfahrt",
+    "promotions": "Aktionen und Angebote",
+    "promotionsDesc": "Erhalten Sie Updates zu Sonderangeboten und Rabatten",
+    "accountUpdates": "Werden Sie über wichtige Änderungen an Ihrem Konto benachrichtigt",
+    "savePreferences": "Einstellungen speichern",
+    "enabled": "Benachrichtigungen sind aktiviert",
+    "disabled": "Alle Benachrichtigungen sind deaktiviert"
+  },
   "pageMetadata": {
     "title": "Wie man bucht - Hilfezentrum",
     "description": "Erfahren Sie Schritt für Schritt, wie Sie Ihr Busticket buchen. Holen Sie sich Tipps für einen reibungslosen Buchungsprozess und finden Sie Antworten auf häufige Fragen.",
@@ -523,7 +535,4 @@
       }
     }
   }
-
-
-
 }

@@ -6,6 +6,53 @@
     "about": "À propos",
     "contact": "Contact"
   },
+  "infoSection": {
+    "feature1": {
+      "title": "Comparez les prix des bus entre les fournisseurs",
+      "description": "Trouvez les meilleures offres en comparant les prix de plusieurs opérateurs de bus en un seul endroit. Gagnez du temps et de l'argent sur votre voyage."
+    },
+    "feature2": {
+      "title": "Réservez vos billets instantanément",
+      "description": "Processus de réservation facile et sécurisé avec confirmation instantanée. Recevez vos billets électroniques directement sur votre téléphone."
+    },
+    "feature3": {
+      "title": "Suivez votre voyage",
+      "description": "Mises à jour en temps réel sur la position du bus, les horaires d'arrivée et tout changement de programme. Restez informé tout au long de votre voyage."
+    }
+  },
+  "languageDialog": {
+    "languageCurrency": "Langue et devise",
+    "language": {
+      "label": "Langue",
+      "placeholder": "Sélectionner la langue"
+    },
+    "currency": {
+      "label": "Devise",
+      "placeholder": "Sélectionner la devise"
+    },
+    "saveButton": {
+      "text": "Sauvegarder les préférences"
+    }
+  },
+  "partnersSection": {
+    "heading": "Toutes vos options de voyage en bus en un seul endroit",
+    "description": "Plus de 500 opérateurs de bus de confiance dans tout le pays, des autocars interurbains aux navettes locales, afin que vous puissiez vous concentrer sur votre voyage sans avoir à visiter plusieurs sites web.",
+    "buttonText": "Commencer"
+  },
+  "aboutSection": {
+    "title": "Simplifier les voyages en bus à travers l'Europe et les Balkans",
+    "intro": {
+      "p1": "Bienvenue sur <b>GoBusly</b>, votre plateforme incontournable pour des voyages en bus sans faille à travers l'Europe et les Balkans. Que vous voyagiez entre des villes animées ou que vous vous rendiez dans des villes et villages pittoresques, GoBusly vous connecte aux opérateurs de bus les plus fiables de la région.",
+      "p2": "Notre plateforme offre un accès à un large réseau d'opérateurs de confiance, garantissant une couverture pour les trajets populaires ainsi que pour des destinations hors des sentiers battus. Des autocars modernes avec des équipements haut de gamme aux options économiques, GoBusly répond aux besoins de chaque voyageur, rendant votre voyage aussi confortable et pratique que possible.",
+      "p3": "Avec GoBusly, vous pouvez facilement explorer des destinations dans des pays comme l'Albanie, la Macédoine du Nord, la Serbie, la Grèce et au-delà. Découvrez la beauté des Balkans avec une plateforme de réservation fiable qui simplifie vos projets de voyage."
+    },
+    "operatorsTitle": "Vous connecter aux opérateurs de bus fiables",
+    "operatorsDescription": {
+      "p1": "GoBusly collabore avec les principaux opérateurs de bus à travers l'Europe et les Balkans, offrant une variété de services adaptés à vos besoins de voyage. Que vous réserviez un itinéraire express entre des villes majeures ou une connexion locale vers de plus petites villes, vous trouverez des options fiables sur notre plateforme.",
+      "p2": "Notre plateforme dispose d'outils de recherche conviviaux qui vous permettent de filtrer par opérateur, itinéraire et équipements. Avec des horaires précis, des prix compétitifs et plusieurs départs quotidiens, GoBusly veille à ce que vous trouviez un bus qui correspond à votre emploi du temps et à votre budget.",
+      "linkText": "Explorez les opérateurs et les itinéraires disponibles sur GoBusly →"
+    }
+  },
   "helpPage": {
     "title": "Centre d'Aide",
     "description": "Bienvenue dans notre Centre d'Aide. Trouvez des réponses à des questions courantes, apprenez à utiliser nos services et obtenez l'assistance dont vous avez besoin pour une expérience de réservation de bus sans souci.",
@@ -201,6 +248,9 @@
     "getUpdates": "Recevoir les actualités",
     "emailAddress": "Adresse email",
     "subscribe": {
+      "title": "Restez Informé des Offres de Voyage",
+      "description": "Abonnez-vous à notre newsletter pour recevoir les derniers horaires de bus, des réductions exclusives et des conseils de voyage directement dans votre boîte de réception.",
+
       "emailPlaceholder": "Entrez votre email",
       "subscribeButton": "S'abonner",
       "subscribing": "Abonnement en cours...",
@@ -234,40 +284,7 @@
     "securePayment": "Paiement sécurisé",
     "helpFAQ": "Aide & FAQ"
   },
-  "aboutSection": {
-    "title": "Pourquoi voyager avec GoBusly ?",
-    "cards": {
-      "budget": {
-        "title": "Voyages économiques",
-        "description": "Découvrez des tarifs imbattables sur notre vaste réseau. GoBusly rend le voyage accessible sans se ruiner."
-      },
-      "network": {
-        "title": "Réseau d'itinéraires étendu",
-        "description": "Connectez-vous à plus de 2 000 destinations dans 30 pays. Votre prochaine aventure n'est qu'à un trajet en bus."
-      },
-      "booking": {
-        "title": "Expérience de réservation fluide",
-        "description": "Réservez vos billets en quelques secondes avec notre application conviviale. Votre voyage, au bout des doigts."
-      },
-      "punctuality": {
-        "title": "Départs ponctuels",
-        "description": "Le temps est précieux. Comptez sur GoBusly pour des horaires fiables et une performance ponctuelle."
-      },
-      "comfort": {
-        "title": "Le confort est essentiel",
-        "description": "Profitez de sièges spacieux, du divertissement à bord et du Wi-Fi gratuit pour un voyage relaxant."
-      },
-      "eco": {
-        "title": "Voyage écoresponsable",
-        "description": "Optez pour le vert avec notre flotte économe en carburant et nos initiatives de compensation carbone. Voyagez de manière responsable avec GoBusly."
-      }
-    },
-    "callToAction": {
-      "title": "Prêt pour votre prochaine aventure ?",
-      "description": "Rejoignez des milliers de voyageurs satisfaits qui choisissent GoBusly pour des voyages fiables, abordables et confortables. Que vous planifiez une escapade le weekend ou un voyage à travers le pays, nous sommes là pour vous.",
-      "button": "Explorer les itinéraires GoBusly"
-    }
-  },
+
   "searchBlock": {
     "tripType": {
       "oneWay": "Aller simple",
@@ -357,132 +374,126 @@
   },
   "back": "Retour",
   "bookings": {
-    "noBookingsYet": "Vous n'avez pas encore de réservations de billets de bus."
-    ,
-    "bookYourFirstTicket": "Réservez Votre Premier Billet"
-    ,
-    "manageBookings": "Explorez et gérez vos réservations ci-dessous. Consultez vos voyages à venir, vérifiez vos réservations passées et restez informé de vos projets de voyage."
-    ,"myBookings": "Mes Réservations"
-
+    "noBookingsYet": "Vous n'avez pas encore de réservations de billets de bus.",
+    "bookYourFirstTicket": "Réservez Votre Premier Billet",
+    "manageBookings": "Explorez et gérez vos réservations ci-dessous. Consultez vos voyages à venir, vérifiez vos réservations passées et restez informé de vos projets de voyage.",
+    "myBookings": "Mes Réservations"
   },
-    "actions": {
-      "actions": "Actions",
-      "rescheduleBooking": "Reprogrammer la réservation",
-      "editDetails": "Modifier les détails",
-      "viewDetails": "Voir les détails",
-      "downloadBooking": "Télécharger la réservation",
-      "cancelBooking": "Annuler la réservation"
-    },
-      "bookingDetailsPage": {
-        "bookingDetails": "Détails de la réservation",
-        "tripInformation": "Informations sur le voyage",
-        "changeDepartureDate": "Changer la date de départ",
-        "passengerInformation": "Informations sur le passager",
-        "passenger": "Passager",
-        "passengers": "Passagers",
-        "fullName": "Nom complet",
-        "email": "E-mail",
-        "phone": "Téléphone",
-        "price": "Prix",
-        "paymentInformation": "Informations de paiement",
-        "totalPrice": "Prix total",
-        "paymentStatus": "Statut du paiement",
-        "chargeDetails": "Détails de la charge",
-        "amountCharged": "Montant facturé",
-        "currency": "Devise",
-        "card": "Carte",
-        "paid": "Payé",
-        "contactInformation": "Informations de contact",
-        "bookingMetadata": "Métadonnées de réservation",
-        "chargeId": "ID de charge",
-        "paymentIntentId": "ID d'intention de paiement",
-        "back": "Retour",
-        "amountUsedFromDeposit": "Montant utilisé de votre dépôt",
-        "viewReceipt": "Voir le reçu"
-      },
-      "account": {
-        "account": "Compte",
-        "accountBalance": "Solde du compte",
-        "profile": "Profil",
-        "profileDesc": "Gérez et fournissez des informations personnelles sur la façon dont nous pouvons vous contacter.",
-        "security": "Sécurité",
-        "securityDesc": "Gérez les paramètres de sécurité de votre compte.",
-        "dataAndPrivacy": "Données et Confidentialité",
-        "dataAndPrivacyDesc": "Contrôlez vos paramètres de données et de confidentialité.",
-        "bookings": "Réservations",
-        "bookingsDesc": "Voir et gérer vos réservations à venir et passées en un seul endroit.",
-        "notifications": "Notifications",
-        "notificationsDesc": "Personnalisez vos préférences de notification.",
-        "depositFunds": "Déposer des fonds",
-        "depositFundsDesc": "Déposez rapidement des fonds pour faciliter les paiements futurs sans utiliser votre carte à chaque fois.",
-        "wallet": "Portefeuille",
-        "walletDesc": "Consultez et gérez vos méthodes de paiement",
-        "yourWallet": "Votre portefeuille",
-        "removePm": "Supprimer le moyen de paiement",
-        "removePmAreYouSure": "Êtes-vous sûr de vouloir supprimer ce moyen de paiement ? Ne vous inquiétez pas, vous pouvez le sauvegarder à nouveau ou en ajouter un nouveau plus tard.",
-        "pmExpires": "Expire"
-      },
-      "personalInfo": {
-  "title": "Informations Personnelles",
-  "name": "Nom",
-  "emailAddress": "Adresse Email",
-  "phoneNumber": "Numéro de Téléphone",
-  "address": "Adresse",
-  "edit": "Modifier"
-},
-"security": {
-  "loginSecurity": "Sécurité de Connexion",
-  "password": "Mot de Passe",
-  "edit": "Modifier",
-  "TFA": "Authentification à Deux Facteurs",
-  "loginNotifications": "Notifications de Connexion",
-  "account": "Compte",
-  "verifyEmail": "Vérifier l'Email", 
-  "activeSessions": "Sessions Actives",
-  "deleteAcc": "Supprimer le Compte",
-  "addExtraSecurity": "Ajoutez une couche de sécurité supplémentaire à votre compte",
-  "newLoginNotifications": "Recevez des alertes concernant les nouvelles connexions à votre compte",
-  "manageSessions": "Gérez les appareils sur lesquels vous êtes actuellement connecté",
-  "editPassword": "Modifier le Mot de Passe",
-  "makeChangesToYourPw": "Apportez des modifications à votre mot de passe ici. Cliquez sur enregistrer lorsque vous avez terminé.",
-  "oldPw": "Ancien Mot de Passe",
-  "newPw": "Nouveau Mot de Passe",
-  "verify": "Vérifier",
-  "verified": "Vérifié"
-}
-,
-"dataPrivacy": {
-  "dataPrivacy": "Données et Confidentialité",
-  "dataExport": "Exportation de Données",
-  "download data": "Téléchargez une copie de vos données personnelles",
-  "exportData": "Exporter les Données",
-  "requestDataDeletion": "Demander la Suppression des Données",
-  "parmanentlyDeleteData": "Supprimez définitivement toutes vos données de nos systèmes",
-  "deleteData": "Supprimer les Données",
-  "deleteDataAlert": "Cette action supprimera définitivement toutes vos données. Veuillez entrer votre mot de passe pour confirmer.",
-  "password": "Mot de Passe",
-  "passwordPlaceholder": "Entrez votre mot de passe",
-  "confirmDeletion": "Confirmer la Suppression",
-  "areYouSure": "Êtes-vous absolument sûr?",
-  "cannotBeUndone": "Cette action ne peut pas être annulée. Toutes vos données seront définitivement supprimées de nos serveurs.",
-  "cancel": "Annuler",
-  "yes": "Oui, supprimer mes données"
-}
-,
-"notifications": {
-  "title": "Notifications",
-  "bookingConfirmations": "Confirmations de Réservation",
-  "bookingConfirmationsDesc": "Recevez des notifications pour les réservations réussies",
-  "DepartureReminders": "Rappels de Départ",
-  "DepartureRemindersDesc": "Recevez des rappels avant votre départ prévu",
-  "promotions": "Promotions et Offres",
-  "promotionsDesc": "Recevez des mises à jour sur les offres spéciales et les réductions",
-  "accountUpdates": "Soyez informé des changements importants liés à votre compte",
-  "savePreferences": "Enregistrer les Préférences",
-  "enabled": "Les notifications sont activées",
-  "disabled": "Toutes les notifications sont désactivées"
-}
-,
+  "actions": {
+    "actions": "Actions",
+    "rescheduleBooking": "Reprogrammer la réservation",
+    "editDetails": "Modifier les détails",
+    "viewDetails": "Voir les détails",
+    "downloadBooking": "Télécharger la réservation",
+    "cancelBooking": "Annuler la réservation"
+  },
+  "bookingDetailsPage": {
+    "bookingDetails": "Détails de la réservation",
+    "tripInformation": "Informations sur le voyage",
+    "changeDepartureDate": "Changer la date de départ",
+    "passengerInformation": "Informations sur le passager",
+    "passenger": "Passager",
+    "passengers": "Passagers",
+    "fullName": "Nom complet",
+    "email": "E-mail",
+    "phone": "Téléphone",
+    "price": "Prix",
+    "paymentInformation": "Informations de paiement",
+    "totalPrice": "Prix total",
+    "paymentStatus": "Statut du paiement",
+    "chargeDetails": "Détails de la charge",
+    "amountCharged": "Montant facturé",
+    "currency": "Devise",
+    "card": "Carte",
+    "paid": "Payé",
+    "contactInformation": "Informations de contact",
+    "bookingMetadata": "Métadonnées de réservation",
+    "chargeId": "ID de charge",
+    "paymentIntentId": "ID d'intention de paiement",
+    "back": "Retour",
+    "amountUsedFromDeposit": "Montant utilisé de votre dépôt",
+    "viewReceipt": "Voir le reçu"
+  },
+  "account": {
+    "account": "Compte",
+    "accountBalance": "Solde du compte",
+    "profile": "Profil",
+    "profileDesc": "Gérez et fournissez des informations personnelles sur la façon dont nous pouvons vous contacter.",
+    "security": "Sécurité",
+    "securityDesc": "Gérez les paramètres de sécurité de votre compte.",
+    "dataAndPrivacy": "Données et Confidentialité",
+    "dataAndPrivacyDesc": "Contrôlez vos paramètres de données et de confidentialité.",
+    "bookings": "Réservations",
+    "bookingsDesc": "Voir et gérer vos réservations à venir et passées en un seul endroit.",
+    "notifications": "Notifications",
+    "notificationsDesc": "Personnalisez vos préférences de notification.",
+    "depositFunds": "Déposer des fonds",
+    "depositFundsDesc": "Déposez rapidement des fonds pour faciliter les paiements futurs sans utiliser votre carte à chaque fois.",
+    "wallet": "Portefeuille",
+    "walletDesc": "Consultez et gérez vos méthodes de paiement",
+    "yourWallet": "Votre portefeuille",
+    "removePm": "Supprimer le moyen de paiement",
+    "removePmAreYouSure": "Êtes-vous sûr de vouloir supprimer ce moyen de paiement ? Ne vous inquiétez pas, vous pouvez le sauvegarder à nouveau ou en ajouter un nouveau plus tard.",
+    "pmExpires": "Expire"
+  },
+  "personalInfo": {
+    "title": "Informations Personnelles",
+    "name": "Nom",
+    "emailAddress": "Adresse Email",
+    "phoneNumber": "Numéro de Téléphone",
+    "address": "Adresse",
+    "edit": "Modifier"
+  },
+  "security": {
+    "loginSecurity": "Sécurité de Connexion",
+    "password": "Mot de Passe",
+    "edit": "Modifier",
+    "TFA": "Authentification à Deux Facteurs",
+    "loginNotifications": "Notifications de Connexion",
+    "account": "Compte",
+    "verifyEmail": "Vérifier l'Email",
+    "activeSessions": "Sessions Actives",
+    "deleteAcc": "Supprimer le Compte",
+    "addExtraSecurity": "Ajoutez une couche de sécurité supplémentaire à votre compte",
+    "newLoginNotifications": "Recevez des alertes concernant les nouvelles connexions à votre compte",
+    "manageSessions": "Gérez les appareils sur lesquels vous êtes actuellement connecté",
+    "editPassword": "Modifier le Mot de Passe",
+    "makeChangesToYourPw": "Apportez des modifications à votre mot de passe ici. Cliquez sur enregistrer lorsque vous avez terminé.",
+    "oldPw": "Ancien Mot de Passe",
+    "newPw": "Nouveau Mot de Passe",
+    "verify": "Vérifier",
+    "verified": "Vérifié"
+  },
+  "dataPrivacy": {
+    "dataPrivacy": "Données et Confidentialité",
+    "dataExport": "Exportation de Données",
+    "download data": "Téléchargez une copie de vos données personnelles",
+    "exportData": "Exporter les Données",
+    "requestDataDeletion": "Demander la Suppression des Données",
+    "parmanentlyDeleteData": "Supprimez définitivement toutes vos données de nos systèmes",
+    "deleteData": "Supprimer les Données",
+    "deleteDataAlert": "Cette action supprimera définitivement toutes vos données. Veuillez entrer votre mot de passe pour confirmer.",
+    "password": "Mot de Passe",
+    "passwordPlaceholder": "Entrez votre mot de passe",
+    "confirmDeletion": "Confirmer la Suppression",
+    "areYouSure": "Êtes-vous absolument sûr?",
+    "cannotBeUndone": "Cette action ne peut pas être annulée. Toutes vos données seront définitivement supprimées de nos serveurs.",
+    "cancel": "Annuler",
+    "yes": "Oui, supprimer mes données"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "bookingConfirmations": "Confirmations de Réservation",
+    "bookingConfirmationsDesc": "Recevez des notifications pour les réservations réussies",
+    "DepartureReminders": "Rappels de Départ",
+    "DepartureRemindersDesc": "Recevez des rappels avant votre départ prévu",
+    "promotions": "Promotions et Offres",
+    "promotionsDesc": "Recevez des mises à jour sur les offres spéciales et les réductions",
+    "accountUpdates": "Soyez informé des changements importants liés à votre compte",
+    "savePreferences": "Enregistrer les Préférences",
+    "enabled": "Les notifications sont activées",
+    "disabled": "Toutes les notifications sont désactivées"
+  },
   "pageMetadata": {
     "title": "Comment réserver - Centre d'aide",
     "description": "Apprenez étape par étape comment réserver votre billet de bus. Obtenez des conseils pour un processus de réservation fluide et trouvez des réponses aux questions fréquentes.",
@@ -530,8 +541,4 @@
       }
     }
   }
-
-
-    
-  
 }

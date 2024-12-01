@@ -1,8 +1,6 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Globe, Check } from "lucide-react";
+import { Globe, Check, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import {
   Select,
@@ -21,13 +20,13 @@ import {
 import { useCurrency } from "../providers/currency-provider";
 
 const languages = [
-  { code: "en", label: "English" },
-  { code: "fr", label: "Français" },
-  { code: "de", label: "Deutsch" },
-  { code: "al", label: "Shqip" },
-  { code: "mk", label: "Македонски" },
-  { code: "it", label: "Italiano" },
-  { code: "es", label: "Español" },
+  { code: "en", label: "English", flag: "🇺🇸" },
+  { code: "fr", label: "Français", flag: "🇫🇷" },
+  { code: "de", label: "Deutsch", flag: "🇩🇪" },
+  { code: "al", label: "Shqip", flag: "🇦🇱" },
+  { code: "mk", label: "Македонски", flag: "🇲🇰" },
+  { code: "it", label: "Italiano", flag: "🇮🇹" },
+  { code: "es", label: "Español", flag: "🇪🇸" },
 ];
 
 const currencies = [
@@ -41,7 +40,7 @@ const currencies = [
 ];
 
 const LanguageCurrencySelector = () => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const { currency, setCurrency } = useCurrency();
   const [selectedLanguage, setSelectedLanguage] = useState(
     localStorage.getItem("language") || "en"
@@ -79,28 +78,36 @@ const LanguageCurrencySelector = () => {
           </span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="h-screen sm:h-fit flex flex-col justify-center items-center">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-[480px] flex flex-col justify-center items-center">
+        <DialogHeader className="w-full text-center">
           <DialogTitle className="font-medium text-xl">
-            Language and Currency
+            {t("languageDialog.languageCurrency", "Language and Currency")}
           </DialogTitle>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
+        <div className="grid gap-4 py-4 w-full">
           <div className="grid grid-cols-4 items-center gap-4">
             <label htmlFor="language" className="text-right font-medium">
-              Language
+              {t("languageDialog.language.label", "Language")}
             </label>
             <Select
               value={selectedLanguage}
               onValueChange={setSelectedLanguage}
             >
               <SelectTrigger className="col-span-3 bg-primary-bg/5 border-none">
-                <SelectValue placeholder="Select language" />
+                <SelectValue
+                  placeholder={t(
+                    "languageDialog.language.placeholder",
+                    "Select language"
+                  )}
+                />
               </SelectTrigger>
               <SelectContent>
                 {languages.map((lang) => (
                   <SelectItem key={lang.code} value={lang.code}>
-                    {lang.label}
+                    <div className="flex items-center gap-2">
+                      <span>{lang.flag}</span>
+                      <span>{lang.label}</span>
+                    </div>
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -108,11 +115,16 @@ const LanguageCurrencySelector = () => {
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <label htmlFor="currency" className="text-right font-medium">
-              Currency
+              {t("languageDialog.currency.label", "Currency")}
             </label>
             <Select value={currency.code} onValueChange={handleCurrencyChange}>
               <SelectTrigger className="col-span-3 bg-primary-bg/5 border-none">
-                <SelectValue placeholder="Select currency" />
+                <SelectValue
+                  placeholder={t(
+                    "languageDialog.currency.placeholder",
+                    "Select currency"
+                  )}
+                />
               </SelectTrigger>
               <SelectContent>
                 {currencies.map((curr) => (
@@ -129,7 +141,8 @@ const LanguageCurrencySelector = () => {
               variant={"primary"}
               className="w-full sm:w-auto"
             >
-              <Check className="mr-2 h-4 w-4" /> Save Preferences
+              <Check className="mr-2 h-4 w-4" />{" "}
+              {t("languageDialog.saveButton.text", "Save Preferences")}
             </Button>
           </div>
         </div>
