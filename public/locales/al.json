@@ -416,7 +416,13 @@
       "notifications": "Njoftimet",
       "notificationsDesc": "Personalizoni preferencat tuaja për njoftime.",
       "depositFunds": "Depozitoni fonde",
-      "depositFundsDesc": "Depozitoni shpejt fonde për pagesa të lehta në të ardhmen pa përdorur kartën tuaj çdo herë."
+      "depositFundsDesc": "Depozitoni shpejt fonde për pagesa të lehta në të ardhmen pa përdorur kartën tuaj çdo herë.",
+      "wallet": "Portofoli",
+      "walletDesc": "Shikoni dhe menaxhoni metodat tuaja të pagesës",
+      "yourWallet": "Portofoli juaj",
+      "removePm": "Hiq metodën e pagesës",
+      "removePmAreYouSure": "A jeni i sigurt që doni ta hiqni këtë metodë pagese? Mos u shqetësoni, mund ta ruani përsëri ose të shtoni një të re më vonë.",
+      "pmExpires": "Skadon"
     },
     "modals": {
       "confirmCancellation": "A jeni te sigurt qe deshironi ta anuloni rezervimin?",

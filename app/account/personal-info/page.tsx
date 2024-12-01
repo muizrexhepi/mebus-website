@@ -107,7 +107,8 @@ export default function PersonalInfo() {
 
   const handleUseAsPassengerInfoChange = async (checked: boolean) => {
     try {
-      await account.updatePrefs({ useAsPassengerInfo: checked });
+      const prevPrefs = await account.getPrefs()
+      await account.updatePrefs({ ...prevPrefs, useAsPassengerInfo: checked });
       setUseAsPassengerInfo(checked);
       toast({ description: "Passenger info preference updated successfully." });
     } catch (error) {

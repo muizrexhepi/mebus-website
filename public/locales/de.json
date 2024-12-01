@@ -407,7 +407,14 @@
     "notifications": "Benachrichtigungen",
     "notificationsDesc": "Passen Sie Ihre Benachrichtigungseinstellungen an.",
     "depositFunds": "Geld einzahlen",
-    "depositFundsDesc": "Zahlen Sie schnell Geld ein, um zukünftige Zahlungen zu erleichtern, ohne jedes Mal Ihre Karte zu verwenden."
+    "depositFundsDesc": "Zahlen Sie schnell Geld ein, um zukünftige Zahlungen zu erleichtern, ohne jedes Mal Ihre Karte zu verwenden.",
+      "wallet": "Brieftasche",
+      "walletDesc": "Anzeigen und verwalten Sie Ihre Zahlungsmethoden",
+      "yourWallet": "Ihre Brieftasche",
+      "removePm": "Zahlungsmethode entfernen",
+      "removePmAreYouSure": "Sind Sie sicher, dass Sie diese Zahlungsmethode entfernen möchten? Keine Sorge, Sie können sie später erneut speichern oder eine neue hinzufügen.",
+      "pmExpires": "Läuft ab"
+    
   },
   "personalInfo": {
   "title": "Persönliche Informationen",

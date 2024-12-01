@@ -414,7 +414,13 @@
           "notifications": "Notifiche",
           "notificationsDesc": "Personalizza le tue preferenze di notifica.",
           "depositFunds": "Deposita fondi",
-          "depositFundsDesc": "Deposita rapidamente fondi per pagamenti futuri facili senza utilizzare la tua carta ogni volta."
+          "depositFundsDesc": "Deposita rapidamente fondi per pagamenti futuri facili senza utilizzare la tua carta ogni volta.",
+          "wallet": "Portafoglio",
+          "walletDesc": "Visualizza e gestisci i tuoi metodi di pagamento",
+          "yourWallet": "Il tuo portafoglio",
+          "removePm": "Rimuovi metodo di pagamento",
+          "removePmAreYouSure": "Sei sicuro di voler rimuovere questo metodo di pagamento? Non preoccuparti, puoi salvarlo di nuovo o aggiungerne uno nuovo in seguito.",
+          "pmExpires": "Scade"
         },
         "personalInfo": {
   "title": "Informazioni Personali",

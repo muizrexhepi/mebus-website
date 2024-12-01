@@ -436,7 +436,13 @@
     "notifications": "Notifications",
     "notificationsDesc": "Customize your notification preferences.",
     "depositFunds": "Deposit funds",
-    "depositFundsDesc": "Quickly deposit funds for easy future payments without using your card each time."
+    "depositFundsDesc": "Quickly deposit funds for easy future payments without using your card each time.",
+    "wallet": "Wallet",
+    "walletDesc":"View and manage your payment methods",
+    "yourWallet": "Your wallet",
+    "removePm": "Remove payment method",
+    "removePmAreYouSure": "Are you sure you want to remove this payment method? Don’t worry, you can always save it again or add a new one later.",
+    "pmExpires": "Expires"    
   },
   "personalInfo": {
     "title": "Personal Info",
