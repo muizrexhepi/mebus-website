@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import axios from "axios";
 import { Route } from "@/models/route";
 import Navbar from "@/components/navbar/Navbar";
-import BusRoutesClient from "@/components/routes/BusRoutesClient";
 import Footer from "@/components/Footer";
+import BusRoutesClient from "./_components/BusRoutesClient";
 
 export const metadata: Metadata = {
   title: "Explore Bus Routes | GoBusly",

@@ -9,8 +9,8 @@ export default function PartnersLayout({
 }>) {
   return (
     <div>
-      <div className="paddingX w-full py-4 bg-gradient-to-tr from-primary-bg/95 via-primary-bg to-primary-bg/95">
-        <Navbar className="max-w-6xl mx-auto" />
+      <div className="w-full py-4 bg-gradient-to-tr from-primary-bg/95 via-primary-bg to-primary-bg/95">
+        <Navbar className="max-w-7xl paddingX mx-auto" />
       </div>
       {children}
       <Footer />
