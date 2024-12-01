@@ -12,8 +12,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import useSearchStore from "@/store";
-import useIsMobile from "./hooks/use-mobile";
-import DateRangePickerDialog from "./dialogs/DateRangePickerDialog";
+import useIsMobile from "@/components/hooks/use-mobile";
+import DateRangePickerDialog from "@/components/dialogs/DateRangePickerDialog";
 
 interface DateRangePickerProps extends React.HTMLAttributes<HTMLDivElement> {
   updateUrl?: boolean;

@@ -6,7 +6,7 @@ import { PassengerData } from "@/components/hooks/use-passengers";
 import useSearchStore, { useCheckoutStore } from "@/store";
 import PassengerSelector from "./PassengerSelector";
 import { X } from "lucide-react";
-import useUser from "../hooks/use-user";
+import useUser from "../../../components/hooks/use-user";
 import { useTranslation } from "react-i18next";
 import { passengerSchema } from "@/schemas";
 import { z } from "zod";

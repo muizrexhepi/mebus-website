@@ -6,14 +6,14 @@ import axios, { AxiosResponse } from "axios";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/hooks/use-toast";
 import { useRouter } from "next/navigation";
-import { calculatePassengerPrices } from "../hooks/use-passengers";
+import { calculatePassengerPrices } from "../../../components/hooks/use-passengers";
 import { Ticket } from "@/models/ticket";
 import { useCheckoutStore, usePaymentSuccessStore } from "@/store";
 import { ApiResponse } from "@/interfaces/api";
-import useUser from "../hooks/use-user";
+import useUser from "../../../components/hooks/use-user";
 import { useTranslation } from "react-i18next";
 import { Booking } from "@/models/booking";
-import { Switch } from "../ui/switch";
+import { Switch } from "../../../components/ui/switch";
 import { account } from "@/appwrite.config";
 import { Loader2 } from "lucide-react";
 

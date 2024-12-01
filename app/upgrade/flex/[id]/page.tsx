@@ -3,11 +3,11 @@
 import React from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCheckoutStore } from "@/store";
-import TravelFlex from "@/components/checkout/TravelFlex";
+import TravelFlex from "@/app/checkout/_components/TravelFlex";
 import PaymentForm from "@/components/forms/PaymentForm";
 
 const stripePromise = loadStripe(

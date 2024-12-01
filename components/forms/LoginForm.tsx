@@ -22,7 +22,7 @@ import { account } from "@/appwrite.config";
 import { useMFAStore, useNavbarStore } from "@/store";
 import { loginUser } from "@/actions/auth";
 import { cn } from "@/lib/utils";
-import { OauthButtons } from "../auth/oauth-buttons";
+import { OauthButtons } from "../../app/(auth)/_components/oauth-buttons";
 
 const LoginForm = () => {
   const { t } = useTranslation();

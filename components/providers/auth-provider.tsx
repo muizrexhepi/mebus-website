@@ -1,8 +1,8 @@
 "use client";
 import React, { createContext, useContext, useState } from "react";
-import RegisterForm from "./forms/RegisterForm";
-import ResetPasswordForm from "./forms/ResetForm";
-import { LoginDialog } from "./dialogs/login-dialog";
+import RegisterForm from "../forms/RegisterForm";
+import ResetPasswordForm from "../forms/ResetForm";
+import { LoginDialog } from "../dialogs/login-dialog";
 
 interface AuthContextProps {
   user: any;

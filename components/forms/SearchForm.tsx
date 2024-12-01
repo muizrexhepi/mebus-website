@@ -2,11 +2,11 @@ import React from "react";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import InputSkeleton from "@/components/input-skeleton";
-import PassengerSelect from "@/components/passenger-select";
+import PassengerSelect from "@/app/search/_components/passenger-select";
 import { Station } from "@/models/station";
-import StationSelect from "../search/station-select";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
+import StationSelect from "@/app/search/_components/station-select";
 
 interface SearchFormProps {
   loading: boolean;

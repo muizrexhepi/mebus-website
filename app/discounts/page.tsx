@@ -1,7 +1,7 @@
 import { Metadata } from "next";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
-import ClientMebusDiscountOffers from "@/components/help/DiscountTabs";
+import ClientMebusDiscountOffers from "@/app/help/_components/DiscountTabs";
 
 export const metadata = {
   title: "GoBusly - Discounts and Offers",

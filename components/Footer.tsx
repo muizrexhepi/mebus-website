@@ -107,7 +107,7 @@ const Footer = () => {
     <footer className="bg-gradient-to-tr from-primary-bg/95 via-primary-bg to-primary-bg/95">
       {/* Newsletter Section */}
       <div className="w-full bg-white/5 py-8">
-        <div className="max-w-6xl mx-auto px-4 sm:px-8 lg:px-0 flex flex-col md:flex-row items-center justify-between">
+        <div className="max-w-7xl mx-auto paddingX flex flex-col md:flex-row items-center justify-between">
           <div className="mb-6 md:mb-0">
             <h3 className="text-white text-xl font-medium mb-2">
               {t("footer.subscribe.title")}
@@ -146,7 +146,7 @@ const Footer = () => {
       </div>
 
       {/* Main Footer Content */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-8 lg:px-0 py-12">
+      <div className="max-w-7xl mx-auto paddingX  py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-6">

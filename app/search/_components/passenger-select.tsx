@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/select";
 import useSearchStore from "@/store";
 import { useState } from "react";
-import useIsMobile from "./hooks/use-mobile";
-import PassengerSelectDialog from "./dialogs/PassengersDialog";
+import useIsMobile from "../../../components/hooks/use-mobile";
+import PassengerSelectDialog from "../../../components/dialogs/PassengersDialog";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
 

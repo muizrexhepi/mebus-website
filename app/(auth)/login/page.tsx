@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
-import LoginPage from "@/components/auth/login-page";
+import LoginPage from "@/app/(auth)/_components/login-page";
 import { Loader2 } from "lucide-react";
 
 // Move metadata to a separate constant to avoid re-computation

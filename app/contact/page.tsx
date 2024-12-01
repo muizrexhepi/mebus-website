@@ -1,8 +1,8 @@
 import React from "react";
 import { Metadata } from "next";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
-import Navbar from "@/components/Navbar";
-import ContactForm from "@/components/contact/ContactForm";
+import Navbar from "@/components/navbar/Navbar";
+import ContactForm from "@/components/forms/ContactForm";
 import SecondaryFooter from "@/components/SecondaryFooter";
 
 export const metadata: Metadata = {

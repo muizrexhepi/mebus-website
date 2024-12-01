@@ -3,9 +3,9 @@ import axios from "axios";
 import Link from "next/link";
 import { ChevronLeft, Bus } from "lucide-react";
 import { Route } from "@/models/route";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
-import RoutesList from "@/components/help/RoutesList";
+import RoutesList from "@/app/help/_components/RoutesList";
 import { Button } from "@/components/ui/button";
 import {
   Card,

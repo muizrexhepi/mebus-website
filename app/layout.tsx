@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import ReactQueryProvider from "./ReactQueryProvider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import ReactQueryProvider from "../components/providers/ReactQueryProvider";
 import { Toaster } from "@/components/ui/toaster";
 import CookieConsent from "@/components/CookieConsent";
-import TranslationProvider from "@/components/TranslationProvider";
+import TranslationProvider from "@/components/providers/TranslationProvider";
 import { Analytics } from "@vercel/analytics/react";
-import AuthProvider from "@/components/auth-provider";
+import AuthProvider from "@/components/providers/auth-provider";
+import ClientProviders from "@/components/providers/client-providers";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -75,15 +76,10 @@ export default function RootLayout({
           <ReactQueryProvider>
             <Toaster />
             <TranslationProvider>
-              <ThemeProvider
-                attribute="class"
-                defaultTheme="light"
-                enableSystem
-                disableTransitionOnChange
-              >
+              <ClientProviders>
                 {children}
                 <CookieConsent />
-              </ThemeProvider>
+              </ClientProviders>
             </TranslationProvider>
           </ReactQueryProvider>
         </AuthProvider>

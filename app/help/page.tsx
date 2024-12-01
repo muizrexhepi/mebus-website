@@ -1,7 +1,7 @@
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 import { Metadata } from "next";
-import HelpPageClient from "@/components/help/HelpPageClient";
+import HelpPageClient from "@/app/help/_components/HelpPageClient";
 
 export const metadata: Metadata = {
   title: "Help Center | GoBusly",

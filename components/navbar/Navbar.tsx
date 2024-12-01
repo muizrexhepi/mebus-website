@@ -1,14 +1,13 @@
 "use client";
 
-import { NAV_LINKS } from "@/lib/data";
 import Link from "next/link";
-import UserNavbarMenu from "./UserMenu";
 import NavbarMenu from "./NavbarMenu";
-import LanguageDialog from "./LanguageDialog";
 import { cn } from "@/lib/utils";
-import useUser from "./hooks/use-user";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
+import useUser from "../hooks/use-user";
+import UserNavbarMenu from "./UserMenu";
+import LanguageCurrencySelector from "@/components/dialogs/LanguageDialog";
 
 const Navbar = ({ className }: { className?: string }) => {
   const { user } = useUser();
@@ -37,7 +36,7 @@ const Navbar = ({ className }: { className?: string }) => {
       </div>
 
       <div className="flex items-center gap-2">
-        <LanguageDialog />
+        <LanguageCurrencySelector />
         {user ? <UserNavbarMenu /> : <NavbarMenu />}
       </div>
     </div>

@@ -1,3 +1,6 @@
+"use client";
+
+import { useCurrency } from "@/components/providers/currency-provider";
 import { FlexFeature } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { useCheckoutStore } from "@/store";
@@ -32,10 +35,11 @@ const flexFeatures: FlexFeature[] = [
 const TravelFlex: React.FC = () => {
   const { t } = useTranslation();
   const { selectedFlex, setSelectedFlex, setFlexPrice } = useCheckoutStore();
+  const { currency, convertFromEUR } = useCurrency();
 
   const handleFlexSelection = (flex: FlexFeature) => {
     setSelectedFlex(flex.value);
-    setFlexPrice(flex.price);
+    setFlexPrice(convertFromEUR(flex.price));
   };
 
   return (
@@ -45,7 +49,7 @@ const TravelFlex: React.FC = () => {
           key={flex.value}
           className={`rounded-xl border p-4 cursor-pointer ${
             selectedFlex === flex.value
-              ? "border-primary-bg bg-secondary-bg/20"
+              ? "border-primary-bg bg-secondary-bg/10"
               : "border-gray-300"
           }`}
           onClick={() => handleFlexSelection(flex)}
@@ -57,7 +61,9 @@ const TravelFlex: React.FC = () => {
           >
             <p className="font-medium text-black">{t(flex.name)}</p>
             <p className="font-medium text-primary-bg">
-              {flex.price > 0 ? `+ ${flex.price}€` : t("extrasInfo.free")}
+              {flex.price > 0
+                ? `+ ${currency.symbol}${convertFromEUR(flex.price).toFixed(2)}`
+                : t("extrasInfo.free")}
             </p>
           </div>
           <ul className="text-sm text-gray-600">

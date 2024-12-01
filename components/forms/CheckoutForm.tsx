@@ -2,10 +2,10 @@
 
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import PassengerInfo from "../checkout/PassengerInfo";
-import Extras from "../checkout/ExtrasInfo";
-import PaymentMethod from "../checkout/PaymentMethod";
-import OrderSummary from "../checkout/OrderSummary";
+import PassengerInfo from "../../app/checkout/_components/PassengerInfo";
+import Extras from "../../app/checkout/_components/ExtrasInfo";
+import PaymentMethod from "../../app/checkout/_components/PaymentMethod";
+import OrderSummary from "../../app/checkout/_components/OrderSummary";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY

@@ -18,7 +18,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import useIsMobile from "./hooks/use-mobile";
+import useIsMobile from "@/components/hooks/use-mobile";
 
 export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
   const router = useRouter();

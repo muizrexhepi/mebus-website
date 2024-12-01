@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 import { Button } from "@/components/ui/button";
 import { GlobeIcon, BusFront, Users, TrendingUp } from "lucide-react";
@@ -109,8 +109,8 @@ export default function AboutUs() {
           <h2 className="text-3xl font-bold mb-6 text-center">Our Mission</h2>
           <div className="max-w-3xl mx-auto">
             <p className="text-gray-600 mb-4">
-              At GoBusly, we're committed to modernizing bus travel throughout the
-              Balkan region. Our platform empowers small and large operators
+              At GoBusly, we're committed to modernizing bus travel throughout
+              the Balkan region. Our platform empowers small and large operators
               alike to offer online ticketing, expanding their customer base and
               streamlining operations.
             </p>
@@ -133,10 +133,10 @@ export default function AboutUs() {
             Ready to Explore the Balkans?
           </h3>
           <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-            Join thousands of satisfied travelers who choose GoBusly for reliable,
-            affordable, and comfortable journeys. Whether you're planning a
-            weekend getaway or a cross-country expedition, we've got you
-            covered.
+            Join thousands of satisfied travelers who choose GoBusly for
+            reliable, affordable, and comfortable journeys. Whether you're
+            planning a weekend getaway or a cross-country expedition, we've got
+            you covered.
           </p>
           <Link href="/routes">
             <Button

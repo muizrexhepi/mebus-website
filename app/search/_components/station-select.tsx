@@ -7,8 +7,8 @@ import { Locate, MapPin } from "lucide-react";
 import Cookies from "js-cookie";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import CitySelectDialog from "../dialogs/CitySelectDialog";
-import useIsMobile from "../hooks/use-mobile";
+import CitySelectDialog from "@/components/dialogs/CitySelectDialog";
+import useIsMobile from "@/components/hooks/use-mobile";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 interface CustomSelectProps {

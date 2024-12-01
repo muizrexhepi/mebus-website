@@ -10,17 +10,17 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "./ui/sheet";
-import { Button } from "./ui/button";
+} from "../ui/sheet";
+import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import { Separator } from "./ui/separator";
-import useIsMobile from "./hooks/use-mobile";
+} from "../ui/dropdown-menu";
+import { Separator } from "../ui/separator";
+import useIsMobile from "../hooks/use-mobile";
 import { useTranslation } from "react-i18next"; // Importing the translation hook
 import Image from "next/image";
 

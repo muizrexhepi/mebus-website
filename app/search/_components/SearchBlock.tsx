@@ -4,10 +4,10 @@ import useSearchStore, { useCheckoutStore } from "@/store";
 import { useRouter } from "next/navigation";
 import { getStations } from "@/actions/station";
 import { Station } from "@/models/station";
-import DatePicker from "./date-picker";
-import { DateRangePicker } from "./daterange-picker";
-import { SearchForm } from "./forms/SearchForm";
+import { SearchForm } from "../../../components/forms/SearchForm";
 import { useTranslation } from "react-i18next";
+import { DateRangePicker } from "./daterange-picker";
+import DatePicker from "./date-picker";
 
 const SearchBlock = () => {
   const { t } = useTranslation();

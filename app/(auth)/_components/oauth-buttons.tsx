@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Button } from "../ui/button";
+import { Button } from "../../../components/ui/button";
 import { useTranslation } from "react-i18next";
 import { handleFacebookLogin, handleGoogleLogin } from "@/actions/oauth";
 
@@ -7,7 +7,7 @@ export const OauthButtons = ({ isLoading }: { isLoading: boolean }) => {
   const { t } = useTranslation();
 
   return (
-    <div className="grid  gap-4">
+    <div className="grid sm:grid-cols-2 gap-4">
       <Button
         className="w-full h-12 rounded-xl"
         onClick={handleGoogleLogin}

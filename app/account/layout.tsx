@@ -1,5 +1,5 @@
 import { SettingsBreadcrumb } from "@/components/BreadCrumb";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar/Navbar";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

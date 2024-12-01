@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import moment from "moment-timezone";
 import { Symbols } from "@/symbols";
@@ -8,6 +10,7 @@ import useSearchStore, { useCheckoutStore } from "@/store";
 import { useRouter } from "next/navigation";
 import { CalendarDays } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useCurrency } from "../providers/currency-provider";
 
 export interface TicketProps {
   ticket: TicketType;
@@ -19,7 +22,6 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
     setOutboundTicket,
     outboundTicket,
     setReturnTicket,
-    selectedTicket,
     returnTicket,
     isSelectingReturn,
     setIsSelectingReturn,
@@ -27,6 +29,7 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
   const { tripType } = useSearchStore();
   const router = useRouter();
   const { t } = useTranslation();
+  const { currency, convertFromEUR } = useCurrency();
 
   const handleTicketSelection = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -59,7 +62,7 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
     .toString()
     .padStart(2, "0")} hrs`;
 
-  // const isSelected = ticket?._id === selectedTicket?._id;
+  const convertedPrice = convertFromEUR(ticket.stops[0].other_prices.our_price);
 
   return (
     <div
@@ -119,11 +122,11 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
           </div>
           <div className="flex justify-between items-center gap-4 w-full md:flex-col md:justify-end md:items-end md:w-fit">
             <div className="text-xl sm:text-2xl font-semibold w-full md:w-1/3 flex md:flex-col justify-between items-end ">
-              {Symbols.EURO}
-              {ticket.stops[0].other_prices.our_price.toFixed(2)}
+              {currency.symbol}
+              {convertedPrice.toFixed(2)}
             </div>
             <Button
-              className="w-fit text-sm sm:text-base bg-primary-bg hover:bg-primary-bg/95"
+              className="w-fit text-sm bg-primary-bg hover:bg-primary-bg/95"
               onClick={handleTicketSelection}
             >
               {isReturn && outboundTicket

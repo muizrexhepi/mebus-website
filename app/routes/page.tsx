@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import axios from "axios";
 import { Route } from "@/models/route";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar/Navbar";
 import BusRoutesClient from "@/components/routes/BusRoutesClient";
 import Footer from "@/components/Footer";
 

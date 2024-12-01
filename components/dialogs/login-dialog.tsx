@@ -34,7 +34,7 @@ export const LoginDialog = () => {
 
   return (
     <Dialog open={openLogin} onOpenChange={() => setOpenLogin(false)}>
-      <DialogContent className="sm:max-w-[900px] p-0 h-screen sm:h-fit">
+      <DialogContent className="md:max-w-[900px] p-0 h-screen md:h-fit">
         <div className="grid lg:grid-cols-2 h-full">
           <div className="hidden lg:flex flex-col justify-center w-full items-center p-8 bg-gradient-to-br from-primary-bg/10 to-primary-bg/5">
             <div className="flex justify-center items-center flex-col mx-auto space-y-6">

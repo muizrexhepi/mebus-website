@@ -5,7 +5,7 @@ import { format, addDays, subDays, parse, isValid } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import useSearchStore, { useCheckoutStore, useLoadingStore } from "@/store";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface DateButtonProps {
   date: Date;

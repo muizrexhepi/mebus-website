@@ -1,7 +1,7 @@
 "use client";
 import { useTranslation } from "react-i18next";
-import Navbar from "./Navbar";
-import SearchBlock from "./SearchBlock";
+import Navbar from "@/components/navbar/Navbar";
+import SearchBlock from "../../app/search/_components/SearchBlock";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { handleOauthCallback } from "@/actions/oauth";

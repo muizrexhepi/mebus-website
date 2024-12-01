@@ -26,6 +26,7 @@ import { useNavbarStore } from "@/store";
 import { createUser } from "@/actions/users";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { OauthButtons } from "../../app/(auth)/_components/oauth-buttons";
 
 const RegisterForm = () => {
   const { t } = useTranslation();
@@ -54,7 +55,7 @@ const RegisterForm = () => {
       };
 
       const dbUser = await createUser(user);
-
+      console.log({ dbUser });
       if (dbUser) {
         setOpenRegister(false);
         window.dispatchEvent(new Event("userChange"));
@@ -83,7 +84,7 @@ const RegisterForm = () => {
 
   return (
     <Dialog open={openRegister} onOpenChange={() => setOpenRegister(false)}>
-      <DialogContent className="sm:max-w-[900px] p-0 h-screen sm:h-fit">
+      <DialogContent className="w-full lg:max-w-[900px] p-0 h-screen lg:h-fit">
         <div className="grid lg:grid-cols-2 h-full">
           {/* Left Side - Branding */}
           <div className="hidden lg:flex flex-col justify-center w-full items-center p-8 bg-gradient-to-br from-primary/10 to-primary/5">
@@ -228,38 +229,7 @@ const RegisterForm = () => {
                   </span>
                 </div>
               </div>
-              <div className="grid gap-4">
-                <Button
-                  className="w-full h-12 rounded-xl"
-                  onClick={handleGoogleLogin}
-                  variant="outline"
-                  disabled={isLoading}
-                >
-                  <Image
-                    src="/assets/icons/googleIcon.svg"
-                    width={20}
-                    height={20}
-                    alt="Google icon"
-                    className="mr-2"
-                  />
-                  {t("login.googleButton")}
-                </Button>
-                <Button
-                  className="w-full h-12 rounded-xl"
-                  onClick={handleFacebookLogin}
-                  variant="outline"
-                  disabled={isLoading}
-                >
-                  <Image
-                    src="/assets/icons/facebookIcon.svg"
-                    width={20}
-                    height={20}
-                    alt="Facebook icon"
-                    className="mr-2"
-                  />
-                  {t("login.facebookButton")}
-                </Button>
-              </div>
+              <OauthButtons isLoading={isLoading} />
               <p className="text-sm text-primary-bg/70 text-center">
                 By creating an account you agree to our{" "}
                 <Link

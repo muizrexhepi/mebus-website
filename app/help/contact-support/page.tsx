@@ -1,7 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
-import ContactForm from "@/components/contact/ContactForm";
+import ContactForm from "@/components/forms/ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact Support - Professional Assistance | GoBusly",

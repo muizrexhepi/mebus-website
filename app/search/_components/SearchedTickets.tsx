@@ -3,9 +3,8 @@ import React, { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Ticket } from "@/models/ticket";
-import { useToast } from "../hooks/use-toast";
-import TicketSkeletonton from "../ticket/ticket-skeleton";
-import TicketBlock from "./Ticket";
+import { useToast } from "@/components/hooks/use-toast";
+import TicketSkeletonton from "@/components/ticket/ticket-skeleton";
 import useSearchStore, { useCheckoutStore, useLoadingStore } from "@/store";
 import {
   Sheet,
@@ -14,12 +13,13 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "../ui/sheet";
-import { Button } from "../ui/button";
-import TicketDetails from "../ticket/ticket-details";
+} from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import TicketDetails from "@/components/ticket/ticket-details";
 import NoTicketsAvailable from "./NoTicketsAvailable";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
+import TicketBlock from "@/components/ticket/Ticket";
 
 const TicketList: React.FC = () => {
   const router = useRouter();
