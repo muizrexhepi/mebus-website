@@ -110,12 +110,9 @@ const PaymentMethod = () => {
       console.log({ pmid: user?.prefs?.stripe_payment_method_id });
 
       const res = await axios.post<any>(
-        `${
-          process.env.NEXT_PUBLIC_API_URL
-        }/payment/create-payment-intent?customer_id=${
-          user?.prefs?.stripe_customer_id || ""
-        }&payment_method_id=${
-          user?.prefs?.stripe_payment_method_id || ""
+        `${process.env.NEXT_PUBLIC_API_URL
+        }/payment/create-payment-intent?customer_id=${user?.prefs?.stripe_customer_id || ""
+        }&payment_method_id=${user?.prefs?.stripe_payment_method_id || ""
         }&use_saved_card=${useSavedCard}`,
         { passengers, amount_in_cents: totalPrice * 100 }
       );
@@ -197,8 +194,7 @@ const PaymentMethod = () => {
 
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/booking/create/${ticket.operator}/${
-          user ? user.$id : null
+        `${process.env.NEXT_PUBLIC_API_URL}/booking/create/${ticket.operator}/${user ? user.$id : null
         }/${ticket._id}`,
         {
           passengers: passengersWithPrices,
@@ -253,20 +249,72 @@ const PaymentMethod = () => {
     }
   };
 
+
   const handleSaveCardInfo = async () => {
-    try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/payment/create-setup-intent?customer_id=${user?.prefs?.stripe_customer_id}&user_id=${user?.$id}`
-      );
-      console.log({ res });
-    } catch (error: any) {
-      console.log(error);
+    if (!stripe || !elements) {
       toast({
-        description: error?.response?.data?.message,
-        variant: "destructive",
+        description: "Stripe is not initialized",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      const cardElement = elements.getElement("cardNumber");
+
+      if (!cardElement) {
+        toast({
+          description: "Card details not found",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      console.log({ cardElement })
+
+      const { paymentMethod, error: stripeError } = await stripe.createPaymentMethod({
+        type: "card",
+        card: cardElement,
+        billing_details: {
+          name: user?.name || undefined,
+          email: user?.email || undefined,
+        }
+      });
+      console.log({ paymentMethod })
+
+      if (stripeError) {
+        toast({
+          description: stripeError.message || "Failed to save payment method",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/payment/create-setup-intent?customer_id=${user?.prefs?.stripe_customer_id}&user_id=${user?.$id}`,
+        {
+          payment_method_id: paymentMethod?.id,
+        }
+      );
+
+      console.log({ res })
+
+      fetchPaymentMethods();
+
+      toast({
+        description: "Payment method saved successfully",
+        variant: "default"
+      });
+
+    } catch (error: any) {
+      console.error(error);
+      toast({
+        description: error?.response?.data?.message || "Failed to save payment method",
+        variant: "destructive"
       });
     }
   };
+
 
   const handleFullDepositPayment = async () => {
     setLoading(true);
@@ -464,9 +512,8 @@ const PaymentMethod = () => {
 
           {
             <div
-              className={`${
-                Math.abs(totalPrice) < 0.01 ? "hidden" : ""
-              } space-y-4`}
+              className={`${Math.abs(totalPrice) < 0.01 ? "hidden" : ""
+                } space-y-4`}
             >
               <div className="flex-col flex gap-4 justify-between">
                 {!user?.prefs?.stripe_payment_method_id && (
@@ -489,10 +536,9 @@ const PaymentMethod = () => {
                         onClick={() => setUseSavedCard(!useSavedCard)}
                         className={`
                           cursor-pointer p-3 border border-gray-300 rounded-md
-                          ${
-                            useSavedCard
-                              ? "bg-blue-50 border-blue-500 hover:bg-blue-100"
-                              : "hover:bg-gray-100"
+                          ${useSavedCard
+                            ? "bg-blue-50 border-blue-500 hover:bg-blue-100"
+                            : "hover:bg-gray-100"
                           }
                           flex items-center justify-between
                         `}
@@ -537,16 +583,14 @@ const PaymentMethod = () => {
                   </div>
                 </div>
                 <h3
-                  className={`font-medium text-gray-700 ${
-                    useSavedCard && "hidden"
-                  }`}
+                  className={`font-medium text-gray-700 ${useSavedCard && "hidden"
+                    }`}
                 >
                   {t("paymentMethod.cardInformation")}
                 </h3>
                 <div
-                  className={`grid grid-cols-2 gap-2 ${
-                    useSavedCard && "hidden"
-                  }`}
+                  className={`grid grid-cols-2 gap-2 ${useSavedCard && "hidden"
+                    }`}
                 >
                   <div
                     id="card-number-element"
