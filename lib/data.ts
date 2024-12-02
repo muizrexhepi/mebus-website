@@ -1,4 +1,5 @@
 import { AlertCircle, BaggageClaim, Bell, Book, BookImageIcon, Clock, CreditCard, DollarSign, Facebook, Globe, Heart, HeartPulse, HelpCircle, Instagram, Linkedin, Lock, MapPin, RefreshCcw, Shield, TicketIcon, Twitter, User, X } from "lucide-react";
+import { enUS, fr, es, de, mk, it, sq } from "date-fns/locale";
 
 export const NAV_LINKS = [
     {
@@ -18,6 +19,16 @@ export const NAV_LINKS = [
     //     url:'/about',
     // },
 ]
+
+export const LOCALE_MAP = {
+  en: enUS,
+  fr: fr,
+  es: es,
+  de: de,
+  mk: mk,
+  it: it,
+  al: sq,
+}
 
 
 export const FOOTER_LINKS = [

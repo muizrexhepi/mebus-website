@@ -14,6 +14,9 @@ import {
 import useSearchStore from "@/store";
 import useIsMobile from "@/components/hooks/use-mobile";
 import DateRangePickerDialog from "@/components/dialogs/DateRangePickerDialog";
+import { LOCALE_MAP } from "@/lib/data";
+import { useTranslation } from "react-i18next";
+import { enUS } from "date-fns/locale";
 
 interface DateRangePickerProps extends React.HTMLAttributes<HTMLDivElement> {
   updateUrl?: boolean;
@@ -34,6 +37,10 @@ export function DateRangePicker({
   const searchParams = useSearchParams();
   const isMobile = useIsMobile();
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+  const { t, i18n } = useTranslation();
+
+  const currentLocale =
+    LOCALE_MAP[i18n.language as keyof typeof LOCALE_MAP] || enUS;
 
   const [date, setDate] = React.useState<DateRange | undefined>(() => {
     if (tripType === "round-trip") {
@@ -103,11 +110,17 @@ export function DateRangePicker({
   const buttonText = React.useMemo(() => {
     if (date?.from) {
       return date.to
-        ? `${format(date.from, "LLL dd, y")} - ${format(date.to, "LLL dd, y")}`
+        ? `${format(date.from, "LLL dd, y", {
+            locale: currentLocale,
+          })} - ${format(date.to, "LLL dd, y", { locale: currentLocale })}`
         : format(date.from, "LLL dd, y");
     }
     return "Pick a date";
   }, [date]);
+
+  // const buttonText = date
+  // ? format(date, "LLL dd, y", { locale: currentLocale })
+  // : t("datePicker.pickDate");
 
   if (isMobile) {
     return (
@@ -150,6 +163,7 @@ export function DateRangePicker({
             onSelect={handleDateSelect}
             className="w-fit"
             numberOfMonths={2}
+            locale={currentLocale}
           />
         </PopoverContent>
       </Popover>

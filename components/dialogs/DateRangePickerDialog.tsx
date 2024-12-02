@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { DateRange, SelectRangeEventHandler } from "react-day-picker";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useTranslation } from "react-i18next";
 
 interface DateRangePickerDialogProps {
   isOpen: boolean;
@@ -25,11 +26,12 @@ const DateRangePickerDialog: React.FC<DateRangePickerDialogProps> = ({
   date,
   onSelect,
 }) => {
+  const { t } = useTranslation();
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px] py-20 h-full sm:h-auto flex flex-col px-0">
         <DialogHeader className="space-y-4 h-fit px-4">
-          <DialogTitle>Select Date Range</DialogTitle>
+          <DialogTitle>{t("searchForm.departure", "Departure")}</DialogTitle>
         </DialogHeader>
         <ScrollArea className="flex-grow">
           <div className="p-4">
@@ -48,7 +50,7 @@ const DateRangePickerDialog: React.FC<DateRangePickerDialogProps> = ({
               onClick={() => onClose()}
               className="w-full h-12 button-gradient text-base"
             >
-              Confirm
+              {t("datePicker.confirm", "Confirm")}
             </Button>
           </div>
         </DialogFooter>

@@ -1,7 +1,9 @@
 import * as React from "react";
 import { format, parse, isSameDay, isValid } from "date-fns";
+
 import { Calendar as CalendarIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -19,14 +21,20 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useIsMobile from "@/components/hooks/use-mobile";
+import { LOCALE_MAP } from "@/lib/data";
+import { enUS } from "date-fns/locale";
 
 export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
+  const { t, i18n } = useTranslation();
   const router = useRouter();
   const { departureDate, setDepartureDate } = useSearchStore();
   const isMobile = useIsMobile();
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const searchParams = useSearchParams();
+
+  const currentLocale =
+    LOCALE_MAP[i18n.language as keyof typeof LOCALE_MAP] || enUS;
 
   React.useEffect(() => {
     if (departureDate) {
@@ -61,8 +69,11 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
     }
   };
 
-  const buttonText = date ? format(date, "LLL dd, y") : "Pick a date";
-  const currentMonth = new Date().getMonth(); // 0-based month index
+  const buttonText = date
+    ? format(date, "LLL dd, y", { locale: currentLocale })
+    : t("searchForm.departure");
+
+  const currentMonth = new Date().getMonth();
   const months = Array.from({ length: 13 }, (_, i) => (currentMonth + i) % 12);
 
   if (isMobile) {
@@ -79,7 +90,7 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogContent className="sm:max-w-[425px] py-20 h-full sm:h-auto flex flex-col px-0">
             <DialogHeader className="space-y-4 h-fit px-4">
-              <DialogTitle>Select Departure Date</DialogTitle>
+              <DialogTitle>{t("searchForm.departure")}</DialogTitle>
             </DialogHeader>
             <ScrollArea className="flex-grow">
               <div className="p-4">
@@ -98,6 +109,7 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
                         onSelect={handleDateSelect}
                         initialFocus
                         month={monthDate}
+                        locale={currentLocale}
                         className="w-full"
                       />
                     </div>
@@ -111,7 +123,7 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
                   onClick={() => setIsDialogOpen(false)}
                   className="w-full h-12 button-gradient text-base"
                 >
-                  Confirm
+                  {t("datePicker.confirm", "Confirm")}
                 </Button>
               </div>
             </DialogFooter>
@@ -138,6 +150,7 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
           selected={date}
           onSelect={handleDateSelect}
           initialFocus
+          locale={currentLocale}
         />
       </PopoverContent>
     </Popover>

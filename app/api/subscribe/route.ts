@@ -31,7 +31,6 @@ export async function POST(request: NextRequest) {
     if (existingSubscribers.total > 0) {
       return NextResponse.json({ message: 'Email already subscribed' }, { status: 400 });
     }
-
     const subscriber = await databases.createDocument(
       process.env.APPWRITE_DATABASE_ID!,
       process.env.APPWRITE_COLLECTION_ID!,
