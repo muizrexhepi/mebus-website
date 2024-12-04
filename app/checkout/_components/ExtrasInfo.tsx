@@ -4,7 +4,7 @@ import { useCurrency } from "@/components/providers/currency-provider";
 import { FlexFeature } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { useCheckoutStore } from "@/store";
-import { Check } from "lucide-react";
+import { Check, Zap } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const flexFeatures: FlexFeature[] = [
@@ -32,10 +32,91 @@ const flexFeatures: FlexFeature[] = [
   },
 ];
 
-const TravelFlex: React.FC = () => {
+const FlexOption: React.FC<{
+  flex: FlexFeature;
+  isSelected: boolean;
+  onSelect: () => void;
+}> = ({ flex, isSelected, onSelect }) => {
   const { t } = useTranslation();
-  const { selectedFlex, setSelectedFlex, setFlexPrice } = useCheckoutStore();
   const { currency, convertFromEUR } = useCurrency();
+
+  return (
+    <div
+      className={cn(
+        "relative group overflow-hidden rounded-2xl border cursor-pointer transition-all duration-300 ease-in-out",
+        isSelected
+          ? `bg-gray-50 border-gray-300`
+          : "border-gray-100 bg-white hover:border-gray-200"
+      )}
+      onClick={onSelect}
+    >
+      {/* {isSelected && (
+        <div
+          className={`absolute inset-0 button-gradient opacity-10 
+          group-hover:opacity-20 transition-opacity duration-300`}
+        />
+      )} */}
+
+      <div className="p-5 relative z-10">
+        <div className="flex justify-between items-center mb-3 last:mb-0">
+          <div className="flex items-center gap-3">
+            <h3
+              className={cn(
+                "font-medium",
+                isSelected
+                  ? "button-gradient bg-clip-text text-transparent"
+                  : "text-gray-800 group-hover:text-black"
+              )}
+            >
+              {t(flex.name)}
+            </h3>
+          </div>
+          <p
+            className={cn(
+              "font-bold",
+              isSelected
+                ? "button-gradient bg-clip-text text-transparent"
+                : "text-primary-bg group-hover:text-primary-bg/80"
+            )}
+          >
+            {flex.price > 0
+              ? `+ ${currency.symbol}${convertFromEUR(flex.price).toFixed(2)}`
+              : t("extrasInfo.free")}
+          </p>
+        </div>
+
+        {flex.features.length > 0 && (
+          <ul className="space-y-2">
+            {flex.features.map((featureKey) => (
+              <li
+                key={featureKey}
+                className={cn(
+                  "flex items-center gap-2 text-sm",
+                  isSelected
+                    ? "text-black/90"
+                    : "text-gray-600 group-hover:text-gray-800"
+                )}
+              >
+                <Check
+                  size={16}
+                  className={cn(
+                    "shrink-0",
+                    isSelected ? "text-black" : "text-primary-bg"
+                  )}
+                />
+                <span>{t(featureKey)}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const TravelFlex: React.FC = () => {
+  const { selectedFlex, setSelectedFlex, setFlexPrice } = useCheckoutStore();
+  const { convertFromEUR } = useCurrency();
 
   const handleFlexSelection = (flex: FlexFeature) => {
     setSelectedFlex(flex.value);
@@ -43,38 +124,14 @@ const TravelFlex: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      {flexFeatures.map((flex, index) => (
-        <div
+    <div className="grid  gap-4">
+      {flexFeatures.map((flex) => (
+        <FlexOption
           key={flex.value}
-          className={`rounded-xl border p-4 cursor-pointer ${
-            selectedFlex === flex.value
-              ? "border-primary-bg bg-secondary-bg/10"
-              : "border-gray-300"
-          }`}
-          onClick={() => handleFlexSelection(flex)}
-        >
-          <div
-            className={cn("flex justify-between items-center mb-2", {
-              "mb-0": index === 2,
-            })}
-          >
-            <p className="font-medium text-black">{t(flex.name)}</p>
-            <p className="font-medium text-primary-bg">
-              {flex.price > 0
-                ? `+ ${currency.symbol}${convertFromEUR(flex.price).toFixed(2)}`
-                : t("extrasInfo.free")}
-            </p>
-          </div>
-          <ul className="text-sm text-gray-600">
-            {flex.features.map((featureKey, index) => (
-              <li key={index} className="flex items-center gap-2 mb-1">
-                <Check size={16} className="text-primary-bg" />
-                {t(featureKey)}
-              </li>
-            ))}
-          </ul>
-        </div>
+          flex={flex}
+          isSelected={selectedFlex === flex.value}
+          onSelect={() => handleFlexSelection(flex)}
+        />
       ))}
     </div>
   );

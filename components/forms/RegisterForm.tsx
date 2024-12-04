@@ -56,6 +56,7 @@ const RegisterForm = () => {
 
       const dbUser = await createUser(user);
       console.log({ dbUser });
+
       if (dbUser) {
         setOpenRegister(false);
         window.dispatchEvent(new Event("userChange"));
@@ -86,7 +87,6 @@ const RegisterForm = () => {
     <Dialog open={openRegister} onOpenChange={() => setOpenRegister(false)}>
       <DialogContent className="w-full lg:max-w-[900px] p-0 h-screen lg:h-fit">
         <div className="grid lg:grid-cols-2 h-full">
-          {/* Left Side - Branding */}
           <div className="hidden lg:flex flex-col justify-center w-full items-center p-8 bg-gradient-to-br from-primary/10 to-primary/5">
             <div className="flex justify-center items-center flex-col mx-auto space-y-6">
               <Image
@@ -108,7 +108,6 @@ const RegisterForm = () => {
             </div>
           </div>
 
-          {/* Right Side - Register Form */}
           <div className="p-6 sm:p-8 my-auto">
             <div className="max-w-[360px] mx-auto space-y-6">
               <div className="space-y-2 text-center lg:hidden">

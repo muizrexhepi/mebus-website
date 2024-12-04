@@ -1,4 +1,5 @@
 {
+  "confirm": "Confirm",
   "nav": {
     "routes": "Routes",
     "bookings": "Bookings",
@@ -456,6 +457,20 @@
     "removePm": "Remove payment method",
     "removePmAreYouSure": "Are you sure you want to remove this payment method? Don’t worry, you can always save it again or add a new one later.",
     "pmExpires": "Expires"
+  },
+  "wallet": {
+    "cardholderName": "Cardholder Name",
+    "enterCardDetails": "Enter card details",
+    "addPaymentMethod": "Add payment method",
+    "cardNumber": "Card number",
+    "cvc": "CVC",
+    "expirationLabel": "Expiry Date",
+    "remove_payment_method": "Remove Payment Method",
+    "remove_confirmation": "Are you sure you want to remove this payment method?",
+    "no_payment_methods": "No payment methods available.",
+    "card_remove_success": "Payment method removed successfully.",
+    "card_remove_error": "Error removing payment method.",
+    "managePaymentMethods": "Manage payment methods"
   },
   "personalInfo": {
     "title": "Personal Info",

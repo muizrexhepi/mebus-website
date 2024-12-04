@@ -454,6 +454,20 @@
     "removePmAreYouSure": "Sei sicuro di voler rimuovere questo metodo di pagamento? Non preoccuparti, puoi salvarlo di nuovo o aggiungerne uno nuovo in seguito.",
     "pmExpires": "Scade"
   },
+  "wallet": {
+    "cardholderName": "Nome del titolare della carta",
+    "enterCardDetails": "Inserisci i dettagli della carta",
+    "addPaymentMethod": "Aggiungi metodo di pagamento",
+    "cardNumber": "Numero della carta",
+    "cvc": "CVC",
+    "expirationLabel": "Data di scadenza",
+    "remove_payment_method": "Rimuovi metodo di pagamento",
+    "remove_confirmation": "Sei sicuro di voler rimuovere questo metodo di pagamento?",
+    "no_payment_methods": "Nessun metodo di pagamento disponibile.",
+    "card_remove_success": "Metodo di pagamento rimosso con successo.",
+    "card_remove_error": "Errore durante la rimozione del metodo di pagamento.",
+    "managePaymentMethods": "Gestisci metodi di pagamento"
+  },
   "personalInfo": {
     "title": "Informazioni Personali",
     "name": "Nome",

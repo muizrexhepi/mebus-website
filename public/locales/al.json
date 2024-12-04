@@ -439,6 +439,20 @@
     "removePmAreYouSure": "A jeni i sigurt që doni ta hiqni këtë metodë pagese? Mos u shqetësoni, mund ta ruani përsëri ose të shtoni një të re më vonë.",
     "pmExpires": "Skadon"
   },
+  "wallet": {
+    "cardholderName": "Emri i Mbajtësit të Kartës",
+    "enterCardDetails": "Vendosni detajet e kartës",
+    "addPaymentMethod": "Shto metodë pagese",
+    "cardNumber": "Numri i kartës",
+    "cvc": "CVC",
+    "expirationLabel": "Data e skadimit",
+    "remove_payment_method": "Hiq metodën e pagesës",
+    "remove_confirmation": "A jeni i sigurt që dëshironi ta hiqni këtë metodë pagese?",
+    "no_payment_methods": "Nuk ka metoda pagese të disponueshme.",
+    "card_remove_success": "Metoda e pagesës u hoq me sukses.",
+    "card_remove_error": "Gabim gjatë heqjes së metodës së pagesës.",
+    "managePaymentMethods": "Menaxho metodat e pagesës"
+  },
   "modals": {
     "confirmCancellation": "A jeni te sigurt qe deshironi ta anuloni rezervimin?",
     "cancellationWarning": "Nese po atehere do tiu kthehen vetem 70% te cmimit te rezervimit."
