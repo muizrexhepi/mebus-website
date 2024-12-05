@@ -15,8 +15,9 @@ import { useTranslation } from "react-i18next";
 import { Booking } from "@/models/booking";
 import { Switch } from "../../../components/ui/switch";
 import { account } from "@/appwrite.config";
-import { Loader2 } from "lucide-react";
+import { ArrowLeft, ChevronLeft, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
+import OrderSummary from "./OrderSummary";
 
 const PaymentMethod = () => {
   const stripe = useStripe();
@@ -31,7 +32,7 @@ const PaymentMethod = () => {
   const [saveCardInfo, setSaveCardInfo] = useState<boolean>(false);
   const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
   const [useSavedCard, setUseSavedCard] = useState(false);
-
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<any>();
   const { setBookingDetails, bookingDetails, setIsPaymentSuccess } =
     usePaymentSuccessStore();
   const {
@@ -116,8 +117,8 @@ const PaymentMethod = () => {
         }/payment/create-payment-intent?customer_id=${
           user?.prefs?.stripe_customer_id || ""
         }&payment_method_id=${
-          user?.prefs?.stripe_payment_method_id || ""
-        }&use_saved_card=${useSavedCard}`,
+          selectedPaymentMethod.id || ""
+        }&use_saved_card=${!!selectedPaymentMethod}`,
         { passengers, amount_in_cents: totalPrice * 100 }
       );
 
@@ -360,6 +361,16 @@ const PaymentMethod = () => {
     fetchPaymentMethods();
   }, []);
 
+  const handleSelectPaymentMethod = (method: any) => {
+    try {
+      // setUseSavedCard(!useSavedCard);
+      console.log({ method });
+      setSelectedPaymentMethod(method);
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+
   enum CardNetwork {
     Visa = "visa",
     Mastercard = "mastercard",
@@ -521,7 +532,7 @@ const PaymentMethod = () => {
               } space-y-4`}
             >
               <div className="flex-col flex gap-4 justify-between">
-                {!user?.prefs?.stripe_payment_method_id && (
+                {user && !user?.prefs?.stripe_payment_method_id && (
                   <div className="text-gray-700 text-sm flex gap-2 items-center">
                     <p>Save card info for future payments</p>
                     <Switch
@@ -538,11 +549,11 @@ const PaymentMethod = () => {
                     {paymentMethods?.map((method) => (
                       <div
                         key={method?.id}
-                        onClick={() => setUseSavedCard(!useSavedCard)}
+                        onClick={() => handleSelectPaymentMethod(method)}
                         className={`
-                          cursor-pointer p-3 border border-gray-300 rounded-md
+                          cursor-pointer p-3 border border-gray-300 rounded-xl
                           ${
-                            useSavedCard
+                            selectedPaymentMethod?.id == method.id
                               ? "bg-blue-50 border-blue-500 hover:bg-blue-100"
                               : "hover:bg-gray-100"
                           }
@@ -559,7 +570,7 @@ const PaymentMethod = () => {
                             {method?.card?.exp_year})
                           </h3>
                         </div>
-                        {useSavedCard && (
+                        {selectedPaymentMethod?.id == method.id && (
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="h-5 w-5 text-blue-600"
@@ -618,8 +629,17 @@ const PaymentMethod = () => {
           }
         </div>
       </div>
-
-      <div className="flex items-center justify-end gap-4">
+      <div className="flex-1 flex flex-col md:hidden gap-4">
+        <OrderSummary />
+      </div>
+      <div className="flex items-center justify-end gap-2">
+        <Button
+          className="rounded-xl h-12 bg-primary-bg px-6 py-3.5 gap-1"
+          onClick={() => router.back()}
+        >
+          {/* <ChevronLeft size={20} /> */}
+          Back
+        </Button>
         <Button
           onClick={
             // totalPrice <= depositAmount

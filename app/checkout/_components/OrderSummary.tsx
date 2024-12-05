@@ -56,15 +56,20 @@ function TicketSummary({ ticket, isReturn }: TripProps) {
           </div>
         </div>
 
-        <div className="relative ml-1">
-          <div className="absolute left-[5px] top-[20px] h-[calc(100%-40px)] w-[1px] border-l border-dashed border-gray-300" />
+        <div className="relative">
+          {/* <div className="absolute left-[5px] top-[20px] h-[calc(100%-40px)] w-[1px] border-l border-dashed border-gray-300" /> */}
 
           <div className="flex items-center gap-4 mb-6">
-            <Circle className="h-2.5 w-2.5 fill-primary-accent stroke-primary-accent" />
             <div className="flex-1 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="capitalize">{ticket.stops[0].from.name}</span>
-                <MapPin className="h-4 w-4 text-primary-bg" />
+                <div className="flex flex-col">
+                  <span className="capitalize">
+                    {ticket.stops[0].from.city}
+                  </span>
+                  <span className="text-primary-bg/60 text-sm font-medium">
+                    {ticket.stops[0].from.name}
+                  </span>
+                </div>
               </div>
               <span className="font-medium">
                 {departureDate.format("HH:mm")}
@@ -73,11 +78,14 @@ function TicketSummary({ ticket, isReturn }: TripProps) {
           </div>
 
           <div className="flex items-center gap-4">
-            <Circle className="h-2.5 w-2.5 fill-primary-accent stroke-primary-accent" />
             <div className="flex-1 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="capitalize">{ticket.stops[0].to.name}</span>
-                <MapPin className="h-4 w-4 text-primary-bg" />
+                <div className="flex flex-col">
+                  <span className="capitalize">{ticket.stops[0].to.city}</span>
+                  <span className="text-primary-bg/60 text-sm font-medium">
+                    {ticket.stops[0].to.name}
+                  </span>
+                </div>
               </div>
               <span className="font-medium">{arrivalDate.format("HH:mm")}</span>
             </div>

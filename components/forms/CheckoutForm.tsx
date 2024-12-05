@@ -19,7 +19,8 @@ const CheckoutForm = () => {
         <Extras />
         <PaymentMethod />
       </div>
-      <div className="flex-1 flex flex-col gap-4">
+
+      <div className="hidden flex-1 md:flex flex-col gap-4 ">
         <OrderSummary />
       </div>
     </div>

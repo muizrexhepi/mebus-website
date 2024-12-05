@@ -3,9 +3,9 @@
 // import axios from "axios";
 // import { useCheckoutStore, useDepositStore } from "@/store";
 // import { Ticket } from "@/models/ticket";
-// import { calculatePassengerPrices } from "@/hooks/use-passengers";
-// import { toast } from "@/components/ui/toast";
 // import { Button } from "@/components/ui/button";
+// import { calculatePassengerPrices } from "@/components/hooks/use-passengers";
+// import { useToast } from "@/components/hooks/use-toast";
 
 // interface PaymentButtonProps {
 //   loading: boolean;
@@ -19,7 +19,7 @@
 //   const router = useRouter();
 //   const [internalLoading, setInternalLoading] = useState(false);
 //   const [isProcessing, setIsProcessing] = useState(false);
-
+//     const { toast } = useToast()
 //   const { useDeposit, depositAmount } = useDepositStore();
 
 //   const {
@@ -30,9 +30,9 @@
 //     flexPrice,
 //     setSelectedFlex,
 //     resetCheckout,
-//     cardCvc,
-//     cardNumber,
-//     cardExpiry,
+//     // cardCvc,
+//     // cardNumber,
+//     // cardExpiry,
 //   } = useCheckoutStore();
 
 //   useEffect(() => {
