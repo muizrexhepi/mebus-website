@@ -97,7 +97,7 @@ export default function CookieConsent() {
             <Button
               onClick={() => setShowModal(true)}
               variant="secondary"
-              className="w-full justify-center h-12 rounded-xl"
+              className="w-full justify-center h-12 rounded-lg"
             >
               <Cookie className="h-4 w-4 mr-2" />
               Customize
@@ -105,7 +105,7 @@ export default function CookieConsent() {
             <Button
               onClick={handleAcceptAll}
               variant="secondary"
-              className="w-full rounded-xl h-12 button-gradient text-white"
+              className="w-full rounded-lg h-12 button-gradient text-white"
             >
               Accept All
             </Button>

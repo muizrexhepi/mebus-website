@@ -64,7 +64,7 @@ export default function OperatorPartnership() {
             height={1080}
             src="/assets/images/busOperatorPartnership.jpg"
             alt="Bus operator partnership"
-            className="rounded-xl shadow-lg"
+            className="rounded-lg shadow-lg"
           />
         </div>
       </section>
@@ -182,13 +182,13 @@ export default function OperatorPartnership() {
             height={1080}
             src="/assets/images/busOperatorPartnershipProcess.jpg"
             alt="Partnership process"
-            className="rounded-xl shadow-lg h-[400px]"
+            className="rounded-lg shadow-lg h-[400px]"
           />
         </div>
       </section>
 
       <section className="max-w-7xl paddingX mx-auto">
-        <div className="py-16 button-gradient text-white text-center rounded-xl">
+        <div className="py-16 button-gradient text-white text-center rounded-lg">
           <h2 className="text-3xl font-semibold mb-4">Ready to get started?</h2>
           <p className="mb-8 max-w-2xl mx-auto text-lg px-4 xl:px-0">
             Join the GoBusly network today and transform your bus operation with

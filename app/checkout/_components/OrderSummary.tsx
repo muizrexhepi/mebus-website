@@ -44,7 +44,7 @@ function TicketSummary({ ticket, isReturn }: TripProps) {
   const isNextDay = !departureDate.isSame(arrivalDate, "day");
 
   return (
-    <div className="w-full rounded-xl p-4 bg-white shadow-md">
+    <div className="w-full rounded-lg p-4 bg-white shadow-md">
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="text-base font-medium">
@@ -204,7 +204,7 @@ const OrderSummary = ({ className }: { className?: string }) => {
         )}
       </div>
       <div
-        className={cn("bg-white rounded-xl p-4 shadow-md space-y-3", className)}
+        className={cn("bg-white rounded-lg p-4 shadow-md space-y-3", className)}
       >
         <div className="flex flex-col gap-1">
           {outboundDetails && (

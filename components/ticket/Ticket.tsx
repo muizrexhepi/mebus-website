@@ -66,7 +66,7 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
 
   return (
     <div
-      className={`max-w-5xl mx-auto bg-white border rounded-xl overflow-hidden shrink-0`}
+      className={`max-w-5xl mx-auto bg-white border rounded-lg overflow-hidden shrink-0`}
     >
       <div className="p-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">

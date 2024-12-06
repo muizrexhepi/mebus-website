@@ -141,7 +141,7 @@ const Extras: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="flex flex-col rounded-xl shadow-md bg-white p-4 gap-4">
+    <div className="flex flex-col rounded-lg shadow-md bg-white p-4 gap-4">
       <div className="flex items-center gap-4">
         <span className="flex items-center justify-center w-8 h-8 bg-secondary-bg/20 text-primary-bg rounded-full font-semibold">
           2

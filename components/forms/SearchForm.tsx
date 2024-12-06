@@ -7,6 +7,9 @@ import { Station } from "@/models/station";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import StationSelect from "@/app/search/_components/station-select";
+import DatePicker from "@/app/search/_components/date-picker";
+import ReturnDatePicker from "@/app/search/_components/return-date-picker";
+import useSearchStore from "@/store";
 
 interface SearchFormProps {
   loading: boolean;
@@ -26,7 +29,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({
   onSearch,
 }) => {
   const { t } = useTranslation();
-
+  const { tripType } = useSearchStore();
   return (
     <div
       className={cn(
@@ -56,7 +59,14 @@ export const SearchForm: React.FC<SearchFormProps> = ({
         <p className="hidden sm:block text-black font-medium text-base">
           {t("searchForm.departure")}
         </p>{" "}
-        {loading ? <InputSkeleton /> : datePickerComponent}
+        {loading ? (
+          <InputSkeleton />
+        ) : (
+          <div className="flex items-center gap-2 sm:gap-1">
+            <DatePicker />
+            {tripType == "round-trip" ? <ReturnDatePicker /> : null}
+          </div>
+        )}
       </div>
       <div>
         <p className="hidden sm:block text-black font-medium text-base">
@@ -71,7 +81,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({
       <Button
         type="submit"
         className={cn(
-          "p-6 flex items-center gap-2 text-base w-full sm:col-span-2 rounded-xl h-14 lg:col-span-1 bg-gradient-to-tr from-[#ff6700] to-[#ff007f]",
+          "p-6 flex items-center gap-2 text-base w-full sm:col-span-2 rounded-lg h-14 lg:col-span-1 bg-gradient-to-tr from-[#ff6700] to-[#ff007f]",
           {
             hidden: updateUrl,
           }

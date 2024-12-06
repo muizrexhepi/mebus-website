@@ -40,7 +40,7 @@ const InputField: React.FC<InputFieldProps> = ({
     <p className="font-normal text-sm text-black/70">{label}</p>
     <Input
       type={type}
-      className={`font-normal text-black rounded-xl h-12 bg-primary-bg/5 p-2"
+      className={`font-normal text-black rounded-lg h-12 bg-primary-bg/5 p-2"
           ${error ? "border-red-500 bg-red-500/10" : "border-none"}`}
       placeholder={placeholder}
       value={value}
@@ -285,7 +285,7 @@ const PassengerInfo: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col shadow-md bg-white rounded-xl p-4 gap-2">
+    <div className="flex flex-col shadow-md bg-white rounded-lg p-4 gap-2">
       <div className="flex items-center gap-4">
         <span className="flex items-center justify-center w-8 h-8 bg-secondary-bg/20 text-primary-bg rounded-full font-semibold">
           1

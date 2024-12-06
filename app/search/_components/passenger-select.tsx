@@ -68,7 +68,7 @@ export default function PassengerSelect({
       <>
         <Button
           variant="outline"
-          className="w-full h-14 flex items-center justify-start bg-primary-bg/5 rounded-xl border-none ring-0"
+          className="w-full h-14 flex items-center justify-start bg-primary-bg/5 rounded-lg border-none ring-0"
           onClick={() => setIsDialogOpen(true)}
         >
           <User2 className="w-6 h-6 text-primary mr-2" />
@@ -96,7 +96,7 @@ export default function PassengerSelect({
   return (
     <Select>
       <SelectTrigger
-        className="outline-none h-14 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 transition-colors text-base truncate"
+        className="outline-none h-14 hover:bg-accent bg-primary-bg/5 rounded-lg border-none ring-0 transition-colors text-base truncate"
         aria-label="Select number of passengers"
       >
         <div className="flex items-center">
@@ -157,7 +157,7 @@ export default function PassengerSelect({
                 <h3 className="font-semibold text-base">
                   {t("orderSummary.children")}
                 </h3>
-                <p className="text-sm text-gray-500">Aged 0 to 15</p>
+                <p className="text-sm text-gray-500">Aged 0 to 12</p>
               </div>
               <div className="flex items-center gap-2">
                 <Button
@@ -191,10 +191,7 @@ export default function PassengerSelect({
               selected ticket type. Some bus operators have restrictions on
               minors traveling alone.
             </p>
-            <p className="text-sm text-gray-500">
-              Age limits and policies for traveling with children may vary, so
-              please check with the bus operator before booking.
-            </p>
+
             {/* <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
     Apply
   </Button> */}

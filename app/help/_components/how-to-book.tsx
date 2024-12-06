@@ -80,7 +80,7 @@ const HowToBook = () => {
             <p className="text-muted-foreground">
               {t("pageMetadata.customerSupport.content.text")}
             </p>
-            <Button asChild className="rounded-xl button-gradient">
+            <Button asChild className="rounded-lg button-gradient">
               <Link href={"/help/contact-support"}>
                 {t("pageMetadata.customerSupport.content.button.label")}
               </Link>

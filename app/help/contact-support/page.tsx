@@ -39,7 +39,7 @@ const ContactInfo: React.FC<{
   title: string;
   content: React.ReactNode;
 }> = ({ icon, title, content }) => (
-  <div className="flex items-start space-x-4 p-4 bg-primary-bg/5 rounded-xl hover:shadow-sm transition-all duration-300">
+  <div className="flex items-start space-x-4 p-4 bg-primary-bg/5 rounded-lg hover:shadow-sm transition-all duration-300">
     <div className="text-primary-bg p-2 rounded-full bg-primary-bg/10">
       {icon}
     </div>

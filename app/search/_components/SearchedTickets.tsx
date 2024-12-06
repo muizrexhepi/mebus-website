@@ -188,7 +188,7 @@ const TicketList: React.FC = () => {
                   </div>
                   <SheetFooter className="p-4">
                     <Button
-                      className="w-full h-12 button-gradient rounded-xl hover:bg-primary-bg/95"
+                      className="w-full h-12 button-gradient rounded-lg hover:bg-primary-bg/95"
                       onClick={() => handleTicketSelection(ticket)}
                     >
                       {isSelectingReturn

@@ -9,7 +9,7 @@ export const OauthButtons = ({ isLoading }: { isLoading: boolean }) => {
   return (
     <div className="grid sm:grid-cols-2 gap-4">
       <Button
-        className="w-full h-12 rounded-xl"
+        className="w-full h-12 rounded-lg"
         onClick={handleGoogleLogin}
         variant="outline"
         disabled={isLoading}
@@ -24,7 +24,7 @@ export const OauthButtons = ({ isLoading }: { isLoading: boolean }) => {
         {t("login.googleButton")}
       </Button>
       <Button
-        className="w-full h-12 rounded-xl"
+        className="w-full h-12 rounded-lg"
         onClick={handleFacebookLogin}
         variant="outline"
         disabled={isLoading}

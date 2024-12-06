@@ -128,7 +128,7 @@ const CancellationPolicyPage = () => {
               help with cancelling your booking, our support team is ready to
               assist you.
             </p>
-            <Button asChild className="rounded-xl button-gradient">
+            <Button asChild className="rounded-lg button-gradient">
               <Link href={"/help/contact-support"}>Contact support</Link>
             </Button>
           </CardContent>

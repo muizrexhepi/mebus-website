@@ -37,14 +37,14 @@ const PartnerApplicationPage: React.FC = () => {
     <div className="mx-auto px-4 sm:px-8 xl:px-0 py-12">
       <div className="max-w-6xl mx-auto">
         <Link href="/partners/overview">
-          <Button variant="outline" className="rounded-xl mb-4">
+          <Button variant="outline" className="rounded-lg mb-4">
             <ChevronLeft className="mr-2 h-4 w-4" /> Back
           </Button>
         </Link>
 
         <div className="flex flex-col lg:flex-row gap-12">
           <div className="lg:w-2/3">
-            <Card className=" rounded-xl">
+            <Card className=" rounded-lg">
               <CardHeader>
                 <CardTitle>Partner Application Form</CardTitle>
               </CardHeader>
@@ -55,7 +55,7 @@ const PartnerApplicationPage: React.FC = () => {
           </div>
 
           <div className="lg:w-1/3 space-y-6">
-            <Card className="bg-primary-bg text-white rounded-xl">
+            <Card className="bg-primary-bg text-white rounded-lg">
               <CardHeader>
                 <CardTitle className="text-2xl">
                   Why Partner with GoBusly?
@@ -94,7 +94,7 @@ const PartnerApplicationPage: React.FC = () => {
               </CardContent>
             </Card>
 
-            <Card className=" rounded-xl">
+            <Card className=" rounded-lg">
               <CardHeader>
                 <CardTitle>Need Help?</CardTitle>
               </CardHeader>
@@ -104,7 +104,7 @@ const PartnerApplicationPage: React.FC = () => {
                   partnership program, please don&apos;t hesitate to contact us.
                 </p>
                 <Link href={"/contact"}>
-                  <Button variant="outline" className="w-full h-12 rounded-xl">
+                  <Button variant="outline" className="w-full h-12 rounded-lg">
                     Contact Support
                   </Button>
                 </Link>

@@ -90,7 +90,7 @@ const UserNavbarMenu = () => {
         <Separator className="!mb-4" />
         <div className="px-4">
           <Button
-            className="button-gradient w-full h-12 text-base text-white rounded-xl"
+            className="button-gradient w-full h-12 text-base text-white rounded-lg"
             onClick={handleLogout}
           >
             {t("auth.logout")} {/* Translated "Logout" */}
@@ -129,7 +129,7 @@ const UserNavbarMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{MenuTrigger}</DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-42 rounded-xl mt-2">
+      <DropdownMenuContent align="end" className="w-42 rounded-lg mt-2">
         <DropdownMenuItem asChild>
           <Link href="/account" className="w-full">
             {t("nav.account")}

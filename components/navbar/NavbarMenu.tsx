@@ -94,14 +94,14 @@ const NavbarMenu = () => {
         <Separator className="!mb-4" />
         <div className="flex flex-col gap-2 w-full px-4">
           <Button
-            className="w-full h-12 rounded-xl"
+            className="w-full h-12 rounded-lg"
             variant={"outline"}
             onClick={handleLogin}
           >
             {t("auth.login")}
           </Button>
           <Button
-            className="w-full h-12 rounded-xl button-gradient"
+            className="w-full h-12 rounded-lg button-gradient"
             onClick={handleSignUp}
           >
             {t("auth.signUp")}
@@ -140,7 +140,7 @@ const NavbarMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{MenuTrigger}</DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-42 rounded-xl mt-2">
+      <DropdownMenuContent align="end" className="w-42 rounded-lg mt-2">
         <DropdownMenuItem asChild>
           <Link href="/help" className="w-full">
             {t("nav.help")} {/* Translated 'Help & Support' */}

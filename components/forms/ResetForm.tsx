@@ -104,7 +104,7 @@ const ResetPasswordForm = () => {
                         disabled={isLoading}
                         type="email"
                         placeholder={t("reset.email.placeholder")}
-                        className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0  text-base"
+                        className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-lg border-none ring-0  text-base"
                       />
                     </FormControl>
                     <FormMessage />
@@ -117,7 +117,7 @@ const ResetPasswordForm = () => {
             <FormError message={error} />
 
             <Button
-              className="w-full button-gradient text-base h-12 rounded-xl"
+              className="w-full button-gradient text-base h-12 rounded-lg"
               type="submit"
               disabled={isLoading}
             >

@@ -26,7 +26,7 @@ const DateButton: React.FC<DateButtonProps> = ({
 }) => (
   <Button
     variant={isSelected ? "default" : "outline"}
-    className={`flex-1 py-2 px-4 h-20 rounded-xl ${
+    className={`flex-1 py-2 px-4 h-14 rounded-lg ${
       isSelected
         ? "bg-primary-bg text-primary-foreground pointer-events-none"
         : ""
@@ -38,14 +38,14 @@ const DateButton: React.FC<DateButtonProps> = ({
   >
     <div className="flex flex-col items-center">
       <span className="text-sm sm:text-base md:text-lg font-medium sm:font-bold">
-        {format(date, "EEEE")}
+        {format(date, "E, LLL dd")}
       </span>
-      <span className="text-sm hidden sm:block sm:text-base md:text-lg font-medium sm:font-bold">
+      {/* <span className="text-sm hidden sm:block sm:text-base md:text-lg font-medium sm:font-bold">
         {format(date, "PP")}
       </span>
       <span className="text-sm sm:text-base sm:hidden md:text-lg font-medium sm:font-bold">
         {format(date, "P")}
-      </span>
+      </span> */}
     </div>
   </Button>
 );
@@ -117,7 +117,7 @@ export function DateSelectBlock() {
         <div className="flex justify-between flex-1 space-x-2 px-4 sm:px-8 md:px-0">
           {dates.map((date) =>
             isLoading ? (
-              <Skeleton className="h-20 w-full bg-white border rounded-xl py-2 px-4">
+              <Skeleton className="h-14 w-full bg-white border rounded-lg py-2 px-4">
                 <div className="flex flex-col justify-center items-center h-full gap-2">
                   <Skeleton className="h-5 w-12 sm:w-20" />
                   <Skeleton className="h-5 w-20 sm:w-32" />

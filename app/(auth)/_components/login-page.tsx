@@ -114,7 +114,7 @@ const LoginPage = () => {
                         disabled={isLoading}
                         type="email"
                         placeholder={t("login.email.placeholder")}
-                        className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 text-base"
+                        className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-lg border-none ring-0 text-base"
                       />
                     </FormControl>
                     <FormMessage />
@@ -136,7 +136,7 @@ const LoginPage = () => {
                           disabled={isLoading}
                           type={showPassword ? "text" : "password"}
                           placeholder={t("register.password.placeholder")}
-                          className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 text-base"
+                          className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-lg border-none ring-0 text-base"
                         />
                         {!showPassword ? (
                           <Eye
@@ -181,7 +181,7 @@ const LoginPage = () => {
             <FormError message={error} />
 
             <Button
-              className="w-full button-gradient text-base h-12 rounded-xl"
+              className="w-full button-gradient text-base h-12 rounded-lg"
               type="submit"
               disabled={isLoading}
             >
@@ -205,7 +205,7 @@ const LoginPage = () => {
 
           <div className="mt-6 grid grid-cols-2 gap-3">
             <Button
-              className="w-full h-12 rounded-xl"
+              className="w-full h-12 rounded-lg"
               onClick={handleGoogleLogin}
               variant="outline"
               disabled={isLoading}
@@ -222,7 +222,7 @@ const LoginPage = () => {
               </span>
             </Button>
             <Button
-              className="w-full h-12 rounded-xl"
+              className="w-full h-12 rounded-lg"
               onClick={handleFacebookLogin}
               variant="outline"
               disabled={isLoading}

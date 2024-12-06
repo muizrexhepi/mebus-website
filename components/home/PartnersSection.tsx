@@ -27,7 +27,7 @@ const PartnersSection = () => {
             <p className="text-gray-600 text-base">
               {t("partnersSection.description")}
             </p>
-            <button className="button-gradient text-white font-semibold px-8 py-3 rounded-xl transition-colors">
+            <button className="button-gradient text-white font-semibold px-8 py-3 rounded-lg transition-colors">
               {t("partnersSection.buttonText")}
             </button>
           </div>

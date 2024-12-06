@@ -139,7 +139,7 @@ const ETicketGuidePage = () => {
               If you&apos;re experiencing issues with your e-ticket or have any
               questions, our support team is ready to help.
             </p>
-            <Button className="rounded-xl button-gradient">
+            <Button className="rounded-lg button-gradient">
               Contact Support
             </Button>
           </CardContent>

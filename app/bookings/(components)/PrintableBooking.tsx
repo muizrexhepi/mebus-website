@@ -40,7 +40,7 @@ export default function ProfessionalBookingTicket({
             </h1>
           </div>
         </div>
-        <div className="bg-white p-4 rounded-xl shadow-md">
+        <div className="bg-white p-4 rounded-lg shadow-md">
           <QrCode className="w-24 h-24 text-[#1a2642]" />
         </div>
       </div>

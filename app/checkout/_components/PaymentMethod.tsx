@@ -465,7 +465,7 @@ const PaymentMethod = () => {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-xl shadow-md overflow-hidden">
+      <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="p-6">
           <div className="flex items-center gap-4">
             <span className="flex items-center justify-center w-8 h-8 bg-secondary-bg/20 text-primary-bg rounded-full font-semibold">
@@ -551,7 +551,7 @@ const PaymentMethod = () => {
                         key={method?.id}
                         onClick={() => handleSelectPaymentMethod(method)}
                         className={`
-                          cursor-pointer p-3 border border-gray-300 rounded-xl
+                          cursor-pointer p-3 border border-gray-300 rounded-lg
                           ${
                             selectedPaymentMethod?.id == method.id
                               ? "bg-blue-50 border-blue-500 hover:bg-blue-100"
@@ -613,15 +613,15 @@ const PaymentMethod = () => {
                 >
                   <div
                     id="card-number-element"
-                    className="col-span-2 p-4 bg-primary-bg/5 rounded-xl"
+                    className="col-span-2 p-4 bg-primary-bg/5 rounded-lg"
                   ></div>
                   <div
                     id="card-expiry-element"
-                    className="p-4 bg-primary-bg/5 rounded-xl"
+                    className="p-4 bg-primary-bg/5 rounded-lg"
                   ></div>
                   <div
                     id="card-cvc-element"
-                    className="p-4 bg-primary-bg/5 rounded-xl"
+                    className="p-4 bg-primary-bg/5 rounded-lg"
                   ></div>
                 </div>
               </div>
@@ -634,7 +634,7 @@ const PaymentMethod = () => {
       </div>
       <div className="flex items-center justify-end gap-2">
         <Button
-          className="rounded-xl h-12 bg-primary-bg px-6 py-3.5 gap-1"
+          className="rounded-lg h-12 bg-primary-bg px-6 py-3.5 gap-1"
           onClick={() => router.back()}
         >
           {/* <ChevronLeft size={20} /> */}
@@ -646,7 +646,7 @@ const PaymentMethod = () => {
             //   ? handleFullDepositPayment
             handlePayment
           }
-          className="px-6 py-3.5 button-gradient text-white hover:bg-primary-bg/95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-bg h-12 rounded-xl w-full sm:w-40"
+          className="px-6 py-3.5 button-gradient text-white hover:bg-primary-bg/95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-bg h-12 rounded-lg w-full sm:w-40"
           disabled={!stripe || loading}
         >
           {loading ? (

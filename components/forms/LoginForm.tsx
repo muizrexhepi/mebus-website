@@ -111,7 +111,7 @@ const LoginForm = () => {
                     disabled={isLoading}
                     type="email"
                     placeholder={t("login.email.placeholder")}
-                    className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 text-base"
+                    className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-lg border-none ring-0 text-base"
                   />
                 </FormControl>
                 <FormMessage />
@@ -145,7 +145,7 @@ const LoginForm = () => {
                       disabled={isLoading}
                       type={showPassword ? "text" : "password"}
                       placeholder={t("register.password.placeholder")}
-                      className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0 text-base"
+                      className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-lg border-none ring-0 text-base"
                     />
                     {!showPassword ? (
                       <Eye
@@ -176,7 +176,7 @@ const LoginForm = () => {
           />
           <FormError message={error} />
           <Button
-            className="w-full h-12 rounded-xl button-gradient text-base"
+            className="w-full h-12 rounded-lg button-gradient text-base"
             type="submit"
             disabled={isLoading}
           >

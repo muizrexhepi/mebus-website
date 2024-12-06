@@ -47,7 +47,7 @@ export default function ContactForm() {
                 id="first-name"
                 placeholder="John"
                 required
-                className="h-12 bg-primary-bg/5 rounded-xl border-none"
+                className="h-12 bg-primary-bg/5 rounded-lg border-none"
               />
             </div>
             <div className="space-y-1">
@@ -56,7 +56,7 @@ export default function ContactForm() {
                 id="last-name"
                 placeholder="Doe"
                 required
-                className="h-12 bg-primary-bg/5 rounded-xl border-none"
+                className="h-12 bg-primary-bg/5 rounded-lg border-none"
               />
             </div>
           </div>
@@ -67,13 +67,13 @@ export default function ContactForm() {
               placeholder="john.doe@example.com"
               type="email"
               required
-              className="h-12 bg-primary-bg/5 rounded-xl border-none"
+              className="h-12 bg-primary-bg/5 rounded-lg border-none"
             />
           </div>
           <div className="space-y-1">
             <Label htmlFor="subject">Subject</Label>
             <Select required>
-              <SelectTrigger className="h-12 bg-primary-bg/5 rounded-xl border-none">
+              <SelectTrigger className="h-12 bg-primary-bg/5 rounded-lg border-none">
                 <SelectValue placeholder="Select a subject" />
               </SelectTrigger>
               <SelectContent>
@@ -88,7 +88,7 @@ export default function ContactForm() {
           <div className="space-y-1">
             <Label htmlFor="message">Message</Label>
             <Textarea
-              className="resize-none bg-primary-bg/5 rounded-xl border-none"
+              className="resize-none bg-primary-bg/5 rounded-lg border-none"
               id="message"
               placeholder="Type your message here"
               required
@@ -96,7 +96,7 @@ export default function ContactForm() {
           </div>
           <Button
             type="submit"
-            className="w-full h-12 rounded-xl button-gradient text-white"
+            className="w-full h-12 rounded-lg button-gradient text-white"
           >
             Send Message
           </Button>

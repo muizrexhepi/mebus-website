@@ -95,7 +95,7 @@ const PartnerApplicationForm: React.FC = () => {
                 <FormLabel>Company Name</FormLabel>
                 <FormControl>
                   <Input
-                    className="h-12 bg-primary-bg/5 rounded-xl border-none"
+                    className="h-12 bg-primary-bg/5 rounded-lg border-none"
                     {...field}
                     disabled={isLoading}
                     placeholder="Enter your company name"
@@ -113,7 +113,7 @@ const PartnerApplicationForm: React.FC = () => {
                 <FormLabel>Contact Name</FormLabel>
                 <FormControl>
                   <Input
-                    className="h-12 bg-primary-bg/5 rounded-xl border-none"
+                    className="h-12 bg-primary-bg/5 rounded-lg border-none"
                     {...field}
                     disabled={isLoading}
                     placeholder="Enter your full name"
@@ -133,7 +133,7 @@ const PartnerApplicationForm: React.FC = () => {
                 <FormLabel>Company Tax Number</FormLabel>
                 <FormControl>
                   <Input
-                    className="h-12 bg-primary-bg/5 rounded-xl border-none"
+                    className="h-12 bg-primary-bg/5 rounded-lg border-none"
                     {...field}
                     disabled={isLoading}
                     placeholder="Enter your company tax number"
@@ -153,7 +153,7 @@ const PartnerApplicationForm: React.FC = () => {
                 <FormLabel>Country</FormLabel>
                 <FormControl>
                   <Input
-                    className="h-12 bg-primary-bg/5 rounded-xl border-none"
+                    className="h-12 bg-primary-bg/5 rounded-lg border-none"
                     {...field}
                     disabled={isLoading}
                     placeholder="Enter your country"
@@ -173,7 +173,7 @@ const PartnerApplicationForm: React.FC = () => {
                 <FormLabel>Registration Number</FormLabel>
                 <FormControl>
                   <Input
-                    className="h-12 bg-primary-bg/5 rounded-xl border-none"
+                    className="h-12 bg-primary-bg/5 rounded-lg border-none"
                     {...field}
                     disabled={isLoading}
                     placeholder="Enter your company registration number"
@@ -192,7 +192,7 @@ const PartnerApplicationForm: React.FC = () => {
                 <FormLabel>Email Address</FormLabel>
                 <FormControl>
                   <Input
-                    className="h-12 bg-primary-bg/5 rounded-xl border-none"
+                    className="h-12 bg-primary-bg/5 rounded-lg border-none"
                     {...field}
                     disabled={isLoading}
                     type="email"
@@ -211,7 +211,7 @@ const PartnerApplicationForm: React.FC = () => {
                 <FormLabel>Phone Number</FormLabel>
                 <FormControl>
                   <Input
-                    className="h-12 bg-primary-bg/5 rounded-xl border-none"
+                    className="h-12 bg-primary-bg/5 rounded-lg border-none"
                     {...field}
                     disabled={isLoading}
                     type="tel"
@@ -233,7 +233,7 @@ const PartnerApplicationForm: React.FC = () => {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    className="h-12 bg-primary-bg/5 rounded-xl border-none"
+                    className="h-12 bg-primary-bg/5 rounded-lg border-none"
                     {...field}
                     disabled={isLoading}
                     type="url"
@@ -252,7 +252,7 @@ const PartnerApplicationForm: React.FC = () => {
                 <FormLabel>Fleet Size</FormLabel>
                 <FormControl>
                   <Input
-                    className="h-12 bg-primary-bg/5 rounded-xl border-none"
+                    className="h-12 bg-primary-bg/5 rounded-lg border-none"
                     {...field}
                     disabled={isLoading}
                     type="number"
@@ -272,7 +272,7 @@ const PartnerApplicationForm: React.FC = () => {
                 <FormLabel>Years of Experience</FormLabel>
                 <FormControl>
                   <Input
-                    className="h-12 bg-primary-bg/5 rounded-xl border-none"
+                    className="h-12 bg-primary-bg/5 rounded-lg border-none"
                     {...field}
                     disabled={isLoading}
                     type="number"
@@ -292,7 +292,7 @@ const PartnerApplicationForm: React.FC = () => {
                 <FormLabel>Current Routes</FormLabel>
                 <FormControl>
                   <Textarea
-                    className="resize-none bg-primary-bg/5 rounded-xl border-none"
+                    className="resize-none bg-primary-bg/5 rounded-lg border-none"
                     {...field}
                     disabled={isLoading}
                     placeholder="Describe your current bus routes"
@@ -310,7 +310,7 @@ const PartnerApplicationForm: React.FC = () => {
                 <FormLabel>Additional Information</FormLabel>
                 <FormControl>
                   <Textarea
-                    className="resize-none bg-primary-bg/5 rounded-xl border-none"
+                    className="resize-none bg-primary-bg/5 rounded-lg border-none"
                     {...field}
                     disabled={isLoading}
                     placeholder="Any additional details you'd like to share"

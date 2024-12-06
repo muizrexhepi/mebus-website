@@ -47,7 +47,7 @@ export default function TravelFlex() {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="p-6">
         <div className="flex items-center gap-4 mb-4">
           <span className="flex items-center justify-center w-8 h-8 bg-emerald-100 text-emerald-800 rounded-full font-semibold">
@@ -68,7 +68,7 @@ export default function TravelFlex() {
             <div
               key={flex.value}
               className={cn(
-                "rounded-xl border p-4 cursor-pointer transition-colors",
+                "rounded-lg border p-4 cursor-pointer transition-colors",
                 selectedFlex === flex.value
                   ? "border-emerald-700 bg-emerald-50"
                   : "border-gray-300 hover:border-emerald-300 hover:bg-emerald-50/50"

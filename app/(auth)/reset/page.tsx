@@ -101,7 +101,7 @@ const ResetPassword = () => {
                           disabled={isLoading}
                           type="password"
                           placeholder={t("security.newPw")}
-                          className="w-full h-12 px-4 pl-12 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0  text-base"
+                          className="w-full h-12 px-4 pl-12 hover:bg-accent bg-primary-bg/5 rounded-lg border-none ring-0  text-base"
                         />
                         <KeyRound className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                       </div>
@@ -125,7 +125,7 @@ const ResetPassword = () => {
                           disabled={isLoading}
                           type="password"
                           placeholder={t("security.confirmNewPw")}
-                          className="w-full h-12 px-4 pl-12 hover:bg-accent bg-primary-bg/5 rounded-xl border-none ring-0  text-base"
+                          className="w-full h-12 px-4 pl-12 hover:bg-accent bg-primary-bg/5 rounded-lg border-none ring-0  text-base"
                         />
                         <CheckCircle className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                       </div>
@@ -140,7 +140,7 @@ const ResetPassword = () => {
             <FormError message={error} />
 
             <Button
-              className="w-full button-gradient text-base h-12 rounded-xl"
+              className="w-full button-gradient text-base h-12 rounded-lg"
               type="submit"
               disabled={isLoading}
             >

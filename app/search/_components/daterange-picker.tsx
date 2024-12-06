@@ -127,7 +127,7 @@ export function DateRangePicker({
       <div className={cn("grid gap-2 w-full", className)}>
         <Button
           variant="outline"
-          className="w-full h-14 flex items-center justify-start bg-primary-bg/5 rounded-xl border-none ring-0"
+          className="w-full h-14 flex items-center justify-start bg-primary-bg/5 rounded-lg border-none ring-0"
           onClick={() => setIsDialogOpen(true)}
         >
           <CalendarIcon className="mr-2 h-6 w-6 shrink-0" />
@@ -149,7 +149,7 @@ export function DateRangePicker({
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="w-full h-14 flex items-center justify-start !truncate bg-primary-bg/5 rounded-xl border-none ring-0"
+            className="w-full h-14 flex items-center justify-start !truncate bg-primary-bg/5 rounded-lg border-none ring-0"
           >
             <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
             <span className="truncate">{buttonText}</span>

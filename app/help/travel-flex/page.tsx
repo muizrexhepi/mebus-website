@@ -249,7 +249,7 @@ const TravelFlexOptionsPage = () => {
               help with modifying your booking, our support team is ready to
               assist you.
             </p>
-            <Button asChild className="rounded-xl button-gradient">
+            <Button asChild className="rounded-lg button-gradient">
               <Link href={"/help/contact-support"}>Contact Support</Link>
             </Button>
           </CardContent>

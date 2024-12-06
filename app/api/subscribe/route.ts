@@ -24,20 +24,21 @@ export async function POST(request: NextRequest) {
 
     const existingSubscribers = await databases.listDocuments(
       process.env.APPWRITE_DATABASE_ID!,
-      process.env.APPWRITE_COLLECTION_ID!,
+      process.env.APPWRITE_NEWSLETTER_SUBSCRIBERS_COLLECTION_ID!,
       [Query.equal('email', email)]
     );
 
     if (existingSubscribers.total > 0) {
       return NextResponse.json({ message: 'Email already subscribed' }, { status: 400 });
     }
+
     const subscriber = await databases.createDocument(
       process.env.APPWRITE_DATABASE_ID!,
-      process.env.APPWRITE_COLLECTION_ID!,
+      process.env.APPWRITE_NEWSLETTER_SUBSCRIBERS_COLLECTION_ID!,
       ID.unique(),
       { email }
     );
-
+    console.log({subscriber})
 
     await resend.emails.send({
       from: `${COMPANY_NAME} <newsletter@gobusly.com>`,

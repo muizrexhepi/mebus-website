@@ -19,7 +19,7 @@ const FeaturesSection = () => {
                 alt="Info Image 1"
                 width={500}
                 height={500}
-                className="w-full h-full object-contain rounded-xl z-10"
+                className="w-full h-full object-contain rounded-lg z-10"
                 src={"/assets/icons/infoimg1.svg"}
               /> */}
               {/* Illustration */}
@@ -30,7 +30,7 @@ const FeaturesSection = () => {
                     <div className="w-16 h-8 bg-red-500 rounded-lg" />
                   </div>
                 </div>
-                <div className="absolute bottom-4 right-4 w-32 h-16 bg-primary-bg rounded-xl transform rotate-3 group-hover:rotate-0 transition-transform" />
+                <div className="absolute bottom-4 right-4 w-32 h-16 bg-primary-bg rounded-lg transform rotate-3 group-hover:rotate-0 transition-transform" />
               </div>
             </div>
 
@@ -60,7 +60,7 @@ const FeaturesSection = () => {
                 alt="Info Image 1"
                 width={500}
                 height={500}
-                className="w-full h-full object-cover rounded-xl z-10"
+                className="w-full h-full object-cover rounded-lg z-10"
                 src={"/assets/icons/infoimg2.svg"}
               /> */}
               <div className="relative aspect-square p-8">
@@ -93,7 +93,7 @@ const FeaturesSection = () => {
                 alt="Info Image 1"
                 width={500}
                 height={500}
-                className="w-full h-full object-contain rounded-xl z-10"
+                className="w-full h-full object-contain rounded-lg z-10"
                 src={"/assets/icons/infoimg3.svg"}
               /> */}
               {/* Illustration */}

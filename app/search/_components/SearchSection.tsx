@@ -146,7 +146,7 @@ const SearchSection = () => {
 
   return (
     <>
-      <div className="bg-white rounded-xl py-4 md:py-6 flex flex-col gap-4 w-full min-h-fit">
+      <div className="bg-white rounded-lg py-4 md:py-6 flex flex-col gap-4 w-full min-h-fit">
         <div className="max-w-7xl paddingX mx-auto w-full">
           <div className="space-y-4 flex-1">
             <div className="w-full flex flex-col gap-2 md:flex-row justify-start md:justify-between items-start md:items-center">
