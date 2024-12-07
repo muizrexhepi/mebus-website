@@ -19,19 +19,86 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function ContactForm() {
-  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    success?: boolean;
+    message?: string;
+  }>({});
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubjectChange = (value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      subject: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setFormSubmitted(true);
-    setTimeout(() => setFormSubmitted(false), 5000);
+    setIsSubmitting(true);
+    setSubmitStatus({});
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus({
+          success: true,
+          message:
+            "Your message has been sent successfully. We will get back to you soon.",
+        });
+        // Reset form after successful submission
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+      } else {
+        throw new Error(result.error || "Something went wrong");
+      }
+    } catch (error) {
+      setSubmitStatus({
+        success: false,
+        message:
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <Card className=" h-fit">
+    <Card className="h-fit">
       <CardHeader>
         <CardTitle className="text-2xl">Send Us a Message</CardTitle>
         <CardDescription>
@@ -45,7 +112,10 @@ export default function ContactForm() {
               <Label htmlFor="first-name">First name</Label>
               <Input
                 id="first-name"
+                name="name"
                 placeholder="John"
+                value={formData.name}
+                onChange={handleChange}
                 required
                 className="h-12 bg-primary-bg/5 rounded-lg border-none"
               />
@@ -54,6 +124,7 @@ export default function ContactForm() {
               <Label htmlFor="last-name">Last name</Label>
               <Input
                 id="last-name"
+                name="lastName"
                 placeholder="Doe"
                 required
                 className="h-12 bg-primary-bg/5 rounded-lg border-none"
@@ -64,15 +135,23 @@ export default function ContactForm() {
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
+              name="email"
               placeholder="john.doe@example.com"
               type="email"
+              value={formData.email}
+              onChange={handleChange}
               required
               className="h-12 bg-primary-bg/5 rounded-lg border-none"
             />
           </div>
           <div className="space-y-1">
             <Label htmlFor="subject">Subject</Label>
-            <Select required>
+            <Select
+              name="subject"
+              value={formData.subject}
+              onValueChange={handleSubjectChange}
+              required
+            >
               <SelectTrigger className="h-12 bg-primary-bg/5 rounded-lg border-none">
                 <SelectValue placeholder="Select a subject" />
               </SelectTrigger>
@@ -90,24 +169,31 @@ export default function ContactForm() {
             <Textarea
               className="resize-none bg-primary-bg/5 rounded-lg border-none"
               id="message"
+              name="message"
               placeholder="Type your message here"
+              value={formData.message}
+              onChange={handleChange}
               required
             />
           </div>
           <Button
             type="submit"
+            disabled={isSubmitting}
             className="w-full h-12 rounded-lg button-gradient text-white"
           >
-            Send Message
+            {isSubmitting ? "Sending..." : "Send Message"}
           </Button>
         </form>
-        {formSubmitted && (
-          <Alert className="mt-4 bg-green-100 border-green-500">
-            <AlertTitle>Success!</AlertTitle>
-            <AlertDescription>
-              Your message has been sent. We&apos;ll get back to you soon.
-            </AlertDescription>
-          </Alert>
+        {submitStatus.message && (
+          <div
+            className={`mt-4 p-4 rounded-md ${
+              submitStatus.success
+                ? "bg-green-50 text-green-800"
+                : "bg-red-50 text-red-800"
+            }`}
+          >
+            {submitStatus.message}
+          </div>
         )}
       </CardContent>
     </Card>

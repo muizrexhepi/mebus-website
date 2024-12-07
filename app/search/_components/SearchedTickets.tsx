@@ -118,8 +118,8 @@ const TicketList: React.FC = () => {
   };
 
   const handleTicketSelection = (ticket: Ticket) => {
+    setIsLoading(true);
     if (isSelectingReturn) {
-      setIsLoading(true);
       setReturnTicket(ticket);
       router.push("/checkout");
     } else {
@@ -134,16 +134,6 @@ const TicketList: React.FC = () => {
       }
     }
   };
-
-  // if (isLoading) {
-  //   return (
-  //     <div className="space-y-3">
-  //       {Array.from({ length: 5 }).map((_, index) => (
-  //         <TicketSkeletonton key={index} />
-  //       ))}
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="flex flex-col gap-8">

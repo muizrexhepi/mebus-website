@@ -13,14 +13,14 @@ export async function POST(request: NextRequest) {
     const { email, companyName, contactName } = body;
 
     const data = await resend.emails.send({
-      from: 'GoBusly <noreply@portal.insylink.com>', 
+      from: 'GoBusly <noreply@gobusly.com>', 
       to: email,
       subject: 'Application Received',
       react: EmailTemplate({ companyName, contactName }),
     });
 
     const teamNotification = await resend.emails.send({
-      from: 'Partner Applications <applications@portal.insylink.com>', 
+      from: 'Partner Applications <applications@gobusly.com>', 
       to: '007lazi@gmail.com', 
       subject: 'New Partner Application',
       react: EmailTemplate({ companyName, contactName }),

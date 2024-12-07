@@ -72,9 +72,11 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
           <div className="mt-4 max-h-[calc(100vh-200px)] overflow-y-auto">
             {showRecent && recentStations.length > 0 && (
               <>
-                <h3 className="font-semibold mb-2 bg-muted p-2 px-4">
-                  Recent Searches
-                </h3>
+                <div className="bg-muted px-4 py-2 border-b border-border mb-2">
+                  <h3 className="font-medium text-sm text-foreground/70">
+                    Recent Searches
+                  </h3>
+                </div>
                 {recentStations.map((station: Station) => (
                   <Button
                     key={station._id}
@@ -94,7 +96,13 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
                 <div className="mt-2 mb-4 border-t border-gray-200" />
               </>
             )}
-
+            {searchTerm !== "" && (
+              <div className="bg-muted px-4 py-2 border-b border-border mb-2">
+                <h3 className="font-medium text-sm text-foreground/70">
+                  Search results
+                </h3>
+              </div>
+            )}
             {filteredStations.map((station: Station) => (
               <Button
                 key={station._id}

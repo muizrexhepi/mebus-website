@@ -81,7 +81,6 @@ const StationSelect: React.FC<CustomSelectProps> = ({
         value!
       );
 
-      // Update the path
       const pathParts = pathname.split("/");
       if (departure === "from") {
         pathParts[2] = `${label.toLowerCase()}-${pathParts[2].split("-")[1]}`;
@@ -163,8 +162,6 @@ const StationSelect: React.FC<CustomSelectProps> = ({
     );
   }
 
-  const closeRef = useRef<SVGSVGElement | null>(null);
-
   return (
     <div className="relative">
       <div className="relative">
@@ -178,46 +175,27 @@ const StationSelect: React.FC<CustomSelectProps> = ({
           placeholder="Search for a city"
           value={searchTerm}
           onFocus={handleFocus}
-          onBlur={(e) => {
-            if (
-              !closeRef.current ||
-              !closeRef.current.contains(e.relatedTarget)
-            ) {
-              handleBlur();
-            }
-          }}
+          onBlur={handleBlur}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full h-14 pl-10 hover:bg-accent bg-primary-bg/5 rounded-lg border-none ring-0 capitalize text-base"
         />
-        {searchTerm && openOptions && (
-          <X
-            id="close"
-            ref={closeRef}
-            className="h-4 w-4 text-gray-500 absolute right-2 top-5 cursor-pointer"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setSearchTerm("");
-            }}
-          />
-        )}
       </div>
 
       {openOptions && (
-        <div className="absolute top-14 w-[200%] bg-background shadow-lg z-20 left-0 mt-2 rounded-lg border border-border animate-in fade-in-0 zoom-in-95">
+        <div className="absolute top-14 w-[130%] bg-background shadow-lg z-20 left-0 mt-2 rounded-lg border border-border animate-in fade-in-0 zoom-in-95">
           <div className="max-h-80 overflow-y-auto overscroll-contain">
             {recentStations.length > 0 && searchTerm == "" && (
               <>
-                <div className="sticky top-0 bg-muted px-4 py-2 border-b border-border">
+                <div className="bg-muted px-4 py-2 border-b border-border">
                   <h3 className="font-medium text-sm text-foreground/70">
-                    Recent Searches
+                    Recent searches
                   </h3>
                 </div>
                 {recentStations.map((station: Station) => (
                   <Button
                     key={station._id}
                     variant="ghost"
-                    className="w-full justify-start text-left h-16 px-4 hover:bg-accent hover:text-accent-foreground"
+                    className="w-full justify-start text-left h-16 px-4 hover:bg-accent hover:text-accent-foreground rounded-none"
                     onClick={() => handleSelect(station)}
                     type="button"
                   >
@@ -235,25 +213,34 @@ const StationSelect: React.FC<CustomSelectProps> = ({
                 <div className="border-t border-border" />
               </>
             )}
-            {filteredStations.map((station: Station) => (
-              <Button
-                key={station._id}
-                variant="ghost"
-                className="w-full justify-start text-left h-16 px-4 hover:bg-accent hover:text-accent-foreground"
-                onClick={() => handleSelect(station)}
-                type="button"
-              >
-                <MapPin className="w-5 h-5 text-primary mr-3 shrink-0" />
-                <div className="flex flex-col items-start gap-0.5">
-                  <span className="capitalize font-medium text-sm">
-                    {station.city}
-                  </span>
-                  <span className="text-muted-foreground text-xs">
-                    {station.name}
-                  </span>
+            <>
+              {searchTerm !== "" && (
+                <div className="bg-muted px-4 py-2 border-b border-border">
+                  <h3 className="font-medium text-sm text-foreground/70">
+                    Search results
+                  </h3>
                 </div>
-              </Button>
-            ))}
+              )}
+              {filteredStations.map((station: Station) => (
+                <Button
+                  key={station._id}
+                  variant="ghost"
+                  className="w-full justify-start text-left h-16 px-4 hover:bg-accent hover:text-accent-foreground rounded-none"
+                  onClick={() => handleSelect(station)}
+                  type="button"
+                >
+                  <MapPin className="w-5 h-5 text-primary mr-3 shrink-0" />
+                  <div className="flex flex-col items-start gap-0.5">
+                    <span className="capitalize font-medium text-sm">
+                      {station.city}
+                    </span>
+                    <span className="text-muted-foreground text-xs">
+                      {station.name}
+                    </span>
+                  </div>
+                </Button>
+              ))}
+            </>
           </div>
         </div>
       )}

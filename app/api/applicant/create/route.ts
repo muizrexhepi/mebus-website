@@ -8,10 +8,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { email, companyName, contactName } = body;
 
-    // Your existing logic to save the application data
-    // ...
 
-    // Send email to the applicant
     await resend.emails.send({
       from: 'GoBusly <noreply@yourcompany.com>',
       to: email,
@@ -23,10 +20,9 @@ export async function POST(request: NextRequest) {
       `
     });
 
-    // Send email notification to your team
     await resend.emails.send({
       from: 'Partner Applications <noreply@yourcompany.com>',
-      to: ['007lazi@gmail.com','etnikz2002@gmail.com'],
+      to: ['gobuslyinternal@gmail.com'],
       subject: 'New Partner Application',
       html: `
         <h1>New Partner Application Received</h1>

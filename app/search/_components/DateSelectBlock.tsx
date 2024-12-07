@@ -1,11 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { format, addDays, subDays, parse, isValid } from "date-fns";
+import { format, addDays, subDays, parse, isValid, Locale } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import useSearchStore, { useCheckoutStore, useLoadingStore } from "@/store";
 import { Skeleton } from "@/components/ui/skeleton";
+import { enUS } from "date-fns/locale";
+import { LOCALE_MAP } from "@/lib/data";
+import { useTranslation } from "react-i18next";
 
 interface DateButtonProps {
   date: Date;
@@ -13,6 +16,7 @@ interface DateButtonProps {
   onClick: () => void;
   departureDate: Date;
   outboundTicket: any;
+  currentLocale: Locale;
   tripType: string;
 }
 
@@ -22,6 +26,7 @@ const DateButton: React.FC<DateButtonProps> = ({
   onClick,
   departureDate,
   outboundTicket,
+  currentLocale,
   tripType,
 }) => (
   <Button
@@ -38,7 +43,7 @@ const DateButton: React.FC<DateButtonProps> = ({
   >
     <div className="flex flex-col items-center">
       <span className="text-sm sm:text-base md:text-lg font-medium sm:font-bold">
-        {format(date, "E, LLL dd")}
+        {format(date, "E, LLL dd", { locale: currentLocale })}
       </span>
       {/* <span className="text-sm hidden sm:block sm:text-base md:text-lg font-medium sm:font-bold">
         {format(date, "PP")}
@@ -61,6 +66,7 @@ export function DateSelectBlock() {
     tripType,
   } = useSearchStore();
   const { outboundTicket } = useCheckoutStore();
+  const { i18n } = useTranslation();
   const { isLoading } = useLoadingStore();
   const parsedDepartureDate = departureDate
     ? parse(departureDate, "dd-MM-yyyy", new Date())
@@ -79,6 +85,9 @@ export function DateSelectBlock() {
     selectedDate,
     addDays(selectedDate, 1),
   ];
+
+  const currentLocale =
+    LOCALE_MAP[i18n.language as keyof typeof LOCALE_MAP] || enUS;
 
   useEffect(() => {
     if (departureDate) {
@@ -119,7 +128,6 @@ export function DateSelectBlock() {
             isLoading ? (
               <Skeleton className="h-14 w-full bg-white border rounded-lg py-2 px-4">
                 <div className="flex flex-col justify-center items-center h-full gap-2">
-                  <Skeleton className="h-5 w-12 sm:w-20" />
                   <Skeleton className="h-5 w-20 sm:w-32" />
                 </div>
               </Skeleton>
@@ -129,6 +137,7 @@ export function DateSelectBlock() {
                 outboundTicket={outboundTicket}
                 tripType={tripType || "one-way"}
                 date={date}
+                currentLocale={currentLocale}
                 isSelected={date.toDateString() === selectedDate.toDateString()}
                 onClick={() => handleDateSelect(date)}
                 departureDate={parsedDepartureDate}

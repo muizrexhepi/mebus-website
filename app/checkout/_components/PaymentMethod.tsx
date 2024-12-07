@@ -117,7 +117,7 @@ const PaymentMethod = () => {
         }/payment/create-payment-intent?customer_id=${
           user?.prefs?.stripe_customer_id || ""
         }&payment_method_id=${
-          selectedPaymentMethod.id || ""
+          selectedPaymentMethod?.id || ""
         }&use_saved_card=${!!selectedPaymentMethod}`,
         { passengers, amount_in_cents: totalPrice * 100 }
       );
@@ -152,7 +152,10 @@ const PaymentMethod = () => {
       }
     } catch (err: any) {
       console.log({ err });
-      toast({ description: err.response.data.message, variant: "destructive" });
+      toast({
+        description: err?.response?.data?.message,
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }

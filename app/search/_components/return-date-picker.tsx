@@ -29,6 +29,7 @@ interface ReturnDatePickerProps {
 export default function ReturnDatePicker({
   updateUrl = false,
 }: ReturnDatePickerProps) {
+  const { t, i18n } = useTranslation();
   const { returnDate, setReturnDate, setTripType, departureDate } =
     useSearchStore();
   const isMobile = useIsMobile();
@@ -37,7 +38,8 @@ export default function ReturnDatePicker({
     Date | undefined
   >(undefined);
 
-  const { t, i18n } = useTranslation();
+  const currentLocale =
+    LOCALE_MAP[i18n.language as keyof typeof LOCALE_MAP] || enUS;
 
   React.useEffect(() => {
     if (returnDate) {
@@ -84,9 +86,6 @@ export default function ReturnDatePicker({
     ? addDays(parse(departureDate, "dd-MM-yyyy", new Date()), 0)
     : undefined;
 
-  const currentLocale =
-    LOCALE_MAP[i18n.language as keyof typeof LOCALE_MAP] || enUS;
-
   const buttonText = selectedReturnDate
     ? format(selectedReturnDate, "E, LLL dd", { locale: currentLocale })
     : t("searchForm.addReturn", "+ Add return");
@@ -115,7 +114,7 @@ export default function ReturnDatePicker({
           </div>
           {selectedReturnDate && (
             <X
-              className="h-4 w-4 text-gray-500"
+              className="h-4 w-4 text-primary-bg"
               onClick={(e) => {
                 e.stopPropagation();
                 handleRemoveReturnDate();
@@ -185,15 +184,15 @@ export default function ReturnDatePicker({
               {buttonText}
             </span>
           </div>
-          {/* {selectedReturnDate && (
+          {selectedReturnDate && (
             <X
-              className="h-5 w-5 text-gray-500"
+              className="h-5 w-5 text-primary-bg"
               onClick={(e) => {
                 e.stopPropagation();
                 handleRemoveReturnDate();
               }}
             />
-          )} */}
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">

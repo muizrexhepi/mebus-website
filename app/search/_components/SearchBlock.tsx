@@ -104,7 +104,7 @@ const SearchBlock = () => {
   }, [tripType]);
 
   return (
-    <div className="bg-white rounded-lg p-5 sm:p-7 flex flex-col gap-4 w-full min-h-fit shadow-md">
+    <div className="bg-white rounded-lg p-5 flex flex-col gap-4 w-full min-h-fit shadow-md">
       <div className="space-y-4 flex-1">
         <div className="w-full flex flex-col gap-2 md:flex-row justify-start md:justify-between items-start md:items-center">
           <div className="flex items-center gap-4">

@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import InputSkeleton from "@/components/input-skeleton";
 import PassengerSelect from "@/app/search/_components/passenger-select";
@@ -63,8 +63,10 @@ export const SearchForm: React.FC<SearchFormProps> = ({
           <InputSkeleton />
         ) : (
           <div className="flex items-center gap-2 sm:gap-1">
-            <DatePicker />
-            {tripType == "round-trip" ? <ReturnDatePicker /> : null}
+            <DatePicker updateUrl={updateUrl} />
+            {tripType == "round-trip" ? (
+              <ReturnDatePicker updateUrl={updateUrl} />
+            ) : null}
           </div>
         )}
       </div>
@@ -89,11 +91,11 @@ export const SearchForm: React.FC<SearchFormProps> = ({
         disabled={isSubmitting}
         onClick={onSearch}
       >
-        {isSubmitting
-          ? t("searchForm.searchButton.submitting")
-          : t("searchForm.searchButton.default")}{" "}
-        {/* Translated button text */}
-        {!isSubmitting && <ArrowRight className="h-4 w-4" />}
+        {isSubmitting ? (
+          <Loader className="size-6 animate-spin mx-auto text-gray-600" />
+        ) : (
+          t("searchForm.searchButton.default")
+        )}{" "}
       </Button>
     </div>
   );

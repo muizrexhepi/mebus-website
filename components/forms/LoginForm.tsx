@@ -52,35 +52,32 @@ const LoginForm = () => {
         return;
       }
 
-      try {
-        const session = await account.createEmailPasswordSession(
-          result.credentials.email,
-          result.credentials.password
-        );
-        console.log({ session });
-        if (session) {
-          setOpenLogin(false);
-          setError("");
-          window.dispatchEvent(new Event("userChange"));
-        }
-      } catch (appwriteError: any) {
-        if (appwriteError.type === "user_more_factors_required") {
-          const factors = await account.listMfaFactors();
-          setMFAFactors(factors);
-          if (factors) {
-            setCurrentForm("mfaOptions");
-          } else {
-            setError(t("login.errors.noMfaMethodAvailable"));
-          }
-        } else {
-          console.error("Appwrite session creation failed:", appwriteError);
-          setError(appwriteError.message || t("login.errors.generic"));
-        }
+      await account.createEmailPasswordSession(
+        result.credentials.email,
+        result.credentials.password
+      );
+
+      const user = await account.get();
+      if (user) {
+        setOpenLogin(false);
+        setError("");
+        window.dispatchEvent(new Event("userChange"));
       }
     } catch (error: any) {
-      console.error("Login error:", error);
-      setError(error.message || t("login.errors.generic"));
+      if (error.type === "user_more_factors_required") {
+        const factors = await account.listMfaFactors();
+        setMFAFactors(factors);
+        if (factors) {
+          setCurrentForm("mfaOptions");
+        } else {
+          setError(t("login.errors.noMfaMethodAvailable"));
+        }
+      } else {
+        console.error("Login error:", error);
+        setError(error.message || t("login.errors.generic"));
+      }
     } finally {
+      setError("");
       setIsLoading(false);
     }
   };

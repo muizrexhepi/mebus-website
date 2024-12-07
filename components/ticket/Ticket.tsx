@@ -6,9 +6,9 @@ import { Symbols } from "@/symbols";
 import { Ticket as TicketType } from "@/models/ticket";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import useSearchStore, { useCheckoutStore } from "@/store";
+import useSearchStore, { useCheckoutStore, useLoadingStore } from "@/store";
 import { useRouter } from "next/navigation";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useCurrency } from "../providers/currency-provider";
 
@@ -30,24 +30,29 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
   const router = useRouter();
   const { t } = useTranslation();
   const { currency, convertFromEUR } = useCurrency();
+  const { setIsLoading, isLoading } = useLoadingStore();
 
   const handleTicketSelection = (e: React.MouseEvent) => {
     e.preventDefault();
 
     if (isSelectingReturn) {
       if (ticket._id !== returnTicket?._id) {
+        setIsLoading(true);
         setReturnTicket(ticket);
       }
       router.push(`/checkout`);
+      setIsLoading(false);
     } else {
       if (ticket._id !== outboundTicket?._id) {
         setOutboundTicket(ticket);
+        setIsLoading(true);
       }
-
+      setIsLoading(true);
       if (tripType === "round-trip") {
         setIsSelectingReturn(true);
       } else {
         router.push(`/checkout`);
+        setIsLoading(false);
       }
     }
   };
@@ -129,11 +134,15 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
               className="w-fit text-sm bg-primary-bg hover:bg-primary-bg/95"
               onClick={handleTicketSelection}
             >
-              {isReturn && outboundTicket
-                ? t("ticket.selectReturn")
-                : tripType !== "round-trip"
-                ? t("ticket.continue")
-                : t("ticket.selectOutbound")}
+              {isLoading ? (
+                <Loader2 className="size-5 animate-spin text-gray-600 mx-auto" />
+              ) : isReturn && outboundTicket ? (
+                t("ticket.selectReturn")
+              ) : tripType !== "round-trip" ? (
+                t("ticket.continue")
+              ) : (
+                t("ticket.selectOutbound")
+              )}
             </Button>
           </div>
         </div>

@@ -109,10 +109,6 @@ const PassengerSelectDialog: React.FC<PassengerSelectDialogProps> = ({
                 the selected ticket type. Some bus operators have restrictions
                 on minors traveling alone.
               </p>
-              <p className="text-sm text-gray-500">
-                Age limits and policies for traveling with children may vary, so
-                please check with the bus operator before booking.
-              </p>
             </div>
           </div>
         </ScrollArea>
