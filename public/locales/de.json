@@ -278,7 +278,6 @@
     "securePayment": "Sichere Zahlung",
     "helpFAQ": "Hilfe & FAQ"
   },
-
   "searchBlock": {
     "tripType": {
       "oneWay": "Einfache Fahrt",
@@ -549,6 +548,62 @@
         "button": {
           "label": "Support kontaktieren",
           "link": "/help/contact-support"
+        }
+      }
+    }
+  },
+  "needHelpCard": {
+    "title": "Brauchen Sie Hilfe?",
+    "desc": "Wenn Sie Fragen zum Bewerbungsprozess oder zum Partnerschaftsprogramm haben, zögern Sie bitte nicht, uns zu kontaktieren.",
+    "btnText": "Support kontaktieren"
+  },
+  "partnerApplicationForm": {
+    "labels": {
+      "title": "Partnerbewerbungsformular",
+      "companyName": "Firmenname",
+      "companyTaxNr": "Steuernummer der Firma",
+      "registrationNr": "Registrierungsnummer",
+      "phoneNumber": "Telefonnummer",
+      "fleetSize": "Flottengröße",
+      "currentRoutes": "Aktuelle Routen",
+      "contactName": "Kontaktname",
+      "country": "Land",
+      "email": "E-Mail-Adresse",
+      "website": "Unternehmenswebsite (optional)",
+      "yoe": "Jahre der Erfahrung",
+      "additionalInfo": "Zusätzliche Informationen"
+    },
+    "placeholders": {
+      "companyName": "Geben Sie den Firmennamen ein",
+      "companyTaxNr": "Geben Sie die Steuernummer ein",
+      "registrationNr": "Geben Sie die Registrierungsnummer ein",
+      "phoneNumber": "Geben Sie Ihre Telefonnummer ein",
+      "fleetSize": "Geben Sie die Anzahl der Busse in Ihrer Flotte ein",
+      "currentRoutes": "Beschreiben Sie Ihre aktuellen Routen",
+      "contactName": "Geben Sie Ihren vollständigen Namen ein",
+      "country": "Geben Sie Ihr Land ein",
+      "email": "Geben Sie Ihre E-Mail-Adresse ein",
+      "website": "www.beispiel.com",
+      "yoe": "Geben Sie die Betriebsjahre ein",
+      "additionalInfo": "Alle zusätzlichen Details, die Sie teilen möchten"
+    },
+    "buttons": {
+      "submit": "Bewerbung absenden"
+    },
+    "whyPartnerWithUs": {
+      "title": "Warum mit GoBusly zusammenarbeiten?",
+      "elements": {
+        "0": {
+          "title": "Erweitern Sie Ihre Reichweite",
+          "desc": "Erreichen Sie eine breitere Kundenbasis über unsere Online-Plattform"
+        },
+        "1": {
+          "title": "Steigern Sie Ihren Umsatz",
+          "desc": "Erhöhen Sie den Ticketverkauf mit unserem Marketing- und Vertriebsnetz"
+        },
+        "2": {
+          "title": "Sichern Sie den Betrieb",
+          "desc": "Profitieren Sie von unserem robusten Buchungssystem und Betrugsschutz"
         }
       }
     }

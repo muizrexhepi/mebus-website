@@ -265,7 +265,6 @@
         "genericError": "An error occurred. Please try again."
       }
     },
-
     "sections": {
       "services": "Services",
       "partners": "Partners",
@@ -354,7 +353,6 @@
     "recoveryCode": "Recovery Code",
     "continueButton": "Continue"
   },
-
   "register": {
     "title": "Create your account",
     "subtitle": "Join us and start booking your bus tickets today!",
@@ -577,6 +575,62 @@
         "button": {
           "label": "Contact Support",
           "link": "/help/contact-support"
+        }
+      }
+    }
+  },
+  "needHelpCard": {
+    "title": "Need Help?",
+    "desc": "If you have any questions about the application process or partnership program, please don't hesitate to contact us.",
+    "btnText": "Contact Support"
+  },
+  "partnerApplicationForm": {
+    "labels": {
+      "title": "Partner Application Form",
+      "companyName": "Company Name",
+      "companyTaxNr": "Company Tax Number",
+      "registrationNr": "Registration Numner",
+      "phoneNumber": "Phone Number",
+      "fleetSize": "Fleet Size",
+      "currentRoutes": "Current Routes",
+      "contactName": "Contact Name",
+      "country": "Country",
+      "email": "Email Address",
+      "website": "Company Website (optional)",
+      "yoe": "Years of Experience",
+      "additionalInfo": "Additional Information"
+    },
+    "placeholders": {
+      "companyName": "Enter your company Name",
+      "companyTaxNr": "Enter your company Tax Number",
+      "registrationNr": "Enter your registration Numner",
+      "phoneNumber": "Enter your phone Number",
+      "fleetSize": "Enter the number of buses in your fleet",
+      "currentRoutes": "Describe your current bus routes",
+      "contactName": "Enter your full name",
+      "country": "Enter your country",
+      "email": "Enter your email Address",
+      "website": "www.example.com",
+      "yoe": "Enter years of operation",
+      "additionalInfo": "Any additional details you`d like to share"
+    },
+    "buttons": {
+      "submit": "Submit application"
+    },
+    "whyPartnerWithUs": {
+      "title": "Why Partner with GoBusly?",
+      "elements": {
+        "0": {
+          "title": "Expand Your Reach",
+          "desc": "Access a wider customer base through our online platform"
+        },
+        "1": {
+          "title": "Boost Your Revenue",
+          "desc": "Increase ticket sales with our marketing and discribution network"
+        },
+        "2": {
+          "title": "Secure Operations",
+          "desc": "Benefit from our robust booking sysem and fraud protection"
         }
       }
     }

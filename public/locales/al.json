@@ -284,7 +284,6 @@
     "securePayment": "Pagesë e Sigurt",
     "helpFAQ": "Ndihmë & FAQ"
   },
-
   "searchBlock": {
     "tripType": {
       "oneWay": "Një drejtim",
@@ -389,7 +388,6 @@
     "confirmCancellation": "Konfirmo",
     "cancel": "Anulo"
   },
-
   "bookingDetailsPage": {
     "bookingDetails": "Detajet e rezervimit",
     "tripInformation": "Informacioni i udhëtimit",
@@ -565,6 +563,62 @@
         "button": {
           "label": "Kontaktoni Mbështetjen",
           "link": "/help/contact-support"
+        }
+      }
+    }
+  },
+  "needHelpCard": {
+    "title": "Keni nevojë për ndihmë?",
+    "desc": "Nëse keni ndonjë pyetje në lidhje me procesin e aplikimit ose programin e partneritetit, ju lutemi mos hezitoni të na kontaktoni.",
+    "btnText": "Kontakto Mbështetjen"
+  },
+  "partnerApplicationForm": {
+    "labels": {
+      "title": "Formulari i Aplikimit për Partneritet",
+      "companyName": "Emri i Kompanisë",
+      "companyTaxNr": "Numri Fiskal i Kompanisë",
+      "registrationNr": "Numri i Regjistrimit",
+      "phoneNumber": "Numri i Telefonit",
+      "fleetSize": "Madhësia e Flotës",
+      "currentRoutes": "Rrugët Aktuale",
+      "contactName": "Emri i Kontaktit",
+      "country": "Shteti",
+      "email": "Adresa e Email-it",
+      "website": "Faqja e Internetit e Kompanisë (opsionale)",
+      "yoe": "Vitet e Përvojës",
+      "additionalInfo": "Informacion Shtesë"
+    },
+    "placeholders": {
+      "companyName": "Shkruani emrin e kompanisë tuaj",
+      "companyTaxNr": "Shkruani numrin fiskal të kompanisë tuaj",
+      "registrationNr": "Shkruani numrin e regjistrimit",
+      "phoneNumber": "Shkruani numrin tuaj të telefonit",
+      "fleetSize": "Shkruani numrin e autobusëve në flotën tuaj",
+      "currentRoutes": "Përshkruani rrugët tuaja aktuale",
+      "contactName": "Shkruani emrin tuaj të plotë",
+      "country": "Shkruani shtetin tuaj",
+      "email": "Shkruani adresën tuaj të email-it",
+      "website": "www.shembull.com",
+      "yoe": "Shkruani vitet e funksionimit",
+      "additionalInfo": "Çdo detaj shtesë që dëshironi të ndani"
+    },
+    "buttons": {
+      "submit": "Dërgo aplikimin"
+    },
+    "whyPartnerWithUs": {
+      "title": "Pse të bëheni partner me GoBusly?",
+      "elements": {
+        "0": {
+          "title": "Zgjeroni Arritjet Tuaja",
+          "desc": "Qasuni një audience më të gjerë përmes platformës sonë online"
+        },
+        "1": {
+          "title": "Rritni të Ardhurat",
+          "desc": "Rritni shitjet e biletave me rrjetin tonë të marketingut dhe shpërndarjes"
+        },
+        "2": {
+          "title": "Siguroni Operacionet",
+          "desc": "Përfitoni nga sistemi ynë i fuqishëm i rezervimeve dhe mbrojtja kundër mashtrimeve"
         }
       }
     }

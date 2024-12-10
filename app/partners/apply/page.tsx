@@ -33,6 +33,7 @@ export const metadata: Metadata = {
 };
 
 const PartnerApplicationPage: React.FC = () => {
+
   return (
     <div className="mx-auto px-4 sm:px-8 xl:px-0 py-12">
       <div className="max-w-6xl mx-auto">

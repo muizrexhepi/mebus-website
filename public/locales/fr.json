@@ -250,7 +250,6 @@
     "subscribe": {
       "title": "Restez Informé des Offres de Voyage",
       "description": "Abonnez-vous à notre newsletter pour recevoir les derniers horaires de bus, des réductions exclusives et des conseils de voyage directement dans votre boîte de réception.",
-
       "emailPlaceholder": "Entrez votre email",
       "subscribeButton": "S'abonner",
       "subscribing": "Abonnement en cours...",
@@ -284,7 +283,6 @@
     "securePayment": "Paiement sécurisé",
     "helpFAQ": "Aide & FAQ"
   },
-
   "searchBlock": {
     "tripType": {
       "oneWay": "Aller simple",
@@ -555,6 +553,62 @@
         "button": {
           "label": "Contacter le support",
           "link": "/help/contact-support"
+        }
+      }
+    }
+  },
+  "needHelpCard": {
+    "title": "Besoin d'aide ?",
+    "desc": "Si vous avez des questions concernant le processus de candidature ou le programme de partenariat, n'hésitez pas à nous contacter.",
+    "btnText": "Contacter le support"
+  },
+  "partnerApplicationForm": {
+    "labels": {
+      "title": "Formulaire de Candidature pour Partenaire",
+      "companyName": "Nom de l'Entreprise",
+      "companyTaxNr": "Numéro Fiscal de l'Entreprise",
+      "registrationNr": "Numéro d'Enregistrement",
+      "phoneNumber": "Numéro de Téléphone",
+      "fleetSize": "Taille de la Flotte",
+      "currentRoutes": "Itinéraires Actuels",
+      "contactName": "Nom du Contact",
+      "country": "Pays",
+      "email": "Adresse E-mail",
+      "website": "Site Web de l'Entreprise (facultatif)",
+      "yoe": "Années d'Expérience",
+      "additionalInfo": "Informations Supplémentaires"
+    },
+    "placeholders": {
+      "companyName": "Entrez le nom de votre entreprise",
+      "companyTaxNr": "Entrez le numéro fiscal de votre entreprise",
+      "registrationNr": "Entrez le numéro d'enregistrement",
+      "phoneNumber": "Entrez votre numéro de téléphone",
+      "fleetSize": "Entrez le nombre de bus dans votre flotte",
+      "currentRoutes": "Décrivez vos itinéraires actuels",
+      "contactName": "Entrez votre nom complet",
+      "country": "Entrez votre pays",
+      "email": "Entrez votre adresse e-mail",
+      "website": "www.exemple.com",
+      "yoe": "Entrez les années d'opération",
+      "additionalInfo": "Tout détail supplémentaire que vous souhaitez partager"
+    },
+    "buttons": {
+      "submit": "Soumettre la candidature"
+    },
+    "whyPartnerWithUs": {
+      "title": "Pourquoi devenir partenaire avec GoBusly ?",
+      "elements": {
+        "0": {
+          "title": "Étendez votre Portée",
+          "desc": "Accédez à une base de clients plus large grâce à notre plateforme en ligne"
+        },
+        "1": {
+          "title": "Augmentez vos Revenus",
+          "desc": "Augmentez les ventes de billets grâce à notre réseau de marketing et de distribution"
+        },
+        "2": {
+          "title": "Assurez vos Opérations",
+          "desc": "Bénéficiez de notre système de réservation robuste et de la protection contre la fraude"
         }
       }
     }

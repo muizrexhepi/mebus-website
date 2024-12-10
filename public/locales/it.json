@@ -576,5 +576,61 @@
         }
       }
     }
+  },
+  "needHelpCard": {
+    "title": "Hai bisogno di aiuto?",
+    "desc": "Se hai domande sul processo di candidatura o sul programma di partnership, non esitare a contattarci.",
+    "btnText": "Contatta il supporto"
+  },
+  "partnerApplicationForm": {
+    "labels": {
+      "title": "Modulo di Candidatura per Partner",
+      "companyName": "Nome dell'Azienda",
+      "companyTaxNr": "Numero Fiscale dell'Azienda",
+      "registrationNr": "Numero di Registrazione",
+      "phoneNumber": "Numero di Telefono",
+      "fleetSize": "Dimensione della Flotta",
+      "currentRoutes": "Percorsi Attuali",
+      "contactName": "Nome del Contatto",
+      "country": "Paese",
+      "email": "Indirizzo Email",
+      "website": "Sito Web dell'Azienda (opzionale)",
+      "yoe": "Anni di Esperienza",
+      "additionalInfo": "Informazioni Aggiuntive"
+    },
+    "placeholders": {
+      "companyName": "Inserisci il nome della tua azienda",
+      "companyTaxNr": "Inserisci il numero fiscale della tua azienda",
+      "registrationNr": "Inserisci il numero di registrazione",
+      "phoneNumber": "Inserisci il tuo numero di telefono",
+      "fleetSize": "Inserisci il numero di autobus nella tua flotta",
+      "currentRoutes": "Descrivi i tuoi percorsi attuali",
+      "contactName": "Inserisci il tuo nome completo",
+      "country": "Inserisci il tuo paese",
+      "email": "Inserisci il tuo indirizzo email",
+      "website": "www.esempio.com",
+      "yoe": "Inserisci gli anni di attività",
+      "additionalInfo": "Qualsiasi dettaglio aggiuntivo che desideri condividere"
+    },
+    "buttons": {
+      "submit": "Invia la candidatura"
+    },
+    "whyPartnerWithUs": {
+      "title": "Perché collaborare con GoBusly?",
+      "elements": {
+        "0": {
+          "title": "Amplia la tua portata",
+          "desc": "Accedi a una base di clienti più ampia attraverso la nostra piattaforma online"
+        },
+        "1": {
+          "title": "Aumenta i tuoi ricavi",
+          "desc": "Incrementa le vendite dei biglietti grazie alla nostra rete di marketing e distribuzione"
+        },
+        "2": {
+          "title": "Assicura le operazioni",
+          "desc": "Approfitta del nostro sistema di prenotazione robusto e della protezione antifrode"
+        }
+      }
+    }
   }
 }

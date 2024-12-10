@@ -576,5 +576,61 @@
         }
       }
     }
+  },
+  "needHelpCard": {
+    "title": "¿Necesitas ayuda?",
+    "desc": "Si tienes preguntas sobre el proceso de solicitud o el programa de asociación, no dudes en contactarnos.",
+    "btnText": "Contactar soporte"
+  },
+  "partnerApplicationForm": {
+    "labels": {
+      "title": "Formulario de Solicitud para Socios",
+      "companyName": "Nombre de la Empresa",
+      "companyTaxNr": "Número de Impuesto de la Empresa",
+      "registrationNr": "Número de Registro",
+      "phoneNumber": "Número de Teléfono",
+      "fleetSize": "Tamaño de la Flota",
+      "currentRoutes": "Rutas Actuales",
+      "contactName": "Nombre de Contacto",
+      "country": "País",
+      "email": "Correo Electrónico",
+      "website": "Sitio Web de la Empresa (opcional)",
+      "yoe": "Años de Experiencia",
+      "additionalInfo": "Información Adicional"
+    },
+    "placeholders": {
+      "companyName": "Ingresa el nombre de tu empresa",
+      "companyTaxNr": "Ingresa el número fiscal de tu empresa",
+      "registrationNr": "Ingresa el número de registro",
+      "phoneNumber": "Ingresa tu número de teléfono",
+      "fleetSize": "Ingresa el número de autobuses en tu flota",
+      "currentRoutes": "Describe tus rutas actuales",
+      "contactName": "Ingresa tu nombre completo",
+      "country": "Ingresa tu país",
+      "email": "Ingresa tu correo electrónico",
+      "website": "www.ejemplo.com",
+      "yoe": "Ingresa los años de operación",
+      "additionalInfo": "Cualquier detalle adicional que desees compartir"
+    },
+    "buttons": {
+      "submit": "Enviar solicitud"
+    },
+    "whyPartnerWithUs": {
+      "title": "¿Por qué asociarse con GoBusly?",
+      "elements": {
+        "0": {
+          "title": "Expande tu Alcance",
+          "desc": "Accede a una base de clientes más amplia a través de nuestra plataforma en línea"
+        },
+        "1": {
+          "title": "Aumenta tus Ingresos",
+          "desc": "Incrementa las ventas de boletos con nuestra red de marketing y distribución"
+        },
+        "2": {
+          "title": "Opera con Seguridad",
+          "desc": "Aprovecha nuestro robusto sistema de reservas y protección contra fraudes"
+        }
+      }
+    }
   }
 }
