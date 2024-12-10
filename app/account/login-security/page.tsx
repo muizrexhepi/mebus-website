@@ -212,7 +212,7 @@ export default function LoginSecurity() {
                 type="text"
                 value={otpCode}
                 placeholder="Enter 6-digit code"
-                className="col-span-3"
+                className="col-span-3 bg-primary-bg/5 h-12 rounded-lg border-none"
                 onChange={(e) => setOtpCode(e.target.value)}
                 maxLength={6}
               />
@@ -266,7 +266,7 @@ export default function LoginSecurity() {
                       type="password"
                       value={oldPassword}
                       placeholder="***"
-                      className="col-span-3"
+                      className="col-span-3 bg-primary-bg/5 h-12 rounded-lg border-none"
                       onChange={handleOldPasswordChange}
                     />
                   </div>
@@ -279,13 +279,17 @@ export default function LoginSecurity() {
                       type="password"
                       value={newPassword}
                       placeholder="***"
-                      className="col-span-3"
+                      className="col-span-3 bg-primary-bg/5 h-12 rounded-lg border-none"
                       onChange={handleNewPasswordChange}
                     />
                   </div>
                 </div>
                 <DialogFooter>
-                  <Button type="submit" onClick={handleSavePassword}>
+                  <Button
+                    type="submit"
+                    variant={"primary"}
+                    onClick={handleSavePassword}
+                  >
                     Save changes
                   </Button>
                 </DialogFooter>
@@ -354,7 +358,9 @@ export default function LoginSecurity() {
           <div
             className={`grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6`}
           >
-            <div className="text-base">{t("security.verifyPhone")}</div>
+            <div className="text-base">
+              {t("security.verifyPhone", "Verify Phone")}
+            </div>
             {user?.phoneVerification ? (
               <Button
                 disabled

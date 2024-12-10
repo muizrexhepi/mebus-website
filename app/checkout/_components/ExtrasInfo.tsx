@@ -43,7 +43,7 @@ const FlexOption: React.FC<{
   return (
     <div
       className={cn(
-        "relative group overflow-hidden rounded-2xl border cursor-pointer transition-all duration-300 ease-in-out",
+        "relative group overflow-hidden rounded-lg border cursor-pointer transition-all duration-300 ease-in-out",
         isSelected
           ? `bg-gray-50 border-gray-300`
           : "border-gray-100 bg-white hover:border-gray-200"
@@ -141,7 +141,7 @@ const Extras: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="flex flex-col rounded-lg shadow-md bg-white p-4 gap-4">
+    <div className="flex flex-col rounded-lg border border-gray-200 bg-white p-4 gap-4">
       <div className="flex items-center gap-4">
         <span className="flex items-center justify-center w-8 h-8 bg-secondary-bg/20 text-primary-bg rounded-full font-semibold">
           2

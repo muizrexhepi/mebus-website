@@ -205,7 +205,7 @@
     "birthdate": "Data e lindjes",
     "birthdatePlaceholder": "VVVV-MM-DD",
     "title": "Udhëtarët",
-    "instructions": "Ju lutemi vendosni detajet e të gjithë udhëtarëve. Sigurohuni që informacioni përputhet me ID-të e tyre qeveritare për hipje të qetë."
+    "instructions": "Ju lutemi futni të gjitha detajet e pasagjerëve sipas ID-së së tyre të lëshuar nga qeveria për një hipje pa probleme."
   },
   "flexFeatures": {
     "premium": {

@@ -366,9 +366,11 @@ const PaymentMethod = () => {
 
   const handleSelectPaymentMethod = (method: any) => {
     try {
-      // setUseSavedCard(!useSavedCard);
-      console.log({ method });
-      setSelectedPaymentMethod(method);
+      if (selectedPaymentMethod == method) {
+        setSelectedPaymentMethod(null);
+      } else {
+        setSelectedPaymentMethod(method);
+      }
     } catch (error) {
       console.log({ error });
     }
@@ -468,7 +470,7 @@ const PaymentMethod = () => {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
         <div className="p-6">
           <div className="flex items-center gap-4">
             <span className="flex items-center justify-center w-8 h-8 bg-secondary-bg/20 text-primary-bg rounded-full font-semibold">
@@ -482,51 +484,6 @@ const PaymentMethod = () => {
           <p className="text-sm text-gray-600 my-4">
             {t("paymentMethod.description")}
           </p>
-
-          {/* {balance > 0 && (
-            <div className="bg-gray-50 rounded-lg p-4 mb-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="use-deposit"
-                    checked={useDeposit}
-                    onCheckedChange={handleUseDepositChange}
-                    className="text-emerald-600 focus:ring-emerald-500"
-                  />
-                  <label
-                    htmlFor="use-deposit"
-                    className="text-sm font-medium text-gray-700 cursor-pointer"
-                  >
-                    {t("paymentMethod.useAccountBalance")}
-                  </label>
-                </div>
-                <span className="text-sm font-semibold text-emerald-600">
-                  €{(balance / 100).toFixed(2)} {t("paymentMethod.available")}
-                </span>
-              </div>
-              {useDeposit && (
-                <div className="mt-4">
-                  <Input
-                    type="number"
-                    min={1}
-                    defaultValue={1}
-                    max={isGreater ? totalPrice : balance / 100}
-                    placeholder="Amount to use from balance"
-                    value={depositAmount}
-                    onChange={(e) => {
-                      const value = Math.min(
-                        Number(e.target.value),
-                        isGreater ? totalPrice : balance / 100
-                      );
-
-                      setDepositAmount(Math.round(value * 100) / 100);
-                    }}
-                    className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  />
-                </div>
-              )}
-            </div>
-          )} */}
 
           {
             <div
@@ -591,8 +548,19 @@ const PaymentMethod = () => {
                     ))}
                   </div>
                 )}
-
-                <div className={`relative ${useSavedCard && "hidden"}`}>
+                {selectedPaymentMethod ? (
+                  <div className="flex justify-end">
+                    <button
+                      onClick={() => setSelectedPaymentMethod(null)}
+                      className="text-sm font-medium button-gradient bg-clip-text text-transparent"
+                    >
+                      Use card instead
+                    </button>
+                  </div>
+                ) : null}
+                <div
+                  className={`relative ${selectedPaymentMethod && "hidden"}`}
+                >
                   <div className="absolute inset-0 flex items-center">
                     <span className="w-full border-t" />
                   </div>
@@ -604,14 +572,14 @@ const PaymentMethod = () => {
                 </div>
                 <h3
                   className={`font-medium text-gray-700 ${
-                    useSavedCard && "hidden"
+                    selectedPaymentMethod && "hidden"
                   }`}
                 >
                   {t("paymentMethod.cardInformation")}
                 </h3>
                 <div
                   className={`grid grid-cols-2 gap-2 ${
-                    useSavedCard && "hidden"
+                    selectedPaymentMethod && "hidden"
                   }`}
                 >
                   <div

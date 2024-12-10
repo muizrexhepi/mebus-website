@@ -10,9 +10,9 @@ const Checkout = () => {
   return (
     <div className="min-h-screen">
       <div className="w-full flex justify-center items-center bg-gradient-to-tr from-primary-bg/95 via-primary-bg to-primary-bg/95 px-4 sm:px-8 xl:px-20 py-4">
-        <Navbar className="max-w-6xl " />
+        <Navbar className="max-w-7xl mx-auto paddingX" />
       </div>
-      <div className="min-h-screen px-4 sm:px-8 max-w-6xl mx-auto py-8 xl:px-0 space-y-4">
+      <div className="min-h-screen max-w-7xl paddingX mx-auto py-8 space-y-4">
         <CheckoutForm />
       </div>
     </div>

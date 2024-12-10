@@ -156,7 +156,7 @@
     "powerOutletsContent": "Most of our buses are equipped with power outlets for each seat. However, availability may vary depending on the specific bus and route. We recommend bringing a portable charger as a backup, especially for longer journeys."
   },
   "extrasInfo": {
-    "title": "Travel Flex Options",
+    "title": "Flexibility Options",
     "description": "Choose from different flexibility options to cancel or modify your trip based on your needs.",
     "free": "Free"
   },
@@ -210,7 +210,7 @@
     "birthdate": "Date of Birth",
     "birthdatePlaceholder": "YYYY-MM-DD",
     "title": "Passengers",
-    "instructions": "Please enter the details of all passengers traveling. Ensure that the information matches their government-issued ID for smooth boarding."
+    "instructions": "Please enter all passenger details as per their government-issued ID for smooth boarding."
   },
   "flexFeatures": {
     "premium": {
@@ -339,7 +339,7 @@
     "registerLink": "Register here",
     "mfaVerification": "Multi-factor Authentication Verification",
     "mfaEmailDescription": "We've sent a verification code to your email. Please enter it below.",
-    "mfaTotpDescription": "Enter the code from your authenticator app to proceed.",
+    "mfaPhoneDescription": "Enter the code sent to your phone number to proceed.",
     "mfaCode": "Verification Code",
     "mfaCodePlaceholder": "Enter your verification code",
     "verifyButton": "Verify"

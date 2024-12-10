@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import { Circle, MapPin } from "lucide-react";
+import { Circle, Locate, MapPin } from "lucide-react";
 import moment from "moment-timezone";
 import { Ticket } from "@/models/ticket";
 import { cn } from "@/lib/utils";
@@ -44,14 +44,14 @@ function TicketSummary({ ticket, isReturn }: TripProps) {
   const isNextDay = !departureDate.isSame(arrivalDate, "day");
 
   return (
-    <div className="w-full rounded-lg p-4 bg-white shadow-md">
+    <div className="w-full rounded-lg p-4 bg-white border border-gray-200">
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="text-base font-medium">
             {departureDate.format("ddd, D MMM")}
             {isNextDay && ` → ${arrivalDate.format("ddd, D MMM")}`}
           </div>
-          <div className="px-3 py-1 bg-gray-100 rounded-full text-sm text-gray-600">
+          <div className="px-3 py-1 bg-secondary-bg/20 font-medium rounded-full text-sm text-black">
             {ticket.operatorInfo.name}
           </div>
         </div>
@@ -62,6 +62,7 @@ function TicketSummary({ ticket, isReturn }: TripProps) {
           <div className="flex items-center gap-4 mb-6">
             <div className="flex-1 flex items-center justify-between">
               <div className="flex items-center gap-2">
+                <Locate size={20} className="text-gray-600" />
                 <div className="flex flex-col">
                   <span className="capitalize">
                     {ticket.stops[0].from.city}
@@ -80,6 +81,8 @@ function TicketSummary({ ticket, isReturn }: TripProps) {
           <div className="flex items-center gap-4">
             <div className="flex-1 flex items-center justify-between">
               <div className="flex items-center gap-2">
+                <MapPin size={20} className="text-gray-600" />
+
                 <div className="flex flex-col">
                   <span className="capitalize">{ticket.stops[0].to.city}</span>
                   <span className="text-primary-bg/60 text-sm font-medium">
@@ -204,7 +207,10 @@ const OrderSummary = ({ className }: { className?: string }) => {
         )}
       </div>
       <div
-        className={cn("bg-white rounded-lg p-4 shadow-md space-y-3", className)}
+        className={cn(
+          "bg-white rounded-lg p-4 border border-gray-200 space-y-3",
+          className
+        )}
       >
         <div className="flex flex-col gap-1">
           {outboundDetails && (

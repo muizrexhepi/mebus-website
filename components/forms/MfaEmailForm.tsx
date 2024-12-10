@@ -29,7 +29,7 @@ import { useMfaVerification } from "../hooks/use-mfaVerification";
 
 export const MfaEmailForm = () => {
   const { t } = useTranslation();
-  const { error, setCurrentForm } = useMFAStore();
+  const { error, setCurrentForm, mfaType } = useMFAStore();
 
   const mfaForm = useForm<z.infer<typeof MFAVerificationSchema>>({
     resolver: zodResolver(MFAVerificationSchema),
@@ -65,14 +65,18 @@ export const MfaEmailForm = () => {
     <div className="max-w-[400px] mx-auto space-y-8 pt-32 sm:pt-6">
       <ChevronLeft
         className="absolute left-6 top-12 sm:top-6 w-6 h-6 shrink-0 cursor-pointer"
-        onClick={() => setCurrentForm("mfaVerification")}
+        onClick={() => setCurrentForm("mfaOptions")}
       />
       <div className="space-y-0 text-center lg:text-start">
         <h1 className="text-2xl font-bold tracking-tight">
-          {t("mfa.emailVerification")}
+          {mfaType == "phone"
+            ? t("mfa.phoneVerification")
+            : t("mfa.emailVerification")}
         </h1>
         <p className="text-sm text-muted-foreground">
-          {t("mfa.emailDescription")}
+          {mfaType == "phone"
+            ? t("login.mfaPhoneDescription")
+            : t("login.mfaEmailDescription")}
         </p>
       </div>
 

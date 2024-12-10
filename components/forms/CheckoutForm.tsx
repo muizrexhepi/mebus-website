@@ -20,7 +20,7 @@ const CheckoutForm = () => {
         <PaymentMethod />
       </div>
 
-      <div className="hidden flex-1 md:flex flex-col gap-4 ">
+      <div className="hidden flex-1 md:flex flex-col gap-4 sticky top-10 h-fit">
         <OrderSummary />
       </div>
     </div>
