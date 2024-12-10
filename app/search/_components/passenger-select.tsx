@@ -157,7 +157,10 @@ export default function PassengerSelect({
                 <h3 className="font-semibold text-base">
                   {t("orderSummary.children")}
                 </h3>
-                <p className="text-sm text-gray-500">Aged 0 to 12</p>
+                <p className="text-sm text-gray-500">
+                  {" "}
+                  {t("passengerSelect.aged")}
+                </p>
               </div>
               <div className="flex items-center gap-2">
                 <Button
@@ -187,14 +190,8 @@ export default function PassengerSelect({
 
           <div className="space-y-4">
             <p className="text-sm text-gray-500">
-              Your age at the time of travel must meet the requirements for the
-              selected ticket type. Some bus operators have restrictions on
-              minors traveling alone.
+              {t("passengerSelect.description")}
             </p>
-
-            {/* <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-    Apply
-  </Button> */}
           </div>
         </div>
       </SelectContent>

@@ -453,6 +453,10 @@
     "card_remove_error": "Gabim gjatë heqjes së metodës së pagesës.",
     "managePaymentMethods": "Menaxho metodat e pagesës"
   },
+  "passengerSelect": {
+    "description": "Mosha juaj në momentin e udhëtimit duhet të përmbushë kërkesat për llojin e biletës të zgjedhur. Disa operatorë të autobusëve kanë kufizime për të miturit që udhëtojnë vetëm.",
+    "aged": "Mosha 0 deri në 12 vjeç"
+  },
   "modals": {
     "confirmCancellation": "A jeni te sigurt qe deshironi ta anuloni rezervimin?",
     "cancellationWarning": "Nese po atehere do tiu kthehen vetem 70% te cmimit te rezervimit."

@@ -430,6 +430,10 @@
     "removePmAreYouSure": "Sind Sie sicher, dass Sie diese Zahlungsmethode entfernen möchten? Keine Sorge, Sie können sie später erneut speichern oder eine neue hinzufügen.",
     "pmExpires": "Läuft ab"
   },
+  "passengerSelect": {
+    "description": "Ihr Alter zum Zeitpunkt der Reise muss die Anforderungen für den ausgewählten Tickettyp erfüllen. Einige Busunternehmen haben Einschränkungen für Minderjährige, die allein reisen.",
+    "aged": "Alter 0 bis 12 Jahre"
+  },
   "wallet": {
     "cardholderName": "Name des Karteninhabers",
     "enterCardDetails": "Kartendetails eingeben",

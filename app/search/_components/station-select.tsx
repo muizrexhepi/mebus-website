@@ -213,34 +213,34 @@ const StationSelect: React.FC<CustomSelectProps> = ({
                 <div className="border-t border-border" />
               </>
             )}
-            <>
-              {searchTerm !== "" && (
+            {searchTerm !== "" && (
+              <>
                 <div className="bg-muted px-4 py-2 border-b border-border">
                   <h3 className="font-medium text-sm text-foreground/70">
                     Search results
                   </h3>
                 </div>
-              )}
-              {filteredStations.map((station: Station) => (
-                <Button
-                  key={station._id}
-                  variant="ghost"
-                  className="w-full justify-start text-left h-16 px-4 hover:bg-accent hover:text-accent-foreground rounded-none"
-                  onClick={() => handleSelect(station)}
-                  type="button"
-                >
-                  <MapPin className="w-5 h-5 text-primary mr-3 shrink-0" />
-                  <div className="flex flex-col items-start gap-0.5">
-                    <span className="capitalize font-medium text-sm">
-                      {station.city}
-                    </span>
-                    <span className="text-muted-foreground text-xs">
-                      {station.name}
-                    </span>
-                  </div>
-                </Button>
-              ))}
-            </>
+                {filteredStations.map((station: Station) => (
+                  <Button
+                    key={station._id}
+                    variant="ghost"
+                    className="w-full justify-start text-left h-16 px-4 hover:bg-accent hover:text-accent-foreground rounded-none"
+                    onClick={() => handleSelect(station)}
+                    type="button"
+                  >
+                    <MapPin className="w-5 h-5 text-primary mr-3 shrink-0" />
+                    <div className="flex flex-col items-start gap-0.5">
+                      <span className="capitalize font-medium text-sm">
+                        {station.city}
+                      </span>
+                      <span className="text-muted-foreground text-xs">
+                        {station.name}
+                      </span>
+                    </div>
+                  </Button>
+                ))}
+              </>
+            )}
           </div>
         </div>
       )}

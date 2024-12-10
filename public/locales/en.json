@@ -191,6 +191,10 @@
     "processing": "Processing...",
     "completePayment": "Complete Payment"
   },
+  "passengerSelect": {
+    "description": "Your age at the time of travel must meet the requirements for the selected ticket type. Some bus operators have restrictions on minors traveling alone.",
+    "aged": "Aged 0 to 12"
+  },
   "passengerInfo": {
     "child": "Child",
     "adult": "Adult",

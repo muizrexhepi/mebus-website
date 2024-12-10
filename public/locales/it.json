@@ -454,6 +454,10 @@
     "removePmAreYouSure": "Sei sicuro di voler rimuovere questo metodo di pagamento? Non preoccuparti, puoi salvarlo di nuovo o aggiungerne uno nuovo in seguito.",
     "pmExpires": "Scade"
   },
+  "passengerSelect": {
+    "description": "La tua età al momento del viaggio deve soddisfare i requisiti per il tipo di biglietto selezionato. Alcuni operatori di autobus hanno restrizioni per i minorenni che viaggiano da soli.",
+    "aged": "Età da 0 a 12 anni"
+  },
   "wallet": {
     "cardholderName": "Nome del titolare della carta",
     "enterCardDetails": "Inserisci i dettagli della carta",

@@ -184,7 +184,7 @@ export default function ReturnDatePicker({
               {buttonText}
             </span>
           </div>
-          {selectedReturnDate && (
+          {/* {selectedReturnDate && (
             <X
               className="h-5 w-5 text-primary-bg"
               onClick={(e) => {
@@ -192,7 +192,7 @@ export default function ReturnDatePicker({
                 handleRemoveReturnDate();
               }}
             />
-          )}
+          )} */}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
