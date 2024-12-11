@@ -139,7 +139,7 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
           variant="outline"
           className="w-full h-14 flex items-center justify-start px-2.5 bg-primary-bg/5 rounded-lg border-none ring-0"
         >
-          {/* <CalendarIcon className="mr-2 h-4 w-4" /> */}
+          <CalendarIcon className={`mr-2 h-4 w-4 ${!updateUrl && "hidden"}`} />
           <span>{buttonText}</span>
         </Button>
       </PopoverTrigger>

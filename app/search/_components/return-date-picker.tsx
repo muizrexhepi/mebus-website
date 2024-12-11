@@ -88,7 +88,7 @@ export default function ReturnDatePicker({
 
   const buttonText = selectedReturnDate
     ? format(selectedReturnDate, "E, LLL dd", { locale: currentLocale })
-    : t("searchForm.addReturn", "+ Add return");
+    : t("searchForm.addReturn", "Add return");
 
   const currentMonth = new Date().getMonth();
   const months = Array.from({ length: 13 }, (_, i) => (currentMonth + i) % 12);
@@ -177,22 +177,24 @@ export default function ReturnDatePicker({
           className="w-full h-14 flex items-center px-2.5 justify-between bg-primary-bg/5 rounded-lg border-none"
         >
           <div className="flex items-center">
-            {/* <CalendarIcon className="mr-2 h-6 w-6 text-gray-500" /> */}
+            {/* <CalendarIcon
+              className={`mr-2 h-4 w-4 ${!updateUrl && "hidden"}`}
+            /> */}
             <span
               className={selectedReturnDate ? "text-black" : "text-primary"}
             >
               {buttonText}
             </span>
           </div>
-          {/* {selectedReturnDate && (
+          {selectedReturnDate && (
             <X
-              className="h-5 w-5 text-primary-bg"
+              className={`h-5 w-5 ${!updateUrl && "hidden"}`}
               onClick={(e) => {
                 e.stopPropagation();
                 handleRemoveReturnDate();
               }}
             />
-          )} */}
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">

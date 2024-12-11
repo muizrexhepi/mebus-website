@@ -9,6 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { enUS } from "date-fns/locale";
 import { LOCALE_MAP } from "@/lib/data";
 import { useTranslation } from "react-i18next";
+import { cn } from "@/lib/utils";
 
 interface DateButtonProps {
   date: Date;
@@ -30,27 +31,27 @@ const DateButton: React.FC<DateButtonProps> = ({
   tripType,
 }) => (
   <Button
-    variant={isSelected ? "default" : "outline"}
-    className={`flex-1 py-2 px-4 h-14 rounded-lg ${
-      isSelected
-        ? "bg-primary-bg text-primary-foreground pointer-events-none"
-        : ""
-    }`}
+    variant={"ghost"}
+    className={cn("flex-1 h-10 rounded-none", {
+      "pointer-events-none": isSelected,
+    })}
     disabled={
-      tripType === "round-trip" && outboundTicket && date < departureDate
+      (tripType === "round-trip" && outboundTicket && date < departureDate) ||
+      date < new Date()
     }
     onClick={onClick}
   >
     <div className="flex flex-col items-center">
-      <span className="text-sm sm:text-base md:text-lg font-medium sm:font-bold">
+      <span
+        className={cn(
+          "text-sm sm:text-base md:text-lg font-medium sm:font-bold",
+          {
+            "button-gradient bg-clip-text text-transparent": isSelected,
+          }
+        )}
+      >
         {format(date, "E, LLL dd", { locale: currentLocale })}
       </span>
-      {/* <span className="text-sm hidden sm:block sm:text-base md:text-lg font-medium sm:font-bold">
-        {format(date, "PP")}
-      </span>
-      <span className="text-sm sm:text-base sm:hidden md:text-lg font-medium sm:font-bold">
-        {format(date, "P")}
-      </span> */}
     </div>
   </Button>
 );
@@ -123,10 +124,10 @@ export function DateSelectBlock() {
   return (
     <div className="flex flex-col space-y-2 max-w-3xl mx-auto mt-4 w-full">
       <div className="flex justify-between items-center">
-        <div className="flex justify-between flex-1 space-x-2 px-4 sm:px-8 md:px-0">
+        <div className="flex justify-between flex-1 border rounded-r-lg bg-white py-2 rounded-l-lg divide-x sm:px-8 md:px-2 mx-4 sm:mx-8 md:mx-auto overflow-x-auto">
           {dates.map((date) =>
             isLoading ? (
-              <Skeleton className="h-14 w-full bg-white border rounded-lg py-2 px-4">
+              <Skeleton className="h-10 w-full bg-white rounded-none">
                 <div className="flex flex-col justify-center items-center h-full gap-2">
                   <Skeleton className="h-5 w-20 sm:w-32" />
                 </div>

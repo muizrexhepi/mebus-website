@@ -185,7 +185,7 @@ const PaymentMethodCard: React.FC<PaymentMethodCardProps> = ({
 
   return (
     <Card
-      className={`w-full max-w-lg h-56 ${networkColors.bg} ${networkColors.text} shadow-lg transition-all hover:shadow-xl hover:scale-105`}
+      className={`w-full max-w-lg h-56 ${networkColors?.bg} ${networkColors?.text} shadow-lg transition-all hover:shadow-xl hover:scale-105`}
     >
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
         <CardTitle className="text-lg font-medium">
