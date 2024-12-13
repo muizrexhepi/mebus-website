@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
@@ -8,7 +9,7 @@ const PartnersSection = () => {
   const partners = [
     { name: "Hak Bus", src: "/assets/images/hakbus.png" },
     { name: "Ido Tours", src: "/assets/images/idotours.png" },
-    { name: "Euro Bus", src: "/assets/images/eurobus.png" },
+    { name: "Kabashi Tours", src: "/assets/images/kabashilogo.png" },
     { name: "Euro Turist", src: "/assets/images/euroturist.png" },
     { name: "Nasir Tours", src: "/assets/images/nasiri.png" },
     { name: "Bashkim Tours", src: "/assets/images/bashkimi.png" },
@@ -39,7 +40,9 @@ const PartnersSection = () => {
                 className="flex items-center justify-center group"
               >
                 <div className="relative w-full aspect-[3/1]">
-                  <img
+                  <Image
+                    width={300}
+                    height={120}
                     src={partner.src}
                     alt={`${partner.name} logo`}
                     className="object-contain w-full h-full filter grayscale hover:grayscale-0 transition-all duration-300"
