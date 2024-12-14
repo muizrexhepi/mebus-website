@@ -149,6 +149,7 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
           selected={date}
           onSelect={handleDateSelect}
           initialFocus
+          fromDate={new Date()}
           locale={currentLocale}
         />
       </PopoverContent>

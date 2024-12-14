@@ -21,6 +21,7 @@ import useIsMobile from "@/components/hooks/use-mobile";
 import { useTranslation } from "react-i18next";
 import { LOCALE_MAP } from "@/lib/data";
 import { enUS } from "date-fns/locale";
+import { useRouter } from "next/navigation";
 
 interface ReturnDatePickerProps {
   updateUrl?: boolean;
@@ -37,6 +38,7 @@ export default function ReturnDatePicker({
   const [selectedReturnDate, setSelectedReturnDate] = React.useState<
     Date | undefined
   >(undefined);
+  const router = useRouter();
 
   const currentLocale =
     LOCALE_MAP[i18n.language as keyof typeof LOCALE_MAP] || enUS;
@@ -76,11 +78,26 @@ export default function ReturnDatePicker({
     }
   };
 
-  const handleRemoveReturnDate = () => {
+  const handleRemoveReturnDate = React.useCallback(() => {
+    if (typeof window !== "undefined") {
+      const currentParams = new URLSearchParams(window.location.search);
+
+      currentParams.delete("returnDate");
+
+      const newPathname = `${
+        window.location.pathname
+      }?${currentParams.toString()}`;
+      router.push(newPathname, { scroll: false });
+    }
+
     setReturnDate(null);
     setSelectedReturnDate(undefined);
     setTripType("one-way");
-  };
+
+    // // Additional optional resets you might need
+    // setReturnTicket(null);
+    // setIsSelectingReturn(false);
+  }, [router]);
 
   const minReturnDate = departureDate
     ? addDays(parse(departureDate, "dd-MM-yyyy", new Date()), 0)

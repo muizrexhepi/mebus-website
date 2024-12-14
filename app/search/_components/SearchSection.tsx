@@ -8,7 +8,6 @@ import { Station } from "@/models/station";
 import { SearchForm } from "@/components/forms/SearchForm";
 import { useTranslation } from "react-i18next";
 import { DateSelectBlock } from "./DateSelectBlock";
-import { DateRangePicker } from "./daterange-picker";
 import DatePicker from "./date-picker";
 
 const SearchSection = () => {
@@ -136,14 +135,6 @@ const SearchSection = () => {
     ]
   );
 
-  const datePickerComponent = useMemo(() => {
-    return isRoundTrip ? (
-      <DateRangePicker updateUrl />
-    ) : (
-      <DatePicker updateUrl />
-    );
-  }, [isRoundTrip]);
-
   return (
     <>
       <div className="bg-white rounded-lg py-4 md:py-6 flex flex-col gap-4 w-full min-h-fit">
@@ -181,7 +172,6 @@ const SearchSection = () => {
             <SearchForm
               loading={loading}
               stations={stations}
-              datePickerComponent={datePickerComponent}
               isSubmitting={isSubmitting}
               onSearch={handleSearch}
               updateUrl

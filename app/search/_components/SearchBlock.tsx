@@ -6,7 +6,6 @@ import { getStations } from "@/actions/station";
 import { Station } from "@/models/station";
 import { SearchForm } from "../../../components/forms/SearchForm";
 import { useTranslation } from "react-i18next";
-import { DateRangePicker } from "./daterange-picker";
 import DatePicker from "./date-picker";
 
 const SearchBlock = () => {
@@ -99,10 +98,6 @@ const SearchBlock = () => {
     [setReturnDate]
   );
 
-  const datePickerComponent = useMemo(() => {
-    return tripType === "round-trip" ? <DateRangePicker /> : <DatePicker />;
-  }, [tripType]);
-
   return (
     <div className="bg-white rounded-lg p-5 flex flex-col gap-4 w-full min-h-fit border border-gray-200">
       <div className="space-y-4 flex-1">
@@ -138,7 +133,6 @@ const SearchBlock = () => {
         <SearchForm
           loading={loading}
           stations={stations}
-          datePickerComponent={datePickerComponent}
           isSubmitting={isSubmitting}
           onSearch={handleSearch}
         />

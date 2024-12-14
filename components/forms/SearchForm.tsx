@@ -14,7 +14,6 @@ import useSearchStore from "@/store";
 interface SearchFormProps {
   loading: boolean;
   stations: Station[];
-  datePickerComponent: React.ReactNode;
   isSubmitting: boolean;
   onSearch: () => void;
   updateUrl?: boolean;
@@ -24,7 +23,6 @@ export const SearchForm: React.FC<SearchFormProps> = ({
   loading,
   updateUrl,
   stations,
-  datePickerComponent,
   isSubmitting,
   onSearch,
 }) => {
