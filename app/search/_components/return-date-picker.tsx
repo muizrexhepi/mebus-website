@@ -16,7 +16,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import useSearchStore from "@/store";
+import useSearchStore, { useCheckoutStore } from "@/store";
 import useIsMobile from "@/components/hooks/use-mobile";
 import { useTranslation } from "react-i18next";
 import { LOCALE_MAP } from "@/lib/data";
@@ -33,6 +33,8 @@ export default function ReturnDatePicker({
   const { t, i18n } = useTranslation();
   const { returnDate, setReturnDate, setTripType, departureDate } =
     useSearchStore();
+  const { setReturnTicket, setOutboundTicket, setIsSelectingReturn } =
+    useCheckoutStore();
   const isMobile = useIsMobile();
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [selectedReturnDate, setSelectedReturnDate] = React.useState<
@@ -94,9 +96,9 @@ export default function ReturnDatePicker({
     setSelectedReturnDate(undefined);
     setTripType("one-way");
 
-    // // Additional optional resets you might need
-    // setReturnTicket(null);
-    // setIsSelectingReturn(false);
+    setReturnTicket(null);
+    setOutboundTicket(null);
+    setIsSelectingReturn(false);
   }, [router]);
 
   const minReturnDate = departureDate

@@ -44,54 +44,45 @@ function TicketSummary({ ticket, isReturn }: TripProps) {
   const isNextDay = !departureDate.isSame(arrivalDate, "day");
 
   return (
-    <div className="w-full rounded-lg p-4 bg-white border border-gray-200">
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="text-base font-medium">
-            {departureDate.format("ddd, D MMM")}
-            {isNextDay && ` → ${arrivalDate.format("ddd, D MMM")}`}
-          </div>
-          <div className="px-3 py-1 bg-secondary-bg/20 font-medium rounded-full text-sm text-black">
-            {ticket.operatorInfo.name}
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div className="text-base font-medium">
+          {departureDate.format("ddd, D MMM")}
+          {isNextDay && ` → ${arrivalDate.format("ddd, D MMM")}`}
+        </div>
+        <div className="px-3 py-1 bg-secondary-bg/20 font-medium rounded-full text-sm text-black">
+          {ticket.operatorInfo.name}
+        </div>
+      </div>
+
+      <div className="relative">
+        <div className="flex items-center gap-4 mb-6">
+          <div className="flex-1 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Locate size={20} className="text-gray-600" />
+              <div className="flex flex-col">
+                <span className="capitalize">{ticket.stops[0].from.city}</span>
+                <span className="text-primary-bg/60 text-sm font-medium">
+                  {ticket.stops[0].from.name}
+                </span>
+              </div>
+            </div>
+            <span className="font-medium">{departureDate.format("HH:mm")}</span>
           </div>
         </div>
 
-        <div className="relative">
-          {/* <div className="absolute left-[5px] top-[20px] h-[calc(100%-40px)] w-[1px] border-l border-dashed border-gray-300" /> */}
-
-          <div className="flex items-center gap-4 mb-6">
-            <div className="flex-1 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Locate size={20} className="text-gray-600" />
-                <div className="flex flex-col">
-                  <span className="capitalize">
-                    {ticket.stops[0].from.city}
-                  </span>
-                  <span className="text-primary-bg/60 text-sm font-medium">
-                    {ticket.stops[0].from.name}
-                  </span>
-                </div>
+        <div className="flex items-center gap-4">
+          <div className="flex-1 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <MapPin size={20} className="text-gray-600" />
+              <div className="flex flex-col">
+                <span className="capitalize">{ticket.stops[0].to.city}</span>
+                <span className="text-primary-bg/60 text-sm font-medium">
+                  {ticket.stops[0].to.name}
+                </span>
               </div>
-              <span className="font-medium">
-                {departureDate.format("HH:mm")}
-              </span>
             </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <div className="flex-1 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <MapPin size={20} className="text-gray-600" />
-
-                <div className="flex flex-col">
-                  <span className="capitalize">{ticket.stops[0].to.city}</span>
-                  <span className="text-primary-bg/60 text-sm font-medium">
-                    {ticket.stops[0].to.name}
-                  </span>
-                </div>
-              </div>
-              <span className="font-medium">{arrivalDate.format("HH:mm")}</span>
-            </div>
+            <span className="font-medium">{arrivalDate.format("HH:mm")}</span>
           </div>
         </div>
       </div>
@@ -200,10 +191,15 @@ const OrderSummary = ({ className }: { className?: string }) => {
           {t("orderSummary.bookingDetails")}
         </h1>
         {outboundTicket && (
-          <TicketSummary ticket={outboundTicket} isReturn={false} />
-        )}
-        {returnTicket && (
-          <TicketSummary ticket={returnTicket} isReturn={true} />
+          <div className="w-full rounded-lg p-4 bg-white border border-gray-200">
+            <TicketSummary ticket={outboundTicket} isReturn={false} />
+            {returnTicket && (
+              <>
+                <div className="my-4 border-t border-gray-200" />
+                <TicketSummary ticket={returnTicket} isReturn={true} />
+              </>
+            )}
+          </div>
         )}
       </div>
       <div
