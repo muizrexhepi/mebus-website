@@ -5,7 +5,7 @@ import NavbarMenu from "./NavbarMenu";
 import Image from "next/image";
 import useUser from "../hooks/use-user";
 import UserNavbarMenu from "./UserMenu";
-import LanguageCurrencySelector from "../dialogs/LanguageDialog";
+import LanguageSelector from "../dialogs/LanguageDialog";
 
 const SecondaryNavbar = () => {
   const { user } = useUser();
@@ -22,7 +22,7 @@ const SecondaryNavbar = () => {
         />
       </Link>
       <div className="flex items-center gap-2">
-        <LanguageCurrencySelector />
+        <LanguageSelector />
 
         {user ? <UserNavbarMenu /> : <NavbarMenu />}
       </div>

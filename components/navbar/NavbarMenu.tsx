@@ -44,12 +44,11 @@ const NavbarMenu = () => {
     <Button
       aria-haspopup="true"
       aria-expanded="false"
-      aria-label="Open menu"
-      variant="ghost"
-      className="flex items-center space-x-2 px-3 h-10 w-fit rounded-full bg-white/30 hover:bg-white/20 transition-colors"
+      aria-label={t("nav.routes")}
+      className="flex items-center space-x-2 px-3 py-2 h-10 rounded-2xl border border-border bg-[#f3f4f6] hover:bg-[#f3f4f6]/95 outline-none transition-colors"
     >
-      <Menu color="white" />
-      <UserCircle color="white" />
+      <Menu className="text-gray-600" size={18} />
+      <UserCircle className="text-gray-600" size={18} />
     </Button>
   );
 
@@ -117,7 +116,7 @@ const NavbarMenu = () => {
         <SheetTrigger asChild>{MenuTrigger}</SheetTrigger>
         <SheetContent
           side="right"
-          className="w-full sm:w-[400px] bg-white p-0 z-[99]"
+          className="w-full sm:w-[400px] bg-[#f3f4f6] p-0 z-[99]"
         >
           <SheetHeader className="p-4 text-left border-b">
             <SheetTitle className="text-2xl font-bold pt-2">

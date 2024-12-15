@@ -99,7 +99,7 @@ const SearchBlock = () => {
   );
 
   return (
-    <div className="bg-white rounded-lg p-5 flex flex-col gap-4 w-full min-h-fit border border-gray-200">
+    <div className="bg-white rounded-2xl shadow-md p-6 flex flex-col gap-4 w-full min-h-fit border border-gray-200">
       <div className="space-y-4 flex-1">
         <div className="w-full flex flex-col gap-2 md:flex-row justify-start md:justify-between items-start md:items-center">
           <div className="flex items-center gap-4">
@@ -111,7 +111,7 @@ const SearchBlock = () => {
                   value="one-way"
                   checked={tripType === "one-way"}
                   onChange={() => handleTripTypeChange("one-way")}
-                  className="h-7 w-7 accent-primary-accent"
+                  className="h-5 w-5 accent-primary-accent"
                 />
                 <span>{t("searchBlock.tripType.oneWay")}</span>
               </label>
@@ -122,7 +122,7 @@ const SearchBlock = () => {
                   value="round-trip"
                   checked={tripType === "round-trip"}
                   onChange={() => handleTripTypeChange("round-trip")}
-                  className="h-7 w-7 accent-primary-accent"
+                  className="h-5 w-5 accent-primary-accent"
                 />
                 <span>{t("searchBlock.tripType.roundTrip")}</span>
               </label>

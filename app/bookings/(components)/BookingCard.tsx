@@ -69,7 +69,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({
                 <span>{booking.price.toFixed(2)}</span>
               </div>
             </div>
-            <div className="flex items-center space-x-2 w-full sm:w-auto justify-end h-14 sm:h-24 sm:justify-start">
+            <div className="flex items-center space-x-2 w-full sm:w-auto justify-end h-12 sm:h-24 sm:justify-start">
               <div className="flex flex-col justify-between h-full">
                 <div className="h-3 w-3 rounded-full bg-primary-accent" />
                 <div className="flex-1 ml-[5px] border-l-1 border-dotted border-primary-accent border w-0" />

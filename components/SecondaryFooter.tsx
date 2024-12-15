@@ -10,11 +10,11 @@ const SecondaryFooter = ({ className }: { className?: string }) => {
   return (
     <footer
       className={cn(
-        "bg-gradient-to-tr from-primary-bg/95 via-primary-bg to-primary-bg/95 w-full pb-4 sm:px-8 xl:px-0",
+        "bg-gradient-to-t from-primary-bg/90 to-primary-bg/85 w-full pb-4 sm:px-8 xl:px-0",
         className
       )}
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto paddingX">
         <div className="flex flex-wrap justify-center sm:justify-between items-center border-t border-white/10 pt-4 gap-2">
           <p className="text-sm text-white/70">{t("footer.copyright")}</p>
           <nav className="flex flex-wrap justify-center sm:justify-start gap-2 sm:gap-4 mt-2 sm:mt-0">

@@ -1,5 +1,6 @@
 import CheckoutForm from "@/components/forms/CheckoutForm";
 import Navbar from "@/components/navbar/Navbar";
+import SecondaryFooter from "@/components/SecondaryFooter";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,13 +9,14 @@ export const metadata: Metadata = {
 
 const Checkout = () => {
   return (
-    <div className="min-h-screen">
-      <div className="w-full flex justify-center items-center bg-gradient-to-tr from-primary-bg/95 via-primary-bg to-primary-bg/95 py-4">
-        <Navbar className="max-w-7xl mx-auto paddingX" />
+    <div className="min-h-screen bg-primary-bg/5">
+      <div className="bg-gradient-to-b from-primary-bg/85 to-primary-bg/90 py-4">
+        <Navbar className="max-w-6xl paddingX mx-auto z-20" />
       </div>
-      <div className="min-h-screen max-w-7xl paddingX mx-auto py-8 space-y-4">
+      <div className="min-h-screen max-w-6xl paddingX mx-auto py-8 space-y-4">
         <CheckoutForm />
       </div>
+      <SecondaryFooter />
     </div>
   );
 };

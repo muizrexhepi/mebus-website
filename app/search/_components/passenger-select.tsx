@@ -68,7 +68,7 @@ export default function PassengerSelect({
       <>
         <Button
           variant="outline"
-          className="w-full h-14 flex items-center justify-start bg-primary-bg/5 rounded-lg border-none ring-0"
+          className="w-full h-12 flex items-center justify-start bg-primary-bg/5 rounded-lg border-none ring-0"
           onClick={() => setIsDialogOpen(true)}
         >
           <User2 className="w-6 h-6 text-primary mr-2" />
@@ -96,7 +96,7 @@ export default function PassengerSelect({
   return (
     <Select>
       <SelectTrigger
-        className="outline-none h-14 hover:bg-accent bg-primary-bg/5 rounded-lg border-none ring-0 transition-colors text-base truncate"
+        className="outline-none h-12 hover:bg-accent bg-primary-bg/5 rounded-lg border-none ring-0 transition-colors text-base truncate"
         aria-label="Select number of passengers"
       >
         <div className="flex items-center">

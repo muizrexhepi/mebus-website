@@ -117,7 +117,7 @@ export default function ReturnDatePicker({
       <>
         <Button
           variant="outline"
-          className="w-full h-14 flex items-center justify-between bg-primary-bg/5 rounded-lg border-none"
+          className="w-full h-12 flex items-center justify-between bg-primary-bg/5 rounded-lg border-none"
           onClick={() => {
             setTripType("round-trip");
             setIsDialogOpen(true);
@@ -193,7 +193,7 @@ export default function ReturnDatePicker({
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="w-full h-14 flex items-center px-2.5 justify-between bg-primary-bg/5 rounded-lg border-none"
+          className="w-full h-12 flex items-center px-2.5 justify-between bg-primary-bg/5 rounded-lg border-none"
         >
           <div className="flex items-center">
             {/* <CalendarIcon

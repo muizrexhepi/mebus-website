@@ -44,14 +44,13 @@ const UserNavbarMenu = () => {
 
   const MenuTrigger = (
     <Button
-      variant="ghost"
       aria-haspopup="true"
       aria-expanded="false"
-      aria-label={t("nav.routes")} // Use translation for "routes"
-      className="flex items-center space-x-2 px-3 h-10 w-fit rounded-full bg-white/30 hover:bg-white/20 transition-colors"
+      aria-label={t("nav.routes")}
+      className="flex items-center space-x-2 px-3 py-1 h-10 rounded-2xl border border-border bg-[#f3f4f6] hover:bg-[#f3f4f6]/95 outline-none transition-colors"
     >
-      <Menu color="white" />
-      <UserCircle color="white" />
+      <Menu className="text-gray-600" size={18} />
+      <UserCircle className="text-gray-600" size={18} />
     </Button>
   );
 
@@ -106,7 +105,7 @@ const UserNavbarMenu = () => {
         <SheetTrigger asChild>{MenuTrigger}</SheetTrigger>
         <SheetContent
           side="right"
-          className="w-full sm:w-[400px] bg-white p-0 z-[99]"
+          className="w-full sm:w-[400px] bg-[#f3f4f6] p-0 z-[99]"
         >
           <SheetHeader className="p-4 text-left border-b">
             <SheetTitle className="text-2xl font-bold pt-2">
@@ -135,20 +134,14 @@ const UserNavbarMenu = () => {
             {t("nav.account")}
           </Link>
         </DropdownMenuItem>
-        {/* <DropdownMenuItem asChild>
-          <Link href="/bookings" className="w-full">
-            {t("nav.bookings")} {/* Translated "Bookings" */}
-        {/* </Link> */}
-        {/* </DropdownMenuItem>  */}
         <DropdownMenuItem asChild>
           <Link href="/help" className="w-full">
             {t("footer.links.customersupport")}{" "}
-            {/* Translated "Help & Support" */}
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/contact" className="w-full">
-            {t("nav.contact")} {/* Translated "Contact Us" */}
+            {t("nav.contact")}
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />

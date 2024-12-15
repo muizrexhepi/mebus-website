@@ -6,7 +6,7 @@ const AboutSection = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-12">
+    <div className="max-w-6xl mx-auto paddingX py-12">
       {/* Main Title */}
       <h1 className="text-4xl font-bold text-primary-bg mb-8">
         {t("aboutSection.title")}

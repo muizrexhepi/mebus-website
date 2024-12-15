@@ -64,7 +64,7 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
               placeholder="Search for a city"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full h-14 border-none ring-0 font-medium bg-primary-bg/5"
+              className="w-full h-12 border-none ring-0 font-medium bg-primary-bg/5"
             />
           </div>
         </DialogHeader>

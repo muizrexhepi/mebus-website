@@ -7,7 +7,7 @@ const FeaturesSection = () => {
 
   return (
     <div className="w-full bg-primary-bg/5 py-12 overflow-hidden ">
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto paddingX">
         <div className="flex flex-col md:flex-row gap-16 md:gap-24">
           {/* Feature 1 */}
           <div className="flex-1 group">

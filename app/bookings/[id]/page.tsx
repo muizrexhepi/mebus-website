@@ -104,7 +104,7 @@ export default function BookingDetailsPage({
     return (
       <div className="h-screen w-full max-w-5xl space-y-3 py-20 paddingX mx-auto">
         <div className="flex justify-between items-center">
-          <Skeleton className="h-14 w-40" />
+          <Skeleton className="h-12 w-40" />
           <Skeleton className="h-12 w-26" />
         </div>
         <Skeleton className="h-12 w-32" />
@@ -215,7 +215,7 @@ export default function BookingDetailsPage({
   };
 
   return (
-    <div className="space-y-4 max-w-5xl mx-auto py-20 paddingX">
+    <div className="space-y-4 max-w-5xl mx-auto py-20 paddingX min-h-screen">
       <DownloadableBookingPDF booking={booking} />
 
       {/* <div className="flex flex-col sm:flex-row justify-between items-start gap-2 sm:items-center">

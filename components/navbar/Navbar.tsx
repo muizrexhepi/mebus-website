@@ -7,14 +7,16 @@ import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import useUser from "../hooks/use-user";
 import UserNavbarMenu from "./UserMenu";
-import LanguageCurrencySelector from "@/components/dialogs/LanguageDialog";
+import LanguageSelector from "@/components/dialogs/LanguageDialog";
 
 const Navbar = ({ className }: { className?: string }) => {
   const { user } = useUser();
   const { t } = useTranslation();
 
   return (
-    <div className={cn("w-full flex justify-between items-center", className)}>
+    <header
+      className={cn("w-full flex justify-between items-center", className)}
+    >
       <div className="flex items-center gap-8">
         <Link href={"/"}>
           <Image
@@ -36,10 +38,10 @@ const Navbar = ({ className }: { className?: string }) => {
       </div>
 
       <div className="flex items-center gap-2">
-        <LanguageCurrencySelector />
+        <LanguageSelector />
         {user ? <UserNavbarMenu /> : <NavbarMenu />}
       </div>
-    </div>
+    </header>
   );
 };
 

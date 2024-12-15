@@ -80,7 +80,7 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
       <>
         <Button
           variant="outline"
-          className="w-full h-14 flex items-center justify-start bg-primary-bg/5 rounded-lg border-none ring-0"
+          className="w-full h-12 flex items-center justify-start bg-primary-bg/5 rounded-lg border-none ring-0"
           onClick={() => setIsDialogOpen(true)}
         >
           <CalendarIcon className="mr-2 h-6 w-6" />
@@ -137,7 +137,7 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="w-full h-14 flex items-center justify-start px-2.5 bg-primary-bg/5 rounded-lg border-none ring-0"
+          className="w-full h-12 flex items-center justify-start px-2.5 bg-primary-bg/5 rounded-lg border-none ring-0"
         >
           <CalendarIcon className={`mr-2 h-4 w-4 ${!updateUrl && "hidden"}`} />
           <span>{buttonText}</span>

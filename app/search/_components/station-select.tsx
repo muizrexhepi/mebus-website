@@ -139,7 +139,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
       <>
         <Button
           variant={"outline"}
-          className="w-full h-14 flex items-center justify-start bg-primary-bg/5 rounded-lg border-none ring-0"
+          className="w-full h-12 flex items-center justify-start bg-primary-bg/5 rounded-lg border-none ring-0"
           onClick={() => setIsDialogOpen(true)}
         >
           {departure === "from" ? (
@@ -177,7 +177,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
           onFocus={handleFocus}
           onBlur={handleBlur}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full h-14 pl-10 hover:bg-accent bg-primary-bg/5 rounded-lg border-none ring-0 capitalize text-base"
+          className="w-full h-12 pl-10 hover:bg-accent bg-primary-bg/5 rounded-lg border-none ring-0 capitalize text-base"
         />
       </div>
 

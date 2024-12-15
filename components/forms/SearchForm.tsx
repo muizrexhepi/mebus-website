@@ -39,9 +39,9 @@ export const SearchForm: React.FC<SearchFormProps> = ({
     >
       {["from", "to"].map((departure) => (
         <div key={departure} className="w-full">
-          <p className="hidden sm:block text-black font-medium text-base">
+          {/* <p className="hidden sm:block text-black font-medium text-sm">
             {t(`searchForm.${departure}`)}
-          </p>
+          </p> */}
           {loading ? (
             <InputSkeleton />
           ) : (
@@ -54,9 +54,9 @@ export const SearchForm: React.FC<SearchFormProps> = ({
         </div>
       ))}
       <div className="w-full">
-        <p className="hidden sm:block text-black font-medium text-base">
+        {/* <p className="hidden sm:block text-black font-medium text-base">
           {t("searchForm.departure")}
-        </p>{" "}
+        </p>{" "} */}
         {loading ? (
           <InputSkeleton />
         ) : (
@@ -69,9 +69,9 @@ export const SearchForm: React.FC<SearchFormProps> = ({
         )}
       </div>
       <div>
-        <p className="hidden sm:block text-black font-medium text-base">
+        {/* <p className="hidden sm:block text-black font-medium text-base">
           {t("searchForm.passengers")}
-        </p>{" "}
+        </p>{" "} */}
         {loading ? (
           <InputSkeleton />
         ) : (
@@ -81,7 +81,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({
       <Button
         type="submit"
         className={cn(
-          "p-6 flex items-center gap-2 text-base w-full sm:col-span-2 rounded-lg h-14 lg:col-span-1 bg-gradient-to-tr from-[#ff6700] to-[#ff007f]",
+          "p-6 flex items-center gap-2 w-full sm:col-span-2 rounded-lg h-12 lg:col-span-1 bg-gradient-to-tr from-[#ff6700] to-[#ff007f]",
           {
             hidden: updateUrl,
           }

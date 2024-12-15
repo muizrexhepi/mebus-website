@@ -222,7 +222,7 @@ export default function BusRoutesClient({
                 onChange={(e) => setSearchFrom(e.target.value)}
                 onFocus={() => handleFocus(true)}
                 onBlur={() => handleBlur(true)}
-                className="pl-10 h-14 capitalize text-base"
+                className="pl-10 h-12 capitalize text-base"
               />
               {openFromOptions && (
                 <div className="absolute top-14 w-full bg-white z-20 left-0 mt-4 shadow-sm h-fit max-h-80 overflow-y-auto rounded-lg">
@@ -270,7 +270,7 @@ export default function BusRoutesClient({
                 onChange={(e) => setSearchTo(e.target.value)}
                 onFocus={() => handleFocus(false)}
                 onBlur={() => handleBlur(false)}
-                className="pl-10 h-14 capitalize text-base"
+                className="pl-10 h-12 capitalize text-base"
               />
               {openToOptions && (
                 <div className="absolute top-14 w-full bg-white left-0 mt-4 shadow-sm h-fit max-h-80 overflow-y-auto rounded-lg z-[999]">
@@ -311,7 +311,7 @@ export default function BusRoutesClient({
             </div>
             <Button
               variant={"primary"}
-              className="h-14 sm:col-span-2 lg:col-span-1 z-[10]"
+              className="h-12 sm:col-span-2 lg:col-span-1 z-[10]"
               type="button"
               onClick={handleTicketSearch}
             >

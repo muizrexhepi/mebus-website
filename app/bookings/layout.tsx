@@ -8,8 +8,8 @@ export default function BookingsLayout({
 }>) {
   return (
     <div>
-      <div className="paddingX w-full py-4 bg-gradient-to-tr from-primary-bg/95 via-primary-bg to-primary-bg/95">
-        <Navbar className="max-w-6xl mx-auto" />
+      <div className="bg-gradient-to-b from-primary-bg/85 to-primary-bg/90 py-4">
+        <Navbar className="max-w-6xl paddingX mx-auto z-20" />
       </div>
       {children}
       <SecondaryFooter className="mt-12" />

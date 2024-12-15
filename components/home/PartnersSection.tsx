@@ -19,7 +19,7 @@ const PartnersSection = () => {
 
   return (
     <div className="w-full bg-white py-12">
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto paddingX">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div className="space-y-6 max-w-xl">
             <h2 className="text-4xl font-bold text-primary-bg">

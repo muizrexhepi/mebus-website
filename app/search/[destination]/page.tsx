@@ -25,12 +25,12 @@ export async function generateMetadata({
 const SearchPage = async () => {
   return (
     <div className="min-h-screen bg-primary-bg/5">
-      <div className="w-full flex justify-center items-center bg-gradient-to-tr from-primary-bg/95 via-primary-bg to-primary-bg/95 py-4">
-        <Navbar className="max-w-7xl paddingX mx-auto z-20" />
+      <div className="bg-gradient-to-b from-primary-bg/85 to-primary-bg/90 py-4">
+        <Navbar className="max-w-6xl paddingX mx-auto z-20" />
       </div>
       <SearchSection />
       <div className="px-4 sm:px-8 max-w-6xl mx-auto py-4 space-y-4 xl:px-0 min-h-screen">
-        <div className="w-full max-w-3xl mx-auto">
+        <div className="w-full max-w-2xl mx-auto">
           <SearchedTickets />
         </div>
       </div>
