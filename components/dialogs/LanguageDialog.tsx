@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Globe } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -34,8 +33,7 @@ const LanguageSelector = () => {
 
   return (
     <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
-      <SelectTrigger className="flex items-center gap-2 bg-transparent text-white border-none py-0 px-2 outline-none">
-        <Globe className="h-4 w-4 text-white" />
+      <SelectTrigger className="flex items-center gap-2 bg-transparent text-black border-none py-0 text-base px-2 outline-none">
         <SelectValue placeholder="Select language" />
       </SelectTrigger>
       <SelectContent>
@@ -46,7 +44,7 @@ const LanguageSelector = () => {
             className="cursor-pointer"
           >
             <div className="flex items-center gap-2">
-              {/* <span>{lang.flag}</span> */}
+              <span>{lang.flag}</span>
               <span className="text-sm uppercase">{lang.code}</span>
             </div>
           </SelectItem>

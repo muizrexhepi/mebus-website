@@ -83,8 +83,8 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
           className="w-full h-12 flex items-center justify-start bg-primary-bg/5 rounded-lg border-none ring-0"
           onClick={() => setIsDialogOpen(true)}
         >
-          <CalendarIcon className="mr-2 h-6 w-6" />
-          <span className="font-medium">{buttonText}</span>
+          <CalendarIcon className="mr-2 h-5 w-5" />
+          <span className="font-normal">{buttonText}</span>
         </Button>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogContent className="sm:max-w-[425px] py-20 h-full sm:h-auto flex flex-col px-0">
@@ -140,7 +140,7 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
           className="w-full h-12 flex items-center justify-start px-2.5 bg-primary-bg/5 rounded-lg border-none ring-0"
         >
           <CalendarIcon className={`mr-2 h-4 w-4 ${!updateUrl && "hidden"}`} />
-          <span>{buttonText}</span>
+          <span className="text-base font-normal">{buttonText}</span>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">

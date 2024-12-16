@@ -103,7 +103,7 @@ const SearchBlock = () => {
       <div className="space-y-4 flex-1">
         <div className="w-full flex flex-col gap-2 md:flex-row justify-start md:justify-between items-start md:items-center">
           <div className="flex items-center gap-4">
-            <div className="flex gap-4">
+            <div className="flex gap-4 text-base">
               <label className="cursor-pointer flex items-center gap-2">
                 <input
                   type="radio"
@@ -111,7 +111,7 @@ const SearchBlock = () => {
                   value="one-way"
                   checked={tripType === "one-way"}
                   onChange={() => handleTripTypeChange("one-way")}
-                  className="h-5 w-5 accent-primary-accent"
+                  className="h-4 w-4 accent-primary-accent"
                 />
                 <span>{t("searchBlock.tripType.oneWay")}</span>
               </label>
@@ -122,7 +122,7 @@ const SearchBlock = () => {
                   value="round-trip"
                   checked={tripType === "round-trip"}
                   onChange={() => handleTripTypeChange("round-trip")}
-                  className="h-5 w-5 accent-primary-accent"
+                  className="h-4 w-4 accent-primary-accent"
                 />
                 <span>{t("searchBlock.tripType.roundTrip")}</span>
               </label>

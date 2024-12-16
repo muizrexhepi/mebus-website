@@ -124,7 +124,7 @@ export default function ReturnDatePicker({
           }}
         >
           <div className="flex items-center">
-            <CalendarIcon className="mr-2 h-6 w-6 " />
+            <CalendarIcon className="mr-2 h-5 w-5 " />
             <span
               className={selectedReturnDate ? "text-black" : "text-primary"}
             >

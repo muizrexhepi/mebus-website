@@ -71,8 +71,8 @@ export default function PassengerSelect({
           className="w-full h-12 flex items-center justify-start bg-primary-bg/5 rounded-lg border-none ring-0"
           onClick={() => setIsDialogOpen(true)}
         >
-          <User2 className="w-6 h-6 text-primary mr-2" />
-          <span className="font-medium">
+          <User2 className="w-5 h-5 text-primary mr-2" />
+          <span className="font-normal">
             {passengers.adults > 1
               ? `${passengers.adults} ${t("orderSummary.adults")}`
               : `${passengers.adults} ${t("passengerInfo.adult")}`}
@@ -101,28 +101,29 @@ export default function PassengerSelect({
       >
         <div className="flex items-center">
           <User2 className="w-4 h-4 text-primary mr-2" />
-          {passengers.adults > 1
-            ? `${passengers.adults} ${t("orderSummary.adults")}`
-            : `${passengers.adults} ${t("passengerInfo.adult")}`}
-          {passengers.children > 0 &&
-            `, ${passengers.children} ${
-              passengers.children > 1
-                ? t("orderSummary.children")
-                : t("passengerInfo.child")
-            }`}
+          <span className="font-normal text-base">
+            {" "}
+            {passengers.adults > 1
+              ? `${passengers.adults} ${t("orderSummary.adults")}`
+              : `${passengers.adults} ${t("passengerInfo.adult")}`}
+            {passengers.children > 0 &&
+              `, ${passengers.children} ${
+                passengers.children > 1
+                  ? t("orderSummary.children")
+                  : t("passengerInfo.child")
+              }`}
+          </span>
         </div>
       </SelectTrigger>
 
       <SelectContent className="w-[320px] p-4">
-        <div className="space-y-6">
-          {/* Adults Section */}
+        <div className="space-y-5">
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <div>
                 <h3 className="font-semibold text-base">
                   {t("orderSummary.adults")}
                 </h3>
-                {/* <p className="text-sm text-gray-500">Aged 16+</p> */}
               </div>
               <div className="flex items-center gap-2">
                 <Button
@@ -150,7 +151,6 @@ export default function PassengerSelect({
             </div>
           </div>
 
-          {/* Children Section */}
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <div>

@@ -25,7 +25,7 @@ export async function generateMetadata({
 const SearchPage = async () => {
   return (
     <div className="min-h-screen bg-primary-bg/5">
-      <div className="bg-gradient-to-b from-primary-bg/85 to-primary-bg/90 py-4">
+      <div className="bg-white py-4">
         <Navbar className="max-w-6xl paddingX mx-auto z-20" />
       </div>
       <SearchSection />

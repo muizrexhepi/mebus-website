@@ -143,11 +143,11 @@ const StationSelect: React.FC<CustomSelectProps> = ({
           onClick={() => setIsDialogOpen(true)}
         >
           {departure === "from" ? (
-            <Locate className="w-6 h-6 text-primary mr-2" />
+            <Locate className="w-5 h-5 text-primary mr-2" />
           ) : (
-            <MapPin className="w-6 h-6 text-primary mr-2" />
+            <MapPin className="w-5 h-5 text-primary mr-2" />
           )}
-          <span className="capitalize font-medium">
+          <span className="capitalize font-normal text-base">
             {searchTerm || "Select a city"}
           </span>
         </Button>
@@ -195,7 +195,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
                   <Button
                     key={station._id}
                     variant="ghost"
-                    className="w-full justify-start text-left h-16 px-4 hover:bg-accent hover:text-accent-foreground rounded-none"
+                    className="w-full justify-start text-left h-15 px-4 hover:bg-accent hover:text-accent-foreground rounded-none"
                     onClick={() => handleSelect(station)}
                     type="button"
                   >
@@ -224,7 +224,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
                   <Button
                     key={station._id}
                     variant="ghost"
-                    className="w-full justify-start text-left h-16 px-4 hover:bg-accent hover:text-accent-foreground rounded-none"
+                    className="w-full justify-start text-left h-15 px-4 hover:bg-accent hover:text-accent-foreground rounded-none"
                     onClick={() => handleSelect(station)}
                     type="button"
                   >
