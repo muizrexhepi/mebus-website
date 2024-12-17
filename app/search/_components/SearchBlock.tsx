@@ -99,7 +99,7 @@ const SearchBlock = () => {
   );
 
   return (
-    <div className="bg-white sm:rounded-2xl sm:shadow-md sm:p-6 flex flex-col gap-4 w-full min-h-fit sm:border sm:border-gray-200">
+    <div className="bg-transparent sm:bg-white sm:rounded-2xl sm:shadow-md py-6 sm:p-6 flex flex-col gap-4 w-full min-h-fit sm:border sm:border-gray-200">
       <div className="space-y-4 flex-1">
         <div className="w-full flex flex-col gap-2 md:flex-row justify-start md:justify-between items-start md:items-center">
           <div className="flex items-center gap-4">
