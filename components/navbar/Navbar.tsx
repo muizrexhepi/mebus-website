@@ -11,9 +11,10 @@ import LanguageSelector from "@/components/dialogs/LanguageDialog";
 import { NAV_LINKS } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { useNavbarStore } from "@/store";
+import { useAuth } from "../providers/auth-provider";
 
 const Navbar = ({ className }: { className?: string }) => {
-  const { user } = useUser();
+  const { user } = useAuth();
   const { t } = useTranslation();
   const { setOpenLogin, setOpenRegister } = useNavbarStore();
 

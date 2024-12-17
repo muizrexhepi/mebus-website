@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import Navbar from "@/components/navbar/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 import SearchSection from "../_components/SearchSection";
 import SearchedTickets from "../_components/SearchedTickets";
@@ -25,9 +24,6 @@ export async function generateMetadata({
 const SearchPage = async () => {
   return (
     <div className="min-h-screen bg-primary-bg/5">
-      <div className="bg-white py-4">
-        <Navbar className="max-w-6xl paddingX mx-auto z-20" />
-      </div>
       <SearchSection />
       <div className="px-4 sm:px-8 max-w-6xl mx-auto py-4 space-y-4 xl:px-0 min-h-screen">
         <div className="w-full max-w-2xl mx-auto">

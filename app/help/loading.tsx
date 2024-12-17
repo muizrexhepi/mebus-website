@@ -3,8 +3,8 @@ import React from "react";
 
 const Loading = () => {
   return (
-    <div className="min-h-screen">
-      <Loader2 className="h-12 w-12 m-auto my-12 animate-spin" />
+    <div className="h-screen w-full justify-center items-center flex">
+      <Loader2 className="h-10 w-10 animate-spin text-black" />
     </div>
   );
 };

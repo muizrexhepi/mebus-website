@@ -104,7 +104,8 @@ interface SearchState {
   passengers: Passengers;
   departureDate: string | null;
   returnDate: string | null;
-  tripType: 'one-way' | 'round-trip'; 
+  tripType: 'one-way' | 'round-trip';
+  loading: boolean;
 
   setFrom: (from: string) => void;
   setTo: (to: string) => void;
@@ -114,11 +115,15 @@ interface SearchState {
   setPassengers: (passengers: Passengers) => void;
   setDepartureDate: (date: string | null) => void;
   setReturnDate: (returnDate: string | null) => void;
-  setTripType: (tripType: 'one-way' | 'round-trip') => void; 
+  setTripType: (tripType: 'one-way' | 'round-trip') => void;
+  setLoading: (loading: boolean) => void;
   resetSearch: () => void;
 }
 
-const initialState: Omit<SearchState, 'setFrom' | 'setTo' | 'setFromCity' | 'setToCity' | 'setRoute' | 'setPassengers' | 'setDepartureDate' | 'setReturnDate' | 'setTripType' | 'resetSearch'> = {
+const initialState: Omit<
+  SearchState,
+  'setFrom' | 'setTo' | 'setFromCity' | 'setToCity' | 'setRoute' | 'setPassengers' | 'setDepartureDate' | 'setReturnDate' | 'setTripType' | 'setLoading' | 'resetSearch'
+> = {
   from: '',
   to: '',
   fromCity: '',
@@ -128,9 +133,10 @@ const initialState: Omit<SearchState, 'setFrom' | 'setTo' | 'setFromCity' | 'set
     adults: 1,
     children: 0,
   },
-  departureDate: format(new Date(), "dd-MM-yyyy"),
-  returnDate: format(addDays(new Date(), 7), "dd-MM-yyyy"),
-  tripType: 'one-way', 
+  departureDate: format(new Date(), 'dd-MM-yyyy'),
+  returnDate: format(addDays(new Date(), 7), 'dd-MM-yyyy'),
+  tripType: 'one-way',
+  loading: false,
 };
 
 const useSearchStore = create<SearchState>()(
@@ -146,16 +152,18 @@ const useSearchStore = create<SearchState>()(
       setDepartureDate: (departureDate) => set({ departureDate }),
       setReturnDate: (returnDate) => set({ returnDate }),
       setTripType: (tripType) => set({ tripType }),
+      setLoading: (loading) => set({ loading }),
       resetSearch: () => set((state) => ({
         from: state.from || initialState.from,
         to: state.to || initialState.to,
         fromCity: state.fromCity || initialState.fromCity,
         toCity: state.toCity || initialState.toCity,
         route: state.route || initialState.route,
-        passengers: state.passengers || initialState.passengers, 
+        passengers: state.passengers || initialState.passengers,
         departureDate: state.departureDate || initialState.departureDate,
         returnDate: state.returnDate || initialState.returnDate,
-        tripType: state.tripType || initialState.tripType, 
+        tripType: state.tripType || initialState.tripType,
+        loading: initialState.loading,
       })),
     }),
     {

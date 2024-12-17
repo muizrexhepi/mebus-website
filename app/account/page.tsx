@@ -2,10 +2,10 @@
 import Link from "next/link";
 import { ComponentType, SVGProps, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import useUser from "@/components/hooks/use-user";
 import { useTranslation } from "react-i18next";
-import { Bell, Book, Lock, Shield, User, Wallet } from "lucide-react";
+import { Book, Lock, Shield, User, Wallet } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/components/providers/auth-provider";
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 interface AccountSetting {
@@ -16,9 +16,15 @@ interface AccountSetting {
 }
 
 export default function Account() {
-  const { user } = useUser();
+  const { user } = useAuth();
   const router = useRouter();
   console.log({ user });
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/");
+    }
+  }, [user]);
 
   // const [accountBalanceInCents, setAccountBalanceInCents] = useState<number>(0);
 

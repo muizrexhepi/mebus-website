@@ -87,7 +87,7 @@ const OperatorRoutesPage: React.FC<{ params: { id: string } }> = async ({
 
   return (
     <div className="bg-gray-50 min-h-screen py-12">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-6xl paddingX">
         <div className="flex justify-between items-center">
           <div className="flex items-center mb-8 space-x-4">
             <BuildingIcon className="w-8 h-8 text-primary" />

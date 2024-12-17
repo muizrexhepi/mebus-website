@@ -145,6 +145,7 @@ const BookingsDashboard: React.FC = () => {
               bookings
                 ?.map((booking) => (
                   <BookingCard
+                    onBookingUpdated={() => {}}
                     key={booking._id}
                     booking={booking}
                     handleNoFlexAction={handleNoFlexAction}
@@ -156,6 +157,7 @@ const BookingsDashboard: React.FC = () => {
               noUserBookings
                 ?.map((booking) => (
                   <BookingCard
+                    onBookingUpdated={() => {}}
                     key={booking._id}
                     booking={booking}
                     handleNoFlexAction={handleNoFlexAction}
@@ -176,6 +178,7 @@ const BookingsDashboard: React.FC = () => {
                   )
                   ?.map((booking) => (
                     <BookingCard
+                      onBookingUpdated={() => {}}
                       key={booking._id}
                       booking={booking}
                       handleNoFlexAction={handleNoFlexAction}
@@ -191,6 +194,7 @@ const BookingsDashboard: React.FC = () => {
                   )
                   ?.map((booking) => (
                     <BookingCard
+                      onBookingUpdated={() => {}}
                       key={booking._id}
                       booking={booking}
                       handleNoFlexAction={handleNoFlexAction}
@@ -212,6 +216,7 @@ const BookingsDashboard: React.FC = () => {
                   )
                   ?.map((booking) => (
                     <BookingCard
+                      onBookingUpdated={() => {}}
                       key={booking._id}
                       booking={booking}
                       handleNoFlexAction={handleNoFlexAction}
@@ -227,6 +232,7 @@ const BookingsDashboard: React.FC = () => {
                   )
                   ?.map((booking) => (
                     <BookingCard
+                      onBookingUpdated={() => {}}
                       key={booking._id}
                       booking={booking}
                       handleNoFlexAction={handleNoFlexAction}

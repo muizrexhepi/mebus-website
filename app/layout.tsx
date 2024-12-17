@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/providers/theme-provider";
 import ReactQueryProvider from "../components/providers/ReactQueryProvider";
 import { Toaster } from "@/components/ui/toaster";
 import CookieConsent from "@/components/CookieConsent";
@@ -9,6 +8,7 @@ import TranslationProvider from "@/components/providers/TranslationProvider";
 import { Analytics } from "@vercel/analytics/react";
 import AuthProvider from "@/components/providers/auth-provider";
 import ClientProviders from "@/components/providers/client-providers";
+import Navbar from "@/components/navbar/Navbar";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -77,6 +77,7 @@ export default function RootLayout({
             <Toaster />
             <TranslationProvider>
               <ClientProviders>
+                <Navbar className="paddingX max-w-6xl py-4 mx-auto" />
                 {children}
                 <CookieConsent />
               </ClientProviders>

@@ -1,85 +1,15 @@
 "use client";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect } from "react";
 import useSearchStore, { useCheckoutStore } from "@/store";
-import { useRouter } from "next/navigation";
-import { getStations } from "@/actions/station";
-import { Station } from "@/models/station";
 import { SearchForm } from "../../../components/forms/SearchForm";
 import { useTranslation } from "react-i18next";
-import DatePicker from "./date-picker";
 
 const SearchBlock = () => {
   const { t } = useTranslation();
-  const [stations, setStations] = useState<Station[]>([]);
-  const router = useRouter();
-  const [loading, setLoading] = useState<boolean>(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const {
-    returnDate,
-    departureDate,
-    setReturnDate,
-    from,
-    to,
-    fromCity,
-    toCity,
-    passengers,
-    tripType,
-    setTripType,
-  } = useSearchStore();
-  const resetSearch = useSearchStore((state) => state.resetSearch);
-
+  const { setReturnDate, tripType, setTripType } = useSearchStore();
+  const { resetSearch } = useSearchStore();
   const { setOutboundTicket, setReturnTicket, setIsSelectingReturn } =
     useCheckoutStore();
-
-  useEffect(() => {
-    const fetchStations = async () => {
-      try {
-        const data = await getStations();
-        setStations(data);
-      } catch (error) {
-        console.error(t("searchBlock.searchError"), error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStations();
-  }, []);
-
-  const handleSearch = useCallback(async () => {
-    setIsSubmitting(true);
-    try {
-      const searchParams = new URLSearchParams({
-        departureStation: from,
-        arrivalStation: to,
-        departureDate: departureDate || "",
-        adult: passengers.adults.toString(),
-        children: passengers.children.toString(),
-      });
-
-      if (returnDate && tripType === "round-trip") {
-        searchParams.append("returnDate", returnDate);
-      }
-
-      router.push(
-        `/search/${fromCity.toLowerCase()}-${toCity.toLowerCase()}?${searchParams.toString()}`
-      );
-    } catch (err) {
-      console.error("Search error:", err);
-    } finally {
-      setIsSubmitting(false);
-    }
-  }, [
-    from,
-    to,
-    departureDate,
-    returnDate,
-    passengers,
-    fromCity,
-    toCity,
-    router,
-    tripType,
-  ]);
 
   useEffect(() => {
     return () => {
@@ -130,12 +60,7 @@ const SearchBlock = () => {
           </div>
         </div>
 
-        <SearchForm
-          loading={loading}
-          stations={stations}
-          isSubmitting={isSubmitting}
-          onSearch={handleSearch}
-        />
+        <SearchForm />
       </div>
     </div>
   );

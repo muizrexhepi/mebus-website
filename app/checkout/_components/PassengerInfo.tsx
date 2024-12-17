@@ -6,10 +6,10 @@ import { PassengerData } from "@/components/hooks/use-passengers";
 import useSearchStore, { useCheckoutStore } from "@/store";
 import PassengerSelector from "./PassengerSelector";
 import { X } from "lucide-react";
-import useUser from "../../../components/hooks/use-user";
 import { useTranslation } from "react-i18next";
 import { passengerSchema } from "@/schemas";
 import { z } from "zod";
+import { useAuth } from "@/components/providers/auth-provider";
 
 interface InputFieldProps {
   label: string;
@@ -69,7 +69,7 @@ const PassengerInfo: React.FC = () => {
     children: passengersAmount.children || 0,
   };
 
-  const { user } = useUser();
+  const { user } = useAuth();
 
   useEffect(() => {
     const useUserInfo = user && user.prefs.useAsPassengerInfo == true;

@@ -41,7 +41,7 @@ export const metadata: Metadata = {
 export default function OperatorPartnership() {
   return (
     <div className="mx-auto xl:px-0 py-12">
-      <section className="flex flex-col lg:flex-row items-center justify-between gap-12 pb-12 max-w-7xl paddingX mx-auto">
+      <section className="flex flex-col lg:flex-row items-center justify-between gap-12 pb-12 max-w-6xl paddingX mx-auto">
         <div className="lg:w-1/2">
           <h1 className="text-3xl sm:text-5xl font-bold mb-6">
             Partner with GoBusly
@@ -70,7 +70,7 @@ export default function OperatorPartnership() {
       </section>
 
       <section className="py-16 bg-gray-100">
-        <div className="max-w-7xl paddingX mx-auto">
+        <div className="max-w-6xl paddingX mx-auto">
           <h2 className="text-3xl font-semibold mb-4 text-center">
             Why partner with GoBusly?
           </h2>
@@ -133,7 +133,7 @@ export default function OperatorPartnership() {
         </div>
       </section>
 
-      <section className="py-16 flex max-w-7xl paddingX mx-auto flex-col lg:flex-row items-center justify-between gap-12">
+      <section className="py-16 flex max-w-6xl paddingX mx-auto flex-col lg:flex-row items-center justify-between gap-12">
         <div className="lg:w-1/2">
           <h2 className="text-3xl font-semibold mb-4">
             How to become a GoBusly partner
@@ -187,7 +187,7 @@ export default function OperatorPartnership() {
         </div>
       </section>
 
-      <section className="max-w-7xl paddingX mx-auto">
+      <section className="max-w-6xl paddingX mx-auto">
         <div className="py-16 button-gradient text-white text-center rounded-lg">
           <h2 className="text-3xl font-semibold mb-4">Ready to get started?</h2>
           <p className="mb-8 max-w-2xl mx-auto text-lg px-4 xl:px-0">

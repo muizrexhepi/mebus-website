@@ -1,7 +1,6 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import Navbar from "@/components/navbar/Navbar";
 import SearchBlock from "../../app/search/_components/SearchBlock";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
@@ -42,14 +41,12 @@ const Hero = () => {
 
       <div className="relative z-20 w-full">
         <div className="max-w-6xl mx-auto paddingX">
-          <Navbar className="py-4" />
-
           <div className="space-y-6 pt-8 sm:pt-16 md:pt-20">
             <div className="max-w-4xl">
-              <h1 className="text-center sm:text-left text-2xl sm:text-4xl sm:font-medium text-transparent button-gradient bg-clip-text mb-2">
+              <h1 className="text-left text-2xl sm:text-4xl sm:font-medium text-transparent button-gradient bg-clip-text mb-1 sm:mb-2">
                 {t("hero.title")}
               </h1>
-              <p className="text-center sm:text-left text-sm sm:text-base text-black/70 max-w-2xl">
+              <p className="text-left text-sm sm:text-base text-black/70 max-w-2xl">
                 Book your bus tickets for a comfortable journey
               </p>
             </div>

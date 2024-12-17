@@ -1,4 +1,6 @@
-import React, { useRef, useCallback } from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,18 +15,24 @@ import {
   ClockIcon,
   DollarSign,
   ChevronDownIcon,
-  Edit,
   View,
-  Download,
   XCircle,
 } from "lucide-react";
 import moment from "moment";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
-import PrintableBooking from "./PrintableBooking";
 import { Booking } from "@/models/booking";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { toast } from "@/components/hooks/use-toast";
+import { FlexUpgradeSheet } from "@/components/dialogs/FlexUpgradeDialog";
+import { loadStripe } from "@stripe/stripe-js";
+import { isBefore, startOfDay } from "date-fns";
+import { usePaymentSuccessStore } from "@/store";
+import { Operator } from "@/models/operator";
+
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
 
 interface BookingCardProps {
   booking: Booking;
@@ -35,17 +43,115 @@ interface BookingCardProps {
     travelFlex: string,
     refundAmount: number
   ) => void;
+  onBookingUpdated: () => void;
+}
+
+export interface AvailableDate {
+  departure_date: string;
+  _id: string;
+  price: number;
+  children_price: number;
+  operator_info: Operator;
 }
 
 export const BookingCard: React.FC<BookingCardProps> = ({
   booking,
   handleNoFlexAction,
   handleCancelBookingAndRefund,
+  onBookingUpdated,
 }) => {
   const { t } = useTranslation();
   const router = useRouter();
-  const bookingRef = useRef<HTMLDivElement>(null);
   const isNoFlex = booking.metadata.travel_flex === "no_flex";
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
+  const [isExtraPaymentNeeded, setIsExtraPaymentNeeded] =
+    useState<boolean>(false);
+  const [availableDates, setAvailableDates] = useState<any>([]);
+  const [selectedDate, setSelectedDate] = useState<any>(null);
+  const [newDepartureDate, setNewDepartureDate] = useState<AvailableDate>();
+  const [priceToBePaid, setPriceToBePaid] = useState<any>();
+  const { isPaymentSuccess } = usePaymentSuccessStore();
+
+  const fetchAvailableDates = async () => {
+    try {
+      const response = await axios.get(
+        `${
+          process.env.NEXT_PUBLIC_API_URL
+        }/ticket/search/available-dates?departureStation=${
+          booking.destinations?.departure_station
+        }&arrivalStation=${
+          booking.destinations?.arrival_station
+        }&departureDate=${moment(selectedDate).format(
+          "DD-MM-YYYY"
+        )}&adults=${adults}&children=${children}&page=1`
+      );
+
+      setAvailableDates(response.data.data);
+    } catch (error) {
+      console.error("Error fetching ticket search results", error);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedDate) {
+      fetchAvailableDates();
+    }
+  }, [selectedDate]);
+
+  const handleReschedule = () => {
+    setIsDatePickerOpen(true);
+  };
+
+  const handleDateSelect = (date: any) => {
+    setSelectedDate(date);
+  };
+
+  const handleSelectDepartureDate = (date: AvailableDate) => {
+    setNewDepartureDate(date);
+    const price = calculatePrice(booking, date);
+    setIsExtraPaymentNeeded(price > 0);
+    setPriceToBePaid(price);
+  };
+
+  const handleChangeDepartureDate = async () => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/booking/change/departure-date/${booking._id}`,
+        {
+          operator_id: newDepartureDate?.operator_info._id,
+          new_departure_date: newDepartureDate?.departure_date,
+        }
+      );
+
+      onBookingUpdated();
+      setIsDatePickerOpen(false);
+      toast({
+        variant: "default",
+        description: response.data.message,
+      });
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        description: error.response.data.message,
+      });
+    }
+  };
+
+  const isDateDisabled = (date: Date) => {
+    const today = startOfDay(new Date());
+    return isBefore(date, today);
+  };
+
+  const calculatePrice = (booking: Booking, date: AvailableDate) => {
+    const totalNewPrice = date.price * booking.passengers.length;
+    const priceDifference = totalNewPrice - booking.price;
+    return priceDifference > 0 ? Number(priceDifference.toFixed(2)) : 0;
+  };
+
+  const adults =
+    booking.passengers?.filter((passenger) => passenger.age >= 10).length || 0;
+  const children =
+    booking.passengers?.filter((passenger) => passenger.age < 10).length || 0;
 
   return (
     <Card className="mb-4">
@@ -102,6 +208,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({
                 : "Refunded"}
             </Badge>
           </div>
+
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Button variant="outline" className="w-full sm:w-auto">
@@ -113,30 +220,10 @@ export const BookingCard: React.FC<BookingCardProps> = ({
               <DropdownMenuItem
                 className="gap-2"
                 disabled={booking.metadata.refund_action?.is_refunded}
-                onClick={
-                  isNoFlex
-                    ? handleNoFlexAction
-                    : () => {
-                        /* Reschedule logic */
-                      }
-                }
+                onClick={isNoFlex ? handleNoFlexAction : handleReschedule}
               >
                 <ClockIcon className="h-4 w-4" />
                 {t("actions.rescheduleBooking")}
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="gap-2"
-                disabled={booking.metadata.refund_action?.is_refunded}
-                onClick={
-                  isNoFlex
-                    ? handleNoFlexAction
-                    : () => {
-                        /* Edit logic */
-                      }
-                }
-              >
-                <Edit className="h-4 w-4" />
-                {t("actions.editDetails")}
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="gap-2"
@@ -169,6 +256,22 @@ export const BookingCard: React.FC<BookingCardProps> = ({
           </DropdownMenu>
         </div>
       </CardContent>
+
+      <FlexUpgradeSheet
+        isOpen={isDatePickerOpen}
+        setIsOpen={setIsDatePickerOpen}
+        booking={booking}
+        availableDates={availableDates}
+        selectedDate={selectedDate}
+        isDateDisabled={isDateDisabled}
+        handleDateSelect={handleDateSelect}
+        handleSelectDepartureDate={handleSelectDepartureDate}
+        isExtraPaymentNeeded={isExtraPaymentNeeded}
+        stripePromise={stripePromise}
+        isPaymentSuccess={isPaymentSuccess}
+        priceToBePaid={priceToBePaid}
+        handleChangeDepartureDate={handleChangeDepartureDate}
+      />
     </Card>
   );
 };

@@ -33,10 +33,9 @@ export const metadata: Metadata = {
 };
 
 const PartnerApplicationPage: React.FC = () => {
-
   return (
-    <div className="mx-auto px-4 sm:px-8 xl:px-0 py-12">
-      <div className="max-w-6xl mx-auto">
+    <div className="mx-auto paddingX py-12">
+      <div className="max-w-6xl paddingX mx-auto">
         <Link href="/partners/overview">
           <Button variant="outline" className="rounded-lg mb-4">
             <ChevronLeft className="mr-2 h-4 w-4" /> Back
@@ -95,7 +94,7 @@ const PartnerApplicationPage: React.FC = () => {
               </CardContent>
             </Card>
 
-            <Card className=" rounded-lg">
+            <Card className="rounded-lg">
               <CardHeader>
                 <CardTitle>Need Help?</CardTitle>
               </CardHeader>

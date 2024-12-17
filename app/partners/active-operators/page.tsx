@@ -16,7 +16,7 @@ const ActiveOperatorsPage: React.FC = async () => {
   console.log({ operators });
 
   return (
-    <div className="max-w-7xl paddingX mx-auto min-h-screen py-12 space-y-6">
+    <div className="max-w-6xl paddingX mx-auto min-h-screen py-12 space-y-6">
       <ActiveOperators operators={operators} />
     </div>
   );

@@ -1,5 +1,7 @@
-import React from "react";
-import { ArrowRight, Loader } from "lucide-react";
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import InputSkeleton from "@/components/input-skeleton";
 import PassengerSelect from "@/app/search/_components/passenger-select";
@@ -10,24 +12,76 @@ import StationSelect from "@/app/search/_components/station-select";
 import DatePicker from "@/app/search/_components/date-picker";
 import ReturnDatePicker from "@/app/search/_components/return-date-picker";
 import useSearchStore from "@/store";
+import { useRouter } from "next/navigation";
+import { getStations } from "@/actions/station";
 
 interface SearchFormProps {
-  loading: boolean;
-  stations: Station[];
-  isSubmitting: boolean;
-  onSearch: () => void;
   updateUrl?: boolean;
 }
 
-export const SearchForm: React.FC<SearchFormProps> = ({
-  loading,
-  updateUrl,
-  stations,
-  isSubmitting,
-  onSearch,
-}) => {
+export const SearchForm: React.FC<SearchFormProps> = ({ updateUrl }) => {
   const { t } = useTranslation();
-  const { tripType } = useSearchStore();
+  const {
+    returnDate,
+    departureDate,
+    from,
+    to,
+    fromCity,
+    toCity,
+    passengers,
+    tripType,
+  } = useSearchStore();
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [stations, setStations] = useState<Station[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchStations = async () => {
+      try {
+        const data = await getStations();
+        setStations(data);
+      } catch (error) {
+        console.error(t("searchBlock.searchError"), error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStations();
+  }, []);
+
+  const handleSearch = async () => {
+    setIsSubmitting(true);
+    try {
+      const searchParams = new URLSearchParams({
+        departureStation: from,
+        arrivalStation: to,
+        departureDate: departureDate || "",
+        adult: passengers.adults.toString(),
+        children: passengers.children.toString(),
+      });
+
+      if (returnDate && tripType === "round-trip") {
+        searchParams.append("returnDate", returnDate);
+      }
+
+      router.push(
+        `/search/${fromCity.toLowerCase()}-${toCity.toLowerCase()}?${searchParams.toString()}`
+      );
+      setIsSubmitting(false);
+    } catch (err) {
+      console.error("Search error:", err);
+      setIsSubmitting(false);
+    } finally {
+      setIsSubmitting(true);
+    }
+  };
+
+  useEffect(() => {
+    console.log({ isSubmitting });
+  }, [isSubmitting]);
+
   return (
     <div
       className={cn(
@@ -39,9 +93,6 @@ export const SearchForm: React.FC<SearchFormProps> = ({
     >
       {["from", "to"].map((departure) => (
         <div key={departure} className="w-full">
-          {/* <p className="hidden sm:block text-black font-medium text-sm">
-            {t(`searchForm.${departure}`)}
-          </p> */}
           {loading ? (
             <InputSkeleton />
           ) : (
@@ -54,9 +105,6 @@ export const SearchForm: React.FC<SearchFormProps> = ({
         </div>
       ))}
       <div className="w-full">
-        {/* <p className="hidden sm:block text-black font-medium text-base">
-          {t("searchForm.departure")}
-        </p>{" "} */}
         {loading ? (
           <InputSkeleton />
         ) : (
@@ -69,9 +117,6 @@ export const SearchForm: React.FC<SearchFormProps> = ({
         )}
       </div>
       <div>
-        {/* <p className="hidden sm:block text-black font-medium text-base">
-          {t("searchForm.passengers")}
-        </p>{" "} */}
         {loading ? (
           <InputSkeleton />
         ) : (
@@ -87,10 +132,10 @@ export const SearchForm: React.FC<SearchFormProps> = ({
           }
         )}
         disabled={isSubmitting}
-        onClick={onSearch}
+        onClick={handleSearch}
       >
         {isSubmitting ? (
-          <Loader className="size-6 animate-spin mx-auto text-gray-600" />
+          <Loader2 className="size-6 animate-spin mx-auto text-white" />
         ) : (
           t("searchForm.searchButton.default")
         )}{" "}

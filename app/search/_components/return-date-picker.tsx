@@ -126,7 +126,11 @@ export default function ReturnDatePicker({
           <div className="flex items-center">
             <CalendarIcon className="mr-2 h-5 w-5 " />
             <span
-              className={selectedReturnDate ? "text-black" : "text-primary"}
+              className={
+                selectedReturnDate
+                  ? "text-black font-normal"
+                  : "text-primary font-normal"
+              }
             >
               {buttonText}
             </span>
@@ -193,14 +197,18 @@ export default function ReturnDatePicker({
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="w-full h-12 flex items-center px-2.5 justify-between bg-primary-bg/5 rounded-lg border-none"
+          className="w-full h-12 flex items-center px-2.5 justify-between text-base bg-primary-bg/5 rounded-lg border-none"
         >
           <div className="flex items-center">
             {/* <CalendarIcon
               className={`mr-2 h-4 w-4 ${!updateUrl && "hidden"}`}
             /> */}
             <span
-              className={selectedReturnDate ? "text-black" : "text-primary"}
+              className={
+                selectedReturnDate
+                  ? "text-black font-normal"
+                  : "text-primary font-normal"
+              }
             >
               {buttonText}
             </span>
