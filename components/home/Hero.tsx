@@ -13,6 +13,7 @@ const Hero = () => {
 
   useEffect(() => {
     if (searchParams.get("oauth") === "true") {
+      console.log("true");
       handleOauthCallback();
     }
   }, [searchParams]);

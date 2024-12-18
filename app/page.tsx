@@ -8,8 +8,8 @@ export default function Home() {
   return (
     <div>
       <Hero />
-      <FeaturesSection />
       <PartnersSection />
+      <FeaturesSection />
       <div className=" bg-primary-bg/5">
         <AboutSection />
       </div>

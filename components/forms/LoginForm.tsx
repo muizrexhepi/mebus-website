@@ -16,7 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { Eye, EyeOff, Loader } from "lucide-react";
+import { Eye, EyeOff, Loader, Loader2 } from "lucide-react";
 import { FormError } from "@/components/form-error";
 import { account } from "@/appwrite.config";
 import { useMFAStore, useNavbarStore } from "@/store";
@@ -49,6 +49,8 @@ const LoginForm = () => {
 
       if (!result.success || !result.credentials) {
         setError(result.error || t("login.errors.generic"));
+        console.log("error");
+
         return;
       }
 
@@ -64,6 +66,7 @@ const LoginForm = () => {
         window.dispatchEvent(new Event("userChange"));
       }
     } catch (error: any) {
+      console.log("catch");
       if (error.type === "user_more_factors_required") {
         const factors = await account.listMfaFactors();
         setMFAFactors(factors);
@@ -73,11 +76,12 @@ const LoginForm = () => {
           setError(t("login.errors.noMfaMethodAvailable"));
         }
       } else {
+        console.log("elsecatch");
+
         console.error("Login error:", error);
         setError(error.message || t("login.errors.generic"));
       }
     } finally {
-      setError("");
       setIsLoading(false);
     }
   };
@@ -129,7 +133,7 @@ const LoginForm = () => {
                       setOpenReset(true);
                       setOpenLogin(false);
                     }}
-                    className="font-medium px-0 text-primary-accent transition-colors hover:no-underline"
+                    className="font-medium px-0 text-transparent button-gradient bg-clip-text transition-colors hover:no-underline"
                     size="sm"
                   >
                     {t("login.forgotPassword")}
@@ -178,7 +182,7 @@ const LoginForm = () => {
             disabled={isLoading}
           >
             {isLoading ? (
-              <Loader className="h-5 w-5 animate-spin" />
+              <Loader2 className="h-5 w-5 animate-spin" />
             ) : (
               t("login.signInButton")
             )}

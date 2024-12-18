@@ -28,12 +28,12 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/hooks/use-toast";
-import useUser from "@/components/hooks/use-user";
 import { Switch } from "@/components/ui/switch";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/components/providers/auth-provider";
 
 export default function LoginSecurity() {
-  const { user, loading } = useUser();
+  const { user, loading } = useAuth();
   const [oldPassword, setOldPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [twoFactorEnabled, setTwoFactorEnabled] = useState<boolean>(
