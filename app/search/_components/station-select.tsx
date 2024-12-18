@@ -131,7 +131,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
   );
 
   const filteredStations = stations.filter((station) =>
-    station.city.toLowerCase().includes(searchTerm.toLowerCase())
+    station?.city?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (isMobile) {
