@@ -22,7 +22,7 @@ const PartnersSection = () => {
       <div className="max-w-6xl mx-auto paddingX">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div className="space-y-6 max-w-xl">
-            <h2 className="text-4xl font-bold text-primary-bg">
+            <h2 className="text-2xl sm:text-4xl font-bold text-primary-bg">
               {t("partnersSection.heading")}
             </h2>
             <p className="text-gray-600 text-base">
