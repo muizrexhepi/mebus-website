@@ -17,7 +17,7 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { Eye, EyeOff, Loader } from "lucide-react";
+import { Eye, EyeOff, Loader, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { FormError } from "@/components/form-error";
 import { handleFacebookLogin, handleGoogleLogin } from "@/actions/oauth";
@@ -213,7 +213,7 @@ const RegisterForm = () => {
                       disabled={isLoading}
                     >
                       {isLoading ? (
-                        <Loader className="h-5 w-5 animate-spin" />
+                        <Loader2 className="h-5 w-5 animate-spin" />
                       ) : (
                         t("register.signUpButton")
                       )}

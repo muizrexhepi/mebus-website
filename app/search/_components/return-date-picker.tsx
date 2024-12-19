@@ -180,7 +180,7 @@ export default function ReturnDatePicker({
               <div className="px-4 py-8 absolute bottom-0 bg-white left-0 w-full border-t">
                 <Button
                   onClick={() => setIsDialogOpen(false)}
-                  className="w-full h-12 button-gradient text-base"
+                  className="w-full h-12 button-gradient"
                 >
                   {t("datePicker.confirm", "Confirm")}
                 </Button>

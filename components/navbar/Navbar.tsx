@@ -38,7 +38,7 @@ const Navbar = ({ className }: { className?: string }) => {
           <Image
             src={"/assets/icons/dark-logo.svg"}
             alt="Logo"
-            width={140}
+            width={120}
             height={60}
             className="object-contain"
             priority

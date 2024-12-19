@@ -102,8 +102,8 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
                 <div className="w-0.5 h-2 bg-gray-300 my-1" />
                 <div className="w-3 h-3 bg-primary-bg rounded-full" />
               </div>
-              <div className="flex-1 -mt-1 ml-1">
-                <div className="flex w-full justify-between items-center">
+              <div className="flex-1 ml-1 -mt-1">
+                <div className="flex w-full justify-between items-center mb-1">
                   <p className="text-black/70 font-medium text-sm capitalize line-clamp-1 truncate">
                     {stop.from.name}
                   </p>

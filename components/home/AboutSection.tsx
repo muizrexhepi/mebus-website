@@ -7,12 +7,10 @@ const AboutSection = () => {
 
   return (
     <div className="max-w-6xl mx-auto paddingX py-12">
-      {/* Main Title */}
-      <h1 className="text-4xl font-bold text-primary-bg mb-8">
+      <h1 className="text-left text-2xl sm:text-4xl font-medium text-primary-bg mb-8">
         {t("aboutSection.title")}
       </h1>
 
-      {/* Introduction */}
       <div className="space-y-6 text-gray-700 mb-12">
         <p
           dangerouslySetInnerHTML={{
@@ -31,8 +29,7 @@ const AboutSection = () => {
         />
       </div>
 
-      {/* Operators and Features Section */}
-      <h2 className="text-3xl font-bold text-primary-bg mb-6">
+      <h2 className="text-left text-2xl sm:text-3xl font-medium text-primary-bg/90 mb-6">
         {t("aboutSection.operatorsTitle")}
       </h2>
 

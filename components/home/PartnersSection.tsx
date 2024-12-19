@@ -22,13 +22,13 @@ const PartnersSection = () => {
       <div className="max-w-6xl mx-auto paddingX">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div className="space-y-6 max-w-xl">
-            <h2 className="text-2xl sm:text-4xl font-bold text-primary-bg">
+            <h2 className="text-left text-2xl sm:text-4xl font-medium text-primary-bg">
               {t("partnersSection.heading")}
             </h2>
             <p className="text-gray-600 text-base">
               {t("partnersSection.description")}
             </p>
-            <button className="button-gradient text-white font-semibold px-8 py-3 rounded-lg transition-colors">
+            <button className="button-gradient text-white font-medium text-sm px-8 py-3 rounded-lg transition-colors">
               {t("partnersSection.buttonText")}
             </button>
           </div>

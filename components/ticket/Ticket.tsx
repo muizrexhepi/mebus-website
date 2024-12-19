@@ -76,7 +76,9 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
       <div className="p-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
           <div className="flex gap-2 items-center mb-2 sm:mb-0 justify-between w-full">
-            <h1 className="text-primary-accent">{ticket.operatorInfo?.name}</h1>
+            <h1 className="button-gradient bg-clip-text text-transparent">
+              {ticket.operatorInfo?.name}
+            </h1>
             <div className="flex items-center text-sm text-muted-foreground">
               <CalendarDays className="w-4 h-4 mr-2" />
               {departureDate.format("ddd, MMMM D, YYYY")}
