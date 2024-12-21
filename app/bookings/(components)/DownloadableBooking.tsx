@@ -5,9 +5,9 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { Booking } from "@/models/booking";
 import { Button } from "@/components/ui/button";
-import PrintableBooking from "./PrintableBooking";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
+import PrintableBooking from "./PrintableBooking";
 
 interface DownloadableBookingPDFProps {
   booking: Booking;
@@ -19,33 +19,60 @@ export default function DownloadableBookingPDF({
   const bookingRef = useRef<HTMLDivElement>(null);
 
   const handleDownload = async () => {
-    if (bookingRef.current) {
+    if (!bookingRef.current) return;
+
+    try {
       const canvas = await html2canvas(bookingRef.current, {
         scale: 2,
-        logging: false,
         useCORS: true,
+        allowTaint: true,
+        backgroundColor: "#ffffff",
+        logging: false,
       });
-      const imgData = canvas.toDataURL("image/png");
 
-      const imgWidth = 210;
-      const pageHeight = 297;
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+        compress: true,
+      });
+
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+
+      const imgWidth = pageWidth;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      let heightLeft = imgHeight;
 
-      const pdf = new jsPDF("p", "mm", "a4");
+      let heightLeft = imgHeight;
       let position = 0;
 
-      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      pdf.addImage(
+        canvas.toDataURL("image/png", 1.0),
+        "PNG",
+        0,
+        position,
+        imgWidth,
+        imgHeight
+      );
       heightLeft -= pageHeight;
 
       while (heightLeft >= 0) {
         position = heightLeft - imgHeight;
         pdf.addPage();
-        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        pdf.addImage(
+          canvas.toDataURL("image/png", 1.0),
+          "PNG",
+          0,
+          position,
+          imgWidth,
+          imgHeight
+        );
         heightLeft -= pageHeight;
       }
 
       pdf.save(`booking-${booking._id}.pdf`);
+    } catch (error) {
+      console.error("Error generating PDF:", error);
     }
   };
 
@@ -61,8 +88,9 @@ export default function DownloadableBookingPDF({
           Download PDF
         </Button>
       </div>
-      <div ref={bookingRef}>
-        <PrintableBooking booking={booking} />
+      {/* Remove any container margins */}
+      <div className="w-full">
+        <PrintableBooking booking={booking} ref={bookingRef} />
       </div>
     </div>
   );

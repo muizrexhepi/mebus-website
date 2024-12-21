@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Loader } from "lucide-react";
+import { Loader, Loader2 } from "lucide-react";
 import { FormError } from "@/components/form-error";
 import { PartnerApplicationSchema } from "@/schemas";
 import axios from "axios";
@@ -94,13 +94,17 @@ const PartnerApplicationForm: React.FC = () => {
             name="companyName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("partnerApplicationForm.labels.companyName")}</FormLabel>
+                <FormLabel>
+                  {t("partnerApplicationForm.labels.companyName")}
+                </FormLabel>
                 <FormControl>
                   <Input
                     className="h-12 bg-primary-bg/5 rounded-lg border-none"
                     {...field}
                     disabled={isLoading}
-                    placeholder={t("partnerApplicationForm.placeholders.companyName")}
+                    placeholder={t(
+                      "partnerApplicationForm.placeholders.companyName"
+                    )}
                   />
                 </FormControl>
                 <FormMessage />
@@ -112,13 +116,17 @@ const PartnerApplicationForm: React.FC = () => {
             name="contactName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("partnerApplicationForm.labels.contactName")}</FormLabel>
+                <FormLabel>
+                  {t("partnerApplicationForm.labels.contactName")}
+                </FormLabel>
                 <FormControl>
                   <Input
                     className="h-12 bg-primary-bg/5 rounded-lg border-none"
                     {...field}
                     disabled={isLoading}
-                    placeholder={t("partnerApplicationForm.placeholders.contactName")}
+                    placeholder={t(
+                      "partnerApplicationForm.placeholders.contactName"
+                    )}
                   />
                 </FormControl>
                 <FormMessage />
@@ -131,13 +139,17 @@ const PartnerApplicationForm: React.FC = () => {
             name="companyTaxNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("partnerApplicationForm.labels.companyTaxNr")}</FormLabel>
+                <FormLabel>
+                  {t("partnerApplicationForm.labels.companyTaxNr")}
+                </FormLabel>
                 <FormControl>
                   <Input
                     className="h-12 bg-primary-bg/5 rounded-lg border-none"
                     {...field}
                     disabled={isLoading}
-                    placeholder={t("partnerApplicationForm.placeholders.companyTaxNr")}
+                    placeholder={t(
+                      "partnerApplicationForm.placeholders.companyTaxNr"
+                    )}
                   />
                 </FormControl>
                 <FormMessage />
@@ -150,13 +162,17 @@ const PartnerApplicationForm: React.FC = () => {
             name="country"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("partnerApplicationForm.labels.country")}</FormLabel>
+                <FormLabel>
+                  {t("partnerApplicationForm.labels.country")}
+                </FormLabel>
                 <FormControl>
                   <Input
                     className="h-12 bg-primary-bg/5 rounded-lg border-none"
                     {...field}
                     disabled={isLoading}
-                    placeholder={t("partnerApplicationForm.placeholders.country")}
+                    placeholder={t(
+                      "partnerApplicationForm.placeholders.country"
+                    )}
                   />
                 </FormControl>
                 <FormMessage />
@@ -169,13 +185,17 @@ const PartnerApplicationForm: React.FC = () => {
             name="registrationNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("partnerApplicationForm.labels.registrationNr")}</FormLabel>
+                <FormLabel>
+                  {t("partnerApplicationForm.labels.registrationNr")}
+                </FormLabel>
                 <FormControl>
                   <Input
                     className="h-12 bg-primary-bg/5 rounded-lg border-none"
                     {...field}
                     disabled={isLoading}
-                    placeholder={t("partnerApplicationForm.placeholders.registrationNr")}
+                    placeholder={t(
+                      "partnerApplicationForm.placeholders.registrationNr"
+                    )}
                   />
                 </FormControl>
                 <FormMessage />
@@ -188,7 +208,9 @@ const PartnerApplicationForm: React.FC = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("partnerApplicationForm.labels.email")}</FormLabel>
+                <FormLabel>
+                  {t("partnerApplicationForm.labels.email")}
+                </FormLabel>
                 <FormControl>
                   <Input
                     className="h-12 bg-primary-bg/5 rounded-lg border-none"
@@ -207,14 +229,18 @@ const PartnerApplicationForm: React.FC = () => {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("partnerApplicationForm.labels.phoneNumber")}</FormLabel>
+                <FormLabel>
+                  {t("partnerApplicationForm.labels.phoneNumber")}
+                </FormLabel>
                 <FormControl>
                   <Input
                     className="h-12 bg-primary-bg/5 rounded-lg border-none"
                     {...field}
                     disabled={isLoading}
                     type="tel"
-                    placeholder={t("partnerApplicationForm.placeholders.phoneNumber")}
+                    placeholder={t(
+                      "partnerApplicationForm.placeholders.phoneNumber"
+                    )}
                   />
                 </FormControl>
                 <FormMessage />
@@ -236,7 +262,9 @@ const PartnerApplicationForm: React.FC = () => {
                     {...field}
                     disabled={isLoading}
                     type="url"
-                    placeholder={t("partnerApplicationForm.placeholders.website")}
+                    placeholder={t(
+                      "partnerApplicationForm.placeholders.website"
+                    )}
                   />
                 </FormControl>
                 <FormMessage />
@@ -248,14 +276,18 @@ const PartnerApplicationForm: React.FC = () => {
             name="fleetSize"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("partnerApplicationForm.labels.fleetSize")}</FormLabel>
+                <FormLabel>
+                  {t("partnerApplicationForm.labels.fleetSize")}
+                </FormLabel>
                 <FormControl>
                   <Input
                     className="h-12 bg-primary-bg/5 rounded-lg border-none"
                     {...field}
                     disabled={isLoading}
                     type="number"
-                    placeholder={t("partnerApplicationForm.placeholders.fleetSize")}
+                    placeholder={t(
+                      "partnerApplicationForm.placeholders.fleetSize"
+                    )}
                     onChange={(e) => field.onChange(e.target.valueAsNumber)}
                   />
                 </FormControl>
@@ -288,13 +320,17 @@ const PartnerApplicationForm: React.FC = () => {
             name="routes"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("partnerApplicationForm.labels.currentRoutes")}</FormLabel>
+                <FormLabel>
+                  {t("partnerApplicationForm.labels.currentRoutes")}
+                </FormLabel>
                 <FormControl>
                   <Textarea
                     className="resize-none bg-primary-bg/5 rounded-lg border-none"
                     {...field}
                     disabled={isLoading}
-                    placeholder={t("partnerApplicationForm.placeholders.currentRoutes")}
+                    placeholder={t(
+                      "partnerApplicationForm.placeholders.currentRoutes"
+                    )}
                   />
                 </FormControl>
                 <FormMessage />
@@ -306,13 +342,17 @@ const PartnerApplicationForm: React.FC = () => {
             name="additionalInfo"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("partnerApplicationForm.labels.additionalInfo")}</FormLabel>
+                <FormLabel>
+                  {t("partnerApplicationForm.labels.additionalInfo")}
+                </FormLabel>
                 <FormControl>
                   <Textarea
                     className="resize-none bg-primary-bg/5 rounded-lg border-none"
                     {...field}
                     disabled={isLoading}
-                    placeholder={t("partnerApplicationForm.placeholders.additionalInfo")}
+                    placeholder={t(
+                      "partnerApplicationForm.placeholders.additionalInfo"
+                    )}
                   />
                 </FormControl>
                 <FormMessage />
@@ -330,7 +370,7 @@ const PartnerApplicationForm: React.FC = () => {
           disabled={isLoading}
         >
           {isLoading ? (
-            <Loader className="h-4 w-4 animate-spin" />
+            <Loader2 className="h-4 w-4 animate-spin" />
           ) : (
             t("partnerApplicationForm.buttons.submit")
           )}

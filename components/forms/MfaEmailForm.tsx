@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { FormError } from "@/components/form-error";
-import { ChevronLeft, Loader } from "lucide-react";
+import { ChevronLeft, Loader, Loader2 } from "lucide-react";
 import { useMFAStore } from "@/store";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -148,7 +148,7 @@ export const MfaEmailForm = () => {
             disabled={isLoading}
           >
             {isLoading ? (
-              <Loader className="h-5 w-5 animate-spin" />
+              <Loader2 className="h-5 w-5 animate-spin" />
             ) : (
               t("login.verifyButton")
             )}

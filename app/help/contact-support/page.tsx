@@ -44,7 +44,7 @@ const ContactInfo: React.FC<{
       {icon}
     </div>
     <div>
-      <h3 className="font-semibold text-lg text-neutral-800">{title}</h3>
+      <h3 className="font-medium text-lg text-neutral-800">{title}</h3>
       {content}
     </div>
   </div>
@@ -52,16 +52,15 @@ const ContactInfo: React.FC<{
 
 const Contact: React.FC = () => {
   return (
-    <div className="max-w-6xl mx-auto sm:px-8 xl:px-0 pt-12 md:pt-20 xl:pt-32 min-h-screen">
+    <div className="max-w-6xl mx-auto paddingX pt-12 md:pt-20 xl:pt-32 min-h-screen">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
         <div>
-          <h1 className="text-4xl font-bold mb-6 text-neutral-900 border-b-4 border-primary-accent pb-4">
+          <h1 className="text-2xl sm:text-4xl font-medium mb-2 button-gradient text-transparent bg-clip-text">
             Contact Support
           </h1>
           <p className="text-gray-600 mb-12 text-lg leading-relaxed">
             Our dedicated professional support team is committed to providing
-            exceptional assistance. We offer multiple communication channels to
-            ensure your convenience and satisfaction.
+            exceptional assistance.
           </p>
 
           <div className="space-y-6">

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Loader } from "lucide-react";
+import { Loader, Loader2 } from "lucide-react";
 
 import axios from "axios";
 import { Booking } from "@/models/booking";
@@ -140,7 +140,7 @@ const BookingsDashboard: React.FC = () => {
         <TabsContent value="all">
           <div className="space-y-6">
             {loading ? (
-              <Loader className="h-6 w-6 animate-spin mx-auto" />
+              <Loader2 className="h-6 w-6 animate-spin mx-auto" />
             ) : user ? (
               bookings
                 ?.map((booking) => (

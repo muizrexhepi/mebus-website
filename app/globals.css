@@ -93,3 +93,12 @@ input[type="radio"]:checked {
 .button-gradient {
   @apply bg-gradient-to-tr from-[#ff6700] to-[#ff007f];
 }
+
+@media print {
+  #printable-ticket {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+}

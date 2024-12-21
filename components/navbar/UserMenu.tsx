@@ -56,7 +56,7 @@ const UserNavbarMenu = () => {
 
   const MenuItems = (
     <>
-      <div className="space-y-2 py-2">
+      <div className="space-y-2 py-2 text-base">
         <Link
           href="/account"
           className="block px-4 py-2 text-sm font-medium"
@@ -80,7 +80,7 @@ const UserNavbarMenu = () => {
           {/* Translated "Help & Support" */}
         </Link>
         <Link
-          href="/contact"
+          href="/help/contact-support"
           className="block px-4 py-2 text-sm font-medium"
           onClick={() => setIsOpen(false)}
         >
@@ -140,7 +140,7 @@ const UserNavbarMenu = () => {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/contact" className="w-full">
+          <Link href="/help/contact-support" className="w-full">
             {t("nav.contact")}
           </Link>
         </DropdownMenuItem>

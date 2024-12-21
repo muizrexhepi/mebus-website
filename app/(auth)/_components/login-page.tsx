@@ -18,20 +18,21 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Link from "next/link";
-import { Eye, EyeOff, Loader } from "lucide-react";
+import { Eye, EyeOff, Loader, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { FormError } from "@/components/form-error";
 import { handleFacebookLogin, handleGoogleLogin } from "@/actions/oauth";
 import { account } from "@/appwrite.config";
 import { loginUser } from "@/actions/auth";
 import { cn } from "@/lib/utils";
+import { useMFAStore } from "@/store";
 
 const LoginPage = () => {
   const { t } = useTranslation();
-  const [error, setError] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const { setError, error, setMFAFactors, setCurrentForm } = useMFAStore();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -43,31 +44,45 @@ const LoginPage = () => {
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
     setIsLoading(true);
+    setError(undefined);
 
     try {
       const result = await loginUser(values);
 
       if (!result.success || !result.credentials) {
         setError(result.error || t("login.errors.generic"));
+        console.log("error");
+
         return;
       }
 
-      try {
-        const session = await account.createEmailPasswordSession(
-          result.credentials.email,
-          result.credentials.password
-        );
+      await account.createEmailPasswordSession(
+        result.credentials.email,
+        result.credentials.password
+      );
 
-        window.dispatchEvent(new Event("userChange"));
+      const user = await account.get();
+      if (user) {
         router.push("/");
         setError("");
-      } catch (appwriteError: any) {
-        console.error("Appwrite session creation failed:", appwriteError);
-        setError(appwriteError.message || t("login.errors.generic"));
+        window.dispatchEvent(new Event("userChange"));
       }
     } catch (error: any) {
-      console.error("Login error:", error);
-      setError(error.message || t("login.errors.generic"));
+      console.log("catch");
+      if (error.type === "user_more_factors_required") {
+        const factors = await account.listMfaFactors();
+        setMFAFactors(factors);
+        if (factors) {
+          setCurrentForm("mfaOptions");
+        } else {
+          setError(t("login.errors.noMfaMethodAvailable"));
+        }
+      } else {
+        console.log("elsecatch");
+
+        console.error("Login error:", error);
+        setError(error.message || t("login.errors.generic"));
+      }
     } finally {
       setIsLoading(false);
     }
@@ -81,7 +96,6 @@ const LoginPage = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-secondary/5 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          {/* <BusFront className="mx-auto h-16 w-16 text-primary" /> */}
           <Image
             src={"/assets/icons/icon.svg"}
             width={90}
@@ -186,7 +200,7 @@ const LoginPage = () => {
               disabled={isLoading}
             >
               {isLoading ? (
-                <Loader className="h-5 w-5 animate-spin" />
+                <Loader2 className="h-5 w-5 animate-spin" />
               ) : (
                 t("login.signInButton")
               )}

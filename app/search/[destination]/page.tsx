@@ -3,11 +3,15 @@ import SecondaryFooter from "@/components/SecondaryFooter";
 import SearchSection from "../_components/SearchSection";
 import SearchedTickets from "../_components/SearchedTickets";
 
+type GenerateMetadataProps = {
+  params: { destination: string };
+  searchParams: { [key: string]: string | undefined };
+};
+
 export async function generateMetadata({
   params,
-}: {
-  params: { destination: string };
-}): Promise<Metadata> {
+  searchParams,
+}: GenerateMetadataProps): Promise<Metadata> {
   const { destination } = params;
   const [departureCity, arrivalCity] = destination
     .split("-")
@@ -15,13 +19,26 @@ export async function generateMetadata({
 
   const title = `Buses from ${departureCity} to ${arrivalCity} | GoBusly`;
   const description = `Search and book your bus tickets from ${departureCity} to ${arrivalCity} with GoBusly. Travel comfortably across Europe.`;
+
+  const filteredSearchParams: Record<string, string> = Object.fromEntries(
+    Object.entries(searchParams).filter(([, value]) => value !== undefined) as [
+      string,
+      string
+    ][]
+  );
+
   return {
     title,
     description,
+    alternates: {
+      canonical: `/search/${destination}?${new URLSearchParams(
+        filteredSearchParams
+      ).toString()}`,
+    },
   };
 }
 
-const SearchPage = async () => {
+const SearchPage = () => {
   return (
     <div className="min-h-screen bg-primary-bg/5">
       <SearchSection />

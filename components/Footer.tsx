@@ -15,6 +15,7 @@ import {
   Phone,
   Mail,
   ChevronRight,
+  CreditCard,
 } from "lucide-react";
 
 const FOOTER_LINKS = [
@@ -106,7 +107,7 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-b from-primary-bg/80 to-primary-bg/90">
       {/* Newsletter Section */}
-      <div className="w-full bg-white/5 py-8">
+      {/* <div className="w-full bg-white/5 py-8">
         <div className="max-w-6xl mx-auto paddingX flex flex-col md:flex-row items-center justify-between">
           <div className="mb-6 md:mb-0">
             <h3 className="text-white text-xl font-medium mb-2">
@@ -143,7 +144,7 @@ const Footer = () => {
             </div>
           </form>
         </div>
-      </div>
+      </div> */}
 
       {/* Main Footer Content */}
       <div className="max-w-6xl mx-auto paddingX  py-12">
@@ -211,25 +212,26 @@ const Footer = () => {
           ))}
         </div>
 
-        {/* Contact Information */}
-        {/* <div className="mt-12 pt-8 border-t border-white/10">
-          <div className="flex justify-between items-center flex-wrap gap-6">
-            <div className="flex items-center gap-3 text-white/70 ">
-              <MapPin className="w-5 h-5 shrink-0" />
-              <p>North Macedonia, Tetovo 1200</p>
-            </div>
-            <div className="flex items-center gap-3 text-white/70">
-              <Phone className="w-5 h-5" />
-              <p>+1 (555) 123-4567</p>
-            </div>
-            <div className="flex items-center gap-3 text-white/70">
-              <Mail className="w-5 h-5" />
-              <p>support@gobusly.com</p>
-            </div>
-          </div>
-        </div> */}
-
-        {/* Bottom Bar */}
+        <div className="flex items-center gap-2">
+          <Image
+            src={"/assets/icons/mastercard.svg"}
+            width={30}
+            height={30}
+            alt="Mastercard Logo"
+          />
+          <Image
+            src={"/assets/icons/visa.svg"}
+            width={30}
+            height={30}
+            alt="Visa Logo"
+          />
+          <Image
+            src={"/assets/icons/stripe.svg"}
+            width={40}
+            height={40}
+            alt="Stripe Logo"
+          />
+        </div>
         <div className="mt-8 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-white/70">
             {t("footer.copyright", { year: new Date().getFullYear() })}

@@ -1,4 +1,3 @@
-import Navbar from "@/components/navbar/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 
 export default function HelpLayout({

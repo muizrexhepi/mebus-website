@@ -103,7 +103,7 @@ const PartnerApplicationPage: React.FC = () => {
                   If you have any questions about the application process or
                   partnership program, please don&apos;t hesitate to contact us.
                 </p>
-                <Link href={"/contact"}>
+                <Link href={"/help/contact-support"}>
                   <Button variant="outline" className="w-full h-12 rounded-lg">
                     Contact Support
                   </Button>

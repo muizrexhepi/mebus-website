@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Loader2 } from "lucide-react";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -181,7 +182,11 @@ export default function ContactForm() {
             disabled={isSubmitting}
             className="w-full h-12 rounded-lg button-gradient text-white"
           >
-            {isSubmitting ? "Sending..." : "Send Message"}
+            {isSubmitting ? (
+              <Loader2 className="animate-spin size-5 mx-auto" />
+            ) : (
+              "Send Message"
+            )}
           </Button>
         </form>
         {submitStatus.message && (

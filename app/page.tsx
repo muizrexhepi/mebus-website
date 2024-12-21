@@ -10,9 +10,7 @@ export default function Home() {
       <Hero />
       <PartnersSection />
       <FeaturesSection />
-      <div className=" bg-primary-bg/5">
-        <AboutSection />
-      </div>
+      <AboutSection />
       <Footer />
     </div>
   );

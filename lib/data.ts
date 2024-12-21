@@ -2,23 +2,21 @@ import { AlertCircle, BaggageClaim, Bell, Book, BookImageIcon, Clock, CreditCard
 import { enUS, fr, es, de, mk, it, sq } from "date-fns/locale";
 
 export const NAV_LINKS = [
-    {
-        name:'Routes',
-        url:'/routes',
-    },
-    {
-      name:'Bookings',
-      url:'/bookings',
-    },
-    {
-        name:'Help',
-        url:'/help',
-    },
-    // {
-    //     name:'About',
-    //     url:'/about',
-    // },
-]
+
+  {
+      name: 'Help',
+      url: '/help',
+  },
+  {
+      name: 'Contact',
+      url: '/help/contact-support',
+  },
+  {
+      name: 'Routes',
+      url: '/routes',
+  },
+];
+
 
 export const LOCALE_MAP = {
   en: enUS,

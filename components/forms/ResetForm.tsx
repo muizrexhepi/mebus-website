@@ -17,7 +17,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import Link from "next/link";
-import { Loader } from "lucide-react";
+import { Loader, Loader2 } from "lucide-react";
 import { account } from "@/appwrite.config";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
@@ -50,7 +50,7 @@ const ResetPasswordForm = () => {
 
       const promise = account.createRecovery(
         user.email,
-        "https://mebus-website.vercel.app/reset"
+        "https://www.gobusly.com/reset"
       );
 
       promise.then(
@@ -78,7 +78,7 @@ const ResetPasswordForm = () => {
               alt="logo"
               className="mx-auto"
             />
-            <h1 className="mt-6 text-4xl font-extrabold text-gray-900">
+            <h1 className="mt-6 text-2xl sm:text-3xl font-extrabold text-gray-900">
               {t("reset.title")}
             </h1>
             <p className="mt-2 text-sm text-gray-600">{t("reset.subtitle")}</p>
@@ -104,7 +104,7 @@ const ResetPasswordForm = () => {
                         disabled={isLoading}
                         type="email"
                         placeholder={t("reset.email.placeholder")}
-                        className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-lg border-none ring-0  text-base"
+                        className="w-full h-12 px-4 hover:bg-accent bg-primary-bg/5 rounded-lg border-none ring-0 text-base"
                       />
                     </FormControl>
                     <FormMessage />
@@ -117,12 +117,12 @@ const ResetPasswordForm = () => {
             <FormError message={error} />
 
             <Button
-              className="w-full button-gradient text-base h-12 rounded-lg"
+              className="w-full button-gradient h-12 rounded-lg"
               type="submit"
               disabled={isLoading}
             >
               {isLoading ? (
-                <Loader className="h-5 w-5 animate-spin" />
+                <Loader2 className="h-5 w-5 animate-spin" />
               ) : (
                 t("reset.sendButton")
               )}
@@ -138,7 +138,7 @@ const ResetPasswordForm = () => {
                 setOpenReset(false);
                 setOpenLogin(true);
               }}
-              className="font-medium text-primary-accent transition-colors"
+              className="font-medium button-gradient text-transparent bg-clip-text transition-colors"
             >
               {t("reset.backToLogin")}
             </Link>

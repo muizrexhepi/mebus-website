@@ -18,7 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Link from "next/link";
-import { Loader } from "lucide-react";
+import { Loader, Loader2 } from "lucide-react";
 import { account } from "@/appwrite.config";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
@@ -111,7 +111,7 @@ const ResetPasswordPage = () => {
               disabled={isLoading}
             >
               {isLoading ? (
-                <Loader className="h-5 w-5 animate-spin" />
+                <Loader2 className="h-5 w-5 animate-spin" />
               ) : (
                 t("reset.sendButton")
               )}

@@ -28,7 +28,7 @@ const ChangeView = ({
   useEffect(() => {
     map.flyTo(center, zoom, {
       animate: true,
-      duration: 1.5, // Smooth animation
+      duration: 1.5,
     });
   }, [center, zoom, map]);
 
@@ -75,9 +75,8 @@ export default function MapComponent({
       setMapZoom(8);
     } else if (toStation) {
       setMapCenter([toStation.location.lat, toStation.location.lng]);
-      setMapZoom(8);
+      setMapZoom(10);
     } else if (selectedRoute) {
-      // If only route is available, get bounds from route stations
       const bounds = L.latLngBounds(
         [
           selectedRoute.stations.from.location.lat,
@@ -89,7 +88,7 @@ export default function MapComponent({
         ]
       );
       setMapCenter(bounds.getCenter());
-      setMapZoom(6);
+      setMapZoom(7);
     }
   }, [fromStation, toStation, selectedRoute]);
 

@@ -10,60 +10,58 @@ import {
   Banknote,
   Info,
   Globe,
-  Download,
 } from "lucide-react";
-import Image from "next/image";
 import { Booking } from "@/models/booking";
-import InfoBlock from "@/components/InfoBlock";
 import { QRCodeSVG } from "qrcode.react";
+import { forwardRef } from "react";
 
 interface PrintableBookingProps {
   booking: Booking;
 }
 
-export default function PrintableBooking({ booking }: PrintableBookingProps) {
-  return (
-    <div className="max-w-4xl mx-auto">
-      <div
-        id="printable-ticket"
-        className="bg-white shadow-md border rounded-xl overflow-hidden font-sans print:shadow-none print:border-none"
-      >
-        <div className="p-4 md:p-6 flex justify-between items-center border-b">
-          <div className="flex items-center space-x-4">
-            <Image
-              src="/assets/icons/dark-logo.svg"
-              alt="GoBusly Logo"
-              width={120}
-              height={60}
-              className="dark:invert"
-            />
+const PrintableBooking = forwardRef<HTMLDivElement, PrintableBookingProps>(
+  ({ booking }, ref) => {
+    return (
+      <div ref={ref} className="w-full">
+        <div
+          id="printable-ticket"
+          className="bg-white shadow-md border rounded-xl overflow-hidden font-sans print:shadow-none print:border-none"
+        >
+          <div className="p-4 md:p-6 flex justify-between items-center border-b">
+            <div className="flex items-center space-x-4">
+              <h1 className="text-black font-semibold text-xl">GoBusly</h1>
+            </div>
+            <div className="text-sm text-gray-500">
+              Booking ID: {booking._id}
+            </div>
           </div>
-          <div className="hidden print:block text-sm text-gray-500">
-            Booking ID: {booking._id}
-          </div>
-        </div>
 
-        <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-dashed">
-          <div className="grid gap-6 divide-y divide-dashed">
-            <DestinationInfo booking={booking} />
-            <PassengerInfo booking={booking} />
+          <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-dashed">
+            <div className="grid gap-6 divide-y divide-dashed">
+              <DestinationInfo booking={booking} />
+              <PassengerInfo booking={booking} />
+            </div>
+            <div className="grid gap-6 divide-y divide-dashed">
+              <AdditionalInfo booking={booking} />
+              <MapInfo booking={booking} />
+            </div>
           </div>
-          <div className="grid gap-6 divide-y divide-dashed">
-            <AdditionalInfo booking={booking} />
-            <MapInfo booking={booking} />
-          </div>
-        </div>
 
-        <div className="p-4 md:p-6 bg-[#1a2642] text-white text-center text-sm">
-          <p className="tracking-wider">
-            © {new Date().getFullYear()} GoBusly • Electronic Ticket • No
-            Signature Required
-          </p>
+          <div className="p-4 md:p-6 text-primary-bg border-t text-center text-sm">
+            <p className="tracking-wider">
+              © {new Date().getFullYear()} GoBusly • Electronic Ticket • No
+              Signature Required
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
+);
+
+PrintableBooking.displayName = "PrintableBooking";
+
+export default PrintableBooking;
 
 const DestinationInfo = ({ booking }: { booking: Booking }) => (
   <div className="flex flex-col gap-2 p-6">
@@ -84,7 +82,7 @@ const DestinationInfo = ({ booking }: { booking: Booking }) => (
         <div className="bg-primary-accent h-full w-0.5 rounded-full" />
         <Circle size={20} className="text-primary-accent" />
       </div>
-      <div className="flex flex-col justify-between gap-2">
+      <div className="flex flex-col justify-between gap-2 h-full">
         <div className="flex flex-col items-start">
           <p className="font-medium capitalize">
             {booking.destinations.departure_station_label}
@@ -174,14 +172,14 @@ const AdditionalInfo = ({ booking }: { booking: Booking }) => (
       </div>
       <div className="flex items-start gap-3">
         <Globe className="w-5 h-5 mt-0.5 shrink-0" />
-        <div className="min-w-0 flex-1">
+        <div className="min-w-0 flex-1 flex items-center gap-2">
           <p className="text-primary-bg/70">View your booking: </p>
           <a
             target="_blank"
             href={`https://www.gobusly.com/bookings/${booking?._id}`}
             className="font-medium hover:underline truncate block"
           >
-            gobusly.com/bookings/{booking?._id}
+            Click here!
           </a>
         </div>
       </div>

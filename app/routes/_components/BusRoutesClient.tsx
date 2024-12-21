@@ -188,13 +188,6 @@ export default function BusRoutesClient({
     setToCity(to);
     setTo(toValue!);
 
-    if (typeof window !== "undefined") {
-      localStorage.setItem("fromCity", from);
-      localStorage.setItem("fromValue", fromValue!);
-      localStorage.setItem("toCity", to);
-      localStorage.setItem("toValue", toValue!);
-    }
-
     const searchParams = new URLSearchParams({
       departureStation: route.stations.from._id!,
       arrivalStation: route.stations.to._id!,
@@ -210,9 +203,9 @@ export default function BusRoutesClient({
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="bg-white rounded-lg p-4 md:py-6 flex flex-col gap-4 w-full min-h-fit sm:p-8 md:px-8">
+      <div className="bg-white rounded-lg md:py-6 flex flex-col gap-4 w-full min-h-fit paddingX">
         <div className="max-w-6xl mx-auto w-full z-[99]">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 paddingX">
             <div className="relative z-[10]">
               <MapPin className="absolute top-4 left-3 h-5 w-5 text-gray-400" />
               <Input
@@ -222,7 +215,7 @@ export default function BusRoutesClient({
                 onChange={(e) => setSearchFrom(e.target.value)}
                 onFocus={() => handleFocus(true)}
                 onBlur={() => handleBlur(true)}
-                className="pl-10 h-12 capitalize text-base"
+                className="pl-10 h-12 capitalize text-base bg-primary-bg/5 border-none"
               />
               {openFromOptions && (
                 <div className="absolute top-14 w-full bg-white z-20 left-0 mt-4 shadow-sm h-fit max-h-80 overflow-y-auto rounded-lg">
@@ -270,7 +263,7 @@ export default function BusRoutesClient({
                 onChange={(e) => setSearchTo(e.target.value)}
                 onFocus={() => handleFocus(false)}
                 onBlur={() => handleBlur(false)}
-                className="pl-10 h-12 capitalize text-base"
+                className="pl-10 h-12 capitalize text-base bg-primary-bg/5 border-none"
               />
               {openToOptions && (
                 <div className="absolute top-14 w-full bg-white left-0 mt-4 shadow-sm h-fit max-h-80 overflow-y-auto rounded-lg z-[999]">
@@ -321,7 +314,7 @@ export default function BusRoutesClient({
         </div>
       </div>
       <div className="flex flex-col lg:flex-row gap-4 items-start max-w-6xl mx-auto w-full">
-        <div className="flex flex-row w-full overflow-x-auto items-start px-4 sm:px-8 lg:px-0 gap-4 lg:flex-col max-h-[calc(100vh-220px)] overflow-y-auto lg:w-1/3 ">
+        <div className="flex flex-row w-full overflow-x-auto items-start paddingX gap-4 lg:flex-col max-h-[calc(100vh-220px)] overflow-y-auto lg:w-1/3 ">
           {filteredRoutes.map((route) => (
             <Card
               key={route._id}
@@ -361,7 +354,7 @@ export default function BusRoutesClient({
             </Card>
           ))}
         </div>
-        <section className="w-full lg:w-2/3">
+        <section className="w-full lg:w-2/3 z-10">
           <MapComponent
             selectedRoute={selectedRoute}
             fromStation={fromStation}

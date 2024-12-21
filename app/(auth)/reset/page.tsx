@@ -18,7 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Link from "next/link";
-import { Loader, KeyRound, CheckCircle } from "lucide-react";
+import { Loader, KeyRound, CheckCircle, Loader2 } from "lucide-react";
 import { account } from "@/appwrite.config";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
@@ -145,7 +145,7 @@ const ResetPassword = () => {
               disabled={isLoading}
             >
               {isLoading ? (
-                <Loader className="h-5 w-5 animate-spin" />
+                <Loader2 className="h-5 w-5 animate-spin" />
               ) : (
                 t("actions.confirmCancellation")
               )}
@@ -171,7 +171,7 @@ export default function ResetPasswordConfirmPage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-secondary/5">
-          <Loader className="h-8 w-8 animate-spin text-primary" />
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
       }
     >

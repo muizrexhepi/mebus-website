@@ -57,35 +57,35 @@ const NavbarMenu = () => {
       <div className="space-y-2 py-2">
         <Link
           href="/routes"
-          className="block px-4 py-2 text-sm font-medium"
+          className="block px-4 py-2 text-base font-medium"
           onClick={() => setIsOpen(false)}
         >
           {t("nav.routes")}
         </Link>
-        <Link
+        {/* <Link
           href="/bookings"
-          className="block px-4 py-2 text-sm font-medium"
+          className="block px-4 py-2 text-base font-medium"
           onClick={() => setIsOpen(false)}
         >
           {t("nav.bookings")}
-        </Link>
+        </Link> */}
         {/* <Link
           href="/about"
-          className="block px-4 py-2 text-sm font-medium"
+          className="block px-4 py-2 text-base font-medium"
           onClick={() => setIsOpen(false)}
         >
           {t("nav.about")}
         </Link> */}
         <Link
           href="/help"
-          className="block px-4 py-2 text-sm font-medium"
+          className="block px-4 py-2 text-base font-medium"
           onClick={() => setIsOpen(false)}
         >
           {t("nav.help")}
         </Link>
         <Link
           href="/help/contact-support"
-          className="block px-4 py-2 text-sm font-medium"
+          className="block px-4 py-2 text-base font-medium"
           onClick={() => setIsOpen(false)}
         >
           {t("nav.contact")}

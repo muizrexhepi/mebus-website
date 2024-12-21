@@ -228,7 +228,7 @@ const DepositPage = () => {
                 If you have any questions about making a deposit or using our
                 services, please don&apos;t hesitate to contact us.
               </p>
-              <Link href="/contact">
+              <Link href="/help/contact-support">
                 <Button variant="outline" className="w-full">
                   Contact Support
                 </Button>

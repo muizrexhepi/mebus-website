@@ -43,10 +43,10 @@ export default function BookingDetailsPage({
   if (isLoading) {
     return (
       <div className="h-screen w-full max-w-5xl space-y-3 py-20 paddingX mx-auto">
-        <div className="flex justify-between items-center">
+        {/* <div className="flex justify-between items-center">
           <Skeleton className="h-12 w-40" />
           <Skeleton className="h-12 w-26" />
-        </div>
+        </div> */}
         <Skeleton className="h-12 w-32" />
         <Skeleton className="h-[270px] w-full" />
         <Skeleton className="h-[270px] w-full" />
