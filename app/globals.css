@@ -102,3 +102,7 @@ input[type="radio"]:checked {
     box-shadow: none;
   }
 }
+
+h1 {
+  @apply text-3xl sm:text-5xl font-medium;
+}

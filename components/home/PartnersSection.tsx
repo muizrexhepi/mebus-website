@@ -28,9 +28,9 @@ const PartnersSection = () => {
                 {t("partnersSection.tag", "Trusted Partners")}
               </span>
             </div>
-            <h2 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
+            <h1 className="text-3xl sm:text-5xl font-medium tracking-tight text-primary-bg">
               {t("partnersSection.heading")}
-            </h2>
+            </h1>
             <p className="text-lg leading-relaxed text-gray-600 max-w-xl">
               {t("partnersSection.description")}
             </p>

@@ -71,9 +71,9 @@ const FeaturesSection = () => {
               Why Choose Us
             </span>
           </div>
-          <h2 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl mb-4">
+          <h1 className=" text-3xl sm:text-5xl font-medium tracking-tight text-gray-900  mb-4">
             The smartest way to travel by bus
-          </h2>
+          </h1>
           <p className="text-lg text-gray-600">
             Experience seamless bus travel with our comprehensive platform
           </p>

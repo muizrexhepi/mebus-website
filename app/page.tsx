@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import Hero from "@/components/home/Hero";
 import PartnersSection from "@/components/home/PartnersSection";
 import FeaturesSection from "@/components/home/InfoSection";
+import PopularBusRoutes from "@/components/home/PopularRoutes";
 
 export default function Home() {
   return (
@@ -10,7 +11,8 @@ export default function Home() {
       <Hero />
       <PartnersSection />
       <FeaturesSection />
-      <AboutSection />
+      <PopularBusRoutes />
+      {/* <AboutSection /> */}
       <Footer />
     </div>
   );

@@ -1,61 +1,56 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import { ArrowRight, Bus, Globe2, MapPin } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Bus, Globe2, MapPin } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
-const AboutSection = () => {
+const stats = [
+  {
+    value: "500+",
+    label: "Bus Operators",
+    icon: Bus,
+  },
+  {
+    value: "1000+",
+    label: "Destinations",
+    icon: MapPin,
+  },
+  {
+    value: "10+",
+    label: "Countries",
+    icon: Globe2,
+  },
+];
+
+export default function AboutSection() {
   const { t } = useTranslation();
 
-  const stats = [
-    {
-      value: "500+",
-      label: "Bus Operators",
-      icon: Bus,
-    },
-    {
-      value: "1000+",
-      label: "Destinations",
-      icon: MapPin,
-    },
-    {
-      value: "10+",
-      label: "Countries",
-      icon: Globe2,
-    },
-  ];
-
   return (
-    <section className="w-full py-20 bg-[#f3f4f5]">
-      <div className="max-w-6xl mx-auto paddingX">
+    <section className="w-full py-24 bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="max-w-3xl mb-16">
-          <div className="inline-flex px-4 py-1 bg-primary/5 rounded-full mb-6">
-            <span className="text-sm font-medium text-primary">
-              About GoBusly
-            </span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900 mb-6">
-            {t("aboutSection.title")}
+        <div className="max-w-3xl mb-20">
+          <span className="inline-block text-sm font-medium text-primary mb-6">
+            About GoBusly
+          </span>
+          <h1 className="text-4xl font-semibold tracking-tight text-gray-900 mb-6">
+            Simplifying Bus Travel Across Europe and the Balkans
           </h1>
-          <p
-            className="text-lg leading-relaxed text-gray-600"
-            dangerouslySetInnerHTML={{
-              __html: t("aboutSection.intro.p1"),
-            }}
-          >
-            {/* {t("aboutSection.intro.p1")} */}
+          <p className="text-lg text-gray-600">
+            Welcome to GoBusly, your go-to platform for seamless bus travel
+            across Europe and the Balkans. Whether you're traveling between
+            bustling cities or heading to charming towns and villages, GoBusly
+            connects you to the region's most reliable bus operators.
           </p>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
           {stats.map((stat) => (
-            <Card key={stat.label} className="p-6 bg-gray-50/50">
+            <Card key={stat.label} className="p-8 bg-gray-50 border-0">
               <stat.icon className="w-6 h-6 text-primary mb-4" />
-              <div className="space-y-1">
-                <h3 className="text-2xl font-semibold text-gray-900">
+              <div className="space-y-2">
+                <h3 className="text-3xl font-semibold text-gray-900">
                   {stat.value}
                 </h3>
                 <p className="text-gray-600">{stat.label}</p>
@@ -65,38 +60,27 @@ const AboutSection = () => {
         </div>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div className="space-y-6">
-            <div className="prose prose-gray max-w-none">
-              <p className="text-gray-600 leading-relaxed">
-                {t("aboutSection.intro.p2")}
-              </p>
-              <p className="text-gray-600 leading-relaxed">
-                {t("aboutSection.intro.p3")}
-              </p>
-            </div>
+            <p className="text-lg text-gray-600">
+              Our platform offers access to a wide network of trusted operators,
+              ensuring coverage for both popular routes and off-the-beaten-path
+              destinations. From modern coaches with premium amenities to
+              budget-friendly options, GoBusly caters to every traveler's needs.
+            </p>
           </div>
 
           <div className="space-y-8">
             <div className="bg-gray-50 rounded-2xl p-8">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                {t("aboutSection.operatorsTitle")}
+                Connecting You to Trusted Bus Operators
               </h2>
-              <div className="space-y-4">
-                <p className="text-gray-600">
-                  {t("aboutSection.operatorsDescription.p1")}
-                </p>
-                <p className="text-gray-600">
-                  {t("aboutSection.operatorsDescription.p2")}
-                </p>
-              </div>
-              <Button
-                variant="link"
-                className="mt-4 p-0 h-auto text-primary font-medium hover:no-underline group"
-              >
-                {t("aboutSection.operatorsDescription.linkText")}
-                <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-              </Button>
+              <p className="text-gray-600">
+                GoBusly collaborates with leading bus operators across Europe
+                and the Balkans, offering user-friendly search tools with
+                accurate schedules and competitive prices to find the perfect
+                bus that fits your schedule and budget.
+              </p>
             </div>
 
             <Card className="p-6 border-primary/10">
@@ -131,6 +115,4 @@ const AboutSection = () => {
       </div>
     </section>
   );
-};
-
-export default AboutSection;
+}
