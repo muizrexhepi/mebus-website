@@ -71,7 +71,7 @@ const FeaturesSection = () => {
               Why Choose Us
             </span>
           </div>
-          <h1 className=" text-3xl sm:text-5xl font-medium tracking-tight text-gray-900  mb-4">
+          <h1 className=" text-3xl sm:text-4xl font-medium tracking-tight text-gray-900  mb-4">
             The smartest way to travel by bus
           </h1>
           <p className="text-lg text-gray-600">

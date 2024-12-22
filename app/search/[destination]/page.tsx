@@ -1,7 +1,9 @@
 import { Metadata } from "next";
+import { Suspense } from "react";
 import SecondaryFooter from "@/components/SecondaryFooter";
 import SearchSection from "../_components/SearchSection";
 import SearchedTickets from "../_components/SearchedTickets";
+import { Loader2 } from "lucide-react";
 
 type GenerateMetadataProps = {
   params: { destination: string };
@@ -38,13 +40,21 @@ export async function generateMetadata({
   };
 }
 
+const TicketsLoading = () => (
+  <div className="w-full h-64 flex items-center justify-center">
+    <Loader2 className="w-8 h-8 animate-spin text-primary" />
+  </div>
+);
+
 const SearchPage = () => {
   return (
     <div className="min-h-screen bg-primary-bg/5">
       <SearchSection />
       <div className="px-4 sm:px-8 max-w-6xl mx-auto py-4 space-y-4 xl:px-0 min-h-screen">
         <div className="w-full max-w-2xl mx-auto">
-          <SearchedTickets />
+          <Suspense fallback={<TicketsLoading />}>
+            <SearchedTickets />
+          </Suspense>
         </div>
       </div>
       <SecondaryFooter />
