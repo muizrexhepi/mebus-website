@@ -68,10 +68,10 @@ export default function PassengerSelect({
       <>
         <Button
           variant="outline"
-          className="w-full h-12 flex items-center justify-start bg-primary-bg/5 rounded-lg border-none ring-0"
+          className="w-full h-12 flex items-center justify-start bg-primary-bg/5 rounded-lg text-base border-none ring-0"
           onClick={() => setIsDialogOpen(true)}
         >
-          <User2 className="w-5 h-5 text-primary mr-2" />
+          <User2 className="w-4 h-4 text-primary mr-2" />
           <span className="font-normal">
             {passengers.adults > 1
               ? `${passengers.adults} ${t("orderSummary.adults")}`

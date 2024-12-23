@@ -55,13 +55,13 @@ const PartnersSection = () => {
               {partners.map((partner) => (
                 <div
                   key={partner.name}
-                  className="relative aspect-[3/2] transition-transform hover:scale-105"
+                  className="relative aspect-[3/2] transition-transform hover:scale-105 hover:filter-none group"
                 >
                   <Image
                     src={partner.src}
                     alt={`${partner.name} logo`}
                     fill
-                    className="object-contain"
+                    className="object-contain filter grayscale group-hover:grayscale-0 group-hover:filter-none"
                   />
                 </div>
               ))}

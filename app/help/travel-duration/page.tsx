@@ -81,19 +81,19 @@ const TravelDurationPage = () => {
             </p>
             <ul className="space-y-2">
               <li className="flex items-start">
-                <MapPin className="mr-2 h-5 w-5 mt-1 flex-shrink-0 text-blue-500" />
+                <MapPin className="mr-2 h-4 w-4 mt-1 flex-shrink-0 text-blue-500" />
                 <span>Distance between departure and arrival points</span>
               </li>
               <li className="flex items-start">
-                <Clock className="mr-2 h-5 w-5 mt-1 flex-shrink-0 text-blue-500" />
+                <Clock className="mr-2 h-4 w-4 mt-1 flex-shrink-0 text-blue-500" />
                 <span>Time of day and expected traffic conditions</span>
               </li>
               <li className="flex items-start">
-                <AlertTriangle className="mr-2 h-5 w-5 mt-1 flex-shrink-0 text-yellow-500" />
+                <AlertTriangle className="mr-2 h-4 w-4 mt-1 flex-shrink-0 text-yellow-500" />
                 <span>Number and duration of scheduled stops</span>
               </li>
               <li className="flex items-start">
-                <Sun className="mr-2 h-5 w-5 mt-1 flex-shrink-0 text-yellow-500" />
+                <Sun className="mr-2 h-4 w-4 mt-1 flex-shrink-0 text-yellow-500" />
                 <span>Weather conditions and seasonal variations</span>
               </li>
             </ul>
@@ -147,21 +147,21 @@ const TravelDurationPage = () => {
           <CardContent>
             <ul className="space-y-4">
               <li className="flex items-start">
-                <Moon className="mr-2 h-5 w-5 mt-1 flex-shrink-0 text-indigo-500" />
+                <Moon className="mr-2 h-4 w-4 mt-1 flex-shrink-0 text-indigo-500" />
                 <span>
                   Bring a travel pillow and blanket for overnight trips
                 </span>
               </li>
               <li className="flex items-start">
-                <Coffee className="mr-2 h-5 w-5 mt-1 flex-shrink-0 text-brown-500" />
+                <Coffee className="mr-2 h-4 w-4 mt-1 flex-shrink-0 text-brown-500" />
                 <span>Pack snacks and water for the journey</span>
               </li>
               <li className="flex items-start">
-                <BatteryCharging className="mr-2 h-5 w-5 mt-1 flex-shrink-0 text-green-500" />
+                <BatteryCharging className="mr-2 h-4 w-4 mt-1 flex-shrink-0 text-green-500" />
                 <span>Carry a portable charger for your devices</span>
               </li>
               <li className="flex items-start">
-                <Clock className="mr-2 h-5 w-5 mt-1 flex-shrink-0 text-blue-500" />
+                <Clock className="mr-2 h-4 w-4 mt-1 flex-shrink-0 text-blue-500" />
                 <span>Plan for breaks and stretch your legs when possible</span>
               </li>
             </ul>

@@ -80,18 +80,18 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
       <>
         <Button
           variant="outline"
-          className="w-full h-12 flex items-center justify-start bg-primary-bg/5 rounded-lg border-none ring-0"
+          className="w-full h-12 flex items-center truncate justify-start bg-primary-bg/5 rounded-lg border-none text-base ring-0"
           onClick={() => setIsDialogOpen(true)}
         >
-          <CalendarIcon className="mr-2 h-5 w-5" />
-          <span className="font-normal">{buttonText}</span>
+          <CalendarIcon className="mr-2 h-4 w-4" />
+          <span className="font-normal line-clamp-1">{buttonText}</span>
         </Button>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogContent className="sm:max-w-[425px] py-20 h-full sm:h-auto flex flex-col px-0">
             <DialogHeader className="space-y-4 h-fit px-4">
               <DialogTitle>{t("searchForm.departure")}</DialogTitle>
             </DialogHeader>
-            <ScrollArea className="flex-grow">
+            <ScrollArea>
               <div className="p-4">
                 {months.map((monthIndex, i) => {
                   const year =
@@ -137,10 +137,12 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="w-full h-12 flex items-center justify-start px-2.5 bg-primary-bg/5 rounded-lg border-none ring-0"
+          className="w-full h-12 flex items-center justify-start bg-primary-bg/5 rounded-lg border-none ring-0 truncate text-left"
         >
-          <CalendarIcon className={`mr-2 h-4 w-4 ${!updateUrl && "hidden"}`} />
-          <span className="text-base font-normal">{buttonText}</span>
+          <CalendarIcon className={`mr-2 h-4 w-4 shrink-0`} />
+          <span className="text-base font-normal line-clamp-1">
+            {buttonText}
+          </span>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
@@ -150,6 +152,7 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
           onSelect={handleDateSelect}
           initialFocus
           fromDate={new Date()}
+          defaultMonth={date || new Date()}
           locale={currentLocale}
         />
       </PopoverContent>

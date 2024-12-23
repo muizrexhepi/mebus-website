@@ -1,5 +1,13 @@
 import { Ticket } from "@/models/ticket";
-import { MapPin, Calendar, Clock, Bus, Snowflake, Plug } from "lucide-react";
+import {
+  MapPin,
+  Calendar,
+  Clock,
+  Bus,
+  Snowflake,
+  Plug,
+  Locate,
+} from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import InfoBlock from "../InfoBlock";
 import { Fragment } from "react";
@@ -49,7 +57,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
           className="flex items-center space-x-4 cursor-pointer"
           onClick={() => handleLocation(ticket?.stops[0]?.from?.location)}
         >
-          <MapPin className="h-5 w-5 text-primary-bg" />
+          <Locate className="h-5 w-5 text-primary-bg" />
           <div>
             <p className="font-medium capitalize">
               {ticket.stops[0].from.city}

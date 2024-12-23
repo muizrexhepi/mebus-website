@@ -37,15 +37,20 @@ export default function PopularBusRoutes() {
   return (
     <section className="w-full py-20 bg-[#f3f4f5]">
       <div className="max-w-6xl mx-auto paddingX">
+        <div className="inline-flex px-4 py-1 bg-primary/5 rounded-full mb-6">
+          <span className="text-sm font-medium text-primary">
+            Multiple Routes
+          </span>
+        </div>
         <h1 className="text-3xl sm:text-4xl font-medium text-gray-900 mb-8">
           Popular Bus Routes
         </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-4 gap-x-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-4 gap-x-6">
           {popularRoutes.map((route) => (
             <Link
               key={`${route.from}-${route.to}`}
               href={route.href}
-              className="text-gray-600 hover:text-gray-900 hover:underline transition-all duration-200"
+              className="text-gray-600 hover:text-gray-900 hover:underline transition-all duration-200 line-clamp-1"
             >
               <span className="text-sm">
                 {route.from} to {route.to} bus

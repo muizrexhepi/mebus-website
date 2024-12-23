@@ -1,20 +1,75 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { FormEvent, useState } from "react";
+import { useToast } from "../hooks/use-toast";
+import { Loader2 } from "lucide-react";
 
 export default function NewsletterCTA() {
+  const { t } = useTranslation();
+  const [email, setEmail] = useState("");
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  const { toast } = useToast();
+
+  const handleSubscribe = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubscribing(true);
+
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.status === 400) {
+        toast({
+          description: t("footer.subscribe.errorMessage.alreadySubscribed"),
+          variant: "destructive",
+        });
+      } else if (response.ok) {
+        toast({
+          description: t("footer.subscribe.successMessage"),
+        });
+        setEmail("");
+      } else {
+        const data = await response.json();
+        toast({
+          description: data.error,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.log({ error });
+      toast({
+        description: t("footer.subscribe.errorMessage.genericError"),
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubscribing(false);
+    }
+  };
   return (
     <section className="bg-white py-20 paddingX">
       <div className="max-w-4xl mx-auto space-y-8">
         <div className="text-center space-y-6">
-          <span className="text-sm font-medium tracking-wider text-gray-500 uppercase">
-            Join Our Travel Community
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-bold text-[#1B2644] leading-tight max-w-3xl mx-auto">
+          <div className="inline-flex px-4 py-1 bg-primary/5 rounded-full">
+            <span className="text-sm font-medium text-primary">
+              Join Our Travel Community
+            </span>
+          </div>
+
+          <h1 className="text-3xl sm:text-4xl font-medium text-gray-900 leading-tight max-w-3xl mx-auto">
             Ready to unlock special offers and travel inspiration?
-          </h2>
+          </h1>
         </div>
 
-        <form className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto">
+        <form
+          className="flex flex-col sm:flex-row gap-2 max-w-2xl mx-auto"
+          onSubmit={handleSubscribe}
+        >
           <Input
             type="email"
             placeholder="Enter your email address"
@@ -23,9 +78,14 @@ export default function NewsletterCTA() {
           />
           <Button
             type="submit"
-            className="h-12 px-8 text-white button-gradient rounded-lg font-medium"
+            disabled={isSubscribing}
+            className="h-12 px-8 w-full sm:w-32 shrink-0 text-white button-gradient rounded-lg font-medium"
           >
-            Get Updates
+            {isSubscribing ? (
+              <Loader2 className="size-5 animate-spin mx-auto" />
+            ) : (
+              "Get Updates"
+            )}
           </Button>
         </form>
       </div>

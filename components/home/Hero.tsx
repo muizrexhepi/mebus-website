@@ -17,19 +17,19 @@ const Hero = () => {
       </div>
       <div className="relative z-20 w-full">
         <div className="max-w-6xl mx-auto paddingX">
-          <div className="space-y-8 pt-8 sm:pt-16 md:pt-24">
-            <div className="max-w-4xl space-y-4">
-              <h1 className="text-left text-3xl sm:text-5xl font-medium text-transparent button-gradient bg-clip-text">
+          <div className="space-y-8 pt-8 sm:pt-16 md:pt-20">
+            <div className="max-w-4xl space-y-2">
+              <h1 className="text-left text-3xl sm:text-4xl text-transparent font-medium button-gradient bg-clip-text">
                 {t("hero.title")}
               </h1>
-              <p className="text-left text-sm sm:text-lg text-black/70 max-w-2xl">
+              <p className="text-left text-base  text-black/50 max-w-2xl">
                 Book your bus tickets for a comfortable journey
               </p>
             </div>
 
             <SearchBlock />
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:pt-8">
+            {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:pt-8">
               <div className="flex items-center space-x-3 bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-gray-100">
                 <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
                   <Bus className="w-6 h-6 text-red-500" />
@@ -75,7 +75,7 @@ const Hero = () => {
                   <p className="text-sm text-gray-600">Always here to help</p>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

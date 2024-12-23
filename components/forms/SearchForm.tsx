@@ -61,7 +61,6 @@ export const SearchForm: React.FC<SearchFormProps> = ({ updateUrl }) => {
     fetchStations();
   }, []);
 
-  // Prefetch the search route whenever destination changes
   useEffect(() => {
     if (from && to) {
       const path = `/search/${fromCity.toLowerCase()}-${toCity.toLowerCase()}`;

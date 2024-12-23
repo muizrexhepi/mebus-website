@@ -21,7 +21,7 @@ const OperatorCard: React.FC<{ operator: Operator }> = ({ operator }) => (
     <CardContent className="p-0">
       <div className="aspect-[3/2] relative bg-gray-100">
         <Image
-          src="/placeholder.svg?height=200&width=300"
+          src="/assets/images/kabashilogo.png"
           alt={operator.name}
           fill
           className="object-contain p-4"

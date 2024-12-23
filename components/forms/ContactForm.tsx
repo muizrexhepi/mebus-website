@@ -75,7 +75,6 @@ export default function ContactForm() {
           message:
             "Your message has been sent successfully. We will get back to you soon.",
         });
-        // Reset form after successful submission
         setFormData({
           name: "",
           email: "",

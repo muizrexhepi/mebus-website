@@ -143,9 +143,9 @@ const StationSelect: React.FC<CustomSelectProps> = ({
           onClick={() => setIsDialogOpen(true)}
         >
           {departure === "from" ? (
-            <Locate className="w-5 h-5 text-primary mr-2" />
+            <Locate className="w-4 h-4 text-primary mr-2" />
           ) : (
-            <MapPin className="w-5 h-5 text-primary mr-2" />
+            <MapPin className="w-4 h-4 text-primary mr-2" />
           )}
           <span className="capitalize font-normal text-base">
             {searchTerm || "Select a city"}
@@ -166,9 +166,9 @@ const StationSelect: React.FC<CustomSelectProps> = ({
     <div className="relative">
       <div className="relative">
         {departure === "from" ? (
-          <Locate className="absolute w-5 h-5 text-primary left-3 top-1/2 transform -translate-y-1/2" />
+          <Locate className="absolute w-4 h-4 text-primary left-3 top-1/2 transform -translate-y-1/2" />
         ) : (
-          <MapPin className="absolute w-5 h-5 text-primary left-3 top-1/2 transform -translate-y-1/2" />
+          <MapPin className="absolute w-4 h-4 text-primary left-3 top-1/2 transform -translate-y-1/2" />
         )}
         <Input
           type="text"
@@ -199,7 +199,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
                     onClick={() => handleSelect(station)}
                     type="button"
                   >
-                    <MapPin className="w-5 h-5 text-primary mr-3 shrink-0" />
+                    <MapPin className="w-4 h-4 text-primary mr-3 shrink-0" />
                     <div className="flex flex-col items-start gap-0.5">
                       <span className="capitalize font-medium text-sm">
                         {station.city}
@@ -228,7 +228,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
                     onClick={() => handleSelect(station)}
                     type="button"
                   >
-                    <MapPin className="w-5 h-5 text-primary mr-3 shrink-0" />
+                    <MapPin className="w-4 h-4 text-primary mr-3 shrink-0" />
                     <div className="flex flex-col items-start gap-0.5">
                       <span className="capitalize font-medium text-sm">
                         {station.city}

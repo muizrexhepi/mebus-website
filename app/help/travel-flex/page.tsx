@@ -112,7 +112,7 @@ const TravelFlexOptionsPage = () => {
               suits your needs and travel plans.
             </p>
             <div className="flex items-start mb-4">
-              <AlertCircle className="mr-2 h-5 w-5 mt-1 flex-shrink-0 text-yellow-500" />
+              <AlertCircle className="mr-2 h-4 w-4 mt-1 flex-shrink-0 text-yellow-500" />
               <p className="text-sm text-muted-foreground">
                 <strong>Important:</strong> Travel Flex Options must be selected
                 at the time of booking and cannot be added later.

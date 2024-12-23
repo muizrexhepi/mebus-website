@@ -108,17 +108,17 @@ const ETicketGuidePage = () => {
           <CardContent>
             <ul className="space-y-4">
               <li className="flex items-start">
-                <Smartphone className="mr-2 h-5 w-5 mt-1 flex-shrink-0" />
+                <Smartphone className="mr-2 h-4 w-4 mt-1 flex-shrink-0" />
                 <span>
                   Keep your device charged to access your e-ticket easily
                 </span>
               </li>
               <li className="flex items-start">
-                <Ticket className="mr-2 h-5 w-5 mt-1 flex-shrink-0" />
+                <Ticket className="mr-2 h-4 w-4 mt-1 flex-shrink-0" />
                 <span>Take a screenshot of your e-ticket as a backup</span>
               </li>
               <li className="flex items-start">
-                <ShieldCheck className="mr-2 h-5 w-5 mt-1 flex-shrink-0" />
+                <ShieldCheck className="mr-2 h-4 w-4 mt-1 flex-shrink-0" />
                 <span>
                   Ensure your e-ticket details match your ID for verification
                 </span>

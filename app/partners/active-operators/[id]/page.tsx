@@ -103,11 +103,11 @@ const OperatorRoutesPage: React.FC<{ params: { id: string } }> = async ({
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          <div className="md:col-span-1">
+          <div className="md:col-span-1 overflow-x-auto">
             <OperatorInfo operator={operator} />
           </div>
 
-          <div className="md:col-span-2">
+          <div className="md:col-span-2 overflow-x-auto">
             <div className="bg-white shadow-md rounded-lg border p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-semibold text-gray-800">
@@ -183,7 +183,7 @@ const OperatorRoutesPage: React.FC<{ params: { id: string } }> = async ({
               )}
             </div>
 
-            <div className="bg-white shadow-md rounded-lg border p-6 mt-8">
+            <div className="bg-white shadow-md rounded-lg border p-6 mt-8 overflow-x-auto">
               <h2 className="text-2xl font-semibold mb-4 text-primary flex items-center">
                 <BuildingIcon className="w-6 h-6 mr-3" />
                 About {operator.name}

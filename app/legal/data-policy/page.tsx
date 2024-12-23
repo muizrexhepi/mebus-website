@@ -75,7 +75,7 @@ const DataDeletionPage = () => {
               operational purposes.
             </p>
             <div className="flex items-start mb-4">
-              <AlertCircle className="mr-2 h-5 w-5 mt-1 flex-shrink-0 text-yellow-500" />
+              <AlertCircle className="mr-2 h-4 w-4 mt-1 flex-shrink-0 text-yellow-500" />
               <p className="text-sm text-muted-foreground">
                 <strong>Important:</strong> Deleting your data will result in
                 the permanent loss of your account and all associated

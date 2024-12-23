@@ -81,7 +81,7 @@ const CancellationPolicyPage = () => {
               option you choose at the time of booking.
             </p>
             <div className="flex items-start mb-4">
-              <AlertCircle className="mr-2 h-5 w-5 mt-1 flex-shrink-0 text-yellow-500" />
+              <AlertCircle className="mr-2 h-4 w-4 mt-1 flex-shrink-0 text-yellow-500" />
               <p className="text-sm text-muted-foreground">
                 <strong>Important:</strong> Cancellations are only possible if
                 you have purchased either the Premium or Basic travel flex

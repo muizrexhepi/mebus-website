@@ -143,7 +143,7 @@ export default function AboutUs() {
               size="lg"
               className="bg-primary text-white hover:bg-primary-dark"
             >
-              <GlobeIcon className="mr-2 h-5 w-5" />
+              <GlobeIcon className="mr-2 h-4 w-4" />
               Discover GoBusly Routes
             </Button>
           </Link>

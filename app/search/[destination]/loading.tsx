@@ -8,7 +8,7 @@ const Loading = () => {
         <Skeleton className="h-6 w-12" />
         <Skeleton className="h-6 w-12" />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 items-end gap-2 lg:gap-1 flex-1">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 items-end gap-2 lg:gap-1 flex-1 w-full">
         <Skeleton className="h-12 w-full" />
         <Skeleton className="h-12 w-full" />
         <Skeleton className="h-12 w-full" />

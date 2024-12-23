@@ -117,14 +117,14 @@ export default function ReturnDatePicker({
       <>
         <Button
           variant="outline"
-          className="w-full h-12 flex items-center justify-between bg-primary-bg/5 rounded-lg border-none"
+          className="w-full h-12 flex items-center justify-between bg-primary-bg/5 text-base rounded-lg border-none"
           onClick={() => {
             setTripType("round-trip");
             setIsDialogOpen(true);
           }}
         >
           <div className="flex items-center">
-            <CalendarIcon className="mr-2 h-5 w-5 " />
+            <CalendarIcon className="mr-2 h-4 w-4" />
             <span
               className={
                 selectedReturnDate
@@ -197,22 +197,17 @@ export default function ReturnDatePicker({
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="w-full h-12 flex items-center px-2.5 justify-between text-base bg-primary-bg/5 rounded-lg border-none"
+          className="w-full h-12 flex items-center truncate justify-between text-base bg-primary-bg/5 rounded-lg border-none"
         >
-          <div className="flex items-center">
-            {/* <CalendarIcon
-              className={`mr-2 h-4 w-4 ${!updateUrl && "hidden"}`}
-            /> */}
-            <span
-              className={
-                selectedReturnDate
-                  ? "text-black font-normal"
-                  : "text-primary font-normal"
-              }
-            >
-              {buttonText}
-            </span>
-          </div>
+          <span
+            className={
+              selectedReturnDate
+                ? "text-black font-normal line-clamp-1"
+                : "text-primary font-normal line-clamp-1"
+            }
+          >
+            {buttonText}
+          </span>
           {selectedReturnDate && (
             <X
               className={`h-5 w-5 ${!updateUrl && "hidden"}`}
@@ -230,6 +225,7 @@ export default function ReturnDatePicker({
           selected={selectedReturnDate}
           onSelect={handleDateSelect}
           initialFocus
+          defaultMonth={selectedReturnDate}
           fromDate={minReturnDate}
         />
       </PopoverContent>

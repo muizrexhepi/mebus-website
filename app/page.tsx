@@ -1,4 +1,3 @@
-import AboutSection from "@/components/home/AboutSection";
 import Footer from "@/components/Footer";
 import Hero from "@/components/home/Hero";
 import PartnersSection from "@/components/home/PartnersSection";
@@ -14,7 +13,6 @@ export default function Home() {
       <FeaturesSection />
       <PopularBusRoutes />
       <NewsletterCTA />
-      {/* <AboutSection /> */}
       <Footer />
     </div>
   );
