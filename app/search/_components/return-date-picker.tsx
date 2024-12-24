@@ -22,6 +22,7 @@ import { useTranslation } from "react-i18next";
 import { LOCALE_MAP } from "@/lib/data";
 import { enUS } from "date-fns/locale";
 import { useRouter } from "next/navigation";
+import { FaCalendarAlt } from "react-icons/fa";
 
 interface ReturnDatePickerProps {
   updateUrl?: boolean;
@@ -124,7 +125,7 @@ export default function ReturnDatePicker({
           }}
         >
           <div className="flex items-center">
-            <CalendarIcon className="mr-2 h-4 w-4" />
+            <FaCalendarAlt className="size-4 mr-2 text-primary-accent shrink-0" />
             <span
               className={
                 selectedReturnDate

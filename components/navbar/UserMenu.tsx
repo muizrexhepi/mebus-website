@@ -22,14 +22,17 @@ import {
 } from "../ui/dropdown-menu";
 import { Separator } from "../ui/separator";
 import useIsMobile from "../hooks/use-mobile";
-import { useTranslation } from "react-i18next"; // Add translation hook
+import { useTranslation } from "react-i18next";
 import Image from "next/image";
+import { useAuth } from "../providers/auth-provider";
+import { Avatar, AvatarFallback } from "../ui/avatar";
 
 const UserNavbarMenu = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = useIsMobile();
-  const { t } = useTranslation(); // Initialize translation
+  const { t } = useTranslation();
+  const { user } = useAuth();
 
   const handleLogout = async () => {
     try {
@@ -47,10 +50,16 @@ const UserNavbarMenu = () => {
       aria-haspopup="true"
       aria-expanded="false"
       aria-label={t("nav.routes")}
-      className="flex items-center space-x-2 px-3 py-1 h-10 rounded-2xl border border-border bg-[#f3f4f6] hover:bg-[#f3f4f6]/95 outline-none transition-colors"
+      className="flex items-center space-x-2 px-3 py-3 rounded-full border border-border bg-white hover:bg-white hover:shadow outline-none transition"
     >
-      <Menu className="text-gray-600" size={18} />
-      <UserCircle className="text-gray-600" size={18} />
+      <Menu className="text-gray-500" size={18} />
+      {user ? (
+        <div className="size-7 bg-white border rounded-full flex justify-center items-center">
+          <p className="font-medium text-black text-base">{user?.name[0]}</p>
+        </div>
+      ) : (
+        <UserCircle className="text-gray-500" size={18} />
+      )}
     </Button>
   );
 

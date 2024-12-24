@@ -2,6 +2,7 @@ import React from "react";
 import { Metadata } from "next";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import ContactForm from "@/components/forms/ContactForm";
+import { Card } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "Contact Support - Professional Assistance | GoBusly",
@@ -39,15 +40,15 @@ const ContactInfo: React.FC<{
   title: string;
   content: React.ReactNode;
 }> = ({ icon, title, content }) => (
-  <div className="flex items-start space-x-4 p-4 bg-primary-bg/5 rounded-lg hover:shadow-sm transition-all duration-300">
+  <Card className="flex items-start space-x-4 p-4  rounded-lg hover:shadow-sm transition-all duration-300">
     <div className="text-primary-bg p-2 rounded-full bg-primary-bg/10">
       {icon}
     </div>
     <div>
-      <h3 className="font-medium text-lg text-neutral-800">{title}</h3>
+      <h3 className="font-normal text-lg text-neutral-800">{title}</h3>
       {content}
     </div>
-  </div>
+  </Card>
 );
 
 const Contact: React.FC = () => {
@@ -55,7 +56,7 @@ const Contact: React.FC = () => {
     <div className="max-w-6xl mx-auto paddingX pt-12 md:pt-20 xl:pt-32 min-h-screen">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
         <div>
-          <h1 className="text-2xl sm:text-4xl font-medium mb-2 button-gradient text-transparent bg-clip-text">
+          <h1 className="text-2xl sm:text-4xl font-normal mb-2 button-gradient text-transparent bg-clip-text">
             Contact Support
           </h1>
           <p className="text-gray-600 mb-12 text-lg leading-relaxed">

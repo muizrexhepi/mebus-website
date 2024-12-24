@@ -44,7 +44,7 @@ const LanguageSelector = () => {
             className="cursor-pointer"
           >
             <div className="flex items-center gap-2">
-              <span>{lang.flag}</span>
+              <span className="sm:hidden">{lang.flag}</span>
               <span className="text-sm uppercase">{lang.code}</span>
             </div>
           </SelectItem>

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { format, parse, isSameDay, isValid } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -22,6 +21,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import useIsMobile from "@/components/hooks/use-mobile";
 import { LOCALE_MAP } from "@/lib/data";
 import { enUS } from "date-fns/locale";
+import { FaCalendarAlt } from "react-icons/fa";
 
 export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
   const { t, i18n } = useTranslation();
@@ -83,7 +83,8 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
           className="w-full h-12 flex items-center truncate justify-start bg-primary-bg/5 rounded-lg border-none text-base ring-0"
           onClick={() => setIsDialogOpen(true)}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
+          <FaCalendarAlt className="size-4 mr-2 text-primary-accent" />
+
           <span className="font-normal line-clamp-1">{buttonText}</span>
         </Button>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -137,12 +138,11 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="w-full h-12 flex items-center justify-start bg-primary-bg/5 rounded-lg border-none ring-0 truncate text-left"
+          className="w-full h-12 flex items-center text-base justify-start bg-primary-bg/5 rounded-lg border-none ring-0 truncate text-left"
         >
-          <CalendarIcon className={`mr-2 h-4 w-4 shrink-0`} />
-          <span className="text-base font-normal line-clamp-1">
-            {buttonText}
-          </span>
+          <FaCalendarAlt className="size-4 mr-2 text-primary-accent shrink-0" />
+
+          <span className="font-normal line-clamp-1">{buttonText}</span>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">

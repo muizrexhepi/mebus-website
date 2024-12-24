@@ -15,6 +15,9 @@ import { toast } from "../hooks/use-toast";
 import { Stop } from "@/models/stop";
 import moment from "moment-timezone";
 import { useTranslation } from "react-i18next";
+import { IoMdLocate } from "react-icons/io";
+import { HiMapPin } from "react-icons/hi2";
+import { FaCalendarAlt } from "react-icons/fa";
 
 export default function TicketDetails({ ticket }: { ticket: Ticket }) {
   const { t } = useTranslation();
@@ -57,7 +60,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
           className="flex items-center space-x-4 cursor-pointer"
           onClick={() => handleLocation(ticket?.stops[0]?.from?.location)}
         >
-          <Locate className="h-5 w-5 text-primary-bg" />
+          <IoMdLocate className="size-5 text-primary-accent" />
           <div>
             <p className="font-medium capitalize">
               {ticket.stops[0].from.city}
@@ -71,7 +74,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
           className="flex items-center space-x-4 cursor-pointer"
           onClick={() => handleLocation(ticket?.stops[0]?.to?.location)}
         >
-          <MapPin className="h-5 w-5 text-primary-bg" />
+          <HiMapPin className="size-5 text-primary-accent" />
           <div>
             <p className="font-medium capitalize">
               {ticket.stops[ticket.stops.length - 1].to.city}
@@ -86,7 +89,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
 
       <div className="flex sm:items-center sm:flex-row flex-col items-start justify-between px-4 py gap-2">
         <div className="flex items-center space-x-4">
-          <Calendar className="h-5 w-5 text-primary-bg" />
+          <FaCalendarAlt className="size-5 text-primary-accent" />
           <span className="font-medium">
             {formatDate(ticket.departure_date)}
           </span>
@@ -105,10 +108,10 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
           <Fragment key={stop._id}>
             <div className="flex items-start">
               <div className="flex flex-col items-center mr-4">
-                <div className="w-3 h-3 bg-primary-bg rounded-full" />
+                <div className="w-3 h-3 bg-primary-accent rounded-full" />
                 <div className="w-0.5 h-2 bg-gray-300 mt-1" />
                 <div className="w-0.5 h-2 bg-gray-300 my-1" />
-                <div className="w-3 h-3 bg-primary-bg rounded-full" />
+                <div className="w-3 h-3 bg-primary-accent rounded-full" />
               </div>
               <div className="flex-1 ml-1 -mt-1">
                 <div className="flex w-full justify-between items-center mb-1">

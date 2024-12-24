@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { CalendarDays, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useCurrency } from "../providers/currency-provider";
+import { FaCalendarAlt } from "react-icons/fa";
 
 export interface TicketProps {
   ticket: TicketType;
@@ -79,8 +80,8 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
             <p className="button-gradient bg-clip-text text-transparent">
               {ticket.operatorInfo?.name}
             </p>
-            <div className="flex items-center text-sm text-muted-foreground">
-              <CalendarDays className="w-4 h-4 mr-2" />
+            <div className="flex items-center text-sm text-black">
+              <FaCalendarAlt className="w-4 h-4 mr-2" />
               {departureDate.format("ddd, MMMM D, YYYY")}
             </div>
           </div>
@@ -113,7 +114,7 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
                 <h1 className="font-medium text-base sm:text-lg capitalize">
                   {ticket.stops[0].from.city}
                 </h1>
-                <span className="truncate text-accent-foreground/50 line-clamp-1 hidden sm:block">
+                <span className="truncate text-black/50 line-clamp-1 hidden sm:block">
                   {ticket.stops[0].from.name}
                 </span>
               </div>
@@ -121,7 +122,7 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
                 <h1 className="font-medium text-base sm:text-lg capitalize">
                   {ticket.stops[ticket.stops.length - 1].to.city}{" "}
                 </h1>
-                <span className="truncate text-accent-foreground/50 line-clamp-1 hidden sm:block">
+                <span className="truncate text-black/50 line-clamp-1 hidden sm:block">
                   {ticket.stops[ticket.stops.length - 1].to.name}{" "}
                 </span>
               </div>

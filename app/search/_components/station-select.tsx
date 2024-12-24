@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import CitySelectDialog from "@/components/dialogs/CitySelectDialog";
 import useIsMobile from "@/components/hooks/use-mobile";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { HiMapPin } from "react-icons/hi2";
+import { IoMdLocate } from "react-icons/io";
 
 interface CustomSelectProps {
   stations?: Station[];
@@ -139,15 +141,15 @@ const StationSelect: React.FC<CustomSelectProps> = ({
       <>
         <Button
           variant={"outline"}
-          className="w-full h-12 flex items-center justify-start bg-primary-bg/5 rounded-lg border-none ring-0"
+          className="w-full h-12 flex items-center justify-start bg-primary-bg/5 rounded-lg border-none ring-0 text-base"
           onClick={() => setIsDialogOpen(true)}
         >
           {departure === "from" ? (
-            <Locate className="w-4 h-4 text-primary mr-2" />
+            <IoMdLocate className="size-4 mr-2 text-primary-accent" />
           ) : (
-            <MapPin className="w-4 h-4 text-primary mr-2" />
+            <HiMapPin className="size-4 mr-2 text-primary-accent" />
           )}
-          <span className="capitalize font-normal text-base">
+          <span className="capitalize font-normal">
             {searchTerm || "Select a city"}
           </span>
         </Button>
@@ -164,11 +166,11 @@ const StationSelect: React.FC<CustomSelectProps> = ({
 
   return (
     <div className="relative">
-      <div className="relative">
+      <div className="flex items-center h-12 rounded-lg bg-primary-bg/5 px-4">
         {departure === "from" ? (
-          <Locate className="absolute w-4 h-4 text-primary left-3 top-1/2 transform -translate-y-1/2" />
+          <IoMdLocate className="size-4 mr-2 shrink-0 text-primary-accent" />
         ) : (
-          <MapPin className="absolute w-4 h-4 text-primary left-3 top-1/2 transform -translate-y-1/2" />
+          <HiMapPin className="size-4 mr-2 shrink-0 text-primary-accent" />
         )}
         <Input
           type="text"
@@ -177,7 +179,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
           onFocus={handleFocus}
           onBlur={handleBlur}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full h-12 pl-10 hover:bg-accent bg-primary-bg/5 rounded-lg border-none ring-0 capitalize text-base"
+          className="flex-1 rounded-lg h-12 border-none ring-0 bg-transparent text-base capitalize px-0"
         />
       </div>
 

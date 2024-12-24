@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Navbar from "@/components/navbar/Navbar";
 import SecondaryFooter from "@/components/SecondaryFooter";
 import ClientMebusDiscountOffers from "@/app/help/_components/DiscountTabs";
+import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "GoBusly - Discounts and Offers",
@@ -66,48 +67,48 @@ const offers = {
 
 export default function MebusDiscountOffers() {
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-8 xl:px-0 pt-32">
-      <div className="w-screen fixed top-0 left-0 flex justify-center items-center bg-neutral-900 px-4 sm:px-8 py-4 z-20">
-        <Navbar className="max-w-6xl" />
+    <div>
+      <div className="max-w-6xl mx-auto paddingX py-20">
+        <h1 className="text-4xl font-bold text-center mb-8">Discount Offers</h1>
+
+        <ClientMebusDiscountOffers offers={offers} />
+
+        <div className="mt-12">
+          <h2 className="text-2xl font-semibold mb-4">How to Redeem Offers</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Choose your desired trip on the GoBusly app or website</li>
+            <li>Proceed to the checkout page</li>
+            <li>Enter the offer code in the designated field</li>
+            <li>The discount will be applied to your total fare</li>
+            <li>Complete your booking to secure the discounted rate</li>
+          </ol>
+        </div>
+
+        <div className="mt-12">
+          <h2 className="text-2xl font-semibold mb-4">Terms and Conditions</h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li>
+              Offers cannot be combined with other promotions or discounts
+            </li>
+            <li>
+              Discounts are subject to availability and may change without
+              notice
+            </li>
+            <li>
+              Offer codes must be entered at the time of booking and cannot be
+              applied retroactively
+            </li>
+            <li>
+              GoBusly reserves the right to modify or cancel offers at any time
+            </li>
+            <li>
+              Additional terms may apply to specific offers. Please check offer
+              details for more information
+            </li>
+          </ul>
+        </div>
       </div>
-
-      <h1 className="text-4xl font-bold text-center mb-8">Discount Offers</h1>
-
-      <ClientMebusDiscountOffers offers={offers} />
-
-      <div className="mt-12">
-        <h2 className="text-2xl font-semibold mb-4">How to Redeem Offers</h2>
-        <ol className="list-decimal list-inside space-y-2">
-          <li>Choose your desired trip on the GoBusly app or website</li>
-          <li>Proceed to the checkout page</li>
-          <li>Enter the offer code in the designated field</li>
-          <li>The discount will be applied to your total fare</li>
-          <li>Complete your booking to secure the discounted rate</li>
-        </ol>
-      </div>
-
-      <div className="mt-12">
-        <h2 className="text-2xl font-semibold mb-4">Terms and Conditions</h2>
-        <ul className="list-disc list-inside space-y-2">
-          <li>Offers cannot be combined with other promotions or discounts</li>
-          <li>
-            Discounts are subject to availability and may change without notice
-          </li>
-          <li>
-            Offer codes must be entered at the time of booking and cannot be
-            applied retroactively
-          </li>
-          <li>
-            GoBusly reserves the right to modify or cancel offers at any time
-          </li>
-          <li>
-            Additional terms may apply to specific offers. Please check offer
-            details for more information
-          </li>
-        </ul>
-      </div>
-
-      <SecondaryFooter className="max-w-6xl mt-16" />
+      <Footer />
     </div>
   );
 }

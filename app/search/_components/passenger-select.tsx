@@ -1,19 +1,15 @@
 "use client";
 
-import { Minus, Plus, User2 } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectTrigger } from "@/components/ui/select";
 import useSearchStore from "@/store";
 import { useState } from "react";
 import useIsMobile from "../../../components/hooks/use-mobile";
 import PassengerSelectDialog from "../../../components/dialogs/PassengersDialog";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
+import { FaUser } from "react-icons/fa";
 
 interface PassengerSelectProps {
   updateUrl?: boolean;
@@ -71,7 +67,7 @@ export default function PassengerSelect({
           className="w-full h-12 flex items-center justify-start bg-primary-bg/5 rounded-lg text-base border-none ring-0"
           onClick={() => setIsDialogOpen(true)}
         >
-          <User2 className="w-4 h-4 text-primary mr-2" />
+          <FaUser className="size-4 mr-2 text-primary-accent" />
           <span className="font-normal">
             {passengers.adults > 1
               ? `${passengers.adults} ${t("orderSummary.adults")}`
@@ -96,11 +92,11 @@ export default function PassengerSelect({
   return (
     <Select>
       <SelectTrigger
-        className="outline-none h-12 hover:bg-accent bg-primary-bg/5 rounded-lg border-none ring-0 transition-colors text-base truncate"
+        className="outline-none h-12 hover:bg-accent bg-primary-bg/5 rounded-lg border-none ring-0 transition-colors text-base truncate px-4"
         aria-label="Select number of passengers"
       >
         <div className="flex items-center">
-          <User2 className="w-4 h-4 text-primary mr-2" />
+          <FaUser className="size-4 mr-2 text-primary-accent" />
           <span className="font-normal text-base">
             {" "}
             {passengers.adults > 1
@@ -121,7 +117,7 @@ export default function PassengerSelect({
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <div>
-                <h3 className="font-semibold text-base">
+                <h3 className="font-medium text-base">
                   {t("orderSummary.adults")}
                 </h3>
               </div>
@@ -154,7 +150,7 @@ export default function PassengerSelect({
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <div>
-                <h3 className="font-semibold text-base">
+                <h3 className="font-medium text-base">
                   {t("orderSummary.children")}
                 </h3>
                 <p className="text-sm text-gray-500">
