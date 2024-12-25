@@ -201,7 +201,11 @@ const StationSelect: React.FC<CustomSelectProps> = ({
                     onClick={() => handleSelect(station)}
                     type="button"
                   >
-                    <MapPin className="w-4 h-4 text-primary mr-3 shrink-0" />
+                    {departure == "from" ? (
+                      <IoMdLocate className="size-4 mr-2 text-primary-accent" />
+                    ) : (
+                      <HiMapPin className="size-4 mr-2 shrink-0 text-primary-accent" />
+                    )}
                     <div className="flex flex-col items-start gap-0.5">
                       <span className="capitalize font-medium text-sm">
                         {station.city}
@@ -230,7 +234,11 @@ const StationSelect: React.FC<CustomSelectProps> = ({
                     onClick={() => handleSelect(station)}
                     type="button"
                   >
-                    <MapPin className="w-4 h-4 text-primary mr-3 shrink-0" />
+                    {departure == "from" ? (
+                      <IoMdLocate className="size-4 mr-2 text-primary-accent" />
+                    ) : (
+                      <HiMapPin className="size-4 mr-2 shrink-0 text-primary-accent" />
+                    )}
                     <div className="flex flex-col items-start gap-0.5">
                       <span className="capitalize font-medium text-sm">
                         {station.city}

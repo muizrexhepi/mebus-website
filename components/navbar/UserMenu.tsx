@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu, UserCircle } from "lucide-react";
+import { LogOut, Menu, UserCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { account } from "@/appwrite.config";
@@ -26,6 +26,7 @@ import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import { useAuth } from "../providers/auth-provider";
 import { Avatar, AvatarFallback } from "../ui/avatar";
+import { SOCIAL_LINKS } from "@/lib/data";
 
 const UserNavbarMenu = () => {
   const router = useRouter();
@@ -65,24 +66,24 @@ const UserNavbarMenu = () => {
 
   const MenuItems = (
     <>
-      <div className="space-y-2 py-2 text-base">
+      <div className="space-y-2 py-2 text-sm font-normal">
         <Link
           href="/account"
-          className="block px-4 py-2 text-sm font-medium"
+          className="block px-4 py-2"
           onClick={() => setIsOpen(false)}
         >
           {t("nav.account")} {/* Translated "Account" */}
         </Link>
         <Link
           href="/bookings"
-          className="block px-4 py-2 text-sm font-medium"
+          className="block px-4 py-2"
           onClick={() => setIsOpen(false)}
         >
           {t("nav.bookings")} {/* Translated "Bookings" */}
         </Link>
         <Link
           href="/help"
-          className="block px-4 py-2 text-sm font-medium"
+          className="block px-4 py-2"
           onClick={() => setIsOpen(false)}
         >
           {t("footer.links.customersupport")}{" "}
@@ -90,20 +91,40 @@ const UserNavbarMenu = () => {
         </Link>
         <Link
           href="/help/contact-support"
-          className="block px-4 py-2 text-sm font-medium"
+          className="block px-4 py-2"
           onClick={() => setIsOpen(false)}
         >
           {t("nav.contact")} {/* Translated "Contact Us" */}
         </Link>
-        <Separator className="!mb-4" />
-        <div className="px-4">
+        <Separator />
+        <div className="px-4 flex items-center gap-2 py-1">
+          <LogOut className="text-primary-accent size-4" />
+
           <Button
-            className="button-gradient w-full h-12 text-base text-white rounded-lg"
+            variant={"ghost"}
+            className="block px-0 h-fit button-gradient text-transparent hover:text-transparent bg-clip-text"
             onClick={handleLogout}
           >
-            {t("auth.logout")} {/* Translated "Logout" */}
+            {t("auth.logout")}
           </Button>
         </div>
+        <Separator />
+        {/* <div className="flex items-center gap-4 px-4 py-2">
+          {SOCIAL_LINKS.map((social, index) => {
+            const Icon = social.icon;
+            return (
+              <a
+                key={index}
+                href={social.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-black/70 hover:text-black transition-colors"
+              >
+                <Icon className="w-5 h-5" />
+              </a>
+            );
+          })}
+        </div> */}
       </div>
     </>
   );
@@ -137,25 +158,36 @@ const UserNavbarMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{MenuTrigger}</DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-42 rounded-lg mt-2">
-        <DropdownMenuItem asChild>
-          <Link href="/account" className="w-full">
+      <DropdownMenuContent align="end" className="w-52 rounded-lg mt-2 px-0">
+        <DropdownMenuItem asChild className="py-2 rounded-none">
+          <Link href="/account" className="w-full !cursor-pointer px-4">
             {t("nav.account")}
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/help" className="w-full">
+        <DropdownMenuItem asChild className="py-2 rounded-none">
+          <Link href="/help" className="w-full !cursor-pointer px-4">
             {t("footer.links.customersupport")}{" "}
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/help/contact-support" className="w-full">
+        <DropdownMenuItem asChild className="py-2 rounded-none">
+          <Link href="/bookings" className="w-full !cursor-pointer px-4">
+            {t("nav.bookings")}
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild className="py-2 rounded-none">
+          <Link
+            href="/help/contact-support"
+            className="w-full !cursor-pointer px-4"
+          >
             {t("nav.contact")}
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onSelect={handleLogout}>
-          {t("auth.logout")}
+        <DropdownMenuItem
+          onSelect={handleLogout}
+          className="!cursor-pointer rounded-none py-2"
+        >
+          <span className="px-2">{t("auth.logout")}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

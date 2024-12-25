@@ -43,12 +43,9 @@ const DateButton: React.FC<DateButtonProps> = ({
   >
     <div className="flex flex-col items-center">
       <span
-        className={cn(
-          "text-sm sm:text-base md:text-lg font-medium sm:font-bold",
-          {
-            "button-gradient bg-clip-text text-transparent": isSelected,
-          }
-        )}
+        className={cn("text-sm sm:text-base md:text-lg font-medium", {
+          "button-gradient bg-clip-text text-transparent": isSelected,
+        })}
       >
         {format(date, "E, LLL dd", { locale: currentLocale })}
       </span>

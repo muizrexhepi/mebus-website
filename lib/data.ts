@@ -242,12 +242,12 @@ export const TRAVEL_FLEX_PERMISSIONS: TravelFlexPermissions = {
       title: "Security",
       description: "Manage your account security settings.",
     },
-    {
-      href: "/account/data-privacy",
-      icon: Shield,
-      title: "Data and Privacy",
-      description: "Control your data and privacy settings.",
-    },
+    // {
+    //   href: "/account/data-privacy",
+    //   icon: Shield,
+    //   title: "Data and Privacy",
+    //   description: "Control your data and privacy settings.",
+    // },
     {
       href: "/bookings",
       icon: Book,

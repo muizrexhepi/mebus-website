@@ -59,12 +59,12 @@ export default function Account() {
       title: t("account.security"),
       description: t("account.securityDesc"),
     },
-    {
-      href: "/account/data-privacy",
-      icon: Shield,
-      title: t("account.dataAndPrivacy"),
-      description: t("account.dataAndPrivacyDesc"),
-    },
+    // {
+    //   href: "/account/data-privacy",
+    //   icon: Shield,
+    //   title: t("account.dataAndPrivacy"),
+    //   description: t("account.dataAndPrivacyDesc"),
+    // },
     {
       href: "/bookings",
       icon: Book,

@@ -13,6 +13,8 @@ import useUser from "@/components/hooks/use-user";
 import moment from "moment-timezone";
 import { useTranslation } from "react-i18next";
 import { BookingCard } from "./(components)/BookingCard";
+import { NoBookingsMessage } from "./(components)/NoBookingsMessage";
+import { RetrieveBooking } from "./(components)/RetrieveBooking";
 
 const BookingsDashboard: React.FC = () => {
   const { user, loading } = useUser();
@@ -59,28 +61,8 @@ const BookingsDashboard: React.FC = () => {
   }, [user]);
 
   const renderNoBookingsMessage = () => {
-    if (!user && (!noUserBookings || noUserBookings.length === 0) && !loading) {
-      return (
-        <div className="text-center space-y-4 mt-8">
-          <p className="text-gray-500">{t("bookings.noBookingsYet")}</p>
-          <Button asChild>
-            <Link href="/">Book Your First Ticket</Link>
-          </Button>
-        </div>
-      );
-    } else if (user && (!bookings || bookings.length === 0) && !loading) {
-      return (
-        <div className="text-center space-y-4 mt-8">
-          <p className="text-gray-500">
-            You don't have any bus ticket bookings yet.
-          </p>
-          <Button asChild>
-            <Link href="/">Book Your First Ticket</Link>
-          </Button>
-        </div>
-      );
-    }
-    return null;
+    // return <NoBookingsMessage isLoggedIn={!!user} isLoading={loading} />;
+    return <RetrieveBooking />;
   };
 
   const handleCancelBookingAndRefund = async (
@@ -120,62 +102,30 @@ const BookingsDashboard: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col max-w-4xl mx-auto px-4 md:px-6 space-y-4 py-12 min-h-screen">
+    <div className="flex flex-col max-w-6xl mx-auto paddingX space-y-4 py-12 min-h-screen">
       <h2 className="text-3xl font-semibold mb-4">
         {t("bookings.myBookings")}
       </h2>
-      <p className="text-gray-600 mb-6">{t("bookings.manageBookings")}</p>
-      <Tabs defaultValue="all">
-        <TabsList className="mb-6">
-          <TabsTrigger value="all" className="font-medium">
-            All
-          </TabsTrigger>
-          <TabsTrigger value="upcoming" className="font-medium">
-            Upcoming
-          </TabsTrigger>
-          <TabsTrigger value="past" className="font-medium">
-            Past
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="all">
-          <div className="space-y-6">
-            {loading ? (
-              <Loader2 className="h-6 w-6 animate-spin mx-auto" />
-            ) : user ? (
-              bookings
-                ?.map((booking) => (
-                  <BookingCard
-                    onBookingUpdated={() => {}}
-                    key={booking._id}
-                    booking={booking}
-                    handleNoFlexAction={handleNoFlexAction}
-                    handleCancelBookingAndRefund={handleCancelBookingAndRefund}
-                  />
-                ))
-                .reverse()
-            ) : (
-              noUserBookings
-                ?.map((booking) => (
-                  <BookingCard
-                    onBookingUpdated={() => {}}
-                    key={booking._id}
-                    booking={booking}
-                    handleNoFlexAction={handleNoFlexAction}
-                    handleCancelBookingAndRefund={handleCancelBookingAndRefund}
-                  />
-                ))
-                .reverse()
-            )}
-            {renderNoBookingsMessage()}
-          </div>
-        </TabsContent>
-        <TabsContent value="upcoming">
-          <div className="space-y-6">
-            {user
-              ? bookings
-                  ?.filter((booking) =>
-                    moment.utc(booking.departure_date).isAfter(moment.utc())
-                  )
+      {/* <p className="text-gray-600 mb-6">{t("bookings.manageBookings")}</p> */}
+      {user ? (
+        <Tabs defaultValue="all">
+          <TabsList className="mb-6">
+            <TabsTrigger value="all" className="font-medium">
+              All
+            </TabsTrigger>
+            <TabsTrigger value="upcoming" className="font-medium">
+              Upcoming
+            </TabsTrigger>
+            <TabsTrigger value="past" className="font-medium">
+              Past
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="all">
+            <div className="space-y-6">
+              {loading ? (
+                <Loader2 className="h-6 w-6 animate-spin mx-auto" />
+              ) : user ? (
+                bookings
                   ?.map((booking) => (
                     <BookingCard
                       onBookingUpdated={() => {}}
@@ -188,32 +138,8 @@ const BookingsDashboard: React.FC = () => {
                     />
                   ))
                   .reverse()
-              : noUserBookings
-                  ?.filter((booking) =>
-                    moment.utc(booking.departure_date).isAfter(moment.utc())
-                  )
-                  ?.map((booking) => (
-                    <BookingCard
-                      onBookingUpdated={() => {}}
-                      key={booking._id}
-                      booking={booking}
-                      handleNoFlexAction={handleNoFlexAction}
-                      handleCancelBookingAndRefund={
-                        handleCancelBookingAndRefund
-                      }
-                    />
-                  ))
-                  .reverse()}
-            {renderNoBookingsMessage()}
-          </div>
-        </TabsContent>
-        <TabsContent value="past">
-          <div className="space-y-6">
-            {user
-              ? bookings
-                  ?.filter((booking) =>
-                    moment.utc(booking.departure_date).isBefore(moment.utc())
-                  )
+              ) : (
+                noUserBookings
                   ?.map((booking) => (
                     <BookingCard
                       onBookingUpdated={() => {}}
@@ -226,26 +152,90 @@ const BookingsDashboard: React.FC = () => {
                     />
                   ))
                   .reverse()
-              : noUserBookings
-                  ?.filter((booking) =>
-                    moment.utc(booking.departure_date).isBefore(moment.utc())
-                  )
-                  ?.map((booking) => (
-                    <BookingCard
-                      onBookingUpdated={() => {}}
-                      key={booking._id}
-                      booking={booking}
-                      handleNoFlexAction={handleNoFlexAction}
-                      handleCancelBookingAndRefund={
-                        handleCancelBookingAndRefund
-                      }
-                    />
-                  ))
-                  .reverse()}
-            {renderNoBookingsMessage()}
-          </div>
-        </TabsContent>
-      </Tabs>
+              )}
+              {renderNoBookingsMessage()}
+            </div>
+          </TabsContent>
+          <TabsContent value="upcoming">
+            <div className="space-y-6">
+              {user
+                ? bookings
+                    ?.filter((booking) =>
+                      moment.utc(booking.departure_date).isAfter(moment.utc())
+                    )
+                    ?.map((booking) => (
+                      <BookingCard
+                        onBookingUpdated={() => {}}
+                        key={booking._id}
+                        booking={booking}
+                        handleNoFlexAction={handleNoFlexAction}
+                        handleCancelBookingAndRefund={
+                          handleCancelBookingAndRefund
+                        }
+                      />
+                    ))
+                    .reverse()
+                : noUserBookings
+                    ?.filter((booking) =>
+                      moment.utc(booking.departure_date).isAfter(moment.utc())
+                    )
+                    ?.map((booking) => (
+                      <BookingCard
+                        onBookingUpdated={() => {}}
+                        key={booking._id}
+                        booking={booking}
+                        handleNoFlexAction={handleNoFlexAction}
+                        handleCancelBookingAndRefund={
+                          handleCancelBookingAndRefund
+                        }
+                      />
+                    ))
+                    .reverse()}
+              {/* {renderNoBookingsMessage()} */}
+            </div>
+          </TabsContent>
+          <TabsContent value="past">
+            <div className="space-y-6">
+              {user
+                ? bookings
+                    ?.filter((booking) =>
+                      moment.utc(booking.departure_date).isBefore(moment.utc())
+                    )
+                    ?.map((booking) => (
+                      <BookingCard
+                        onBookingUpdated={() => {}}
+                        key={booking._id}
+                        booking={booking}
+                        handleNoFlexAction={handleNoFlexAction}
+                        handleCancelBookingAndRefund={
+                          handleCancelBookingAndRefund
+                        }
+                      />
+                    ))
+                    .reverse()
+                : noUserBookings
+                    ?.filter((booking) =>
+                      moment.utc(booking.departure_date).isBefore(moment.utc())
+                    )
+                    ?.map((booking) => (
+                      <BookingCard
+                        onBookingUpdated={() => {}}
+                        key={booking._id}
+                        booking={booking}
+                        handleNoFlexAction={handleNoFlexAction}
+                        handleCancelBookingAndRefund={
+                          handleCancelBookingAndRefund
+                        }
+                      />
+                    ))
+                    .reverse()}
+              {/* {renderNoBookingsMessage()} */}
+            </div>
+          </TabsContent>
+        </Tabs>
+      ) : (
+        renderNoBookingsMessage()
+      )}
     </div>
   );
 };

@@ -63,7 +63,8 @@ const Navbar = ({ className }: { className?: string }) => {
           <UserNavbarMenu />
         ) : (
           <>
-            <div className="hidden md:flex gap-2 items-center">
+            <NavbarMenu />
+            {/* <div className="hidden md:flex gap-2 items-center">
               <Button
                 onClick={handleRegister}
                 variant="default"
@@ -78,7 +79,7 @@ const Navbar = ({ className }: { className?: string }) => {
               >
                 {t("auth.login")}
               </Button>
-            </div>
+            </div> */}
             <div className="md:hidden">
               <NavbarMenu />
             </div>

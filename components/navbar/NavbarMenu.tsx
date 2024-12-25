@@ -45,47 +45,47 @@ const NavbarMenu = () => {
       aria-haspopup="true"
       aria-expanded="false"
       aria-label={t("nav.routes")}
-      className="flex items-center space-x-2 px-3 py-2 h-10 rounded-2xl border border-border bg-[#f3f4f6] hover:bg-[#f3f4f6]/95 outline-none transition-colors"
+      className="flex items-center space-x-2 px-3 py-3 rounded-full border border-border bg-white hover:bg-white hover:shadow outline-none transition"
     >
       <Menu className="text-gray-600" size={18} />
-      <UserCircle className="text-gray-600" size={18} />
+      <UserCircle className="text-gray-600" size={20} />
     </Button>
   );
 
   const MenuItems = (
     <>
-      <div className="space-y-2 py-2">
+      <div className="space-y-2 py-2 text-sm font-normal">
         <Link
           href="/routes"
-          className="block px-4 py-2 text-base font-medium"
+          className="block px-4 py-2"
           onClick={() => setIsOpen(false)}
         >
           {t("nav.routes")}
         </Link>
         {/* <Link
           href="/bookings"
-          className="block px-4 py-2 text-base font-medium"
+          className="block px-4 py-2"
           onClick={() => setIsOpen(false)}
         >
           {t("nav.bookings")}
         </Link> */}
         {/* <Link
           href="/about"
-          className="block px-4 py-2 text-base font-medium"
+          className="block px-4 py-2"
           onClick={() => setIsOpen(false)}
         >
           {t("nav.about")}
         </Link> */}
         <Link
           href="/help"
-          className="block px-4 py-2 text-base font-medium"
+          className="block px-4 py-2"
           onClick={() => setIsOpen(false)}
         >
           {t("nav.help")}
         </Link>
         <Link
           href="/help/contact-support"
-          className="block px-4 py-2 text-base font-medium"
+          className="block px-4 py-2"
           onClick={() => setIsOpen(false)}
         >
           {t("nav.contact")}
@@ -139,23 +139,32 @@ const NavbarMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{MenuTrigger}</DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-42 rounded-lg mt-2">
-        <DropdownMenuItem asChild>
-          <Link href="/help" className="w-full">
-            {t("nav.help")} {/* Translated 'Help & Support' */}
+      <DropdownMenuContent align="end" className="w-52 rounded-lg mt-2 px-0">
+        <DropdownMenuItem asChild className="py-2 rounded-none">
+          <Link href="/help" className="w-full !cursor-pointer px-4">
+            {t("nav.help")}
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/help/contact-support" className="w-full">
-            {t("nav.contact")} {/* Translated 'Contact Us' */}
+        <DropdownMenuItem asChild className="py-2 rounded-none">
+          <Link
+            href="/help/contact-support"
+            className="w-full !cursor-pointer px-4"
+          >
+            {t("nav.contact")}
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onSelect={handleLogin}>
-          {t("auth.login")} {/* Translated 'Login' */}
+        <DropdownMenuItem
+          onSelect={handleLogin}
+          className="!cursor-pointer rounded-none py-2"
+        >
+          <span className="px-2">{t("auth.login")}</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onSelect={handleSignUp}>
-          {t("auth.signUp")} {/* Translated 'Sign Up' */}
+        <DropdownMenuItem
+          onSelect={handleSignUp}
+          className="!cursor-pointer rounded-none py-2"
+        >
+          <span className="px-2">{t("auth.signUp")}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

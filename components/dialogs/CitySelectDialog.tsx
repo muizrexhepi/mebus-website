@@ -11,6 +11,8 @@ import { X, MapPin, Locate } from "lucide-react";
 import Cookies from "js-cookie";
 import { Station } from "@/models/station";
 import { ScrollArea } from "../ui/scroll-area";
+import { IoMdLocate } from "react-icons/io";
+import { HiMapPin } from "react-icons/hi2";
 
 interface CitySelectDialogProps {
   isOpen: boolean;
@@ -85,10 +87,10 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
                     onClick={() => onSelect(station)}
                     type="button"
                   >
-                    {departure === "from" ? (
-                      <Locate className="w-6 h-6 text-primary mr-2" />
+                    {departure == "from" ? (
+                      <IoMdLocate className="size-5 mr-2 text-primary-accent" />
                     ) : (
-                      <MapPin className="w-6 h-6 text-primary mr-2" />
+                      <HiMapPin className="size-5 mr-2 shrink-0 text-primary-accent" />
                     )}
                     <span className="capitalize">{station.city}</span>
                   </Button>
@@ -111,10 +113,10 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
                 onClick={() => onSelect(station)}
                 type="button"
               >
-                {departure === "from" ? (
-                  <Locate className="w-6 h-6 text-primary mr-2" />
+                {departure == "from" ? (
+                  <IoMdLocate className="size-5 mr-2 text-primary-accent" />
                 ) : (
-                  <MapPin className="w-6 h-6 text-primary mr-2" />
+                  <HiMapPin className="size-5 mr-2 shrink-0 text-primary-accent" />
                 )}
                 <span className="capitalize">{station.city}</span>
               </Button>
