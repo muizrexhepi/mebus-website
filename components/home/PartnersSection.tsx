@@ -50,7 +50,7 @@ const PartnersSection = () => {
             </div>
           </div>
 
-          <Card className="flex-1 w-full p-8 bg-gray-50/50">
+          <div className="flex-1 w-full p-8">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-12">
               {partners.map((partner) => (
                 <div
@@ -66,7 +66,7 @@ const PartnersSection = () => {
                 </div>
               ))}
             </div>
-          </Card>
+          </div>
         </div>
       </div>
     </section>

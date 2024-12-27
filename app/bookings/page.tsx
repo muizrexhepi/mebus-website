@@ -61,8 +61,7 @@ const BookingsDashboard: React.FC = () => {
   }, [user]);
 
   const renderNoBookingsMessage = () => {
-    // return <NoBookingsMessage isLoggedIn={!!user} isLoading={loading} />;
-    return <RetrieveBooking />;
+    return <NoBookingsMessage isLoading={loading} />;
   };
 
   const handleCancelBookingAndRefund = async (
@@ -102,7 +101,7 @@ const BookingsDashboard: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col max-w-6xl mx-auto paddingX space-y-4 py-12 min-h-screen">
+    <div className="flex flex-col max-w-4xl mx-auto paddingX space-y-4 py-12 min-h-screen">
       <h2 className="text-3xl font-semibold mb-4">
         {t("bookings.myBookings")}
       </h2>
@@ -153,7 +152,6 @@ const BookingsDashboard: React.FC = () => {
                   ))
                   .reverse()
               )}
-              {renderNoBookingsMessage()}
             </div>
           </TabsContent>
           <TabsContent value="upcoming">
@@ -191,7 +189,6 @@ const BookingsDashboard: React.FC = () => {
                       />
                     ))
                     .reverse()}
-              {/* {renderNoBookingsMessage()} */}
             </div>
           </TabsContent>
           <TabsContent value="past">
@@ -229,7 +226,6 @@ const BookingsDashboard: React.FC = () => {
                       />
                     ))
                     .reverse()}
-              {/* {renderNoBookingsMessage()} */}
             </div>
           </TabsContent>
         </Tabs>

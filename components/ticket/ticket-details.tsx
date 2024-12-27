@@ -17,7 +17,7 @@ import moment from "moment-timezone";
 import { useTranslation } from "react-i18next";
 import { IoMdLocate } from "react-icons/io";
 import { HiMapPin } from "react-icons/hi2";
-import { FaCalendarAlt } from "react-icons/fa";
+import { FaCalendarAlt, FaClock } from "react-icons/fa";
 
 export default function TicketDetails({ ticket }: { ticket: Ticket }) {
   const { t } = useTranslation();
@@ -95,7 +95,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
           </span>
         </div>
         <div className="flex items-center space-x-4">
-          <Clock className="h-5 w-5 text-primary-bg" />
+          <FaClock className="size-5 text-primary-accent" />
           <span className="font-medium">
             {moment.utc(ticket.stops[0].departure_date).format("HH:mm")}
           </span>
