@@ -29,7 +29,6 @@ import PaymentMethodCard from "./_components/payment-method-card";
 import { PaymentMethod } from "@stripe/stripe-js";
 import { useToast } from "@/components/hooks/use-toast";
 
-// Initialize Stripe outside the component
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ""
 );
@@ -64,7 +63,8 @@ function WalletPageContent() {
   const stripe = useStripe();
   const elements = useElements();
   const { toast } = useToast();
-  // Form state for new payment method
+  const [customerFound, setCustomerFound] = useState<boolean>(false);
+
   const [newCardDetails, setNewCardDetails] = useState({
     cardNumber: "",
     expiry: "",
@@ -79,12 +79,13 @@ function WalletPageContent() {
           `${process.env.NEXT_PUBLIC_API_URL}/payment/customer/retrieve-payment-methods/${user?.prefs?.stripe_customer_id}`
         );
         if (!response.ok) {
-          throw new Error("Failed to fetch payment methods");
+          setCustomerFound(false)
         }
         const data: any = await response.json();
         setPaymentMethods(data.data.data);
+        setCustomerFound(true)
       } catch (err) {
-        setError("Error fetching payment methods");
+        setCustomerFound(false)
       } finally {
         setIsLoading(false);
       }
@@ -118,7 +119,6 @@ function WalletPageContent() {
         `${process.env.NEXT_PUBLIC_API_URL}/payment/pm/detach/${pm_id}/${user?.$id}`
       );
 
-      // Update local state to remove the payment method
       setPaymentMethods((prevMethods) =>
         prevMethods.filter((method) => method.id !== pm_id)
       );
@@ -183,14 +183,12 @@ function WalletPageContent() {
         }
       );
 
-      // Refresh payment methods
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/payment/customer/retrieve-payment-methods/${user?.prefs?.stripe_customer_id}`
       );
       const data: any = await response.json();
       setPaymentMethods(data.data.data);
 
-      // Close dialog and reset form
       setNewMethodDialogOpen(false);
 
       toast({
@@ -239,7 +237,7 @@ function WalletPageContent() {
           </Button>
         </div>
 
-        {paymentMethods.length === 0 ? (
+        {paymentMethods?.length === 0 ? (
           <div className="text-center py-12 bg-gray-50 rounded-lg">
             <p className="text-muted-foreground">
               {t("account.noPaymentMethodsAdded")}
@@ -247,7 +245,7 @@ function WalletPageContent() {
           </div>
         ) : (
           <div className="grid gap-6 md:grid-cols-2 ">
-            {paymentMethods.map((method) => (
+            {paymentMethods?.map((method) => (
               <PaymentMethodCard
                 key={method.id}
                 method={method}
