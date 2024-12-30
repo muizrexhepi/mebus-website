@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { ComponentType, SVGProps, useEffect } from "react";
+import { ComponentType, SVGProps, useEffect, useLayoutEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslation } from "react-i18next";
 import { Book, Lock, Shield, User, Wallet } from "lucide-react";
@@ -20,7 +20,7 @@ export default function Account() {
   const router = useRouter();
   console.log({ user });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!user) {
       router.push("/");
     }
@@ -119,7 +119,7 @@ export default function Account() {
           <Link
             key={link.title}
             href={link.href}
-            className="bg-white shadow-md min-h-[150px] rounded-lg p-4 hover:bg-gray-100 transition-colors"
+            className="bg-white shadow min-h-[150px] rounded-lg p-4 hover:bg-gray-50 transition-colors"
             prefetch={false}
           >
             <div className="h-full flex flex-col justify-between items-start">

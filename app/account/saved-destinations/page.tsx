@@ -116,6 +116,7 @@ export default function SavedItemsPage() {
             <div className="flex items-center space-x-2">
               <Switch
                 id="show-tickets"
+                className="data-[state=checked]:bg-primary-accent"
                 checked={showTickets}
                 onCheckedChange={setShowTickets}
               />
@@ -124,6 +125,7 @@ export default function SavedItemsPage() {
             <div className="flex items-center space-x-2">
               <Switch
                 id="show-destinations"
+                className="data-[state=checked]:bg-primary-accent"
                 checked={showDestinations}
                 onCheckedChange={setShowDestinations}
               />

@@ -307,6 +307,7 @@ export default function LoginSecurity() {
             </div>
             <Switch
               checked={twoFactorEnabled}
+              className="data-[state=checked]:bg-primary-accent"
               onCheckedChange={handleTwoFactorToggle}
             />
           </div>
@@ -323,6 +324,7 @@ export default function LoginSecurity() {
             </div>
             <Switch
               checked={loginNotifications}
+              className="data-[state=checked]:bg-primary-accent"
               onCheckedChange={handleLoginNotificationsToggle}
             />
           </div>

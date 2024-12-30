@@ -12,7 +12,7 @@ export default function AccountLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex flex-col max-w-4xl mx-auto px-4 md:px-6 paddingY space-y-4 py-32">
+    <div className="flex flex-col max-w-4xl mx-auto px-4 md:px-6 paddingY space-y-4 !py-10 sm:!py-14 md:!py-20">
       <SettingsBreadcrumb />
       {children}
     </div>

@@ -6,13 +6,16 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/hooks/use-toast";
 import { useRouter } from "next/navigation";
-import { calculatePassengerPrices } from "../../../components/hooks/use-passengers";
+import { calculatePassengerPrices } from "@/components/hooks/use-passengers";
 import { Ticket } from "@/models/ticket";
-import { useCheckoutStore, usePaymentSuccessStore } from "@/store";
-import useUser from "../../../components/hooks/use-user";
+import useSearchStore, {
+  useCheckoutStore,
+  usePaymentSuccessStore,
+} from "@/store";
+import useUser from "@/components/hooks/use-user";
 import { useTranslation } from "react-i18next";
 import { Booking } from "@/models/booking";
-import { Switch } from "../../../components/ui/switch";
+import { Switch } from "@/components/ui/switch";
 import { account } from "@/appwrite.config";
 import { Loader2 } from "lucide-react";
 import OrderSummary from "./OrderSummary";
@@ -29,17 +32,15 @@ const PaymentMethod = () => {
   const { t } = useTranslation();
   const [saveCardInfo, setSaveCardInfo] = useState<boolean>(false);
   const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
-  const [useSavedCard, setUseSavedCard] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<any>();
-  const { setBookingDetails, bookingDetails, setIsPaymentSuccess } =
-    usePaymentSuccessStore();
+  const { passengers: passengerAmount } = useSearchStore();
+
   const {
     passengers,
     outboundTicket,
     returnTicket,
     selectedFlex,
     flexPrice,
-
     setSelectedFlex,
     resetCheckout,
   } = useCheckoutStore();
@@ -55,17 +56,22 @@ const PaymentMethod = () => {
   const calculateTicketTotal = (ticket: Ticket) => {
     const adultPrice = ticket.stops[0].other_prices.our_price;
     const childPrice = ticket.stops[0].other_prices.our_children_price;
-    const adultCount = passengers.filter((p) => p.age > 10).length;
-    const childCount = passengers.filter((p) => p.age <= 10).length;
-    return adultPrice * adultCount + childPrice * childCount;
+
+    return (
+      adultPrice * passengerAmount.adults ||
+      1 + childPrice * passengerAmount.children ||
+      0
+    );
   };
 
   const calculateOperatorTicketTotal = (ticket: Ticket) => {
     const adultPrice = ticket.stops[0].price;
     const childPrice = ticket.stops[0].children_price;
-    const adultCount = passengers.filter((p) => p.age > 10).length;
-    const childCount = passengers.filter((p) => p.age <= 10).length;
-    return adultPrice * adultCount + childPrice * childCount;
+    return (
+      adultPrice * passengerAmount.adults ||
+      1 + childPrice * passengerAmount.children ||
+      0
+    );
   };
 
   const outboundTotal = outboundTicket
@@ -495,6 +501,7 @@ const PaymentMethod = () => {
                     <p>Save card info for future payments</p>
                     <Switch
                       onCheckedChange={() => setSaveCardInfo(!saveCardInfo)}
+                      className="data-[state=checked]:bg-primary-accent"
                     />
                   </div>
                 )}
@@ -546,16 +553,7 @@ const PaymentMethod = () => {
                     ))}
                   </div>
                 )}
-                {/* {selectedPaymentMethod ? (
-                  <div className="flex justify-start">
-                    <button
-                      onClick={() => setSelectedPaymentMethod(null)}
-                      className="text-sm font-medium button-gradient bg-clip-text text-transparent"
-                    >
-                      Use card instead
-                    </button>
-                  </div>
-                ) : null} */}
+
                 <div
                   className={`relative ${selectedPaymentMethod && "hidden"}`}
                 >
@@ -620,15 +618,10 @@ const PaymentMethod = () => {
           className="rounded-lg h-12 bg-primary-bg px-6 py-3.5 gap-1"
           onClick={() => router.back()}
         >
-          {/* <ChevronLeft size={20} /> */}
           Back
         </Button>
         <Button
-          onClick={
-            // totalPrice <= depositAmount
-            //   ? handleFullDepositPayment
-            handlePayment
-          }
+          onClick={handlePayment}
           className="px-6 py-3.5 button-gradient text-white hover:bg-primary-bg/95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-bg h-12 rounded-lg w-full sm:w-40"
           disabled={!stripe || loading}
         >

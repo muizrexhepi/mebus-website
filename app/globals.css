@@ -39,6 +39,10 @@
   body {
     @apply bg-background text-foreground;
   }
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
 
 .paddingX {

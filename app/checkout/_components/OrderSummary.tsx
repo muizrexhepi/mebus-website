@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import { Circle, Locate, MapPin } from "lucide-react";
+import { Locate, MapPin } from "lucide-react";
 import moment from "moment-timezone";
 import { Ticket } from "@/models/ticket";
 import { cn } from "@/lib/utils";
@@ -96,7 +96,7 @@ const OrderSummary = ({ className }: { className?: string }) => {
   const [balanceAmount, setBalanceAmount] = useState(0);
   const [remainingAmount, setRemainingAmount] = useState(0);
   const { useDeposit, depositAmount } = useDepositStore();
-  const childrenAmount = useSearchStore((state) => state.passengers.children);
+  const { passengers: passengerAmount } = useSearchStore();
   const { outboundTicket, returnTicket, selectedFlex, passengers } =
     useCheckoutStore();
   const { currency, convertFromEUR } = useCurrency();
@@ -132,13 +132,12 @@ const OrderSummary = ({ className }: { className?: string }) => {
     const childPrice = convertFromEUR(
       ticket.stops[0].other_prices.our_children_price
     );
-    const adultCount = passengers.filter((p) => p.age > 10).length;
-    const childCount = passengers.filter((p) => p.age <= 10).length;
+
     return {
-      adultTotal: adultPrice * adultCount,
-      childTotal: childPrice * childCount,
-      adultCount,
-      childCount,
+      adultTotal: adultPrice * passengerAmount.adults || 1,
+      childTotal: childPrice * passengerAmount.children || 0,
+      adultCount: passengerAmount.adults,
+      childCount: passengerAmount.children,
       adultPrice,
       childPrice,
     };
@@ -222,7 +221,7 @@ const OrderSummary = ({ className }: { className?: string }) => {
               />
               <PriceSummaryItem
                 label={t("orderSummary.children")}
-                className={`${childrenAmount < 1 && "hidden"}`}
+                className={`${passengerAmount.children < 1 && "hidden"}`}
                 amount={outboundDetails.childPrice}
                 quantity={outboundDetails.childCount}
                 currencySymbol={currency.symbol}
@@ -242,7 +241,7 @@ const OrderSummary = ({ className }: { className?: string }) => {
               />
               <PriceSummaryItem
                 label={t("orderSummary.children")}
-                className={`${childrenAmount < 1 && "hidden"}`}
+                className={`${passengerAmount.children < 1 && "hidden"}`}
                 amount={returnDetails.childPrice}
                 quantity={returnDetails.childCount}
                 currencySymbol={currency.symbol}

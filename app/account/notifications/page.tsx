@@ -17,7 +17,7 @@ export default function NotificationsPage() {
   });
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     setTimeout(() => {
@@ -59,49 +59,61 @@ export default function NotificationsPage() {
         <div className="space-y-6">
           <div className="grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6">
             <div>
-              <div className="text-base font-medium">{t("notifications.bookingConfirmations")}</div>
+              <div className="text-base font-medium">
+                {t("notifications.bookingConfirmations")}
+              </div>
               <div className="text-neutral-800/60 text-sm">
-              {t("notifications.bookingConfirmationsDesc")}
+                {t("notifications.bookingConfirmationsDesc")}
               </div>
             </div>
             <Switch
               checked={notifications.bookingConfirmation}
+              className="data-[state=checked]:bg-primary-accent"
               onCheckedChange={() => handleToggle("bookingConfirmation")}
             />
           </div>
           <div className="grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6">
             <div>
-              <div className="text-base font-medium">{t("notifications.DepartureReminders")}</div>
+              <div className="text-base font-medium">
+                {t("notifications.DepartureReminders")}
+              </div>
               <div className="text-neutral-800/60 text-sm">
-              {t("notifications.DepartureRemindersDesc")}
+                {t("notifications.DepartureRemindersDesc")}
               </div>
             </div>
             <Switch
               checked={notifications.departureReminder}
+              className="data-[state=checked]:bg-primary-accent"
               onCheckedChange={() => handleToggle("departureReminder")}
             />
           </div>
           <div className="grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6">
             <div>
-              <div className="text-base font-medium">{t("notifications.promotions")}</div>
+              <div className="text-base font-medium">
+                {t("notifications.promotions")}
+              </div>
               <div className="text-neutral-800/60 text-sm">
-              {t("notifications.promotionsDesc")}
+                {t("notifications.promotionsDesc")}
               </div>
             </div>
             <Switch
               checked={notifications.promotions}
+              className="data-[state=checked]:bg-primary-accent"
               onCheckedChange={() => handleToggle("promotions")}
             />
           </div>
           <div className="grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6">
             <div>
-              <div className="text-base font-medium">{t("notifications.accountUpdates")}</div>
+              <div className="text-base font-medium">
+                {t("notifications.accountUpdates")}
+              </div>
               <div className="text-neutral-800/60 text-sm">
-              {t("notifications.accountUpdates")}
+                {t("notifications.accountUpdates")}
               </div>
             </div>
             <Switch
               checked={notifications.accountUpdates}
+              className="data-[state=checked]:bg-primary-accent"
               onCheckedChange={() => handleToggle("accountUpdates")}
             />
           </div>
@@ -119,7 +131,9 @@ export default function NotificationsPage() {
                 : t("notifications.disabled")}
             </Label>
           </div>
-          <Button onClick={handleSavePreferences}>{t("notifications.savePreferences")}</Button>
+          <Button onClick={handleSavePreferences}>
+            {t("notifications.savePreferences")}
+          </Button>
         </div>
       </div>
     </div>

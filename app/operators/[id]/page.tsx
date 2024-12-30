@@ -165,6 +165,7 @@ export default function OperatorDetailsPage() {
             </Label>
             <Switch
               id="portal-notifications"
+              className="data-[state=checked]:bg-primary-accent"
               checked={
                 operator.notification_permissions.allow_portal_notifications
               }

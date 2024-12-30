@@ -14,6 +14,7 @@ const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
   subsets: ["latin-ext"],
 });
+
 export const metadata: Metadata = {
   title: "Travel Europe & Balkans | GoBusly",
   description:

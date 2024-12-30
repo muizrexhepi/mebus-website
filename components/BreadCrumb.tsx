@@ -28,7 +28,7 @@ export function SettingsBreadcrumb() {
                 href={isLast ? undefined : href}
                 className={`${
                   isLast
-                    ? "font-medium text-primary-accent hover:text-primary-accent/95"
+                    ? "font-medium text-transparent button-gradient bg-clip-text"
                     : "font-medium text-black hover:underline"
                 } capitalize`}
               >
