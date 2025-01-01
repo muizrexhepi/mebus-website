@@ -329,6 +329,12 @@
       "other": "Altro"
     }
   },
+  "CTA": {
+    "badgeText": "Unisciti alla Nostra Comunità di Viaggi",
+    "title": "Pronto a sbloccare offerte speciali e ispirazioni di viaggio?",
+    "emailPlaceholder": "Inserisci il tuo indirizzo email",
+    "buttonText": "Ricevi Aggiornamenti"
+  },
   "searchForm": {
     "from": "Da",
     "to": "A",

@@ -57,34 +57,34 @@ export default function NewsletterCTA() {
         <div className="text-center space-y-6">
           <div className="inline-flex px-4 py-1 bg-primary/5 rounded-full">
             <span className="text-sm font-medium text-primary">
-              Join Our Travel Community
+              {t("CTA.badgeText")}
             </span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl font-medium text-gray-900 leading-tight max-w-3xl mx-auto">
-            Ready to unlock special offers and travel inspiration?
+            {t("CTA.title")}
           </h1>
         </div>
 
         <form
-          className="flex flex-col sm:flex-row gap-2 max-w-2xl mx-auto"
+          className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto"
           onSubmit={handleSubscribe}
         >
           <Input
             type="email"
-            placeholder="Enter your email address"
+            placeholder={t("CTA.emailPlaceholder")}
             className="h-12 px-4 bg-primary-bg/5 rounded-lg placeholder:text-gray-500"
             required
           />
           <Button
             type="submit"
             disabled={isSubscribing}
-            className="h-12 px-8 w-full sm:w-32 shrink-0 text-white button-gradient rounded-lg font-medium"
+            className="h-12 px-8 w-full sm:w-auto shrink-0 text-white button-gradient rounded-lg font-medium"
           >
             {isSubscribing ? (
               <Loader2 className="size-5 animate-spin mx-auto" />
             ) : (
-              "Get Updates"
+              t("CTA.buttonText")
             )}
           </Button>
         </form>

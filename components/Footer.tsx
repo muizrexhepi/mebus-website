@@ -68,7 +68,7 @@ const Footer = () => {
             <p className="text-white/85 text-base leading-relaxed">
               {t("footer.missionStatement")}
             </p>
-            <div className="flex items-center gap-4">
+            {/* <div className="flex items-center gap-4">
               {SOCIAL_LINKS.map((social, index) => {
                 const Icon = social.icon;
                 return (
@@ -80,9 +80,29 @@ const Footer = () => {
                     className="text-white/70 hover:text-white transition-colors"
                   >
                     <Icon className="w-5 h-5" />
-                  </a>
-                );
-              })}
+                    </a>
+                    );
+                    })}
+                    </div> */}
+            <div className="flex items-center gap-2 mt-6 md:mt-0">
+              <Image
+                src={"/assets/icons/mastercard.svg"}
+                width={30}
+                height={30}
+                alt="Mastercard Logo"
+              />
+              <Image
+                src={"/assets/icons/visa.svg"}
+                width={30}
+                height={30}
+                alt="Visa Logo"
+              />
+              <Image
+                src={"/assets/icons/stripe.svg"}
+                width={40}
+                height={40}
+                alt="Stripe Logo"
+              />
             </div>
           </div>
 
@@ -111,32 +131,27 @@ const Footer = () => {
           ))}
         </div>
 
-        <div className="flex items-center gap-2 mt-6 md:mt-0">
-          <Image
-            src={"/assets/icons/mastercard.svg"}
-            width={30}
-            height={30}
-            alt="Mastercard Logo"
-          />
-          <Image
-            src={"/assets/icons/visa.svg"}
-            width={30}
-            height={30}
-            alt="Visa Logo"
-          />
-          <Image
-            src={"/assets/icons/stripe.svg"}
-            width={40}
-            height={40}
-            alt="Stripe Logo"
-          />
-        </div>
         <div className="mt-8 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-white/70">
             {t("footer.copyright", { year: new Date().getFullYear() })}
           </p>
-
-          <div className="flex flex-wrap justify-center md:justify-end items-center gap-x-6 gap-y-2 text-sm text-white/70">
+          <div className="flex items-center gap-4">
+            {SOCIAL_LINKS.map((social, index) => {
+              const Icon = social.icon;
+              return (
+                <a
+                  key={index}
+                  href={social.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/70 hover:text-white transition-colors"
+                >
+                  <Icon className="w-5 h-5" />
+                </a>
+              );
+            })}
+          </div>
+          {/* <div className="flex flex-wrap justify-center md:justify-end items-center gap-x-6 gap-y-2 text-sm text-white/70">
             <span>{t("footer.customerSupport")}</span>
             <span className="hidden md:inline">|</span>
             <span>{t("footer.securePayment")}</span>
@@ -144,7 +159,7 @@ const Footer = () => {
             <Link href="/help" className="hover:text-white transition-colors">
               {t("footer.helpFAQ")}
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>

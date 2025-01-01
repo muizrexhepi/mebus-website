@@ -255,6 +255,12 @@
       "other": "Andere"
     }
   },
+  "CTA": {
+    "badgeText": "Treten Sie unserer Reise-Community bei",
+    "title": "Bereit für exklusive Angebote und Reiseinspirationen?",
+    "emailPlaceholder": "Geben Sie Ihre E-Mail-Adresse ein",
+    "buttonText": "Updates erhalten"
+  },
   "footer": {
     "missionStatement": "Unsere Mission ist es, moderne Entdecker mit fortschrittlichen, funktionalen und stilvollen Taschen auszustatten.",
     "getUpdates": "Updates erhalten",

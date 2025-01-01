@@ -408,6 +408,12 @@
       "other": "Tjetër"
     }
   },
+  "CTA": {
+    "badgeText": "Bashkohuni me Komunitetin Tonë të Udhëtimit",
+    "title": "Gati për të zbuluar oferta speciale dhe frymëzim për udhëtime?",
+    "emailPlaceholder": "Shkruani adresën tuaj të email-it",
+    "buttonText": "Merrni Përditësime"
+  },
   "bookingDetailsPage": {
     "bookingDetails": "Detajet e rezervimit",
     "tripInformation": "Informacioni i udhëtimit",

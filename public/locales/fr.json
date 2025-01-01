@@ -309,6 +309,12 @@
       "other": "Autre"
     }
   },
+  "CTA": {
+    "badgeText": "Rejoignez Notre Communauté de Voyage",
+    "title": "Prêt à découvrir des offres spéciales et des inspirations de voyage?",
+    "emailPlaceholder": "Entrez votre adresse e-mail",
+    "buttonText": "Recevoir les Mises à Jour"
+  },
   "searchForm": {
     "from": "De",
     "to": "À",

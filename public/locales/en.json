@@ -250,9 +250,14 @@
       "bus": "Bus"
     }
   },
+  "CTA": {
+    "badgeText": "Join Our Travel Community",
+    "title": "Ready to unlock special offers and travel inspiration?",
+    "emailPlaceholder": "Enter your email address",
+    "buttonText": "Get Updates"
+  },
   "footer": {
     "missionStatement": "Empowering adventurers with stylish, functional bags for every journey.",
-
     "getUpdates": "Get Updates",
     "emailAddress": "Email address",
     "subscribe": {
