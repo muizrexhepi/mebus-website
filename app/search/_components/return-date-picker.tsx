@@ -108,7 +108,7 @@ export default function ReturnDatePicker({
 
   const buttonText = selectedReturnDate
     ? format(selectedReturnDate, "E, LLL dd", { locale: currentLocale })
-    : t("searchForm.addReturn", "Add return");
+    : t("ticket.selectReturn", "Add return");
 
   const currentMonth = new Date().getMonth();
   const months = Array.from({ length: 13 }, (_, i) => (currentMonth + i) % 12);
@@ -183,7 +183,7 @@ export default function ReturnDatePicker({
                   onClick={() => setIsDialogOpen(false)}
                   className="w-full h-12 button-gradient"
                 >
-                  {t("datePicker.confirm", "Confirm")}
+                  {t("actions.confirmCancellation", "Confirm")}
                 </Button>
               </div>
             </DialogFooter>

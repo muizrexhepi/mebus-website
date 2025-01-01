@@ -13,6 +13,7 @@ import { Station } from "@/models/station";
 import { ScrollArea } from "../ui/scroll-area";
 import { IoMdLocate } from "react-icons/io";
 import { HiMapPin } from "react-icons/hi2";
+import { useTranslation } from "react-i18next";
 
 interface CitySelectDialogProps {
   isOpen: boolean;
@@ -38,7 +39,7 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showRecent, setShowRecent] = useState(true);
-
+  const { t } = useTranslation();
   const recentStations = JSON.parse(
     Cookies.get(
       departure === "from" ? "recentFromStations" : "recentToStations"
@@ -63,7 +64,10 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
           <div className="">
             <Input
               type="text"
-              placeholder="Search for a city"
+              placeholder={t(
+                "searchForm.stationPlaceholder",
+                "Search for a city"
+              )}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full h-12 border-none ring-0 font-medium bg-primary-bg/5"
@@ -76,7 +80,7 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
               <>
                 <div className="bg-muted px-4 py-2 border-b border-border mb-2">
                   <h3 className="font-medium text-sm text-foreground/70">
-                    Recent Searches
+                    {t("searchForm.recentSearches")}
                   </h3>
                 </div>
                 {recentStations.map((station: Station) => (
@@ -101,7 +105,7 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
             {searchTerm !== "" && (
               <div className="bg-muted px-4 py-2 border-b border-border mb-2">
                 <h3 className="font-medium text-sm text-foreground/70">
-                  Search results
+                  {t("searchForm.searchResult")}
                 </h3>
               </div>
             )}

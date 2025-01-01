@@ -23,7 +23,7 @@ const Hero = () => {
                 {t("hero.title")}
               </h1>
               <p className="text-left text-base text-black/50 max-w-2xl">
-                Book your bus tickets for a comfortable journey
+                {t("hero.desc")}
               </p>
             </div>
 

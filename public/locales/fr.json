@@ -223,7 +223,8 @@
     }
   },
   "hero": {
-    "title": "Voyagez sur les routes avec confort"
+    "title": "Voyagez sur les routes avec confort",
+    "desc": "Réservez vos billets de bus pour un voyage confortable"
   },
   "ticket": {
     "selectReturn": "Sélectionner le retour",
@@ -292,6 +293,22 @@
     "searchError": "Erreur lors de la récupération des stations.",
     "resetSearch": "Réinitialiser la recherche"
   },
+  "contactForm": {
+    "title": "Envoyez-nous un Message",
+    "desc": "Nous vous répondrons dès que possible",
+    "subject": "Sujet",
+    "selectSubject": "Sélectionnez un sujet",
+    "message": "Message",
+    "messagePlaceholder": "Tapez votre message ici",
+    "sendMessage": "Envoyer le message",
+    "subjectOptions": {
+      "bookingInquiry": "Demande de réservation",
+      "refundRequest": "Demande de remboursement",
+      "complaint": "Réclamation",
+      "feedback": "Retour d'information",
+      "other": "Autre"
+    }
+  },
   "searchForm": {
     "from": "De",
     "to": "À",
@@ -299,6 +316,9 @@
     "passengers": "Passagers",
     "oneWay": "Aller simple",
     "roundTrip": "Aller-retour",
+    "searchResult": "Résultats de recherche",
+    "recentSearches": "Recherches récentes",
+    "stationPlaceholder": "Recherchez une ville",
     "searchButton": {
       "default": "Rechercher",
       "submitting": "Recherche en cours..."

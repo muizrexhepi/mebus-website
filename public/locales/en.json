@@ -229,7 +229,8 @@
     }
   },
   "hero": {
-    "title": "Navigate Roads with Comfort"
+    "title": "Navigate Roads with Comfort",
+    "desc": "Book your bus tickets for a comfortable journey"
   },
   "ticket": {
     "selectReturn": "Select Return",
@@ -306,6 +307,9 @@
     "departure": "Departure",
     "passengers": "Passengers",
     "oneWay": "One-way",
+    "searchResult": "Search results",
+    "recentSearches": "Recent searches",
+    "stationPlaceholder": "Search for a city",
     "roundTrip": "Round-trip",
     "searchButton": {
       "default": "Search",
@@ -411,6 +415,22 @@
     "viewDetails": "View details",
     "downloadBooking": "Download booking",
     "cancelBooking": "Cancel booking"
+  },
+  "contactForm": {
+    "title": "Send Us a Message",
+    "desc": "We'll get back to you as soon as possible",
+    "subject": "Subject",
+    "selectSubject": "Select a subject",
+    "message": "Message",
+    "messagePlaceholder": "Type your message here",
+    "sendMessage": "Send message",
+    "subjectOptions": {
+      "bookingInquiry": "Booking inquiry",
+      "refundRequest": "Refund request",
+      "complaint": "Complaint",
+      "feedback": "Feedback",
+      "other": "Other"
+    }
   },
   "bookingDetailsPage": {
     "bookingDetails": "Booking details",

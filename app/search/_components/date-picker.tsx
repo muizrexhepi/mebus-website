@@ -123,7 +123,7 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
                   onClick={() => setIsDialogOpen(false)}
                   className="w-full h-12 button-gradient"
                 >
-                  {t("datePicker.confirm", "Confirm")}
+                  {t("actions.confirmCancellation", "Confirm")}
                 </Button>
               </div>
             </DialogFooter>

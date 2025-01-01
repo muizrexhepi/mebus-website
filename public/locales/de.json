@@ -218,7 +218,8 @@
     }
   },
   "hero": {
-    "title": "Straßen komfortabel bereisen"
+    "title": "Straßen komfortabel bereisen",
+    "desc": "Buchen Sie Ihre Bustickets für eine bequeme Reise"
   },
   "ticket": {
     "selectReturn": "Rückfahrt auswählen",
@@ -238,8 +239,24 @@
       "bus": "Bus"
     }
   },
+  "contactForm": {
+    "title": "Senden Sie uns eine Nachricht",
+    "desc": "Wir werden uns so schnell wie möglich bei Ihnen melden",
+    "subject": "Betreff",
+    "selectSubject": "Wählen Sie ein Betreff",
+    "message": "Nachricht",
+    "messagePlaceholder": "Geben Sie hier Ihre Nachricht ein",
+    "sendMessage": "Nachricht senden",
+    "subjectOptions": {
+      "bookingInquiry": "Anfrage zur Buchung",
+      "refundRequest": "Erstattungsanfrage",
+      "complaint": "Beschwerde",
+      "feedback": "Feedback",
+      "other": "Andere"
+    }
+  },
   "footer": {
-    "missionStatement": "Unsere Mission ist es, moderne Entdecker mit fortschrittlichen, funktionalen und stilvollen Taschen auszustatten, die jedes Abenteuer bereichern.",
+    "missionStatement": "Unsere Mission ist es, moderne Entdecker mit fortschrittlichen, funktionalen und stilvollen Taschen auszustatten.",
     "getUpdates": "Updates erhalten",
     "emailAddress": "E-Mail-Adresse",
     "subscribe": {
@@ -292,6 +309,9 @@
     "to": "Nach",
     "departure": "Abfahrt",
     "passengers": "Passagiere",
+    "searchResult": "Suchergebnisse",
+    "recentSearches": "Kürzliche Suchanfragen",
+    "stationPlaceholder": "Suchen Sie nach einer Stadt",
     "oneWay": "Einfache Fahrt",
     "roundTrip": "Hin- und Rückfahrt",
     "searchButton": {

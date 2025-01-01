@@ -209,7 +209,8 @@
     }
   },
   "hero": {
-    "title": "Viaggia sulle Strade con Comfort"
+    "title": "Viaggia sulle Strade con Comfort",
+    "desc": "Prenota i tuoi biglietti dell'autobus per un viaggio confortevole"
   },
   "ticket": {
     "selectReturn": "Seleziona Ritorno",
@@ -312,12 +313,31 @@
     "searchError": "Errore nel recupero delle stazioni.",
     "resetSearch": "Reimposta Ricerca"
   },
+  "contactForm": {
+    "title": "Inviaci un Messaggio",
+    "desc": "Ti risponderemo il prima possibile",
+    "subject": "Oggetto",
+    "selectSubject": "Seleziona un oggetto",
+    "message": "Messaggio",
+    "messagePlaceholder": "Scrivi qui il tuo messaggio",
+    "sendMessage": "Invia messaggio",
+    "subjectOptions": {
+      "bookingInquiry": "Richiesta di prenotazione",
+      "refundRequest": "Richiesta di rimborso",
+      "complaint": "Reclamo",
+      "feedback": "Feedback",
+      "other": "Altro"
+    }
+  },
   "searchForm": {
     "from": "Da",
     "to": "A",
     "departure": "Partenza",
     "passengers": "Passeggeri",
     "oneWay": "Solo andata",
+    "searchResult": "Risultati di ricerca",
+    "recentSearches": "Ricerche recenti",
+    "stationPlaceholder": "Cerca una città",
     "roundTrip": "Andata e ritorno",
     "searchButton": {
       "default": "Cerca",

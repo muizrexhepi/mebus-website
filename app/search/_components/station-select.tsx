@@ -12,6 +12,7 @@ import useIsMobile from "@/components/hooks/use-mobile";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { HiMapPin } from "react-icons/hi2";
 import { IoMdLocate } from "react-icons/io";
+import { useTranslation } from "react-i18next";
 
 interface CustomSelectProps {
   stations?: Station[];
@@ -33,6 +34,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (from && to) {
@@ -150,7 +152,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
             <HiMapPin className="size-4 mr-2 text-primary-accent" />
           )}
           <span className="capitalize font-normal">
-            {searchTerm || "Select a city"}
+            {searchTerm || t("searchForm.stationPlaceholder", "Select a city")}
           </span>
         </Button>
         <CitySelectDialog
@@ -174,7 +176,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
         )}
         <Input
           type="text"
-          placeholder="Search for a city"
+          placeholder={t("searchForm.stationPlaceholder", "Search for a city")}
           value={searchTerm}
           onFocus={handleFocus}
           onBlur={handleBlur}
@@ -190,7 +192,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
               <>
                 <div className="bg-muted px-4 py-2 border-b border-border">
                   <h3 className="font-medium text-sm text-foreground/70">
-                    Recent searches
+                    {t("searchForm.recentSearches")}
                   </h3>
                 </div>
                 {recentStations.map((station: Station) => (
@@ -223,7 +225,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
               <>
                 <div className="bg-muted px-4 py-2 border-b border-border">
                   <h3 className="font-medium text-sm text-foreground/70">
-                    Search results
+                    {t("searchForm.searchResult")}
                   </h3>
                 </div>
                 {filteredStations.map((station: Station) => (

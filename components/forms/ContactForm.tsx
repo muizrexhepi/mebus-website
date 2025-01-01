@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -33,6 +34,7 @@ export default function ContactForm() {
     success?: boolean;
     message?: string;
   }>({});
+  const { t } = useTranslation();
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -109,11 +111,11 @@ export default function ContactForm() {
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1">
-              <Label htmlFor="first-name">First name</Label>
+              <Label htmlFor="first-name">{t("passengerInfo.firstName")}</Label>
               <Input
                 id="first-name"
                 name="name"
-                placeholder="John"
+                placeholder={t("passengerInfo.firstNamePlaceholder")}
                 value={formData.name}
                 onChange={handleChange}
                 required
@@ -121,22 +123,22 @@ export default function ContactForm() {
               />
             </div>
             <div className="space-y-1">
-              <Label htmlFor="last-name">Last name</Label>
+              <Label htmlFor="last-name">{t("passengerInfo.lastName")}</Label>
               <Input
                 id="last-name"
                 name="lastName"
-                placeholder="Doe"
+                placeholder={t("passengerInfo.lastNamePlaceholder")}
                 required
                 className="h-12 bg-primary-bg/5 rounded-lg border-none"
               />
             </div>
           </div>
           <div className="space-y-1">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t("passengerInfo.email")}</Label>
             <Input
               id="email"
               name="email"
-              placeholder="john.doe@example.com"
+              placeholder={t("passengerInfo.emailPlaceholder")}
               type="email"
               value={formData.email}
               onChange={handleChange}
@@ -145,7 +147,7 @@ export default function ContactForm() {
             />
           </div>
           <div className="space-y-1">
-            <Label htmlFor="subject">Subject</Label>
+            <Label htmlFor="subject">{t("contactForm.subject")}</Label>
             <Select
               name="subject"
               value={formData.subject}
@@ -153,24 +155,34 @@ export default function ContactForm() {
               required
             >
               <SelectTrigger className="h-12 bg-primary-bg/5 rounded-lg border-none">
-                <SelectValue placeholder="Select a subject" />
+                <SelectValue placeholder={t("contactForm.selectSubject")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="booking">Booking Inquiry</SelectItem>
-                <SelectItem value="refund">Refund Request</SelectItem>
-                <SelectItem value="complaint">Complaint</SelectItem>
-                <SelectItem value="feedback">Feedback</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
+                <SelectItem value="booking">
+                  {t("contactForm.subjectOptions.bookingInquiry")}
+                </SelectItem>
+                <SelectItem value="refund">
+                  {t("contactForm.subjectOptions.refundRequest")}
+                </SelectItem>
+                <SelectItem value="complaint">
+                  {t("contactForm.subjectOptions.complaint")}
+                </SelectItem>
+                <SelectItem value="feedback">
+                  {t("contactForm.subjectOptions.feedback")}
+                </SelectItem>
+                <SelectItem value="other">
+                  {t("contactForm.subjectOptions.other")}
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="space-y-1">
-            <Label htmlFor="message">Message</Label>
+            <Label htmlFor="message">{t("contactForm.message")}</Label>
             <Textarea
               className="resize-none bg-primary-bg/5 rounded-lg border-none"
               id="message"
               name="message"
-              placeholder="Type your message here"
+              placeholder={t("contactForm.messagePlaceholder")}
               value={formData.message}
               onChange={handleChange}
               required
@@ -184,7 +196,7 @@ export default function ContactForm() {
             {isSubmitting ? (
               <Loader2 className="animate-spin size-5 mx-auto" />
             ) : (
-              "Send Message"
+              t("contactForm.sendMessage")
             )}
           </Button>
         </form>

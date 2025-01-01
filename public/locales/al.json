@@ -224,7 +224,8 @@
     }
   },
   "hero": {
-    "title": "Udhëtoni Rrugët me Komoditet"
+    "title": "Udhëtoni me Komoditet",
+    "desc": "Rezervoni biletat e autobusit për një udhëtim të rehatshëm"
   },
   "ticket": {
     "selectReturn": "Zgjidh Kthimin",
@@ -298,6 +299,9 @@
     "to": "Për",
     "departure": "Nisja",
     "passengers": "Udhëtarët",
+    "searchResult": "Rezultatet e kërkimit",
+    "recentSearches": "Kërkimet e fundit",
+    "stationPlaceholder": "Kërkoni për një qytet",
     "oneWay": "Një drejtim",
     "roundTrip": "Vajtje-ardhje",
     "searchButton": {
@@ -387,6 +391,22 @@
     "cancelBooking": "Anulo rezervimin",
     "confirmCancellation": "Konfirmo",
     "cancel": "Anulo"
+  },
+  "contactForm": {
+    "title": "Na Dërgoni Një Mesazh",
+    "desc": "Do t'ju përgjigjemi sa më shpejt të jetë e mundur",
+    "subject": "Subjekti",
+    "selectSubject": "Zgjidhni një subjekt",
+    "message": "Mesazhi",
+    "messagePlaceholder": "Shkruani mesazhin tuaj këtu",
+    "sendMessage": "Dërgo mesazhin",
+    "subjectOptions": {
+      "bookingInquiry": "Pyetje për rezervim",
+      "refundRequest": "Kërkesë për rimbursim",
+      "complaint": "Ankesë",
+      "feedback": "Komente",
+      "other": "Tjetër"
+    }
   },
   "bookingDetailsPage": {
     "bookingDetails": "Detajet e rezervimit",

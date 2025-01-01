@@ -209,7 +209,8 @@
     }
   },
   "hero": {
-    "title": "Viaja por Carretera con Comodidad"
+    "title": "Viaja por Carretera con Comodidad",
+    "desc": "Reserva tus billetes de autobús para un viaje cómodo"
   },
   "ticket": {
     "selectReturn": "Seleccionar Vuelta",
@@ -312,12 +313,31 @@
     "searchError": "Error al obtener las estaciones.",
     "resetSearch": "Reiniciar Búsqueda"
   },
+  "contactForm": {
+    "title": "Envíanos un Mensaje",
+    "desc": "Te responderemos lo antes posible",
+    "subject": "Asunto",
+    "selectSubject": "Selecciona un asunto",
+    "message": "Mensaje",
+    "messagePlaceholder": "Escribe tu mensaje aquí",
+    "sendMessage": "Enviar mensaje",
+    "subjectOptions": {
+      "bookingInquiry": "Consulta de reserva",
+      "refundRequest": "Solicitud de reembolso",
+      "complaint": "Queja",
+      "feedback": "Comentarios",
+      "other": "Otro"
+    }
+  },
   "searchForm": {
     "from": "Desde",
     "to": "Hasta",
     "departure": "Salida",
     "passengers": "Pasajeros",
     "oneWay": "Solo ida",
+    "searchResult": "Resultados de búsqueda",
+    "recentSearches": "Búsquedas recientes",
+    "stationPlaceholder": "Busca una ciudad",
     "roundTrip": "Ida y vuelta",
     "searchButton": {
       "default": "Buscar",

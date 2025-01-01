@@ -223,7 +223,8 @@
     }
   },
   "hero": {
-    "title": "Патувајте по патиштата со удобност"
+    "title": "Патувајте по патиштата со удобност",
+    "desc": "Резервирајте билети за автобус за удобно патување"
   },
   "ticket": {
     "selectReturn": "Изберете повратно",
@@ -292,11 +293,30 @@
     "searchError": "Грешка при вчитување на станици.",
     "resetSearch": "Ресетирај пребарување"
   },
+  "contactForm": {
+    "title": "Испратете ни Порака",
+    "desc": "Ќе ви одговориме што е можно поскоро",
+    "subject": "Предмет",
+    "selectSubject": "Изберете предмет",
+    "message": "Порака",
+    "messagePlaceholder": "Напишете ја вашата порака тука",
+    "sendMessage": "Испрати порака",
+    "subjectOptions": {
+      "bookingInquiry": "Прашање за резервација",
+      "refundRequest": "Барање за поврат на средства",
+      "complaint": "Жалба",
+      "feedback": "Повратна информација",
+      "other": "Друго"
+    }
+  },
   "searchForm": {
     "from": "Од",
     "to": "До",
     "departure": "Поаѓање",
     "passengers": "Патници",
+    "searchResult": "Резултати од пребарување",
+    "recentSearches": "Последни пребарувања",
+    "stationPlaceholder": "Пребарајте град",
     "oneWay": "Еден правец",
     "roundTrip": "Повратно",
     "searchButton": {
