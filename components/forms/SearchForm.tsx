@@ -191,7 +191,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({ updateUrl }) => {
         )}
       >
         {["from", "to"].map((departure) => (
-          <div key={departure} className="w-full space-y-1">
+          <div key={departure} className="w-full sm:space-y-1">
             <p className="uppercase text-black/50 font-medium text-xs hidden sm:block">
               {t(`searchForm.${departure}`)}
             </p>
@@ -206,7 +206,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({ updateUrl }) => {
             )}
           </div>
         ))}
-        <div className="w-full space-y-1">
+        <div className="w-full sm:space-y-1">
           <p className="uppercase text-black/50 font-medium text-xs hidden sm:block">
             {t("searchForm.departure")}
           </p>
@@ -219,7 +219,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({ updateUrl }) => {
             </div>
           )}
         </div>
-        <div className="w-full space-y-1">
+        <div className="w-full sm:space-y-1">
           <p className="uppercase text-black/50 font-medium text-xs hidden sm:block">
             {t("searchForm.passengers")}
           </p>
