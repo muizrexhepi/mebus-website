@@ -80,7 +80,6 @@ const Navbar = ({ className }: { className?: string }) => {
                 {t("auth.login")}
               </Button>
             </div> */}
-
           </>
         )}
       </div>

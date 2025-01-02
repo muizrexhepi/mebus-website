@@ -5,7 +5,6 @@ import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import InputSkeleton from "@/components/input-skeleton";
 import PassengerSelect from "@/app/search/_components/passenger-select";
-import { Station } from "@/models/station";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import StationSelect from "@/app/search/_components/station-select";
@@ -13,7 +12,7 @@ import DatePicker from "@/app/search/_components/date-picker";
 import ReturnDatePicker from "@/app/search/_components/return-date-picker";
 import useSearchStore, { useCheckoutStore } from "@/store";
 import { useRouter } from "next/navigation";
-import { getStations } from "@/actions/station";
+import { useStations } from "../providers/station-provider";
 
 interface SearchFormProps {
   updateUrl?: boolean;
@@ -36,37 +35,13 @@ export const SearchForm: React.FC<SearchFormProps> = ({ updateUrl }) => {
 
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [stations, setStations] = useState<Station[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const { stations, loading } = useStations();
 
   const { setOutboundTicket, setReturnTicket, setIsSelectingReturn } =
     useCheckoutStore();
   const resetSearch = useSearchStore((state) => state.resetSearch);
 
-  // Remove unnecessary state
   const isRoundTrip = tripType === "round-trip";
-
-  useEffect(() => {
-    const fetchStations = async () => {
-      try {
-        const data = await getStations();
-        setStations(data);
-      } catch (error) {
-        console.error(t("searchBlock.searchError"), error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStations();
-  }, []);
-
-  useEffect(() => {
-    if (from && to) {
-      const path = `/search/${fromCity.toLowerCase()}-${toCity.toLowerCase()}`;
-      router.prefetch(path);
-    }
-  }, [from, to, fromCity, toCity, router]);
 
   const handleTripTypeChange = useCallback(
     (type: "one-way" | "round-trip") => {

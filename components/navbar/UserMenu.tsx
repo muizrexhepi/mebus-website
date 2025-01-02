@@ -27,6 +27,7 @@ import Image from "next/image";
 import { useAuth } from "../providers/auth-provider";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { SOCIAL_LINKS } from "@/lib/data";
+import { Select, SelectTrigger } from "../ui/select";
 
 const UserNavbarMenu = () => {
   const router = useRouter();
@@ -72,14 +73,14 @@ const UserNavbarMenu = () => {
           className="block px-4 py-2"
           onClick={() => setIsOpen(false)}
         >
-          {t("nav.account")} {/* Translated "Account" */}
+          {t("nav.account")}
         </Link>
         <Link
           href="/bookings"
           className="block px-4 py-2"
           onClick={() => setIsOpen(false)}
         >
-          {t("nav.bookings")} {/* Translated "Bookings" */}
+          {t("nav.bookings")}
         </Link>
         <Link
           href="/help"
@@ -87,14 +88,13 @@ const UserNavbarMenu = () => {
           onClick={() => setIsOpen(false)}
         >
           {t("footer.links.customersupport")}{" "}
-          {/* Translated "Help & Support" */}
         </Link>
         <Link
           href="/help/contact-support"
           className="block px-4 py-2"
           onClick={() => setIsOpen(false)}
         >
-          {t("nav.contact")} {/* Translated "Contact Us" */}
+          {t("nav.contact")}
         </Link>
         <Separator />
         <div className="px-4 flex items-center gap-2 py-1">
@@ -109,22 +109,6 @@ const UserNavbarMenu = () => {
           </Button>
         </div>
         <Separator />
-        {/* <div className="flex items-center gap-4 px-4 py-2">
-          {SOCIAL_LINKS.map((social, index) => {
-            const Icon = social.icon;
-            return (
-              <a
-                key={index}
-                href={social.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-black/70 hover:text-black transition-colors"
-              >
-                <Icon className="w-5 h-5" />
-              </a>
-            );
-          })}
-        </div> */}
       </div>
     </>
   );

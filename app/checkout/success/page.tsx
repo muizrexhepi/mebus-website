@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { usePaymentSuccessStore } from "@/store";
 import { jsPDF } from "jspdf";
+import axios from "axios";
 
 const SuccessPage: React.FC = () => {
   const { isPaymentSuccess, bookingDetails } = usePaymentSuccessStore();
@@ -24,57 +25,56 @@ const SuccessPage: React.FC = () => {
     );
   }
 
-  const downloadPDF = () => {
-    const doc = new jsPDF();
-    const pageWidth = doc.internal.pageSize.width;
-    const pageHeight = doc.internal.pageSize.height;
-    const margin = 20;
-    let yPos = margin;
-
-    // Helper function to add text
-    const addText = (
-      text: string,
-      fontSize: number,
-      isBold: boolean = false
-    ) => {
-      doc.setFontSize(fontSize);
-      doc.setFont(isBold ? "bold" : "normal");
-      doc.text(text, margin, yPos);
-      yPos += fontSize / 2 + 5;
-    };
-
-    // Add header
-    addText("Payment Confirmation", 24, true);
-    yPos += 10;
-
-    // Add logo (replace with your actual logo path)
-    // doc.addImage("/path/to/your/logo.png", "PNG", margin, yPos, 40, 40);
-    // yPos += 50;
-
-    // Add content
-    addText("Transaction Details", 16, true);
-    addText(`Booking ID: ${bookingDetails.bookingId}`, 12);
-    addText(`Payment Intent ID: ${bookingDetails.transactionId || "N/A"}`, 12);
-    addText(`Amount Paid: $${bookingDetails.price.toFixed(2)}`, 12);
-    yPos += 10;
-
-    addText("Travel Details", 16, true);
-    addText(`From: ${bookingDetails.departureStation}`, 12);
-    addText(`To: ${bookingDetails.arrivalStation}`, 12);
-    addText(`Departure: ${bookingDetails.departureDate.toLocaleString()}`, 12);
-    addText(`Operator: ${bookingDetails.operator || "Unknown Operator"}`, 12);
-
-    // Add footer
-    doc.setFontSize(10);
-    doc.text(
-      "Thank you for choosing our service!",
-      margin,
-      pageHeight - margin
+  const downloadPDF = async () => {
+    const req = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/booking/download/pdf/e-ticket/${bookingDetails.bookingId}`
     );
-
-    // Save the PDF
-    doc.save("ticket.pdf");
+    console.log({ req });
   };
+
+  // const downloadPDF = () => {
+
+  //   const doc = new jsPDF();
+  //   const pageWidth = doc.internal.pageSize.width;
+  //   const pageHeight = doc.internal.pageSize.height;
+  //   const margin = 20;
+  //   let yPos = margin;
+
+  //   const addText = (
+  //     text: string,
+  //     fontSize: number,
+  //     isBold: boolean = false
+  //   ) => {
+  //     doc.setFontSize(fontSize);
+  //     doc.setFont(isBold ? "bold" : "normal");
+  //     doc.text(text, margin, yPos);
+  //     yPos += fontSize / 2 + 5;
+  //   };
+
+  //   addText("Payment Confirmation", 24, true);
+  //   yPos += 10;
+
+  //   addText("Transaction Details", 16, true);
+  //   addText(`Booking ID: ${bookingDetails.bookingId}`, 12);
+  //   addText(`Payment Intent ID: ${bookingDetails.transactionId || "N/A"}`, 12);
+  //   addText(`Amount Paid: $${bookingDetails.price.toFixed(2)}`, 12);
+  //   yPos += 10;
+
+  //   addText("Travel Details", 16, true);
+  //   addText(`From: ${bookingDetails.departureStation}`, 12);
+  //   addText(`To: ${bookingDetails.arrivalStation}`, 12);
+  //   addText(`Departure: ${bookingDetails.departureDate.toLocaleString()}`, 12);
+  //   addText(`Operator: ${bookingDetails.operator || "Unknown Operator"}`, 12);
+
+  //   doc.setFontSize(10);
+  //   doc.text(
+  //     "Thank you for choosing our service!",
+  //     margin,
+  //     pageHeight - margin
+  //   );
+
+  //   doc.save("ticket.pdf");
+  // };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-background">

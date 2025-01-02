@@ -120,7 +120,7 @@ export function DateSelectBlock() {
 
   return (
     <div className="flex flex-col space-y-2 max-w-2xl mx-auto mt-4 w-full">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center w-full">
         <div className="flex justify-between flex-1 border rounded-r-lg bg-white py-2 rounded-l-lg divide-x sm:px-8 md:px-2 mx-4 sm:mx-8 md:mx-auto overflow-x-auto">
           {dates.map((date) =>
             isLoading ? (
