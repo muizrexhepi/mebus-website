@@ -5,32 +5,23 @@ import NavbarMenu from "./NavbarMenu";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
-import useUser from "../hooks/use-user";
 import UserNavbarMenu from "./UserMenu";
 import LanguageSelector from "@/components/dialogs/LanguageDialog";
 import { NAV_LINKS } from "@/lib/data";
-import { Button } from "@/components/ui/button";
-import { useNavbarStore } from "@/store";
 import { useAuth } from "../providers/auth-provider";
+import { usePathname } from "next/navigation";
 
 const Navbar = ({ className }: { className?: string }) => {
   const { user } = useAuth();
   const { t } = useTranslation();
-  const { setOpenLogin, setOpenRegister } = useNavbarStore();
-
-  const handleLogin = () => {
-    setOpenLogin(true);
-  };
-
-  const handleRegister = () => {
-    setOpenRegister(true);
-  };
+  const path = usePathname();
 
   return (
     <header
       className={cn(
         "w-full flex justify-between items-center bg-transparent",
-        className
+        className,
+        { "hidden md:flex": path.includes("/search") }
       )}
     >
       <div className="flex items-center gap-8">
