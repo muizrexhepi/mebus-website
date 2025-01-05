@@ -41,16 +41,16 @@ export const MobileSearchBlock = () => {
             <ChevronLeft color="black" size={25} />
           </Link>
           <DrawerTrigger className="flex flex-col items-center gap-0">
-            <div className="flex items-center text-black gap-2 font-medium text-sm">
+            <div className="flex items-center text-black gap-2 font-medium text-base">
               <span className="capitalize">
                 {fromCity} <span className="lowercase">to</span> {toCity}
               </span>
             </div>
-            {formattedDate && (
+            {/* {formattedDate && (
               <span className="text-sm font-medium text-black/60">
                 {formattedDate}
               </span>
-            )}
+            )} */}
           </DrawerTrigger>
           <DrawerTrigger>
             <Edit3 size={20} color="black" />

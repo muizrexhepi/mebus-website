@@ -123,12 +123,12 @@ export function MobileDateSelectBlock() {
 
   return (
     <div className="w-full mt-4">
-      <div className="flex justify-between items-center gap-4">
+      <div className="flex justify-between items-center gap-2">
         {dates.map((date) =>
           isLoading ? (
             <Skeleton
               key={date.toISOString()}
-              className="flex-1 h-12 rounded-full bg-gray/20"
+              className="flex-1 h-10 rounded-full bg-gray/20"
             >
               <div className="flex justify-center items-center h-full">
                 <Skeleton className="h-4 w-20" />
