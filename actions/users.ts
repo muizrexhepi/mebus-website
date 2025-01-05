@@ -5,38 +5,38 @@ import axios from 'axios'
 
 
 const client = new sdk.Client()
-    .setEndpoint('https://cloud.appwrite.io/v1') 
-    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT)
-    .setKey(process.env.NEXT_APPWRITE_KEY)
-    .setSession('')
+  .setEndpoint('https://cloud.appwrite.io/v1')
+  .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT)
+  .setKey(process.env.NEXT_APPWRITE_KEY)
+  .setSession('')
 
 const users = new sdk.Users(client);
 const account = new sdk.Account(client)
 
 declare interface CreateUserParams {
-    name: string;
-    email: string;
-    password: string | null;
-  }
+  name: string;
+  email: string;
+  password: string | null;
+}
 
 export const createUser = async (user: CreateUserParams) => {
   try {
-    const newUser = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/create/db`,{
-      name:user.name,
-      email:user.email,
-      password:user.password
+    const newUser = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/create/db`, {
+      name: user.name,
+      email: user.email,
+      password: user.password
 
     })
 
-    console.log({newUser})
+    console.log({ newUser })
 
     return parseStringify(newUser?.data?.data);
   } catch (error: any) {
     if (error && error?.code === 409) {
       const existingUser = await account.listIdentities()
-      if(existingUser){
+      if (existingUser) {
 
-        return {error:'Email already exists!'};
+        return { error: 'Email already exists!' };
       }
     }
     console.error("An error occurred while creating a new user:", error);
@@ -44,7 +44,7 @@ export const createUser = async (user: CreateUserParams) => {
 };
 
 
-export const getUserBalance = async (userId: string ) => {
+export const getUserBalance = async (userId: string) => {
   try {
     const accountBalance = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}/user/${userId}?select=balance_in_cents`
@@ -55,11 +55,11 @@ export const getUserBalance = async (userId: string ) => {
   }
 }
 
-export const getUser = async (userId:string) => {
+export const getUser = async (userId: string) => {
   try {
     const user = await users.get(
-      userId 
-  );
+      userId
+    );
     return parseStringify(user);
   } catch (error) {
     console.error(
@@ -69,10 +69,10 @@ export const getUser = async (userId:string) => {
   }
 };
 
-export const deleteUser = async (userId:string) => { 
+export const deleteUser = async (userId: string) => {
   try {
     if (userId) {
-      const result = await users.delete(userId);
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/delete/${userId}`);
     } else {
       console.error("User ID is missing or user is not found.");
     }

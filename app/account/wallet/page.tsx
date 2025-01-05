@@ -75,6 +75,10 @@ function WalletPageContent() {
     async function fetchPaymentMethods() {
       try {
         const user = await account.get();
+        if (!user?.prefs?.stripe_customer_id) {
+          setCustomerFound(false);
+          return console.info("No such customer")
+        }
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/payment/customer/retrieve-payment-methods/${user?.prefs?.stripe_customer_id}`
         );

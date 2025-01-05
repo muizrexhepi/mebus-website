@@ -117,12 +117,9 @@ const PaymentMethod = () => {
       console.log({ pmid: user?.prefs?.stripe_payment_method_id });
 
       const res = await axios.post<any>(
-        `${
-          process.env.NEXT_PUBLIC_API_URL
-        }/payment/create-payment-intent?customer_id=${
-          user?.prefs?.stripe_customer_id || ""
-        }&payment_method_id=${
-          selectedPaymentMethod?.id || ""
+        `${process.env.NEXT_PUBLIC_API_URL
+        }/payment/create-payment-intent?customer_id=${user?.prefs?.stripe_customer_id || ""
+        }&payment_method_id=${selectedPaymentMethod?.id || ""
         }&use_saved_card=${!!selectedPaymentMethod}`,
         { passengers, amount_in_cents: totalPrice * 100 }
       );
@@ -206,8 +203,7 @@ const PaymentMethod = () => {
 
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/booking/create/${ticket.operator}/${
-          user ? user.$id : null
+        `${process.env.NEXT_PUBLIC_API_URL}/booking/create/${ticket.operator}/${user ? user.$id : null
         }/${ticket._id}`,
         {
           passengers: passengersWithPrices,
@@ -271,6 +267,13 @@ const PaymentMethod = () => {
       return;
     }
 
+    if (!user?.prefs?.stripe_payment_method_id) {
+      return toast({
+        description: "No such customer",
+        variant: "destructive"
+      })
+    }
+
     try {
       const cardElement = elements.getElement("cardNumber");
 
@@ -281,8 +284,6 @@ const PaymentMethod = () => {
         });
         return;
       }
-
-      console.log({ cardElement });
 
       const { paymentMethod, error: stripeError } =
         await stripe.createPaymentMethod({
@@ -350,6 +351,10 @@ const PaymentMethod = () => {
     try {
       const user = await account.get();
       console.log({ acc: user });
+      if (!user?.prefs?.stripe_customer_id) {
+        setPaymentMethods([]);
+        return console.info("No such customer")
+      }
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/payment/customer/retrieve-payment-methods/${user?.prefs?.stripe_customer_id}`
       );
@@ -491,9 +496,8 @@ const PaymentMethod = () => {
 
           {
             <div
-              className={`${
-                Math.abs(totalPrice) < 0.01 ? "hidden" : ""
-              } space-y-4`}
+              className={`${Math.abs(totalPrice) < 0.01 ? "hidden" : ""
+                } space-y-4`}
             >
               <div className="flex-col flex gap-4 justify-between">
                 {user && !user?.prefs?.stripe_payment_method_id && (
@@ -517,10 +521,9 @@ const PaymentMethod = () => {
                         onClick={() => handleSelectPaymentMethod(method)}
                         className={`
                           cursor-pointer p-3 border border-gray-300 rounded-lg
-                          ${
-                            selectedPaymentMethod?.id == method.id
-                              ? "bg-blue-50 border-blue-500 hover:bg-blue-100"
-                              : "hover:bg-gray-100"
+                          ${selectedPaymentMethod?.id == method.id
+                            ? "bg-blue-50 border-blue-500 hover:bg-blue-100"
+                            : "hover:bg-gray-100"
                           }
                           flex items-center justify-between
                         `}
@@ -567,16 +570,14 @@ const PaymentMethod = () => {
                   </div>
                 </div>
                 <h3
-                  className={`font-medium text-gray-700 ${
-                    selectedPaymentMethod && "hidden"
-                  }`}
+                  className={`font-medium text-gray-700 ${selectedPaymentMethod && "hidden"
+                    }`}
                 >
                   {t("paymentMethod.cardInformation")}
                 </h3>
                 <div
-                  className={`grid grid-cols-2 gap-2 ${
-                    selectedPaymentMethod && "hidden"
-                  }`}
+                  className={`grid grid-cols-2 gap-2 ${selectedPaymentMethod && "hidden"
+                    }`}
                 >
                   <div
                     id="card-number-element"

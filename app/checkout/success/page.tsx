@@ -1,12 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { CheckCircle, Download, FileText } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { usePaymentSuccessStore } from "@/store";
-import { jsPDF } from "jspdf";
 import axios from "axios";
 
 const SuccessPage: React.FC = () => {
@@ -25,12 +24,38 @@ const SuccessPage: React.FC = () => {
     );
   }
 
-  const downloadPDF = async () => {
-    const req = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/booking/download/pdf/e-ticket/${bookingDetails.bookingId}`
-    );
-    console.log({ req });
+  const downloadPdf = async () => {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/booking/download/pdf/e-ticket/${bookingDetails.bookingId}`,
+        responseType: 'blob',
+        headers: {
+          'Accept': 'application/pdf',
+        },
+      });
+
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'ticket.pdf');
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading PDF:", error);
+    }
   };
+
+  useEffect(() => {
+    downloadPdf()
+  }, [])
 
   // const downloadPDF = () => {
 
@@ -158,14 +183,14 @@ const SuccessPage: React.FC = () => {
               View My Bookings
             </Link>
           </Button>
-          <Button
+          {/* <Button
             variant="outline"
             className="w-full sm:w-auto"
-            onClick={downloadPDF}
+            onClick={downloadPdf}
           >
             <Download className="mr-2 h-4 w-4" aria-hidden="true" />
             Download Ticket
-          </Button>
+          </Button> */}
         </div>
       </div>
     </div>
