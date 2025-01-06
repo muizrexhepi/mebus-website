@@ -44,6 +44,13 @@ const LoginForm = () => {
     setIsLoading(true);
     setError(undefined);
 
+    setMFAFactors({
+      totp: false,
+      phone: false,
+      email: false,
+      recoveryCode: false,
+    });
+
     try {
       const result = await loginUser(values);
 
@@ -53,13 +60,14 @@ const LoginForm = () => {
 
         return;
       }
-
+      console.log({ result });
       await account.createEmailPasswordSession(
         result.credentials.email,
         result.credentials.password
       );
 
       const user = await account.get();
+      console.log({ user });
       if (user) {
         setOpenLogin(false);
         setError("");
@@ -69,6 +77,7 @@ const LoginForm = () => {
       console.log("catch");
       if (error.type === "user_more_factors_required") {
         const factors = await account.listMfaFactors();
+        console.log({ factors });
         setMFAFactors(factors);
         if (factors) {
           setCurrentForm("mfaOptions");

@@ -1,8 +1,6 @@
-"use client";
-
 import { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { ChevronLeft, Loader2, Mail, Phone, Eye, EyeOff } from "lucide-react";
+import { ChevronLeft, Loader2, Mail, Phone } from "lucide-react";
 import { AuthenticationFactor } from "appwrite";
 import { Button } from "@/components/ui/button";
 import { useMFAStore } from "@/store";
@@ -18,8 +16,13 @@ const MFA_FACTORS: Record<MFAMethod, AuthenticationFactor> = {
 
 export const MFAOptionsForm = () => {
   const { t } = useTranslation();
-  const { mfaFactors, setMfaChallenge, setMfaType, setCurrentForm } =
-    useMFAStore();
+  const {
+    mfaFactors,
+    setMfaChallenge,
+    setMfaType,
+    setCurrentForm,
+    setMFAFactors,
+  } = useMFAStore();
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | undefined>();
@@ -44,11 +47,22 @@ export const MFAOptionsForm = () => {
     [setMfaChallenge, setMfaType, setCurrentForm, t]
   );
 
+  const handleBackClick = async () => {
+    await account.deleteSession("current"); //
+    setMFAFactors({
+      totp: false,
+      phone: false,
+      email: false,
+      recoveryCode: false,
+    });
+    setCurrentForm("login");
+  };
+
   return (
     <div className="w-full max-w-[400px] mx-auto space-y-8 pt-32 sm:pt-6">
       <ChevronLeft
         className="absolute left-6 top-12 sm:top-6 w-6 h-6 shrink-0 cursor-pointer"
-        onClick={() => setCurrentForm("login")}
+        onClick={handleBackClick} // Update to reset MFA state when going back
       />
       <div className="space-y-0 text-center lg:text-start mb-6">
         <h2 className="text-2xl font-semibold">
