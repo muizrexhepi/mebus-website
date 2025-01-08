@@ -274,11 +274,15 @@
     },
     "sections": {
       "services": "Services",
+      "company": "Company",
       "partners": "Partners",
       "legal": "Legal"
     },
     "links": {
       "busroutes": "Bus Routes",
+      "aboutus": "About us",
+      "contact": "Contact",
+      "faq": "FAQ",
       "travelflexoptions": "Travel Flex Options",
       "customersupport": "Customer Support",
       "luggagepolicy": "Luggage Policy",

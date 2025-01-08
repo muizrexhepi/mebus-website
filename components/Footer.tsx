@@ -2,19 +2,23 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
-
 import Image from "next/image";
-import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import {
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  Mail,
+  Phone,
+} from "lucide-react";
 
 const FOOTER_LINKS = [
   {
-    title: "Services",
+    title: "Company",
     links: [
-      { name: "Bus Routes", link: "/routes" },
-      { name: "Travel Flex Options", link: "/help/travel-flex" },
-      { name: "Customer Support", link: "/help/contact-support" },
-      { name: "Luggage Policy", link: "/help/luggage-policy" },
-      // { name: "Discount Offers", link: "/discounts" },
+      { name: "About Us", link: "/about" },
+      { name: "Contact", link: "/contact" },
+      { name: "FAQ", link: "/faq" },
       { name: "Help", link: "/help" },
     ],
   },
@@ -24,8 +28,6 @@ const FOOTER_LINKS = [
       { name: "Partner Application", link: "/partners/apply" },
       { name: "Become a Partner", link: "/partners/overview" },
       { name: "Active Operators", link: "/partners/active-operators" },
-      // { name: "Partnership Benefits", link: "/partners/benefits" },
-      // { name: "Success Stories", link: "/partners/success-stories" },
     ],
   },
   {
@@ -35,10 +37,15 @@ const FOOTER_LINKS = [
       { name: "Terms of Service", link: "/legal/terms-of-service" },
       { name: "Cookie Policy", link: "/legal/cookie-policy" },
       { name: "Data Policy", link: "/legal/data-policy" },
-      // { name: "Accessibility", link: "/legal/accessibility" },
     ],
   },
 ];
+
+const CONTACT_INFO = {
+  email: "travel@gobusly.com",
+  phone1: "+383 38 616 161",
+  phone2: "+383 49 939 015",
+};
 
 const SOCIAL_LINKS = [
   { icon: Facebook, link: "https://facebook.com" },
@@ -47,76 +54,58 @@ const SOCIAL_LINKS = [
   { icon: Linkedin, link: "https://linkedin.com" },
 ];
 
+const PAYMENT_METHODS = [
+  { name: "Mastercard", path: "/assets/icons/mastercard.svg" },
+  { name: "Visa", path: "/assets/icons/visa.svg" },
+  { name: "Stripe", path: "/assets/icons/stripe.svg" },
+];
+
 const Footer = () => {
   const { t } = useTranslation();
 
   return (
-    <footer className="bg-gradient-to-b from-primary-bg/80 to-primary-bg/90">
-      <div className="max-w-6xl mx-auto paddingX  py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 place-items-start justify-items-start md:justify-items-end">
-          <div className="space-y-6">
-            <Link href="/">
+    <footer className="w-full border-t border-gray-200 bg-white">
+      <div className="mx-auto max-w-[1440px] px-4 pt-12 pb-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="col-span-2 lg:col-span-1 space-y-4">
+            <Link href="/" className="inline-block">
               <Image
-                src="/assets/icons/logo.svg"
+                src="/assets/icons/dark-logo.svg"
                 alt="GoBusly Logo"
                 width={160}
                 height={50}
-                className="object-contain"
+                className="h-8 w-auto"
                 priority
               />
             </Link>
-            <p className="text-white/85 text-base leading-relaxed">
+            <p className="text-sm text-gray-600">
               {t("footer.missionStatement")}
             </p>
-            {/* <div className="flex items-center gap-4">
-              {SOCIAL_LINKS.map((social, index) => {
-                const Icon = social.icon;
-                return (
-                  <a
-                    key={index}
-                    href={social.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white/70 hover:text-white transition-colors"
-                  >
-                    <Icon className="w-5 h-5" />
-                    </a>
-                    );
-                    })}
-                    </div> */}
-            <div className="flex items-center gap-2 mt-6 md:mt-0">
-              <Image
-                src={"/assets/icons/mastercard.svg"}
-                width={30}
-                height={30}
-                alt="Mastercard Logo"
-              />
-              <Image
-                src={"/assets/icons/visa.svg"}
-                width={30}
-                height={30}
-                alt="Visa Logo"
-              />
-              <Image
-                src={"/assets/icons/stripe.svg"}
-                width={40}
-                height={40}
-                alt="Stripe Logo"
-              />
+            <div className="flex items-center gap-4 mt-4">
+              {PAYMENT_METHODS.map((method) => (
+                <Image
+                  key={method.name}
+                  src={method.path}
+                  alt={`${method.name} Logo`}
+                  width={method.name === "Stripe" ? 40 : 30}
+                  height={method.name === "Stripe" ? 40 : 30}
+                  className="object-contain"
+                />
+              ))}
             </div>
           </div>
 
-          {FOOTER_LINKS.map((footerLink, index) => (
-            <div key={index} className="space-y-4">
-              <h3 className="text-lg font-normal text-white">
-                {t(`footer.sections.${footerLink.title.toLowerCase()}`)}
+          {FOOTER_LINKS.map((section) => (
+            <div key={section.title} className="space-y-4">
+              <h3 className="text-sm font-semibold text-gray-900">
+                {t(`footer.sections.${section.title.toLowerCase()}`)}
               </h3>
               <ul className="space-y-3">
-                {footerLink.links.map((link) => (
+                {section.links.map((link) => (
                   <li key={link.name}>
                     <Link
                       href={link.link}
-                      className="text-white/70 text-sm hover:text-white transition-colors inline-flex items-center gap-1 group"
+                      className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
                     >
                       {t(
                         `footer.links.${link.name
@@ -129,37 +118,64 @@ const Footer = () => {
               </ul>
             </div>
           ))}
+
+          <div className="space-y-4">
+            <h3 className="text-sm font-semibold text-gray-900">
+              {t("footer.contact")}
+            </h3>
+            <ul className="space-y-3">
+              <li>
+                <a
+                  href={`mailto:${CONTACT_INFO.email}`}
+                  className="group flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  <Mail className="h-4 w-4" />
+                  <span>{CONTACT_INFO.email}</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`tel:${CONTACT_INFO.phone1}`}
+                  className="group flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  <Phone className="h-4 w-4" />
+                  <span>{CONTACT_INFO.phone1}</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`tel:${CONTACT_INFO.phone2}`}
+                  className="group flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  <Phone className="h-4 w-4" />
+                  <span>{CONTACT_INFO.phone2}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-white/70">
-            {t("footer.copyright", { year: new Date().getFullYear() })}
-          </p>
-          <div className="flex items-center gap-4">
-            {SOCIAL_LINKS.map((social, index) => {
-              const Icon = social.icon;
-              return (
-                <a
-                  key={index}
-                  href={social.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white/70 hover:text-white transition-colors"
-                >
-                  <Icon className="w-5 h-5" />
-                </a>
-              );
-            })}
+        <div className="mt-12 border-t border-gray-200 pt-4">
+          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <p className="text-xs text-gray-500">{t("footer.copyright")}</p>
+            {/* <div className="flex items-center gap-4">
+              {SOCIAL_LINKS.map((social, index) => {
+                const Icon = social.icon;
+                return (
+                  <a
+                    key={index}
+                    href={social.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-gray-500 transition-colors"
+                  >
+                    <span className="sr-only">{social.icon.name}</span>
+                    <Icon className="h-5 w-5" />
+                  </a>
+                );
+              })}
+            </div> */}
           </div>
-          {/* <div className="flex flex-wrap justify-center md:justify-end items-center gap-x-6 gap-y-2 text-sm text-white/70">
-            <span>{t("footer.customerSupport")}</span>
-            <span className="hidden md:inline">|</span>
-            <span>{t("footer.securePayment")}</span>
-            <span className="hidden md:inline">|</span>
-            <Link href="/help" className="hover:text-white transition-colors">
-              {t("footer.helpFAQ")}
-            </Link>
-          </div> */}
         </div>
       </div>
     </footer>

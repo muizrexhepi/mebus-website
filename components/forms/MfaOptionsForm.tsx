@@ -62,7 +62,7 @@ export const MFAOptionsForm = () => {
     <div className="w-full max-w-[400px] mx-auto space-y-8 pt-32 sm:pt-6">
       <ChevronLeft
         className="absolute left-6 top-12 sm:top-6 w-6 h-6 shrink-0 cursor-pointer"
-        onClick={handleBackClick} // Update to reset MFA state when going back
+        onClick={handleBackClick}
       />
       <div className="space-y-0 text-center lg:text-start mb-6">
         <h2 className="text-2xl font-semibold">
