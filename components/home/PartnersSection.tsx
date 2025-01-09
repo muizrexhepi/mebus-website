@@ -19,7 +19,7 @@ const PartnersSection = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="w-full py-20 bg-[#f3f4f5]">
+    <section className="w-full py-20 bg-gray-50">
       <div className="max-w-6xl mx-auto paddingX">
         <div className="flex flex-col lg:flex-row gap-16 items-center">
           <div className="flex-1 space-y-6">
@@ -28,7 +28,7 @@ const PartnersSection = () => {
                 {t("partnersSection.tag", "Trusted Partners")}
               </span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-medium tracking-tight text-primary-bg">
+            <h1 className="text-3xl sm:text-4xl font-normal tracking-tight text-primary-bg">
               {t("partnersSection.heading")}
             </h1>
             <p className="text-lg leading-relaxed text-gray-600 max-w-xl">

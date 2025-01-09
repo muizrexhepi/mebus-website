@@ -57,13 +57,14 @@ export default function MapComponent({
   toStation,
 }: MapComponentProps) {
   const [mapCenter, setMapCenter] = useState<L.LatLngExpression>([
-    39.8283, -98.5795,
-  ]); // Default to US center
+    51.1657,
+    10.4515, // Latitude and longitude of Germany
+  ]); // Default to Germany center
+
   const [mapZoom, setMapZoom] = useState<number>(4);
 
   useEffect(() => {
     if (fromStation && toStation) {
-      // Use leaflet to get the center and bounds
       const bounds = L.latLngBounds(
         [fromStation.location.lat, fromStation.location.lng],
         [toStation.location.lat, toStation.location.lng]

@@ -61,21 +61,24 @@ export default function NewsletterCTA() {
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl font-medium text-gray-900 leading-tight max-w-3xl mx-auto">
+          <h1 className="text-3xl sm:text-4xl font-normal text-gray-900 leading-tight max-w-3xl mx-auto">
             {t("CTA.title")}
           </h1>
         </div>
 
         <form
-          className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto"
+          className="flex flex-col sm:flex-row gap-2 max-w-2xl mx-auto"
           onSubmit={handleSubscribe}
         >
           <Input
             type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder={t("CTA.emailPlaceholder")}
             className="h-12 px-4 bg-primary-bg/5 rounded-lg placeholder:text-gray-500"
             required
           />
+
           <Button
             type="submit"
             disabled={isSubscribing}

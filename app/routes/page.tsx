@@ -32,7 +32,9 @@ export default async function BusRoutes() {
       <main className="flex-grow w-full mx-auto">
         <BusRoutesClient initialRoutes={routes} />
       </main>
-      <Footer />
+      <div className="mt-12">
+        <Footer />
+      </div>
     </div>
   );
 }

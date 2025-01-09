@@ -9,36 +9,33 @@ const SecondaryFooter = ({ className }: { className?: string }) => {
 
   return (
     <footer
-      className={cn(
-        "bg-gradient-to-t from-primary-bg/90 to-primary-bg/85 w-full pb-4 sm:px-8 xl:px-0",
-        className
-      )}
+      className={cn("bg-transparent w-full pb-4 sm:px-8 xl:px-0", className)}
     >
       <div className="max-w-6xl mx-auto paddingX">
-        <div className="flex flex-wrap justify-center sm:justify-between items-center border-t border-white/10 pt-4 gap-2">
-          <p className="text-sm text-white/70">{t("footer.copyright")}</p>
+        <div className="flex flex-wrap justify-center sm:justify-between items-center border-t  pt-4 gap-2">
+          <p className="text-sm text-black/70">{t("footer.copyright")}</p>
           <nav className="flex flex-wrap justify-center sm:justify-start gap-2 sm:gap-4 mt-2 sm:mt-0">
             <Link
               href="/legal/privacy-policy"
-              className="text-sm text-white/70 hover:text-white transition-colors"
+              className="text-sm text-black/70 hover:text-black transition-colors"
             >
               {t("footer.links.privacypolicy")}
             </Link>
             <Link
               href="/legal/terms-of-service"
-              className="text-sm text-white/70 hover:text-white transition-colors"
+              className="text-sm text-black/70 hover:text-black transition-colors"
             >
               {t("footer.links.termsofservice")}
             </Link>
             <Link
               href="/legal/cookie-policy"
-              className="text-sm text-white/70 hover:text-white transition-colors"
+              className="text-sm text-black/70 hover:text-black transition-colors"
             >
               {t("footer.links.cookiepolicy")}
             </Link>
             <Link
               href="/help"
-              className="text-sm text-white/70 hover:text-white transition-colors"
+              className="text-sm text-black/70 hover:text-black transition-colors"
             >
               {t("footer.links.help")}
             </Link>

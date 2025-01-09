@@ -20,13 +20,12 @@ import NoTicketsAvailable from "./NoTicketsAvailable";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import TicketBlock from "@/components/ticket/Ticket";
+import SearchFilters from "./search-filters";
 
 const TicketList: React.FC = () => {
   const router = useRouter();
   const { toast } = useToast();
   const {
-    outboundTicket,
-    returnTicket,
     setSelectedTicket,
     setOutboundTicket,
     setReturnTicket,
@@ -35,7 +34,7 @@ const TicketList: React.FC = () => {
   } = useCheckoutStore();
   const { tripType, departureDate, returnDate, passengers, from, to } =
     useSearchStore();
-  const { setIsLoading, isLoading } = useLoadingStore();
+  const { setIsLoading } = useLoadingStore();
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [noData, setNoData] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -140,7 +139,14 @@ const TicketList: React.FC = () => {
       {noData && tickets.length === 0 ? (
         <NoTicketsAvailable />
       ) : (
-        <div className="w-full mx-auto">
+        <div className="w-full mx-auto space-y-4">
+          <div className="w-full flex items-center justify-between">
+            <SearchFilters
+              totalTrips={tickets.length}
+              onFiltersChange={() => {}}
+            />
+            <p className="font-normal">{tickets.length || 0} Results</p>
+          </div>
           <h1
             className={cn("mb-2 font-medium text-lg", {
               hidden: tripType == "one-way",
@@ -178,7 +184,7 @@ const TicketList: React.FC = () => {
                   </div>
                   <SheetFooter className="p-4">
                     <Button
-                      className="w-full h-12 button-gradient rounded-lg hover:bg-primary-bg/95"
+                      className="w-full h-12 button-gradient rounded-lg"
                       onClick={() => handleTicketSelection(ticket)}
                     >
                       {isSelectingReturn

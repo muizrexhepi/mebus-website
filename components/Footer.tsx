@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
@@ -18,7 +19,7 @@ const FOOTER_LINKS = [
     links: [
       { name: "About Us", link: "/about" },
       { name: "Contact", link: "/contact" },
-      { name: "FAQ", link: "/faq" },
+      { name: "FAQ", link: "/help" },
       { name: "Help", link: "/help" },
     ],
   },
@@ -42,16 +43,16 @@ const FOOTER_LINKS = [
 ];
 
 const CONTACT_INFO = {
-  email: "travel@gobusly.com",
-  phone1: "+383 38 616 161",
-  phone2: "+383 49 939 015",
+  email: "contact@gobusly.com",
+  phone1: "+389 76 224 065",
+  phone2: "+389 70 250 259",
 };
 
 const SOCIAL_LINKS = [
-  { icon: Facebook, link: "https://facebook.com" },
-  { icon: Twitter, link: "https://twitter.com" },
-  { icon: Instagram, link: "https://instagram.com" },
-  { icon: Linkedin, link: "https://linkedin.com" },
+  { icon: Facebook, link: "https://facebook.com", name: "Facebook" },
+  { icon: Twitter, link: "https://twitter.com", name: "Twitter" },
+  { icon: Instagram, link: "https://instagram.com", name: "Instagram" },
+  { icon: Linkedin, link: "https://linkedin.com", name: "LinkedIn" },
 ];
 
 const PAYMENT_METHODS = [
@@ -64,117 +65,141 @@ const Footer = () => {
   const { t } = useTranslation();
 
   return (
-    <footer className="w-full border-t border-gray-200 bg-white">
-      <div className="mx-auto max-w-[1440px] px-4 pt-12 pb-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-2 lg:grid-cols-5">
-          <div className="col-span-2 lg:col-span-1 space-y-4">
+    <footer className="w-full bg-gray-50 text-gray-600">
+      <div className="mx-auto max-w-[1440px] pt-12 pb-8 paddingX">
+        <div className="xl:grid xl:grid-cols-3 xl:gap-8">
+          <div className="space-y-6 xl:col-span-1">
             <Link href="/" className="inline-block">
               <Image
                 src="/assets/icons/dark-logo.svg"
                 alt="GoBusly Logo"
-                width={160}
+                width={120}
                 height={50}
                 className="h-8 w-auto"
                 priority
               />
             </Link>
-            <p className="text-sm text-gray-600">
+            <p className="text-base leading-6 max-w-80">
               {t("footer.missionStatement")}
             </p>
-            <div className="flex items-center gap-4 mt-4">
+            <div className="flex items-center space-x-4">
               {PAYMENT_METHODS.map((method) => (
                 <Image
                   key={method.name}
                   src={method.path}
                   alt={`${method.name} Logo`}
-                  width={method.name === "Stripe" ? 40 : 30}
-                  height={method.name === "Stripe" ? 40 : 30}
+                  width={method.name === "Stripe" ? 50 : 40}
+                  height={method.name === "Stripe" ? 50 : 40}
                   className="object-contain"
                 />
               ))}
             </div>
           </div>
-
-          {FOOTER_LINKS.map((section) => (
-            <div key={section.title} className="space-y-4">
-              <h3 className="text-sm font-semibold text-gray-900">
-                {t(`footer.sections.${section.title.toLowerCase()}`)}
-              </h3>
-              <ul className="space-y-3">
-                {section.links.map((link) => (
-                  <li key={link.name}>
-                    <Link
-                      href={link.link}
-                      className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
-                    >
-                      {t(
-                        `footer.links.${link.name
-                          .toLowerCase()
-                          .replace(/\s+/g, "")}`
-                      )}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+          <div className="mt-12 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
+            <div className="grid md:grid-cols-2 gap-8">
+              {FOOTER_LINKS.slice(0, 2).map((section) => (
+                <div key={section.title}>
+                  <h3 className="text-sm font-semibold text-gray-900 tracking-wider uppercase">
+                    {t(`footer.sections.${section.title.toLowerCase()}`)}
+                  </h3>
+                  <ul className="mt-4 space-y-4">
+                    {section.links.map((link) => (
+                      <li key={link.name}>
+                        <Link
+                          href={link.link}
+                          className="text-base text-gray-500 hover:text-gray-900 transition-colors"
+                        >
+                          {t(
+                            `footer.links.${link.name
+                              .toLowerCase()
+                              .replace(/\s+/g, "")}`
+                          )}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
-          ))}
-
-          <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-gray-900">
-              {t("footer.contact")}
-            </h3>
-            <ul className="space-y-3">
-              <li>
-                <a
-                  href={`mailto:${CONTACT_INFO.email}`}
-                  className="group flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
-                >
-                  <Mail className="h-4 w-4" />
-                  <span>{CONTACT_INFO.email}</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href={`tel:${CONTACT_INFO.phone1}`}
-                  className="group flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
-                >
-                  <Phone className="h-4 w-4" />
-                  <span>{CONTACT_INFO.phone1}</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href={`tel:${CONTACT_INFO.phone2}`}
-                  className="group flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
-                >
-                  <Phone className="h-4 w-4" />
-                  <span>{CONTACT_INFO.phone2}</span>
-                </a>
-              </li>
-            </ul>
+            <div className="md:grid md:grid-cols-2 md:gap-8">
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900 tracking-wider uppercase">
+                  {t(`footer.sections.${FOOTER_LINKS[2].title.toLowerCase()}`)}
+                </h3>
+                <ul className="mt-4 space-y-4">
+                  {FOOTER_LINKS[2].links.map((link) => (
+                    <li key={link.name}>
+                      <Link
+                        href={link.link}
+                        className="text-base text-gray-500 hover:text-gray-900 transition-colors"
+                      >
+                        {t(
+                          `footer.links.${link.name
+                            .toLowerCase()
+                            .replace(/\s+/g, "")}`
+                        )}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-12 md:mt-0">
+                <h3 className="text-sm font-semibold text-gray-900 tracking-wider uppercase">
+                  {t("footer.contact")}
+                </h3>
+                <ul className="mt-4 space-y-4">
+                  <li>
+                    <a
+                      href={`mailto:${CONTACT_INFO.email}`}
+                      className="flex items-center text-base text-gray-500 hover:text-gray-900 transition-colors"
+                    >
+                      <Mail className="h-5 w-5 mr-2" />
+                      <span>{CONTACT_INFO.email}</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={`tel:${CONTACT_INFO.phone1}`}
+                      className="flex items-center text-base text-gray-500 hover:text-gray-900 transition-colors"
+                    >
+                      <Phone className="h-5 w-5 mr-2" />
+                      <span>{CONTACT_INFO.phone1}</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={`tel:${CONTACT_INFO.phone2}`}
+                      className="flex items-center text-base text-gray-500 hover:text-gray-900 transition-colors"
+                    >
+                      <Phone className="h-5 w-5 mr-2" />
+                      <span>{CONTACT_INFO.phone2}</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
-
-        <div className="mt-12 border-t border-gray-200 pt-4">
-          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <p className="text-xs text-gray-500">{t("footer.copyright")}</p>
-            {/* <div className="flex items-center gap-4">
-              {SOCIAL_LINKS.map((social, index) => {
+        <div className="mt-12 border-t border-gray-200 pt-8">
+          <div className="flex flex-col-reverse justify-between items-center space-y-4 sm:flex-row sm:space-y-0">
+            <p className="text-base text-gray-600">{t("footer.copyright")}</p>
+            <div className="flex space-x-3">
+              {SOCIAL_LINKS.map((social) => {
                 const Icon = social.icon;
                 return (
                   <a
-                    key={index}
+                    key={social.name}
                     href={social.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-gray-500 transition-colors"
+                    className="text-gray-500 hover:text-gray-600 transition-colors border rounded-xl size-10 flex items-center justify-center"
                   >
-                    <span className="sr-only">{social.icon.name}</span>
-                    <Icon className="h-5 w-5" />
+                    <span className="sr-only">{social.name}</span>
+                    <Icon className="size-5" />
                   </a>
                 );
               })}
-            </div> */}
+            </div>
           </div>
         </div>
       </div>

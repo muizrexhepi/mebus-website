@@ -127,6 +127,9 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
                 </span>
               </div>
             </div>
+            {/* <div className="text-left">
+              Seats left {ticket.number_of_tickets}
+            </div> */}
           </div>
           <div className="flex justify-between items-center gap-4 w-full md:flex-col md:justify-end md:items-end md:w-fit">
             <div className="text-xl sm:text-2xl font-semibold w-full md:w-1/3 flex md:flex-col justify-between items-end ">

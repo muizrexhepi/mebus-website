@@ -47,7 +47,7 @@ const FeatureCard = ({ icon: Icon, title, description, color, bg }: any) => {
         <div className={`inline-flex p-3 rounded-lg ${bg} ${color} mb-6`}>
           <Icon className="w-6 h-6" />
         </div>
-        <h3 className="text-xl font-semibold text-gray-900 mb-3">{t(title)}</h3>
+        <h3 className="text-xl font-medium text-gray-900 mb-3">{t(title)}</h3>
         <p className="text-gray-600 leading-relaxed mb-6">{t(description)}</p>
         <Button
           variant="ghost"
@@ -71,10 +71,10 @@ const FeaturesSection = () => {
               Why Choose Us
             </span>
           </div>
-          <h1 className=" text-3xl sm:text-4xl font-medium tracking-tight text-gray-900  mb-4">
+          <h1 className=" text-3xl sm:text-4xl font-normal tracking-tight text-gray-900  mb-4">
             The smartest way to travel by bus
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-gray-600 leading-relaxed">
             Experience seamless bus travel with our comprehensive platform
           </p>
         </div>
