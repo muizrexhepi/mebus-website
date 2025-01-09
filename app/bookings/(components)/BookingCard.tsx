@@ -75,12 +75,9 @@ export const BookingCard: React.FC<BookingCardProps> = ({
   const fetchAvailableDates = async () => {
     try {
       const response = await axios.get(
-        `${
-          process.env.NEXT_PUBLIC_API_URL
-        }/ticket/search/available-dates?departureStation=${
-          booking.destinations?.departure_station
-        }&arrivalStation=${
-          booking.destinations?.arrival_station
+        `${process.env.NEXT_PUBLIC_API_URL
+        }/ticket/search/available-dates?departureStation=${booking.destinations?.departure_station
+        }&arrivalStation=${booking.destinations?.arrival_station
         }&departureDate=${moment(selectedDate).format(
           "DD-MM-YYYY"
         )}&adults=${adults}&children=${children}&page=1`
@@ -143,15 +140,18 @@ export const BookingCard: React.FC<BookingCardProps> = ({
   };
 
   const calculatePrice = (booking: Booking, date: AvailableDate) => {
-    const totalNewPrice = date.price * booking.passengers.length;
-    const priceDifference = totalNewPrice - booking.price;
-    return priceDifference > 0 ? Number(priceDifference.toFixed(2)) : 0;
+    if (!booking) {
+      return;
+    }
+    const totalNewPrice = date?.price * booking?.passengers?.length;
+    const priceDifference = totalNewPrice - booking?.price;
+    return priceDifference > 0 ? Number(priceDifference?.toFixed(2)) : 0;
   };
 
   const adults =
-    booking.passengers?.filter((passenger) => passenger.age >= 10).length || 0;
+    booking.passengers?.filter((passenger) => passenger?.age >= 10)?.length || 0;
   const children =
-    booking.passengers?.filter((passenger) => passenger.age < 10).length || 0;
+    booking.passengers?.filter((passenger) => passenger?.age < 10)?.length || 0;
 
   return (
     <Card className="mb-4">
@@ -160,19 +160,19 @@ export const BookingCard: React.FC<BookingCardProps> = ({
           <div className="flex items-center space-x-6 w-full sm:w-auto ">
             <div className="text-center w-20 flex-shrink-0 border-r pr-3">
               <p className="text-sm text-black bold">
-                {moment.utc(booking.departure_date).format("ddd, MM YYYY")}
+                {moment.utc(booking?.departure_date).format("ddd, MM YYYY")}
               </p>
             </div>
             <div className="flex flex-col space-y-2 whitespace-nowrap">
               <div className="flex items-center space-x-2 text-sm text-gray-500">
                 <ClockIcon className="h-4 w-4" />
                 <span>
-                  {moment.utc(booking.departure_date).format("HH:mm")}
+                  {moment.utc(booking?.departure_date).format("HH:mm")}
                 </span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-gray-500">
                 <DollarSign className="h-4 w-4" />
-                <span>{booking.price.toFixed(2)}</span>
+                <span>{booking?.price?.toFixed(2)}</span>
               </div>
             </div>
             <div className="flex items-center space-x-2 w-full sm:w-auto justify-end h-12 sm:h-24 sm:justify-start">
@@ -183,28 +183,27 @@ export const BookingCard: React.FC<BookingCardProps> = ({
               </div>
               <div className="flex flex-col h-full justify-between">
                 <div className="text-sm font-medium capitalize flex flex-col">
-                  {booking.labels.from_city}
+                  {booking?.labels?.from_city}
                   <span className="text-black/60 hidden sm:block">
-                    {booking.destinations.departure_station_label}
+                    {booking?.destinations?.departure_station_label}
                   </span>
                 </div>
                 <div className="text-sm font-medium capitalize flex flex-col">
-                  {booking.labels.to_city}
+                  {booking?.labels?.to_city}
                   <span className="text-black/60 hidden sm:block">
-                    {booking.destinations.arrival_station_label}
+                    {booking?.destinations?.arrival_station_label}
                   </span>
                 </div>
               </div>
             </div>
             <Badge
-              className={`capitalize absolute bottom-2 right-0 sm:relative sm:bottom-0 ${
-                booking.metadata.refund_action?.is_refunded && "bg-red-500"
-              }`}
+              className={`capitalize absolute bottom-2 right-0 sm:relative sm:bottom-0 ${booking?.metadata?.refund_action?.is_refunded && "bg-red-500"
+                }`}
             >
-              {!booking.metadata.refund_action?.is_refunded
-                ? booking.metadata.travel_flex == "no_flex"
+              {!booking?.metadata?.refund_action?.is_refunded
+                ? booking?.metadata?.travel_flex == "no_flex"
                   ? "No flexibility"
-                  : booking.metadata.travel_flex
+                  : booking?.metadata?.travel_flex
                 : "Refunded"}
             </Badge>
           </div>
@@ -219,7 +218,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({
             <DropdownMenuContent align="start">
               <DropdownMenuItem
                 className="gap-2"
-                disabled={booking.metadata.refund_action?.is_refunded}
+                disabled={booking?.metadata?.refund_action?.is_refunded}
                 onClick={isNoFlex ? handleNoFlexAction : handleReschedule}
               >
                 <ClockIcon className="h-4 w-4" />
@@ -227,7 +226,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="gap-2"
-                onClick={() => router.push(`/bookings/${booking._id}`)}
+                onClick={() => router.push(`/bookings/${booking?._id}`)}
               >
                 <View className="h-4 w-4" />
                 {t("actions.viewDetails")}
@@ -235,18 +234,18 @@ export const BookingCard: React.FC<BookingCardProps> = ({
 
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                disabled={booking.metadata.refund_action?.is_refunded}
+                disabled={booking?.metadata?.refund_action?.is_refunded}
                 className="gap-2"
                 onClick={
                   isNoFlex
                     ? handleNoFlexAction
                     : () =>
-                        handleCancelBookingAndRefund(
-                          booking._id,
-                          booking.metadata.payment_intent_id,
-                          booking.metadata.travel_flex,
-                          Math.round(booking.price * 100 * 0.7)
-                        )
+                      handleCancelBookingAndRefund(
+                        booking?._id,
+                        booking?.metadata?.payment_intent_id,
+                        booking?.metadata?.travel_flex,
+                        Math.round(booking?.price * 100 * 0.7)
+                      )
                 }
               >
                 <XCircle className="h-4 w-4" />

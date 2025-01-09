@@ -64,7 +64,7 @@ export function FlexUpgradeSheet({
   }, [availableDates]);
 
   const calculatePrice = (booking: Booking, date: AvailableDate) => {
-    const totalNewPrice = date.price * booking.passengers.length;
+    const totalNewPrice = date.price * booking?.passengers?.length;
     const priceDifference = totalNewPrice - booking.price;
     return priceDifference > 0 ? Number(priceDifference.toFixed(2)) : 0;
   };
@@ -79,7 +79,7 @@ export function FlexUpgradeSheet({
                 <SheetTitle className="text-2xl font-semibold">
                   Change Travel Date
                 </SheetTitle>
-             
+
               </div>
             </SheetHeader>
             <div className="space-y-6 lg:flex lg:space-x-6 lg:space-y-0">
@@ -92,7 +92,7 @@ export function FlexUpgradeSheet({
                     handleDateSelect(date);
                     if (date) {
                       const dateStr = date.toDateString();
-                      const filtered = availableDates.filter(
+                      const filtered = availableDates?.filter(
                         (d) =>
                           new Date(d.departure_date).toDateString() === dateStr
                       );
@@ -110,14 +110,13 @@ export function FlexUpgradeSheet({
                   Available travel options
                 </h3>
                 <ScrollArea className="h-[400px] w-full">
-                  {filteredDates.map((date: AvailableDate, index: number) => (
+                  {filteredDates?.map((date: AvailableDate, index: number) => (
                     <Card
                       key={index}
-                      className={`mb-2 cursor-pointer transition-all ${
-                        newDepartureDate?._id === date?._id
-                          ? "border-primary"
-                          : ""
-                      }`}
+                      className={`mb-2 cursor-pointer transition-all ${newDepartureDate?._id === date?._id
+                        ? "border-primary"
+                        : ""
+                        }`}
                       onClick={() => {
                         setNewDepartureDate(date);
                         handleSelectDepartureDate(date);
@@ -128,14 +127,14 @@ export function FlexUpgradeSheet({
                           <div className="flex items-center space-x-2">
                             <CalendarIcon className="h-5 w-5 text-muted-foreground" />
                             <span className="font-medium">
-                              {format(new Date(date.departure_date), "PPP")}
+                              {format(new Date(date?.departure_date), "PPP")}
                             </span>
                           </div>
                           <Badge
                             variant="secondary"
                             className="bg-primary/10 text-primary"
                           >
-                            {date.operator_info?.name || "Unknown Operator"}
+                            {date?.operator_info?.name || "Unknown Operator"}
                           </Badge>
                         </div>
                         <div className="mt-2 flex items-center justify-between">
@@ -143,12 +142,12 @@ export function FlexUpgradeSheet({
                             <EuroIcon className="h-4 w-4 text-green-600" />
                             <span className="text-sm font-medium">
                               {calculatePrice(booking, date)} for{" "}
-                              {booking.passengers.length} passengers
+                              {booking?.passengers?.length} passengers
                             </span>
                           </div>
                           <span className="text-sm text-muted-foreground">
                             Departs at{" "}
-                            {format(new Date(date.departure_date), "HH:mm")}
+                            {format(new Date(date?.departure_date), "HH:mm")}
                           </span>
                         </div>
                       </CardContent>
