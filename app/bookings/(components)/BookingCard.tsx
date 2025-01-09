@@ -106,6 +106,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({
   const handleSelectDepartureDate = (date: AvailableDate) => {
     setNewDepartureDate(date);
     const price = calculatePrice(booking, date);
+    if (!price) return;
     setIsExtraPaymentNeeded(price > 0);
     setPriceToBePaid(price);
   };
