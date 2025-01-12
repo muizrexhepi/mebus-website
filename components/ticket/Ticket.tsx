@@ -141,7 +141,7 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
               onClick={handleTicketSelection}
             >
               {isLoading ? (
-                <Loader2 className="size-5 animate-spin text-gray-600 mx-auto" />
+                <Loader2 className="size-5 animate-spin text-white mx-auto" />
               ) : isReturn && outboundTicket ? (
                 t("ticket.selectReturn")
               ) : tripType !== "round-trip" ? (

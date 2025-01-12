@@ -1,6 +1,6 @@
 "use client";
 import React, { Suspense, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Ticket } from "@/models/ticket";
 import { useToast } from "@/components/hooks/use-toast";
@@ -21,6 +21,7 @@ import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import TicketBlock from "@/components/ticket/Ticket";
 import SearchFilters from "./search-filters";
+import { addDays, format } from "date-fns";
 
 const TicketList: React.FC = () => {
   const router = useRouter();
@@ -32,8 +33,27 @@ const TicketList: React.FC = () => {
     isSelectingReturn,
     setIsSelectingReturn,
   } = useCheckoutStore();
-  const { tripType, departureDate, returnDate, passengers, from, to } =
-    useSearchStore();
+  const {
+    tripType,
+    setFrom,
+    setFromCity,
+    setTo,
+    setToCity,
+    setPassengers,
+    setDepartureDate,
+    setReturnDate,
+  } = useSearchStore();
+  const searchParams = useSearchParams();
+  const params = useParams();
+  const destination = params.destination;
+  const departureStation = searchParams.get("departureStation");
+  const arrivalStation = searchParams.get("arrivalStation");
+  const departureDate = searchParams.get("departureDate");
+  const returnDate = searchParams.get("returnDate");
+  const adult = searchParams.get("adult");
+  const children = searchParams.get("children");
+  const [filteredTickets, setFilteredTickets] = useState<Ticket[]>([]);
+
   const { setIsLoading } = useLoadingStore();
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [noData, setNoData] = useState(false);
@@ -43,7 +63,7 @@ const TicketList: React.FC = () => {
   const { t } = useTranslation();
 
   const fetchTickets = async (pageNumber: number) => {
-    if (!from || !to) {
+    if (!arrivalStation || !departureStation) {
       toast({
         title: "Error",
         description: "Missing required parameters",
@@ -56,12 +76,12 @@ const TicketList: React.FC = () => {
       setLoading(true);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/ticket/search?departureStation=${
-          isSelectingReturn ? to : from
-        }&arrivalStation=${isSelectingReturn ? from : to}&departureDate=${
+          isSelectingReturn ? arrivalStation : departureStation
+        }&arrivalStation=${
+          isSelectingReturn ? departureStation : arrivalStation
+        }&departureDate=${
           isSelectingReturn ? returnDate : departureDate
-        }&adults=${passengers.adults}&children=${
-          passengers.children
-        }&page=${pageNumber}`
+        }&adults=${adult}&children=${children}&page=${pageNumber}`
       );
 
       if (!response.ok) {
@@ -70,6 +90,7 @@ const TicketList: React.FC = () => {
 
       const data = await response.json();
       const newTickets: Ticket[] = data.data || [];
+      console.log({ newTickets });
 
       if (newTickets.length === 0) {
         setNoData(true);
@@ -92,23 +113,43 @@ const TicketList: React.FC = () => {
       setIsLoading(false);
     }
   };
+  const destinationString = Array.isArray(destination)
+    ? destination[0]
+    : destination;
+  const [fromCity, toCity] = destinationString.split("-");
 
   useEffect(() => {
-    if (to && from) {
+    if (departureStation && arrivalStation && adult && children) {
+      setFrom(departureStation);
+      setFromCity(fromCity);
+      setToCity(toCity);
+      setDepartureDate(departureDate || format(new Date(), "dd-MM-yyyy"));
+      setReturnDate(returnDate || format(addDays(new Date(), 7), "dd-MM-yyyy"));
+      setPassengers({
+        adults: +adult,
+        children: +children,
+      });
+      setTo(arrivalStation);
       setTickets([]);
       setPage(1);
       setHasMore(true);
       fetchTickets(1);
+      setFilteredTickets([]);
     }
   }, [
-    from,
-    to,
+    departureStation,
+    arrivalStation,
     departureDate,
     returnDate,
-    passengers.adults,
-    passengers.children,
+    adult,
+    children,
     isSelectingReturn,
+    fromCity,
+    toCity,
   ]);
+  useEffect(() => {
+    setFilteredTickets(tickets);
+  }, [tickets]);
 
   const handleLoadMore = () => {
     if (!noData && !loading && hasMore) {
@@ -136,16 +177,17 @@ const TicketList: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-8">
-      {noData && tickets.length === 0 ? (
+      {noData && filteredTickets.length === 0 ? (
         <NoTicketsAvailable />
       ) : (
         <div className="w-full mx-auto space-y-4">
           <div className="w-full flex items-center justify-between">
             <SearchFilters
-              totalTrips={tickets.length}
-              onFiltersChange={() => {}}
+              tickets={tickets}
+              totalTrips={filteredTickets.length}
+              onFiltersChange={setFilteredTickets}
             />
-            <p className="font-normal">{tickets.length || 0} Results</p>
+            <p className="font-normal">{filteredTickets.length || 0} Results</p>
           </div>
           <h1
             className={cn("mb-2 font-medium text-lg", {
@@ -163,7 +205,7 @@ const TicketList: React.FC = () => {
             hasMore={hasMore}
             loader={loading ? <TicketSkeletonton /> : null}
           >
-            {tickets?.map((ticket, index) => (
+            {filteredTickets.map((ticket, index) => (
               <Sheet key={index}>
                 <SheetTrigger className="w-full">
                   <div

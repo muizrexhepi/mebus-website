@@ -48,7 +48,7 @@ const NavbarMenu = () => {
       className="flex items-center space-x-2 px-3 py-3 rounded-full border border-border bg-white hover:bg-white hover:shadow outline-none transition"
     >
       <Menu className="text-gray-600" size={18} />
-      <UserCircle className="text-gray-600" size={20} />
+      <UserCircle className="text-gray-600" size={22} />
     </Button>
   );
 

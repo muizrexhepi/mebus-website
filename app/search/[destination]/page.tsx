@@ -20,26 +20,35 @@ export async function generateMetadata({
     .split("-")
     .map((city) => city.charAt(0).toUpperCase() + city.slice(1));
 
-  const title = `Buses from ${departureCity} to ${arrivalCity} | GoBusly`;
+  const title = `Bus from ${departureCity} to ${arrivalCity} | GoBusly`;
   const description = `Search and book your bus tickets from ${departureCity} to ${arrivalCity} with GoBusly. Travel comfortably across Europe.`;
 
-  const filteredSearchParams: Record<string, string> = Object.fromEntries(
-    Object.entries(searchParams).filter(([, value]) => value !== undefined) as [
-      string,
-      string
-    ][]
+  const formattedSearchParams: Record<string, string> = Object.fromEntries(
+    Object.entries(searchParams).map(([key, value]) => {
+      if (key === "departureDate" && value) {
+        const [day, month, year] = value.split("-");
+        const newDate = `${day}-${month}-${year}`;
+        return [key, newDate];
+      }
+      return [key, value];
+    }) as [string, string][]
   );
+
+  const canonicalUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/search/${destination}?${new URLSearchParams(
+    formattedSearchParams
+  ).toString()}`;
+
+  console.log({canonicalUrl})
 
   return {
     title,
     description,
     alternates: {
-      canonical: `/search/${destination}?${new URLSearchParams(
-        filteredSearchParams
-      ).toString()}`,
+      canonical: canonicalUrl,
     },
   };
 }
+
 
 const TicketsLoading = () => (
   <div className="w-full h-64 flex items-center justify-center">

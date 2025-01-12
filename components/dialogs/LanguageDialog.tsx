@@ -1,26 +1,28 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useState, useEffect } from "react";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Check, ChevronDown } from "lucide-react";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 export const languages = [
-  { code: "en", label: "English", flag: "🇺🇸" },
-  { code: "fr", label: "Français", flag: "🇫🇷" },
-  { code: "de", label: "Deutsch", flag: "🇩🇪" },
-  { code: "es", label: "Español", flag: "🇪🇸" },
-  { code: "it", label: "Italiano", flag: "🇮🇹" },
-  { code: "mk", label: "Македонски", flag: "🇲🇰" },
-  { code: "al", label: "Shqip", flag: "🇦🇱" },
+  { code: "en", label: "English" },
+  { code: "fr", label: "Français" },
+  { code: "de", label: "Deutsch" },
+  { code: "es", label: "Español" },
+  { code: "it", label: "Italiano" },
+  { code: "mk", label: "Македонски" },
+  { code: "al", label: "Shqip" },
 ];
 
-const LanguageSelector = () => {
+export default function LanguageSelector() {
   const { i18n } = useTranslation();
   const [selectedLanguage, setSelectedLanguage] = useState(
     localStorage.getItem("language") || "en"
@@ -31,27 +33,49 @@ const LanguageSelector = () => {
     i18n.changeLanguage(selectedLanguage);
   }, [selectedLanguage, i18n]);
 
-  return (
-    <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
-      <SelectTrigger className="flex items-center gap-2 bg-transparent text-black border-none py-0 text-base px-2 outline-none">
-        <SelectValue placeholder="Select language" />
-      </SelectTrigger>
-      <SelectContent>
-        {languages.map((lang) => (
-          <SelectItem
-            key={lang.code}
-            value={lang.code}
-            className="cursor-pointer"
-          >
-            <div className="flex items-center gap-2">
-              <span className="sm:hidden">{lang.flag}</span>
-              <span className="text-sm uppercase">{lang.code}</span>
-            </div>
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  );
-};
+  const selectedLang = languages.find((lang) => lang.code === selectedLanguage);
 
-export default LanguageSelector;
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger className="focus:outline-none">
+        <div className="flex items-center gap-2 ">
+          <Image
+            src={`/assets/flags/${selectedLang?.code}.svg`}
+            alt={selectedLang?.label || ""}
+            width={24}
+            height={24}
+            className="rounded-sm"
+          />
+          <ChevronDown size={20} color="grey" />
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-52 rounded-lg mt-2 px-0">
+        {languages.map((lang) => (
+          <DropdownMenuItem
+            key={lang.code}
+            className="flex items-center justify-between cursor-pointer"
+            onClick={() => setSelectedLanguage(lang.code)}
+          >
+            <div className="flex items-center justify-between w-full px-2">
+              <div className="flex items-center gap-2">
+                <Check
+                  className={cn("size-4", {
+                    invisible: selectedLanguage !== lang.code,
+                  })}
+                />
+                <span>{lang.label}</span>
+              </div>
+              <Image
+                src={`/assets/flags/${lang.code}.svg`}
+                alt={lang.label}
+                width={24}
+                height={24}
+                className="rounded-sm"
+              />
+            </div>
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
