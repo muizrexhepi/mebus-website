@@ -144,13 +144,13 @@ export default function SearchFilters({
           {t("filters.title", "Filters")}
         </Button>
       </SheetTrigger>
-      <SheetContent className="p-0 w-full sm:rounded-l-xl">
+      <SheetContent className="p-0 w-full sm:rounded-l-xl overflow-y-auto">
         <SheetHeader className="p-4 border-b">
           <SheetTitle className="text-xl font-semibold">
             {t("filters.title", "Filters")}
           </SheetTitle>
         </SheetHeader>
-        <div className="overflow-y-auto h-[calc(100vh-8rem)]">
+        <div className=" h-full">
           <div className="space-y-6 p-4">
             <div className="space-y-4">
               <h3 className="text-lg font-semibold">
@@ -284,7 +284,7 @@ export default function SearchFilters({
             </div>
           </div>
         </div>
-        <div className="border-t p-4 sticky bottom-0 bg-transparent">
+        <div className="border-t p-4 sticky bottom-0 bg-white">
           <SheetTrigger asChild>
             <Button
               className="w-full bg-primary-bg hover:bg-primary-bg h-12"

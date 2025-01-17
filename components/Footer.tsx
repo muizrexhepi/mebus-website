@@ -107,7 +107,7 @@ const Footer = () => {
                       <li key={link.name}>
                         <Link
                           href={link.link}
-                          className="text-base text-gray-500 hover:text-gray-900 transition-colors"
+                          className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
                         >
                           {t(
                             `footer.links.${link.name
@@ -131,7 +131,7 @@ const Footer = () => {
                     <li key={link.name}>
                       <Link
                         href={link.link}
-                        className="text-base text-gray-500 hover:text-gray-900 transition-colors"
+                        className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
                       >
                         {t(
                           `footer.links.${link.name
@@ -143,7 +143,7 @@ const Footer = () => {
                   ))}
                 </ul>
               </div>
-              <div className="mt-12 md:mt-0">
+              <div className="mt-8 md:mt-0">
                 <h3 className="text-sm font-semibold text-gray-900 tracking-wider uppercase">
                   {t("footer.contact")}
                 </h3>
@@ -151,16 +151,16 @@ const Footer = () => {
                   <li>
                     <a
                       href={`mailto:${CONTACT_INFO.email}`}
-                      className="flex items-center text-base text-gray-500 hover:text-gray-900 transition-colors"
+                      className="flex items-center text-sm text-gray-500 hover:text-gray-900 transition-colors"
                     >
-                      <Mail className="h-5 w-5 mr-2" />
+                      <Mail className="h-5 w-5 mr-2 shrink-0" />
                       <span>{CONTACT_INFO.email}</span>
                     </a>
                   </li>
                   <li>
                     <a
                       href={`tel:${CONTACT_INFO.phone1}`}
-                      className="flex items-center text-base text-gray-500 hover:text-gray-900 transition-colors"
+                      className="flex items-center text-sm text-gray-500 hover:text-gray-900 transition-colors"
                     >
                       <Phone className="h-5 w-5 mr-2" />
                       <span>{CONTACT_INFO.phone1}</span>
@@ -169,7 +169,7 @@ const Footer = () => {
                   <li>
                     <a
                       href={`tel:${CONTACT_INFO.phone2}`}
-                      className="flex items-center text-base text-gray-500 hover:text-gray-900 transition-colors"
+                      className="flex items-center text-sm text-gray-500 hover:text-gray-900 transition-colors"
                     >
                       <Phone className="h-5 w-5 mr-2" />
                       <span>{CONTACT_INFO.phone2}</span>
@@ -181,8 +181,8 @@ const Footer = () => {
           </div>
         </div>
         <div className="mt-12 border-t border-gray-200 pt-8">
-          <div className="flex flex-col-reverse justify-between items-center space-y-4 sm:flex-row sm:space-y-0">
-            <p className="text-base text-gray-600">{t("footer.copyright")}</p>
+          <div className="flex flex-col justify-between items-center gap-4 sm:flex-row sm:gap-0">
+            <p className="text-sm text-gray-600">{t("footer.copyright")}</p>
             <div className="flex space-x-3">
               {SOCIAL_LINKS.map((social) => {
                 const Icon = social.icon;
