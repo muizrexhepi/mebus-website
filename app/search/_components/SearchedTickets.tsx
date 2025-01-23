@@ -1,6 +1,12 @@
 "use client";
-import React, { Suspense, useEffect, useState } from "react";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import React, {
+  Suspense,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+} from "react";
+import { useRouter, useParams, useSearchParams } from "next/navigation";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Ticket } from "@/models/ticket";
 import { useToast } from "@/components/hooks/use-toast";
@@ -43,82 +49,115 @@ const TicketList: React.FC = () => {
     setDepartureDate,
     setReturnDate,
   } = useSearchStore();
+
   const searchParams = useSearchParams();
   const params = useParams();
-  const destination = params.destination;
-  const departureStation = searchParams.get("departureStation");
-  const arrivalStation = searchParams.get("arrivalStation");
-  const departureDate = searchParams.get("departureDate");
-  const returnDate = searchParams.get("returnDate");
-  const adult = searchParams.get("adult");
-  const children = searchParams.get("children");
-  const [filteredTickets, setFilteredTickets] = useState<Ticket[]>([]);
 
   const { setIsLoading } = useLoadingStore();
+  const { t } = useTranslation();
+
   const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [filteredTickets, setFilteredTickets] = useState<Ticket[]>([]);
   const [noData, setNoData] = useState(false);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const { t } = useTranslation();
 
-  const fetchTickets = async (pageNumber: number) => {
-    if (!arrivalStation || !departureStation) {
-      toast({
-        title: "Error",
-        description: "Missing required parameters",
-        variant: "destructive",
-      });
-      return;
-    }
-    try {
-      setIsLoading(true);
-      setLoading(true);
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/ticket/search?departureStation=${
-          isSelectingReturn ? arrivalStation : departureStation
-        }&arrivalStation=${
-          isSelectingReturn ? departureStation : arrivalStation
-        }&departureDate=${
-          isSelectingReturn ? returnDate : departureDate
-        }&adults=${adult}&children=${children}&page=${pageNumber}`
-      );
+  // Memoized search parameters
+  const searchParameters = useMemo(
+    () => ({
+      destination: Array.isArray(params.destination)
+        ? params.destination[0]
+        : params.destination,
+      departureStation: searchParams.get("departureStation"),
+      arrivalStation: searchParams.get("arrivalStation"),
+      departureDate: searchParams.get("departureDate"),
+      returnDate: searchParams.get("returnDate"),
+      adult: searchParams.get("adult"),
+      children: searchParams.get("children"),
+    }),
+    [params.destination, searchParams]
+  );
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch tickets");
+  const [fromCity, toCity] = useMemo(
+    () => searchParameters.destination.split("-"),
+    [searchParameters.destination]
+  );
+
+  const fetchTickets = useCallback(
+    async (pageNumber: number) => {
+      const {
+        departureStation,
+        arrivalStation,
+        departureDate,
+        returnDate,
+        adult,
+        children,
+      } = searchParameters;
+
+      if (!arrivalStation || !departureStation) {
+        toast({
+          title: "Error",
+          description: "Missing required parameters",
+          variant: "destructive",
+        });
+        return;
       }
 
-      const data = await response.json();
-      const newTickets: Ticket[] = data.data || [];
-      console.log({ newTickets });
+      try {
+        setIsLoading(true);
+        setLoading(true);
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/ticket/search?departureStation=${
+            isSelectingReturn ? arrivalStation : departureStation
+          }&arrivalStation=${
+            isSelectingReturn ? departureStation : arrivalStation
+          }&departureDate=${
+            isSelectingReturn ? returnDate : departureDate
+          }&adults=${adult}&children=${children}&page=${pageNumber}`
+        );
 
-      if (newTickets.length === 0) {
-        setNoData(true);
+        if (!response.ok) {
+          throw new Error("Failed to fetch tickets");
+        }
+
+        const data = await response.json();
+        const newTickets: Ticket[] = data.data || [];
+
+        if (newTickets.length === 0) {
+          setNoData(true);
+          setHasMore(false);
+        } else {
+          setTickets((prevTickets) => [...prevTickets, ...newTickets]);
+          setNoData(false);
+          setPage(pageNumber + 1);
+          setHasMore(newTickets.length === 6);
+        }
+      } catch (err) {
+        toast({
+          title: "Error",
+          description: "Failed to fetch tickets",
+          variant: "destructive",
+        });
         setHasMore(false);
-      } else {
-        setTickets((prevTickets) => [...prevTickets, ...newTickets]);
-        setNoData(false);
-        setPage(pageNumber + 1);
-        setHasMore(newTickets.length === 6);
+      } finally {
+        setLoading(false);
+        setIsLoading(false);
       }
-    } catch (err) {
-      toast({
-        title: "Error",
-        description: "Failed to fetch tickets",
-        variant: "destructive",
-      });
-      setHasMore(false);
-    } finally {
-      setLoading(false);
-      setIsLoading(false);
-    }
-  };
-  const destinationString = Array.isArray(destination)
-    ? destination[0]
-    : destination;
-  const [fromCity, toCity] = destinationString.split("-");
+    },
+    [searchParameters, isSelectingReturn, toast, setIsLoading]
+  );
 
   useEffect(() => {
+    const {
+      departureStation,
+      arrivalStation,
+      departureDate,
+      returnDate,
+      adult,
+      children,
+    } = searchParameters;
+
     if (departureStation && arrivalStation && adult && children) {
       setFrom(departureStation);
       setFromCity(fromCity);
@@ -137,43 +176,58 @@ const TicketList: React.FC = () => {
       setFilteredTickets([]);
     }
   }, [
-    departureStation,
-    arrivalStation,
-    departureDate,
-    returnDate,
-    adult,
-    children,
-    isSelectingReturn,
+    searchParameters,
     fromCity,
     toCity,
+    fetchTickets,
+    setFrom,
+    setFromCity,
+    setToCity,
+    setDepartureDate,
+    setReturnDate,
+    setPassengers,
+    setTo,
   ]);
+
   useEffect(() => {
     setFilteredTickets(tickets);
   }, [tickets]);
 
-  const handleLoadMore = () => {
+  const handleLoadMore = useCallback(() => {
     if (!noData && !loading && hasMore) {
       fetchTickets(page);
     }
-  };
+  }, [noData, loading, hasMore, fetchTickets, page]);
 
-  const handleTicketSelection = (ticket: Ticket) => {
-    setIsLoading(true);
-    if (isSelectingReturn) {
-      setReturnTicket(ticket);
-      router.push("/checkout");
-    } else {
-      setOutboundTicket(ticket);
+  const handleTicketSelection = useCallback(
+    (ticket: Ticket) => {
       setIsLoading(true);
-      if (tripType === "round-trip" && returnDate) {
-        setIsLoading(false);
-        setIsSelectingReturn(true);
-      } else {
-        setIsLoading(false);
+      if (isSelectingReturn) {
+        setReturnTicket(ticket);
         router.push("/checkout");
+      } else {
+        setOutboundTicket(ticket);
+        setIsLoading(true);
+        if (tripType === "round-trip" && searchParameters.returnDate) {
+          setIsLoading(false);
+          setIsSelectingReturn(true);
+        } else {
+          setIsLoading(false);
+          router.push("/checkout");
+        }
       }
-    }
-  };
+    },
+    [
+      isSelectingReturn,
+      setReturnTicket,
+      router,
+      setOutboundTicket,
+      tripType,
+      searchParameters.returnDate,
+      setIsLoading,
+      setIsSelectingReturn,
+    ]
+  );
 
   return (
     <div className="flex flex-col gap-8">
