@@ -144,9 +144,9 @@ export default function SearchFilters({
           {t("filters.title", "Filters")}
         </Button>
       </SheetTrigger>
-      <SheetContent className="p-0 w-full sm:rounded-l-xl overflow-y-auto">
+      <SheetContent className="p-0 rounded-tl-xl rounded-bl-xl overflow-y-auto">
         <SheetHeader className="p-4 border-b">
-          <SheetTitle className="text-xl font-semibold">
+          <SheetTitle className="text-lg font-medium">
             {t("filters.title", "Filters")}
           </SheetTitle>
         </SheetHeader>
@@ -287,7 +287,7 @@ export default function SearchFilters({
         <div className="border-t p-4 sticky bottom-0 bg-white">
           <SheetTrigger asChild>
             <Button
-              className="w-full bg-primary-bg hover:bg-primary-bg h-12"
+              className="w-full button-gradient rounded-lg hover:bg-primary-bg h-12"
               onClick={handleApplyFilters}
             >
               {t("filters.showTrips", "Show trips")} ({totalTrips})

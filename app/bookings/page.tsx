@@ -61,9 +61,22 @@ const BookingsDashboard: React.FC = () => {
   }, [user]);
 
   const renderNoBookingsMessage = () => {
-    return <NoBookingsMessage isLoading={loading} />;
+    return noUserBookings.length > 0 ? (
+      noUserBookings.map((booking) => (
+        <BookingCard
+          onBookingUpdated={() => {}}
+          key={booking._id}
+          booking={booking}
+          handleNoFlexAction={handleNoFlexAction}
+          handleCancelBookingAndRefund={handleCancelBookingAndRefund}
+        />
+      ))
+    ) : (
+      <NoBookingsMessage isLoading={loading} />
+    );
   };
 
+  console.log({ noUserBookings });
   const handleCancelBookingAndRefund = async (
     booking_id: string,
     payment_intent_id: string,

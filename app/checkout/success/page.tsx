@@ -27,21 +27,21 @@ const SuccessPage: React.FC = () => {
   const downloadPdf = async () => {
     try {
       const response = await axios({
-        method: 'post',
+        method: "post",
         url: `${process.env.NEXT_PUBLIC_API_URL}/booking/download/pdf/e-ticket/${bookingDetails.bookingId}`,
-        responseType: 'blob',
+        responseType: "blob",
         headers: {
-          'Accept': 'application/pdf',
+          Accept: "application/pdf",
         },
       });
 
-      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const blob = new Blob([response.data], { type: "application/pdf" });
 
       const url = window.URL.createObjectURL(blob);
 
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = url;
-      link.setAttribute('download', 'ticket.pdf');
+      link.setAttribute("download", "ticket.pdf");
 
       document.body.appendChild(link);
       link.click();
@@ -54,8 +54,8 @@ const SuccessPage: React.FC = () => {
   };
 
   useEffect(() => {
-    downloadPdf()
-  }, [])
+    downloadPdf();
+  }, []);
 
   // const downloadPDF = () => {
 

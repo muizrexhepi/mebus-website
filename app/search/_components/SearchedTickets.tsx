@@ -63,7 +63,6 @@ const TicketList: React.FC = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  // Memoized search parameters
   const searchParameters = useMemo(
     () => ({
       destination: Array.isArray(params.destination)

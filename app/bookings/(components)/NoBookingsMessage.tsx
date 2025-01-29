@@ -35,12 +35,12 @@ export function NoBookingsMessage({ isLoading }: NoBookingsMessageProps) {
             Book a New Ticket
           </Link>
         </Button>
-        <Button asChild variant="outline" className="w-full">
+        {/* <Button asChild variant="outline" className="w-full">
           <Link href="/bookings/retrieve-booking">
             <Search className="mr-2 h-4 w-4" />
             Retrieve Booking
           </Link>
-        </Button>
+        </Button> */}
       </CardFooter>
     </Card>
   );

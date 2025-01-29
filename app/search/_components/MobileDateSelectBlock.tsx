@@ -68,7 +68,7 @@ export function MobileDateSelectBlock() {
   } = useSearchStore();
   const { outboundTicket } = useCheckoutStore();
   const { i18n } = useTranslation();
-  const { isLoading } = useLoadingStore();
+  const { setIsLoading, isLoading } = useLoadingStore();
   const parsedDepartureDate = departureDate
     ? parse(departureDate, "dd-MM-yyyy", new Date())
     : new Date();
@@ -98,11 +98,13 @@ export function MobileDateSelectBlock() {
         parsedDate.getTime() !== selectedDate.getTime()
       ) {
         setSelectedDate(parsedDate);
+        setIsLoading(false);
       }
     }
   }, [departureDate]);
 
   const handleDateSelect = (date: Date) => {
+    setIsLoading(true);
     setSelectedDate(date);
     const formattedDate = format(date, "dd-MM-yyyy");
     const currentParams = new URLSearchParams(searchParams.toString());

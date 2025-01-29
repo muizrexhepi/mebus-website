@@ -34,11 +34,13 @@ export async function generateMetadata({
     }) as [string, string][]
   );
 
-  const canonicalUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/search/${destination}?${new URLSearchParams(
+  const canonicalUrl = `${
+    process.env.NEXT_PUBLIC_BASE_URL
+  }/search/${destination}?${new URLSearchParams(
     formattedSearchParams
   ).toString()}`;
 
-  console.log({canonicalUrl})
+  console.log({ canonicalUrl });
 
   return {
     title,
@@ -48,7 +50,6 @@ export async function generateMetadata({
     },
   };
 }
-
 
 const TicketsLoading = () => (
   <div className="w-full h-64 flex items-center justify-center">

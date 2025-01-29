@@ -5,11 +5,20 @@ import { Input } from "@/components/ui/input";
 import { PassengerData } from "@/components/hooks/use-passengers";
 import useSearchStore, { useCheckoutStore } from "@/store";
 import PassengerSelector from "./PassengerSelector";
-import { X } from "lucide-react";
+import { CalendarIcon, CalendarX2Icon, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { passengerSchema } from "@/schemas";
 import { z } from "zod";
 import { useAuth } from "@/components/providers/auth-provider";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { format } from "date-fns";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 interface InputFieldProps {
   label: string;
@@ -35,22 +44,138 @@ const InputField: React.FC<InputFieldProps> = ({
   required,
   error,
   onBlur,
-}) => (
-  <div className="space-y-1">
-    <p className="font-normal text-sm text-black/70">{label}</p>
-    <Input
-      type={type}
-      className={`font-normal text-black rounded-lg h-12 bg-primary-bg/5 p-2"
-          ${error ? "border-red-500 bg-red-500/10" : "border-none"}`}
-      placeholder={placeholder}
-      value={value}
-      onBlur={onBlur}
-      onChange={(e) => onChange(e.target.value)}
-      required={required}
-    />
-    {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-  </div>
-);
+}) => {
+  const handleDateChange = (date: Date | null) => {
+    if (date) {
+      const formattedDate = date.toISOString().split("T")[0];
+      onChange(formattedDate);
+    } else {
+      onChange("");
+    }
+  };
+  return (
+    <div className="space-y-1">
+      <p className="font-normal text-sm text-black/70">{label}</p>
+      {type === "date" ? (
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              className={`w-full justify-start text-left font-normal h-12 ${
+                error
+                  ? "border-red-500 bg-red-500/10"
+                  : "bg-primary-bg/5 border-none"
+              }`}
+            >
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {value ? (
+                format(new Date(value), "PPP")
+              ) : (
+                <span className="text-muted-foreground">{placeholder}</span>
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <style>
+              {`
+                .react-datepicker {
+                  font-family: inherit;
+                  border: none;
+                  border-radius: 0.5rem;
+                  overflow: hidden;
+                }
+                .react-datepicker__header {
+                  background-color: white;
+                  border-bottom: 1px solid #e2e8f0;
+                  padding-top: 1rem;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  gap: 0.5rem;
+                }
+                .react-datepicker__current-month {
+                  font-weight: 600;
+                  font-size: 1rem;
+                  margin-bottom: 0.5rem;  margin-bottom: 0.5rem; 
+
+                }
+                .react-datepicker__day-name {
+                  color: #64748b;
+                  font-weight: 500;
+                  width: 2.5rem;
+                  margin: 0.2rem;
+                }
+                .react-datepicker__day {
+                  width: 2.5rem;
+                  height: 2.5rem;
+                  line-height: 2.5rem;
+                  margin: 0.2rem;
+                  border-radius: 0.375rem;
+                  color: #1e293b;
+                }
+                .react-datepicker__day:hover {
+                  background-color: #f1f5f9;
+                }
+                .react-datepicker__day--selected {
+                  background-color: hsl(var(--primary)) !important;
+                  color: white !important;
+                }
+                .react-datepicker__day--keyboard-selected {
+                  background-color: hsl(var(--primary)) !important;
+                  color: white !important;
+                }
+                .react-datepicker__navigation {
+                  top: 1rem;
+                }
+                .react-datepicker__navigation-icon::before {
+                  border-color: #64748b;
+                }
+                .react-datepicker__year-dropdown-container,
+                .react-datepicker__month-dropdown-container {
+                  margin: 0 0.5rem;
+                }
+                .react-datepicker__month-select,
+                .react-datepicker__year-select {
+                  padding: 0.25rem;
+                  border-radius: 0.375rem;
+                  border: 1px solid #e2e8f0;
+                  background-color: white;
+                }
+              `}
+            </style>
+            <DatePicker
+              selected={value ? new Date(value) : null}
+              onChange={handleDateChange}
+              dateFormat="yyyy-MM-dd"
+              inline
+              showYearDropdown
+              scrollableYearDropdown
+              yearDropdownItemNumber={100}
+              showMonthDropdown
+              dropdownMode="select"
+              calendarClassName="shadow-lg"
+              minDate={new Date(1930, 0, 1)}
+              maxDate={new Date()}
+            />
+          </PopoverContent>
+        </Popover>
+      ) : (
+        <Input
+          type={type}
+          className={`font-normal text-black rounded-lg h-12 bg-primary-bg/5 p-2 ${
+            error ? "border-red-500 bg-red-500/10" : "border-none"
+          }`}
+          placeholder={placeholder}
+          value={value as string}
+          onBlur={onBlur}
+          onChange={(e) => onChange(e.target.value)}
+          required={required}
+        />
+      )}
+      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+    </div>
+  );
+};
 
 const PassengerInfo: React.FC = () => {
   const { t } = useTranslation();

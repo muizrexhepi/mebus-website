@@ -2,13 +2,11 @@
 
 import React from "react";
 import moment from "moment-timezone";
-import { Symbols } from "@/symbols";
 import { Ticket as TicketType } from "@/models/ticket";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import useSearchStore, { useCheckoutStore, useLoadingStore } from "@/store";
 import { useRouter } from "next/navigation";
-import { CalendarDays, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useCurrency } from "../providers/currency-provider";
 import { FaCalendarAlt } from "react-icons/fa";

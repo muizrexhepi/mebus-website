@@ -55,12 +55,12 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
 
   return (
     <div className="space-y-4">
-      <div className="space-y-4 items-center justify-between px-4 pt-4">
+      <div className="space-y-4 text-sm items-center justify-between px-4 pt-4">
         <div
           className="flex items-center space-x-4 cursor-pointer"
           onClick={() => handleLocation(ticket?.stops[0]?.from?.location)}
         >
-          <IoMdLocate className="size-5 text-primary-accent" />
+          <IoMdLocate className="size-5 text-primary-bg" />
           <div>
             <p className="font-medium capitalize">
               {ticket.stops[0].from.city}
@@ -74,7 +74,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
           className="flex items-center space-x-4 cursor-pointer"
           onClick={() => handleLocation(ticket?.stops[0]?.to?.location)}
         >
-          <HiMapPin className="size-5 text-primary-accent" />
+          <HiMapPin className="size-5 text-primary-bg" />
           <div>
             <p className="font-medium capitalize">
               {ticket.stops[ticket.stops.length - 1].to.city}
@@ -87,15 +87,15 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
       </div>
       <Separator />
 
-      <div className="flex sm:items-center sm:flex-row flex-col items-start justify-between px-4 py gap-2">
+      <div className="flex sm:items-center text-sm sm:flex-row flex-col items-start justify-between px-4 py gap-2">
         <div className="flex items-center space-x-4">
-          <FaCalendarAlt className="size-5 text-primary-accent" />
+          <FaCalendarAlt className="size-5 text-primary-bg" />
           <span className="font-medium">
             {formatDate(ticket.departure_date)}
           </span>
         </div>
         <div className="flex items-center space-x-4">
-          <FaClock className="size-5 text-primary-accent" />
+          <FaClock className="size-5 text-primary-bg" />
           <span className="font-medium">
             {moment.utc(ticket.stops[0].departure_date).format("HH:mm")}
           </span>
@@ -103,19 +103,19 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
       </div>
       <Separator />
 
-      <div className="px-5">
+      <div className="px-4">
         {ticket?.stops?.map((stop: Stop, index: number) => (
           <Fragment key={stop._id}>
             <div className="flex items-start">
               <div className="flex flex-col items-center mr-4">
-                <div className="w-3 h-3 bg-primary-accent rounded-full" />
+                <div className="w-3 h-3 bg-primary-bg rounded-full" />
                 <div className="w-0.5 h-2 bg-gray-300 mt-1" />
                 <div className="w-0.5 h-2 bg-gray-300 my-1" />
-                <div className="w-3 h-3 bg-primary-accent rounded-full" />
+                <div className="w-3 h-3 bg-primary-bg rounded-full" />
               </div>
               <div className="flex-1 ml-1 -mt-1">
                 <div className="flex w-full justify-between items-center mb-1">
-                  <p className="text-black/70 font-medium text-sm capitalize line-clamp-1 truncate">
+                  <p className="text-black font-medium text-sm capitalize line-clamp-1 truncate">
                     {stop.from.name}
                   </p>
                   <span className="font-medium shrink-0">
@@ -123,7 +123,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
                   </span>
                 </div>
                 <div className="flex w-full justify-between items-end">
-                  <p className="text-black/70 font-medium text-sm capitalize line-clamp-1 truncate mt-3">
+                  <p className="text-black font-medium text-sm capitalize line-clamp-1 truncate mt-3">
                     {stop.to.name}
                   </p>
                   <span className="font-medium shrink-0">
