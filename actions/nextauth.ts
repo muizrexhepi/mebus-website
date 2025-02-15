@@ -53,6 +53,7 @@ const createUserInDB = async (userData: {
 };
 
 export const authOptions: NextAuthOptions = {
+  secret: process.env.SECRET,
   adapter: MongoDBAdapter(clientPromise),
   providers: [
     EmailProvider({
