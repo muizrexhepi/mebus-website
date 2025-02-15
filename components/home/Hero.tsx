@@ -84,7 +84,7 @@ const Hero = () => {
               ))}
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-gradient-to-r from-primary-bg/5 to-primary-accent/5 rounded-2xl p-6">
+            {/* <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-gradient-to-r from-primary-bg/5 to-primary-accent/5 rounded-2xl p-6">
               <div className="text-center sm:text-left">
                 <h2 className="text-xl font-semibold mb-2">
                   {t("hero.download", "Download Our Mobile App")}
@@ -108,7 +108,7 @@ const Hero = () => {
                   className="h-10 cursor-pointer hover:opacity-80 transition-opacity"
                 />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

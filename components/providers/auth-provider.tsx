@@ -1,12 +1,7 @@
 "use client";
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useCallback,
-} from "react";
-import { account } from "@/appwrite.config";
+
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { useSession, signOut } from "next-auth/react";
 import RegisterForm from "../forms/RegisterForm";
 import ResetPasswordForm from "../forms/ResetForm";
 import { LoginDialog } from "../dialogs/login-dialog";
@@ -14,7 +9,6 @@ import { LoginDialog } from "../dialogs/login-dialog";
 interface AuthContextProps {
   user: any;
   isAuthenticated: boolean;
-  login: (data: any) => void;
   logout: () => void;
   loading: boolean;
 }
@@ -30,52 +24,29 @@ export const useAuth = () => {
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<any>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { data: session, status } = useSession();
   const [loading, setLoading] = useState(true);
 
-  const fetchUser = useCallback(async () => {
-    try {
-      setLoading(true);
-      const fetchedUser = await account.get();
-      setUser(fetchedUser);
-      setIsAuthenticated(true);
-    } catch (error) {
-      setUser(null);
-      setIsAuthenticated(false);
-      console.error("Failed to fetch user:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  console.log({ session });
 
   useEffect(() => {
-    fetchUser();
+    if (status !== "loading") {
+      setLoading(false);
+    }
+  }, [status]);
 
-    const handleUserChange = () => {
-      fetchUser();
-    };
-
-    window.addEventListener("userChange", handleUserChange);
-
-    return () => {
-      window.removeEventListener("userChange", handleUserChange);
-    };
-  }, [fetchUser]);
-
-  const login = (data: any) => {
-    setUser(data);
-    setIsAuthenticated(true);
-  };
-
-  const logout = () => {
-    setUser(null);
-    setIsAuthenticated(false);
+  const logout = async () => {
+    await signOut();
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, login, logout, loading }}
+      value={{
+        user: session?.user || null,
+        isAuthenticated: !!session,
+        logout,
+        loading,
+      }}
     >
       <LoginDialog />
       <RegisterForm />

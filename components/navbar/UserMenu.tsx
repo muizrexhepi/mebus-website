@@ -25,9 +25,7 @@ import useIsMobile from "../hooks/use-mobile";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import { useAuth } from "../providers/auth-provider";
-import { Avatar, AvatarFallback } from "../ui/avatar";
-import { SOCIAL_LINKS } from "@/lib/data";
-import { Select, SelectTrigger } from "../ui/select";
+import { signOut } from "next-auth/react";
 
 const UserNavbarMenu = () => {
   const router = useRouter();
@@ -38,10 +36,8 @@ const UserNavbarMenu = () => {
 
   const handleLogout = async () => {
     try {
-      await account.deleteSessions();
-      window.dispatchEvent(new Event("userChange"));
-      router.push("/");
-      setIsOpen(false);
+      await signOut({ callbackUrl: "/" }); // Redirect to home after logout
+      window.dispatchEvent(new Event("userChange")); // Trigger auth state update
     } catch (error) {
       console.error("Logout failed:", error);
     }

@@ -49,13 +49,13 @@ const FeatureCard = ({ icon: Icon, title, description, color, bg }: any) => {
         </div>
         <h3 className="text-xl font-medium text-gray-900 mb-3">{t(title)}</h3>
         <p className="text-gray-600 leading-relaxed mb-6">{t(description)}</p>
-        <Button
+        {/* <Button
           variant="ghost"
           className={`${color} p-0 h-auto font-semibold hover:bg-transparent group-hover:underline`}
         >
           Learn more
           <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-        </Button>
+        </Button> */}
       </div>
     </Card>
   );

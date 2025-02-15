@@ -6,7 +6,6 @@ import { Toaster } from "@/components/ui/toaster";
 import CookieConsent from "@/components/CookieConsent";
 import TranslationProvider from "@/components/providers/TranslationProvider";
 import { Analytics } from "@vercel/analytics/react";
-import AuthProvider from "@/components/providers/auth-provider";
 import ClientProviders from "@/components/providers/client-providers";
 import Navbar from "@/components/navbar/Navbar";
 
@@ -73,18 +72,16 @@ export default function RootLayout({
     <html lang="en">
       <body className={roboto.className}>
         <Analytics />
-        <AuthProvider>
-          <ReactQueryProvider>
-            <Toaster />
-            <TranslationProvider>
-              <ClientProviders>
-                <Navbar className="paddingX max-w-6xl py-4 mx-auto" />
-                {children}
-                <CookieConsent />
-              </ClientProviders>
-            </TranslationProvider>
-          </ReactQueryProvider>
-        </AuthProvider>
+        <ReactQueryProvider>
+          <Toaster />
+          <TranslationProvider>
+            <ClientProviders>
+              <Navbar className="paddingX max-w-6xl py-4 mx-auto" />
+              {children}
+              <CookieConsent />
+            </ClientProviders>
+          </TranslationProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

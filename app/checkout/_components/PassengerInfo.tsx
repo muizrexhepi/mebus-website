@@ -195,9 +195,9 @@ const PassengerInfo: React.FC = () => {
   };
 
   const { user } = useAuth();
-
+  console.log({ user });
   useEffect(() => {
-    const useUserInfo = user && user.prefs.useAsPassengerInfo == true;
+    const useUserInfo = false;
 
     if (useUserInfo) {
       console.log({ user });

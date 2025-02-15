@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/mongodb-adapter": "^3.7.4",
     "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
@@ -51,7 +52,9 @@
     "leaflet": "^1.9.4",
     "lucide-react": "^0.428.0",
     "moment-timezone": "^0.5.45",
+    "mongodb": "^6.13.0",
     "next": "14.2.5",
+    "next-auth": "^4.24.11",
     "next-themes": "^0.3.0",
     "node-appwrite": "^13.0.0",
     "qrcode.react": "^4.2.0",

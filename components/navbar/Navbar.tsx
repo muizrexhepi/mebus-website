@@ -50,29 +50,7 @@ const Navbar = ({ className }: { className?: string }) => {
 
       <div className="flex items-center gap-4">
         <LanguageSelector />
-        {user ? (
-          <UserNavbarMenu />
-        ) : (
-          <>
-            <NavbarMenu />
-            {/* <div className="hidden md:flex gap-2 items-center">
-              <Button
-                onClick={handleRegister}
-                variant="default"
-                className="border bg-white border-[#ff5b37] hover:bg-[#ff5b37]/5 hover:border-[#ff4520] text-[#ff4520] rounded-full px-6"
-              >
-                {t("register.signUpButton")}
-              </Button>
-              <Button
-                onClick={handleLogin}
-                variant="default"
-                className="bg-[#ff5b37] hover:bg-[#ff4520] text-white rounded-full px-6"
-              >
-                {t("auth.login")}
-              </Button>
-            </div> */}
-          </>
-        )}
+        {user ? <UserNavbarMenu /> : <NavbarMenu />}
       </div>
     </header>
   );
