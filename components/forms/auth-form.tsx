@@ -140,7 +140,7 @@ export default function AuthForm() {
             />
             {t("login.facebookButton")}
           </Button>
-          <Button className="w-full h-12" onClick={() => {}} variant="outline">
+          {/* <Button className="w-full h-12" onClick={() => {}} variant="outline">
             <FaApple size={20} className="mr-2" />
             {t("login.appleButton", "Continue with Apple")}
           </Button>
@@ -151,7 +151,7 @@ export default function AuthForm() {
           >
             <Mail className="mr-2 h-4 w-4" />
             Continue with Email
-          </Button>
+          </Button> */}
         </div>
       )}
 
