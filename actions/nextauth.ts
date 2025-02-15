@@ -9,13 +9,7 @@ import clientPromise from "@/lib/mongodb";
 
 declare module "next-auth" {
   interface Session {
-    user: {
-      id: string;
-    } & DefaultSession["user"];
-  }
-
-  interface User {
-    id: string;
+    user: DefaultSession["user"]; // No more `id`
   }
 }
 
@@ -59,10 +53,13 @@ export const authOptions: NextAuthOptions = {
     EmailProvider({
       server: {
         host: process.env.EMAIL_SERVER_HOST,
-        port: process.env.EMAIL_SERVER_PORT,
+        port: Number(process.env.EMAIL_SERVER_PORT),
         auth: {
           user: process.env.EMAIL_SERVER_USER,
           pass: process.env.EMAIL_SERVER_PASSWORD,
+        },
+        tls: {
+          rejectUnauthorized: false,
         },
       },
       from: process.env.EMAIL_FROM,
@@ -77,20 +74,20 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user, account }) {
-      console.log({ user, account });
+    async signIn({ user }) {
+      console.log({ user });
+
       return createUserInDB({
         name: user.name!,
         email: user.email!,
         password: null,
-        profile_picture: user?.image || null,
+        profile_picture: user.image || null,
       });
     },
-    async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.sub!;
-      }
-      return session;
+
+    async session({ session }) {
+      console.log("Session callback:", session);
+      return session; // No need to attach `id`, MongoDB handles it
     },
   },
   pages: {
