@@ -1,10 +1,10 @@
 "use client";
-
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import RegisterForm from "../forms/RegisterForm";
 import ResetPasswordForm from "../forms/ResetForm";
 import { LoginDialog } from "../dialogs/login-dialog";
+import axios from "axios";
 
 interface AuthContextProps {
   user: any;
@@ -25,25 +25,40 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { data: session, status } = useSession();
+  const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  console.log({ session });
-
   useEffect(() => {
-    if (status !== "loading") {
-      setLoading(false);
-    }
-  }, [status]);
+    const fetchUserByEmail = async () => {
+      if (!session?.user?.email) return;
+      try {
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/user/get/email?email=${
+            session.user.email
+          }&session=${JSON.stringify(session.user)}`
+        );
+        console.log({ user: res.data });
+        setUser(res.data.data);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserByEmail();
+  }, [session, status]);
 
   const logout = async () => {
     await signOut();
+    setUser(null);
   };
 
   return (
     <AuthContext.Provider
       value={{
-        user: session?.user || null,
-        isAuthenticated: !!session,
+        user,
+        isAuthenticated: !!user,
         logout,
         loading,
       }}

@@ -84,19 +84,15 @@ const DestinationInfo = ({ booking }: { booking: Booking }) => (
       </div>
       <div className="flex flex-col justify-between gap-2 h-full">
         <div className="flex flex-col items-start">
-          <p className="font-medium capitalize">
-            {booking.destinations.departure_station_label}
-          </p>
+          <p className="font-medium capitalize">{booking.labels.from_city}</p>
           <p className="text-sm text-primary-bg/70">
             {booking.destinations.departure_station_label}
           </p>
         </div>
         <div className="flex flex-col items-start">
-          <p className="font-medium capitalize">
-            {booking.destinations.departure_station_label}
-          </p>
+          <p className="font-medium capitalize">{booking.labels.to_city}</p>
           <p className="text-sm text-primary-bg/70">
-            {booking.destinations.departure_station_label}
+            {booking.destinations.arrival_station_label}
           </p>
         </div>
       </div>

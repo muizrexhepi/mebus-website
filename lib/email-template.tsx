@@ -13,7 +13,7 @@ interface EmailTemplateProps {
 
 const EmailTemplate: React.FC<EmailTemplateProps> = ({ url, host, theme }) => {
   const escapedHost = host.replace(/\./g, "&#8203;.");
-  const brandColor = theme.brandColor || "#4F46E5"; // Default to indigo if not provided
+  const brandColor = theme.brandColor || "#4F46E5";
   const buttonText = theme.buttonText || "#ffffff";
 
   return (

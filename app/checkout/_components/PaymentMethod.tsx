@@ -12,13 +12,12 @@ import useSearchStore, {
   useCheckoutStore,
   usePaymentSuccessStore,
 } from "@/store";
-import useUser from "@/components/hooks/use-user";
 import { useTranslation } from "react-i18next";
 import { Booking } from "@/models/booking";
 import { Switch } from "@/components/ui/switch";
-import { account } from "@/appwrite.config";
 import { Loader2 } from "lucide-react";
 import OrderSummary from "./OrderSummary";
+import { useAuth } from "@/components/providers/auth-provider";
 
 const PaymentMethod = () => {
   const stripe = useStripe();
@@ -34,6 +33,7 @@ const PaymentMethod = () => {
   const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<any>();
   const { passengers: passengerAmount } = useSearchStore();
+  const { user } = useAuth();
 
   const {
     passengers,
@@ -44,8 +44,6 @@ const PaymentMethod = () => {
     setSelectedFlex,
     resetCheckout,
   } = useCheckoutStore();
-
-  const { user } = useUser();
 
   useEffect(() => {
     if (!selectedFlex) {
@@ -114,13 +112,13 @@ const PaymentMethod = () => {
     setLoading(true);
 
     try {
-      console.log({ pmid: user?.prefs?.stripe_payment_method_id });
+      console.log({ pmid: user?.stripe_payment_method_id });
 
       const res = await axios.post<any>(
         `${
           process.env.NEXT_PUBLIC_API_URL
         }/payment/create-payment-intent?customer_id=${
-          user?.prefs?.stripe_customer_id || ""
+          user?.stripe_customer_id || ""
         }&payment_method_id=${
           selectedPaymentMethod?.id || ""
         }&use_saved_card=${!!selectedPaymentMethod}`,
@@ -207,7 +205,7 @@ const PaymentMethod = () => {
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/booking/create/${ticket.operator}/${
-          user ? user.$id : null
+          user ? user._id : null
         }/${ticket._id}`,
         {
           passengers: passengersWithPrices,
@@ -256,7 +254,7 @@ const PaymentMethod = () => {
       setIsPaymentSuccess(false);
       setBookingDetails(null);
     } finally {
-      if (saveCardInfo && !user?.prefs?.stripe_payment_method_id) {
+      if (saveCardInfo && !user?.stripe_payment_method_id) {
         handleSaveCardInfo();
       }
     }
@@ -271,7 +269,7 @@ const PaymentMethod = () => {
       return;
     }
 
-    if (!user?.prefs?.stripe_payment_method_id) {
+    if (!user?.stripe_payment_method_id) {
       return toast({
         description: "No such customer",
         variant: "destructive",
@@ -309,7 +307,7 @@ const PaymentMethod = () => {
       }
 
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/payment/create-setup-intent?customer_id=${user?.prefs?.stripe_customer_id}&user_id=${user?.$id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/payment/create-setup-intent?customer_id=${user?.stripe_customer_id}&user_id=${user?._id}`,
         {
           payment_method_id: paymentMethod?.id,
         }
@@ -353,20 +351,19 @@ const PaymentMethod = () => {
 
   async function fetchPaymentMethods() {
     try {
-      const user = await account.get();
       console.log({ acc: user });
-      if (!user?.prefs?.stripe_customer_id) {
+      if (!user?.stripe_customer_id) {
         setPaymentMethods([]);
         return console.info("No such customer");
       }
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/payment/customer/retrieve-payment-methods/${user?.prefs?.stripe_customer_id}`
+        `${process.env.NEXT_PUBLIC_API_URL}/payment/customer/retrieve-payment-methods/${user?.stripe_customer_id}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch payment methods");
       }
       const data: any = await response.json();
-      console.log(data.data);
+      console.log({ methods: data.data.data });
       setPaymentMethods(data.data.data);
     } catch (err) {
       console.log({ err });
@@ -375,7 +372,7 @@ const PaymentMethod = () => {
 
   useEffect(() => {
     fetchPaymentMethods();
-  }, []);
+  }, [user]);
 
   const handleSelectPaymentMethod = (method: any) => {
     try {
@@ -505,7 +502,7 @@ const PaymentMethod = () => {
               } space-y-4`}
             >
               <div className="flex-col flex gap-4 justify-between">
-                {user && !user?.prefs?.stripe_payment_method_id && (
+                {user && !user?.stripe_payment_method_ids && (
                   <div className="text-gray-700 text-sm flex gap-2 items-center">
                     <p>Save card info for future payments</p>
                     <Switch
@@ -515,7 +512,7 @@ const PaymentMethod = () => {
                   </div>
                 )}
 
-                {user?.prefs?.stripe_payment_method_id && (
+                {user?.stripe_payment_method_ids && (
                   <div className="space-y-2 ">
                     <h3 className="font-medium text-gray-700">
                       Choose your saved payment methods

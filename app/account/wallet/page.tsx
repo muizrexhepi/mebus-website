@@ -28,6 +28,8 @@ import {
 import PaymentMethodCard from "./_components/payment-method-card";
 import { PaymentMethod } from "@stripe/stripe-js";
 import { useToast } from "@/components/hooks/use-toast";
+import { useAuth } from "@/components/providers/auth-provider";
+import { RESPONSE_LIMIT_DEFAULT } from "next/dist/server/api-utils";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ""
@@ -64,7 +66,7 @@ function WalletPageContent() {
   const elements = useElements();
   const { toast } = useToast();
   const [customerFound, setCustomerFound] = useState<boolean>(false);
-
+  const { user, loading } = useAuth();
   const [newCardDetails, setNewCardDetails] = useState({
     cardNumber: "",
     expiry: "",
@@ -74,29 +76,28 @@ function WalletPageContent() {
   useEffect(() => {
     async function fetchPaymentMethods() {
       try {
-        const user = await account.get();
-        if (!user?.prefs?.stripe_customer_id) {
+        if (!user?.stripe_customer_id) {
           setCustomerFound(false);
-          return console.info("No such customer")
+          return console.info("No such customer");
         }
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/payment/customer/retrieve-payment-methods/${user?.prefs?.stripe_customer_id}`
+          `${process.env.NEXT_PUBLIC_API_URL}/payment/customer/retrieve-payment-methods/${user?.stripe_customer_id}`
         );
         if (!response.ok) {
-          setCustomerFound(false)
+          setCustomerFound(false);
         }
         const data: any = await response.json();
         setPaymentMethods(data.data.data);
-        setCustomerFound(true)
+        setCustomerFound(true);
       } catch (err) {
-        setCustomerFound(false)
+        setCustomerFound(false);
       } finally {
         setIsLoading(false);
       }
     }
 
     fetchPaymentMethods();
-  }, []);
+  }, [user]);
 
   const handleAddNewMethod = async () => {
     try {
@@ -118,9 +119,8 @@ function WalletPageContent() {
 
   const removePaymentMethod = async (pm_id: string) => {
     try {
-      const user = await account.get();
       await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/payment/pm/detach/${pm_id}/${user?.$id}`
+        `${process.env.NEXT_PUBLIC_API_URL}/payment/pm/detach/${pm_id}/${user?._id}`
       );
 
       setPaymentMethods((prevMethods) =>
@@ -160,8 +160,6 @@ function WalletPageContent() {
         return;
       }
 
-      const user = await account.get();
-
       const { paymentMethod, error: stripeError } =
         await stripe.createPaymentMethod({
           type: "card",
@@ -181,14 +179,14 @@ function WalletPageContent() {
       }
 
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/payment/create-setup-intent?customer_id=${user?.prefs?.stripe_customer_id}&user_id=${user?.$id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/payment/create-setup-intent?customer_id=${user?.stripe_customer_id}&user_id=${user?._id}`,
         {
           payment_method_id: paymentMethod?.id,
         }
       );
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/payment/customer/retrieve-payment-methods/${user?.prefs?.stripe_customer_id}`
+        `${process.env.NEXT_PUBLIC_API_URL}/payment/customer/retrieve-payment-methods/${user?.stripe_customer_id}`
       );
       const data: any = await response.json();
       setPaymentMethods(data.data.data);
@@ -209,7 +207,7 @@ function WalletPageContent() {
     }
   };
 
-  if (isLoading) {
+  if (isLoading || loading) {
     return <LoadingSkeleton />;
   }
 

@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CreditCard, Lock, Banknote } from "lucide-react";
 import Link from "next/link";
-import useUser from "@/components/hooks/use-user";
+import { useAuth } from "@/components/providers/auth-provider";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -28,7 +28,7 @@ const DepositForm = () => {
   const elements = useElements();
   const [loading, setLoading] = useState(false);
   const [depositAmount, setDepositAmount] = useState(0);
-  const { user } = useUser();
+  const { user } = useAuth();
   const { toast } = useToast();
 
   const handleDeposit = async (e: any) => {
@@ -75,7 +75,7 @@ const DepositForm = () => {
         const depositRes = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/payment/deposit`,
           {
-            user_id: user.$id,
+            user_id: user._id,
             amount_in_cents: depositAmount * 100,
             payment_intent_id: paymentIntent.id,
           },

@@ -27,16 +27,16 @@ import {
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/components/hooks/use-toast";
-import useUser from "@/components/hooks/use-user";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/components/providers/auth-provider";
 
 export default function DataAndPrivacy() {
-  const { user, loading } = useUser();
+  const { user, loading } = useAuth();
   const [password, setPassword] = useState<string>("");
   const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false);
   const { toast } = useToast();
   const router = useRouter();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
@@ -76,7 +76,9 @@ export default function DataAndPrivacy() {
     <div className="">
       <div className="space-y-8">
         <div>
-          <h2 className="text-3xl font-semibold">{t("dataPrivacy.dataPrivacy")}</h2>
+          <h2 className="text-3xl font-semibold">
+            {t("dataPrivacy.dataPrivacy")}
+          </h2>
         </div>
         <div className="space-y-6">
           <div
@@ -85,11 +87,11 @@ export default function DataAndPrivacy() {
             <div>
               <div className="text-base">{t("dataPrivacy.dataExport")}</div>
               <div className="text-neutral-800/60 max-w-2xl text-sm">
-              {t("dataPrivacy.download data")}
+                {t("dataPrivacy.download data")}
               </div>
             </div>
             <Button variant="outline" size="sm" onClick={handleDataExport}>
-            {t("dataPrivacy.exportData")}
+              {t("dataPrivacy.exportData")}
             </Button>
           </div>
 
@@ -97,28 +99,32 @@ export default function DataAndPrivacy() {
             className={`grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6`}
           >
             <div>
-              <div className="text-base">{t("dataPrivacy.requestDataDeletion")}</div>
+              <div className="text-base">
+                {t("dataPrivacy.requestDataDeletion")}
+              </div>
               <div className="text-neutral-800/60 max-w-2xl text-sm">
-              {t("dataPrivacy.parmanentlyDeleteData")}
+                {t("dataPrivacy.parmanentlyDeleteData")}
               </div>
             </div>
             <Dialog>
               <DialogTrigger asChild>
                 <Button variant="destructive" size="sm">
-                {t("dataPrivacy.deleteData")}
+                  {t("dataPrivacy.deleteData")}
                 </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>{t("dataPrivacy.requestDataDeletion")}</DialogTitle>
+                  <DialogTitle>
+                    {t("dataPrivacy.requestDataDeletion")}
+                  </DialogTitle>
                   <DialogDescription>
-                  {t("dataPrivacy.deletionAlert")}
+                    {t("dataPrivacy.deletionAlert")}
                   </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="password" className="text-right">
-                    {t("dataPrivacy.password")}
+                      {t("dataPrivacy.password")}
                     </Label>
                     <Input
                       id="password"
@@ -134,7 +140,7 @@ export default function DataAndPrivacy() {
                   <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
                     <AlertDialogTrigger asChild>
                       <Button variant="destructive" disabled={!password}>
-                      {t("dataPrivacy.confirmDeletion")}
+                        {t("dataPrivacy.confirmDeletion")}
                       </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
@@ -143,7 +149,7 @@ export default function DataAndPrivacy() {
                           {t("dataPrivacy.areYouSure")}
                         </AlertDialogTitle>
                         <AlertDialogDescription>
-                        {t("dataPrivacy.cannotBeUndone")}
+                          {t("dataPrivacy.cannotBeUndone")}
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>

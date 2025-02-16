@@ -28,7 +28,6 @@ import { useAuth } from "../providers/auth-provider";
 import { signOut } from "next-auth/react";
 
 const UserNavbarMenu = () => {
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = useIsMobile();
   const { t } = useTranslation();
@@ -36,8 +35,8 @@ const UserNavbarMenu = () => {
 
   const handleLogout = async () => {
     try {
-      await signOut({ callbackUrl: "/" }); // Redirect to home after logout
-      window.dispatchEvent(new Event("userChange")); // Trigger auth state update
+      await signOut({ callbackUrl: "/" });
+      window.dispatchEvent(new Event("userChange"));
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -53,7 +52,11 @@ const UserNavbarMenu = () => {
       <Menu className="text-gray-500" size={18} />
       {user ? (
         <div className="size-7 bg-white border rounded-full flex justify-center items-center">
-          <p className="font-medium text-black text-base">{user?.name[0]}</p>
+          {user?.image ? (
+            <img src={user.image} />
+          ) : (
+            <p className="font-medium text-black text-base">{user?.name[0]}</p>
+          )}
         </div>
       ) : (
         <UserCircle className="text-gray-500" size={18} />

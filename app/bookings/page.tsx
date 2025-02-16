@@ -1,29 +1,27 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { Loader, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 import axios from "axios";
 import { Booking } from "@/models/booking";
 import { useToast } from "@/components/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
-import Link from "next/link";
 import useUser from "@/components/hooks/use-user";
 import moment from "moment-timezone";
 import { useTranslation } from "react-i18next";
 import { BookingCard } from "./(components)/BookingCard";
 import { NoBookingsMessage } from "./(components)/NoBookingsMessage";
-import { RetrieveBooking } from "./(components)/RetrieveBooking";
+import { useAuth } from "@/components/providers/auth-provider";
 
 const BookingsDashboard: React.FC = () => {
-  const { user, loading } = useUser();
+  const { user, loading } = useAuth();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [noUserBookings, setNoUserBookings] = useState<Booking[]>([]);
   const [showFlexAlert, setShowFlexAlert] = useState(false);
   const { toast } = useToast();
   const { t } = useTranslation();
-
+  console.log({ user });
   const handleNoFlexAction = () => {
     setShowFlexAlert(true);
     toast({
@@ -49,8 +47,9 @@ const BookingsDashboard: React.FC = () => {
       const fetchBookings = async () => {
         try {
           const res = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_URL}/booking/client/${user.$id}?select=departure_date metadata destinations labels price`
+            `${process.env.NEXT_PUBLIC_API_URL}/booking/client/${user._id}?select=departure_date metadata destinations labels price`
           );
+          console.log({ bookings: res });
           setBookings(res.data.data);
         } catch (error) {
           console.error("Failed to fetch bookings:", error);
@@ -76,7 +75,6 @@ const BookingsDashboard: React.FC = () => {
     );
   };
 
-  console.log({ noUserBookings });
   const handleCancelBookingAndRefund = async (
     booking_id: string,
     payment_intent_id: string,

@@ -25,18 +25,13 @@ import { useTranslation } from "react-i18next"; // Importing the translation hoo
 import Image from "next/image";
 
 const NavbarMenu = () => {
-  const { t } = useTranslation(); // Using the translation hook
-  const { setOpenLogin, setOpenRegister } = useNavbarStore();
+  const { t } = useTranslation();
+  const { setOpenLogin } = useNavbarStore();
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = useIsMobile();
 
   const handleLogin = () => {
     setOpenLogin(true);
-    setIsOpen(false);
-  };
-
-  const handleSignUp = () => {
-    setOpenRegister(true);
     setIsOpen(false);
   };
 
@@ -101,7 +96,7 @@ const NavbarMenu = () => {
           </Button>
           <Button
             className="w-full h-12 rounded-lg button-gradient"
-            onClick={handleSignUp}
+            onClick={handleLogin}
           >
             {t("auth.signUp")}
           </Button>
@@ -161,7 +156,7 @@ const NavbarMenu = () => {
           <span className="px-2">{t("auth.login")}</span>
         </DropdownMenuItem>
         <DropdownMenuItem
-          onSelect={handleSignUp}
+          onSelect={handleLogin}
           className="!cursor-pointer rounded-none py-2"
         >
           <span className="px-2">{t("auth.signUp")}</span>

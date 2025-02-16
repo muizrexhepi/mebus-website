@@ -3,12 +3,12 @@
 import Link from "next/link";
 import NavbarMenu from "./NavbarMenu";
 import Image from "next/image";
-import useUser from "../hooks/use-user";
 import UserNavbarMenu from "./UserMenu";
 import LanguageSelector from "../dialogs/LanguageDialog";
+import { useAuth } from "../providers/auth-provider";
 
 const SecondaryNavbar = () => {
-  const { user } = useUser();
+  const { user } = useAuth();
   return (
     <div className="w-full flex justify-between items-center max-w-6xl mx-auto">
       <Link href={"/"}>
