@@ -14,10 +14,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/hooks/use-toast";
-import useUser from "@/components/hooks/use-user";
+import { useAuth } from "@/components/providers/auth-provider";
 
 export default function PersonalInfo() {
-  const { user } = useUser();
+  const { user } = useAuth();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [editingInfo, setEditingInfo] = useState<any>(null);
   const [editedValue, setEditedValue] = useState<string>("");

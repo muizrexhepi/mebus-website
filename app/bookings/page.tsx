@@ -7,7 +7,6 @@ import axios from "axios";
 import { Booking } from "@/models/booking";
 import { useToast } from "@/components/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
-import useUser from "@/components/hooks/use-user";
 import moment from "moment-timezone";
 import { useTranslation } from "react-i18next";
 import { BookingCard } from "./(components)/BookingCard";
