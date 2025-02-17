@@ -12,7 +12,7 @@ const sidebarLinks = [
   },
   {
     label: "Your bookings",
-    href: "/bookings",
+    href: "/account/bookings",
     icon: FaBookmark,
   },
   {

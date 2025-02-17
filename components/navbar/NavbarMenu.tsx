@@ -23,6 +23,9 @@ import { Separator } from "../ui/separator";
 import useIsMobile from "../hooks/use-mobile";
 import { useTranslation } from "react-i18next"; // Importing the translation hook
 import Image from "next/image";
+import { FaRoute } from "react-icons/fa";
+import { BiSupport } from "react-icons/bi";
+import { IoMdContact } from "react-icons/io";
 
 const NavbarMenu = () => {
   const { t } = useTranslation();
@@ -35,6 +38,23 @@ const NavbarMenu = () => {
     setIsOpen(false);
   };
 
+  const sidebarLinks = [
+    {
+      label: t("nav.routes"),
+      href: "/routes",
+      icon: FaRoute,
+    },
+    {
+      label: t("footer.links.customersupport"),
+      href: "/help",
+      icon: BiSupport,
+    },
+    {
+      label: t("nav.contact"),
+      href: "/help/contact-support",
+      icon: IoMdContact,
+    },
+  ];
   const MenuTrigger = (
     <Button
       aria-haspopup="true"
@@ -50,41 +70,26 @@ const NavbarMenu = () => {
   const MenuItems = (
     <>
       <div className="space-y-2 py-2 text-sm font-normal">
-        <Link
-          href="/routes"
-          className="block px-4 py-2"
-          onClick={() => setIsOpen(false)}
-        >
-          {t("nav.routes")}
-        </Link>
-        {/* <Link
-          href="/bookings"
-          className="block px-4 py-2"
-          onClick={() => setIsOpen(false)}
-        >
-          {t("nav.bookings")}
-        </Link> */}
-        {/* <Link
-          href="/about"
-          className="block px-4 py-2"
-          onClick={() => setIsOpen(false)}
-        >
-          {t("nav.about")}
-        </Link> */}
-        <Link
-          href="/help"
-          className="block px-4 py-2"
-          onClick={() => setIsOpen(false)}
-        >
-          {t("nav.help")}
-        </Link>
-        <Link
-          href="/help/contact-support"
-          className="block px-4 py-2"
-          onClick={() => setIsOpen(false)}
-        >
-          {t("nav.contact")}
-        </Link>
+        {isMobile && (
+          <>
+            {sidebarLinks.map((link) => {
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={
+                    "flex items-center gap-3 px-4 py-2 transition-colors"
+                  }
+                  onClick={() => setIsOpen(false)}
+                >
+                  <link.icon className="h-4 w-4" />
+                  {link.label}
+                </Link>
+              );
+            })}
+            {/* <Separator className="my-2" /> */}
+          </>
+        )}
         <Separator className="!mb-4" />
         <div className="flex flex-col gap-2 w-full px-4">
           <Button

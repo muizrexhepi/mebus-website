@@ -194,7 +194,7 @@ const PaymentMethodCard: React.FC<PaymentMethodCardProps> = ({
         <Button
           variant="ghost"
           size="icon"
-          className="text-white hover:bg-white/20 hover:text-white absolute top-4 right-4"
+          className="text-white hover:bg-white/20 hover:text-white "
           onClick={() => setIsRemoveDialogOpen(true)}
         >
           <Trash2 className="h-6 w-6" />

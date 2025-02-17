@@ -1,37 +1,43 @@
 "use client";
 
-import { LogOut, Menu, UserCircle } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { account } from "@/appwrite.config";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import { signOut } from "next-auth/react";
+import { useTranslation } from "react-i18next";
+import { LogOut, Menu, UserCircle } from "lucide-react";
+import { FaBell, FaBookmark, FaCreditCard, FaUser } from "react-icons/fa";
+import { BiSupport } from "react-icons/bi";
+
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "../ui/sheet";
-import { Button } from "../ui/button";
+} from "@/components/ui/sheet";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Separator } from "../ui/separator";
-import useIsMobile from "../hooks/use-mobile";
-import { useTranslation } from "react-i18next";
-import Image from "next/image";
-import { useAuth } from "../providers/auth-provider";
-import { signOut } from "next-auth/react";
+} from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
+
+import { useAuth } from "@/components/providers/auth-provider";
+import useIsMobile from "@/components/hooks/use-mobile";
+import { cn } from "@/lib/utils";
+import { IoMdContact } from "react-icons/io";
 
 const UserNavbarMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = useIsMobile();
   const { t } = useTranslation();
   const { user } = useAuth();
+  const pathname = usePathname();
 
   const handleLogout = async () => {
     try {
@@ -41,6 +47,39 @@ const UserNavbarMenu = () => {
       console.error("Logout failed:", error);
     }
   };
+
+  const sidebarLinks = [
+    {
+      label: "Passenger details",
+      href: "/account/personal-info",
+      icon: FaUser,
+    },
+    {
+      label: "Your bookings",
+      href: "/account/bookings",
+      icon: FaBookmark,
+    },
+    {
+      label: "Payment methods",
+      href: "/account/wallet",
+      icon: FaCreditCard,
+    },
+    {
+      label: "Notifications",
+      href: "/account/notifications",
+      icon: FaBell,
+    },
+    {
+      label: t("footer.links.customersupport"),
+      href: "/help",
+      icon: BiSupport,
+    },
+    {
+      label: t("nav.contact"),
+      href: "/help/contact-support",
+      icon: IoMdContact,
+    },
+  ];
 
   const MenuTrigger = (
     <Button
@@ -53,7 +92,11 @@ const UserNavbarMenu = () => {
       {user ? (
         <div className="size-7 bg-white border rounded-full flex justify-center items-center">
           {user?.image ? (
-            <img src={user.image} className="rounded-full" />
+            <img
+              src={user.image || "/placeholder.svg"}
+              alt={user.name}
+              className="rounded-full"
+            />
           ) : (
             <p className="font-medium text-black text-base">{user?.name[0]}</p>
           )}
@@ -67,47 +110,39 @@ const UserNavbarMenu = () => {
   const MenuItems = (
     <>
       <div className="space-y-2 py-2 text-sm font-normal">
-        <Link
-          href="/account/personal-info"
-          className="block px-4 py-2"
-          onClick={() => setIsOpen(false)}
-        >
-          {t("nav.account")}
-        </Link>
-        <Link
-          href="/bookings"
-          className="block px-4 py-2"
-          onClick={() => setIsOpen(false)}
-        >
-          {t("nav.bookings")}
-        </Link>
-        <Link
-          href="/help"
-          className="block px-4 py-2"
-          onClick={() => setIsOpen(false)}
-        >
-          {t("footer.links.customersupport")}{" "}
-        </Link>
-        <Link
-          href="/help/contact-support"
-          className="block px-4 py-2"
-          onClick={() => setIsOpen(false)}
-        >
-          {t("nav.contact")}
-        </Link>
-        <Separator />
-        <div className="px-4 flex items-center gap-2 py-1">
-          <LogOut className="text-primary-accent size-4" />
+        {isMobile && (
+          <>
+            {sidebarLinks.map((link) => {
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    "flex items-center gap-3 px-4 py-2 transition-colors",
+                    "hover:bg-accent"
+                  )}
+                  onClick={() => setIsOpen(false)}
+                >
+                  <link.icon className="h-4 w-4" />
+                  {link.label}
+                </Link>
+              );
+            })}
+            {/* <Separator className="my-2" /> */}
+          </>
+        )}
 
+        <Separator className="my-2" />
+        <div className="px-4 flex items-center gap-3">
+          <LogOut className="text-primary-accent size-4" />
           <Button
-            variant={"ghost"}
+            variant="ghost"
             className="block px-0 h-fit button-gradient text-transparent hover:text-transparent bg-clip-text"
             onClick={handleLogout}
           >
             {t("auth.logout")}
           </Button>
         </div>
-        <Separator />
       </div>
     </>
   );
@@ -121,9 +156,9 @@ const UserNavbarMenu = () => {
           className="w-full sm:w-[400px] bg-[#f3f4f6] p-0 z-[99]"
         >
           <SheetHeader className="p-4 text-left border-b">
-            <SheetTitle className="text-2xl font-bold pt-2">
+            <SheetTitle className="text-2xl font-bold">
               <Image
-                src={"/assets/icons/dark-logo.svg"}
+                src="/assets/icons/dark-logo.svg"
                 alt="Logo"
                 width={120}
                 height={60}
@@ -152,7 +187,7 @@ const UserNavbarMenu = () => {
         </DropdownMenuItem>
         <DropdownMenuItem asChild className="py-2 rounded-none">
           <Link href="/help" className="w-full !cursor-pointer px-4">
-            {t("footer.links.customersupport")}{" "}
+            {t("footer.links.customersupport")}
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild className="py-2 rounded-none">

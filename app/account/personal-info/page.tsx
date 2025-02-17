@@ -140,17 +140,15 @@ export default function PersonalInfo() {
                   </div>
                 </div>
                 {item.editable ? (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                  <button
+                    className="text-transparent bg-clip-text text-sm button-gradient"
                     onClick={() => {
                       setEditingInfo(item);
                       setEditedValue(item.value);
                     }}
                   >
                     {item.action}
-                  </Button>
+                  </button>
                 ) : (
                   <Button
                     variant="ghost"
@@ -176,10 +174,10 @@ export default function PersonalInfo() {
             <p className="text-sm">
               Visit our contact page:{" "}
               <a
-                href="/support"
-                className="text-blue-600 hover:text-blue-700 hover:underline"
+                href="/help"
+                className="text-transparent bg-clip-text text-sm button-gradient hover:underline"
               >
-                help.busly.com
+                help.gobusly.com
               </a>
             </p>
           </div>
