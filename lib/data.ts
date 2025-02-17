@@ -1,22 +1,44 @@
-import { AlertCircle, BaggageClaim, Bell, Book, BookImageIcon, Clock, CreditCard, DollarSign, Facebook, Globe, Heart, HeartPulse, HelpCircle, Instagram, Linkedin, Lock, MapPin, RefreshCcw, Shield, TicketIcon, Twitter, User, X } from "lucide-react";
+import {
+  AlertCircle,
+  BaggageClaim,
+  Bell,
+  Book,
+  BookImageIcon,
+  Clock,
+  CreditCard,
+  DollarSign,
+  Facebook,
+  Globe,
+  Heart,
+  HeartPulse,
+  HelpCircle,
+  Instagram,
+  Linkedin,
+  Lock,
+  MapPin,
+  RefreshCcw,
+  Shield,
+  TicketIcon,
+  Twitter,
+  User,
+  X,
+} from "lucide-react";
 import { enUS, fr, es, de, mk, it, sq } from "date-fns/locale";
 
 export const NAV_LINKS = [
-
   {
-      name: 'Help',
-      url: '/help',
+    name: "Help",
+    url: "/help",
   },
   {
-      name: 'Contact',
-      url: '/help/contact-support',
+    name: "Contact",
+    url: "/help/contact-support",
   },
   {
-      name: 'Routes',
-      url: '/routes',
+    name: "Routes",
+    url: "/routes",
   },
 ];
-
 
 export const LOCALE_MAP = {
   en: enUS,
@@ -26,8 +48,7 @@ export const LOCALE_MAP = {
   mk: mk,
   it: it,
   al: sq,
-}
-
+};
 
 export const FOOTER_LINKS = [
   {
@@ -103,18 +124,20 @@ export const FOOTER_LINKS = [
   },
 ];
 
-
 export const QUICK_LINKS = [
   { name: "how-to-book", icon: Book, label: "howToBook" },
-  { name: "cancellation-policy", icon: RefreshCcw, label: "cancellationPolicy" },
+  {
+    name: "cancellation-policy",
+    icon: RefreshCcw,
+    label: "cancellationPolicy",
+  },
   { name: "payment-options", icon: CreditCard, label: "paymentOptions" },
   { name: "e-ticket-guide", icon: TicketIcon, label: "eTicketGuide" },
-  { name: "travel-flex", icon: BaggageClaim, label: "travelFlexOptions" },
+  { name: "travel-services", icon: BaggageClaim, label: "travelFlexOptions" },
   { name: "travel-duration", icon: Clock, label: "travelDuration" },
   { name: "travel-advisory", icon: AlertCircle, label: "travelAdvisory" },
-  { name: "contact-support", icon: HelpCircle, label: "contactSupport" }
+  { name: "contact-support", icon: HelpCircle, label: "contactSupport" },
 ];
-
 
 export interface FlexFeature {
   name: string;
@@ -122,7 +145,6 @@ export interface FlexFeature {
   value: string;
   features: string[];
 }
-
 
 export const flexFeatures: FlexFeature[] = [
   {
@@ -152,126 +174,122 @@ export const flexFeatures: FlexFeature[] = [
   },
 ];
 
-
-
-  export const SOCIAL_LINKS = [
-    {
-      name:'Instagram',
-      id: "social-media-1",
-      icon: Instagram,
-      link: "https://www.instagram.com/insyllium",
-    },
-    {
-      name:"Facebook",
-      id: "social-media-2",
+export const SOCIAL_LINKS = [
+  {
+    name: "Instagram",
+    id: "social-media-1",
+    icon: Instagram,
+    link: "https://www.instagram.com/insyllium",
+  },
+  {
+    name: "Facebook",
+    id: "social-media-2",
     icon: Facebook,
-      link: "https://www.facebook.com/insyllium",
-    },
-    {
-      name:"X(Twitter)",
-      id: "social-media-3",
+    link: "https://www.facebook.com/insyllium",
+  },
+  {
+    name: "X(Twitter)",
+    id: "social-media-3",
     icon: X,
-      link: "https://www.twitter.com/insyllium",
-    },
-    {
-      name:"Linkedin",
-      id: "social-media-4",
+    link: "https://www.twitter.com/insyllium",
+  },
+  {
+    name: "Linkedin",
+    id: "social-media-4",
     icon: Linkedin,
-      link: "https://www.linkedin.com/company/97935419",
-    },
-  ];
+    link: "https://www.linkedin.com/company/97935419",
+  },
+];
 
+export enum TRAVEL_FLEX_PRICES {
+  PREMIUM = 4,
+  BASIC = 2,
+  NO_FLEX = 0,
+}
 
-  export enum TRAVEL_FLEX_PRICES {
-    PREMIUM = 4,
-    BASIC = 2,
-    NO_FLEX = 0
-  };
+export enum TRAVEL_FLEX_TYPES {
+  PREMIUM = "premium",
+  BASIC = "basic",
+  NO_FLEX = "no_flex",
+}
 
-  export enum TRAVEL_FLEX_TYPES {
-    PREMIUM = "premium",
-    BASIC = "basic",
-    NO_FLEX = "no_flex",
-  };
-
-  interface TravelFlexPermission {
-    CAN_CANCEL: number;
-    CAN_EDIT: number;
-    RESCHEDULE: number;
-    SUPPORT: number; 
+interface TravelFlexPermission {
+  CAN_CANCEL: number;
+  CAN_EDIT: number;
+  RESCHEDULE: number;
+  SUPPORT: number;
 }
 
 interface TravelFlexPermissions {
-    PREMIUM: TravelFlexPermission;
-    BASIC: TravelFlexPermission;
-    NO_FLEX: TravelFlexPermission;
+  PREMIUM: TravelFlexPermission;
+  BASIC: TravelFlexPermission;
+  NO_FLEX: TravelFlexPermission;
 }
 
 export const TRAVEL_FLEX_PERMISSIONS: TravelFlexPermissions = {
-    PREMIUM: {
-        CAN_CANCEL: 2,
-        CAN_EDIT: 1,
-        RESCHEDULE: 3,
-        SUPPORT: Infinity,
-    },
-    BASIC: {
-        CAN_CANCEL: 5,
-        CAN_EDIT: 3,
-        RESCHEDULE: 0,
-        SUPPORT: Infinity,
-    },
-    NO_FLEX: {
-        CAN_CANCEL: 0,
-        CAN_EDIT: 0,
-        RESCHEDULE: 0,
-        SUPPORT: Infinity,
-    },
+  PREMIUM: {
+    CAN_CANCEL: 2,
+    CAN_EDIT: 1,
+    RESCHEDULE: 3,
+    SUPPORT: Infinity,
+  },
+  BASIC: {
+    CAN_CANCEL: 5,
+    CAN_EDIT: 3,
+    RESCHEDULE: 0,
+    SUPPORT: Infinity,
+  },
+  NO_FLEX: {
+    CAN_CANCEL: 0,
+    CAN_EDIT: 0,
+    RESCHEDULE: 0,
+    SUPPORT: Infinity,
+  },
 };
 
-
-  export const ACCOUNT_SETTINGS = [
-    {
-      href: "/account/personal-info",
-      icon: User,
-      title: "Profile",
-      description: "Manage and provide personal details how we can reach you.",
-    },
-    {
-      href: "/account/login-security",
-      icon: Lock,
-      title: "Security",
-      description: "Manage your account security settings.",
-    },
-    // {
-    //   href: "/account/data-privacy",
-    //   icon: Shield,
-    //   title: "Data and Privacy",
-    //   description: "Control your data and privacy settings.",
-    // },
-    {
-      href: "/bookings",
-      icon: Book,
-      title: "Bookings",
-      description: "View and manage your upcoming and past reservations in one place.",
-    },
-    {
-      href: "/account/notifications",
-      icon: Bell,
-      title: "Notifications",
-      description: "Customize your notification preferences.",
-    },
-    // {
-    //   href: "/account/saved-destinations",
-    //   icon: Heart,
-    //   title: "Saved Destinations",
-    //   description: "Quickly access your saved destinations.",
-    // },
-    {
-      href: "/account/deposit",
-      icon: DollarSign,
-      title: "Deposit Funds",
-      description: "Quickly deposit funds for easy future payments without using your card each time.",
-    }
-    
-    
-  ];
+export const ACCOUNT_SETTINGS = [
+  {
+    href: "/account/personal-info",
+    icon: User,
+    title: "Profile",
+    description: "Manage and provide personal details how we can reach you.",
+  },
+  {
+    href: "/account/login-security",
+    icon: Lock,
+    title: "Security",
+    description: "Manage your account security settings.",
+  },
+  // {
+  //   href: "/account/data-privacy",
+  //   icon: Shield,
+  //   title: "Data and Privacy",
+  //   description: "Control your data and privacy settings.",
+  // },
+  {
+    href: "/bookings",
+    icon: Book,
+    title: "Bookings",
+    description:
+      "View and manage your upcoming and past reservations in one place.",
+  },
+  {
+    href: "/account/notifications",
+    icon: Bell,
+    title: "Notifications",
+    description: "Customize your notification preferences.",
+  },
+  // {
+  //   href: "/account/saved-destinations",
+  //   icon: Heart,
+  //   title: "Saved Destinations",
+  //   description: "Quickly access your saved destinations.",
+  // },
+  {
+    href: "/account/deposit",
+    icon: DollarSign,
+    title: "Deposit Funds",
+    description:
+      "Quickly deposit funds for easy future payments without using your card each time.",
+  },
+];

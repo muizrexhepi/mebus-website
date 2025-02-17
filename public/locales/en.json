@@ -228,6 +228,24 @@
       "name": "No Flexibility"
     }
   },
+  "services": {
+    "title": "Travel Services",
+    "description": "Choose your preferred service level for your trip",
+    "priority": {
+      "name": "Priority Service",
+      "fullRefund": "Full refund when cancelling up to 48 hours before departure",
+      "dateChange": "Modify your trip details up to 24 hours before departure",
+      "support": "Priority support for booking changes"
+    },
+    "standard": {
+      "name": "Standard Service",
+      "partialRefund": "Partial refund when cancelling up to 5 days before departure",
+      "dateChange": "Modify your trip details up to 3 days before departure"
+    },
+    "basic": {
+      "name": "Basic Service"
+    }
+  },
   "hero": {
     "title": "Navigate Roads with Comfort",
     "desc": "Book your bus tickets for a comfortable journey"
@@ -284,7 +302,7 @@
       "aboutus": "About us",
       "contact": "Contact",
       "faq": "FAQ",
-      "travelflexoptions": "Travel Flex Options",
+      "travelflexoptions": "Travel Services",
       "customersupport": "Customer Support",
       "luggagepolicy": "Luggage Policy",
       "discountoffers": "Discount Offers",

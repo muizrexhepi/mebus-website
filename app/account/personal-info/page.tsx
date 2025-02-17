@@ -238,7 +238,7 @@ export default function PersonalInfo() {
             </div>
           </div>
           {error && <FormError message={error} />}
-          <DialogFooter>
+          <DialogFooter className="gap-2">
             <Button variant="outline" onClick={() => setEditingInfo(null)}>
               Cancel
             </Button>

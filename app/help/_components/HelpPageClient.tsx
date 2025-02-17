@@ -8,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import HelpForm from "../../../components/forms/HelpForm";
 import InfoTabs from "./InfoTabs";
 import Link from "next/link";
 import { QUICK_LINKS } from "@/lib/data";

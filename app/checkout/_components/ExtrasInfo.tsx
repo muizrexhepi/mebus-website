@@ -4,28 +4,31 @@ import { useCurrency } from "@/components/providers/currency-provider";
 import { FlexFeature } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { useCheckoutStore } from "@/store";
-import { Check, Zap } from "lucide-react";
+import { Check, Sparkles } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const flexFeatures: FlexFeature[] = [
   {
-    name: "flexFeatures.premium.name",
+    name: "services.priority.name",
     value: "premium",
     price: 4,
     features: [
-      "flexFeatures.premium.cancel",
-      "flexFeatures.premium.change",
-      "flexFeatures.premium.reschedule",
+      "services.priority.fullRefund",
+      "services.priority.dateChange",
+      "services.priority.support",
     ],
   },
   {
-    name: "flexFeatures.basic.name",
+    name: "services.standard.name",
     value: "basic",
     price: 2,
-    features: ["flexFeatures.basic.cancel", "flexFeatures.basic.change"],
+    features: [
+      "services.standard.partialRefund",
+      "services.standard.dateChange",
+    ],
   },
   {
-    name: "flexFeatures.no_flex.name",
+    name: "services.basic.name",
     value: "no_flex",
     price: 0,
     features: [],
@@ -50,13 +53,6 @@ const FlexOption: React.FC<{
       )}
       onClick={onSelect}
     >
-      {/* {isSelected && (
-        <div
-          className={`absolute inset-0 button-gradient opacity-10 
-          group-hover:opacity-20 transition-opacity duration-300`}
-        />
-      )} */}
-
       <div className="p-5 relative z-10">
         <div className="flex justify-between items-center mb-3 last:mb-0">
           <div className="flex items-center gap-3">
@@ -124,7 +120,7 @@ const TravelFlex: React.FC = () => {
   };
 
   return (
-    <div className="grid  gap-4">
+    <div className="grid gap-4">
       {flexFeatures.map((flex) => (
         <FlexOption
           key={flex.value}
@@ -146,11 +142,14 @@ const Extras: React.FC = () => {
         <span className="flex items-center justify-center w-8 h-8 bg-secondary-bg/20 text-primary-bg rounded-full font-semibold">
           2
         </span>
-        <p className="text-[#353535] font-medium text-lg">
-          {t("extrasInfo.title")}
-        </p>
+        <div className="flex items-center gap-2">
+          {/* <Sparkles size={20} className="text-primary-bg" /> */}
+          <p className="text-[#353535] font-medium text-lg">
+            {t("services.title")}
+          </p>
+        </div>
       </div>
-      <p className="text-sm text-gray-600">{t("extrasInfo.description")}</p>
+      <p className="text-sm text-gray-600">{t("services.description")}</p>
       <TravelFlex />
     </div>
   );
