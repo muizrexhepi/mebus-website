@@ -43,7 +43,7 @@ const Hero = () => {
   ];
 
   return (
-    <div className="relative flex flex-col justify-between pb-20">
+    <div className="relative flex flex-col justify-between pb-20 bg-white">
       <div className="absolute inset-0 pointer-events-none overflow-hidden max-w-6xl mx-auto paddingX">
         <div className="absolute top-20 left-10 w-72 h-72 rounded-full bg-gradient-to-r from-red-100 to-orange-100 blur-3xl opacity-30" />
         <div className="absolute top-40 right-20 w-80 h-80 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 blur-3xl opacity-30" />

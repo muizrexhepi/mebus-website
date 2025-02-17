@@ -53,7 +53,7 @@ const UserNavbarMenu = () => {
       {user ? (
         <div className="size-7 bg-white border rounded-full flex justify-center items-center">
           {user?.image ? (
-            <img src={user.image} />
+            <img src={user.image} className="rounded-full" />
           ) : (
             <p className="font-medium text-black text-base">{user?.name[0]}</p>
           )}
@@ -68,7 +68,7 @@ const UserNavbarMenu = () => {
     <>
       <div className="space-y-2 py-2 text-sm font-normal">
         <Link
-          href="/account"
+          href="/account/personal-info"
           className="block px-4 py-2"
           onClick={() => setIsOpen(false)}
         >
@@ -143,7 +143,10 @@ const UserNavbarMenu = () => {
       <DropdownMenuTrigger asChild>{MenuTrigger}</DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-52 rounded-lg mt-2 px-0">
         <DropdownMenuItem asChild className="py-2 rounded-none">
-          <Link href="/account" className="w-full !cursor-pointer px-4">
+          <Link
+            href="/account/personal-info"
+            className="w-full !cursor-pointer px-4"
+          >
             {t("nav.account")}
           </Link>
         </DropdownMenuItem>

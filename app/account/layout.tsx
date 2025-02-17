@@ -1,5 +1,5 @@
-import { SettingsBreadcrumb } from "@/components/BreadCrumb";
 import { Metadata } from "next";
+import { AccountSidebar } from "./(components)/account-sidebar";
 
 export const metadata: Metadata = {
   title: "Your account | GoBusly",
@@ -12,8 +12,8 @@ export default function AccountLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex flex-col max-w-4xl mx-auto px-4 md:px-6 paddingY space-y-4 !py-10 sm:!py-14 md:!py-20">
-      <SettingsBreadcrumb />
+    <div className="flex max-w-6xl mx-auto paddingX paddingY gap-12 space-y-4 !py-10 sm:!py-14 md:!py-20">
+      <AccountSidebar />
       {children}
     </div>
   );

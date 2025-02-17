@@ -218,12 +218,12 @@ function WalletPageContent() {
   return (
     <div className="container mx-auto max-w-6xl">
       <div className="space-y-8">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col sm:flex-row items-start justify-between sm:items-center gap-2">
           <div>
             <h2 className="text-3xl font-bold text-gray-800">
               {t("account.wallet")}
             </h2>
-            <p className="text-muted-foreground mt-2">
+            <p className="text-muted-foreground">
               {t("wallet.managePaymentMethods")}
             </p>
           </div>
@@ -246,7 +246,7 @@ function WalletPageContent() {
             </p>
           </div>
         ) : (
-          <div className="grid gap-6 md:grid-cols-2 ">
+          <div className="grid gap-6 lg:grid-cols-2 ">
             {paymentMethods?.map((method) => (
               <PaymentMethodCard
                 key={method.id}

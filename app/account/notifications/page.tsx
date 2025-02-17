@@ -51,7 +51,7 @@ export default function NotificationsPage() {
   }
 
   return (
-    <div className="">
+    <div className="w-full">
       <div className="space-y-8">
         <div>
           <h2 className="text-3xl font-semibold">{t("notifications.title")}</h2>

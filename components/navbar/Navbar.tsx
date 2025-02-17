@@ -18,11 +18,9 @@ const Navbar = ({ className }: { className?: string }) => {
 
   return (
     <header
-      className={cn(
-        "w-full flex justify-between items-center bg-transparent",
-        className,
-        { "hidden md:flex": path.includes("/search") }
-      )}
+      className={cn("w-full flex justify-between items-center", className, {
+        "hidden md:flex": path.includes("/search"),
+      })}
     >
       <div className="flex items-center gap-8">
         <Link href={"/"}>

@@ -78,7 +78,7 @@ export default function BusRoutesClient({
   return (
     <div className="flex flex-col gap-6">
       <div className="bg-white rounded-lg py-6 flex flex-col gap-4 w-full min-h-fit">
-        <div className="max-w-6xl mx-auto w-full z-[99] paddingX">
+        <div className="max-w-6xl mx-auto w-full paddingX">
           <SearchForm />
         </div>
       </div>

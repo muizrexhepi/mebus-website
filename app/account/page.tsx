@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { ComponentType, SVGProps, useEffect, useLayoutEffect } from "react";
+import { ComponentType, SVGProps, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslation } from "react-i18next";
 import { Book, Lock, User, Wallet } from "lucide-react";
@@ -20,8 +20,7 @@ export default function Account() {
   const router = useRouter();
   const { t } = useTranslation();
 
-  // Redirect to home if the user is not authenticated
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!isAuthenticated) {
       router.push("/"); // Redirect to home or login page
     }
@@ -34,12 +33,12 @@ export default function Account() {
       title: t("account.profile"),
       description: t("account.profileDesc"),
     },
-    {
-      href: "/account/login-security",
-      icon: Lock,
-      title: t("account.security"),
-      description: t("account.securityDesc"),
-    },
+    // {
+    //   href: "/account/login-security",
+    //   icon: Lock,
+    //   title: t("account.security"),
+    //   description: t("account.securityDesc"),
+    // },
     {
       href: "/bookings",
       icon: Book,
@@ -70,7 +69,7 @@ export default function Account() {
           </div>
         )}
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         {ACCOUNT_SETTINGS.map((link) => (
           <Link
             key={link.title}
