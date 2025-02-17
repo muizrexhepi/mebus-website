@@ -26,15 +26,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export default function PersonalInfo() {
-  const { user, isAuthenticated, loading } = useAuth();
+  const { user, loading } = useAuth();
   const [editingInfo, setEditingInfo] = useState<any>(null);
   const [editedValue, setEditedValue] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | undefined>();
-  const [useAsPassengerInfo, setUseAsPassengerInfo] = useState<boolean>(false);
   const { toast } = useToast();
   const { t } = useTranslation();
 
@@ -45,7 +43,25 @@ export default function PersonalInfo() {
       action: user?.name ? t("personalInfo.edit") : "Add",
       editable: true,
       update: async (newValue: string) => {
-        // Update name logic here
+        try {
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/user/name/edit/${user._id}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+              },
+              body: JSON.stringify({ name: newValue }),
+            }
+          );
+
+          if (!res.ok) throw new Error("Failed to update name");
+
+          toast({ description: "Name updated successfully." });
+        } catch (error: any) {
+          throw new Error(error.message || "An error occurred");
+        }
       },
     },
     {
@@ -61,18 +77,32 @@ export default function PersonalInfo() {
       value: user?.phone || "Add a number so the operators can get in touch.",
       action: user?.phone ? t("personalInfo.edit") : "Add",
       editable: true,
-      update: async (newValue: string, password: string) => {
-        // Update phone logic here
+      update: async (newValue: string) => {
+        try {
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/user/phone/edit/${user._id}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user?.token}`,
+              },
+              body: JSON.stringify({ phone: newValue }),
+            }
+          );
+
+          if (!res.ok) throw new Error("Failed to update phone number");
+
+          toast({ description: "Phone number updated successfully." });
+        } catch (error: any) {
+          throw new Error(error.message || "An error occurred");
+        }
       },
     },
   ];
 
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEditedValue(e.target.value);
-  };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
   };
 
   const handleSaveChanges = async () => {
@@ -91,11 +121,9 @@ export default function PersonalInfo() {
   return (
     <div className="container max-w-3xl mx-auto">
       <div className="space-y-8">
-        <div>
-          <h1 className="text-3xl font-semibold mb-4">
-            {t("personalInfo.title")}
-          </h1>
-        </div>
+        <h1 className="text-3xl font-semibold mb-4">
+          {t("personalInfo.title")}
+        </h1>
 
         <div className="space-y-6">
           <div className="">
@@ -177,7 +205,7 @@ export default function PersonalInfo() {
                 href="/help"
                 className="text-transparent bg-clip-text text-sm button-gradient hover:underline"
               >
-                help.gobusly.com
+                gobusly.com/help
               </a>
             </p>
           </div>
@@ -208,24 +236,15 @@ export default function PersonalInfo() {
                 autoComplete="off"
               />
             </div>
-            {editingInfo?.requiresPassword && (
-              <div className="grid gap-2">
-                <Label htmlFor="password">Confirm with password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={handlePasswordChange}
-                />
-              </div>
-            )}
           </div>
           {error && <FormError message={error} />}
           <DialogFooter>
             <Button variant="outline" onClick={() => setEditingInfo(null)}>
               Cancel
             </Button>
-            <Button onClick={handleSaveChanges}>Save changes</Button>
+            <Button variant={"primary"} onClick={handleSaveChanges}>
+              Save changes
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

@@ -172,7 +172,7 @@ const AdditionalInfo = ({ booking }: { booking: Booking }) => (
           <p className="text-primary-bg/70">View your booking: </p>
           <a
             target="_blank"
-            href={`https://www.gobusly.com/bookings/${booking?._id}`}
+            href={`https://www.gobusly.com/account/bookings/${booking?._id}`}
             className="font-medium hover:underline truncate block"
           >
             Click here!

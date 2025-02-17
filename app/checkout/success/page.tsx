@@ -178,7 +178,7 @@ const SuccessPage: React.FC = () => {
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button asChild className="w-full sm:w-auto">
-            <Link href="/bookings">
+            <Link href="/account/bookings">
               <FileText className="mr-2 h-4 w-4" aria-hidden="true" />
               View My Bookings
             </Link>

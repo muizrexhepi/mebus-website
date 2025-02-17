@@ -75,9 +75,12 @@ export const BookingCard: React.FC<BookingCardProps> = ({
   const fetchAvailableDates = async () => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL
-        }/ticket/search/available-dates?departureStation=${booking.destinations?.departure_station
-        }&arrivalStation=${booking.destinations?.arrival_station
+        `${
+          process.env.NEXT_PUBLIC_API_URL
+        }/ticket/search/available-dates?departureStation=${
+          booking.destinations?.departure_station
+        }&arrivalStation=${
+          booking.destinations?.arrival_station
         }&departureDate=${moment(selectedDate).format(
           "DD-MM-YYYY"
         )}&adults=${adults}&children=${children}&page=1`
@@ -150,7 +153,8 @@ export const BookingCard: React.FC<BookingCardProps> = ({
   };
 
   const adults =
-    booking.passengers?.filter((passenger) => passenger?.age >= 10)?.length || 0;
+    booking.passengers?.filter((passenger) => passenger?.age >= 10)?.length ||
+    0;
   const children =
     booking.passengers?.filter((passenger) => passenger?.age < 10)?.length || 0;
 
@@ -161,7 +165,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({
           <div className="flex items-center space-x-6 w-full sm:w-auto ">
             <div className="text-center w-20 flex-shrink-0 border-r pr-3">
               <p className="text-sm text-black bold">
-                {moment.utc(booking?.departure_date).format("ddd, MM YYYY")}
+                {moment.utc(booking?.departure_date).format("ll")}
               </p>
             </div>
             <div className="flex flex-col space-y-2 whitespace-nowrap">
@@ -178,9 +182,9 @@ export const BookingCard: React.FC<BookingCardProps> = ({
             </div>
             <div className="flex items-center space-x-2 w-full sm:w-auto justify-end h-12 sm:h-24 sm:justify-start">
               <div className="flex flex-col justify-between h-full">
-                <div className="h-3 w-3 rounded-full bg-primary-accent" />
-                <div className="flex-1 ml-[5px] border-l-1 border-dotted border-primary-accent border w-0" />
-                <div className="h-3 w-3 rounded-full bg-primary-accent" />
+                <div className="h-3 w-3 rounded-full bg-primary-bg" />
+                <div className="flex-1 ml-[5px] border-l-1 border-dashed border-primary-bg border w-0" />
+                <div className="h-3 w-3 rounded-full bg-primary-bg" />
               </div>
               <div className="flex flex-col h-full justify-between">
                 <div className="text-sm font-medium capitalize flex flex-col">
@@ -198,8 +202,9 @@ export const BookingCard: React.FC<BookingCardProps> = ({
               </div>
             </div>
             <Badge
-              className={`capitalize absolute bottom-2 right-0 sm:relative sm:bottom-0 ${booking?.metadata?.refund_action?.is_refunded && "bg-red-500"
-                }`}
+              className={`capitalize absolute bottom-2 right-0 sm:relative bg-primary-bg sm:bottom-0 ${
+                booking?.metadata?.refund_action?.is_refunded && "bg-red-500"
+              }`}
             >
               {!booking?.metadata?.refund_action?.is_refunded
                 ? booking?.metadata?.travel_flex == "no_flex"
@@ -241,12 +246,12 @@ export const BookingCard: React.FC<BookingCardProps> = ({
                   isNoFlex
                     ? handleNoFlexAction
                     : () =>
-                      handleCancelBookingAndRefund(
-                        booking?._id,
-                        booking?.metadata?.payment_intent_id,
-                        booking?.metadata?.travel_flex,
-                        Math.round(booking?.price * 100 * 0.7)
-                      )
+                        handleCancelBookingAndRefund(
+                          booking?._id,
+                          booking?.metadata?.payment_intent_id,
+                          booking?.metadata?.travel_flex,
+                          Math.round(booking?.price * 100 * 0.7)
+                        )
                 }
               >
                 <XCircle className="h-4 w-4" />

@@ -191,7 +191,10 @@ const UserNavbarMenu = () => {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild className="py-2 rounded-none">
-          <Link href="/bookings" className="w-full !cursor-pointer px-4">
+          <Link
+            href="/account/bookings"
+            className="w-full !cursor-pointer px-4"
+          >
             {t("nav.bookings")}
           </Link>
         </DropdownMenuItem>

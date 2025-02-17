@@ -68,7 +68,7 @@ export default function NotificationsPage() {
             </div>
             <Switch
               checked={notifications.bookingConfirmation}
-              className="data-[state=checked]:bg-primary-accent"
+              className="data-[state=checked]:bg-primary-bg"
               onCheckedChange={() => handleToggle("bookingConfirmation")}
             />
           </div>
@@ -83,7 +83,7 @@ export default function NotificationsPage() {
             </div>
             <Switch
               checked={notifications.departureReminder}
-              className="data-[state=checked]:bg-primary-accent"
+              className="data-[state=checked]:bg-primary-bg"
               onCheckedChange={() => handleToggle("departureReminder")}
             />
           </div>
@@ -98,7 +98,7 @@ export default function NotificationsPage() {
             </div>
             <Switch
               checked={notifications.promotions}
-              className="data-[state=checked]:bg-primary-accent"
+              className="data-[state=checked]:bg-primary-bg"
               onCheckedChange={() => handleToggle("promotions")}
             />
           </div>
@@ -113,7 +113,7 @@ export default function NotificationsPage() {
             </div>
             <Switch
               checked={notifications.accountUpdates}
-              className="data-[state=checked]:bg-primary-accent"
+              className="data-[state=checked]:bg-primary-bg"
               onCheckedChange={() => handleToggle("accountUpdates")}
             />
           </div>
@@ -131,7 +131,7 @@ export default function NotificationsPage() {
                 : t("notifications.disabled")}
             </Label>
           </div>
-          <Button onClick={handleSavePreferences}>
+          <Button onClick={handleSavePreferences} className="bg-primary-bg">
             {t("notifications.savePreferences")}
           </Button>
         </div>

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     title: "Retrieve Booking | GoBusly",
     description:
       "Access your GoBusly bus booking details by entering your booking reference and email. Retrieve travel information quickly and easily.",
-    url: "https://www.gobusly.com/bookings/retrieve-booking",
+    url: "https://www.gobusly.com/account/bookings/retrieve-booking",
     type: "website",
     images: [
       {

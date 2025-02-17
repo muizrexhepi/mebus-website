@@ -1,64 +1,22 @@
-// import { NextResponse } from 'next/server'
-// import type { NextRequest } from 'next/server'
-// import { Client, Account } from 'node-appwrite'
+import { NextRequest, NextResponse } from "next/server";
+import { LRUCache } from "lru-cache";
 
-// const protectedRoutes = ['/account', '/bookings', '/settings']
+const rateLimit = new LRUCache({
+  max: 100, // Max requests per IP
+  ttl: 60 * 1000, // 1 minute
+});
 
-// const client = new Client()
-//     .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || '')
-//     .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || '')
+export function middleware(req: NextRequest) {
+  const ip = req.ip ?? "127.0.0.1";
 
-// const account = new Account(client)
+  if (rateLimit.has(ip)) {
+    return new NextResponse("Too Many Requests", { status: 429 });
+  }
 
-// export async function middleware(request: NextRequest) {
+  rateLimit.set(ip, true);
+  return NextResponse.next();
+}
 
-//     const isProtectedRoute = protectedRoutes.some(route => request.nextUrl.pathname.startsWith(route))
-
-//     if (isProtectedRoute) {
-//         const isAuthenticated = await checkUserAuthentication(request)
-
-//         if (!isAuthenticated) {
-//             return NextResponse.redirect(new URL('/login', request.url))
-//         }
-//     } else {
-//     }
-
-//     if (request.nextUrl.pathname === '/login') {
-//         const isAuthenticated = await checkUserAuthentication(request)
-//         if (isAuthenticated) {
-//             return NextResponse.redirect(new URL('/account', request.url))
-//         }
-//     }
-
-//     return NextResponse.next()
-// }
-
-// async function checkUserAuthentication(request: NextRequest): Promise<boolean> {
-//     const projectId = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID
-//     if (!projectId) {
-//         console.error('Appwrite Project ID is not set')
-//         return false
-//     }
-
-//     const sessionName = 'a_session_' + projectId.toLowerCase()
-//     const sessionId = request.cookies.get(sessionName)?.value
-
-
-//     if (!sessionId) {
-//         return false
-//     }
-
-//     try {
-//         const session = await account.getSession(sessionId)
-//         return true
-//     } catch (error) {
-//         console.error('Session verification failed:', error)
-//         return false
-//     }
-// }
-
-// export const config = {
-//     matcher: [
-//         '/((?!api|_next/static|_next/image|favicon.ico).*)',
-//     ],
-// }
+export const config = {
+  matcher: "/api/:path*",
+};
