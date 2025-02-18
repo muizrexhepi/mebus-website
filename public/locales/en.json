@@ -67,7 +67,7 @@
       "cancellationPolicy": "Cancellation Policy",
       "paymentOptions": "Payment Options",
       "eTicketGuide": "E-Ticket Guide",
-      "travelFlexOptions": "Travel Flex Options",
+      "travelFlexOptions": "Travel Services",
       "travelDuration": "Travel Duration",
       "travelAdvisory": "Travel Advisory",
       "contactSupport": "Contact Support"
@@ -170,8 +170,8 @@
     "bookingPrice": "Booking price",
     "adults": "Adults",
     "children": "Children",
-    "premiumFlex": "Premium Flex",
-    "basicFlex": "Basic Flex",
+    "premiumFlex": "Priority Service",
+    "basicFlex": "Standard Service",
     "subtotal": "Subtotal",
     "amountUsedFromDeposit": "Amount used from deposit",
     "total": "Total"
