@@ -2,13 +2,7 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -100,17 +94,11 @@ export default function ContactForm() {
   };
 
   return (
-    <Card className="h-fit">
-      <CardHeader>
-        <CardTitle className="text-2xl">Send Us a Message</CardTitle>
-        <CardDescription>
-          We&apos;ll get back to you as soon as possible
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1">
+    <div className="h-fit">
+      <div className="p-8 shadow-md rounded-xl bg-white">
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          <div className="grid grid-cols-2 gap-6">
+            <div className="space-y-2">
               <Label htmlFor="first-name">{t("passengerInfo.firstName")}</Label>
               <Input
                 id="first-name"
@@ -119,34 +107,36 @@ export default function ContactForm() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="h-12 bg-primary-bg/5 rounded-lg border-none"
+                className="h-12 bg-primary-bg/5 rounded-lg border-none focus:ring-2 focus:ring-primary-bg/20"
               />
             </div>
-            <div className="space-y-1">
+            <div className="space-y-2">
               <Label htmlFor="last-name">{t("passengerInfo.lastName")}</Label>
               <Input
                 id="last-name"
                 name="lastName"
                 placeholder={t("passengerInfo.lastNamePlaceholder")}
                 required
-                className="h-12 bg-primary-bg/5 rounded-lg border-none"
+                className="h-12 bg-primary-bg/5 rounded-lg border-none focus:ring-2 focus:ring-primary-bg/20"
               />
             </div>
           </div>
-          <div className="space-y-1">
+
+          <div className="space-y-2">
             <Label htmlFor="email">{t("passengerInfo.email")}</Label>
             <Input
               id="email"
               name="email"
-              placeholder={t("passengerInfo.emailPlaceholder")}
               type="email"
+              placeholder={t("passengerInfo.emailPlaceholder")}
               value={formData.email}
               onChange={handleChange}
               required
-              className="h-12 bg-primary-bg/5 rounded-lg border-none"
+              className="h-12 bg-primary-bg/5 rounded-lg border-none focus:ring-2 focus:ring-primary-bg/20"
             />
           </div>
-          <div className="space-y-1">
+
+          <div className="space-y-2">
             <Label htmlFor="subject">{t("contactForm.subject")}</Label>
             <Select
               name="subject"
@@ -154,7 +144,7 @@ export default function ContactForm() {
               onValueChange={handleSubjectChange}
               required
             >
-              <SelectTrigger className="h-12 bg-primary-bg/5 rounded-lg border-none">
+              <SelectTrigger className="h-12 bg-primary-bg/5 rounded-lg border-none ">
                 <SelectValue placeholder={t("contactForm.selectSubject")} />
               </SelectTrigger>
               <SelectContent>
@@ -176,22 +166,24 @@ export default function ContactForm() {
               </SelectContent>
             </Select>
           </div>
-          <div className="space-y-1">
+
+          <div className="space-y-2">
             <Label htmlFor="message">{t("contactForm.message")}</Label>
             <Textarea
-              className="resize-none bg-primary-bg/5 rounded-lg border-none"
               id="message"
               name="message"
               placeholder={t("contactForm.messagePlaceholder")}
               value={formData.message}
               onChange={handleChange}
               required
+              className="min-h-[120px] resize-none bg-primary-bg/5 rounded-lg border-none"
             />
           </div>
+
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full h-12 rounded-lg button-gradient text-white"
+            className="w-full h-12 rounded-lg button-gradient text-white transition-transform hover:scale-[1.02]"
           >
             {isSubmitting ? (
               <Loader2 className="animate-spin size-5 mx-auto" />
@@ -200,18 +192,19 @@ export default function ContactForm() {
             )}
           </Button>
         </form>
+
         {submitStatus.message && (
           <div
-            className={`mt-4 p-4 rounded-md ${
+            className={`mt-6 p-4 rounded-lg ${
               submitStatus.success
-                ? "bg-green-50 text-green-800"
-                : "bg-red-50 text-red-800"
+                ? "bg-green-50 text-green-800 border border-green-200"
+                : "bg-red-50 text-red-800 border border-red-200"
             }`}
           >
             {submitStatus.message}
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

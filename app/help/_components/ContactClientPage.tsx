@@ -1,6 +1,7 @@
 "use client";
+
 import React from "react";
-import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { Phone, Mail, MapPin } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useTranslation } from "react-i18next";
 
@@ -9,12 +10,12 @@ const ContactInfo: React.FC<{
   title: string;
   content: React.ReactNode;
 }> = ({ icon, title, content }) => (
-  <Card className="flex items-start space-x-4 p-4  rounded-lg hover:shadow-sm transition-all duration-300">
-    <div className="text-primary-bg p-2 rounded-full bg-primary-bg/10">
+  <Card className="flex items-start space-x-4 p-6 rounded-lg hover:shadow-md transition-all duration-300 border-gray-100">
+    <div className="text-primary-bg p-3 rounded-full bg-primary-bg/10">
       {icon}
     </div>
-    <div>
-      <h3 className="font-normal text-lg text-neutral-800">{title}</h3>
+    <div className="flex-1">
+      <h3 className="font-medium text-lg text-gray-900 mb-2">{title}</h3>
       {content}
     </div>
   </Card>
@@ -22,62 +23,64 @@ const ContactInfo: React.FC<{
 
 export const ContactClientPage = () => {
   const { t } = useTranslation();
-  return (
-    <div>
-      <h1 className="text-2xl sm:text-4xl font-normal mb-2 button-gradient text-transparent bg-clip-text">
-        {t("helpPage.quickLinks.contactSupport", "Contact support")}
-      </h1>
-      <p className="text-gray-600 mb-12 text-lg leading-relaxed">
-        {t(
-          "pageMetadata.customerSupport.content.text",
-          "Our dedicated professional support team is committed to providing exceptional assistance."
-        )}
-      </p>
 
-      <div className="space-y-6">
+  return (
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-3xl sm:text-4xl font-normal mb-4 button-gradient text-transparent bg-clip-text">
+          {t("helpPage.quickLinks.contactSupport", "Contact Support")}
+        </h1>
+        <p className="text-gray-600 text-lg leading-relaxed">
+          {t(
+            "pageMetadata.customerSupport.content.text",
+            "If you need any assistance or have questions about your booking, our dedicated support team is ready to help."
+          )}
+        </p>
+      </div>
+
+      <div className="space-y-4">
         <ContactInfo
           icon={<Phone size={24} strokeWidth={1.5} />}
           title="Professional Phone Support"
           content={
             <div className="space-y-2">
-              <p className="text-neutral-700">Toll-Free: 1-800-GoBusly-01</p>
-              <p className="text-neutral-700">
-                International: +1-555-GoBusly-02
-              </p>
-              <p className="text-sm text-primary-accent font-medium">
+              <p className="text-gray-600">Toll-Free: 1-800-GoBusly-01</p>
+              <p className="text-gray-600">International: +1-555-GoBusly-02</p>
+              <p className="text-sm text-transparent bg-clip-text button-gradient font-medium">
                 24/7 Expert Support
               </p>
             </div>
           }
         />
+
         <ContactInfo
           icon={<Mail size={24} strokeWidth={1.5} />}
           title="Professional Email Support"
           content={
             <div className="space-y-2">
-              <p className="text-neutral-700">
+              <p className="text-gray-600">
                 General Inquiries: support@gobusly.com
               </p>
-              <p className="text-neutral-700">
+              <p className="text-gray-600">
                 Booking Assistance: bookings@gobusly.com
               </p>
-              <p className="text-sm text-primary-accent font-medium">
+              <p className="text-sm text-transparent bg-clip-text button-gradient font-medium">
                 Guaranteed 24-Hour Response
               </p>
             </div>
           }
         />
+
         <ContactInfo
           icon={<MapPin size={24} strokeWidth={1.5} />}
           title="Corporate Headquarters"
           content={
             <div className="space-y-2">
-              <p className="text-neutral-700">SEEU Techpark, GoBusly</p>
-              <p className="text-neutral-700">Tetovo, 1200</p>
-              <div className="flex items-center space-x-2 text-sm text-primary-accent font-medium">
-                <Clock size={16} strokeWidth={1.5} />
-                <span>Business Hours: Mon-Fri, 9AM-6PM</span>
-              </div>
+              <p className="text-gray-600">SEEU Techpark, GoBusly</p>
+              <p className="text-gray-600">Tetovo, 1200</p>
+              <p className="text-sm text-transparent bg-clip-text button-gradient font-medium">
+                Business Hours: Mon-Fri, 9AM-6PM
+              </p>
             </div>
           }
         />

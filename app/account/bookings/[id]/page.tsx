@@ -74,7 +74,7 @@ export default function BookingDetailsPage({
   }
 
   return (
-    <div className="space-y-4 max-w-4xl mx-auto py-20 paddingX min-h-screen">
+    <div className="space-y-4 max-w-4xl mx-auto paddingX min-h-screen">
       <DownloadableBookingPDF booking={booking} />
     </div>
   );

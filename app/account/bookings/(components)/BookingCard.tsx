@@ -232,7 +232,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="gap-2"
-                onClick={() => router.push(`/bookings/${booking?._id}`)}
+                onClick={() => router.push(`/account/bookings/${booking?._id}`)}
               >
                 <View className="h-4 w-4" />
                 {t("actions.viewDetails")}

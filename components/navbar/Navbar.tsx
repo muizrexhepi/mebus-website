@@ -27,13 +27,13 @@ const Navbar = ({ className }: { className?: string }) => {
           <Image
             src={"/assets/icons/dark-logo.svg"}
             alt="Logo"
-            width={120}
+            width={140}
             height={60}
             className="object-contain"
             priority
           />
         </Link>
-        <nav className="hidden md:flex gap-8 items-center">
+        {/* <nav className="hidden md:flex gap-8 items-center">
           {NAV_LINKS.map((link, index) => (
             <Link
               href={link.url}
@@ -43,7 +43,7 @@ const Navbar = ({ className }: { className?: string }) => {
               {t(`nav.${link.name.toLowerCase()}`)}
             </Link>
           ))}
-        </nav>
+        </nav> */}
       </div>
 
       <div className="flex items-center gap-4">
