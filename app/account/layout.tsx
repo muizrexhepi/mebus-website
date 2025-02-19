@@ -12,7 +12,7 @@ export default function AccountLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex max-w-6xl mx-auto paddingX min-h-screen paddingY gap-12 space-y-4 !py-10 sm:!py-14 md:!py-20">
+    <div className="flex max-w-6xl mx-auto paddingX min-h-screen paddingY gap-12 !py-10 sm:!py-14 md:!py-20">
       <AccountSidebar />
       {children}
     </div>

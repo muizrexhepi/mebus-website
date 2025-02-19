@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import { Locate, MapPin } from "lucide-react";
+import { Locate, MapPin, Tag } from "lucide-react";
 import moment from "moment-timezone";
 import { Ticket } from "@/models/ticket";
 import { cn } from "@/lib/utils";
@@ -95,11 +95,26 @@ const OrderSummary = ({ className }: { className?: string }) => {
   const [useBalance, setUseBalance] = useState(false);
   const [balanceAmount, setBalanceAmount] = useState(0);
   const [remainingAmount, setRemainingAmount] = useState(0);
+  const [discountCode, setDiscountCode] = useState<string | null>(null);
+  const [discountPercentage, setDiscountPercentage] = useState<number>(0);
+  const [discountAmount, setDiscountAmount] = useState<number>(0);
   const { useDeposit, depositAmount } = useDepositStore();
   const { passengers: passengerAmount } = useSearchStore();
   const { outboundTicket, returnTicket, selectedFlex, passengers } =
     useCheckoutStore();
   const { currency, convertFromEUR } = useCurrency();
+
+  // Check for discount code in localStorage on component mount
+  useEffect(() => {
+    const storedCode = localStorage.getItem("discountCode");
+    const expiration = localStorage.getItem("discountExpiration");
+    const percentage = localStorage.getItem("discountPercentage");
+
+    if (storedCode && expiration && new Date() < new Date(expiration || "")) {
+      setDiscountCode(storedCode);
+      setDiscountPercentage(Number(percentage) || 5);
+    }
+  }, []);
 
   useEffect(() => {
     const handleUseBalanceChange = (event: CustomEvent) => {
@@ -150,7 +165,7 @@ const OrderSummary = ({ className }: { className?: string }) => {
     ? calculateTicketTotal(returnTicket)
     : null;
 
-  const totalPrice = useMemo(() => {
+  const subtotalPrice = useMemo(() => {
     const outboundTotal = outboundDetails
       ? outboundDetails.adultTotal + outboundDetails.childTotal
       : 0;
@@ -159,6 +174,20 @@ const OrderSummary = ({ className }: { className?: string }) => {
       : 0;
     return outboundTotal + returnTotal + flexPrice;
   }, [outboundDetails, returnDetails, flexPrice]);
+
+  // Calculate discount amount if discount code exists
+  useEffect(() => {
+    if (discountCode && discountPercentage > 0) {
+      const calculatedDiscount = (subtotalPrice * discountPercentage) / 100;
+      setDiscountAmount(calculatedDiscount);
+    } else {
+      setDiscountAmount(0);
+    }
+  }, [discountCode, discountPercentage, subtotalPrice]);
+
+  const totalPrice = useMemo(() => {
+    return Math.max(subtotalPrice - discountAmount, 0);
+  }, [subtotalPrice, discountAmount]);
 
   const finalPrice = useMemo(() => {
     if (useBalance) {
@@ -182,6 +211,15 @@ const OrderSummary = ({ className }: { className?: string }) => {
       setRemainingAmount(totalPrice - (convertFromEUR(depositAmount) || 0));
     }
   }, [useBalance, balanceAmount, totalPrice, depositAmount, convertFromEUR]);
+
+  const removeDiscountCode = () => {
+    localStorage.removeItem("discountCode");
+    localStorage.removeItem("discountExpiration");
+    localStorage.removeItem("discountPercentage");
+    setDiscountCode(null);
+    setDiscountPercentage(0);
+    setDiscountAmount(0);
+  };
 
   return (
     <>
@@ -260,6 +298,47 @@ const OrderSummary = ({ className }: { className?: string }) => {
             />
           )}
           <hr className="w-full h-[1px] bg-neutral-500 my-2" />
+
+          {/* Discount Code Section */}
+          {discountCode && (
+            <>
+              <div className="flex items-center justify-between my-2">
+                <div className="flex items-center gap-2">
+                  <Tag size={16} className="text-green-600" />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium">
+                      {t("orderSummary.discountApplied", "Discount applied")}
+                    </span>
+                    <span className="text-xs text-gray-500">
+                      {discountCode}
+                    </span>
+                  </div>
+                </div>
+                <button
+                  onClick={removeDiscountCode}
+                  className="text-xs text-red-600 hover:text-red-800"
+                >
+                  {t("orderSummary.remove", "Remove")}
+                </button>
+              </div>
+              <PriceSummaryItem
+                label={t("orderSummary.subtotal")}
+                amount={subtotalPrice}
+                className="font-medium"
+                currencySymbol={currency.symbol}
+              />
+              <PriceSummaryItem
+                label={`${t(
+                  "orderSummary.discount",
+                  "Discount"
+                )} (${discountPercentage}%)`}
+                amount={-discountAmount}
+                className="text-green-600"
+                currencySymbol={currency.symbol}
+              />
+            </>
+          )}
+
           {useDeposit && (
             <>
               <PriceSummaryItem

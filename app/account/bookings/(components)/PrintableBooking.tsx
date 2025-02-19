@@ -10,10 +10,12 @@ import {
   Banknote,
   Info,
   Globe,
+  Bus,
 } from "lucide-react";
 import { Booking } from "@/models/booking";
 import { QRCodeSVG } from "qrcode.react";
 import { forwardRef } from "react";
+import Image from "next/image";
 
 interface PrintableBookingProps {
   booking: Booking;
@@ -25,12 +27,20 @@ const PrintableBooking = forwardRef<HTMLDivElement, PrintableBookingProps>(
       <div ref={ref} className="w-full">
         <div
           id="printable-ticket"
-          className="bg-white shadow-md border rounded-xl overflow-hidden font-sans print:shadow-none print:border-none"
+          className="bg-white border rounded-lg overflow-hidden font-sans print:shadow-none print:border-none"
         >
           <div className="p-4 md:p-6 flex justify-between items-center border-b">
-            <div className="flex items-center space-x-4">
+            {/* <div className="flex items-center space-x-4">
               <h1 className="text-black font-semibold text-xl">GoBusly</h1>
-            </div>
+            </div> */}
+            <Image
+              src={"/assets/icons/dark-logo.svg"}
+              alt="Logo"
+              width={120}
+              height={60}
+              className="object-contain"
+              priority
+            />
             <div className="text-sm text-gray-500">
               Booking ID: {booking._id}
             </div>
@@ -98,13 +108,17 @@ const DestinationInfo = ({ booking }: { booking: Booking }) => (
       </div>
     </div>
 
-    {/* Simplified Operator Information for Print */}
-    <div className="mt-6">
-      <p className="font-medium">
-        Operated by:{" "}
-        <span className="font-bold">{booking?.operator?.name}</span>
-      </p>
-      <p className="text-sm text-primary-bg/70 mt-2">
+    <div className="mt-6 border border-primary-accent rounded-lg py-2 px-4">
+      <div className="flex items-center gap-2">
+        <Bus className="w-6 h-6 text-primary-accent" />
+        <p className="text-base font-semibold text-primary-accent">
+          Operated by:{" "}
+          <span className="text-lg font-semibold uppercase">
+            {booking?.operator?.name}
+          </span>
+        </p>
+      </div>
+      <p className="text-sm mt-1 text-primary-bg/70">
         Enjoy a safe and reliable journey with {booking?.operator?.name}.
       </p>
     </div>

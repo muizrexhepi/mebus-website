@@ -42,15 +42,16 @@ export default function BookingDetailsPage({
 
   if (isLoading) {
     return (
-      <div className="h-screen w-full max-w-5xl space-y-3 py-20 paddingX mx-auto">
+      <div className="h-screen w-full space-y-4">
         {/* <div className="flex justify-between items-center">
           <Skeleton className="h-12 w-40" />
           <Skeleton className="h-12 w-26" />
         </div> */}
-        <Skeleton className="h-12 w-32" />
-        <Skeleton className="h-[270px] w-full" />
-        <Skeleton className="h-[270px] w-full" />
-        <Skeleton className="h-[270px] w-full" />
+        <div className="flex items-center gap-2">
+          <Skeleton className="h-10 w-28 rounded-lg" />
+          <Skeleton className="h-10 w-28 rounded-lg" />
+        </div>
+        <Skeleton className="h-full w-full rounded-xl" />
       </div>
     );
   }
@@ -74,7 +75,7 @@ export default function BookingDetailsPage({
   }
 
   return (
-    <div className="space-y-4 max-w-4xl mx-auto paddingX min-h-screen">
+    <div className="max-w-4xl mx-auto min-h-screen">
       <DownloadableBookingPDF booking={booking} />
     </div>
   );

@@ -7,7 +7,13 @@ import Image from "next/image";
 import { signOut } from "next-auth/react";
 import { useTranslation } from "react-i18next";
 import { LogOut, Menu, UserCircle } from "lucide-react";
-import { FaBell, FaBookmark, FaCreditCard, FaUser } from "react-icons/fa";
+import {
+  FaBell,
+  FaBookmark,
+  FaCreditCard,
+  FaTicketAlt,
+  FaUser,
+} from "react-icons/fa";
 import { BiSupport } from "react-icons/bi";
 
 import { Button } from "@/components/ui/button";
@@ -63,6 +69,11 @@ const UserNavbarMenu = () => {
       label: "Payment methods",
       href: "/account/wallet",
       icon: FaCreditCard,
+    },
+    {
+      label: "Discount codes",
+      href: "/account/discount-codes",
+      icon: FaTicketAlt,
     },
     {
       label: "Notifications",

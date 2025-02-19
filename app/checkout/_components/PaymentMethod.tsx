@@ -112,7 +112,27 @@ const PaymentMethod = () => {
     setLoading(true);
 
     try {
-      console.log({ pmid: user?.stripe_payment_method_id });
+      // Check if discount is applied
+      const discountCode = localStorage.getItem("discountCode");
+      const discountPercentage = localStorage.getItem("discountPercentage");
+      const discountExpiration = localStorage.getItem("discountExpiration");
+
+      // Calculate final amount with discount if applicable
+      let finalAmount = totalPrice;
+      let appliedDiscountAmount = 0;
+
+      if (discountCode && discountPercentage && discountExpiration) {
+        const expirationDate = new Date(discountExpiration);
+        const currentDate = new Date();
+
+        if (currentDate < expirationDate) {
+          const discountPercent = parseFloat(discountPercentage);
+          appliedDiscountAmount = totalPrice * (discountPercent / 100);
+          finalAmount = totalPrice - appliedDiscountAmount;
+        }
+      }
+
+      console.log({ finalAmount });
 
       const res = await axios.post<any>(
         `${
@@ -122,13 +142,21 @@ const PaymentMethod = () => {
         }&payment_method_id=${
           selectedPaymentMethod?.id || ""
         }&use_saved_card=${!!selectedPaymentMethod}`,
-        { passengers, amount_in_cents: totalPrice * 100 }
+        {
+          passengers,
+          amount_in_cents: Math.round(finalAmount * 100),
+          discount_amount_in_cents: Math.round(appliedDiscountAmount * 100),
+          discount_code: discountCode || null,
+        }
       );
 
-      console.log({ auto_capture: res.data });
-
       if (res.data.auto_capture) {
-        await createBookings(res.data.data.id);
+        await createBookings(
+          res.data.data.id,
+          finalAmount,
+          appliedDiscountAmount,
+          discountCode
+        );
         return router.push("/checkout/success");
       }
 
@@ -148,7 +176,12 @@ const PaymentMethod = () => {
           variant: "destructive",
         });
       } else if (paymentIntent.status === "succeeded") {
-        await createBookings(paymentIntent.id);
+        await createBookings(
+          paymentIntent.id,
+          finalAmount,
+          appliedDiscountAmount,
+          discountCode
+        );
         router.push("/checkout/success");
         resetCheckout();
       }
@@ -163,14 +196,22 @@ const PaymentMethod = () => {
     }
   };
 
-  const createBookings = async (paymentIntentId: string) => {
+  const createBookings = async (
+    paymentIntentId: string,
+    finalAmount: number,
+    discountAmount: number = 0,
+    discountCode: string | null = null
+  ) => {
     const bookings = [];
 
     if (outboundTicket) {
       const outboundBooking = await createBooking(
         outboundTicket,
         false,
-        paymentIntentId
+        paymentIntentId,
+        finalAmount,
+        discountAmount,
+        discountCode
       );
       bookings.push(outboundBooking);
     }
@@ -179,7 +220,10 @@ const PaymentMethod = () => {
       const returnBooking = await createBooking(
         returnTicket,
         true,
-        paymentIntentId
+        paymentIntentId,
+        finalAmount,
+        discountAmount,
+        discountCode
       );
       bookings.push(returnBooking);
     }
@@ -190,14 +234,22 @@ const PaymentMethod = () => {
   const createBooking = async (
     ticket: Ticket,
     isReturn: boolean,
-    paymentIntentId: string
+    paymentIntentId: string,
+    finalAmount: number,
+    discountAmount: number = 0,
+    discountCode: string | null = null
   ) => {
     const departure_station = ticket.stops[0].from._id;
     const arrival_station = ticket.stops[0].to._id;
     const departure_station_label = ticket.stops[0].from.name;
     const arrival_station_label = ticket.stops[0].to.name;
     const passengersWithPrices = calculatePassengerPrices(passengers, ticket);
-    const ticketTotal = isReturn ? returnTotal : outboundTotal;
+
+    // Calculate ticketTotal with discount proportionally applied
+    const originalTicketTotal = isReturn ? returnTotal : outboundTotal;
+    const proportion = originalTicketTotal / totalPrice;
+    const ticketDiscountAmount = discountAmount * proportion;
+    const ticketTotal = originalTicketTotal - ticketDiscountAmount;
 
     const { setIsPaymentSuccess, setBookingDetails } =
       usePaymentSuccessStore.getState();
@@ -214,6 +266,9 @@ const PaymentMethod = () => {
           platform: "web",
           flex_price: isReturn ? 0 : flexPrice,
           total_price: ticketTotal + (isReturn ? 0 : flexPrice),
+          original_price: originalTicketTotal + (isReturn ? 0 : flexPrice),
+          discount_amount: ticketDiscountAmount,
+          discount_code: discountCode,
           operator_price: isReturn
             ? operatorReturnTotal
             : operatorOutboundTotal,
@@ -237,7 +292,17 @@ const PaymentMethod = () => {
         const allBookings = [...savedBookings, newBooking];
         localStorage.setItem("noUserBookings", JSON.stringify(allBookings));
       }
-      console.log({ newBooking });
+
+      console.log({
+        newBooking,
+        appliedDiscount: discountCode
+          ? {
+              code: discountCode,
+              amount: ticketDiscountAmount,
+            }
+          : null,
+      });
+
       setIsPaymentSuccess(true);
       setBookingDetails({
         bookingId: newBooking._id,
@@ -246,6 +311,9 @@ const PaymentMethod = () => {
         arrivalStation: arrival_station_label,
         departureDate: new Date(newBooking.departure_date),
         price: ticketTotal + (isReturn ? 0 : flexPrice),
+        // originalPrice: originalTicketTotal + (isReturn ? 0 : flexPrice),
+        // discountAmount: ticketDiscountAmount,
+        // discountCode: discountCode,
         operator: ticket.metadata.operator_name,
       });
     } catch (error) {
@@ -328,24 +396,6 @@ const PaymentMethod = () => {
           error?.response?.data?.message || "Failed to save payment method",
         variant: "destructive",
       });
-    }
-  };
-
-  const handleFullDepositPayment = async () => {
-    setLoading(true);
-
-    try {
-      await createBookings("full_deposit_payment");
-      resetCheckout();
-      router.push("/checkout/success");
-    } catch (error: any) {
-      toast({
-        description:
-          error.response?.data?.message || "An error occurred during payment",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
     }
   };
 

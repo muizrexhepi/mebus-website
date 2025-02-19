@@ -2,7 +2,13 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { FaBell, FaBookmark, FaCreditCard, FaUser } from "react-icons/fa";
+import {
+  FaBell,
+  FaBookmark,
+  FaCreditCard,
+  FaUser,
+  FaTicketAlt,
+} from "react-icons/fa";
 
 const sidebarLinks = [
   {
@@ -21,6 +27,11 @@ const sidebarLinks = [
     icon: FaCreditCard,
   },
   {
+    label: "Discount codes",
+    href: "/account/discount-codes",
+    icon: FaTicketAlt,
+  },
+  {
     label: "Notifications",
     href: "/account/notifications",
     icon: FaBell,
@@ -34,7 +45,7 @@ export function AccountSidebar() {
     <nav className="w-[240px] hidden md:block flex-shrink-0 shadow h-fit rounded-xl overflow-hidden">
       <ul className="divide-y">
         {sidebarLinks.map((link) => {
-          const isActive = pathname === link.href;
+          const isActive = pathname.includes(link.href);
           return (
             <li key={link.href}>
               <Link

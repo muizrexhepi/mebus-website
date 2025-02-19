@@ -104,9 +104,11 @@ const FeaturesSection = () => {
                 </svg>
               </div>
               <div className="text-left">
-                <p className="font-medium text-gray-900">Trusted by millions</p>
+                <p className="font-medium text-gray-900">
+                  Trusted by thousands
+                </p>
                 <p className="text-sm text-gray-600">
-                  Over 5M+ happy travelers
+                  Over 20k+ happy travelers
                 </p>
               </div>
             </div>

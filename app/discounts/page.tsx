@@ -1,6 +1,3 @@
-import { Metadata } from "next";
-import Navbar from "@/components/navbar/Navbar";
-import SecondaryFooter from "@/components/SecondaryFooter";
 import ClientMebusDiscountOffers from "@/app/help/_components/DiscountTabs";
 import Footer from "@/components/Footer";
 

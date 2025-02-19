@@ -8,6 +8,7 @@ import TranslationProvider from "@/components/providers/TranslationProvider";
 import { Analytics } from "@vercel/analytics/react";
 import ClientProviders from "@/components/providers/client-providers";
 import Navbar from "@/components/navbar/Navbar";
+import DiscountBanner from "@/components/discount-banner";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -76,6 +77,7 @@ export default function RootLayout({
           <Toaster />
           <TranslationProvider>
             <ClientProviders>
+              <DiscountBanner />
               <Navbar className="paddingX max-w-6xl py-4 mx-auto" />
               {children}
               <CookieConsent />
