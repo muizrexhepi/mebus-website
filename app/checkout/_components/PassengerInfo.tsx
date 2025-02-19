@@ -47,7 +47,7 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => {
   const handleDateChange = (date: Date | null) => {
     if (date) {
-      const formattedDate = date.toISOString().split("T")[0];
+      const formattedDate = date?.toISOString()?.split("T")[0];
       onChange(formattedDate);
     } else {
       onChange("");
@@ -203,10 +203,10 @@ const PassengerInfo: React.FC = () => {
       console.log({ user });
       passengers[0] = {
         ...passengers[0],
-        first_name: user.name.split(" ")[0] || "",
-        last_name: user.name.split(" ")[1] || "",
-        email: user.email,
-        phone: user.phone || "",
+        first_name: user?.name?.split(" ")[0] || "",
+        last_name: user?.name?.split(" ")[1] || "",
+        email: user?.email,
+        phone: user?.phone || "",
       };
     }
   }, [user]);
@@ -277,7 +277,7 @@ const PassengerInfo: React.FC = () => {
         newErrors[index] = { ...newErrors[index], [field]: undefined };
         return newErrors;
       });
-    } catch (error) {
+    } catch (error: any) {
       if (error instanceof z.ZodError) {
         setValidationErrors((prev) => {
           const newErrors = [...prev];
