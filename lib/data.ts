@@ -59,10 +59,6 @@ export const FOOTER_LINKS = [
         link: "/routes",
       },
       {
-        name: "Travel Flex Options",
-        link: "/help/travel-flex",
-      },
-      {
         name: "Customer Support",
         link: "/help/contact-support",
       },

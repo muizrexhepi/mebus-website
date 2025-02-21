@@ -78,7 +78,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const stations = await getStations();
   const cityPairs = generateCrossCountryCityPairs(stations);
 
-  const staticUrls = [""].map((path) => ({
+  const staticUrls = ["/", "/account/bookings"].map((path) => ({
     url: `${BASE_URL}${path}`,
     lastModified: new Date().toISOString(),
   }));
