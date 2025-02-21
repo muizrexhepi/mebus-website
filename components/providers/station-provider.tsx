@@ -28,6 +28,7 @@ export const StationProvider = ({
     try {
       const fetchedStations = await getStations();
       setStations(fetchedStations);
+      console.log({ fetchedStations });
     } catch (err) {
       console.error("Error fetching stations:", err);
       setError("Failed to fetch stations.");

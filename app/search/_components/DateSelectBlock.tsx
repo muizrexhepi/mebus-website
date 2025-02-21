@@ -1,7 +1,15 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { format, addDays, subDays, parse, isValid, Locale } from "date-fns";
+import {
+  format,
+  addDays,
+  subDays,
+  parse,
+  isValid,
+  Locale,
+  startOfDay,
+} from "date-fns";
 import { Button } from "@/components/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import useSearchStore, { useCheckoutStore, useLoadingStore } from "@/store";
@@ -29,29 +37,34 @@ const DateButton: React.FC<DateButtonProps> = ({
   outboundTicket,
   currentLocale,
   tripType,
-}) => (
-  <Button
-    variant={"ghost"}
-    className={cn("flex-1 h-10 rounded-none", {
-      "pointer-events-none": isSelected,
-    })}
-    disabled={
-      (tripType === "round-trip" && outboundTicket && date < departureDate) ||
-      date < new Date()
-    }
-    onClick={onClick}
-  >
-    <div className="flex flex-col items-center">
-      <span
-        className={cn("text-sm sm:text-base md:text-lg font-medium", {
-          "button-gradient bg-clip-text text-transparent": isSelected,
-        })}
-      >
-        {format(date, "E, LLL dd", { locale: currentLocale })}
-      </span>
-    </div>
-  </Button>
-);
+}) => {
+  const today = startOfDay(new Date());
+  const buttonDate = startOfDay(new Date(date));
+
+  return (
+    <Button
+      variant={"ghost"}
+      className={cn("flex-1 h-10 rounded-none", {
+        "pointer-events-none": isSelected,
+      })}
+      disabled={
+        (tripType === "round-trip" && outboundTicket && date < departureDate) ||
+        buttonDate < today
+      }
+      onClick={onClick}
+    >
+      <div className="flex flex-col items-center">
+        <span
+          className={cn("text-sm sm:text-base md:text-lg font-medium", {
+            "button-gradient bg-clip-text text-transparent": isSelected,
+          })}
+        >
+          {format(date, "E, LLL dd", { locale: currentLocale })}
+        </span>
+      </div>
+    </Button>
+  );
+};
 
 export function DateSelectBlock() {
   const router = useRouter();
@@ -126,7 +139,10 @@ export function DateSelectBlock() {
         <div className="flex justify-between flex-1 border rounded-r-lg bg-white py-2 rounded-l-lg divide-x sm:px-8 md:px-2 mx-4 sm:mx-8 md:mx-auto overflow-x-auto">
           {dates.map((date) =>
             isLoading ? (
-              <Skeleton className="h-10 w-full bg-white rounded-none">
+              <Skeleton
+                key={date.toISOString()}
+                className="h-10 w-full bg-white rounded-none"
+              >
                 <div className="flex flex-col justify-center items-center h-full gap-2">
                   <Skeleton className="h-5 w-20 sm:w-32" />
                 </div>

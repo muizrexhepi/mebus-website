@@ -197,7 +197,7 @@ const TicketList: React.FC = () => {
       fetchTickets(page);
     }
   }, [noData, loading, hasMore, fetchTickets, page]);
-
+  console.log({ tickets });
   const handleTicketSelection = useCallback(
     (ticket: Ticket) => {
       setIsLoading(true);
