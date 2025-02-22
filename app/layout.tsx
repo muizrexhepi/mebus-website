@@ -77,7 +77,7 @@ export default function RootLayout({
           <Toaster />
           <TranslationProvider>
             <ClientProviders>
-              <DiscountBanner />
+              {/* <DiscountBanner /> */}
               <Navbar className="paddingX max-w-6xl py-4 mx-auto" />
               {children}
               <CookieConsent />

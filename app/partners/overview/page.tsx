@@ -43,7 +43,7 @@ export default function OperatorPartnership() {
     <div className="mx-auto xl:px-0 py-12">
       <section className="flex flex-col lg:flex-row items-center justify-between gap-12 pb-12 max-w-6xl paddingX mx-auto">
         <div className="lg:w-1/2">
-          <h1 className="text-3xl sm:text-5xl font-bold mb-6">
+          <h1 className="text-3xl sm:text-5xl font-normal mb-6">
             Partner with GoBusly
             <br />
             <span className="text-primary">Expand Your Reach</span>
@@ -188,7 +188,7 @@ export default function OperatorPartnership() {
       </section>
 
       <section className="max-w-6xl paddingX mx-auto">
-        <div className="py-16 button-gradient text-white text-center rounded-lg">
+        <div className="py-16 text-black text-center rounded-lg">
           <h2 className="text-3xl font-semibold mb-4">Ready to get started?</h2>
           <p className="mb-8 max-w-2xl mx-auto text-lg px-4 xl:px-0">
             Join the GoBusly network today and transform your bus operation with
@@ -198,7 +198,8 @@ export default function OperatorPartnership() {
           <Link href={"/partners/apply"}>
             <Button
               size="lg"
-              className="font-semibold bg-white text-primary hover:bg-gray-100"
+              variant={"primary"}
+              className="font-semibold text-white"
             >
               Apply Now <ArrowRight className="ml-2 h-4 w-4" />
             </Button>

@@ -28,11 +28,25 @@ export async function generateMetadata({
   const operator = operatorRes.data.data;
 
   return {
-    title: `${operator.name} | GoBusly`,
-    description: `View details and routes operated by ${operator.name}. Information on destinations, contact details, and company profile.`,
+    title: `${operator.name} | GoBusly - Trusted Bus Operator`,
+    description: `Discover ${operator.name}, a trusted bus operator providing reliable and comfortable travel experiences. View routes, destinations, and company details on GoBusly.`,
+    keywords: `${operator.name}, bus operator, travel, routes, destinations, transportation, GoBusly`,
+    openGraph: {
+      title: `${operator.name} | GoBusly - Trusted Bus Operator`,
+      description: `Explore ${operator.name}'s operated routes and company profile on GoBusly. Safe and comfortable travel solutions for your journey.`,
+      type: "website",
+      url: `${process.env.NEXT_PUBLIC_SITE_URL}/operator/${params.id}`,
+      images: [
+        {
+          url: `${process.env.NEXT_PUBLIC_SITE_URL}/images/operators/${params.id}.jpg`,
+          width: 1200,
+          height: 630,
+          alt: `${operator.name} Bus Operator Profile`,
+        },
+      ],
+    },
   };
 }
-
 const OperatorInfo: React.FC<{ operator: Operator }> = ({ operator }) => (
   <Card className="shadow-lg border-none">
     <CardHeader className="bg-primary/10 pb-2">
@@ -83,7 +97,7 @@ const OperatorRoutesPage: React.FC<{ params: { id: string } }> = async ({
   );
   const operator: Operator = operatorRes.data.data;
 
-  console.log({ routes, stations: routes[0].stations });
+  // console.log({ routes, stations: routes[0].stations });
 
   return (
     <div className="bg-gray-50 min-h-screen py-12">
@@ -91,8 +105,8 @@ const OperatorRoutesPage: React.FC<{ params: { id: string } }> = async ({
         <div className="flex justify-between items-center">
           <div className="flex items-center mb-8 space-x-4">
             <BuildingIcon className="w-8 h-8 text-primary" />
-            <h1 className="text-3xl font-bold text-primary tracking-tight">
-              {operator.name}
+            <h1 className="text-3xl font-bold text-primary-bg tracking-tight">
+              {operator.name} Company
             </h1>
           </div>
           <Link href="/partners/active-operators">

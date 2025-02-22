@@ -22,6 +22,7 @@ export async function generateMetadata({
 
   const title = `Bus from ${departureCity} to ${arrivalCity} | Cheap Tickets | GoBusly`;
   const description = `Book bus tickets from ${departureCity} to ${arrivalCity}. Daily departures, comfortable buses with WiFi, luggage included. Compare prices & book online with GoBusly.`;
+  const keywords = `bus tickets, ${departureCity} to ${arrivalCity}, cheap bus, ${departureCity} ${arrivalCity} bus, coach travel, ${departureCity} to ${arrivalCity} bus tickets, book bus from ${departureCity} to ${arrivalCity}, bus travel ${departureCity} ${arrivalCity}, long-distance bus ${departureCity} to ${arrivalCity}, best bus routes ${departureCity} ${arrivalCity}, bus schedule ${departureCity} to ${arrivalCity}`;
 
   const formattedSearchParams: Record<string, string> = Object.fromEntries(
     Object.entries(searchParams).map(([key, value]) => {
@@ -39,14 +40,14 @@ export async function generateMetadata({
   }/search/${destination}?${new URLSearchParams(
     formattedSearchParams
   ).toString()}`;
-  console.log({ canonicalUrl });
   return {
     title,
     description,
-    keywords: `bus tickets, ${departureCity} to ${arrivalCity}, cheap bus, ${departureCity} ${arrivalCity} bus, coach travel`,
+    keywords,
     alternates: {
       canonical: canonicalUrl,
     },
+    robots: "index, follow",
     openGraph: {
       title: `Bus from ${departureCity} to ${arrivalCity}`,
       description: `Find the best bus deals from ${departureCity} to ${arrivalCity}.`,
@@ -96,7 +97,6 @@ export default async function SearchPage({ params }: any) {
       <SearchSection />
 
       <div className="px-4 sm:px-8 max-w-6xl mx-auto py-4 space-y-4 xl:px-0 min-h-screen">
-        {/* SEO H1 - Visually hidden but accessible to screen readers */}
         <h1 className="sr-only">
           Bus from {departureCity} to {arrivalCity}
         </h1>

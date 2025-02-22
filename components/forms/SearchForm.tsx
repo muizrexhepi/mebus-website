@@ -31,17 +31,17 @@ export const SearchForm: React.FC<SearchFormProps> = ({ updateUrl }) => {
     tripType,
     setReturnDate,
     setTripType,
+    resetSearch,
   } = useSearchStore();
 
   const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const { stations, loading } = useStations();
-
+  const [isLoading, setIsLoading] = useState(false);
+  const { stations, loading: stationsLoading } = useStations();
   const { setOutboundTicket, setReturnTicket, setIsSelectingReturn } =
     useCheckoutStore();
-  const resetSearch = useSearchStore((state) => state.resetSearch);
 
   const isRoundTrip = tripType === "round-trip";
+  const isFormValid = Boolean(from && to && departureDate && !isLoading);
 
   const handleTripTypeChange = useCallback(
     (type: "one-way" | "round-trip") => {
@@ -51,62 +51,55 @@ export const SearchForm: React.FC<SearchFormProps> = ({ updateUrl }) => {
       setOutboundTicket(null);
       setIsSelectingReturn(false);
 
-      if (typeof window !== "undefined") {
-        const currentParams = new URLSearchParams(window.location.search);
+      if (typeof window === "undefined") return;
 
-        if (type === "one-way") {
-          currentParams.delete("returnDate");
-        } else {
-          const today = new Date();
-          const defaultReturnDate = new Date(today);
-          defaultReturnDate.setDate(today.getDate() + 7);
-          const formattedReturnDate = defaultReturnDate
-            .toISOString()
-            .split("T")[0];
-          currentParams.set("returnDate", returnDate || formattedReturnDate);
-        }
-
-        router.push(`${window.location.pathname}?${currentParams.toString()}`, {
-          scroll: false,
-        });
+      const params = new URLSearchParams(window.location.search);
+      if (type === "one-way") {
+        params.delete("returnDate");
+      } else {
+        const returnDate = new Date();
+        returnDate.setDate(returnDate.getDate() + 7);
+        params.set("returnDate", returnDate.toISOString().split("T")[0]);
       }
+
+      router.push(`${window.location.pathname}?${params.toString()}`, {
+        scroll: false,
+      });
     },
     [
-      returnDate,
+      setTripType,
       setReturnDate,
       setReturnTicket,
       setOutboundTicket,
       setIsSelectingReturn,
       router,
-      setTripType,
     ]
   );
 
   const handleSearch = useCallback(async () => {
-    if (isSubmitting || !from || !to || !departureDate) return;
-
-    setIsSubmitting(true);
+    if (!isFormValid || !departureDate) return;
+    console.log({ isLoading });
+    setIsLoading(true);
+    console.log({ isLoading });
 
     try {
       const searchParams = new URLSearchParams({
         departureStation: from,
         arrivalStation: to,
         departureDate: departureDate,
-        adult: passengers.adults.toString(),
-        children: passengers.children.toString(),
+        adult: String(passengers.adults),
+        children: String(passengers.children),
       });
 
       if (returnDate && isRoundTrip) {
         searchParams.append("returnDate", returnDate);
       }
 
-      const path = `/search/${fromCity.toLowerCase()}-${toCity.toLowerCase()}?${searchParams.toString()}`;
-
-      router.push(path);
-    } catch (err) {
-      console.error("Search error:", err);
-    } finally {
-      setIsSubmitting(false);
+      await router.replace(
+        `/search/${fromCity.toLowerCase()}-${toCity.toLowerCase()}?${searchParams.toString()}`
+      );
+    } catch (error) {
+      console.error("Search failed:", error);
     }
   }, [
     from,
@@ -118,108 +111,132 @@ export const SearchForm: React.FC<SearchFormProps> = ({ updateUrl }) => {
     toCity,
     passengers,
     router,
-    isSubmitting,
+    isFormValid,
   ]);
 
   useEffect(() => {
-    return () => {
-      if (!window.location.pathname.includes("/search")) {
-        resetSearch();
-      }
-    };
+    if (!window.location.pathname.includes("/search")) {
+      resetSearch();
+    }
   }, [resetSearch]);
 
   return (
     <div className="space-y-4 flex-1">
-      <div className="w-full flex flex-col gap-2 md:flex-row justify-start md:justify-between items-start md:items-center">
+      <div className="w-full flex flex-col gap-2 md:flex-row md:justify-between items-start md:items-center">
         <div className="flex items-center gap-4">
-          <div className="flex gap-4">
-            <label className="cursor-pointer flex items-center gap-2">
-              <input
-                type="radio"
-                name="tripType"
-                value="one-way"
-                checked={!isRoundTrip}
-                onChange={() => handleTripTypeChange("one-way")}
-                className="h-7 w-7 accent-primary-bg"
-              />
-              <span>{t("searchBlock.tripType.oneWay")}</span>
-            </label>
-            <label className="cursor-pointer flex items-center gap-2">
-              <input
-                type="radio"
-                name="tripType"
-                value="round-trip"
-                checked={isRoundTrip}
-                onChange={() => handleTripTypeChange("round-trip")}
-                className="h-7 w-7 accent-primary-bg"
-              />
-              <span>{t("searchBlock.tripType.roundTrip")}</span>
-            </label>
-          </div>
+          <RadioGroup
+            value={isRoundTrip ? "round-trip" : "one-way"}
+            onChange={handleTripTypeChange}
+            options={[
+              { value: "one-way", label: t("searchBlock.tripType.oneWay") },
+              {
+                value: "round-trip",
+                label: t("searchBlock.tripType.roundTrip"),
+              },
+            ]}
+          />
         </div>
       </div>
+
       <div
         className={cn(
           "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 items-end gap-2 lg:gap-1",
           { "lg:grid-cols-4": updateUrl }
         )}
       >
-        {["from", "to"].map((departure) => (
-          <div key={departure} className="w-full sm:space-y-1">
-            <p className="uppercase text-black/50 font-medium text-xs hidden sm:block">
-              {t(`searchForm.${departure}`)}
-            </p>
-            {loading ? (
-              <InputSkeleton />
-            ) : (
+        {["from", "to"].map((type) => (
+          <FormField
+            key={type}
+            label={t(`searchForm.${type}`)}
+            loading={stationsLoading}
+            component={
               <StationSelect
                 stations={stations}
-                departure={departure as "from" | "to"}
+                departure={type as "from" | "to"}
                 updateUrl={updateUrl}
               />
-            )}
-          </div>
+            }
+          />
         ))}
-        <div className="w-full sm:space-y-1">
-          <p className="uppercase text-black/50 font-medium text-xs hidden sm:block">
-            {t("searchForm.departure")}
-          </p>
-          {loading ? (
-            <InputSkeleton />
-          ) : (
+
+        <FormField
+          label={t("searchForm.departure")}
+          loading={stationsLoading}
+          component={
             <div className="flex items-center gap-2 sm:gap-1">
               <DatePicker updateUrl={updateUrl} />
-              {isRoundTrip ? <ReturnDatePicker updateUrl={updateUrl} /> : null}
+              {isRoundTrip && <ReturnDatePicker updateUrl={updateUrl} />}
             </div>
-          )}
-        </div>
-        <div className="w-full sm:space-y-1">
-          <p className="uppercase text-black/50 font-medium text-xs hidden sm:block">
-            {t("searchForm.passengers")}
-          </p>
-          {loading ? (
-            <InputSkeleton />
-          ) : (
-            <PassengerSelect updateUrl={updateUrl} />
-          )}
-        </div>
-        <Button
-          type="submit"
-          className={cn(
-            "p-6 flex items-center gap-2 w-full sm:col-span-2 rounded-lg h-12 lg:col-span-1 bg-gradient-to-tr from-[#ff6700] to-[#ff007f]",
-            { hidden: updateUrl }
-          )}
-          disabled={isSubmitting || !from || !to || !departureDate}
-          onClick={handleSearch}
-        >
-          {isSubmitting ? (
-            <Loader2 className="size-6 animate-spin mx-auto text-white" />
-          ) : (
-            t("searchForm.searchButton.default")
-          )}
-        </Button>
+          }
+        />
+
+        <FormField
+          label={t("searchForm.passengers")}
+          loading={stationsLoading}
+          component={<PassengerSelect updateUrl={updateUrl} />}
+        />
+
+        {!updateUrl && (
+          <Button
+            type="submit"
+            disabled={!isFormValid}
+            onClick={handleSearch}
+            className="p-6 w-full sm:col-span-2 lg:col-span-1 rounded-lg h-12 bg-gradient-to-tr from-[#ff6700] to-[#ff007f]"
+          >
+            {isLoading ? (
+              <Loader2 className="size-6 animate-spin" />
+            ) : (
+              t("searchForm.searchButton.default")
+            )}
+          </Button>
+        )}
       </div>
     </div>
   );
 };
+
+const FormField = ({
+  label,
+  loading,
+  component,
+}: {
+  label: string;
+  loading: boolean;
+  component: React.ReactNode;
+}) => (
+  <div className="w-full sm:space-y-1">
+    <p className="uppercase text-black/50 font-medium text-xs hidden sm:block">
+      {label}
+    </p>
+    {loading ? <InputSkeleton /> : component}
+  </div>
+);
+
+const RadioGroup = ({
+  value,
+  onChange,
+  options,
+}: {
+  value: string;
+  onChange: (type: "one-way" | "round-trip") => void;
+  options: Array<{ value: string; label: string }>;
+}) => (
+  <div className="flex gap-4">
+    {options.map((option) => (
+      <label
+        key={option.value}
+        className="cursor-pointer flex items-center gap-2"
+      >
+        <input
+          type="radio"
+          name="tripType"
+          value={option.value}
+          checked={value === option.value}
+          onChange={() => onChange(option.value as "one-way" | "round-trip")}
+          className="h-7 w-7 accent-primary-bg"
+        />
+        <span>{option.label}</span>
+      </label>
+    ))}
+  </div>
+);

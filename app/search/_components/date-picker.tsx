@@ -1,5 +1,12 @@
 import * as React from "react";
-import { format, parse, isSameDay, isValid } from "date-fns";
+import {
+  format,
+  parse,
+  isSameDay,
+  isValid,
+  isBefore,
+  startOfDay,
+} from "date-fns";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -38,12 +45,22 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
   React.useEffect(() => {
     if (departureDate) {
       const parsedDate = parse(departureDate, "dd-MM-yyyy", new Date());
-      if (isValid(parsedDate) && (!date || !isSameDay(parsedDate, date))) {
-        setDate(parsedDate);
+      const today = startOfDay(new Date());
+
+      if (isValid(parsedDate)) {
+        if (isBefore(parsedDate, today)) {
+          // If date is in the past, set to today
+          const formattedToday = format(today, "dd-MM-yyyy");
+          setDepartureDate(formattedToday);
+          setDate(today);
+        } else if (!date || !isSameDay(parsedDate, date)) {
+          setDate(parsedDate);
+        }
       }
     }
-  }, [departureDate, date]);
+  }, [departureDate, date, setDepartureDate]);
 
+  // Rest of the component remains the same
   const handleDateSelect = (selectedDate: Date | undefined) => {
     if (
       selectedDate &&
@@ -109,6 +126,7 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
                         onSelect={handleDateSelect}
                         initialFocus
                         month={monthDate}
+                        fromDate={new Date()}
                         locale={currentLocale}
                         className="w-full"
                       />
