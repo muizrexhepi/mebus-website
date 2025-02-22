@@ -61,8 +61,9 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
     ticket.stops[ticket.stops.length - 1].arrival_time
   );
   const duration = moment.duration(arrivalTime.diff(departureDate));
-  const durationFormatted = `${duration.hours()}:${duration
-    .minutes()
+  const totalHours = duration.hours() + duration.days() * 24; // Convert days to hours and add them
+  const minutes = duration.minutes();
+  const durationFormatted = `${totalHours.toString().padStart(2, "0")}:${minutes
     .toString()
     .padStart(2, "0")} hrs`;
 
