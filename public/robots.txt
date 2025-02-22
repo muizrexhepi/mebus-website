@@ -1,5 +1,4 @@
 User-agent: *
-Disallow: /account/
 Disallow: /reset/
 Disallow: /checkout/
 Disallow: /checkout/success
@@ -8,7 +7,6 @@ Disallow: /checkout/error
 Allow: /routes
 Allow: /partners/overview
 Allow: /partners/apply
-Allow: /help/travel-flex
 Allow: /help
 Allow: /
 Sitemap: https://www.gobusly.com/sitemap.xml
