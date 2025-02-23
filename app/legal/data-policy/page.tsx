@@ -1,14 +1,6 @@
 import React from "react";
-import { Metadata } from "next";
 import Link from "next/link";
-import {
-  ChevronLeft,
-  AlertCircle,
-  Trash2,
-  Clock,
-  Shield,
-  HeadphonesIcon,
-} from "lucide-react";
+import { ChevronLeft, AlertCircle, Trash2, Clock, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,8 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Navbar from "@/components/navbar/Navbar";
-import SecondaryFooter from "@/components/SecondaryFooter";
 
 export const metadata = {
   title: "GoBusly - Data Policy",

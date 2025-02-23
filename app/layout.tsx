@@ -71,7 +71,7 @@ export default function RootLayout({
               {/* <DiscountBanner /> */}
               <Navbar className="paddingX max-w-6xl py-4 mx-auto" />
               {children}
-              <CookieConsent />
+              {/* <CookieConsent /> */}
             </ClientProviders>
           </TranslationProvider>
         </ReactQueryProvider>

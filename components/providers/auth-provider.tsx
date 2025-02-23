@@ -32,11 +32,20 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const fetchUserByEmail = async () => {
       if (!session?.user?.email) return;
       try {
+        if (session?.user?.image) {
+          session.user.image = session.user.image
+            .replace(/\r?\n|\r/g, "")
+            .trim();
+        }
+
+        const sanitizedSession = JSON.stringify(session.user);
+
         const res = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/user/get/email?email=${
             session.user.email
-          }&session=${JSON.stringify(session.user)}`
+          }&session=${encodeURIComponent(sanitizedSession)}`
         );
+
         console.log({ user: res.data });
         setUser(res.data.data);
       } catch (error) {

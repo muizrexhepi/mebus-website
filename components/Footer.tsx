@@ -153,7 +153,6 @@ const Footer = () => {
                       href={`mailto:${CONTACT_INFO.email}`}
                       className="flex items-center text-sm text-gray-500 hover:text-gray-900 transition-colors"
                     >
-                      <Mail className="h-5 w-5 mr-2 shrink-0" />
                       <span>{CONTACT_INFO.email}</span>
                     </a>
                   </li>
@@ -162,7 +161,6 @@ const Footer = () => {
                       href={`tel:${CONTACT_INFO.phone1}`}
                       className="flex items-center text-sm text-gray-500 hover:text-gray-900 transition-colors"
                     >
-                      <Phone className="h-5 w-5 mr-2" />
                       <span>{CONTACT_INFO.phone1}</span>
                     </a>
                   </li>
@@ -171,7 +169,6 @@ const Footer = () => {
                       href={`tel:${CONTACT_INFO.phone2}`}
                       className="flex items-center text-sm text-gray-500 hover:text-gray-900 transition-colors"
                     >
-                      <Phone className="h-5 w-5 mr-2" />
                       <span>{CONTACT_INFO.phone2}</span>
                     </a>
                   </li>

@@ -186,6 +186,18 @@ export default function MebusCookiePolicy() {
             </a>
             .
           </p>
+          <p>
+            Before setting any non-essential cookies, we will display a cookie
+            consent banner to obtain your explicit consent. You can change or
+            withdraw your consent at any time by visiting our{" "}
+            <a
+              href="/cookie-settings"
+              className="text-blue-600 hover:underline"
+            >
+              Cookie Settings
+            </a>
+            .
+          </p>
         </section>
 
         <section id="policy-updates" className="mb-8">
@@ -202,14 +214,17 @@ export default function MebusCookiePolicy() {
         </section>
 
         <section id="contact" className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">8. Contact Us</h2>
+          <h2 className="text-2xl font-semibold mb-4">7. Contact Us</h2>
           <p className="mb-4">
             If you have any questions about these Terms, please contact us at:
           </p>
-          <p>GoBusly Legal Team</p>
-          <p>Email: gobuslyinternal@gmail.com</p>
-          <p>Address: 456 Data Protection Avenue, Privacyville, ST 67890</p>
+          <p>Email: contact@gobusly.com</p>
+          <p>Address: 254 Chapman Rd, Ste 208 #20780, Newark, Delaware</p>
           <p>Phone: (+389) 70-250-259</p>
+          <p className="mt-4">
+            For immediate assistance, contact our customer support through the
+            Platform.
+          </p>
         </section>
 
         <div className="mt-8 pt-8 border-t border-gray-200">
