@@ -8,11 +8,11 @@ const partners = [
   { name: "Hak Bus", src: "/assets/images/hakbus.png" },
   { name: "Ido Tours", src: "/assets/images/idotours.png" },
   { name: "Kabashi Tours", src: "/assets/images/kabashilogo.png" },
-  { name: "Euro Turist", src: "/assets/images/euroturist.png" },
-  { name: "Nasir Tours", src: "/assets/images/nasiri.png" },
-  { name: "Bashkim Tours", src: "/assets/images/bashkimi.png" },
-  { name: "Hisar Turizam", src: "/assets/images/hisar.png" },
-  { name: "Amr Tours", src: "/assets/images/amr.png" },
+  { name: "Tosa Reiserburo", src: "/assets/images/tosa.png" },
+  // { name: "Euro Turist", src: "/assets/images/euroturist.png" },
+  // { name: "Nasir Tours", src: "/assets/images/nasiri.png" },
+  // { name: "Bashkim Tours", src: "/assets/images/bashkimi.png" },
+  // { name: "Hisar Turizam", src: "/assets/images/hisar.png" },
 ];
 
 const PartnersSection = () => {
@@ -44,7 +44,7 @@ const PartnersSection = () => {
                 ))}
               </div>
               <p className="text-sm text-gray-600">
-                <span className="font-semibold text-gray-900">500+</span> bus
+                <span className="font-semibold text-gray-900">100+</span> bus
                 operators trust us
               </p>
             </div>
