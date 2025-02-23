@@ -1,6 +1,8 @@
 import React from "react";
 import { RetrieveBooking } from "../(components)/RetrieveBooking";
 import { Metadata } from "next";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "Retrieve Booking | GoBusly",
@@ -35,7 +37,13 @@ export const metadata: Metadata = {
 
 const RetrieveBookingPage = () => {
   return (
-    <div className="min-h-screen w-full flex justify-center items-center">
+    <div className="space-y-8 w-full">
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-3xl font-semibold">Retrieve Booking</h1>
+        <Button asChild variant={"outline"}>
+          <Link href="/account/bookings">Back</Link>
+        </Button>
+      </div>
       <RetrieveBooking />
     </div>
   );

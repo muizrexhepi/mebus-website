@@ -63,7 +63,7 @@ export function RetrieveBooking() {
   return (
     <>
       {!retrievedBooking ? (
-        <Card className="w-full max-w-[600px] mx-auto shadow-sm">
+        <Card className="w-full shadow-sm">
           <CardHeader className="space-y-4">
             <CardTitle className="text-2xl font-bold text-[#0a1e47]">
               Retrieve your booking

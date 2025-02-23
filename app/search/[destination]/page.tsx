@@ -20,9 +20,9 @@ export async function generateMetadata({
     .split("-")
     .map((city) => city.charAt(0).toUpperCase() + city.slice(1));
 
-  const title = `Bus from ${departureCity} to ${arrivalCity} | Cheap Tickets | GoBusly`;
-  const description = `Book bus tickets from ${departureCity} to ${arrivalCity}. Daily departures, comfortable buses with WiFi, luggage included. Compare prices & book online with GoBusly.`;
-  const keywords = `bus tickets, ${departureCity} to ${arrivalCity}, cheap bus, ${departureCity} ${arrivalCity} bus, coach travel, ${departureCity} to ${arrivalCity} bus tickets, book bus from ${departureCity} to ${arrivalCity}, bus travel ${departureCity} ${arrivalCity}, long-distance bus ${departureCity} to ${arrivalCity}, best bus routes ${departureCity} ${arrivalCity}, bus schedule ${departureCity} to ${arrivalCity}`;
+  const title = `Bus from ${departureCity} to ${arrivalCity} | Compare & Book Cheap Tickets - GoBusly`;
+  const description = `Compare and book bus tickets from ${departureCity} to ${arrivalCity} at the best prices. Daily departures, comfortable buses with WiFi, and luggage included. Secure your seat online with GoBusly.`;
+  const keywords = `bus tickets, ${departureCity} to ${arrivalCity}, book bus ${departureCity} ${arrivalCity}, cheap bus tickets ${departureCity}, best bus deals ${departureCity}, coach travel, direct bus ${departureCity} ${arrivalCity}, long-distance bus ${departureCity}, ${departureCity} to ${arrivalCity} bus schedule`;
 
   const formattedSearchParams: Record<string, string> = Object.fromEntries(
     Object.entries(searchParams).map(([key, value]) => {
@@ -49,8 +49,8 @@ export async function generateMetadata({
     },
     robots: "index, follow",
     openGraph: {
-      title: `Bus from ${departureCity} to ${arrivalCity}`,
-      description: `Find the best bus deals from ${departureCity} to ${arrivalCity}.`,
+      title: `Bus from ${departureCity} to ${arrivalCity} | Book Cheap Tickets`,
+      description: `Compare bus fares from ${departureCity} to ${arrivalCity} and travel comfortably. Book online with GoBusly for the best prices and reliable service.`,
       url: canonicalUrl,
       siteName: "GoBusly",
       images: [
@@ -68,8 +68,8 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `Bus from ${departureCity} to ${arrivalCity}`,
-      description: `Book your journey from ${departureCity} to ${arrivalCity}. Compare & book tickets online.`,
+      title: `Bus from ${departureCity} to ${arrivalCity} - Compare & Book Online`,
+      description: `Find and book bus tickets from ${departureCity} to ${arrivalCity}. Compare prices, check schedules, and travel comfortably with GoBusly.`,
       images: [
         `${
           process.env.NEXT_PUBLIC_BASE_URL
@@ -107,7 +107,35 @@ export default async function SearchPage({ params }: any) {
           </Suspense>
         </div>
       </div>
-
+      <div className="mt-6 text-center text-gray-600">
+        <h2 className="text-lg font-semibold mb-2">Popular Bus Routes</h2>
+        <ul className="flex flex-wrap justify-center gap-4">
+          <li>
+            <a
+              href="/search/skopje-belgrade"
+              className="text-primary hover:underline"
+            >
+              Bus from Skopje to Belgrade
+            </a>
+          </li>
+          <li>
+            <a
+              href="/search/tirana-pristina"
+              className="text-primary hover:underline"
+            >
+              Bus from Tirana to Pristina
+            </a>
+          </li>
+          <li>
+            <a
+              href="/search/sarajevo-zagreb"
+              className="text-primary hover:underline"
+            >
+              Bus from Sarajevo to Zagreb
+            </a>
+          </li>
+        </ul>
+      </div>
       <SecondaryFooter />
 
       {/* Structured Data */}
@@ -121,20 +149,36 @@ export default async function SearchPage({ params }: any) {
             departureStation: {
               "@type": "BusStation",
               name: `${departureCity} Bus Station`,
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: departureCity,
+                addressCountry: "MK", // Adjust country code dynamically if needed
+              },
             },
             arrivalStation: {
               "@type": "BusStation",
               name: `${arrivalCity} Bus Station`,
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: arrivalCity,
+                addressCountry: "EU", // Adjust dynamically
+              },
             },
             provider: {
               "@type": "Organization",
               name: "GoBusly",
+              url: "https://www.gobusly.com",
             },
             offers: {
               "@type": "Offer",
               priceCurrency: "EUR",
+              price: "XX.XX", // Dynamically insert price if available
+              availability: "https://schema.org/InStock",
               url: `${process.env.NEXT_PUBLIC_BASE_URL}/search/${destination}`,
+              validFrom: new Date().toISOString(),
             },
+            departureTime: "TBD", // Add dynamic time if available
+            arrivalTime: "TBD",
           }),
         }}
       />

@@ -28,6 +28,7 @@ const createUserInDB = async (userData: {
   profile_picture: string | null;
 }) => {
   try {
+    console.log(userData);
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/user/create/db?oauth=true`,
       userData
@@ -84,14 +85,15 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user }) {
-      console.log({ user });
+    async signIn({ user, account }) {
+      console.log({ user, account });
 
       return createUserInDB({
-        name: user.name!,
-        email: user.email!,
+        name: user.name || null,
+        email: user.email || null,
         password: null,
-        profile_picture: user.image || null,
+        profile_picture:
+          account?.provider === "facebook" ? null : user.image || null,
       });
     },
 

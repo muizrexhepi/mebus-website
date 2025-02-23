@@ -13,17 +13,16 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "@/components/providers/auth-provider";
 import { BookingCard } from "./BookingCard";
 import { NoBookingsMessage } from "./NoBookingsMessage";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const BookingsDashboardClient: React.FC = () => {
   const { user, loading } = useAuth();
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const [noUserBookings, setNoUserBookings] = useState<Booking[]>([]);
-  const [showFlexAlert, setShowFlexAlert] = useState(false);
   const { toast } = useToast();
   const { t } = useTranslation();
 
   const handleNoFlexAction = () => {
-    setShowFlexAlert(true);
     toast({
       title: "Upgrade Required",
       description:
@@ -31,47 +30,6 @@ const BookingsDashboardClient: React.FC = () => {
       variant: "destructive",
       action: <ToastAction altText="Upgrade flexibility">Upgrade</ToastAction>,
     });
-  };
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedBookings = JSON.parse(
-        localStorage.getItem("noUserBookings") || "[]"
-      );
-      setNoUserBookings(savedBookings);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (user) {
-      const fetchBookings = async () => {
-        try {
-          const res = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_URL}/booking/client/${user._id}?select=departure_date metadata destinations labels price`
-          );
-          setBookings(res.data.data);
-        } catch (error) {
-          console.error("Failed to fetch bookings:", error);
-        }
-      };
-      fetchBookings();
-    }
-  }, [user]);
-
-  const renderNoBookingsMessage = () => {
-    return noUserBookings.length > 0 ? (
-      noUserBookings.map((booking) => (
-        <BookingCard
-          onBookingUpdated={() => {}}
-          key={booking._id}
-          booking={booking}
-          handleNoFlexAction={handleNoFlexAction}
-          handleCancelBookingAndRefund={handleCancelBookingAndRefund}
-        />
-      ))
-    ) : (
-      <NoBookingsMessage isLoading={loading} />
-    );
   };
 
   const handleCancelBookingAndRefund = async (
@@ -109,13 +67,55 @@ const BookingsDashboardClient: React.FC = () => {
       });
     }
   };
+  useEffect(() => {
+    if (user) {
+      const fetchBookings = async () => {
+        try {
+          const res = await axios.get(
+            `${process.env.NEXT_PUBLIC_API_URL}/booking/client/${user._id}?select=departure_date metadata destinations labels price`
+          );
+          setBookings(res.data.data);
+        } catch (error) {
+          console.error("Failed to fetch bookings:", error);
+        }
+      };
+      fetchBookings();
+    }
+  }, [user]);
+
+  const renderBookings = (filteredBookings: Booking[]) => {
+    if (loading) {
+      return <Loader2 className="h-6 w-6 animate-spin mx-auto" />;
+    }
+
+    if (!filteredBookings || filteredBookings.length === 0) {
+      return <NoBookingsMessage isLoading={loading} />;
+    }
+
+    return filteredBookings
+      .map((booking) => (
+        <BookingCard
+          onBookingUpdated={() => {}}
+          key={booking._id}
+          booking={booking}
+          handleNoFlexAction={handleNoFlexAction}
+          handleCancelBookingAndRefund={handleCancelBookingAndRefund}
+        />
+      ))
+      .reverse();
+  };
 
   return (
-    <div className="flex flex-col w-full space-y-4">
-      <h1 className="text-3xl font-semibold mb-4">
-        {t("bookings.myBookings")}
-      </h1>
-      {/* <p className="text-gray-600 mb-6">{t("bookings.manageBookings")}</p> */}
+    <div className="flex flex-col w-full space-y-8">
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-semibold">{t("bookings.myBookings")}</h1>
+
+        <Button asChild variant={"outline"}>
+          <Link href="/account/bookings/retrieve-booking">
+            Retrieve Booking
+          </Link>
+        </Button>
+      </div>
       {user ? (
         <Tabs defaultValue="all">
           <TabsList className="mb-6">
@@ -130,120 +130,31 @@ const BookingsDashboardClient: React.FC = () => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="all">
-            <div className="space-y-6">
-              {loading ? (
-                <Loader2 className="h-6 w-6 animate-spin mx-auto" />
-              ) : user ? (
-                bookings
-                  ?.map((booking) => (
-                    <BookingCard
-                      onBookingUpdated={() => {}}
-                      key={booking._id}
-                      booking={booking}
-                      handleNoFlexAction={handleNoFlexAction}
-                      handleCancelBookingAndRefund={
-                        handleCancelBookingAndRefund
-                      }
-                    />
-                  ))
-                  .reverse()
-              ) : (
-                noUserBookings
-                  ?.map((booking) => (
-                    <BookingCard
-                      onBookingUpdated={() => {}}
-                      key={booking._id}
-                      booking={booking}
-                      handleNoFlexAction={handleNoFlexAction}
-                      handleCancelBookingAndRefund={
-                        handleCancelBookingAndRefund
-                      }
-                    />
-                  ))
-                  .reverse()
-              )}
-            </div>
+            <div className="space-y-6">{renderBookings(bookings)}</div>
           </TabsContent>
           <TabsContent value="upcoming">
             <div className="space-y-6">
-              {user
-                ? bookings
-                    ?.filter((booking) =>
-                      moment.utc(booking.departure_date).isAfter(moment.utc())
-                    )
-                    ?.map((booking) => (
-                      <BookingCard
-                        onBookingUpdated={() => {}}
-                        key={booking._id}
-                        booking={booking}
-                        handleNoFlexAction={handleNoFlexAction}
-                        handleCancelBookingAndRefund={
-                          handleCancelBookingAndRefund
-                        }
-                      />
-                    ))
-                    .reverse()
-                : noUserBookings
-                    ?.filter((booking) =>
-                      moment.utc(booking.departure_date).isAfter(moment.utc())
-                    )
-                    ?.map((booking) => (
-                      <BookingCard
-                        onBookingUpdated={() => {}}
-                        key={booking._id}
-                        booking={booking}
-                        handleNoFlexAction={handleNoFlexAction}
-                        handleCancelBookingAndRefund={
-                          handleCancelBookingAndRefund
-                        }
-                      />
-                    ))
-                    .reverse()}
+              {renderBookings(
+                bookings.filter((booking) =>
+                  moment.utc(booking.departure_date).isAfter(moment.utc())
+                )
+              )}
             </div>
           </TabsContent>
           <TabsContent value="past">
             <div className="space-y-6">
-              {user
-                ? bookings
-                    ?.filter((booking) =>
-                      moment.utc(booking.departure_date).isBefore(moment.utc())
-                    )
-                    ?.map((booking) => (
-                      <BookingCard
-                        onBookingUpdated={() => {}}
-                        key={booking._id}
-                        booking={booking}
-                        handleNoFlexAction={handleNoFlexAction}
-                        handleCancelBookingAndRefund={
-                          handleCancelBookingAndRefund
-                        }
-                      />
-                    ))
-                    .reverse()
-                : noUserBookings
-                    ?.filter((booking) =>
-                      moment.utc(booking.departure_date).isBefore(moment.utc())
-                    )
-                    ?.map((booking) => (
-                      <BookingCard
-                        onBookingUpdated={() => {}}
-                        key={booking._id}
-                        booking={booking}
-                        handleNoFlexAction={handleNoFlexAction}
-                        handleCancelBookingAndRefund={
-                          handleCancelBookingAndRefund
-                        }
-                      />
-                    ))
-                    .reverse()}
+              {renderBookings(
+                bookings.filter((booking) =>
+                  moment.utc(booking.departure_date).isBefore(moment.utc())
+                )
+              )}
             </div>
           </TabsContent>
         </Tabs>
       ) : (
-        renderNoBookingsMessage()
+        <NoBookingsMessage isLoading={loading} />
       )}
     </div>
   );
 };
-
 export default BookingsDashboardClient;

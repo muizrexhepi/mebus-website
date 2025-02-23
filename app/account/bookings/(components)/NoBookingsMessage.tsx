@@ -17,7 +17,7 @@ export function NoBookingsMessage({ isLoading }: NoBookingsMessageProps) {
   if (isLoading) return null;
 
   return (
-    <Card className="w-full max-w-md mx-auto mt-8">
+    <Card className="w-full max-w-md">
       <CardHeader>
         <CardTitle className="text-2xl font-bold text-center">
           No Bookings Found
