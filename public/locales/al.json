@@ -8,18 +8,33 @@
     "account": "Akaunti"
   },
   "infoSection": {
+    "tag": "Pse të na zgjidhni ne",
+    "heading": "Mënyra më e zgjuar për të udhëtuar me autobus",
+    "description": "Përjetoni një udhëtim të qetë me autobus në platformën tonë gjithëpërfshirëse.",
     "feature1": {
-      "title": "Krahasoni çmimet e autobusëve nga ofruesit",
-      "description": "Gjeni ofertat më të mira duke krahasuar çmimet nga shumë operatorë të autobusëve në një vend. Kurseni kohë dhe para në udhëtimin tuaj."
+      "title": "Krahasoni çmimet e autobusëve midis operatorëve",
+      "description": "Gjeni ofertat më të mira duke krahasuar çmimet nga operatorë të ndryshëm të autobusëve në një vend. Kurseni kohë dhe para në udhëtimin tuaj."
     },
     "feature2": {
-      "title": "Rezervoni bileta menjëherë",
-      "description": "Proces i thjeshtë dhe të sigurt i rezervimit me konfirmim menjëherë. Merrni biletat e tuaja elektronike direkt në telefonin tuaj."
+      "title": "Rezervoni biletat menjëherë",
+      "description": "Proces i lehtë dhe i sigurt i rezervimit me konfirmim të menjëhershëm. Merrni biletat elektronike direkt në telefonin tuaj."
     },
     "feature3": {
-      "title": "Përcillni udhëtimin tuaj",
-      "description": "Përditësime në kohë reale mbi vendndodhjen e autobusit, oraret e mbërritjes dhe çdo ndryshim orari. Qëndroni të informuar gjatë gjithë udhëtimit tuaj."
+      "title": "Ndiqni udhëtimin tuaj",
+      "description": "Përditësime në kohë reale mbi vendndodhjen e autobusit, kohën e mbërritjes dhe çdo ndryshim të orarit. Qëndroni të informuar gjatë gjithë udhëtimit tuaj."
+    },
+    "trustedBy": {
+      "title": "Besuar nga mijëra njerëz",
+      "description": "Mbi 20 mijë udhëtarë të lumtur"
+    },
+    "secureBooking": {
+      "title": "Rezervim i sigurt",
+      "description": "Pagesa 100% e sigurt"
     }
+  },
+  "popularBusRoutes": {
+    "tag": "Rruge të Ndryshme",
+    "heading": "Rruget Popullore të Autobusëve"
   },
   "languageDialog": {
     "languageCurrency": "Gjuha dhe valuta",
@@ -36,9 +51,12 @@
     }
   },
   "partnersSection": {
-    "heading": "Të gjitha opsionet tuaja të udhëtimit me autobuz në një vend",
-    "description": "Mbi 100 operatorë autobusi të besueshëm në të gjithë vendin, nga autobusët ndërqytetas deri te shuttles lokale, kështu që mund të fokusoheni në udhëtimin tuaj pa pasur nevojë të vizitoni disa faqe interneti.",
-    "buttonText": "Filloni"
+    "tag": "Partnerë të besuar",
+    "heading": "Të gjitha opsionet e udhëtimit me autobus në një vend",
+    "description": "Më shumë se 100 operatorë të besuar të autobusëve në mbarë vendin, nga autobusët ndërqytetas deri te shërbimet lokale, kështu që mund të përqendroheni në udhëtimin tuaj pa pasur nevojë të vizitoni faqe të shumta.",
+    "operatorCount": "100+",
+    "operatorsTrust": "operatorë autobusësh na besojnë",
+    "buttonText": "Fillo tani"
   },
   "aboutSection": {
     "title": "Thjeshtësimi i udhëtimeve me autobus nëpër Evropë dhe Ballkan",
@@ -224,8 +242,18 @@
     }
   },
   "hero": {
-    "title": "Udhëtoni me Komoditet",
-    "desc": "Rezervoni biletat e autobusit për një udhëtim të rehatshëm"
+    "title": "Udhëtoni me rehati",
+    "desc": "Rezervoni biletat e autobusit për një udhëtim të rehatshëm",
+    "features": {
+      "comfortable": "Udhëtim i rehatshëm",
+      "comfortableDesc": "Përjetoni rehati me flotën tonë moderne të autobusëve",
+      "flexible": "Rezervim fleksibël",
+      "flexibleDesc": "Orar i lehtë me opsione të shumta nisjeje",
+      "reliable": "Shërbim i besueshëm",
+      "reliableDesc": "Nisje dhe mbërritje në kohë",
+      "secure": "Rezervim i sigurt",
+      "secureDesc": "Sistem i sigurt dhe i besueshëm për rezervime online"
+    }
   },
   "ticket": {
     "selectReturn": "Zgjidh Kthimin",

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 const popularRoutes = [
   { from: "Madrid", to: "Barcelona", href: "/routes/madrid-barcelona" },
@@ -34,16 +35,17 @@ const popularRoutes = [
 ];
 
 export default function PopularBusRoutes() {
+  const { t } = useTranslation();
   return (
     <section className="w-full py-20 bg-gray-50">
       <div className="max-w-6xl mx-auto paddingX">
         <div className="inline-flex px-4 py-1 bg-primary/5 rounded-full mb-6">
           <span className="text-sm font-medium text-primary">
-            Multiple Routes
+            {t("popularBusRoutes.tag", "Multiple Routes")}
           </span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-8">
-          Popular Bus Routes
+          {t("popularBusRoutes.heading", "Popular Bus Routes")}
         </h1>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-4 gap-x-6">
           {popularRoutes.map((route) => (

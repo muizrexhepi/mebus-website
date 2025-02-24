@@ -44,8 +44,10 @@ const PartnersSection = () => {
                 ))}
               </div>
               <p className="text-sm text-gray-600">
-                <span className="font-semibold text-gray-900">100+</span> bus
-                operators trust us
+                <span className="font-semibold text-gray-900">
+                  {t("partnersSection.operatorCount", "100+")}
+                </span>{" "}
+                {t("partnersSection.operatorsTrust")}
               </p>
             </div>
           </div>

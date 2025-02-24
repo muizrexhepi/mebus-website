@@ -7,18 +7,33 @@
     "contact": "Contact"
   },
   "infoSection": {
+    "tag": "Pourquoi nous choisir",
+    "heading": "Le moyen le plus intelligent de voyager en bus",
+    "description": "Profitez d'un voyage en bus fluide grâce à notre plateforme complète.",
     "feature1": {
-      "title": "Comparez les prix des bus entre les fournisseurs",
+      "title": "Comparez les prix des bus entre fournisseurs",
       "description": "Trouvez les meilleures offres en comparant les prix de plusieurs opérateurs de bus en un seul endroit. Gagnez du temps et de l'argent sur votre voyage."
     },
     "feature2": {
       "title": "Réservez vos billets instantanément",
-      "description": "Processus de réservation facile et sécurisé avec confirmation instantanée. Recevez vos billets électroniques directement sur votre téléphone."
+      "description": "Processus de réservation facile et sécurisé avec confirmation immédiate. Recevez vos billets électroniques directement sur votre téléphone."
     },
     "feature3": {
       "title": "Suivez votre voyage",
-      "description": "Mises à jour en temps réel sur la position du bus, les horaires d'arrivée et tout changement de programme. Restez informé tout au long de votre voyage."
+      "description": "Mises à jour en temps réel sur la position du bus, les heures d'arrivée et les éventuels changements d'horaire. Restez informé tout au long de votre trajet."
+    },
+    "trustedBy": {
+      "title": "Fiable par des milliers",
+      "description": "Plus de 20 000 voyageurs satisfaits"
+    },
+    "secureBooking": {
+      "title": "Réservation sécurisée",
+      "description": "Paiement 100% sécurisé"
     }
+  },
+  "popularBusRoutes": {
+    "tag": "Multiples Itinéraires",
+    "heading": "Itinéraires de Bus Populaires"
   },
   "languageDialog": {
     "languageCurrency": "Langue et devise",
@@ -35,8 +50,11 @@
     }
   },
   "partnersSection": {
+    "tag": "Partenaires de confiance",
     "heading": "Toutes vos options de voyage en bus en un seul endroit",
-    "description": "Plus de 100 opérateurs de bus de confiance dans tout le pays, des autocars interurbains aux navettes locales, afin que vous puissiez vous concentrer sur votre voyage sans avoir à visiter plusieurs sites web.",
+    "description": "Plus de 100 opérateurs de bus de confiance à travers le pays, des autocars interurbains aux navettes locales, afin que vous puissiez vous concentrer sur votre voyage sans avoir à visiter plusieurs sites Web.",
+    "operatorCount": "100+",
+    "operatorsTrust": "opérateurs de bus nous font confiance",
     "buttonText": "Commencer"
   },
   "aboutSection": {
@@ -223,8 +241,18 @@
     }
   },
   "hero": {
-    "title": "Voyagez sur les routes avec confort",
-    "desc": "Réservez vos billets de bus pour un voyage confortable"
+    "title": "Voyagez avec confort",
+    "desc": "Réservez vos billets de bus pour un voyage agréable",
+    "features": {
+      "comfortable": "Voyage confortable",
+      "comfortableDesc": "Profitez du confort avec notre flotte moderne d'autobus",
+      "flexible": "Réservation flexible",
+      "flexibleDesc": "Planification facile avec plusieurs options de départ",
+      "reliable": "Service fiable",
+      "reliableDesc": "Départs et arrivées à l'heure",
+      "secure": "Réservation sécurisée",
+      "secureDesc": "Système de réservation en ligne sûr et sécurisé"
+    }
   },
   "ticket": {
     "selectReturn": "Sélectionner le retour",

@@ -62,20 +62,22 @@ const FeatureCard = ({ icon: Icon, title, description, color, bg }: any) => {
 };
 
 const FeaturesSection = () => {
+  const { t } = useTranslation();
+
   return (
     <section className="py-20 bg-white">
       <div className="max-w-6xl mx-auto paddingX">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <div className="inline-flex px-4 py-1 bg-primary/5 rounded-full mb-6">
             <span className="text-sm font-medium text-primary">
-              Why Choose Us
+              {t("infoSection.tag")}
             </span>
           </div>
-          <h1 className=" text-3xl sm:text-4xl font-normal tracking-tight text-gray-900  mb-4">
-            The smartest way to travel by bus
+          <h1 className="text-3xl sm:text-4xl font-normal tracking-tight text-gray-900 mb-4">
+            {t("infoSection.heading")}
           </h1>
           <p className="text-lg text-gray-600 leading-relaxed">
-            Experience seamless bus travel with our comprehensive platform
+            {t("infoSection.description")}
           </p>
         </div>
 
@@ -105,10 +107,10 @@ const FeaturesSection = () => {
               </div>
               <div className="text-left">
                 <p className="font-medium text-gray-900">
-                  Trusted by thousands
+                  {t("infoSection.trustedBy.title")}
                 </p>
                 <p className="text-sm text-gray-600">
-                  Over 20k+ happy travelers
+                  {t("infoSection.trustedBy.description")}
                 </p>
               </div>
             </div>
@@ -130,8 +132,12 @@ const FeaturesSection = () => {
                 </svg>
               </div>
               <div className="text-left">
-                <p className="font-medium text-gray-900">Secure booking</p>
-                <p className="text-sm text-gray-600">100% secure payment</p>
+                <p className="font-medium text-gray-900">
+                  {t("infoSection.secureBooking.title")}
+                </p>
+                <p className="text-sm text-gray-600">
+                  {t("infoSection.secureBooking.description")}
+                </p>
               </div>
             </div>
           </div>

@@ -7,18 +7,33 @@
     "contact": "Kontakt"
   },
   "infoSection": {
+    "tag": "Warum uns wählen",
+    "heading": "Die klügste Art, mit dem Bus zu reisen",
+    "description": "Erleben Sie eine nahtlose Busreise mit unserer umfassenden Plattform.",
     "feature1": {
-      "title": "Vergleichen Sie die Preise der Busse verschiedener Anbieter",
-      "description": "Finden Sie die besten Angebote, indem Sie die Preise mehrerer Busanbieter an einem Ort vergleichen. Sparen Sie Zeit und Geld auf Ihrer Reise."
+      "title": "Vergleichen Sie Buspreise verschiedener Anbieter",
+      "description": "Finden Sie die besten Angebote, indem Sie Preise von mehreren Busanbietern an einem Ort vergleichen. Sparen Sie Zeit und Geld auf Ihrer Reise."
     },
     "feature2": {
-      "title": "Buchen Sie Tickets sofort",
-      "description": "Einfache und sichere Buchung mit sofortiger Bestätigung. Erhalten Sie Ihre E-Tickets direkt auf Ihrem Telefon."
+      "title": "Tickets sofort buchen",
+      "description": "Einfacher und sicherer Buchungsprozess mit sofortiger Bestätigung. Erhalten Sie Ihre E-Tickets direkt auf Ihr Telefon."
     },
     "feature3": {
       "title": "Verfolgen Sie Ihre Reise",
-      "description": "Echtzeit-Updates zur Position des Busses, Ankunftszeiten und etwaige Fahrplanänderungen. Bleiben Sie während Ihrer gesamten Reise informiert."
+      "description": "Echtzeit-Updates zur Busposition, Ankunftszeiten und möglichen Fahrplanänderungen. Bleiben Sie während Ihrer gesamten Reise informiert."
+    },
+    "trustedBy": {
+      "title": "Vertraut von Tausenden",
+      "description": "Über 20.000 zufriedene Reisende"
+    },
+    "secureBooking": {
+      "title": "Sichere Buchung",
+      "description": "100% sichere Zahlung"
     }
+  },
+  "popularBusRoutes": {
+    "tag": "Mehrere Routen",
+    "heading": "Beliebte Busverbindungen"
   },
   "languageDialog": {
     "languageCurrency": "Sprache und Währung",
@@ -35,8 +50,11 @@
     }
   },
   "partnersSection": {
+    "tag": "Vertrauenswürdige Partner",
     "heading": "Alle Ihre Busreiseoptionen an einem Ort",
-    "description": "Mehr als 100 vertrauenswürdige Busunternehmen landesweit, von Fernbussen bis hin zu lokalen Shuttles, damit Sie sich auf Ihre Reise konzentrieren können, ohne mehrere Websites besuchen zu müssen.",
+    "description": "Mehr als 100 vertrauenswürdige Busbetreiber im ganzen Land, von Fernbussen bis zu lokalen Shuttles, damit Sie sich auf Ihre Reise konzentrieren können, ohne mehrere Websites besuchen zu müssen.",
+    "operatorCount": "100+",
+    "operatorsTrust": "Busunternehmen vertrauen uns",
     "buttonText": "Loslegen"
   },
   "aboutSection": {
@@ -218,8 +236,18 @@
     }
   },
   "hero": {
-    "title": "Straßen komfortabel bereisen",
-    "desc": "Buchen Sie Ihre Bustickets für eine bequeme Reise"
+    "title": "Reisen Sie komfortabel",
+    "desc": "Buchen Sie Ihre Bustickets für eine angenehme Reise",
+    "features": {
+      "comfortable": "Komfortables Reisen",
+      "comfortableDesc": "Genießen Sie Komfort mit unserer modernen Busflotte",
+      "flexible": "Flexible Buchung",
+      "flexibleDesc": "Einfache Terminplanung mit mehreren Abfahrtsoptionen",
+      "reliable": "Zuverlässiger Service",
+      "reliableDesc": "Pünktliche Abfahrten und Ankünfte",
+      "secure": "Sichere Buchung",
+      "secureDesc": "Sicheres und geschütztes Online-Buchungssystem"
+    }
   },
   "ticket": {
     "selectReturn": "Rückfahrt auswählen",

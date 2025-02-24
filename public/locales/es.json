@@ -7,18 +7,33 @@
     "contact": "Contacto"
   },
   "infoSection": {
+    "tag": "Por qué elegirnos",
+    "heading": "La forma más inteligente de viajar en autobús",
+    "description": "Experimenta un viaje en autobús sin interrupciones con nuestra plataforma integral.",
     "feature1": {
-      "title": "Compara los precios de los autobuses entre proveedores",
+      "title": "Compara los precios de autobuses entre proveedores",
       "description": "Encuentra las mejores ofertas comparando los precios de varios operadores de autobuses en un solo lugar. Ahorra tiempo y dinero en tu viaje."
     },
     "feature2": {
       "title": "Reserva boletos al instante",
-      "description": "Proceso de reserva fácil y seguro con confirmación instantánea. Recibe tus boletos electrónicos directamente en tu teléfono."
+      "description": "Proceso de reserva fácil y seguro con confirmación inmediata. Recibe tus boletos electrónicos directamente en tu teléfono."
     },
     "feature3": {
       "title": "Sigue tu viaje",
-      "description": "Actualizaciones en tiempo real sobre la ubicación del autobús, los horarios de llegada y cualquier cambio en el itinerario. Mantente informado durante todo tu viaje."
+      "description": "Actualizaciones en tiempo real sobre la ubicación del autobús, horarios de llegada y cualquier cambio en el itinerario. Mantente informado durante todo tu viaje."
+    },
+    "trustedBy": {
+      "title": "Confiado por miles",
+      "description": "Más de 20k+ viajeros felices"
+    },
+    "secureBooking": {
+      "title": "Reserva segura",
+      "description": "Pago 100% seguro"
     }
+  },
+  "popularBusRoutes": {
+    "tag": "Varias Rutas",
+    "heading": "Rutas Populares de Autobuses"
   },
   "languageDialog": {
     "languageCurrency": "Idioma y moneda",
@@ -35,9 +50,12 @@
     }
   },
   "partnersSection": {
+    "tag": "Socios de confianza",
     "heading": "Todas tus opciones de viaje en autobús en un solo lugar",
-    "description": "Más de 100 operadores de autobuses confiables en todo el país, desde autobuses interurbanos hasta lanzaderas locales, para que puedas concentrarte en tu viaje sin la molestia de visitar varios sitios web.",
-    "buttonText": "Comienza"
+    "description": "Más de 100 operadores de autobuses de confianza en todo el país, desde autocares interurbanos hasta transportes locales, para que puedas centrarte en tu viaje sin la molestia de visitar múltiples sitios web.",
+    "operatorCount": "100+",
+    "operatorsTrust": "operadores de autobuses confían en nosotros",
+    "buttonText": "Empezar"
   },
   "helpPage": {
     "title": "Centro de Ayuda",
@@ -209,8 +227,18 @@
     }
   },
   "hero": {
-    "title": "Viaja por Carretera con Comodidad",
-    "desc": "Reserva tus billetes de autobús para un viaje cómodo"
+    "title": "Viaja con comodidad",
+    "desc": "Reserva tus billetes de autobús para un viaje confortable",
+    "features": {
+      "comfortable": "Viaje cómodo",
+      "comfortableDesc": "Disfruta de la comodidad con nuestra moderna flota de autobuses",
+      "flexible": "Reserva flexible",
+      "flexibleDesc": "Horarios flexibles con múltiples opciones de salida",
+      "reliable": "Servicio confiable",
+      "reliableDesc": "Salidas y llegadas puntuales",
+      "secure": "Reserva segura",
+      "secureDesc": "Sistema de reservas en línea seguro y protegido"
+    }
   },
   "ticket": {
     "selectReturn": "Seleccionar Vuelta",

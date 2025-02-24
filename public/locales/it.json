@@ -7,6 +7,9 @@
     "contact": "Contatti"
   },
   "infoSection": {
+    "tag": "Perché sceglierci",
+    "heading": "Il modo più intelligente per viaggiare in autobus",
+    "description": "Vivi un viaggio in autobus senza interruzioni con la nostra piattaforma completa.",
     "feature1": {
       "title": "Confronta i prezzi degli autobus tra i fornitori",
       "description": "Trova le migliori offerte confrontando i prezzi di più operatori di autobus in un unico posto. Risparmia tempo e denaro nel tuo viaggio."
@@ -17,8 +20,20 @@
     },
     "feature3": {
       "title": "Segui il tuo viaggio",
-      "description": "Aggiornamenti in tempo reale sulla posizione dell'autobus, orari di arrivo e eventuali modifiche al programma. Rimani informato durante tutto il viaggio."
+      "description": "Aggiornamenti in tempo reale sulla posizione dell'autobus, orari di arrivo e eventuali modifiche al programma. Rimani informato durante il viaggio."
+    },
+    "trustedBy": {
+      "title": "Fidato da migliaia",
+      "description": "Oltre 20k+ viaggiatori soddisfatti"
+    },
+    "secureBooking": {
+      "title": "Prenotazione sicura",
+      "description": "Pagamento 100% sicuro"
     }
+  },
+  "popularBusRoutes": {
+    "tag": "Percorsi Multipli",
+    "heading": "Percorsi Popolari in Autobus"
   },
   "languageDialog": {
     "languageCurrency": "Lingua e valuta",
@@ -35,9 +50,12 @@
     }
   },
   "partnersSection": {
-    "heading": "Tutte le tue opzioni di viaggio in autobus in un unico posto",
-    "description": "Più di 100 operatori di autobus fidati in tutto il paese, da autobus interurbani a navette locali, così puoi concentrarti sul tuo viaggio senza il fastidio di visitare più siti web.",
-    "buttonText": "Inizia"
+    "tag": "Partner affidabili",
+    "heading": "Tutte le opzioni di viaggio in autobus in un unico posto",
+    "description": "Oltre 100 operatori di autobus affidabili in tutto il paese, dai pullman interurbani ai trasporti locali, così puoi concentrarti sul tuo viaggio senza dover visitare più siti web.",
+    "operatorCount": "100+",
+    "operatorsTrust": "operatori di autobus si fidano di noi",
+    "buttonText": "Inizia ora"
   },
   "helpPage": {
     "title": "Centro Assistenza",
@@ -209,8 +227,18 @@
     }
   },
   "hero": {
-    "title": "Viaggia sulle Strade con Comfort",
-    "desc": "Prenota i tuoi biglietti dell'autobus per un viaggio confortevole"
+    "title": "Viaggia con comfort",
+    "desc": "Prenota i tuoi biglietti dell'autobus per un viaggio confortevole",
+    "features": {
+      "comfortable": "Viaggio confortevole",
+      "comfortableDesc": "Goditi il comfort con la nostra moderna flotta di autobus",
+      "flexible": "Prenotazione flessibile",
+      "flexibleDesc": "Orari flessibili con diverse opzioni di partenza",
+      "reliable": "Servizio affidabile",
+      "reliableDesc": "Partenze e arrivi puntuali",
+      "secure": "Prenotazione sicura",
+      "secureDesc": "Sistema di prenotazione online sicuro e protetto"
+    }
   },
   "ticket": {
     "selectReturn": "Seleziona Ritorno",

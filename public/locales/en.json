@@ -9,6 +9,9 @@
     "account": "Account"
   },
   "infoSection": {
+    "tag": "Why Choose Us",
+    "heading": "The smartest way to travel by bus",
+    "description": "Experience seamless bus travel with our comprehensive platform.",
     "feature1": {
       "title": "Compare bus prices across providers",
       "description": "Find the best deals by comparing prices from multiple bus operators in one place. Save time and money on your journey."
@@ -20,7 +23,19 @@
     "feature3": {
       "title": "Track your journey",
       "description": "Real-time updates on bus location, arrival times, and any schedule changes. Stay informed throughout your trip."
+    },
+    "trustedBy": {
+      "title": "Trusted by thousands",
+      "description": "Over 20k+ happy travelers"
+    },
+    "secureBooking": {
+      "title": "Secure booking",
+      "description": "100% secure payment"
     }
+  },
+  "popularBusRoutes": {
+    "tag": "Multiple Routes",
+    "heading": "Popular Bus Routes"
   },
   "languageDialog": {
     "languageCurrency": "Language and currency",
@@ -37,8 +52,11 @@
     }
   },
   "partnersSection": {
+    "tag": "Trusted Partners",
     "heading": "All your bus travel options in one place",
     "description": "More than 100 trusted bus operators nationwide, from intercity coaches to local shuttles, so you can focus on your journey without the hassle of visiting multiple websites.",
+    "operatorCount": "100+",
+    "operatorsTrust": "bus operators trust us",
     "buttonText": "Get started"
   },
   "aboutSection": {
@@ -248,7 +266,17 @@
   },
   "hero": {
     "title": "Navigate Roads with Comfort",
-    "desc": "Book your bus tickets for a comfortable journey"
+    "desc": "Book your bus tickets for a comfortable journey",
+    "features": {
+      "comfortable": "Comfortable Travel",
+      "comfortableDesc": "Experience comfort with our modern bus fleet",
+      "flexible": "Flexible Booking",
+      "flexibleDesc": "Easy scheduling with multiple departure options",
+      "reliable": "Reliable Service",
+      "reliableDesc": "On-time departures and arrivals",
+      "secure": "Secure Booking",
+      "secureDesc": "Safe and secure online booking system"
+    }
   },
   "ticket": {
     "selectReturn": "Select Return",

@@ -50,9 +50,9 @@ const StationSelect: React.FC<CustomSelectProps> = ({
         setFromCity(stations[0]?.city || "");
         setFrom(stations[0]?._id || "");
       } else if (departure === "to") {
-        setSearchTerm(stations[1]?.city || "");
-        setToCity(stations[1]?.city || "");
-        setTo(stations[1]?._id || "");
+        setSearchTerm(stations[2]?.city || "");
+        setToCity(stations[2]?.city || "");
+        setTo(stations[2]?._id || "");
       }
     }
   }, [departure, setFromCity, setFrom, setToCity, setTo]);
