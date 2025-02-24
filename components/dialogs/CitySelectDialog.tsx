@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { X, MapPin, Locate } from "lucide-react";
 import Cookies from "js-cookie";
 import { Station } from "@/models/station";
 import { ScrollArea } from "../ui/scroll-area";
@@ -15,12 +14,32 @@ import { IoMdLocate } from "react-icons/io";
 import { HiMapPin } from "react-icons/hi2";
 import { useTranslation } from "react-i18next";
 
-interface CitySelectDialogProps {
-  isOpen: boolean;
-  onClose: () => void;
-  stations: Station[];
-  departure: string | undefined;
-}
+const levenshteinDistance = (str1: string, str2: string) => {
+  const track = Array(str2.length + 1)
+    .fill(null)
+    .map(() => Array(str1.length + 1).fill(null));
+
+  for (let i = 0; i <= str1.length; i += 1) {
+    track[0][i] = i;
+  }
+
+  for (let j = 0; j <= str2.length; j += 1) {
+    track[j][0] = j;
+  }
+
+  for (let j = 1; j <= str2.length; j += 1) {
+    for (let i = 1; i <= str1.length; i += 1) {
+      const indicator = str1[i - 1] === str2[j - 1] ? 0 : 1;
+      track[j][i] = Math.min(
+        track[j][i - 1] + 1, // deletion
+        track[j - 1][i] + 1, // insertion
+        track[j - 1][i - 1] + indicator // substitution
+      );
+    }
+  }
+
+  return track[str2.length][str1.length];
+};
 
 interface CitySelectDialogProps {
   isOpen: boolean;
@@ -39,20 +58,55 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showRecent, setShowRecent] = useState(true);
+  const [filteredStations, setFilteredStations] = useState<Station[]>([]);
   const { t } = useTranslation();
+
   const recentStations = JSON.parse(
     Cookies.get(
       departure === "from" ? "recentFromStations" : "recentToStations"
     ) || "[]"
   );
 
-  const filteredStations = stations.filter((station) =>
-    station.city.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
+  // Update filtered stations when search term changes
   useEffect(() => {
-    setShowRecent(!searchTerm);
-  }, [searchTerm]);
+    if (!searchTerm) {
+      setFilteredStations(stations);
+      setShowRecent(true);
+      return;
+    }
+
+    setShowRecent(false);
+
+    const searchTermLower = searchTerm.toLowerCase();
+
+    // Calculate both exact matches and Levenshtein distance matches
+    const exactMatches = stations.filter((station) =>
+      station.city.toLowerCase().includes(searchTermLower)
+    );
+
+    // For fuzzy matching
+    const stationsWithDistance = stations.map((station) => {
+      const cityNameLower = station.city.toLowerCase();
+      const distance = levenshteinDistance(searchTermLower, cityNameLower);
+      return { station, distance, cityNameLower };
+    });
+
+    // Adjust threshold based on search term length
+    const maxDistance = Math.min(3, searchTermLower.length);
+
+    // Get fuzzy matches that aren't already in exact matches
+    const fuzzyMatches = stationsWithDistance
+      .filter(
+        (item) =>
+          item.distance <= maxDistance &&
+          !exactMatches.some((exact) => exact._id === item.station._id)
+      )
+      .sort((a, b) => a.distance - b.distance)
+      .map((item) => item.station);
+
+    // Combine exact and fuzzy matches
+    setFilteredStations([...exactMatches, ...fuzzyMatches]);
+  }, [searchTerm, stations]);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -109,22 +163,28 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
                 </h3>
               </div>
             )}
-            {filteredStations.map((station: Station) => (
-              <Button
-                key={station._id}
-                variant="ghost"
-                className="w-full justify-start text-left mb-2"
-                onClick={() => onSelect(station)}
-                type="button"
-              >
-                {departure == "from" ? (
-                  <IoMdLocate className="size-5 mr-2 text-primary-accent" />
-                ) : (
-                  <HiMapPin className="size-5 mr-2 shrink-0 text-primary-accent" />
+            {filteredStations.length > 0
+              ? filteredStations.map((station: Station) => (
+                  <Button
+                    key={station._id}
+                    variant="ghost"
+                    className="w-full justify-start text-left mb-2"
+                    onClick={() => onSelect(station)}
+                    type="button"
+                  >
+                    {departure == "from" ? (
+                      <IoMdLocate className="size-5 mr-2 text-primary-accent" />
+                    ) : (
+                      <HiMapPin className="size-5 mr-2 shrink-0 text-primary-accent" />
+                    )}
+                    <span className="capitalize">{station.city}</span>
+                  </Button>
+                ))
+              : searchTerm !== "" && (
+                  <div className="px-4 py-3 text-muted-foreground text-sm">
+                    {t("searchForm.noResults", "No results found")}
+                  </div>
                 )}
-                <span className="capitalize">{station.city}</span>
-              </Button>
-            ))}
           </div>
         </ScrollArea>
       </DialogContent>

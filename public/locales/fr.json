@@ -31,6 +31,24 @@
       "description": "Paiement 100% sécurisé"
     }
   },
+  "services": {
+    "title": "Services de Voyage",
+    "description": "Choisissez votre niveau de service préféré pour votre voyage",
+    "priority": {
+      "name": "Service Prioritaire",
+      "fullRefund": "Remboursement partiel en cas d'annulation jusqu'à 48 heures avant le départ",
+      "dateChange": "Modifiez les détails de votre voyage jusqu'à 24 heures avant le départ",
+      "support": "Support prioritaire pour les modifications de réservation"
+    },
+    "standard": {
+      "name": "Service Standard",
+      "partialRefund": "Remboursement partiel en cas d'annulation jusqu'à 5 jours avant le départ",
+      "dateChange": "Modifiez les détails de votre voyage jusqu'à 3 jours avant le départ"
+    },
+    "basic": {
+      "name": "Service Basique"
+    }
+  },
   "popularBusRoutes": {
     "tag": "Multiples Itinéraires",
     "heading": "Itinéraires de Bus Populaires"
@@ -364,10 +382,12 @@
     "login": "Se connecter"
   },
   "login": {
+    "getFullExperience": "Accédez à l'expérience complète de réservation",
+    "experienceDescription": "Connectez-vous pour réserver des billets facilement, suivre vos voyages et gérer vos réservations en un seul endroit.",
     "title": "Connectez-vous à votre compte",
-    "subtitle": "Bienvenue de nouveau ! Veuillez entrer vos informations.",
+    "subtitle": "Bon retour ! Veuillez entrer vos informations.",
     "email": {
-      "label": "Email",
+      "label": "E-mail",
       "placeholder": "Adresse e-mail"
     },
     "password": {
@@ -380,8 +400,14 @@
     "orContinueWith": "Ou continuez avec",
     "googleButton": "Google",
     "facebookButton": "Facebook",
-    "noAccount": "Vous n'avez pas de compte ?",
-    "registerLink": "Inscrivez-vous ici"
+    "noAccount": "Pas de compte ?",
+    "registerLink": "Inscrivez-vous ici",
+    "mfaVerification": "Vérification à authentification multiple",
+    "mfaEmailDescription": "Nous avons envoyé un code de vérification à votre e-mail. Veuillez l'entrer ci-dessous.",
+    "mfaPhoneDescription": "Saisissez le code envoyé à votre numéro de téléphone pour continuer.",
+    "mfaCode": "Code de vérification",
+    "mfaCodePlaceholder": "Entrez votre code de vérification",
+    "verifyButton": "Vérifier"
   },
   "register": {
     "title": "Créez votre compte",

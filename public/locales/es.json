@@ -31,6 +31,24 @@
       "description": "Pago 100% seguro"
     }
   },
+  "services": {
+    "title": "Servicios de Viaje",
+    "description": "Elige el nivel de servicio preferido para tu viaje",
+    "priority": {
+      "name": "Servicio Prioritario",
+      "fullRefund": "Reembolso parcial al cancelar hasta 48 horas antes de la salida",
+      "dateChange": "Modifica los detalles de tu viaje hasta 24 horas antes de la salida",
+      "support": "Soporte prioritario para cambios en la reserva"
+    },
+    "standard": {
+      "name": "Servicio Estándar",
+      "partialRefund": "Reembolso parcial al cancelar hasta 5 días antes de la salida",
+      "dateChange": "Modifica los detalles de tu viaje hasta 3 días antes de la salida"
+    },
+    "basic": {
+      "name": "Servicio Básico"
+    }
+  },
   "popularBusRoutes": {
     "tag": "Varias Rutas",
     "heading": "Rutas Populares de Autobuses"
@@ -384,8 +402,10 @@
     "login": "Iniciar sesión"
   },
   "login": {
+    "getFullExperience": "Accede a la experiencia completa de reserva",
+    "experienceDescription": "Inicia sesión para reservar boletos fácilmente, seguir tus viajes y administrar tus reservas en un solo lugar.",
     "title": "Inicia sesión en tu cuenta",
-    "subtitle": "¡Bienvenido de nuevo! Por favor, ingresa tus datos.",
+    "subtitle": "¡Bienvenido de nuevo! Ingresa tus datos.",
     "email": {
       "label": "Correo electrónico",
       "placeholder": "Dirección de correo electrónico"
@@ -397,11 +417,17 @@
     "forgotPassword": "¿Olvidaste tu contraseña?",
     "signInButton": "Iniciar sesión",
     "loading": "Cargando...",
-    "orContinueWith": "O continúa con",
+    "orContinueWith": "O continuar con",
     "googleButton": "Google",
     "facebookButton": "Facebook",
     "noAccount": "¿No tienes una cuenta?",
-    "registerLink": "Regístrate aquí"
+    "registerLink": "Regístrate aquí",
+    "mfaVerification": "Verificación de Autenticación Multifactor",
+    "mfaEmailDescription": "Hemos enviado un código de verificación a tu correo electrónico. Ingresa el código a continuación.",
+    "mfaPhoneDescription": "Ingresa el código enviado a tu número de teléfono para continuar.",
+    "mfaCode": "Código de verificación",
+    "mfaCodePlaceholder": "Introduce tu código de verificación",
+    "verifyButton": "Verificar"
   },
   "register": {
     "title": "Crea tu cuenta",

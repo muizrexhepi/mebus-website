@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Station } from "@/models/station";
 import useSearchStore from "@/store";
-import { Locate, MapPin, X } from "lucide-react";
 import Cookies from "js-cookie";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -13,6 +12,34 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { HiMapPin } from "react-icons/hi2";
 import { IoMdLocate } from "react-icons/io";
 import { useTranslation } from "react-i18next";
+
+// Levenshtein distance function
+const levenshteinDistance = (str1: string, str2: string) => {
+  const track = Array(str2.length + 1)
+    .fill(null)
+    .map(() => Array(str1.length + 1).fill(null));
+
+  for (let i = 0; i <= str1.length; i += 1) {
+    track[0][i] = i;
+  }
+
+  for (let j = 0; j <= str2.length; j += 1) {
+    track[j][0] = j;
+  }
+
+  for (let j = 1; j <= str2.length; j += 1) {
+    for (let i = 1; i <= str1.length; i += 1) {
+      const indicator = str1[i - 1] === str2[j - 1] ? 0 : 1;
+      track[j][i] = Math.min(
+        track[j][i - 1] + 1, // deletion
+        track[j - 1][i] + 1, // insertion
+        track[j - 1][i - 1] + indicator // substitution
+      );
+    }
+  }
+
+  return track[str2.length][str1.length];
+};
 
 interface CustomSelectProps {
   stations?: Station[];
@@ -30,6 +57,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [openOptions, setOpenOptions] = useState<boolean>(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [filteredStations, setFilteredStations] = useState<Station[]>([]);
   const isMobile = useIsMobile();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -56,6 +84,49 @@ const StationSelect: React.FC<CustomSelectProps> = ({
       }
     }
   }, [departure, setFromCity, setFrom, setToCity, setTo]);
+
+  // Filter stations based on search term using Levenshtein distance
+  useEffect(() => {
+    if (!searchTerm) {
+      setFilteredStations(stations);
+      return;
+    }
+
+    const searchTermLower = searchTerm.toLowerCase();
+
+    // Calculate Levenshtein distance for each station
+    const stationsWithDistance = stations.map((station) => {
+      const cityNameLower = station.city.toLowerCase();
+      const distance = levenshteinDistance(searchTermLower, cityNameLower);
+      return { station, distance, cityNameLower };
+    });
+
+    // Sort by distance (smaller is better) and filter by threshold
+    const maxDistance = Math.min(3, searchTermLower.length); // Adjust threshold based on term length
+    const sortedFilteredStations = stationsWithDistance
+      .filter(
+        (item) =>
+          item.distance <= maxDistance ||
+          item.cityNameLower.includes(searchTermLower)
+      )
+      .sort((a, b) => a.distance - b.distance)
+      .map((item) => item.station);
+
+    // If exact matches exist, prioritize them
+    const exactMatches = stations.filter((station) =>
+      station.city.toLowerCase().includes(searchTermLower)
+    );
+
+    // Combine exact matches with fuzzy matches, removing duplicates
+    const result = [...exactMatches];
+    for (const station of sortedFilteredStations) {
+      if (!result.some((s) => s._id === station._id)) {
+        result.push(station);
+      }
+    }
+
+    setFilteredStations(result);
+  }, [searchTerm, stations]);
 
   const handleSelect = (station: Station) => {
     const value = station._id;
@@ -97,6 +168,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
       router.push(newUrl);
     }
   };
+
   const handleFocus = () => {
     setOpenOptions(true);
   };
@@ -132,10 +204,6 @@ const StationSelect: React.FC<CustomSelectProps> = ({
     Cookies.get(
       departure === "from" ? "recentFromStations" : "recentToStations"
     ) || "[]"
-  );
-
-  const filteredStations = stations.filter((station) =>
-    station?.city?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (isMobile) {
@@ -204,7 +272,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
                     type="button"
                   >
                     {departure == "from" ? (
-                      <IoMdLocate className="size-4 mr-2 text-primary-accent" />
+                      <IoMdLocate className="size-4 mr-2 shrink-0 text-primary-accent" />
                     ) : (
                       <HiMapPin className="size-4 mr-2 shrink-0 text-primary-accent" />
                     )}
@@ -228,29 +296,35 @@ const StationSelect: React.FC<CustomSelectProps> = ({
                     {t("searchForm.searchResult")}
                   </h3>
                 </div>
-                {filteredStations.map((station: Station) => (
-                  <Button
-                    key={station._id}
-                    variant="ghost"
-                    className="w-full justify-start text-left h-15 px-4 hover:bg-accent hover:text-accent-foreground rounded-none"
-                    onClick={() => handleSelect(station)}
-                    type="button"
-                  >
-                    {departure == "from" ? (
-                      <IoMdLocate className="size-4 mr-2 text-primary-accent" />
-                    ) : (
-                      <HiMapPin className="size-4 mr-2 shrink-0 text-primary-accent" />
-                    )}
-                    <div className="flex flex-col items-start gap-0.5">
-                      <span className="capitalize font-medium text-sm">
-                        {station.city}
-                      </span>
-                      <span className="text-muted-foreground text-xs">
-                        {station.name}
-                      </span>
-                    </div>
-                  </Button>
-                ))}
+                {filteredStations.length > 0 ? (
+                  filteredStations.map((station: Station) => (
+                    <Button
+                      key={station._id}
+                      variant="ghost"
+                      className="w-full justify-start text-left h-15 px-4 hover:bg-accent hover:text-accent-foreground rounded-none"
+                      onClick={() => handleSelect(station)}
+                      type="button"
+                    >
+                      {departure == "from" ? (
+                        <IoMdLocate className="size-4 mr-2 shrink-0 text-primary-accent" />
+                      ) : (
+                        <HiMapPin className="size-4 mr-2 shrink-0 text-primary-accent" />
+                      )}
+                      <div className="flex flex-col items-start gap-0.5">
+                        <span className="capitalize font-medium text-sm">
+                          {station.city}
+                        </span>
+                        <span className="text-muted-foreground text-xs">
+                          {station.name}
+                        </span>
+                      </div>
+                    </Button>
+                  ))
+                ) : (
+                  <div className="px-4 py-3 text-muted-foreground text-sm">
+                    {t("searchForm.noResults", "No results found")}
+                  </div>
+                )}
               </>
             )}
           </div>

@@ -27,7 +27,9 @@ import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import TicketBlock from "@/components/ticket/Ticket";
 import SearchFilters from "./search-filters";
-import { addDays, format } from "date-fns";
+import { addDays, format, parse } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import { Loader2 } from "lucide-react";
 
 const TicketList: React.FC = () => {
   const router = useRouter();
@@ -62,6 +64,10 @@ const TicketList: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+
+  // New state for next available dates
+  const [availableDates, setAvailableDates] = useState<string[]>([]);
+  const [fetchingAvailableDates, setFetchingAvailableDates] = useState(false);
 
   const searchParameters = useMemo(
     () => ({
@@ -124,7 +130,10 @@ const TicketList: React.FC = () => {
         const newTickets: Ticket[] = data.data || [];
 
         if (newTickets.length === 0) {
-          setNoData(true);
+          if (pageNumber === 1) {
+            setNoData(true);
+            fetchNextAvailableDates();
+          }
           setHasMore(false);
         } else {
           setTickets((prevTickets) => [...prevTickets, ...newTickets]);
@@ -146,6 +155,49 @@ const TicketList: React.FC = () => {
     },
     [searchParameters, isSelectingReturn, toast, setIsLoading]
   );
+
+  // New function to fetch next available dates
+  const fetchNextAvailableDates = useCallback(async () => {
+    const {
+      departureStation,
+      arrivalStation,
+      departureDate,
+      returnDate,
+      adult,
+      children,
+    } = searchParameters;
+
+    if (!arrivalStation || !departureStation) return;
+
+    try {
+      setFetchingAvailableDates(true);
+
+      // This endpoint needs to be implemented on your backend
+      const response = await fetch(
+        `${
+          process.env.NEXT_PUBLIC_API_URL
+        }/ticket/search/find-nearest?departureStation=${
+          isSelectingReturn ? arrivalStation : departureStation
+        }&arrivalStation=${
+          isSelectingReturn ? departureStation : arrivalStation
+        }&currentDate=${
+          isSelectingReturn ? returnDate : departureDate
+        }&adults=${adult}&children=${children}`
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch available dates");
+      }
+
+      const data = await response.json();
+      console.log({ availableDates: data });
+      setAvailableDates(data.data.availableDates || []);
+    } catch (err) {
+      console.error("Failed to fetch available dates:", err);
+    } finally {
+      setFetchingAvailableDates(false);
+    }
+  }, [searchParameters, isSelectingReturn]);
 
   useEffect(() => {
     const {
@@ -197,7 +249,7 @@ const TicketList: React.FC = () => {
       fetchTickets(page);
     }
   }, [noData, loading, hasMore, fetchTickets, page]);
-  console.log({ tickets });
+
   const handleTicketSelection = useCallback(
     (ticket: Ticket) => {
       setIsLoading(true);
@@ -228,10 +280,90 @@ const TicketList: React.FC = () => {
     ]
   );
 
+  const navigateToDate = useCallback(
+    (dateStr: string) => {
+      const currentParams = new URLSearchParams(searchParams.toString());
+
+      if (isSelectingReturn) {
+        currentParams.set("returnDate", dateStr);
+      } else {
+        currentParams.set("departureDate", dateStr);
+      }
+
+      router.push(
+        `/search/${searchParameters.destination}?${currentParams.toString()}`
+      );
+    },
+    [isSelectingReturn, router, searchParams, searchParameters.destination]
+  );
+
+  const NextAvailableDates = () => {
+    // if (availableDates.length === 0) {
+    //   return <NoTicketsAvailable />;
+    // }
+    console.log({ zi: availableDates });
+    return (
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold">
+          No tickets available for selected date
+        </h2>
+        <p>Here are the next available dates:</p>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          {availableDates.slice(0, 6).map((date, index) => {
+            const dateObj = parse(date, "dd-MM-yyyy", new Date());
+            return (
+              <Button
+                key={index}
+                variant="outline"
+                className="p-4 h-auto flex flex-col items-center gap-2 hover:bg-primary/10"
+                onClick={() => navigateToDate(date)}
+              >
+                <span className="text-lg font-medium">
+                  {format(dateObj, "EEE")}
+                </span>
+                <span className="text-2xl font-bold">
+                  {format(dateObj, "d")}
+                </span>
+                <span>{format(dateObj, "MMM yyyy")}</span>
+              </Button>
+            );
+          })}
+        </div>
+
+        {availableDates.length > 6 && (
+          <div className="mt-4">
+            <h3 className="text-lg font-medium mb-2">
+              View all available dates
+            </h3>
+            <Calendar
+              mode="single"
+              disabled={[
+                { before: new Date() },
+                (date) => {
+                  const dateStr = format(date, "dd-MM-yyyy");
+                  return !availableDates.includes(dateStr);
+                },
+              ]}
+              onSelect={(date) =>
+                date && navigateToDate(format(date, "dd-MM-yyyy"))
+              }
+              className="rounded-md border"
+            />
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="flex flex-col gap-8">
       {noData && filteredTickets.length === 0 ? (
-        <NoTicketsAvailable />
+        fetchingAvailableDates ? (
+          <Loader2 className="animate-spin mx-auto size-6" />
+        ) : (
+          <NextAvailableDates />
+        )
       ) : (
         <div className="w-full mx-auto space-y-4">
           <div className="w-full flex items-center justify-between">

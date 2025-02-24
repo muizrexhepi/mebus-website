@@ -31,6 +31,24 @@
       "description": "Pagamento 100% sicuro"
     }
   },
+  "services": {
+    "title": "Servizi di Viaggio",
+    "description": "Scegli il livello di servizio preferito per il tuo viaggio",
+    "priority": {
+      "name": "Servizio Prioritario",
+      "fullRefund": "Rimborso parziale per cancellazioni fino a 48 ore prima della partenza",
+      "dateChange": "Modifica i dettagli del viaggio fino a 24 ore prima della partenza",
+      "support": "Supporto prioritario per modifiche alla prenotazione"
+    },
+    "standard": {
+      "name": "Servizio Standard",
+      "partialRefund": "Rimborso parziale per cancellazioni fino a 5 giorni prima della partenza",
+      "dateChange": "Modifica i dettagli del viaggio fino a 3 giorni prima della partenza"
+    },
+    "basic": {
+      "name": "Servizio Base"
+    }
+  },
   "popularBusRoutes": {
     "tag": "Percorsi Multipli",
     "heading": "Percorsi Popolari in Autobus"
@@ -384,11 +402,13 @@
     "login": "Accedi"
   },
   "login": {
+    "getFullExperience": "Accedi all'esperienza completa di prenotazione",
+    "experienceDescription": "Accedi per prenotare biglietti facilmente, monitorare i tuoi viaggi e gestire le prenotazioni in un unico posto.",
     "title": "Accedi al tuo account",
     "subtitle": "Bentornato! Inserisci i tuoi dati.",
     "email": {
-      "label": "E-mail",
-      "placeholder": "Indirizzo e-mail"
+      "label": "Email",
+      "placeholder": "Indirizzo email"
     },
     "password": {
       "label": "Password",
@@ -401,7 +421,13 @@
     "googleButton": "Google",
     "facebookButton": "Facebook",
     "noAccount": "Non hai un account?",
-    "registerLink": "Registrati qui"
+    "registerLink": "Registrati qui",
+    "mfaVerification": "Verifica con autenticazione multipla",
+    "mfaEmailDescription": "Abbiamo inviato un codice di verifica alla tua email. Inseriscilo qui sotto.",
+    "mfaPhoneDescription": "Inserisci il codice inviato al tuo numero di telefono per procedere.",
+    "mfaCode": "Codice di verifica",
+    "mfaCodePlaceholder": "Inserisci il tuo codice di verifica",
+    "verifyButton": "Verifica"
   },
   "register": {
     "title": "Crea il tuo account",

@@ -147,15 +147,6 @@ export default function AuthForm() {
             />
             Continue with Facebook
           </Button>
-          {/* <Button
-            variant="outline"
-            className="w-full h-12 font-normal border-[1px] hover:bg-muted/50"
-            onClick={handleFacebookLogin}
-          >
-            <FaApple className="mr-2" size={20} />
-       
-            Continue with Apple
-          </Button> */}
         </div>
       )}
 

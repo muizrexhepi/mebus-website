@@ -251,7 +251,7 @@
     "description": "Choose your preferred service level for your trip",
     "priority": {
       "name": "Priority Service",
-      "fullRefund": "Full refund when cancelling up to 48 hours before departure",
+      "fullRefund": "Partial refund when cancelling up to 48 hours before departure",
       "dateChange": "Modify your trip details up to 24 hours before departure",
       "support": "Priority support for booking changes"
     },

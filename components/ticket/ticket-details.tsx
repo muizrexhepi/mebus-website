@@ -51,6 +51,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
     window.open(googleMapsUrl, "_blank");
   };
 
+  console.log({ ticket });
   if (!ticket) return null;
 
   return (

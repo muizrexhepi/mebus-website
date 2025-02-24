@@ -260,6 +260,24 @@
     "continue": "Vazhdo",
     "selectOutbound": "Zgjidh Vajtjen"
   },
+  "services": {
+    "title": "Shërbimet e Udhëtimit",
+    "description": "Zgjidhni nivelin e shërbimit të preferuar për udhëtimin tuaj",
+    "priority": {
+      "name": "Shërbimi Prioritar",
+      "fullRefund": "Rimbursim i pjesshëm kur anuloni deri në 48 orë para nisjes",
+      "dateChange": "Ndryshoni detajet e udhëtimit deri në 24 orë para nisjes",
+      "support": "Mbështetje prioritare për ndryshimet në rezervim"
+    },
+    "standard": {
+      "name": "Shërbimi Standard",
+      "partialRefund": "Rimbursim i pjesshëm kur anuloni deri në 5 ditë para nisjes",
+      "dateChange": "Ndryshoni detajet e udhëtimit deri në 3 ditë para nisjes"
+    },
+    "basic": {
+      "name": "Shërbimi Bazë"
+    }
+  },
   "ticketDetails": {
     "title": "Detajet e Biletës",
     "viewLocation": "Shiko vendndodhjen në hartë",
@@ -343,8 +361,10 @@
     "login": "Hyr"
   },
   "login": {
-    "title": "Hyni në profilin tuaj",
-    "subtitle": "Mirësevini përsëri! Ju lutemi, jepni informacionet tuaja.",
+    "getFullExperience": "Përjeto gjithë përvojën e rezervimit",
+    "experienceDescription": "Hyni për të rezervuar bileta lehtësisht, ndjekur udhëtimet dhe menaxhuar rezervimet në një vend.",
+    "title": "Hyni në llogarinë tuaj",
+    "subtitle": "Mirësevini përsëri! Ju lutemi shkruani të dhënat tuaja.",
     "email": {
       "label": "Email",
       "placeholder": "Adresa e emailit"
@@ -354,13 +374,19 @@
       "placeholder": "Fjalëkalimi"
     },
     "forgotPassword": "Keni harruar fjalëkalimin?",
-    "signInButton": "Hyr",
-    "loading": "Po ngarkohet...",
+    "signInButton": "Hyni",
+    "loading": "Duke ngarkuar...",
     "orContinueWith": "Ose vazhdoni me",
     "googleButton": "Google",
     "facebookButton": "Facebook",
     "noAccount": "Nuk keni një llogari?",
-    "registerLink": "Regjistrohuni këtu"
+    "registerLink": "Regjistrohuni këtu",
+    "mfaVerification": "Verifikimi me Autentifikim të Shumëfishtë",
+    "mfaEmailDescription": "Ne kemi dërguar një kod verifikimi në emailin tuaj. Ju lutemi shkruani atë më poshtë.",
+    "mfaPhoneDescription": "Shkruani kodin e dërguar në numrin tuaj të telefonit për të vazhduar.",
+    "mfaCode": "Kodi i Verifikimit",
+    "mfaCodePlaceholder": "Shkruani kodin tuaj të verifikimit",
+    "verifyButton": "Verifikoni"
   },
   "register": {
     "title": "Krijoni profilin tuaj",
