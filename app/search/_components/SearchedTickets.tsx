@@ -298,9 +298,9 @@ const TicketList: React.FC = () => {
   );
 
   const NextAvailableDates = () => {
-    // if (availableDates.length === 0) {
-    //   return <NoTicketsAvailable />;
-    // }
+    if (availableDates.length === 0) {
+      return <NoTicketsAvailable />;
+    }
     console.log({ zi: availableDates });
     return (
       <div className="space-y-4">
