@@ -2,11 +2,9 @@ import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import AppleProvider from "next-auth/providers/apple";
-import EmailProvider from "next-auth/providers/email";
+import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
 import { DefaultSession } from "next-auth";
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
-import clientPromise from "@/lib/mongodb";
 
 declare module "next-auth" {
   interface Session {
@@ -52,20 +50,37 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.SECRET,
   // adapter: MongoDBAdapter(clientPromise),
   providers: [
-    // EmailProvider({
-    //   server: {
-    //     host: process.env.EMAIL_SERVER_HOST,
-    //     port: Number(process.env.EMAIL_SERVER_PORT),
-    //     auth: {
-    //       user: process.env.EMAIL_SERVER_USER,
-    //       pass: process.env.EMAIL_SERVER_PASSWORD,
-    //     },
-    //     tls: {
-    //       rejectUnauthorized: false,
-    //     },
-    //   },
-    //   from: process.env.EMAIL_FROM,
-    // }),
+    CredentialsProvider({
+      id: "email-otp",
+      name: "Email OTP",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        otp: { label: "OTP", type: "text" }
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.otp) return null;
+        
+        try {
+          // Call your backend OTP validation endpoint
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/otp/validate`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: credentials.email,
+              otp: credentials.otp
+            })
+          });
+          console.log({response})
+          if (!response.ok) return null;
+          
+          const user = await response.json();
+          return user;
+        } catch (error) {
+          console.error("Error in OTP verification:", error);
+          return null;
+        }
+      }
+    }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
@@ -96,7 +111,13 @@ export const authOptions: NextAuthOptions = {
           account?.provider === "facebook" ? null : user.image || null,
       });
     },
-
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        // Add any other user data you want in the JWT
+      }
+      return token;
+    },
     async session({ session }) {
       console.log("Session callback:", session);
       return session;
@@ -105,5 +126,16 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/",
     error: "/",
+  },
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
   },
 };

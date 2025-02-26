@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useNavbarStore } from "@/store";
 import AuthForm from "../forms/auth-form";
+import LoginForm from "../forms/LoginForm";
 
 export const LoginDialog = () => {
   const { t } = useTranslation();
@@ -40,6 +41,7 @@ export const LoginDialog = () => {
           </div>
           <div className="p-6 sm:p-8 my-auto space-y-8 h-full relative">
             <AuthForm />
+            {/* <LoginForm /> */}
           </div>
         </div>
       </DialogContent>
