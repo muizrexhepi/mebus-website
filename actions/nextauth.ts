@@ -5,6 +5,7 @@ import AppleProvider from "next-auth/providers/apple";
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
 import { DefaultSession } from "next-auth";
+import { ChevronsLeftRight } from "lucide-react";
 
 declare module "next-auth" {
   interface Session {
@@ -55,31 +56,42 @@ export const authOptions: NextAuthOptions = {
       name: "Email OTP",
       credentials: {
         email: { label: "Email", type: "email" },
-        otp: { label: "OTP", type: "text" }
+        otp: { label: "OTP", type: "text" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.otp) return null;
-        
+
         try {
           // Call your backend OTP validation endpoint
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/otp/validate`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              email: credentials.email,
-              otp: credentials.otp
-            })
-          });
-          console.log({response})
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/user/otp/validate`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: credentials.email,
+                otp: credentials.otp,
+              }),
+            }
+          );
+
           if (!response.ok) return null;
-          
-          const user = await response.json();
-          return user;
+
+          const userData = await response.json();
+          console.log({ userData });
+          // Ensure we have a properly structured user object
+          // This is what will be available in the signIn callback
+          return {
+            id: userData.id || userData._id,
+            name: userData.name,
+            email: credentials.email,
+            image: userData.profile_picture || null,
+          };
         } catch (error) {
           console.error("Error in OTP verification:", error);
           return null;
         }
-      }
+      },
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -102,7 +114,9 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user, account }) {
       console.log({ user, account });
-
+      if (account?.provider === "email-otp") {
+        return true;
+      }
       return createUserInDB({
         name: user.name || null,
         email: user.email || null,

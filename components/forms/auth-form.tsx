@@ -19,6 +19,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { useToast } from "../hooks/use-toast";
+import { useNavbarStore } from "@/store";
 
 // Email validation schema
 const emailSchema = z
@@ -28,14 +29,16 @@ const emailSchema = z
 
 export default function AuthForm() {
   const router = useRouter();
-  const {toast} = useToast()  
+  const { toast } = useToast();
   // State management
-  const [formState, setFormState] = useState<"initial" | "email" | "otp">("initial");
+  const [formState, setFormState] = useState<"initial" | "email" | "otp">(
+    "initial"
+  );
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
+  const { setOpenLogin } = useNavbarStore();
   // Validate email format
   const validateEmail = (value: string): boolean => {
     try {
@@ -58,7 +61,7 @@ export default function AuthForm() {
         `${process.env.NEXT_PUBLIC_API_URL}/user/otp/send`,
         { email }
       );
-      
+
       if (response.status === 200) {
         toast({
           title: "Verification code sent",
@@ -87,7 +90,7 @@ export default function AuthForm() {
         otp,
         redirect: false,
       });
-      
+
       if (result?.ok) {
         router.push("/");
       } else {
@@ -121,6 +124,7 @@ export default function AuthForm() {
     e.preventDefault();
     if (otp.length === 4) {
       await verifyOTP();
+      setOpenLogin(false);
     }
   };
 
@@ -142,7 +146,7 @@ export default function AuthForm() {
   };
 
   return (
-    <div className="w-full space-y-6 py-32 sm:py-0 relative">
+    <div className="w-full space-y-6 py-32 sm:py-0">
       {/* Logo */}
       <div className="lg:hidden flex justify-center">
         <Image
@@ -156,24 +160,23 @@ export default function AuthForm() {
 
       {/* Back button */}
       {formState !== "initial" && (
-        <Button
-          variant="ghost"
-          className="w-8 h-8 p-0 absolute top-0 left-0"
+        <button
+          className="p-0 absolute top-6 sm:top-0 left-4 sm:left-6"
           onClick={handleBackClick}
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft className="size-6 shrink-0 text-muted-foreground hover:text-foreground transition-colors" />
           <span className="sr-only">Go back</span>
-        </Button>
+        </button>
       )}
 
       {/* Title */}
-      <div className="space-y-2 text-center">
+      <div className="space-y-2 text-center pt-4">
         <h2 className="text-2xl font-medium tracking-tight">
-          {formState === "otp" 
-            ? "Enter Verification Code" 
-            : formState === "email" 
-              ? "Sign in with Email" 
-              : "Welcome back"}
+          {formState === "otp"
+            ? "Enter Verification Code"
+            : formState === "email"
+            ? "Sign in with Email"
+            : "Welcome back"}
         </h2>
       </div>
 
@@ -185,28 +188,34 @@ export default function AuthForm() {
               Enter the 4-digit code sent to {email}
             </p>
             <div className="flex justify-center my-4">
-              <InputOTP maxLength={4} value={otp} onChange={setOtp}>
+              <InputOTP
+                maxLength={4}
+                value={otp}
+                onChange={setOtp}
+                className="w-full"
+              >
                 <InputOTPGroup>
-                  <InputOTPSlot index={0} />
-                  <InputOTPSlot index={1} />
-                  <InputOTPSlot index={2} />
-                  <InputOTPSlot index={3} />
+                  <InputOTPSlot index={0} className="size-12" />
+                  <InputOTPSlot index={1} className="size-12" />
+                  <InputOTPSlot index={2} className="size-12" />
+                  <InputOTPSlot index={3} className="size-12" />
                 </InputOTPGroup>
               </InputOTP>
             </div>
           </div>
-          <Button 
-            type="submit" 
-            variant="primary" 
+          <Button
+            type="submit"
+            variant="primary"
             className="w-full h-12"
             disabled={otp.length !== 4 || isLoading}
           >
-            {isLoading ? "Verifying..." : "Verify Code"}
+            {isLoading ? <Loader2 className="animate-spin" /> : "Verify Code"}
           </Button>
           <p className="text-sm text-center text-muted-foreground mt-2">
             Didn't receive the code?{" "}
             <Button
               variant="link"
+              type="button"
               className="p-0 h-auto font-normal"
               onClick={handleResendOtp}
               disabled={isLoading}
@@ -230,25 +239,21 @@ export default function AuthForm() {
             />
             {emailError && <p className="text-sm text-red-500">{emailError}</p>}
           </div>
-          <Button 
-            type="submit" 
-            variant="primary" 
+          <Button
+            type="submit"
+            variant="primary"
             className="w-full h-12"
             disabled={isLoading}
           >
-            {isLoading ? <Loader2 className="animate-spin"/> : "Continue with Email"}
+            {isLoading ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              "Continue with Email"
+            )}
           </Button>
         </form>
       ) : (
         <div className="space-y-3">
-          <Button
-            variant="outline"
-            className="w-full h-12 font-normal border-[1px] hover:bg-muted/50"
-            onClick={() => setFormState("email")}
-          >
-            <Mail className="mr-2 size-5"/>
-            Continue with Email
-          </Button>
           <Button
             variant="outline"
             className="w-full h-12 font-normal border-[1px] hover:bg-muted/50"
@@ -276,6 +281,14 @@ export default function AuthForm() {
               className="mr-2"
             />
             Continue with Facebook
+          </Button>
+          <Button
+            variant="outline"
+            className="w-full h-12 font-normal border-[1px] hover:bg-muted/50"
+            onClick={() => setFormState("email")}
+          >
+            <Mail className="mr-2 size-5" />
+            Continue with Email
           </Button>
         </div>
       )}
