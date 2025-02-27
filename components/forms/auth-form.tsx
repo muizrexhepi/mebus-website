@@ -21,7 +21,6 @@ import {
 import { useToast } from "../hooks/use-toast";
 import { useNavbarStore } from "@/store";
 
-// Email validation schema
 const emailSchema = z
   .string()
   .email("Invalid email address")
@@ -30,7 +29,6 @@ const emailSchema = z
 export default function AuthForm() {
   const router = useRouter();
   const { toast } = useToast();
-  // State management
   const [formState, setFormState] = useState<"initial" | "email" | "otp">(
     "initial"
   );
@@ -39,7 +37,7 @@ export default function AuthForm() {
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { setOpenLogin } = useNavbarStore();
-  // Validate email format
+
   const validateEmail = (value: string): boolean => {
     try {
       emailSchema.parse(value);

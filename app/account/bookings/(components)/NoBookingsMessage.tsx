@@ -1,13 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
-import { Ticket, Search } from "lucide-react";
+import { Ticket } from "lucide-react";
+import Image from "next/image";
 
 interface NoBookingsMessageProps {
   isLoading: boolean;
@@ -17,31 +11,29 @@ export function NoBookingsMessage({ isLoading }: NoBookingsMessageProps) {
   if (isLoading) return null;
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold text-center">
-          No Bookings Found
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-center mb-4">
-          You don't have any bus ticket bookings yet.
-        </p>
-      </CardContent>
-      <CardFooter className="flex flex-col space-y-2">
-        <Button variant={"primary"} asChild className="w-full">
-          <Link href="/">
-            <Ticket className="mr-2 h-4 w-4" />
-            Book a New Ticket
-          </Link>
-        </Button>
-        {/* <Button asChild variant="outline" className="w-full">
-          <Link href="/bookings/retrieve-booking">
-            <Search className="mr-2 h-4 w-4" />
-            Retrieve Booking
-          </Link>
-        </Button> */}
-      </CardFooter>
-    </Card>
+    <div className="flex flex-col items-center justify-center w-full mx-auto max-w-md py-8">
+      <div className="mb-6">
+        <Image
+          src="/assets/icons/no-bookings.svg"
+          alt="No bookings"
+          width={250}
+          height={250}
+          priority
+        />
+      </div>
+
+      <h2 className="text-2xl font-bold text-center mb-2">No Bookings Found</h2>
+
+      <p className="text-center text-gray-600 mb-6">
+        You don't have any bus ticket bookings yet.
+      </p>
+
+      <Button variant="primary" asChild className="px-6 h-12">
+        <Link href="/">
+          <Ticket className="mr-2 h-4 w-4" />
+          Book a New Ticket
+        </Link>
+      </Button>
+    </div>
   );
 }

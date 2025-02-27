@@ -29,7 +29,8 @@ import TicketBlock from "@/components/ticket/Ticket";
 import SearchFilters from "./search-filters";
 import { addDays, format, parse } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
-import { Loader2 } from "lucide-react";
+import { ArrowRight, Bus, Loader2, Route } from "lucide-react";
+import Image from "next/image";
 
 const TicketList: React.FC = () => {
   const router = useRouter();
@@ -89,6 +90,63 @@ const TicketList: React.FC = () => {
     [searchParameters.destination]
   );
 
+  const validateAndUpdateDates = useCallback(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const formatDateString = (date: Date) => {
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const year = date.getFullYear();
+      return `${day}-${month}-${year}`;
+    };
+
+    const parseDate = (dateStr: string) => {
+      const [day, month, year] = dateStr
+        .split("-")
+        .map((part) => parseInt(part));
+      const date = new Date(year, month - 1, day);
+      return date;
+    };
+
+    const params = new URLSearchParams(window.location.search);
+
+    let paramsUpdated = false;
+
+    const departureDate =
+      params.get("departureDate") || formatDateString(today);
+    const returnDate = params.get("returnDate");
+
+    const departureDateTime = parseDate(departureDate);
+    if (departureDateTime < today) {
+      params.set("departureDate", formatDateString(today));
+      paramsUpdated = true;
+    }
+
+    if (returnDate) {
+      const returnDateTime = parseDate(returnDate);
+      if (returnDateTime < today) {
+        params.set("returnDate", formatDateString(today));
+        paramsUpdated = true;
+      }
+    }
+
+    if (paramsUpdated) {
+      router.push(`${window.location.pathname}?${params.toString()}`, {
+        scroll: false,
+      });
+    }
+
+    return {
+      departureStation: params.get("departureStation"),
+      arrivalStation: params.get("arrivalStation"),
+      departureDate: params.get("departureDate"),
+      returnDate: params.get("returnDate"),
+      adult: parseInt(params.get("adult") || "1"),
+      children: parseInt(params.get("children") || "0"),
+    };
+  }, [router, toast]);
+
   const fetchTickets = useCallback(
     async (pageNumber: number) => {
       const {
@@ -98,7 +156,7 @@ const TicketList: React.FC = () => {
         returnDate,
         adult,
         children,
-      } = searchParameters;
+      } = validateAndUpdateDates();
 
       if (!arrivalStation || !departureStation) {
         toast({
@@ -153,10 +211,15 @@ const TicketList: React.FC = () => {
         setIsLoading(false);
       }
     },
-    [searchParameters, isSelectingReturn, toast, setIsLoading]
+    [
+      searchParameters,
+      isSelectingReturn,
+      toast,
+      setIsLoading,
+      validateAndUpdateDates,
+    ]
   );
 
-  // New function to fetch next available dates
   const fetchNextAvailableDates = useCallback(async () => {
     const {
       departureStation,
@@ -165,14 +228,13 @@ const TicketList: React.FC = () => {
       returnDate,
       adult,
       children,
-    } = searchParameters;
+    } = validateAndUpdateDates();
 
     if (!arrivalStation || !departureStation) return;
 
     try {
       setFetchingAvailableDates(true);
 
-      // This endpoint needs to be implemented on your backend
       const response = await fetch(
         `${
           process.env.NEXT_PUBLIC_API_URL
@@ -197,7 +259,7 @@ const TicketList: React.FC = () => {
     } finally {
       setFetchingAvailableDates(false);
     }
-  }, [searchParameters, isSelectingReturn]);
+  }, [searchParameters, isSelectingReturn, validateAndUpdateDates]);
 
   useEffect(() => {
     const {
@@ -301,57 +363,42 @@ const TicketList: React.FC = () => {
     if (availableDates.length === 0) {
       return <NoTicketsAvailable />;
     }
-    console.log({ zi: availableDates });
-    return (
-      <div className="space-y-4">
-        <h2 className="text-xl font-semibold">
-          No tickets available for selected date
-        </h2>
-        <p>Here are the next available dates:</p>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-          {availableDates.slice(0, 6).map((date, index) => {
-            const dateObj = parse(date, "dd-MM-yyyy", new Date());
-            return (
-              <Button
-                key={index}
-                variant="outline"
-                className="p-4 h-auto flex flex-col items-center gap-2 hover:bg-primary/10"
-                onClick={() => navigateToDate(date)}
-              >
-                <span className="text-lg font-medium">
-                  {format(dateObj, "EEE")}
-                </span>
-                <span className="text-2xl font-bold">
-                  {format(dateObj, "d")}
-                </span>
-                <span>{format(dateObj, "MMM yyyy")}</span>
-              </Button>
-            );
-          })}
+    const nextAvailableDate = availableDates[0];
+    const dateObj = parse(nextAvailableDate, "dd-MM-yyyy", new Date());
+    const formattedDate = format(dateObj, "d MMM");
+
+    return (
+      <div className="flex flex-col items-center max-w-lg mx-auto text-center space-y-8 p-6">
+        {/* Illustration */}
+        <div className="relative w-52 h-52 bg-gray-100 rounded-full flex items-center justify-center">
+          <Image
+            className="object-cover w-full h-full"
+            src={"/assets/icons/man-illustration.svg"}
+            width={150}
+            height={150}
+            alt="Man Illustration"
+          />
         </div>
 
-        {availableDates.length > 6 && (
-          <div className="mt-4">
-            <h3 className="text-lg font-medium mb-2">
-              View all available dates
-            </h3>
-            <Calendar
-              mode="single"
-              disabled={[
-                { before: new Date() },
-                (date) => {
-                  const dateStr = format(date, "dd-MM-yyyy");
-                  return !availableDates.includes(dateStr);
-                },
-              ]}
-              onSelect={(date) =>
-                date && navigateToDate(format(date, "dd-MM-yyyy"))
-              }
-              className="rounded-md border"
-            />
-          </div>
-        )}
+        {/* Text content */}
+        <div className="space-y-2">
+          <h2 className="text-2xl font-bold">No tickets available</h2>
+          <p className="text-muted-foreground">
+            No tickets available for the selected date.
+          </p>
+        </div>
+
+        {/* Button */}
+        <Button
+          onClick={() => navigateToDate(nextAvailableDate)}
+          className="group px-6 py-3 text-base font-medium rounded-xl"
+          size="lg"
+          variant={"primary"}
+        >
+          Next available: {formattedDate}
+          <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+        </Button>
       </div>
     );
   };

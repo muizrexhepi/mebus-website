@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { AlertCircle, Plus } from "lucide-react";
+import { AlertCircle, Plus, PlusCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -30,6 +30,7 @@ import { PaymentMethod } from "@stripe/stripe-js";
 import { useToast } from "@/components/hooks/use-toast";
 import { useAuth } from "@/components/providers/auth-provider";
 import { RESPONSE_LIMIT_DEFAULT } from "next/dist/server/api-utils";
+import Image from "next/image";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ""
@@ -207,9 +208,9 @@ function WalletPageContent() {
     }
   };
 
-  if (isLoading || loading) {
-    return <LoadingSkeleton />;
-  }
+  // if (isLoading || loading) {
+  //   return <LoadingSkeleton />;
+  // }
 
   if (error) {
     return <ErrorAlert message={error} />;
@@ -218,7 +219,7 @@ function WalletPageContent() {
   return (
     <div className="container mx-auto max-w-6xl">
       <div className="space-y-8">
-        <div className="flex flex-col sm:flex-row items-start justify-between sm:items-center gap-2">
+        <div className="flex flex-col sm:flex-row items-start justify-between sm:items-center gap-4">
           <div>
             <h2 className="text-3xl font-bold text-gray-800">
               {t("account.wallet")}
@@ -227,26 +228,55 @@ function WalletPageContent() {
               {t("wallet.managePaymentMethods")}
             </p>
           </div>
-          <Button
-            variant="outline"
-            onClick={() => setNewMethodDialogOpen(true)}
-            className="flex items-center gap-2"
-          >
-            <Plus className="h-5 w-5" />
-            <span className="text-sm font-medium">
-              {t("wallet.addPaymentMethod")}
-            </span>
-          </Button>
+          {paymentMethods?.length !== 0 ? (
+            <Button
+              variant="outline"
+              onClick={() => setNewMethodDialogOpen(true)}
+              className="flex items-center gap-2"
+            >
+              <Plus className="h-5 w-5" />
+              <span className="text-sm font-medium">
+                {t("wallet.addPaymentMethod")}
+              </span>
+            </Button>
+          ) : null}
         </div>
 
         {paymentMethods?.length === 0 ? (
-          <div className="text-center py-12 bg-gray-50 rounded-lg">
-            <p className="text-muted-foreground">
-              {t("account.noPaymentMethodsAdded")}
+          <div className="flex flex-col items-center justify-center py-12 bg-white">
+            <div className="relative w-80 h-80 mb-4">
+              <Image
+                src="/assets/icons/payment-methods.svg"
+                alt="No payment methods"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+            <h3 className="text-2xl font-bold text-center mb-2">
+              No payment methods found
+            </h3>
+            <p className="text-center text-gray-600 mb-6">
+              {t(
+                "account.noPaymentMethodsAdded",
+                "You don't have any payment methods added yet"
+              )}
             </p>
+            <Button
+              variant="primary"
+              size="lg"
+              className="flex items-center gap-2"
+            >
+              <PlusCircle className="h-4 w-4" />
+              Add payment method
+            </Button>
+          </div>
+        ) : isLoading || loading ? (
+          <div className="flex flex-col items-center justify-center py-12">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
           </div>
         ) : (
-          <div className="grid gap-6 lg:grid-cols-2 ">
+          <div className="grid gap-6 lg:grid-cols-2">
             {paymentMethods?.map((method) => (
               <PaymentMethodCard
                 key={method.id}

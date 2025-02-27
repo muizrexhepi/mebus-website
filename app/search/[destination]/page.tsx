@@ -107,7 +107,7 @@ export default async function SearchPage({ params }: any) {
           </Suspense>
         </div>
       </div>
-      <div className="mt-6 text-center text-gray-600">
+      {/* <div className="mt-6 text-center text-gray-600">
         <h2 className="text-lg font-semibold mb-2">Popular Bus Routes</h2>
         <ul className="flex flex-wrap justify-center gap-4">
           <li>
@@ -135,7 +135,7 @@ export default async function SearchPage({ params }: any) {
             </a>
           </li>
         </ul>
-      </div>
+      </div> */}
       <SecondaryFooter />
 
       {/* Structured Data */}

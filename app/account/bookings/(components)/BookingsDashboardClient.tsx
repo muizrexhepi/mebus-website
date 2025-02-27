@@ -110,11 +110,11 @@ const BookingsDashboardClient: React.FC = () => {
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-semibold">{t("bookings.myBookings")}</h1>
 
-        <Button asChild variant={"outline"}>
+        {/* <Button asChild variant={"outline"}>
           <Link href="/account/bookings/retrieve-booking">
             Retrieve Booking
           </Link>
-        </Button>
+        </Button> */}
       </div>
       {user ? (
         <Tabs defaultValue="all">

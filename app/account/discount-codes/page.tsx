@@ -1,4 +1,7 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaTicketAlt, FaCopy, FaCheck } from "react-icons/fa";
 
@@ -55,7 +58,7 @@ export default function DiscountCodesPage() {
   };
 
   return (
-    <div className="max-w-4xl">
+    <div className="w-full">
       <h1 className="text-3xl font-semibold mb-1">Discount Codes</h1>
       <p className="text-gray-500 mb-6">
         View and manage your available discount codes
@@ -64,7 +67,6 @@ export default function DiscountCodesPage() {
       {loading ? (
         <div className="flex flex-col items-center justify-center py-12">
           <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
-          <p className="mt-4 text-gray-500">Loading your discount codes...</p>
         </div>
       ) : discountCodes.length > 0 ? (
         <div className="space-y-4">
@@ -126,25 +128,31 @@ export default function DiscountCodesPage() {
           ))}
         </div>
       ) : (
-        <div className="border rounded-lg bg-white p-10 text-center">
-          <div className="flex justify-center mb-4">
-            <div className="w-20 h-20 flex items-center justify-center rounded-full bg-gray-100">
-              <FaTicketAlt className="h-8 w-8 text-gray-400" />
-            </div>
+        <div className="flex flex-col items-center w-full justify-center py-12 bg-white rounded-lg">
+          <div className="relative w-64 h-64 mb-4">
+            <Image
+              src="/assets/icons/discount-illustration.svg"
+              alt="No discount codes"
+              fill
+              className="object-contain"
+              priority
+            />
           </div>
-          <h3 className="text-lg font-medium mb-2">
+          <h3 className="text-2xl font-bold text-center mb-2">
             No discount codes available
           </h3>
-          <p className="text-gray-500 mb-6 max-w-md mx-auto">
+          <p className="text-center text-gray-600 mb-6 max-w-md">
             You don't have any active discount codes at the moment. Discount
             codes will appear here when you receive or activate them.
           </p>
-          <a
-            href="/discounts"
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-bg focus:outline-none"
+          <Button
+            variant="primary"
+            size="lg"
+            className="flex items-center gap-2"
           >
+            <Search className="h-4 w-4" />
             Explore deals
-          </a>
+          </Button>
         </div>
       )}
     </div>
