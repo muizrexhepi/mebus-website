@@ -28,8 +28,7 @@ import { useTranslation } from "react-i18next";
 import TicketBlock from "@/components/ticket/Ticket";
 import SearchFilters from "./search-filters";
 import { addDays, format, parse } from "date-fns";
-import { Calendar } from "@/components/ui/calendar";
-import { ArrowRight, Bus, Loader2, Route } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import Image from "next/image";
 
 const TicketList: React.FC = () => {

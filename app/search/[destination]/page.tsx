@@ -16,9 +16,18 @@ export async function generateMetadata({
   searchParams,
 }: GenerateMetadataProps): Promise<Metadata> {
   const { destination } = params;
-  const [departureCity, arrivalCity] = destination
-    .split("-")
-    .map((city) => city.charAt(0).toUpperCase() + city.slice(1));
+
+  // Decode the URL-encoded cities and then capitalize
+  const [departureCityEncoded, arrivalCityEncoded] = destination.split("-");
+  const departureCity = decodeURIComponent(departureCityEncoded)
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
+  const arrivalCity = decodeURIComponent(arrivalCityEncoded)
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 
   const title = `Bus from ${departureCity} to ${arrivalCity} | Compare & Book Cheap Tickets - GoBusly`;
   const description = `Compare and book bus tickets from ${departureCity} to ${arrivalCity} at the best prices. Daily departures, comfortable buses with WiFi, and luggage included. Secure your seat online with GoBusly.`;
@@ -35,11 +44,20 @@ export async function generateMetadata({
     }) as [string, string][]
   );
 
+  // For the canonical URL, use the original encoded format to keep the URL valid
   const canonicalUrl = `${
     process.env.NEXT_PUBLIC_BASE_URL
   }/search/${destination}?${new URLSearchParams(
     formattedSearchParams
   ).toString()}`;
+
+  // For image URLs, ensure lowercase and properly encode spaces
+  const departureCityLower = departureCity.toLowerCase();
+  const arrivalCityLower = arrivalCity.toLowerCase();
+  const imagePathSegment = `${encodeURIComponent(
+    departureCityLower
+  )}-${encodeURIComponent(arrivalCityLower)}.jpg`;
+
   return {
     title,
     description,
@@ -55,9 +73,7 @@ export async function generateMetadata({
       siteName: "GoBusly",
       images: [
         {
-          url: `${
-            process.env.NEXT_PUBLIC_BASE_URL
-          }/images/routes/${departureCity.toLowerCase()}-${arrivalCity.toLowerCase()}.jpg`,
+          url: `${process.env.NEXT_PUBLIC_BASE_URL}/images/routes/${imagePathSegment}`,
           width: 1200,
           height: 630,
           alt: `Bus from ${departureCity} to ${arrivalCity}`,
@@ -71,9 +87,7 @@ export async function generateMetadata({
       title: `Bus from ${departureCity} to ${arrivalCity} - Compare & Book Online`,
       description: `Find and book bus tickets from ${departureCity} to ${arrivalCity}. Compare prices, check schedules, and travel comfortably with GoBusly.`,
       images: [
-        `${
-          process.env.NEXT_PUBLIC_BASE_URL
-        }/images/routes/${departureCity.toLowerCase()}-${arrivalCity.toLowerCase()}.jpg`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/images/routes/${imagePathSegment}`,
       ],
     },
   };
@@ -87,9 +101,18 @@ const TicketsLoading = () => (
 
 export default async function SearchPage({ params }: any) {
   const { destination } = params;
-  const [departureCity, arrivalCity] = destination
-    .split("-")
-    .map((city: string) => city.charAt(0).toUpperCase() + city.slice(1));
+
+  // Decode the URL-encoded cities in the page component too
+  const [departureCityEncoded, arrivalCityEncoded] = destination.split("-");
+  const departureCity = decodeURIComponent(departureCityEncoded)
+    .split(" ")
+    .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
+  const arrivalCity = decodeURIComponent(arrivalCityEncoded)
+    .split(" ")
+    .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 
   return (
     <div className="min-h-screen bg-primary-bg/5">
@@ -107,35 +130,6 @@ export default async function SearchPage({ params }: any) {
           </Suspense>
         </div>
       </div>
-      {/* <div className="mt-6 text-center text-gray-600">
-        <h2 className="text-lg font-semibold mb-2">Popular Bus Routes</h2>
-        <ul className="flex flex-wrap justify-center gap-4">
-          <li>
-            <a
-              href="/search/skopje-belgrade"
-              className="text-primary hover:underline"
-            >
-              Bus from Skopje to Belgrade
-            </a>
-          </li>
-          <li>
-            <a
-              href="/search/tirana-pristina"
-              className="text-primary hover:underline"
-            >
-              Bus from Tirana to Pristina
-            </a>
-          </li>
-          <li>
-            <a
-              href="/search/sarajevo-zagreb"
-              className="text-primary hover:underline"
-            >
-              Bus from Sarajevo to Zagreb
-            </a>
-          </li>
-        </ul>
-      </div> */}
       <SecondaryFooter />
 
       {/* Structured Data */}
