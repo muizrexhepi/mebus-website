@@ -11,6 +11,7 @@ interface AuthContextProps {
   isAuthenticated: boolean;
   logout: () => void;
   loading: boolean;
+  updateUserInfo: (info: any) => void;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -63,6 +64,12 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setUser(null);
   };
 
+  const updateUserInfo = (updatedInfo: any) => {
+    setUser((prevUser: any) => ({
+      ...prevUser,
+      ...updatedInfo,
+    }));
+  };
   return (
     <AuthContext.Provider
       value={{
@@ -70,6 +77,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         isAuthenticated: !!user,
         logout,
         loading,
+        updateUserInfo,
       }}
     >
       <LoginDialog />

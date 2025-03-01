@@ -9,30 +9,31 @@ import {
   FaUser,
   FaTicketAlt,
 } from "react-icons/fa";
+import { useTranslation } from "react-i18next"; // Import i18n hook
 
 const sidebarLinks = [
   {
-    label: "Passenger details",
+    labelKey: "sidebar.passengerDetails", // Updated for translation
     href: "/account/personal-info",
     icon: FaUser,
   },
   {
-    label: "Your bookings",
+    labelKey: "sidebar.yourBookings", // Updated for translation
     href: "/account/bookings",
     icon: FaBookmark,
   },
   {
-    label: "Payment methods",
+    labelKey: "sidebar.paymentMethods", // Updated for translation
     href: "/account/wallet",
     icon: FaCreditCard,
   },
   {
-    label: "Discount codes",
+    labelKey: "sidebar.discountCodes", // Updated for translation
     href: "/account/discount-codes",
     icon: FaTicketAlt,
   },
   {
-    label: "Notifications",
+    labelKey: "sidebar.notifications", // Updated for translation
     href: "/account/notifications",
     icon: FaBell,
   },
@@ -40,6 +41,7 @@ const sidebarLinks = [
 
 export function AccountSidebar() {
   const pathname = usePathname();
+  const { t } = useTranslation(); // Use the translation hook
 
   return (
     <nav className="w-[240px] hidden md:block flex-shrink-0 shadow h-fit rounded-xl overflow-hidden">
@@ -57,7 +59,7 @@ export function AccountSidebar() {
                 )}
               >
                 <link.icon className="h-4 w-4" />
-                {link.label}
+                {t(link.labelKey)} {/* Use translation here */}
               </Link>
             </li>
           );

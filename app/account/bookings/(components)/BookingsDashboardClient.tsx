@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2 } from "lucide-react";
-
 import axios from "axios";
 import { Booking } from "@/models/booking";
 import { useToast } from "@/components/hooks/use-toast";
@@ -67,6 +65,7 @@ const BookingsDashboardClient: React.FC = () => {
       });
     }
   };
+
   useEffect(() => {
     if (user) {
       const fetchBookings = async () => {
@@ -116,45 +115,14 @@ const BookingsDashboardClient: React.FC = () => {
           </Link>
         </Button> */}
       </div>
+
       {user ? (
-        <Tabs defaultValue="all">
-          <TabsList className="mb-6">
-            <TabsTrigger value="all" className="font-medium">
-              All
-            </TabsTrigger>
-            <TabsTrigger value="upcoming" className="font-medium">
-              Upcoming
-            </TabsTrigger>
-            <TabsTrigger value="past" className="font-medium">
-              Past
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="all">
-            <div className="space-y-6">{renderBookings(bookings)}</div>
-          </TabsContent>
-          <TabsContent value="upcoming">
-            <div className="space-y-6">
-              {renderBookings(
-                bookings.filter((booking) =>
-                  moment.utc(booking.departure_date).isAfter(moment.utc())
-                )
-              )}
-            </div>
-          </TabsContent>
-          <TabsContent value="past">
-            <div className="space-y-6">
-              {renderBookings(
-                bookings.filter((booking) =>
-                  moment.utc(booking.departure_date).isBefore(moment.utc())
-                )
-              )}
-            </div>
-          </TabsContent>
-        </Tabs>
+        <div className="space-y-6">{renderBookings(bookings)}</div>
       ) : (
         <NoBookingsMessage isLoading={loading} />
       )}
     </div>
   );
 };
+
 export default BookingsDashboardClient;

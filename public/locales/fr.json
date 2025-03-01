@@ -519,6 +519,7 @@
     "aged": "Âgé de 0 à 12 ans"
   },
   "wallet": {
+    "no_payment_methods_yet": "Vous n'avez pas encore ajouté de méthode de paiement",
     "cardholderName": "Nom du titulaire de la carte",
     "enterCardDetails": "Saisissez les détails de la carte",
     "addPaymentMethod": "Ajouter un mode de paiement",
@@ -532,13 +533,50 @@
     "card_remove_error": "Erreur lors de la suppression du mode de paiement.",
     "managePaymentMethods": "Gérer les modes de paiement"
   },
+  "discountCodes": {
+    "title": "Codes de réduction",
+    "subtitle": "Voir et gérer vos codes de réduction disponibles",
+    "active": "Actif",
+    "expired": "Expiré",
+    "expiresSoon": "Expire bientôt",
+    "discount": "Réduction",
+    "validUntil": "Valide jusqu'au {{date}} ({{daysLeft}} jours restants)",
+    "copied": "Copié!",
+    "copyCode": "Copier le code",
+    "autoApplied": "Appliqué automatiquement à la caisse",
+    "noCodes": "Aucun code de réduction disponible",
+    "noActiveCodes": "Vous n'avez pas de codes de réduction actifs pour le moment. Les codes de réduction apparaîtront ici lorsque vous les recevrez ou les activerez.",
+    "exploreDeals": "Explorer les offres"
+  },
   "personalInfo": {
     "title": "Informations Personnelles",
+    "mainPassenger": "Passager Principal",
+    "addDetails": "Ajoutez vos informations pour une réservation plus rapide.",
+    "matchID": "Ces informations doivent correspondre à votre passeport ou carte d'identité.",
     "name": "Nom",
-    "emailAddress": "Adresse Email",
+    "emailAddress": "Adresse E-mail",
     "phoneNumber": "Numéro de Téléphone",
     "address": "Adresse",
-    "edit": "Modifier"
+    "edit": "Modifier",
+    "deleteAccount": "Supprimer le Compte",
+    "contactSupport": "Veuillez contacter le Service Client pour supprimer votre compte.",
+    "visitContactPage": "Visitez notre page de contact :",
+    "notProvided": "Non fourni",
+    "addPhonePrompt": "Ajoutez un numéro afin que les opérateurs puissent vous contacter.",
+    "makeChanges": "Apportez des modifications à votre {field}",
+    "cancel": "Annuler",
+    "saveChanges": "Enregistrer les Modifications",
+    "emailTooltip": "L'email ne peut pas être modifié, mais vous pouvez choisir un autre email pour recevoir la réservation lors du paiement.",
+    "phoneUpdated": "Numéro de téléphone mis à jour avec succès.",
+    "nameUpdated": "Nom mis à jour avec succès.",
+    "changesSaved": "Modifications enregistrées avec succès."
+  },
+  "sidebar": {
+    "passengerDetails": "Détails du passager",
+    "yourBookings": "Vos réservations",
+    "paymentMethods": "Méthodes de paiement",
+    "discountCodes": "Codes de réduction",
+    "notifications": "Notifications"
   },
   "security": {
     "loginSecurity": "Sécurité de Connexion",

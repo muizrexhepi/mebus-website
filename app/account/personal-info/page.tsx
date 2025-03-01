@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/components/hooks/use-toast";
 import { useTranslation } from "react-i18next";
 import { FormError } from "@/components/form-error";
@@ -28,7 +27,7 @@ import {
 } from "@/components/ui/tooltip";
 
 export default function PersonalInfo() {
-  const { user, loading } = useAuth();
+  const { user, loading, updateUserInfo } = useAuth();
   const [editingInfo, setEditingInfo] = useState<any>(null);
   const [editedValue, setEditedValue] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -39,8 +38,8 @@ export default function PersonalInfo() {
   const PERSONAL_INFO = [
     {
       label: t("personalInfo.name"),
-      value: user?.name || "Not provided",
-      action: user?.name ? t("personalInfo.edit") : "Add",
+      value: user?.name || t("personalInfo.notProvided"),
+      action: t("personalInfo.edit"),
       editable: true,
       update: async (newValue: string) => {
         try {
@@ -58,24 +57,24 @@ export default function PersonalInfo() {
 
           if (!res.ok) throw new Error("Failed to update name");
 
-          toast({ description: "Name updated successfully." });
+          updateUserInfo({ name: newValue });
+
+          toast({ description: t("personalInfo.nameUpdated") });
         } catch (error: any) {
-          throw new Error(error.message || "An error occurred");
+          throw new Error(error.message || t("personalInfo.updateError"));
         }
       },
     },
     {
       label: t("personalInfo.emailAddress"),
-      value: user?.email || "Not provided",
-      action: "View",
+      value: user?.email || t("personalInfo.notProvided"),
       editable: false,
-      tooltip:
-        "Email cannot be changed, but you can choose a different email for receiving the booking during checkout",
+      tooltip: t("personalInfo.emailTooltip"),
     },
     {
       label: t("personalInfo.phoneNumber"),
-      value: user?.phone || "Add a number so the operators can get in touch.",
-      action: user?.phone ? t("personalInfo.edit") : "Add",
+      value: user?.phone || t("personalInfo.addPhonePrompt"),
+      action: t("personalInfo.edit"),
       editable: true,
       update: async (newValue: string) => {
         try {
@@ -93,9 +92,11 @@ export default function PersonalInfo() {
 
           if (!res.ok) throw new Error("Failed to update phone number");
 
-          toast({ description: "Phone number updated successfully." });
+          updateUserInfo({ phone: newValue });
+
+          toast({ description: t("personalInfo.phoneUpdated") });
         } catch (error: any) {
-          throw new Error(error.message || "An error occurred");
+          throw new Error(error.message || t("personalInfo.updateError"));
         }
       },
     },
@@ -108,12 +109,11 @@ export default function PersonalInfo() {
   const handleSaveChanges = async () => {
     if (editingInfo?.update) {
       try {
-        await editingInfo.update(editedValue, password);
-        setPassword("");
+        await editingInfo.update(editedValue);
         setEditingInfo(null);
-        toast({ description: "Changes saved successfully." });
+        toast({ description: t("personalInfo.changesSaved") });
       } catch (error: any) {
-        setError(error?.message || "An error occurred");
+        setError(error?.message || t("personalInfo.updateError"));
       }
     }
   };
@@ -127,16 +127,16 @@ export default function PersonalInfo() {
 
         <div className="space-y-6">
           <div className="">
-            <h2 className="text-xl font-medium">Main passenger</h2>
+            <h2 className="text-xl font-medium">
+              {t("personalInfo.mainPassenger")}
+            </h2>
             <p className="text-sm text-muted-foreground mt-1">
-              Add your details for faster booking.
+              {t("personalInfo.addDetails")}
             </p>
           </div>
           <div className="bg-blue-50 text-blue-800/80 flex items-center gap-2 rounded-lg p-3 border border-blue-800">
             <Info className="size-5" color="#1e40af" />
-            <p className="text-sm font-medium">
-              These details must match your passport or ID card
-            </p>
+            <p className="text-sm font-medium">{t("personalInfo.matchID")}</p>
           </div>
 
           <div className="space-y-6">
@@ -192,15 +192,16 @@ export default function PersonalInfo() {
           </div>
         </div>
 
-        {/* New Delete Account Section */}
         <div className="space-y-4 pt-8">
-          <h2 className="text-xl font-medium">Delete account</h2>
+          <h2 className="text-xl font-medium">
+            {t("personalInfo.deleteAccount")}
+          </h2>
           <div className="space-y-2">
             <p className="text-sm text-muted-foreground">
-              Please contact Customer Service to delete your account.
+              {t("personalInfo.contactSupport")}
             </p>
             <p className="text-sm">
-              Visit our contact page:{" "}
+              {t("personalInfo.visitContactPage")}{" "}
               <a
                 href="/help"
                 className="text-transparent bg-clip-text text-sm button-gradient hover:underline"
@@ -221,9 +222,13 @@ export default function PersonalInfo() {
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit {editingInfo?.label}</DialogTitle>
+            <DialogTitle>
+              {t("personalInfo.edit")} {editingInfo?.label}
+            </DialogTitle>
             <DialogDescription>
-              Make changes to your {editingInfo?.label.toLowerCase()}
+              {t("personalInfo.makeChanges", {
+                field: editingInfo?.label.toLowerCase(),
+              })}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
@@ -240,10 +245,10 @@ export default function PersonalInfo() {
           {error && <FormError message={error} />}
           <DialogFooter className="gap-2">
             <Button variant="outline" onClick={() => setEditingInfo(null)}>
-              Cancel
+              {t("personalInfo.cancel")}
             </Button>
-            <Button variant={"primary"} onClick={handleSaveChanges}>
-              Save changes
+            <Button variant="primary" onClick={handleSaveChanges}>
+              {t("personalInfo.saveChanges")}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -130,6 +130,7 @@
         "bank": "Bank transfers (for select routes)"
       }
     },
+
     "seatSelection": "Seat Selection",
     "seatSelectionContent": "You can select your preferred seats during the booking process. Seat selection is subject to availability and may incur an additional fee for premium seats (e.g., extra legroom).",
     "groupBookings": "Group Bookings",
@@ -538,6 +539,7 @@
     "pmExpires": "Expires"
   },
   "wallet": {
+    "no_payment_methods_yet": "You don't have any payment methods added yet",
     "cardholderName": "Cardholder Name",
     "enterCardDetails": "Enter card details",
     "addPaymentMethod": "Add payment method",
@@ -551,13 +553,50 @@
     "card_remove_error": "Error removing payment method.",
     "managePaymentMethods": "Manage payment methods"
   },
+  "discountCodes": {
+    "title": "Discount Codes",
+    "subtitle": "View and manage your available discount codes",
+    "active": "Active",
+    "expired": "Expired",
+    "expiresSoon": "Expires soon",
+    "discount": "Discount",
+    "validUntil": "Valid until {{date}} ({{daysLeft}} days left)",
+    "copied": "Copied!",
+    "copyCode": "Copy code",
+    "autoApplied": "Automatically applied at checkout",
+    "noCodes": "No discount codes available",
+    "noActiveCodes": "You don't have any active discount codes at the moment. Discount codes will appear here when you receive or activate them.",
+    "exploreDeals": "Explore deals"
+  },
   "personalInfo": {
     "title": "Personal Info",
+    "mainPassenger": "Main Passenger",
+    "addDetails": "Add your details for a faster booking.",
+    "matchID": "These details must match your passport or ID card.",
     "name": "Name",
     "emailAddress": "Email Address",
     "phoneNumber": "Phone Number",
     "address": "Address",
-    "edit": "Edit"
+    "edit": "Edit",
+    "deleteAccount": "Delete Account",
+    "contactSupport": "Please contact Customer Service to delete your account.",
+    "visitContactPage": "Visit our contact page:",
+    "notProvided": "Not provided",
+    "addPhonePrompt": "Add a number so the operators can get in touch.",
+    "makeChanges": "Make changes to {field}",
+    "cancel": "Cancel",
+    "saveChanges": "Save Changes",
+    "emailTooltip": "Email cannot be changed, but you can choose a different email for receiving the booking during checkout.",
+    "phoneUpdated": "Phone number updated successfully.",
+    "nameUpdated": "Name updated successfully.",
+    "changesSaved": "Changes saved successfully."
+  },
+  "sidebar": {
+    "passengerDetails": "Passenger details",
+    "yourBookings": "Your bookings",
+    "paymentMethods": "Payment methods",
+    "discountCodes": "Discount codes",
+    "notifications": "Notifications"
   },
   "security": {
     "loginSecurity": "Login Security",

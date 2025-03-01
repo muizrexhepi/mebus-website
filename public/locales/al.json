@@ -518,6 +518,7 @@
     "pmExpires": "Skadon"
   },
   "wallet": {
+    "no_payment_methods_yet": "Nuk keni shtuar ende asnjë metodë pagese",
     "cardholderName": "Emri i Mbajtësit të Kartës",
     "enterCardDetails": "Vendosni detajet e kartës",
     "addPaymentMethod": "Shto metodë pagese",
@@ -531,6 +532,21 @@
     "card_remove_error": "Gabim gjatë heqjes së metodës së pagesës.",
     "managePaymentMethods": "Menaxho metodat e pagesës"
   },
+  "discountCodes": {
+    "title": "Kodin e Zbritjes",
+    "subtitle": "Shikoni dhe menaxhoni kodet e disponueshme të zbritjes",
+    "active": "Aktiv",
+    "expired": "Ka skaduar",
+    "expiresSoon": "Skadon së shpejti",
+    "discount": "Zbritje",
+    "validUntil": "I vlefshëm deri më {{date}} ({{daysLeft}} ditë të mbetura)",
+    "copied": "Kopjuar!",
+    "copyCode": "Kopjo kodin",
+    "autoApplied": "Aplikohen automatikisht në checkout",
+    "noCodes": "Nuk ka kode zbritje të disponueshme",
+    "noActiveCodes": "Nuk keni asnjë kod aktiv zbritje momentalisht. Kode zbritje do të shfaqen këtu kur t'i merrni ose aktivizoni.",
+    "exploreDeals": "Kërkoni oferta"
+  },
   "passengerSelect": {
     "description": "Mosha juaj në momentin e udhëtimit duhet të përmbushë kërkesat për llojin e biletës të zgjedhur. Disa operatorë të autobusëve kanë kufizime për të miturit që udhëtojnë vetëm.",
     "aged": "Mosha 0 deri në 12 vjeç"
@@ -540,12 +556,34 @@
     "cancellationWarning": "Nese po atehere do tiu kthehen vetem 70% te cmimit te rezervimit."
   },
   "personalInfo": {
-    "title": "Informacione Personale",
+    "title": "Informacion Personal",
+    "mainPassenger": "Pasagjeri Kryesor",
+    "addDetails": "Shtoni detajet tuaja për një rezervim më të shpejtë.",
+    "matchID": "Këto detaje duhet të përputhen me pasaportën ose kartën tuaj të identitetit.",
     "name": "Emri",
-    "emailAddress": "Email Adresa",
+    "emailAddress": "Adresa e Email-it",
     "phoneNumber": "Numri i Telefonit",
     "address": "Adresa",
-    "edit": "Redakto"
+    "edit": "Ndrysho",
+    "deleteAccount": "Fshi Llogarinë",
+    "contactSupport": "Ju lutemi kontaktoni Shërbimin e Klientit për të fshirë llogarinë tuaj.",
+    "visitContactPage": "Vizitoni faqen tonë të kontaktit:",
+    "notProvided": "Nuk është dhënë",
+    "addPhonePrompt": "Shtoni një numër në mënyrë që operatorët të mund të kontaktojnë.",
+    "makeChanges": "Bëni ndryshime në {field}",
+    "cancel": "Anulo",
+    "saveChanges": "Ruaj Ndryshimet",
+    "emailTooltip": "Email-i nuk mund të ndryshohet, por mund të zgjidhni një email tjetër për të marrë rezervimin gjatë blerjes.",
+    "phoneUpdated": "Numri i telefonit u përditësua me sukses.",
+    "nameUpdated": "Emri u përditësua me sukses.",
+    "changesSaved": "Ndryshimet u ruajtën me sukses."
+  },
+  "sidebar": {
+    "passengerDetails": "Detajet e Pasagjerit",
+    "yourBookings": "Rezervimet Tuaja",
+    "paymentMethods": "Metodat e Pagesës",
+    "discountCodes": "Kodet e Zbritjes",
+    "notifications": "Njoftimet"
   },
   "security": {
     "loginSecurity": "Siguria e Hyrjes",

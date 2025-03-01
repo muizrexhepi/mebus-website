@@ -29,7 +29,7 @@ export async function generateMetadata({
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 
-  const title = `Bus from ${departureCity} to ${arrivalCity} | Compare & Book Cheap Tickets - GoBusly`;
+  const title = `Bus from ${departureCity} to ${arrivalCity}`;
   const description = `Compare and book bus tickets from ${departureCity} to ${arrivalCity} at the best prices. Daily departures, comfortable buses with WiFi, and luggage included. Secure your seat online with GoBusly.`;
   const keywords = `bus tickets, ${departureCity} to ${arrivalCity}, book bus ${departureCity} ${arrivalCity}, cheap bus tickets ${departureCity}, best bus deals ${departureCity}, coach travel, direct bus ${departureCity} ${arrivalCity}, long-distance bus ${departureCity}, ${departureCity} to ${arrivalCity} bus schedule`;
 
@@ -44,14 +44,12 @@ export async function generateMetadata({
     }) as [string, string][]
   );
 
-  // For the canonical URL, use the original encoded format to keep the URL valid
   const canonicalUrl = `${
     process.env.NEXT_PUBLIC_BASE_URL
   }/search/${destination}?${new URLSearchParams(
     formattedSearchParams
   ).toString()}`;
 
-  // For image URLs, ensure lowercase and properly encode spaces
   const departureCityLower = departureCity.toLowerCase();
   const arrivalCityLower = arrivalCity.toLowerCase();
   const imagePathSegment = `${encodeURIComponent(

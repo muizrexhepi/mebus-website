@@ -544,6 +544,7 @@
     "addPaymentMethod": "Agregar método de pago",
     "cardNumber": "Número de tarjeta",
     "cvc": "CVC",
+    "no_payment_methods_yet": "Aún no tienes métodos de pago añadidos",
     "expirationLabel": "Fecha de vencimiento",
     "remove_payment_method": "Eliminar método de pago",
     "remove_confirmation": "¿Está seguro de que desea eliminar este método de pago?",
@@ -552,13 +553,49 @@
     "card_remove_error": "Error al eliminar el método de pago.",
     "managePaymentMethods": "Gestionar métodos de pago"
   },
+  "discountCodes": {
+    "title": "Códigos de Descuento",
+    "subtitle": "Ver y gestionar los códigos de descuento disponibles",
+    "active": "Activo",
+    "expired": "Caducado",
+    "expiresSoon": "Caduca pronto",
+    "discount": "Descuento",
+    "validUntil": "Válido hasta {{date}} ({{daysLeft}} días restantes)",
+    "copied": "¡Copiado!",
+    "copyCode": "Copiar código",
+    "autoApplied": "Aplicado automáticamente al pagar",
+    "noCodes": "No hay códigos de descuento disponibles",
+    "noActiveCodes": "No tienes códigos de descuento activos en este momento. Los códigos de descuento aparecerán aquí cuando los recibas o actives.",
+    "exploreDeals": "Explorar ofertas"
+  },
   "personalInfo": {
     "title": "Información Personal",
+    "mainPassenger": "Pasajero Principal",
+    "addDetails": "Añade tus datos para una reserva más rápida.",
+    "matchID": "Estos detalles deben coincidir con tu pasaporte o documento de identidad.",
     "name": "Nombre",
     "emailAddress": "Correo Electrónico",
     "phoneNumber": "Número de Teléfono",
     "address": "Dirección",
-    "edit": "Editar"
+    "edit": "Editar",
+    "deleteAccount": "Eliminar Cuenta",
+    "contactSupport": "Por favor, contacta con el Servicio de Atención al Cliente para eliminar tu cuenta.",
+    "visitContactPage": "Visita nuestra página de contacto:",
+    "notProvided": "No proporcionado",
+    "makeChanges": "Realiza cambios en tu {field}",
+    "cancel": "Cancelar",
+    "saveChanges": "Guardar Cambios",
+    "emailTooltip": "El correo electrónico no se puede cambiar, pero puedes elegir otro correo para recibir la reserva durante el proceso de pago.",
+    "phoneUpdated": "Número de teléfono actualizado con éxito.",
+    "nameUpdated": "Nombre actualizado con éxito.",
+    "changesSaved": "Cambios guardados con éxito."
+  },
+  "sidebar": {
+    "passengerDetails": "Detalles del pasajero",
+    "yourBookings": "Tus reservas",
+    "paymentMethods": "Métodos de pago",
+    "discountCodes": "Códigos de descuento",
+    "notifications": "Notificaciones"
   },
   "security": {
     "loginSecurity": "Seguridad de Inicio de Sesión",

@@ -224,7 +224,7 @@ function WalletPageContent() {
             <h2 className="text-3xl font-bold text-gray-800">
               {t("account.wallet")}
             </h2>
-            <p className="text-muted-foreground">
+            <p className="text-gray-500 mb-6">
               {t("wallet.managePaymentMethods")}
             </p>
           </div>
@@ -254,21 +254,22 @@ function WalletPageContent() {
               />
             </div>
             <h3 className="text-2xl font-bold text-center mb-2">
-              No payment methods found
+              {t("wallet.no_payment_methods")}
             </h3>
             <p className="text-center text-gray-600 mb-6">
               {t(
-                "account.noPaymentMethodsAdded",
+                "wallet.no_payment_methods_yet",
                 "You don't have any payment methods added yet"
               )}
             </p>
             <Button
               variant="primary"
               size="lg"
+              onClick={() => setNewMethodDialogOpen(true)}
               className="flex items-center gap-2"
             >
               <PlusCircle className="h-4 w-4" />
-              Add payment method
+              {t("wallet.addPaymentMethod")}
             </Button>
           </div>
         ) : isLoading || loading ? (
@@ -321,6 +322,7 @@ function WalletPageContent() {
             <DialogFooter>
               <Button
                 type="submit"
+                variant={"primary"}
                 onClick={handleSaveCardInfo}
                 className="w-full"
               >
