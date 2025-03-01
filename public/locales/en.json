@@ -553,6 +553,13 @@
     "card_remove_error": "Error removing payment method.",
     "managePaymentMethods": "Manage payment methods"
   },
+  "searchedTickets": {
+    "noTicketsAvailable": "No tickets available",
+    "noTicketsAvailableDescription": "No tickets available for the selected date.",
+    "nextAvailable": "Next available",
+    "noTicketsAvailableIllustrationAlt": "Man Illustration",
+    "noTicketsAvailableTryAgain": "Try adjusting your search parameters or selecting a different date."
+  },
   "discountCodes": {
     "title": "Discount Codes",
     "subtitle": "View and manage your available discount codes",

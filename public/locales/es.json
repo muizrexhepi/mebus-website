@@ -553,6 +553,13 @@
     "card_remove_error": "Error al eliminar el método de pago.",
     "managePaymentMethods": "Gestionar métodos de pago"
   },
+  "searchedTickets": {
+    "noTicketsAvailable": "No hay boletos disponibles",
+    "noTicketsAvailableDescription": "No hay boletos disponibles para la fecha seleccionada.",
+    "nextAvailable": "Siguiente disponible",
+    "noTicketsAvailableIllustrationAlt": "Ilustración de hombre",
+    "noTicketsAvailableTryAgain": "Intenta ajustar los parámetros de búsqueda o seleccionar una fecha diferente."
+  },
   "discountCodes": {
     "title": "Códigos de Descuento",
     "subtitle": "Ver y gestionar los códigos de descuento disponibles",

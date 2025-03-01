@@ -495,6 +495,13 @@
     "card_remove_error": "Грешка при отстранување на начинот на плаќање.",
     "managePaymentMethods": "Управувај со начини на плаќање"
   },
+  "searchedTickets": {
+    "noTicketsAvailable": "Нема достапни билети",
+    "noTicketsAvailableDescription": "Нема билети достапни за избраниот датум.",
+    "nextAvailable": "Следно достапно",
+    "noTicketsAvailableIllustrationAlt": "Илустрација на маж",
+    "noTicketsAvailableTryAgain": "Обидете се да ги прилагодите параметрите за пребарување или да изберете друг датум."
+  },
   "discountCodes": {
     "title": "Кодовите за попуст",
     "subtitle": "Прегледајте и управувајте со достапните кодови за попуст",

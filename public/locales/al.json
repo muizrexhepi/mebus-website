@@ -532,6 +532,14 @@
     "card_remove_error": "Gabim gjatë heqjes së metodës së pagesës.",
     "managePaymentMethods": "Menaxho metodat e pagesës"
   },
+  "searchedTickets": {
+    "noTicketsAvailable": "Nuk ka bileta të disponueshme",
+    "noTicketsAvailableDescription": "Nuk ka bileta për datën e zgjedhur.",
+    "nextAvailable": "Në dispozicion të ardhshëm",
+    "noTicketsAvailableIllustrationAlt": "Ilustrimi i burrit",
+    "noTicketsAvailableTryAgain": "Provo të rregullosh parametrat e kërkimit ose të zgjedhësh një datë tjetër."
+  },
+
   "discountCodes": {
     "title": "Kodin e Zbritjes",
     "subtitle": "Shikoni dhe menaxhoni kodet e disponueshme të zbritjes",

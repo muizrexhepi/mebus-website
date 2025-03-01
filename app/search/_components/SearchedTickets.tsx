@@ -376,26 +376,27 @@ const TicketList: React.FC = () => {
             src={"/assets/icons/man-illustration.svg"}
             width={150}
             height={150}
-            alt="Man Illustration"
+            alt={t("searchedTickets.noTicketsAvailableIllustrationAlt")}
           />
         </div>
 
         {/* Text content */}
         <div className="space-y-2">
-          <h2 className="text-2xl font-bold">No tickets available</h2>
+          <h2 className="text-2xl font-bold">
+            {t("searchedTickets.noTicketsAvailable")}
+          </h2>
           <p className="text-muted-foreground">
-            No tickets available for the selected date.
+            {t("searchedTickets.noTicketsAvailableDescription")}
           </p>
         </div>
 
-        {/* Button */}
         <Button
           onClick={() => navigateToDate(nextAvailableDate)}
-          className="group px-6 py-3 text-base font-medium rounded-xl"
+          className="group px-6 py-3 text-sm font-medium rounded-xl"
           size="lg"
           variant={"primary"}
         >
-          Next available: {formattedDate}
+          {t("searchedTickets.nextAvailable")} {formattedDate}
           <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
         </Button>
       </div>

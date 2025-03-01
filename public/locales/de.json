@@ -528,6 +528,13 @@
     "card_remove_error": "Fehler beim Entfernen der Zahlungsmethode.",
     "managePaymentMethods": "Zahlungsmethoden verwalten"
   },
+  "searchedTickets": {
+    "noTicketsAvailable": "Keine Tickets verfügbar",
+    "noTicketsAvailableDescription": "Keine Tickets für das ausgewählte Datum verfügbar.",
+    "nextAvailable": "Nächstes verfügbares Ticket",
+    "noTicketsAvailableIllustrationAlt": "Mann-Illustration",
+    "noTicketsAvailableTryAgain": "Versuchen Sie, die Suchparameter anzupassen oder ein anderes Datum auszuwählen."
+  },
   "discountCodes": {
     "title": "Rabattcodes",
     "subtitle": "Verwalten und sehen Sie Ihre verfügbaren Rabattcodes",

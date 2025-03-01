@@ -1,33 +1,30 @@
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { CalendarX, Search } from "lucide-react";
+import Image from "next/image";
+import { useTranslation } from "react-i18next";
 
 export default function NoTicketsAvailable() {
+  const { t } = useTranslation();
   return (
-    <Card className="w-full mx-auto text-center">
-      <CardHeader>
-        <CardTitle className="flex items-center justify-center space-x-2">
-          <CalendarX className="w-6 h-6 text-muted-foreground" />
-          <span>No Tickets Available</span>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-muted-foreground max-w-md text-center mx-auto">
-          We couldn't find any tickets matching your search criteria. This could
-          be due to the route, date, or availability.
-        </p>
-      </CardContent>
-      <CardFooter className="flex flex-col space-y-2">
+    <div className="flex flex-col items-center max-w-lg mx-auto text-center space-y-8 p-6">
+      {/* Illustration */}
+      <div className="relative w-52 h-52 bg-gray-100 rounded-full flex items-center justify-center">
+        <Image
+          className="object-cover w-full h-full"
+          src={"/assets/icons/man-illustration.svg"}
+          width={150}
+          height={150}
+          alt={t("searchedTickets.noTicketsAvailableIllustrationAlt")}
+        />
+      </div>
+
+      {/* Text content */}
+      <div className="space-y-2">
+        <h2 className="text-2xl font-bold">
+          {t("searchedTickets.noTicketsAvailable")}
+        </h2>
         <p className="text-sm text-muted-foreground max-w-md text-center mx-auto">
-          Try adjusting your search parameters or selecting a different date.
+          {t("searchedTickets.noTicketsAvailableTryAgain")}
         </p>
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   );
 }
