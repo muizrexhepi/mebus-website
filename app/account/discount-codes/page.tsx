@@ -65,7 +65,7 @@ export default function DiscountCodesPage() {
       <p className="text-gray-500 mb-6">{t("discountCodes.subtitle")}</p>
 
       {loading ? (
-        <div className="flex flex-col items-center justify-center py-12">
+        <div className="flex flex-col items-center justify-center py-20">
           <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
         </div>
       ) : discountCodes.length > 0 ? (

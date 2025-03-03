@@ -242,7 +242,11 @@ function WalletPageContent() {
           ) : null}
         </div>
 
-        {paymentMethods?.length === 0 ? (
+        {isLoading || loading ? (
+          <div className="flex flex-col items-center justify-center py-12">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
+          </div>
+        ) : paymentMethods?.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 bg-white">
             <div className="relative w-80 h-80 mb-4">
               <Image
@@ -271,10 +275,6 @@ function WalletPageContent() {
               <PlusCircle className="h-4 w-4" />
               {t("wallet.addPaymentMethod")}
             </Button>
-          </div>
-        ) : isLoading || loading ? (
-          <div className="flex flex-col items-center justify-center py-12">
-            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
           </div>
         ) : (
           <div className="grid gap-6 lg:grid-cols-2">

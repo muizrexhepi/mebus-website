@@ -50,9 +50,9 @@ const CONTACT_INFO = {
 
 const SOCIAL_LINKS = [
   { icon: Facebook, link: "https://facebook.com", name: "Facebook" },
-  { icon: Twitter, link: "https://twitter.com", name: "Twitter" },
+  // { icon: Twitter, link: "https://twitter.com", name: "Twitter" },
   { icon: Instagram, link: "https://instagram.com/gobusly", name: "Instagram" },
-  { icon: Linkedin, link: "https://linkedin.com/gobusly", name: "LinkedIn" },
+  // { icon: Linkedin, link: "https://linkedin.com/gobusly", name: "LinkedIn" },
 ];
 
 const PAYMENT_METHODS = [

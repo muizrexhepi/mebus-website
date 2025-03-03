@@ -6,16 +6,14 @@ import axios from "axios";
 import { Booking } from "@/models/booking";
 import { useToast } from "@/components/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
-import moment from "moment-timezone";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/components/providers/auth-provider";
 import { BookingCard } from "./BookingCard";
 import { NoBookingsMessage } from "./NoBookingsMessage";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
 const BookingsDashboardClient: React.FC = () => {
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
+  const [loading, setLoading] = useState<boolean>(false);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const { toast } = useToast();
   const { t } = useTranslation();
@@ -70,12 +68,17 @@ const BookingsDashboardClient: React.FC = () => {
     if (user) {
       const fetchBookings = async () => {
         try {
+          setLoading(true);
           const res = await axios.get(
             `${process.env.NEXT_PUBLIC_API_URL}/booking/client/${user._id}?select=departure_date metadata destinations labels price`
           );
           setBookings(res.data.data);
+          if (res.data) {
+            setLoading(false);
+          }
         } catch (error) {
           console.error("Failed to fetch bookings:", error);
+          setLoading(false);
         }
       };
       fetchBookings();
@@ -84,7 +87,11 @@ const BookingsDashboardClient: React.FC = () => {
 
   const renderBookings = (filteredBookings: Booking[]) => {
     if (loading) {
-      return <Loader2 className="h-6 w-6 animate-spin mx-auto" />;
+      return (
+        <div className="flex flex-col items-center justify-center py-20">
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
+        </div>
+      );
     }
 
     if (!filteredBookings || filteredBookings.length === 0) {
