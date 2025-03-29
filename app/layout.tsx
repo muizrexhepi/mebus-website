@@ -9,6 +9,7 @@ import { Analytics } from "@vercel/analytics/react";
 import ClientProviders from "@/components/providers/client-providers";
 import Navbar from "@/components/navbar/Navbar";
 import DiscountBanner from "@/components/discount-banner";
+import Script from "next/script";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -62,6 +63,28 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Script type="application/ld+json" id="structured-data">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "GoBusly",
+          url: "https://www.gobusly.com",
+          potentialAction: {
+            "@type": "SearchAction",
+            target:
+              "https://www.gobusly.com/search/{search_term_string}?departureStation={departureStation}&arrivalStation={arrivalStation}&departureDate={departureDate}&adult={adult}&children={children}",
+            "query-input": [
+              "required name=search_term_string",
+              "required name=departureStation",
+              "required name=arrivalStation",
+              "required name=departureDate",
+              "required name=adult",
+              "required name=children",
+            ],
+          },
+        })}
+      </Script>
+
       <body className={roboto.className}>
         <Analytics />
         <ReactQueryProvider>

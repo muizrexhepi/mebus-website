@@ -65,14 +65,9 @@ const FeaturesSection = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-gray-50">
       <div className="max-w-6xl mx-auto paddingX">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <div className="inline-flex px-4 py-1 bg-primary/5 rounded-full mb-6">
-            <span className="text-sm font-medium text-primary">
-              {t("infoSection.tag")}
-            </span>
-          </div>
           <h1 className="text-3xl sm:text-4xl font-normal tracking-tight text-gray-900 mb-4">
             {t("infoSection.heading")}
           </h1>
@@ -85,62 +80,6 @@ const FeaturesSection = () => {
           {features.map((feature, index) => (
             <FeatureCard key={index} {...feature} />
           ))}
-        </div>
-
-        <div className="mt-16 text-center">
-          <div className="inline-flex items-center gap-8 p-4 rounded-2xl bg-gray-50">
-            <div className="flex items-center gap-2">
-              <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
-                <svg
-                  className="w-6 h-6 text-green-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              </div>
-              <div className="text-left">
-                <p className="font-medium text-gray-900">
-                  {t("infoSection.trustedBy.title")}
-                </p>
-                <p className="text-sm text-gray-600">
-                  {t("infoSection.trustedBy.description")}
-                </p>
-              </div>
-            </div>
-            <div className="h-8 w-px bg-gray-200" />
-            <div className="flex items-center gap-2">
-              <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
-                <svg
-                  className="w-6 h-6 text-blue-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                  />
-                </svg>
-              </div>
-              <div className="text-left">
-                <p className="font-medium text-gray-900">
-                  {t("infoSection.secureBooking.title")}
-                </p>
-                <p className="text-sm text-gray-600">
-                  {t("infoSection.secureBooking.description")}
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
