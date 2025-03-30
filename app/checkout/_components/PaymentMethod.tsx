@@ -239,21 +239,35 @@ const PaymentMethod = () => {
     discountAmount: number = 0,
     discountCode: string | null = null
   ) => {
+    let affiliateCode = null;
+    if (typeof window !== "undefined") {
+      const storedAffiliate = localStorage.getItem("affiliate");
+      if (storedAffiliate) {
+        const { code, expires } = JSON.parse(storedAffiliate);
+        console.log({code, expires})
+        if (Date.now() < expires) {
+          affiliateCode = code; 
+        } else {
+          console.log("Affiliate code expired");
+          localStorage.removeItem("affiliate");
+        }
+      }
+    }
+  
     const departure_station = ticket.stops[0].from._id;
     const arrival_station = ticket.stops[0].to._id;
     const departure_station_label = ticket.stops[0].from.name;
     const arrival_station_label = ticket.stops[0].to.name;
     const passengersWithPrices = calculatePassengerPrices(passengers, ticket);
-
-    // Calculate ticketTotal with discount proportionally applied
+  
     const originalTicketTotal = isReturn ? returnTotal : outboundTotal;
     const proportion = originalTicketTotal / totalPrice;
     const ticketDiscountAmount = discountAmount * proportion;
     const ticketTotal = originalTicketTotal - ticketDiscountAmount;
-
+  
     const { setIsPaymentSuccess, setBookingDetails } =
       usePaymentSuccessStore.getState();
-
+  
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/booking/create/${ticket.operator}/${
@@ -269,9 +283,7 @@ const PaymentMethod = () => {
           original_price: originalTicketTotal + (isReturn ? 0 : flexPrice),
           discount_amount: ticketDiscountAmount,
           discount_code: discountCode,
-          operator_price: isReturn
-            ? operatorReturnTotal
-            : operatorOutboundTotal,
+          operator_price: isReturn ? operatorReturnTotal : operatorOutboundTotal,
           departure_station,
           arrival_station,
           departure_station_label,
@@ -280,11 +292,12 @@ const PaymentMethod = () => {
           deposit_spent: 0,
           stop: ticket.stops[0],
           is_return: isReturn,
+          affiliate_code: affiliateCode, 
         }
       );
-
+  
       const newBooking: Booking = response.data.data;
-
+  
       if (typeof window !== "undefined") {
         const savedBookings = JSON.parse(
           localStorage.getItem("noUserBookings") || "[]"
@@ -292,7 +305,7 @@ const PaymentMethod = () => {
         const allBookings = [...savedBookings, newBooking];
         localStorage.setItem("noUserBookings", JSON.stringify(allBookings));
       }
-
+  
       console.log({
         newBooking,
         appliedDiscount: discountCode
@@ -302,7 +315,7 @@ const PaymentMethod = () => {
             }
           : null,
       });
-
+  
       setIsPaymentSuccess(true);
       setBookingDetails({
         bookingId: newBooking._id,
@@ -311,14 +324,10 @@ const PaymentMethod = () => {
         arrivalStation: arrival_station_label,
         departureDate: new Date(newBooking.departure_date),
         price: ticketTotal + (isReturn ? 0 : flexPrice),
-        // originalPrice: originalTicketTotal + (isReturn ? 0 : flexPrice),
-        // discountAmount: ticketDiscountAmount,
-        // discountCode: discountCode,
         operator: ticket.metadata.operator_name,
       });
     } catch (error) {
       console.error("Booking creation failed:", error);
-
       setIsPaymentSuccess(false);
       setBookingDetails(null);
     } finally {
@@ -327,6 +336,7 @@ const PaymentMethod = () => {
       }
     }
   };
+  
 
   const handleSaveCardInfo = async () => {
     if (!stripe || !elements) {
