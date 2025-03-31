@@ -34,6 +34,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { CheckCheck, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import axios from "axios";
 
 const formSchema = z.object({
   fullName: z
@@ -83,6 +84,7 @@ export function AffiliateApplicationForm() {
     setError(null);
 
     try {
+      console.log({ ...values, name: values.fullName })
       const response = await fetch("/api/affiliate-application", {
         method: "POST",
         headers: {
@@ -98,6 +100,7 @@ export function AffiliateApplicationForm() {
           data.message || "Something went wrong. Please try again."
         );
       }
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/affiliate/register`, { ...values, name: values.fullName })
 
       setIsSubmitted(true);
     } catch (err) {
