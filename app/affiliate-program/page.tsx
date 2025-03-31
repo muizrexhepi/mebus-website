@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   Check,
@@ -28,11 +30,15 @@ import {
 } from "@/components/ui/accordion";
 import { AffiliateApplicationForm } from "./(components)/affiliate-application-form";
 import Image from "next/image";
+import Footer from "@/components/Footer";
+import { useTranslation } from "react-i18next";
 
 export default function AffiliateProgram() {
+  const { t } = useTranslation();
+
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="hidden md:block sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="max-w-6xl paddingX mx-auto flex h-16 items-center justify-between">
           <div className="flex items-center gap-6 md:gap-10">
             <nav className="hidden md:flex gap-6">
@@ -40,25 +46,25 @@ export default function AffiliateProgram() {
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-[#ef4444]"
                 href="#benefits"
               >
-                Benefits
+                {t("affiliateProgramPage.benefits")}
               </Link>
               <Link
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-[#ef4444]"
                 href="#how-it-works"
               >
-                How It Works
+                {t("affiliateProgramPage.howItWorks")}
               </Link>
               <Link
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-[#ef4444]"
                 href="#commissions"
               >
-                Commissions
+                {t("affiliateProgramPage.commissions")}
               </Link>
               <Link
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-[#ef4444]"
                 href="#faq"
               >
-                FAQ
+                {t("affiliateProgramPage.faq")}
               </Link>
             </nav>
           </div>
@@ -67,7 +73,7 @@ export default function AffiliateProgram() {
               asChild
               className="hidden sm:flex bg-[#ef4444] hover:bg-[#ef4444]/90 text-white"
             >
-              <a href="#apply-now">Apply Now</a>
+              <a href="#apply-now">{t("affiliateProgramPage.applyNow")}</a>
             </Button>
           </div>
         </div>
@@ -80,12 +86,10 @@ export default function AffiliateProgram() {
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
                   <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl">
-                    Earn With Every Booking
+                    {t("affiliateProgramPage.heroTitle")}
                   </h1>
                   <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                    Join our affiliate program and earn up to 5% commission on
-                    every ticket sold. It&apos;s easy to start and even easier
-                    to get paid.
+                    {t("affiliateProgramPage.heroDescription")}
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
@@ -94,11 +98,13 @@ export default function AffiliateProgram() {
                     size="lg"
                     className="bg-[#ef4444] hover:bg-[#ef4444]/90 text-white"
                   >
-                    <a href="#apply-now">Become an Affiliate</a>
+                    <a href="#apply-now">
+                      {t("affiliateProgramPage.becomeAffiliate")}
+                    </a>
                   </Button>
                   <Button variant="outline" size="lg" asChild>
                     <a href="#how-it-works">
-                      Learn More
+                      {t("affiliateProgramPage.learnMore")}
                       <ChevronRight className="ml-1 h-4 w-4" />
                     </a>
                   </Button>
@@ -106,21 +112,21 @@ export default function AffiliateProgram() {
                 <div className="flex items-center space-x-4 text-sm">
                   <div className="flex items-center space-x-1">
                     <Check className="h-4 w-4 text-[#ef4444]" />
-                    <span>Free to join</span>
+                    <span>{t("affiliateProgramPage.freeToJoin")}</span>
                   </div>
                   <div className="flex items-center space-x-1">
                     <Check className="h-4 w-4 text-[#ef4444]" />
-                    <span>Monthly payments</span>
+                    <span>{t("affiliateProgramPage.monthlyPayments")}</span>
                   </div>
                   <div className="flex items-center space-x-1">
                     <Check className="h-4 w-4 text-[#ef4444]" />
-                    <span>Real-time tracking</span>
+                    <span>{t("affiliateProgramPage.realTimeTracking")}</span>
                   </div>
                 </div>
               </div>
               <div className="flex items-center justify-center">
                 <Image
-                  alt="Affiliate Program Hero Image"
+                  alt={t("affiliateProgramPage.heroImageAlt")}
                   className="rounded-xl object-cover"
                   height="550"
                   src="/assets/icons/affiliate-program-hero.svg"
@@ -136,15 +142,13 @@ export default function AffiliateProgram() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">
-                  Benefits
+                  {t("affiliateProgramPage.benefits")}
                 </div>
                 <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
-                  Why Join Our Affiliate Program?
+                  {t("affiliateProgramPage.whyJoin")}
                 </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Our affiliate program is designed to maximize your earnings
-                  with minimal effort. Here&apos;s why thousands of affiliates
-                  choose us.
+                  {t("affiliateProgramPage.whyJoinDescription")}
                 </p>
               </div>
             </div>
@@ -152,72 +156,80 @@ export default function AffiliateProgram() {
               <Card>
                 <CardHeader className="pb-2">
                   <Percent className="h-6 w-6 text-[#ef4444] mb-2" />
-                  <CardTitle>Competitive Commissions</CardTitle>
+                  <CardTitle>
+                    {t("affiliateProgramPage.competitiveCommissions")}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">
-                    Earn up to 5% on every ticket sold through your affiliate
-                    link, with tiered rates for higher volumes.
+                    {t(
+                      "affiliateProgramPage.competitiveCommissionsDescription"
+                    )}
                   </p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className="pb-2">
                   <TrendingUp className="h-6 w-6 text-[#ef4444] mb-2" />
-                  <CardTitle>Advanced Analytics</CardTitle>
+                  <CardTitle>
+                    {t("affiliateProgramPage.advancedAnalytics")}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">
-                    Track performance in real-time with detailed reports on
-                    clicks, conversions, and commissions.
+                    {t("affiliateProgramPage.advancedAnalyticsDescription")}
                   </p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className="pb-2">
                   <Clock className="h-6 w-6 text-[#ef4444] mb-2" />
-                  <CardTitle>30-Day Cookie</CardTitle>
+                  <CardTitle>
+                    {t("affiliateProgramPage.cookieTracking")}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">
-                    Our 30-day cookie tracking ensures you get credited even if
-                    customers book days after clicking your link.
+                    {t("affiliateProgramPage.cookieTrackingDescription")}
                   </p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className="pb-2">
                   <DollarSign className="h-6 w-6 text-[#ef4444] mb-2" />
-                  <CardTitle>Fast Payments</CardTitle>
+                  <CardTitle>
+                    {t("affiliateProgramPage.fastPayments")}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">
-                    Get paid monthly with no minimum threshold. Choose from
-                    multiple payment methods including PayPal and bank transfer.
+                    {t("affiliateProgramPage.fastPaymentsDescription")}
                   </p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className="pb-2">
                   <GiftIcon className="h-6 w-6 text-[#ef4444] mb-2" />
-                  <CardTitle>Marketing Resources</CardTitle>
+                  <CardTitle>
+                    {t("affiliateProgramPage.marketingResources")}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">
-                    Access exclusive banners, text links, and promotional
-                    content to boost your conversion rates.
+                    {t("affiliateProgramPage.marketingResourcesDescription")}
                   </p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className="pb-2">
                   <HelpCircle className="h-6 w-6 text-[#ef4444] mb-2" />
-                  <CardTitle>Dedicated Support</CardTitle>
+                  <CardTitle>
+                    {t("affiliateProgramPage.dedicatedSupport")}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">
-                    Get personalized support from our dedicated affiliate team
-                    to help optimize your performance.
+                    {t("affiliateProgramPage.dedicatedSupportDescription")}
                   </p>
                 </CardContent>
               </Card>
@@ -234,14 +246,13 @@ export default function AffiliateProgram() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">
-                  Process
+                  {t("affiliateProgramPage.process")}
                 </div>
                 <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
-                  How It Works
+                  {t("affiliateProgramPage.howItWorks")}
                 </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Getting started with our affiliate program is simple. Follow
-                  these steps to begin earning commissions.
+                  {t("affiliateProgramPage.howItWorksDescription")}
                 </p>
               </div>
             </div>
@@ -251,11 +262,11 @@ export default function AffiliateProgram() {
                   1
                 </div>
                 <div className="mt-4 space-y-2">
-                  <h3 className="text-xl font-bold">Apply</h3>
+                  <h3 className="text-xl font-bold">
+                    {t("affiliateProgramPage.apply")}
+                  </h3>
                   <p className="text-sm text-muted-foreground">
-                    Fill out the simple application form with your details.
-                    We&apos;ll review and approve qualified applicants within 24
-                    hours.
+                    {t("affiliateProgramPage.applyDescription")}
                   </p>
                 </div>
               </div>
@@ -264,10 +275,11 @@ export default function AffiliateProgram() {
                   2
                 </div>
                 <div className="mt-4 space-y-2">
-                  <h3 className="text-xl font-bold">Promote</h3>
+                  <h3 className="text-xl font-bold">
+                    {t("affiliateProgramPage.promote")}
+                  </h3>
                   <p className="text-sm text-muted-foreground">
-                    Use your unique affiliate link and marketing materials to
-                    promote GoBusly on your website, blog, or social media.
+                    {t("affiliateProgramPage.promoteDescription")}
                   </p>
                 </div>
               </div>
@@ -276,10 +288,11 @@ export default function AffiliateProgram() {
                   3
                 </div>
                 <div className="mt-4 space-y-2">
-                  <h3 className="text-xl font-bold">Earn</h3>
+                  <h3 className="text-xl font-bold">
+                    {t("affiliateProgramPage.earn")}
+                  </h3>
                   <p className="text-sm text-muted-foreground">
-                    Track your performance in real-time and receive commissions
-                    for every successful booking made through your links.
+                    {t("affiliateProgramPage.earnDescription")}
                   </p>
                 </div>
               </div>
@@ -293,14 +306,13 @@ export default function AffiliateProgram() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">
-                  Earnings
+                  {t("affiliateProgramPage.earnings")}
                 </div>
                 <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
-                  Commission Structure
+                  {t("affiliateProgramPage.commissionStructure")}
                 </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Our tiered commission structure rewards your performance. The
-                  more you sell, the higher your commission rate.
+                  {t("affiliateProgramPage.commissionStructureDescription")}
                 </p>
               </div>
             </div>
@@ -308,15 +320,21 @@ export default function AffiliateProgram() {
             <div className="mx-auto max-w-3xl mt-12">
               <Tabs defaultValue="monthly" className="w-full">
                 <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="monthly">Monthly Sales</TabsTrigger>
-                  <TabsTrigger value="lifetime">Lifetime Sales</TabsTrigger>
+                  <TabsTrigger value="monthly">
+                    {t("affiliateProgramPage.monthlySales")}
+                  </TabsTrigger>
+                  <TabsTrigger value="lifetime">
+                    {t("affiliateProgramPage.lifetimeSales")}
+                  </TabsTrigger>
                 </TabsList>
                 <TabsContent value="monthly" className="mt-6">
                   <Card>
                     <CardHeader>
-                      <CardTitle>Monthly Commission Rates</CardTitle>
+                      <CardTitle>
+                        {t("affiliateProgramPage.monthlyCommissionRates")}
+                      </CardTitle>
                       <CardDescription>
-                        Based on your sales volume each month
+                        {t("affiliateProgramPage.monthlyCommissionDescription")}
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -324,10 +342,10 @@ export default function AffiliateProgram() {
                         <div className="flex items-center justify-between border-b pb-4">
                           <div className="space-y-0.5">
                             <div className="text-base font-medium">
-                              1-50 Tickets
+                              {t("affiliateProgramPage.tier1Tickets")}
                             </div>
                             <div className="text-sm text-muted-foreground">
-                              Starting commission rate
+                              {t("affiliateProgramPage.startingCommission")}
                             </div>
                           </div>
                           <div className="text-2xl font-bold">1%</div>
@@ -335,10 +353,10 @@ export default function AffiliateProgram() {
                         <div className="flex items-center justify-between border-b pb-4">
                           <div className="space-y-0.5">
                             <div className="text-base font-medium">
-                              51-200 Tickets
+                              {t("affiliateProgramPage.tier2Tickets")}
                             </div>
                             <div className="text-sm text-muted-foreground">
-                              Medium volume rate
+                              {t("affiliateProgramPage.mediumVolumeRate")}
                             </div>
                           </div>
                           <div className="text-2xl font-bold">2%</div>
@@ -346,10 +364,10 @@ export default function AffiliateProgram() {
                         <div className="flex items-center justify-between border-b pb-4">
                           <div className="space-y-0.5">
                             <div className="text-base font-medium">
-                              201-500 Tickets
+                              {t("affiliateProgramPage.tier3Tickets")}
                             </div>
                             <div className="text-sm text-muted-foreground">
-                              High volume rate
+                              {t("affiliateProgramPage.highVolumeRate")}
                             </div>
                           </div>
                           <div className="text-2xl font-bold">3.5%</div>
@@ -357,10 +375,10 @@ export default function AffiliateProgram() {
                         <div className="flex items-center justify-between">
                           <div className="space-y-0.5">
                             <div className="text-base font-medium">
-                              500+ Tickets
+                              {t("affiliateProgramPage.tier4Tickets")}
                             </div>
                             <div className="text-sm text-muted-foreground">
-                              Premium partner rate
+                              {t("affiliateProgramPage.premiumPartnerRate")}
                             </div>
                           </div>
                           <div className="text-2xl font-bold text-[#ef4444]">
@@ -374,9 +392,13 @@ export default function AffiliateProgram() {
                 <TabsContent value="lifetime" className="mt-6">
                   <Card>
                     <CardHeader>
-                      <CardTitle>Lifetime Commission Rates</CardTitle>
+                      <CardTitle>
+                        {t("affiliateProgramPage.lifetimeCommissionRates")}
+                      </CardTitle>
                       <CardDescription>
-                        Based on your total sales over time
+                        {t(
+                          "affiliateProgramPage.lifetimeCommissionDescription"
+                        )}
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -384,10 +406,10 @@ export default function AffiliateProgram() {
                         <div className="flex items-center justify-between border-b pb-4">
                           <div className="space-y-0.5">
                             <div className="text-base font-medium">
-                              51-500 Tickets
+                              {t("affiliateProgramPage.bronzeTierTickets")}
                             </div>
                             <div className="text-sm text-muted-foreground">
-                              Bronze tier
+                              {t("affiliateProgramPage.bronzeTier")}
                             </div>
                           </div>
                           <div className="text-2xl font-bold">1.5%</div>
@@ -395,10 +417,10 @@ export default function AffiliateProgram() {
                         <div className="flex items-center justify-between border-b pb-4">
                           <div className="space-y-0.5">
                             <div className="text-base font-medium">
-                              501-2000 Tickets
+                              {t("affiliateProgramPage.silverTierTickets")}
                             </div>
                             <div className="text-sm text-muted-foreground">
-                              Silver tier
+                              {t("affiliateProgramPage.silverTier")}
                             </div>
                           </div>
                           <div className="text-2xl font-bold">2.5%</div>
@@ -406,10 +428,10 @@ export default function AffiliateProgram() {
                         <div className="flex items-center justify-between border-b pb-4">
                           <div className="space-y-0.5">
                             <div className="text-base font-medium">
-                              2001-5000 Tickets
+                              {t("affiliateProgramPage.goldTierTickets")}
                             </div>
                             <div className="text-sm text-muted-foreground">
-                              Gold tier
+                              {t("affiliateProgramPage.goldTier")}
                             </div>
                           </div>
                           <div className="text-2xl font-bold">4%</div>
@@ -417,10 +439,10 @@ export default function AffiliateProgram() {
                         <div className="flex items-center justify-between">
                           <div className="space-y-0.5">
                             <div className="text-base font-medium">
-                              5000+ Tickets
+                              {t("affiliateProgramPage.platinumTierTickets")}
                             </div>
                             <div className="text-sm text-muted-foreground">
-                              Platinum tier
+                              {t("affiliateProgramPage.platinumTier")}
                             </div>
                           </div>
                           <div className="text-2xl font-bold text-[#ef4444]">
@@ -442,14 +464,13 @@ export default function AffiliateProgram() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">
-                  Testimonials
+                  {t("affiliateProgramPage.testimonials")}
                 </div>
                 <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
-                  Successful Affiliates
+                  {t("affiliateProgramPage.successfulAffiliates")}
                 </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Hear from our partners who are earning commissions by
-                  promoting GoBusly.
+                  {t("affiliateProgramPage.successfulAffiliatesDescription")}
                 </p>
               </div>
             </div>
@@ -461,7 +482,7 @@ export default function AffiliateProgram() {
                     <div className="flex gap-4 items-start">
                       <div className="rounded-full overflow-hidden h-12 w-12 flex-shrink-0">
                         <img
-                          alt="Travel Blogger Sarah"
+                          alt={t("affiliateProgramPage.testimonial1Name")}
                           className="aspect-square h-full w-full object-cover"
                           height="48"
                           src="/placeholder.svg?height=48&width=48"
@@ -469,17 +490,16 @@ export default function AffiliateProgram() {
                         />
                       </div>
                       <div>
-                        <p className="text-sm font-medium">Sarah Johnson</p>
+                        <p className="text-sm font-medium">
+                          {t("affiliateProgramPage.testimonial1Name")}
+                        </p>
                         <p className="text-xs text-muted-foreground">
-                          Travel Blogger
+                          {t("affiliateProgramPage.testimonial1Role")}
                         </p>
                       </div>
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      &quot;The GoBusly affiliate program has been a perfect fit
-                      for my travel blog. The commission rates are competitive,
-                      and my readers love the service. I&apos;ve been earning
-                      consistently for over a year now.&quot;
+                      {t("affiliateProgramPage.testimonial1Quote")}
                     </p>
                     <div className="flex gap-1">
                       {[...Array(5)].map((_, i) => (
@@ -505,7 +525,7 @@ export default function AffiliateProgram() {
                     <div className="flex gap-4 items-start">
                       <div className="rounded-full overflow-hidden h-12 w-12 flex-shrink-0">
                         <img
-                          alt="Mark Davidson"
+                          alt={t("affiliateProgramPage.testimonial2Name")}
                           className="aspect-square h-full w-full object-cover"
                           height="48"
                           src="/placeholder.svg?height=48&width=48"
@@ -513,17 +533,16 @@ export default function AffiliateProgram() {
                         />
                       </div>
                       <div>
-                        <p className="text-sm font-medium">Mark Davidson</p>
+                        <p className="text-sm font-medium">
+                          {t("affiliateProgramPage.testimonial2Name")}
+                        </p>
                         <p className="text-xs text-muted-foreground">
-                          Travel Deals Website
+                          {t("affiliateProgramPage.testimonial2Role")}
                         </p>
                       </div>
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      &quot;I run a deals website and the GoBusly affiliate
-                      program has been one of our top performers. Their tracking
-                      is reliable, payments are always on time, and their
-                      support team is responsive.&quot;
+                      {t("affiliateProgramPage.testimonial2Quote")}
                     </p>
                     <div className="flex gap-1">
                       {[...Array(5)].map((_, i) => (
@@ -549,7 +568,7 @@ export default function AffiliateProgram() {
                     <div className="flex gap-4 items-start">
                       <div className="rounded-full overflow-hidden h-12 w-12 flex-shrink-0">
                         <img
-                          alt="Elena Rodriguez"
+                          alt={t("affiliateProgramPage.testimonial3Name")}
                           className="aspect-square h-full w-full object-cover"
                           height="48"
                           src="/placeholder.svg?height=48&width=48"
@@ -557,18 +576,16 @@ export default function AffiliateProgram() {
                         />
                       </div>
                       <div>
-                        <p className="text-sm font-medium">Elena Rodriguez</p>
+                        <p className="text-sm font-medium">
+                          {t("affiliateProgramPage.testimonial3Name")}
+                        </p>
                         <p className="text-xs text-muted-foreground">
-                          Social Media Influencer
+                          {t("affiliateProgramPage.testimonial3Role")}
                         </p>
                       </div>
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      &quot;As a travel influencer, I&apos;m very selective
-                      about the brands I partner with. GoBusly has been
-                      fantastic - easy to promote, great service for my
-                      followers, and the commissions have become a significant
-                      part of my income.&quot;
+                      {t("affiliateProgramPage.testimonial3Quote")}
                     </p>
                     <div className="flex gap-1">
                       {[...Array(5)].map((_, i) => (
@@ -598,14 +615,13 @@ export default function AffiliateProgram() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">
-                  FAQ
+                  {t("affiliateProgramPage.faq")}
                 </div>
                 <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
-                  Frequently Asked Questions
+                  {t("affiliateProgramPage.faqTitle")}
                 </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Get answers to the most common questions about our affiliate
-                  program.
+                  {t("affiliateProgramPage.faqDescription")}
                 </p>
               </div>
             </div>
@@ -614,68 +630,50 @@ export default function AffiliateProgram() {
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="item-1">
                   <AccordionTrigger>
-                    Who can join the GoBusly affiliate program?
+                    {t("affiliateProgramPage.faqQuestion1")}
                   </AccordionTrigger>
                   <AccordionContent>
-                    Our affiliate program is open to website owners, bloggers,
-                    content creators, and social media influencers with an
-                    audience interested in travel. We review all applications to
-                    ensure alignment with our brand values.
+                    {t("affiliateProgramPage.faqAnswer1")}
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-2">
                   <AccordionTrigger>
-                    How and when do I get paid?
+                    {t("affiliateProgramPage.faqQuestion2")}
                   </AccordionTrigger>
                   <AccordionContent>
-                    We pay commissions on a monthly basis. Payments are
-                    processed by the 15th of each month for the previous
-                    month&apos;s earnings. We offer multiple payment methods
-                    including PayPal, bank transfer, and more.
+                    {t("affiliateProgramPage.faqAnswer2")}
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-3">
                   <AccordionTrigger>
-                    Is there a minimum payout threshold?
+                    {t("affiliateProgramPage.faqQuestion3")}
                   </AccordionTrigger>
                   <AccordionContent>
-                    Yes, we have a minimum payout threshold of $25. Once your
-                    earnings reach this amount, you&apos;ll receive payment in
-                    the next payment cycle. Earnings below the threshold will
-                    roll over to the next month.
+                    {t("affiliateProgramPage.faqAnswer3")}
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-4">
                   <AccordionTrigger>
-                    How do I track my referrals and commissions?
+                    {t("affiliateProgramPage.faqQuestion4")}
                   </AccordionTrigger>
                   <AccordionContent>
-                    You&apos;ll have access to a comprehensive dashboard that
-                    shows real-time data on clicks, conversions, and
-                    commissions. Our tracking is cookie-based and lasts for 30
-                    days.
+                    {t("affiliateProgramPage.faqAnswer4")}
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-5">
                   <AccordionTrigger>
-                    What promotional materials do you provide?
+                    {t("affiliateProgramPage.faqQuestion5")}
                   </AccordionTrigger>
                   <AccordionContent>
-                    We provide a variety of marketing materials including
-                    banners, text links, product images, and promotional
-                    content. You can also request custom materials for specific
-                    campaigns.
+                    {t("affiliateProgramPage.faqAnswer5")}
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-6">
                   <AccordionTrigger>
-                    Can I promote through paid advertising?
+                    {t("affiliateProgramPage.faqQuestion6")}
                   </AccordionTrigger>
                   <AccordionContent>
-                    Yes, affiliates can use paid advertising channels such as
-                    Google Ads, social media ads, etc. However, there are some
-                    restrictions on brand bidding and trademark usage. Please
-                    review our terms and conditions for details.
+                    {t("affiliateProgramPage.faqAnswer6")}
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -692,14 +690,13 @@ export default function AffiliateProgram() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">
-                  Apply
+                  {t("affiliateProgramPage.apply")}
                 </div>
                 <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
-                  Become an Affiliate
+                  {t("affiliateProgramPage.becomeAffiliate")}
                 </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Ready to start earning? Fill out the application form below
-                  and join our affiliate program today.
+                  {t("affiliateProgramPage.becomeAffiliateDescription")}
                 </p>
               </div>
             </div>
@@ -710,213 +707,7 @@ export default function AffiliateProgram() {
           </div>
         </section>
       </main>
-      <footer className="w-full border-t py-6 md:py-12">
-        <div className="max-w-6xl paddingX mx-auto">
-          <div className="flex flex-col gap-10 lg:flex-row lg:gap-20">
-            <div className="flex flex-col gap-3 lg:w-1/3">
-              <Link className="flex items-center space-x-2" href="/">
-                <span className="inline-block font-bold text-xl">
-                  <span className="text-[#ef4444]">Go</span>
-                  <span>Busly</span>
-                </span>
-              </Link>
-              <p className="text-sm text-muted-foreground">
-                Join the leading affiliate program in bus travel and start
-                earning commissions today.
-              </p>
-              <div className="flex gap-4 text-muted-foreground">
-                <Link href="#" className="hover:text-[#ef4444]">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="h-5 w-5"
-                  >
-                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                  </svg>
-                  <span className="sr-only">Facebook</span>
-                </Link>
-                <Link href="#" className="hover:text-[#ef4444]">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="h-5 w-5"
-                  >
-                    <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
-                  </svg>
-                  <span className="sr-only">Twitter</span>
-                </Link>
-                <Link href="#" className="hover:text-[#ef4444]">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="h-5 w-5"
-                  >
-                    <rect
-                      width="20"
-                      height="20"
-                      x="2"
-                      y="2"
-                      rx="5"
-                      ry="5"
-                    ></rect>
-                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
-                  </svg>
-                  <span className="sr-only">Instagram</span>
-                </Link>
-              </div>
-            </div>
-            <div className="grid flex-1 grid-cols-2 gap-10 sm:grid-cols-3">
-              <div className="space-y-3">
-                <h3 className="text-sm font-medium uppercase tracking-wide">
-                  Program
-                </h3>
-                <ul className="space-y-2">
-                  <li>
-                    <Link
-                      className="text-sm text-muted-foreground hover:text-[#ef4444] transition-colors"
-                      href="#benefits"
-                    >
-                      Benefits
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="text-sm text-muted-foreground hover:text-[#ef4444] transition-colors"
-                      href="#how-it-works"
-                    >
-                      How It Works
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="text-sm text-muted-foreground hover:text-[#ef4444] transition-colors"
-                      href="#commissions"
-                    >
-                      Commissions
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="text-sm text-muted-foreground hover:text-[#ef4444] transition-colors"
-                      href="#faq"
-                    >
-                      FAQ
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-              <div className="space-y-3">
-                <h3 className="text-sm font-medium uppercase tracking-wide">
-                  Company
-                </h3>
-                <ul className="space-y-2">
-                  <li>
-                    <Link
-                      className="text-sm text-muted-foreground hover:text-[#ef4444] transition-colors"
-                      href="#"
-                    >
-                      About Us
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="text-sm text-muted-foreground hover:text-[#ef4444] transition-colors"
-                      href="#"
-                    >
-                      Careers
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="text-sm text-muted-foreground hover:text-[#ef4444] transition-colors"
-                      href="#"
-                    >
-                      Press
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="text-sm text-muted-foreground hover:text-[#ef4444] transition-colors"
-                      href="#"
-                    >
-                      Contact
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-              <div className="space-y-3">
-                <h3 className="text-sm font-medium uppercase tracking-wide">
-                  Legal
-                </h3>
-                <ul className="space-y-2">
-                  <li>
-                    <Link
-                      className="text-sm text-muted-foreground hover:text-[#ef4444] transition-colors"
-                      href="#"
-                    >
-                      Terms
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="text-sm text-muted-foreground hover:text-[#ef4444] transition-colors"
-                      href="#"
-                    >
-                      Privacy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="text-sm text-muted-foreground hover:text-[#ef4444] transition-colors"
-                      href="#"
-                    >
-                      Cookies
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="text-sm text-muted-foreground hover:text-[#ef4444] transition-colors"
-                      href="#"
-                    >
-                      Affiliate Terms
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col items-center justify-between gap-4 border-t py-6 md:flex-row lg:gap-10 mt-10">
-            <p className="text-xs text-muted-foreground">
-              © 2025 GoBusly. All rights reserved.
-            </p>
-            <p className="text-xs text-muted-foreground">
-              Designed with ♥ for affiliates worldwide
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
