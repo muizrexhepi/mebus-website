@@ -28,7 +28,7 @@ const FOOTER_LINKS = [
     links: [
       { name: "Partner Application", link: "/partners/apply" },
       { name: "Become a Partner", link: "/partners/overview" },
-      { name: "Active Operators", link: "/partners/active-operators" },
+      { name: "Affiliate Program", link: "/affiliate-program" },
     ],
   },
   {

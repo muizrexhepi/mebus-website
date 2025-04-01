@@ -1,13 +1,18 @@
 "use client";
 
 import { Route } from "@/models/route";
+import useSearchStore from "@/store";
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export default function PopularBusRoutes() {
   const [routes, setRoutes] = useState<Route[]>([]);
+  const { setFromCity, setToCity } = useSearchStore();
+  const router = useRouter();
+
   useEffect(() => {
     async function fetchRoutes() {
       const routesRes = await axios.get(
@@ -19,6 +24,26 @@ export default function PopularBusRoutes() {
     }
     fetchRoutes();
   }, []);
+
+  const handleClick = (route: Route) => {
+    console.log({ stations: route.destination });
+    setFromCity(route.destination.from);
+    setToCity(route.destination.to);
+    router.push(
+      `/search/${route.destination.from}-${
+        route.destination.to
+      }?departureStation=${route.stations.from}&arrivalStation=${
+        route.stations.to
+      }&departureDate=${new Date()
+        .toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        })
+        .replace(/\//g, "-")}&adult=1&children=0`
+    );
+  };
+
   const { t } = useTranslation();
   return (
     <section className="w-full py-20">
@@ -33,26 +58,28 @@ export default function PopularBusRoutes() {
         </h1>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-4 gap-x-6">
           {routes.map((route) => (
-            <Link
+            <button
+              onClick={() => handleClick(route)}
               key={`${route.destination.from}-${route.destination.to}`}
-              href={`/search/${route.destination.from}-${
-                route.destination.to
-              }?departureStation=${route.stations.from}&arrivalStation=${
-                route.stations.to
-              }&departureDate=${new Date()
-                .toLocaleDateString("en-GB", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                })
-                .replace(/\//g, "-")}&adult=1&children=0`}
-              className="text-gray-600 hover:text-gray-900 hover:underline transition-all duration-200 line-clamp-1"
+              // href={`/search/${route.destination.from}-${
+              //   route.destination.to
+              // }?departureStation=${route.stations.from}&arrivalStation=${
+              //   route.stations.to
+              // }&departureDate=${new Date()
+              //   .toLocaleDateString("en-GB", {
+              //     day: "2-digit",
+              //     month: "2-digit",
+              //     year: "numeric",
+              //   })
+              //   .replace(/\//g, "-")}&adult=1&children=0`}
+              className="text-gray-600 hover:text-gray-900 hover:underline transition-all duration-200 line-clamp-1 text-left"
             >
               <span className="text-sm capitalize">
-                {route.destination.from} <span className="lowercase">to</span>{" "}
-                {route.destination.to} bus
+                {route.destination.from}{" "}
+                <span className="lowercase">{t("searchForm.to")}</span>{" "}
+                {route.destination.to} {t("ticketDetails.features.bus")}
               </span>
-            </Link>
+            </button>
           ))}
         </div>
       </div>
