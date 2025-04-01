@@ -823,5 +823,27 @@
     "faqQuestion6": "Kann ich über bezahlte Werbung bewerben?",
     "faqAnswer6": "Ja, Partner können bezahlte Werbekanäle wie Google Ads, Social-Media-Anzeigen usw. nutzen. Es gibt jedoch einige Einschränkungen beim Markenbieten und der Verwendung von Markenzeichen. Bitte lesen Sie unsere Geschäftsbedingungen für Details.",
     "becomeAffiliateDescription": "Bereit zu verdienen? Füllen Sie das Bewerbungsformular unten aus und treten Sie noch heute unserem Partnerprogramm bei."
+  },
+  "affiliateForm": {
+    "title": "Partnerbewerbung",
+    "description": "Füllen Sie Ihre Daten aus, um sich für unser Partnerprogramm zu bewerben.",
+    "fullName": "Vollständiger Name",
+    "fullNamePlaceholder": "Max Mustermann",
+    "email": "E-Mail-Adresse",
+    "emailPlaceholder": "max@example.com",
+    "password": "Passwort",
+    "passwordDescription": "Muss mindestens 8 Zeichen lang sein und Groß-/Kleinbuchstaben sowie Zahlen enthalten.",
+    "websiteUrl": "Website-URL (Optional)",
+    "websiteUrlPlaceholder": "https://ihrewebsite.com",
+    "websiteType": "Website-/Kanaltyp",
+    "websiteTypePlaceholder": "Wählen Sie den Typ der Website oder des Kanals",
+    "websiteTypeBlog": "Blog",
+    "websiteTypeReview": "Rezensionsseite",
+    "websiteTypeDeals": "Angebotsseite",
+    "websiteTypeContent": "Content-Seite",
+    "websiteTypeSocial": "Soziale Medien",
+    "websiteTypeEmail": "E-Mail-Marketing",
+    "websiteTypeOther": "Andere",
+    "submit": "Bewerbung absenden"
   }
 }

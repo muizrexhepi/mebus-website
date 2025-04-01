@@ -35,6 +35,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { CheckCheck, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 const formSchema = z.object({
   fullName: z
@@ -61,6 +62,7 @@ const formSchema = z.object({
 });
 
 export function AffiliateApplicationForm() {
+  const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -84,7 +86,7 @@ export function AffiliateApplicationForm() {
     setError(null);
 
     try {
-      console.log({ ...values, name: values.fullName })
+      console.log({ ...values, name: values.fullName });
       const response = await fetch("/api/affiliate-application", {
         method: "POST",
         headers: {
@@ -96,18 +98,17 @@ export function AffiliateApplicationForm() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(
-          data.message || "Something went wrong. Please try again."
-        );
+        throw new Error(data.message || t("affiliateForm.errorGeneric"));
       }
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/affiliate/register`, { ...values, name: values.fullName })
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/affiliate/register`,
+        { ...values, name: values.fullName }
+      );
 
       setIsSubmitted(true);
     } catch (err) {
       setError(
-        err instanceof Error
-          ? err.message
-          : "An unexpected error occurred. Please try again."
+        err instanceof Error ? err.message : t("affiliateForm.errorUnexpected")
       );
       console.error("Error submitting form:", err);
     } finally {
@@ -124,11 +125,11 @@ export function AffiliateApplicationForm() {
               <CheckCheck className="h-10 w-10 text-primary" />
             </div>
             <div>
-              <CardTitle className="text-2xl">Application Submitted!</CardTitle>
+              <CardTitle className="text-2xl">
+                {t("affiliateForm.submissionSuccess")}
+              </CardTitle>
               <CardDescription className="text-base mt-2">
-                Thank you for applying to the GoBusly Affiliate Program.
-                We&apos;ve sent a confirmation email to your inbox and will
-                review your application within 24-48 hours.
+                {t("affiliateForm.submissionDescription")}
               </CardDescription>
             </div>
           </div>
@@ -139,7 +140,7 @@ export function AffiliateApplicationForm() {
             variant={"primary"}
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           >
-            Return to Top
+            {t("affiliateForm.returnToTop")}
           </Button>
         </CardFooter>
       </Card>
@@ -149,16 +150,14 @@ export function AffiliateApplicationForm() {
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Affiliate Application</CardTitle>
-        <CardDescription>
-          Fill in your details to apply for our affiliate program.
-        </CardDescription>
+        <CardTitle>{t("affiliateForm.title")}</CardTitle>
+        <CardDescription>{t("affiliateForm.description")}</CardDescription>
       </CardHeader>
       <CardContent>
         {error && (
           <Alert variant="destructive" className="mb-6">
             <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Error</AlertTitle>
+            <AlertTitle>{t("affiliateForm.error")}</AlertTitle>
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
@@ -171,9 +170,12 @@ export function AffiliateApplicationForm() {
                 name="fullName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Full Name</FormLabel>
+                    <FormLabel>{t("affiliateForm.fullName")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="John Doe" {...field} />
+                      <Input
+                        placeholder={t("affiliateForm.fullNamePlaceholder")}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -185,9 +187,12 @@ export function AffiliateApplicationForm() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email Address</FormLabel>
+                    <FormLabel>{t("affiliateForm.email")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="john@example.com" {...field} />
+                      <Input
+                        placeholder={t("affiliateForm.emailPlaceholder")}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -199,7 +204,7 @@ export function AffiliateApplicationForm() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>{t("affiliateForm.password")}</FormLabel>
                     <FormControl>
                       <Input
                         type="password"
@@ -208,7 +213,7 @@ export function AffiliateApplicationForm() {
                       />
                     </FormControl>
                     <FormDescription>
-                      Must be at least 8 characters with mixed case and numbers.
+                      {t("affiliateForm.passwordDescription")}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -220,9 +225,12 @@ export function AffiliateApplicationForm() {
                 name="websiteUrl"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Website URL (Optional)</FormLabel>
+                    <FormLabel>{t("affiliateForm.websiteUrl")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="https://yourwebsite.com" {...field} />
+                      <Input
+                        placeholder={t("affiliateForm.websiteUrlPlaceholder")}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -234,30 +242,42 @@ export function AffiliateApplicationForm() {
                 name="websiteType"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Website/Channel Type</FormLabel>
+                    <FormLabel>{t("affiliateForm.websiteType")}</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select website or channel type" />
+                          <SelectValue
+                            placeholder={t(
+                              "affiliateForm.websiteTypePlaceholder"
+                            )}
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="blog">Blog</SelectItem>
-                        <SelectItem value="review-site">Review Site</SelectItem>
-                        <SelectItem value="deals-site">Deals Site</SelectItem>
+                        <SelectItem value="blog">
+                          {t("affiliateForm.websiteTypeBlog")}
+                        </SelectItem>
+                        <SelectItem value="review-site">
+                          {t("affiliateForm.websiteTypeReview")}
+                        </SelectItem>
+                        <SelectItem value="deals-site">
+                          {t("affiliateForm.websiteTypeDeals")}
+                        </SelectItem>
                         <SelectItem value="content-site">
-                          Content Site
+                          {t("affiliateForm.websiteTypeContent")}
                         </SelectItem>
                         <SelectItem value="social-media">
-                          Social Media
+                          {t("affiliateForm.websiteTypeSocial")}
                         </SelectItem>
                         <SelectItem value="email-marketing">
-                          Email Marketing
+                          {t("affiliateForm.websiteTypeEmail")}
                         </SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
+                        <SelectItem value="other">
+                          {t("affiliateForm.websiteTypeOther")}
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -270,13 +290,15 @@ export function AffiliateApplicationForm() {
                 name="socialMedia"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Social Media Handles (Optional)</FormLabel>
+                    <FormLabel>{t("affiliateForm.socialMedia")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="@yoursocialmedia" {...field} />
+                      <Input
+                        placeholder={t("affiliateForm.socialMediaPlaceholder")}
+                        {...field}
+                      />
                     </FormControl>
                     <FormDescription>
-                      List your social media handles (Instagram, TikTok,
-                      YouTube, etc.)
+                      {t("affiliateForm.socialMediaDescription")}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -288,10 +310,10 @@ export function AffiliateApplicationForm() {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Tell us about your website/channel</FormLabel>
+                    <FormLabel>{t("affiliateForm.description2")}</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Describe your website, audience, and how you plan to promote GoBusly..."
+                        placeholder={t("affiliateForm.descriptionPlaceholder")}
                         rows={5}
                         {...field}
                       />
@@ -314,13 +336,13 @@ export function AffiliateApplicationForm() {
                     </FormControl>
                     <div className="space-y-1 leading-none">
                       <FormLabel>
-                        I agree to the{" "}
+                        {t("affiliateForm.termsPrefix")}{" "}
                         <a href="#" className="text-primary hover:underline">
-                          Terms and Conditions
+                          {t("affiliateForm.termsLink")}
                         </a>{" "}
-                        and{" "}
+                        {t("affiliateForm.termsAnd")}{" "}
                         <a href="#" className="text-primary hover:underline">
-                          Privacy Policy
+                          {t("affiliateForm.privacyLink")}
                         </a>
                       </FormLabel>
                       <FormMessage />
@@ -336,8 +358,8 @@ export function AffiliateApplicationForm() {
               disabled={isSubmitting}
             >
               {isSubmitting
-                ? "Submitting Application..."
-                : "Submit Application"}
+                ? t("affiliateForm.submitting")
+                : t("affiliateForm.submit")}
             </Button>
           </form>
         </Form>

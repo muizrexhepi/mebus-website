@@ -38,48 +38,7 @@ export default function AffiliateProgram() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="hidden md:block sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="max-w-6xl paddingX mx-auto flex h-16 items-center justify-between">
-          <div className="flex items-center gap-6 md:gap-10">
-            <nav className="hidden md:flex gap-6">
-              <Link
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-[#ef4444]"
-                href="#benefits"
-              >
-                {t("affiliateProgramPage.benefits")}
-              </Link>
-              <Link
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-[#ef4444]"
-                href="#how-it-works"
-              >
-                {t("affiliateProgramPage.howItWorks")}
-              </Link>
-              <Link
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-[#ef4444]"
-                href="#commissions"
-              >
-                {t("affiliateProgramPage.commissions")}
-              </Link>
-              <Link
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-[#ef4444]"
-                href="#faq"
-              >
-                {t("affiliateProgramPage.faq")}
-              </Link>
-            </nav>
-          </div>
-          <div className="flex items-center space-x-4">
-            <Button
-              asChild
-              className="hidden sm:flex bg-[#ef4444] hover:bg-[#ef4444]/90 text-white"
-            >
-              <a href="#apply-now">{t("affiliateProgramPage.applyNow")}</a>
-            </Button>
-          </div>
-        </div>
-      </header>
       <main className="flex-1">
-        {/* Hero Section */}
         <section className="w-full py-12 md:py-24 lg:py-32 bg-muted/30">
           <div className="max-w-6xl paddingX mx-auto">
             <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
