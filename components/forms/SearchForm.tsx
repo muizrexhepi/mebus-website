@@ -78,9 +78,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({ updateUrl }) => {
 
   const handleSearch = useCallback(async () => {
     if (!isFormValid || !departureDate) return;
-    console.log({ isLoading });
     setIsLoading(true);
-    console.log({ isLoading });
 
     try {
       const searchParams = new URLSearchParams({

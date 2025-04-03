@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { Station } from "@/models/station";
+import React from "react";
+import { useEffect, useState } from "react";
+import type { Station } from "@/models/station";
 import useSearchStore from "@/store";
 import Cookies from "js-cookie";
 import { Input } from "@/components/ui/input";
@@ -83,7 +84,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
         setTo(stations[2]?._id || "");
       }
     }
-  }, [departure, setFromCity, setFrom, setToCity, setTo]);
+  }, [departure, setFromCity, setFrom, setToCity, setTo, stations]);
 
   // Filter stations based on search term using Levenshtein distance
   useEffect(() => {
@@ -145,7 +146,11 @@ const StationSelect: React.FC<CustomSelectProps> = ({
 
     updateRecentStations(
       departure === "from" ? "recentFromStations" : "recentToStations",
-      { _id: value!, city: label, name: name }
+      {
+        _id: value!,
+        city: label,
+        name: name,
+      }
     );
     setOpenOptions(false);
 
@@ -256,40 +261,93 @@ const StationSelect: React.FC<CustomSelectProps> = ({
       {openOptions && (
         <div className="absolute top-14 w-[130%] bg-background shadow-lg z-20 left-0 mt-2 rounded-lg border border-border animate-in fade-in-0 zoom-in-95">
           <div className="max-h-80 overflow-y-auto overscroll-contain">
-            {recentStations.length > 0 && searchTerm == "" && (
+            {searchTerm === "" ? (
               <>
-                <div className="bg-muted px-4 py-2 border-b border-border">
-                  <h3 className="font-medium text-sm text-foreground/70">
-                    {t("searchForm.recentSearches")}
-                  </h3>
-                </div>
-                {recentStations.map((station: Station) => (
-                  <Button
-                    key={station._id}
-                    variant="ghost"
-                    className="w-full justify-start text-left h-15 px-4 hover:bg-accent hover:text-accent-foreground rounded-none"
-                    onClick={() => handleSelect(station)}
-                    type="button"
-                  >
-                    {departure == "from" ? (
-                      <IoMdLocate className="size-4 mr-2 shrink-0 text-primary-accent" />
-                    ) : (
-                      <HiMapPin className="size-4 mr-2 shrink-0 text-primary-accent" />
-                    )}
-                    <div className="flex flex-col items-start gap-0.5">
-                      <span className="capitalize font-medium text-sm">
-                        {station.city}
-                      </span>
-                      <span className="text-muted-foreground text-xs">
-                        {station.name}
-                      </span>
+                {recentStations.length > 0 && (
+                  <>
+                    <div className="bg-muted px-4 py-2 border-b border-border">
+                      <h3 className="font-medium text-sm text-foreground/70">
+                        {t("searchForm.recentSearches")}
+                      </h3>
                     </div>
-                  </Button>
-                ))}
-                <div className="border-t border-border" />
+                    {recentStations.map((station: Station) => (
+                      <Button
+                        key={station._id}
+                        variant="ghost"
+                        className="w-full justify-start text-left h-15 px-4 hover:bg-accent hover:text-accent-foreground rounded-none"
+                        onClick={() => handleSelect(station)}
+                        type="button"
+                      >
+                        {departure == "from" ? (
+                          <IoMdLocate className="size-4 mr-2 shrink-0 text-primary-accent" />
+                        ) : (
+                          <HiMapPin className="size-4 mr-2 shrink-0 text-primary-accent" />
+                        )}
+                        <div className="flex flex-col items-start gap-0.5">
+                          <span className="capitalize font-medium text-sm">
+                            {station.city}
+                          </span>
+                          <span className="text-muted-foreground text-xs">
+                            {station.name}
+                          </span>
+                        </div>
+                      </Button>
+                    ))}
+                    <div className="border-t border-border" />
+                  </>
+                )}
+
+                {(() => {
+                  const stationsByCountry = stations.reduce(
+                    (acc: Record<string, Station[]>, station: Station) => {
+                      const country = station.country || "Other";
+                      if (!acc[country]) {
+                        acc[country] = [];
+                      }
+                      acc[country].push(station);
+                      return acc;
+                    },
+                    {}
+                  );
+
+                  // Sort countries alphabetically
+                  const sortedCountries = Object.keys(stationsByCountry).sort();
+
+                  return sortedCountries.map((country) => (
+                    <React.Fragment key={country}>
+                      <div className="bg-muted px-4 py-2 border-b border-border">
+                        <h3 className="font-medium text-sm text-foreground/70 capitalize">
+                          {country}
+                        </h3>
+                      </div>
+                      {stationsByCountry[country].map((station: Station) => (
+                        <Button
+                          key={station._id}
+                          variant="ghost"
+                          className="w-full justify-start text-left h-15 px-4 hover:bg-accent hover:text-accent-foreground rounded-none"
+                          onClick={() => handleSelect(station)}
+                          type="button"
+                        >
+                          {departure == "from" ? (
+                            <IoMdLocate className="size-4 mr-2 shrink-0 text-primary-accent" />
+                          ) : (
+                            <HiMapPin className="size-4 mr-2 shrink-0 text-primary-accent" />
+                          )}
+                          <div className="flex flex-col items-start gap-0.5">
+                            <span className="capitalize font-medium text-sm">
+                              {station.city}
+                            </span>
+                            <span className="text-muted-foreground text-xs">
+                              {station.name}
+                            </span>
+                          </div>
+                        </Button>
+                      ))}
+                    </React.Fragment>
+                  ));
+                })()}
               </>
-            )}
-            {searchTerm !== "" && (
+            ) : (
               <>
                 <div className="bg-muted px-4 py-2 border-b border-border">
                   <h3 className="font-medium text-sm text-foreground/70">

@@ -185,7 +185,7 @@ const TicketList: React.FC = () => {
 
         const data = await response.json();
         const newTickets: Ticket[] = data.data || [];
-
+        console.log({ data });
         if (newTickets.length === 0) {
           if (pageNumber === 1) {
             setNoData(true);
