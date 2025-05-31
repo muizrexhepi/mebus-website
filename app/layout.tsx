@@ -146,7 +146,7 @@ export default function RootLayout({
         />
 
         {/* Theme color for mobile browsers */}
-        <meta name="theme-color" content="#1e40af" />
+        <meta name="theme-color" content="#fff" />
         <meta name="msapplication-TileColor" content="#1e40af" />
 
         {/* Apple specific meta tags */}
