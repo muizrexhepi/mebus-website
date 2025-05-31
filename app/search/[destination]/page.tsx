@@ -97,7 +97,7 @@ const TicketsLoading = () => (
   </div>
 );
 
-export default async function SearchPage({ params }: any) {
+export default async function SearchPage({ params, searchParams }: any) {
   const { destination } = params;
 
   // Decode the URL-encoded cities in the page component too
@@ -111,6 +111,20 @@ export default async function SearchPage({ params }: any) {
     .split(" ")
     .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
+
+  const currentUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/search/${destination}`;
+
+  // Get departure date from search params for dynamic structured data
+  const departureDate = searchParams?.departureDate;
+  const formatDateForSchema = (dateString?: string) => {
+    if (!dateString) return new Date().toISOString().split("T")[0];
+    try {
+      const [day, month, year] = dateString.split("-");
+      return `${year}-${month}-${day}`;
+    } catch {
+      return new Date().toISOString().split("T")[0];
+    }
+  };
 
   return (
     <div className="min-h-screen bg-primary-bg/5">
@@ -130,47 +144,89 @@ export default async function SearchPage({ params }: any) {
       </div>
       <SecondaryFooter />
 
-      {/* Structured Data */}
+      {/* Focused Structured Data - Similar to FlixBus approach */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "BusTrip",
-            name: `Bus from ${departureCity} to ${arrivalCity}`,
+            name: `${departureCity} to ${arrivalCity}`,
             departureStation: {
               "@type": "BusStation",
-              name: `${departureCity} Bus Station`,
+              name: departureCity,
               address: {
                 "@type": "PostalAddress",
                 addressLocality: departureCity,
-                addressCountry: "MK", // Adjust country code dynamically if needed
+                addressCountry: "MK",
               },
             },
             arrivalStation: {
               "@type": "BusStation",
-              name: `${arrivalCity} Bus Station`,
+              name: arrivalCity,
               address: {
                 "@type": "PostalAddress",
                 addressLocality: arrivalCity,
-                addressCountry: "EU", // Adjust dynamically
+                addressCountry: "EU",
               },
             },
             provider: {
               "@type": "Organization",
               name: "GoBusly",
-              url: "https://www.gobusly.com",
+              url: process.env.NEXT_PUBLIC_BASE_URL,
             },
             offers: {
               "@type": "Offer",
               priceCurrency: "EUR",
-              price: "XX.XX", // Dynamically insert price if available
               availability: "https://schema.org/InStock",
-              url: `${process.env.NEXT_PUBLIC_BASE_URL}/search/${destination}`,
+              url: currentUrl,
               validFrom: new Date().toISOString(),
+              seller: {
+                "@type": "Organization",
+                name: "GoBusly",
+              },
             },
-            departureTime: "TBD", // Add dynamic time if available
-            arrivalTime: "TBD",
+            departureTime: formatDateForSchema(departureDate),
+          }),
+        }}
+      />
+
+      {/* Organization Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "GoBusly",
+            url: process.env.NEXT_PUBLIC_BASE_URL,
+            logo: `${process.env.NEXT_PUBLIC_BASE_URL}/logo.png`,
+            description:
+              "Compare and book bus tickets across Europe and the Balkans at the best prices.",
+            sameAs: [
+              // Add your social media URLs here when available
+            ],
+          }),
+        }}
+      />
+
+      {/* WebSite Schema with Search Action */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "GoBusly",
+            url: process.env.NEXT_PUBLIC_BASE_URL,
+            potentialAction: {
+              "@type": "SearchAction",
+              target: {
+                "@type": "EntryPoint",
+                urlTemplate: `${process.env.NEXT_PUBLIC_BASE_URL}/search?from={search_term_string}&to={search_term_string}`,
+              },
+              "query-input": "required name=search_term_string",
+            },
           }),
         }}
       />
