@@ -17,7 +17,6 @@ export async function generateMetadata({
 }: GenerateMetadataProps): Promise<Metadata> {
   const { destination } = params;
 
-  // Decode the URL-encoded cities and then capitalize
   const [departureCityEncoded, arrivalCityEncoded] = destination.split("-");
   const departureCity = decodeURIComponent(departureCityEncoded)
     .split(" ")
@@ -28,10 +27,34 @@ export async function generateMetadata({
     .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
-
   const title = `Bus from ${departureCity} to ${arrivalCity}`;
   const description = `Compare and book bus tickets from ${departureCity} to ${arrivalCity} at the best prices. Daily departures, comfortable buses with WiFi, and luggage included. Secure your seat online with GoBusly.`;
-  const keywords = `bus tickets, ${departureCity} to ${arrivalCity}, book bus ${departureCity} ${arrivalCity}, cheap bus tickets ${departureCity}, best bus deals ${departureCity}, coach travel, direct bus ${departureCity} ${arrivalCity}, long-distance bus ${departureCity}, ${departureCity} to ${arrivalCity} bus schedule`;
+  const keywords = [
+    `bus ${departureCity} to ${arrivalCity}`,
+    `bus from ${arrivalCity} to ${departureCity}`,
+    `bus tickets ${departureCity} to ${arrivalCity}`,
+    `${arrivalCity} to ${departureCity} bus tickets`,
+    `${departureCity} ${arrivalCity} bus`,
+    `cheap bus tickets ${departureCity}`,
+    `${departureCity} ${arrivalCity} bus booking`,
+    `bus from ${departureCity} to ${arrivalCity}`,
+    `${departureCity} to ${arrivalCity} coach`,
+    `${departureCity} ${arrivalCity} bus schedule`,
+    `${departureCity} ${arrivalCity} bus price`,
+    `${departureCity} ${arrivalCity} bus times`,
+    `book bus ${departureCity} ${arrivalCity}`,
+    `${departureCity} ${arrivalCity} intercity bus`,
+    `${departureCity} ${arrivalCity} express bus`,
+    "cheap bus tickets",
+    "bus booking online",
+    "intercity bus travel",
+    "coach tickets",
+    "bus comparison",
+    "discount bus fares",
+    "europe bus travel",
+    "balkan bus travel",
+    "online bus reservation",
+  ].join(", ");
 
   const formattedSearchParams: Record<string, string> = Object.fromEntries(
     Object.entries(searchParams).map(([key, value]) => {
@@ -87,6 +110,11 @@ export async function generateMetadata({
       images: [
         `${process.env.NEXT_PUBLIC_BASE_URL}/images/routes/${imagePathSegment}`,
       ],
+    },
+    other: {
+      "mobile-web-app-capable": "yes",
+      "apple-mobile-web-app-capable": "yes",
+      "apple-mobile-web-app-status-bar-style": "default",
     },
   };
 }
@@ -158,7 +186,6 @@ export default async function SearchPage({ params, searchParams }: any) {
               address: {
                 "@type": "PostalAddress",
                 addressLocality: departureCity,
-                addressCountry: "MK",
               },
             },
             arrivalStation: {
@@ -167,7 +194,6 @@ export default async function SearchPage({ params, searchParams }: any) {
               address: {
                 "@type": "PostalAddress",
                 addressLocality: arrivalCity,
-                addressCountry: "EU",
               },
             },
             provider: {
