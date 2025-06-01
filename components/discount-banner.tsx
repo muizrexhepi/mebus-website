@@ -8,14 +8,12 @@ const DiscountBanner = () => {
   const [isDiscountApplied, setIsDiscountApplied] = useState(false);
 
   useEffect(() => {
-    // Check if discount has already been used
     const discountUsed = localStorage.getItem("discountUsed");
 
     if (!discountUsed) {
       setIsVisible(true);
     }
 
-    // Check if discount is already applied
     const appliedDiscount = localStorage.getItem("discountCode");
     if (appliedDiscount) {
       setIsDiscountApplied(true);
@@ -23,26 +21,23 @@ const DiscountBanner = () => {
   }, []);
 
   const applyDiscount = () => {
-    // Generate a unique discount code
     const discountCode = `FIRST100-${Math.random()
       .toString(36)
       .substring(2, 8)
       .toUpperCase()}`;
 
-    // Save to localStorage with expiration date (30 days from now)
     const expirationDate = new Date();
     expirationDate.setDate(expirationDate.getDate() + 30);
 
     localStorage.setItem("discountCode", discountCode);
     localStorage.setItem("discountExpiration", expirationDate.toISOString());
-    localStorage.setItem("discountPercentage", "5");
-    localStorage.setItem("discountUsed", "true"); // Mark discount as used
+    localStorage.setItem("discountPercentage", "10");
+    localStorage.setItem("discountUsed", "true");
 
     setIsDiscountApplied(true);
     setShowToast(true);
     dismissBanner();
 
-    // Hide toast after 5 seconds
     setTimeout(() => {
       setShowToast(false);
     }, 5000);
@@ -61,7 +56,7 @@ const DiscountBanner = () => {
         <div className="flex items-center space-x-2">
           <Bell className="h-5 w-5" />
           <span className="font-medium">
-            Special offer! First 100 bookings get 5% discount!
+            Special offer! First 100 bookings get 10% discount!
           </span>
         </div>
 
