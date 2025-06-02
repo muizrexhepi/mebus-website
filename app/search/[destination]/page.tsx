@@ -5,6 +5,7 @@ import SearchSection from "../_components/SearchSection";
 import SearchedTickets from "../_components/SearchedTickets";
 import { Loader2 } from "lucide-react";
 import { MobileSearchBlock } from "../_components/MobileSearchBlock";
+import { generateSEOKeywords } from "@/lib/keywords";
 
 type GenerateMetadataProps = {
   params: { destination: string };
@@ -29,32 +30,11 @@ export async function generateMetadata({
     .join(" ");
   const title = `Bus from ${departureCity} to ${arrivalCity}`;
   const description = `Compare and book bus tickets from ${departureCity} to ${arrivalCity} at the best prices. Daily departures, comfortable buses with WiFi, and luggage included. Secure your seat online with GoBusly.`;
-  const keywords = [
-    `bus ${departureCity} to ${arrivalCity}`,
-    `bus from ${arrivalCity} to ${departureCity}`,
-    `bus tickets ${departureCity} to ${arrivalCity}`,
-    `${arrivalCity} to ${departureCity} bus tickets`,
-    `${departureCity} ${arrivalCity} bus`,
-    `cheap bus tickets ${departureCity}`,
-    `${departureCity} ${arrivalCity} bus booking`,
-    `bus from ${departureCity} to ${arrivalCity}`,
-    `${departureCity} to ${arrivalCity} coach`,
-    `${departureCity} ${arrivalCity} bus schedule`,
-    `${departureCity} ${arrivalCity} bus price`,
-    `${departureCity} ${arrivalCity} bus times`,
-    `book bus ${departureCity} ${arrivalCity}`,
-    `${departureCity} ${arrivalCity} intercity bus`,
-    `${departureCity} ${arrivalCity} express bus`,
-    "cheap bus tickets",
-    "bus booking online",
-    "intercity bus travel",
-    "coach tickets",
-    "bus comparison",
-    "discount bus fares",
-    "europe bus travel",
-    "balkan bus travel",
-    "online bus reservation",
-  ].join(", ");
+
+  const keywords = generateSEOKeywords({
+    fromCity: departureCity,
+    toCity: arrivalCity,
+  });
 
   const formattedSearchParams: Record<string, string> = Object.fromEntries(
     Object.entries(searchParams).map(([key, value]) => {
