@@ -139,7 +139,6 @@ export async function POST(request: NextRequest) {
       `,
     });
 
-    // Send notification to admin
     await resend.emails.send({
       from: "Affiliate Applications <affiliates@gobusly.com>",
       to: ["gobuslyinternal@gmail.com"],
@@ -216,7 +215,7 @@ export async function POST(request: NextRequest) {
                       <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin: 30px 0;">
                         <tr>
                           <td align="center">
-                            <a href="https://gobusly.com/admin/affiliate-applications" style="display: inline-block; background-color: #333333; color: #ffffff; font-weight: 600; text-decoration: none; padding: 12px 30px; border-radius: 4px; font-size: 16px;">Review in Admin Dashboard</a>
+                            <a href="https://affiliate.gobusly.com/login" style="display: inline-block; background-color: #333333; color: #ffffff; font-weight: 600; text-decoration: none; padding: 12px 30px; border-radius: 4px; font-size: 16px;">Login to you affiliate account here</a>
                           </td>
                         </tr>
                       </table>
