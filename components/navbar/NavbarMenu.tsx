@@ -1,31 +1,27 @@
 "use client";
 
-import { Menu, UserCircle } from "lucide-react";
+import { Menu, UserCircle, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { useNavbarStore } from "@/store";
+import Image from "next/image";
 import { useState } from "react";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "../ui/sheet";
-import { Button } from "../ui/button";
+import { useTranslation } from "react-i18next";
+
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Separator } from "../ui/separator";
-import useIsMobile from "../hooks/use-mobile";
-import { useTranslation } from "react-i18next"; // Importing the translation hook
-import Image from "next/image";
+} from "@/components/ui/dropdown-menu";
+import { useNavbarStore } from "@/store";
+
+// Icons
 import { FaRoute } from "react-icons/fa";
 import { BiSupport } from "react-icons/bi";
 import { IoMdContact } from "react-icons/io";
+import useIsMobile from "../hooks/use-mobile";
 
 const NavbarMenu = () => {
   const { t } = useTranslation();
@@ -38,7 +34,12 @@ const NavbarMenu = () => {
     setIsOpen(false);
   };
 
-  const sidebarLinks = [
+  const handleSignUp = () => {
+    setOpenLogin(true);
+    setIsOpen(false);
+  };
+
+  const navigationLinks = [
     {
       label: t("nav.routes"),
       href: "/routes",
@@ -55,59 +56,139 @@ const NavbarMenu = () => {
       icon: IoMdContact,
     },
   ];
+
   const MenuTrigger = (
     <Button
       aria-haspopup="true"
       aria-expanded="false"
-      aria-label={t("nav.routes")}
-      className="flex items-center space-x-2 px-3 py-3 rounded-full border border-border bg-white hover:bg-white hover:shadow outline-none transition"
+      aria-label={t("nav.menu")}
+      className="flex items-center gap-2 px-3 py-2 rounded-full border border-gray-300 bg-white hover:shadow-md transition-all duration-200 hover:border-gray-400"
+      variant="ghost"
     >
-      <Menu className="text-gray-600" size={18} />
-      <UserCircle className="text-gray-600" size={22} />
+      <Menu className="text-gray-600" size={16} />
+      <UserCircle className="text-gray-600" size={20} />
     </Button>
   );
 
-  const MenuItems = (
-    <>
-      <div className="space-y-2 py-2 text-sm font-normal">
-        {isMobile && (
-          <>
-            {sidebarLinks.map((link) => {
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={
-                    "flex items-center gap-3 px-4 py-2 transition-colors"
-                  }
-                  onClick={() => setIsOpen(false)}
-                >
-                  <link.icon className="h-4 w-4" />
-                  {link.label}
-                </Link>
-              );
-            })}
-            {/* <Separator className="my-2" /> */}
-          </>
-        )}
-        <Separator className="!mb-4" />
-        <div className="flex flex-col gap-2 w-full px-4">
-          <Button
-            className="w-full h-12 rounded-lg"
-            variant={"outline"}
-            onClick={handleLogin}
+  const MobileMenuContent = (
+    <div className="flex flex-col h-full">
+      {/* Header */}
+      <div className="p-6 border-b border-gray-100">
+        <Image
+          src="/assets/icons/dark-logo.svg"
+          alt="GoBusly"
+          width={120}
+          height={40}
+          className="object-contain"
+          priority
+        />
+      </div>
+
+      {/* Main CTA */}
+      <div className="p-6">
+        <Button
+          className="w-full h-12 rounded-xl font-semibold bg-gradient-to-r from-rose-500 to-orange-500 hover:from-rose-600 hover:to-orange-600 text-white border-0 shadow-lg"
+          onClick={handleSignUp}
+        >
+          {t("auth.signUp")}
+        </Button>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="px-6 pb-6 space-y-3">
+        <Button
+          className="w-full h-11 rounded-xl font-medium border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+          variant="outline"
+          onClick={handleLogin}
+        >
+          {t("auth.login")}
+        </Button>
+      </div>
+
+      {/* Navigation Links */}
+      <div className="flex-1 px-6 space-y-1">
+        {navigationLinks.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className="flex items-center justify-between py-4 px-2 rounded-lg hover:bg-gray-50 transition-colors group"
+            onClick={() => setIsOpen(false)}
           >
-            {t("auth.login")}
-          </Button>
-          <Button
-            className="w-full h-12 rounded-lg button-gradient"
-            onClick={handleLogin}
+            <div className="flex items-center gap-4">
+              <link.icon className="h-5 w-5 text-gray-500 group-hover:text-gray-700" />
+              <span className="font-medium text-gray-700 group-hover:text-gray-900">
+                {link.label}
+              </span>
+            </div>
+            <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600" />
+          </Link>
+        ))}
+      </div>
+
+      {/* Footer Links */}
+      <div className="p-6 border-t border-gray-100 space-y-3">
+        <div className="grid grid-cols-2 gap-3 text-sm">
+          <Link
+            href="/about"
+            className="text-gray-600 hover:text-gray-900 py-2"
           >
-            {t("auth.signUp")}
-          </Button>
+            {t("footer.about")}
+          </Link>
+          <Link
+            href="/privacy"
+            className="text-gray-600 hover:text-gray-900 py-2"
+          >
+            {t("footer.privacy")}
+          </Link>
+          <Link
+            href="/terms"
+            className="text-gray-600 hover:text-gray-900 py-2"
+          >
+            {t("footer.terms")}
+          </Link>
+          <Link href="/faq" className="text-gray-600 hover:text-gray-900 py-2">
+            {t("footer.faq")}
+          </Link>
         </div>
       </div>
-    </>
+    </div>
+  );
+
+  const DesktopMenuContent = (
+    <div className="py-2">
+      {/* Navigation Links */}
+      {navigationLinks.map((link) => (
+        <DropdownMenuItem
+          key={link.href}
+          asChild
+          className="py-3 px-4 cursor-pointer font-medium"
+        >
+          <Link href={link.href} className="flex items-center gap-3">
+            <link.icon className="h-4 w-4 text-gray-500" />
+            <span className="text-gray-700">{link.label}</span>
+          </Link>
+        </DropdownMenuItem>
+      ))}
+
+      <DropdownMenuSeparator className="my-2" />
+
+      {/* Auth Buttons */}
+      <div className="p-3 space-y-2">
+        <Button
+          className="w-full h-10 rounded-lg font-medium border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+          variant="outline"
+          onClick={handleLogin}
+        >
+          {t("auth.login")}
+        </Button>
+        <Button
+          className="w-full h-10 rounded-lg font-semibold bg-gradient-to-r from-rose-500 to-orange-500 hover:from-rose-600 hover:to-orange-600 text-white border-0"
+          onClick={handleSignUp}
+        >
+          {t("auth.signUp")}
+        </Button>
+      </div>
+    </div>
   );
 
   if (isMobile) {
@@ -116,21 +197,9 @@ const NavbarMenu = () => {
         <SheetTrigger asChild>{MenuTrigger}</SheetTrigger>
         <SheetContent
           side="right"
-          className="w-full sm:w-[400px] bg-[#f3f4f6] p-0 z-[99]"
+          className="w-full sm:w-[380px] p-0 border-l shadow-xl"
         >
-          <SheetHeader className="p-4 text-left border-b">
-            <SheetTitle className="text-2xl font-bold pt-2">
-              <Image
-                src={"/assets/icons/dark-logo.svg"}
-                alt="Logo"
-                width={120}
-                height={60}
-                className="object-contain"
-                priority
-              />
-            </SheetTitle>
-          </SheetHeader>
-          <nav className="flex flex-col h-full">{MenuItems}</nav>
+          {MobileMenuContent}
         </SheetContent>
       </Sheet>
     );
@@ -139,33 +208,11 @@ const NavbarMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{MenuTrigger}</DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-52 rounded-lg mt-2 px-0">
-        <DropdownMenuItem asChild className="py-2 rounded-none">
-          <Link href="/help" className="w-full !cursor-pointer px-4">
-            {t("nav.help")}
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild className="py-2 rounded-none">
-          <Link
-            href="/help/contact-support"
-            className="w-full !cursor-pointer px-4"
-          >
-            {t("nav.contact")}
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onSelect={handleLogin}
-          className="!cursor-pointer rounded-none py-2"
-        >
-          <span className="px-2">{t("auth.login")}</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onSelect={handleLogin}
-          className="!cursor-pointer rounded-none py-2"
-        >
-          <span className="px-2">{t("auth.signUp")}</span>
-        </DropdownMenuItem>
+      <DropdownMenuContent
+        align="end"
+        className="w-72 rounded-xl mt-2 p-0 shadow-xl border border-gray-100"
+      >
+        {DesktopMenuContent}
       </DropdownMenuContent>
     </DropdownMenu>
   );
