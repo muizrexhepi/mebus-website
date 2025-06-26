@@ -132,22 +132,22 @@ const NavbarMenu = () => {
             href="/about"
             className="text-gray-600 hover:text-gray-900 py-2"
           >
-            {t("footer.about")}
+            {t("nav.about")}
           </Link>
           <Link
             href="/privacy"
             className="text-gray-600 hover:text-gray-900 py-2"
           >
-            {t("footer.privacy")}
+            {t("footer.links.privacypolicy")}
           </Link>
           <Link
             href="/terms"
             className="text-gray-600 hover:text-gray-900 py-2"
           >
-            {t("footer.terms")}
+            {t("footer.links.termsofservice")}
           </Link>
           <Link href="/faq" className="text-gray-600 hover:text-gray-900 py-2">
-            {t("footer.faq")}
+            {t("footer.links.faq")}
           </Link>
         </div>
       </div>

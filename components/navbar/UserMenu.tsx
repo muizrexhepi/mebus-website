@@ -152,7 +152,7 @@ const UserNavbarMenu = () => {
       <div className="mt-auto p-4">
         <Button
           variant="ghost"
-          className="w-full justify-start text-gray-700 hover:bg-gray-100 hover:text-gray-900 font-normal h-10"
+          className="w-full justify-start text-red-700 hover:bg-gray-100 hover:text-gray-900 font-normal h-10 px-1"
           onClick={handleLogout}
         >
           <LogOut className="mr-2 h-4 w-4" />
