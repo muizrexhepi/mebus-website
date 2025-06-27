@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import { Locate, MapPin, Tag } from "lucide-react";
+import { Locate, MapPin, Tag, X, Check } from "lucide-react";
 import moment from "moment-timezone";
 import { Ticket } from "@/models/ticket";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import useSearchStore, { useDepositStore, useCheckoutStore } from "@/store";
 import { useCurrency } from "@/components/providers/currency-provider";
+import { Button } from "@/components/ui/button";
 
 interface PriceSummaryItemProps {
   label: string;
@@ -95,26 +96,96 @@ const OrderSummary = ({ className }: { className?: string }) => {
   const [useBalance, setUseBalance] = useState(false);
   const [balanceAmount, setBalanceAmount] = useState(0);
   const [remainingAmount, setRemainingAmount] = useState(0);
-  const [discountCode, setDiscountCode] = useState<string | null>(null);
+  const [discountCode, setDiscountCode] = useState<string>("");
+  const [appliedDiscountCode, setAppliedDiscountCode] = useState<string | null>(
+    null
+  );
   const [discountPercentage, setDiscountPercentage] = useState<number>(0);
   const [discountAmount, setDiscountAmount] = useState<number>(0);
+  const [isApplyingCode, setIsApplyingCode] = useState(false);
+  const [discountError, setDiscountError] = useState<string | null>(null);
   const { useDeposit, depositAmount } = useDepositStore();
   const { passengers: passengerAmount } = useSearchStore();
   const { outboundTicket, returnTicket, selectedFlex, passengers } =
     useCheckoutStore();
   const { currency, convertFromEUR } = useCurrency();
 
-  // Check for discount code in localStorage on component mount
-  useEffect(() => {
-    const storedCode = localStorage.getItem("discountCode");
-    const expiration = localStorage.getItem("discountExpiration");
-    const percentage = localStorage.getItem("discountPercentage");
+  const validDiscountCodes = {
+    SAVE10: 10,
+    WELCOME5: 5,
+    SUMMER2025: 10,
+    STUDENT20: 20,
+  };
 
-    if (storedCode && expiration && new Date() < new Date(expiration || "")) {
-      setDiscountCode(storedCode);
-      setDiscountPercentage(Number(percentage) || 5);
+  const validateDiscountCode = (code: string) => {
+    const upperCode = code.trim().toUpperCase();
+    return (
+      validDiscountCodes[upperCode as keyof typeof validDiscountCodes] || null
+    );
+  };
+
+  const handleApplyDiscountCode = () => {
+    if (!discountCode.trim()) {
+      setDiscountError(
+        t("orderSummary.enterDiscountCode", "Please enter a discount code")
+      );
+      return;
     }
-  }, []);
+
+    setIsApplyingCode(true);
+    setDiscountError(null);
+
+    // Simulate API call delay
+    setTimeout(() => {
+      const percentage = validateDiscountCode(discountCode); // This is your own validation logic
+
+      if (percentage) {
+        const code = discountCode.trim().toUpperCase();
+
+        // Save to state
+        setAppliedDiscountCode(code);
+        setDiscountPercentage(percentage);
+        setDiscountError(null);
+        setDiscountCode("");
+
+        // Save to localStorage
+        localStorage.setItem("discountCode", code);
+        localStorage.setItem("discountPercentage", percentage.toString());
+
+        // Optional: Set expiration, for example 30 minutes from now
+        const expiration = new Date();
+        expiration.setMinutes(expiration.getMinutes() + 30);
+        localStorage.setItem("discountExpiration", expiration.toISOString());
+      } else {
+        setDiscountError(
+          t("orderSummary.invalidDiscountCode", "Invalid discount code")
+        );
+      }
+
+      setIsApplyingCode(false);
+    }, 500);
+  };
+
+  const handleRemoveDiscountCode = () => {
+    setAppliedDiscountCode(null);
+    setDiscountPercentage(0);
+    setDiscountAmount(0);
+    setDiscountError(null);
+    setDiscountCode("");
+  };
+
+  const handleDiscountInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setDiscountCode(e.target.value);
+    setDiscountError(null);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleApplyDiscountCode();
+    }
+  };
 
   useEffect(() => {
     const handleUseBalanceChange = (event: CustomEvent) => {
@@ -175,15 +246,15 @@ const OrderSummary = ({ className }: { className?: string }) => {
     return outboundTotal + returnTotal + flexPrice;
   }, [outboundDetails, returnDetails, flexPrice]);
 
-  // Calculate discount amount if discount code exists
+  // Calculate discount amount if discount code is applied
   useEffect(() => {
-    if (discountCode && discountPercentage > 0) {
+    if (appliedDiscountCode && discountPercentage > 0) {
       const calculatedDiscount = (subtotalPrice * discountPercentage) / 100;
       setDiscountAmount(calculatedDiscount);
     } else {
       setDiscountAmount(0);
     }
-  }, [discountCode, discountPercentage, subtotalPrice]);
+  }, [appliedDiscountCode, discountPercentage, subtotalPrice]);
 
   const totalPrice = useMemo(() => {
     return Math.max(subtotalPrice - discountAmount, 0);
@@ -212,15 +283,6 @@ const OrderSummary = ({ className }: { className?: string }) => {
     }
   }, [useBalance, balanceAmount, totalPrice, depositAmount, convertFromEUR]);
 
-  const removeDiscountCode = () => {
-    localStorage.removeItem("discountCode");
-    localStorage.removeItem("discountExpiration");
-    localStorage.removeItem("discountPercentage");
-    setDiscountCode(null);
-    setDiscountPercentage(0);
-    setDiscountAmount(0);
-  };
-
   return (
     <>
       <div className="space-y-4">
@@ -239,6 +301,66 @@ const OrderSummary = ({ className }: { className?: string }) => {
           </div>
         )}
       </div>
+
+      {/* Discount Code Input Section */}
+      <div className="bg-white rounded-lg p-4 border border-gray-200">
+        <div className="flex items-center gap-2 mb-3">
+          <Tag size={18} className="text-gray-600" />
+          <h3 className="font-medium text-base">
+            {t("orderSummary.discountCode", "Discount Code")}
+          </h3>
+        </div>
+
+        {!appliedDiscountCode ? (
+          <div className="space-y-2">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={discountCode}
+                onChange={handleDiscountInputChange}
+                onKeyPress={handleKeyPress}
+                placeholder={t("orderSummary.enterCode", "Enter discount code")}
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                disabled={isApplyingCode}
+              />
+              <Button
+                onClick={handleApplyDiscountCode}
+                disabled={isApplyingCode || !discountCode.trim()}
+                variant={"primary"}
+              >
+                {isApplyingCode
+                  ? t("orderSummary.applying", "Applying...")
+                  : t("orderSummary.apply", "Apply")}
+              </Button>
+            </div>
+            {discountError && (
+              <p className="text-red-600 text-xs">{discountError}</p>
+            )}
+          </div>
+        ) : (
+          <div className="flex items-center justify-between p-3 bg-green-50 border border-green-200 rounded-lg">
+            <div className="flex items-center gap-2">
+              <Check size={16} className="text-green-600" />
+              <div className="flex flex-col">
+                <span className="text-sm font-medium text-green-800">
+                  {t("orderSummary.discountApplied", "Discount applied")}
+                </span>
+                <span className="text-xs text-green-600">
+                  {appliedDiscountCode} ({discountPercentage}% off)
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={handleRemoveDiscountCode}
+              className="flex items-center gap-1 text-xs text-red-600 hover:text-red-800 transition-colors"
+            >
+              <X size={14} />
+              {t("orderSummary.remove", "Remove")}
+            </button>
+          </div>
+        )}
+      </div>
+
       <div
         className={cn(
           "bg-white rounded-lg p-4 border border-gray-200 space-y-3",
@@ -299,28 +421,9 @@ const OrderSummary = ({ className }: { className?: string }) => {
           )}
           <hr className="w-full h-[1px] bg-neutral-500 my-2" />
 
-          {/* Discount Code Section */}
-          {discountCode && (
+          {/* Applied Discount Display in Price Summary */}
+          {appliedDiscountCode && (
             <>
-              <div className="flex items-center justify-between my-2">
-                <div className="flex items-center gap-2">
-                  <Tag size={16} className="text-green-600" />
-                  <div className="flex flex-col">
-                    <span className="text-sm font-medium">
-                      {t("orderSummary.discountApplied", "Discount applied")}
-                    </span>
-                    <span className="text-xs text-gray-500">
-                      {discountCode}
-                    </span>
-                  </div>
-                </div>
-                <button
-                  onClick={removeDiscountCode}
-                  className="text-xs text-red-600 hover:text-red-800"
-                >
-                  {t("orderSummary.remove", "Remove")}
-                </button>
-              </div>
               <PriceSummaryItem
                 label={t("orderSummary.subtotal")}
                 amount={subtotalPrice}
