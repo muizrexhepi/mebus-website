@@ -18,10 +18,20 @@ export default function PopularBusRoutes() {
       const routesRes = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/route`
       );
-      const routes: Route[] = routesRes.data.data;
-      console.log({ routes });
-      setRoutes(routes);
+      const allRoutes: Route[] = routesRes.data.data;
+
+      // Deduplicate based on from-to pair
+      const uniqueRoutesMap = new Map<string, Route>();
+      for (const route of allRoutes) {
+        const key = `${route.destination.from.toLowerCase()}-${route.destination.to.toLowerCase()}`;
+        if (!uniqueRoutesMap.has(key)) {
+          uniqueRoutesMap.set(key, route);
+        }
+      }
+
+      setRoutes(Array.from(uniqueRoutesMap.values()));
     }
+
     fetchRoutes();
   }, []);
 

@@ -366,6 +366,8 @@
   "searchForm": {
     "from": "De",
     "to": "À",
+    "fromPlaceholder": "D'où?",
+    "toPlaceholder": "Vers où?",
     "departure": "Départ",
     "passengers": "Passagers",
     "oneWay": "Aller simple",

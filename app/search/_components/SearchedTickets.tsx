@@ -1,14 +1,10 @@
 "use client";
-import React, {
-  Suspense,
-  useEffect,
-  useState,
-  useMemo,
-  useCallback,
-} from "react";
+
+import type React from "react";
+import { Suspense, useEffect, useMemo, useCallback, useReducer } from "react";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { Ticket } from "@/models/ticket";
+import type { Ticket } from "@/models/ticket";
 import { useToast } from "@/components/hooks/use-toast";
 import TicketSkeletonton from "@/components/ticket/ticket-skeleton";
 import useSearchStore, { useCheckoutStore, useLoadingStore } from "@/store";
@@ -31,6 +27,83 @@ import { addDays, format, parse } from "date-fns";
 import { ArrowRight, Loader2 } from "lucide-react";
 import Image from "next/image";
 
+// Optimized state management with useReducer
+interface TicketState {
+  tickets: Ticket[];
+  filteredTickets: Ticket[];
+  noData: boolean;
+  loading: boolean;
+  page: number;
+  hasMore: boolean;
+  availableDates: string[];
+  fetchingAvailableDates: boolean;
+}
+
+type TicketAction =
+  | { type: "SET_TICKETS"; payload: Ticket[] }
+  | { type: "ADD_TICKETS"; payload: Ticket[] }
+  | { type: "SET_FILTERED_TICKETS"; payload: Ticket[] }
+  | { type: "SET_LOADING"; payload: boolean }
+  | { type: "SET_NO_DATA"; payload: boolean }
+  | { type: "SET_PAGE"; payload: number }
+  | { type: "SET_HAS_MORE"; payload: boolean }
+  | { type: "SET_AVAILABLE_DATES"; payload: string[] }
+  | { type: "SET_FETCHING_DATES"; payload: boolean }
+  | { type: "RESET_TICKETS" };
+
+const ticketReducer = (
+  state: TicketState,
+  action: TicketAction
+): TicketState => {
+  switch (action.type) {
+    case "SET_TICKETS":
+      return {
+        ...state,
+        tickets: action.payload,
+        filteredTickets: action.payload,
+      };
+    case "ADD_TICKETS":
+      const newTickets = [...state.tickets, ...action.payload];
+      return { ...state, tickets: newTickets, filteredTickets: newTickets };
+    case "SET_FILTERED_TICKETS":
+      return { ...state, filteredTickets: action.payload };
+    case "SET_LOADING":
+      return { ...state, loading: action.payload };
+    case "SET_NO_DATA":
+      return { ...state, noData: action.payload };
+    case "SET_PAGE":
+      return { ...state, page: action.payload };
+    case "SET_HAS_MORE":
+      return { ...state, hasMore: action.payload };
+    case "SET_AVAILABLE_DATES":
+      return { ...state, availableDates: action.payload };
+    case "SET_FETCHING_DATES":
+      return { ...state, fetchingAvailableDates: action.payload };
+    case "RESET_TICKETS":
+      return {
+        ...state,
+        tickets: [],
+        filteredTickets: [],
+        page: 1,
+        hasMore: true,
+        noData: false,
+      };
+    default:
+      return state;
+  }
+};
+
+const initialState: TicketState = {
+  tickets: [],
+  filteredTickets: [],
+  noData: false,
+  loading: false,
+  page: 1,
+  hasMore: true,
+  availableDates: [],
+  fetchingAvailableDates: false,
+};
+
 const TicketList: React.FC = () => {
   const router = useRouter();
   const { toast } = useToast();
@@ -41,6 +114,7 @@ const TicketList: React.FC = () => {
     isSelectingReturn,
     setIsSelectingReturn,
   } = useCheckoutStore();
+
   const {
     tripType,
     setFrom,
@@ -54,21 +128,12 @@ const TicketList: React.FC = () => {
 
   const searchParams = useSearchParams();
   const params = useParams();
-
   const { setIsLoading } = useLoadingStore();
   const { t } = useTranslation();
 
-  const [tickets, setTickets] = useState<Ticket[]>([]);
-  const [filteredTickets, setFilteredTickets] = useState<Ticket[]>([]);
-  const [noData, setNoData] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const [state, dispatch] = useReducer(ticketReducer, initialState);
 
-  // New state for next available dates
-  const [availableDates, setAvailableDates] = useState<string[]>([]);
-  const [fetchingAvailableDates, setFetchingAvailableDates] = useState(false);
-
+  // Memoized search parameters
   const searchParameters = useMemo(
     () => ({
       destination: Array.isArray(params.destination)
@@ -89,6 +154,7 @@ const TicketList: React.FC = () => {
     [searchParameters.destination]
   );
 
+  // Optimized date validation
   const validateAndUpdateDates = useCallback(() => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -103,13 +169,11 @@ const TicketList: React.FC = () => {
     const parseDate = (dateStr: string) => {
       const [day, month, year] = dateStr
         .split("-")
-        .map((part) => parseInt(part));
-      const date = new Date(year, month - 1, day);
-      return date;
+        .map((part) => Number.parseInt(part));
+      return new Date(year, month - 1, day);
     };
 
     const params = new URLSearchParams(window.location.search);
-
     let paramsUpdated = false;
 
     const departureDate =
@@ -141,11 +205,12 @@ const TicketList: React.FC = () => {
       arrivalStation: params.get("arrivalStation"),
       departureDate: params.get("departureDate"),
       returnDate: params.get("returnDate"),
-      adult: parseInt(params.get("adult") || "1"),
-      children: parseInt(params.get("children") || "0"),
+      adult: Number.parseInt(params.get("adult") || "1"),
+      children: Number.parseInt(params.get("children") || "0"),
     };
-  }, [router, toast]);
+  }, [router]);
 
+  // Optimized API calls with better error handling
   const fetchTickets = useCallback(
     async (pageNumber: number) => {
       const {
@@ -168,16 +233,23 @@ const TicketList: React.FC = () => {
 
       try {
         setIsLoading(true);
-        setLoading(true);
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/ticket/search?departureStation=${
-            isSelectingReturn ? arrivalStation : departureStation
-          }&arrivalStation=${
-            isSelectingReturn ? departureStation : arrivalStation
-          }&departureDate=${
-            isSelectingReturn ? returnDate : departureDate
-          }&adults=${adult}&children=${children}&page=${pageNumber}`
-        );
+        dispatch({ type: "SET_LOADING", payload: true });
+
+        const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/ticket/search`;
+        const searchUrl = new URLSearchParams({
+          departureStation: isSelectingReturn
+            ? arrivalStation
+            : departureStation,
+          arrivalStation: isSelectingReturn ? departureStation : arrivalStation,
+          departureDate:
+            (isSelectingReturn ? returnDate || departureDate : departureDate) ||
+            "",
+          adults: adult.toString(),
+          children: children.toString(),
+          page: pageNumber.toString(),
+        });
+
+        const response = await fetch(`${apiUrl}?${searchUrl}`);
 
         if (!response.ok) {
           throw new Error("Failed to fetch tickets");
@@ -185,18 +257,22 @@ const TicketList: React.FC = () => {
 
         const data = await response.json();
         const newTickets: Ticket[] = data.data || [];
-        console.log({ data });
+
         if (newTickets.length === 0) {
           if (pageNumber === 1) {
-            setNoData(true);
+            dispatch({ type: "SET_NO_DATA", payload: true });
             fetchNextAvailableDates();
           }
-          setHasMore(false);
+          dispatch({ type: "SET_HAS_MORE", payload: false });
         } else {
-          setTickets((prevTickets) => [...prevTickets, ...newTickets]);
-          setNoData(false);
-          setPage(pageNumber + 1);
-          setHasMore(newTickets.length === 6);
+          if (pageNumber === 1) {
+            dispatch({ type: "SET_TICKETS", payload: newTickets });
+          } else {
+            dispatch({ type: "ADD_TICKETS", payload: newTickets });
+          }
+          dispatch({ type: "SET_NO_DATA", payload: false });
+          dispatch({ type: "SET_PAGE", payload: pageNumber + 1 });
+          dispatch({ type: "SET_HAS_MORE", payload: newTickets.length === 6 });
         }
       } catch (err) {
         toast({
@@ -204,19 +280,13 @@ const TicketList: React.FC = () => {
           description: "Failed to fetch tickets",
           variant: "destructive",
         });
-        setHasMore(false);
+        dispatch({ type: "SET_HAS_MORE", payload: false });
       } finally {
-        setLoading(false);
+        dispatch({ type: "SET_LOADING", payload: false });
         setIsLoading(false);
       }
     },
-    [
-      searchParameters,
-      isSelectingReturn,
-      toast,
-      setIsLoading,
-      validateAndUpdateDates,
-    ]
+    [isSelectingReturn, toast, setIsLoading, validateAndUpdateDates]
   );
 
   const fetchNextAvailableDates = useCallback(async () => {
@@ -232,34 +302,38 @@ const TicketList: React.FC = () => {
     if (!arrivalStation || !departureStation) return;
 
     try {
-      setFetchingAvailableDates(true);
+      dispatch({ type: "SET_FETCHING_DATES", payload: true });
 
-      const response = await fetch(
-        `${
-          process.env.NEXT_PUBLIC_API_URL
-        }/ticket/search/find-nearest?departureStation=${
-          isSelectingReturn ? arrivalStation : departureStation
-        }&arrivalStation=${
-          isSelectingReturn ? departureStation : arrivalStation
-        }&currentDate=${
-          isSelectingReturn ? returnDate : departureDate
-        }&adults=${adult}&children=${children}`
-      );
+      const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/ticket/search/find-nearest`;
+      const searchUrl = new URLSearchParams({
+        departureStation: isSelectingReturn ? arrivalStation : departureStation,
+        arrivalStation: isSelectingReturn ? departureStation : arrivalStation,
+        currentDate:
+          (isSelectingReturn ? returnDate || departureDate : departureDate) ||
+          "",
+        adults: adult.toString(),
+        children: children.toString(),
+      });
+
+      const response = await fetch(`${apiUrl}?${searchUrl}`);
 
       if (!response.ok) {
         throw new Error("Failed to fetch available dates");
       }
 
       const data = await response.json();
-      console.log({ availableDates: data });
-      setAvailableDates(data.data.availableDates || []);
+      dispatch({
+        type: "SET_AVAILABLE_DATES",
+        payload: data.data.availableDates || [],
+      });
     } catch (err) {
       console.error("Failed to fetch available dates:", err);
     } finally {
-      setFetchingAvailableDates(false);
+      dispatch({ type: "SET_FETCHING_DATES", payload: false });
     }
-  }, [searchParameters, isSelectingReturn, validateAndUpdateDates]);
+  }, [isSelectingReturn, validateAndUpdateDates]);
 
+  // Optimized effect with better dependencies
   useEffect(() => {
     const {
       departureStation,
@@ -271,6 +345,7 @@ const TicketList: React.FC = () => {
     } = searchParameters;
 
     if (departureStation && arrivalStation && adult && children) {
+      // Update store state
       setFrom(departureStation);
       setFromCity(fromCity);
       setToCity(toCity);
@@ -281,14 +356,18 @@ const TicketList: React.FC = () => {
         children: +children,
       });
       setTo(arrivalStation);
-      setTickets([]);
-      setPage(1);
-      setHasMore(true);
+
+      // Reset and fetch tickets
+      dispatch({ type: "RESET_TICKETS" });
       fetchTickets(1);
-      setFilteredTickets([]);
     }
   }, [
-    searchParameters,
+    searchParameters.departureStation,
+    searchParameters.arrivalStation,
+    searchParameters.departureDate,
+    searchParameters.returnDate,
+    searchParameters.adult,
+    searchParameters.children,
     fromCity,
     toCity,
     fetchTickets,
@@ -301,15 +380,11 @@ const TicketList: React.FC = () => {
     setTo,
   ]);
 
-  useEffect(() => {
-    setFilteredTickets(tickets);
-  }, [tickets]);
-
   const handleLoadMore = useCallback(() => {
-    if (!noData && !loading && hasMore) {
-      fetchTickets(page);
+    if (!state.noData && !state.loading && state.hasMore) {
+      fetchTickets(state.page);
     }
-  }, [noData, loading, hasMore, fetchTickets, page]);
+  }, [state.noData, state.loading, state.hasMore, fetchTickets, state.page]);
 
   const handleTicketSelection = useCallback(
     (ticket: Ticket) => {
@@ -319,7 +394,6 @@ const TicketList: React.FC = () => {
         router.push("/checkout");
       } else {
         setOutboundTicket(ticket);
-        setIsLoading(true);
         if (tripType === "round-trip" && searchParameters.returnDate) {
           setIsLoading(false);
           setIsSelectingReturn(true);
@@ -344,13 +418,11 @@ const TicketList: React.FC = () => {
   const navigateToDate = useCallback(
     (dateStr: string) => {
       const currentParams = new URLSearchParams(searchParams.toString());
-
       if (isSelectingReturn) {
         currentParams.set("returnDate", dateStr);
       } else {
         currentParams.set("departureDate", dateStr);
       }
-
       router.push(
         `/search/${searchParameters.destination}?${currentParams.toString()}`
       );
@@ -359,28 +431,25 @@ const TicketList: React.FC = () => {
   );
 
   const NextAvailableDates = () => {
-    if (availableDates.length === 0) {
+    if (state.availableDates.length === 0) {
       return <NoTicketsAvailable />;
     }
 
-    const nextAvailableDate = availableDates[0];
+    const nextAvailableDate = state.availableDates[0];
     const dateObj = parse(nextAvailableDate, "dd-MM-yyyy", new Date());
     const formattedDate = format(dateObj, "d MMM");
 
     return (
       <div className="flex flex-col items-center max-w-lg mx-auto text-center space-y-8 p-6">
-        {/* Illustration */}
         <div className="relative w-52 h-52 bg-gray-100 rounded-full flex items-center justify-center">
           <Image
             className="object-cover w-full h-full"
-            src={"/assets/icons/man-illustration.svg"}
+            src="/assets/icons/man-illustration.svg"
             width={150}
             height={150}
             alt={t("searchedTickets.noTicketsAvailableIllustrationAlt")}
           />
         </div>
-
-        {/* Text content */}
         <div className="space-y-2">
           <h2 className="text-2xl font-bold">
             {t("searchedTickets.noTicketsAvailable")}
@@ -389,12 +458,11 @@ const TicketList: React.FC = () => {
             {t("searchedTickets.noTicketsAvailableDescription")}
           </p>
         </div>
-
         <Button
           onClick={() => navigateToDate(nextAvailableDate)}
           className="group px-6 py-3 text-sm font-medium rounded-xl"
           size="lg"
-          variant={"primary"}
+          variant="primary"
         >
           {t("searchedTickets.nextAvailable")} {formattedDate}
           <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -405,8 +473,8 @@ const TicketList: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-8">
-      {noData && filteredTickets.length === 0 ? (
-        fetchingAvailableDates ? (
+      {state.noData && state.filteredTickets.length === 0 ? (
+        state.fetchingAvailableDates ? (
           <Loader2 className="animate-spin mx-auto size-6" />
         ) : (
           <NextAvailableDates />
@@ -415,30 +483,36 @@ const TicketList: React.FC = () => {
         <div className="w-full mx-auto space-y-4">
           <div className="w-full flex items-center justify-between">
             <SearchFilters
-              tickets={tickets}
-              totalTrips={filteredTickets.length}
-              onFiltersChange={setFilteredTickets}
+              tickets={state.tickets}
+              totalTrips={state.filteredTickets.length}
+              onFiltersChange={(filtered) =>
+                dispatch({ type: "SET_FILTERED_TICKETS", payload: filtered })
+              }
             />
-            <p className="font-normal">{filteredTickets.length || 0} Results</p>
+            <p className="font-normal">
+              {state.filteredTickets.length || 0} Results
+            </p>
           </div>
+
           <h1
             className={cn("mb-2 font-medium text-lg", {
-              hidden: tripType == "one-way",
+              hidden: tripType === "one-way",
             })}
           >
-            {isSelectingReturn && tripType == "round-trip"
+            {isSelectingReturn && tripType === "round-trip"
               ? "Select Return Ticket"
               : ""}
           </h1>
+
           <InfiniteScroll
-            dataLength={tickets.length}
+            dataLength={state.tickets.length}
             className="space-y-2 sm:space-y-1"
             next={handleLoadMore}
-            hasMore={hasMore}
-            loader={loading ? <TicketSkeletonton /> : null}
+            hasMore={state.hasMore}
+            loader={state.loading ? <TicketSkeletonton /> : null}
           >
-            {filteredTickets.map((ticket, index) => (
-              <Sheet key={index}>
+            {state.filteredTickets.map((ticket, index) => (
+              <Sheet key={`${ticket._id}-${index}`}>
                 <SheetTrigger className="w-full">
                   <div
                     onClick={() => setSelectedTicket(ticket)}
@@ -480,7 +554,7 @@ const TicketList: React.FC = () => {
 
 export default function SearchedTickets() {
   return (
-    <Suspense fallback={<p>Loading tickets...</p>}>
+    <Suspense fallback={<TicketSkeletonton />}>
       <TicketList />
     </Suspense>
   );

@@ -348,6 +348,8 @@
   "searchForm": {
     "from": "Од",
     "to": "До",
+    "fromPlaceholder": "Од каде?",
+    "toPlaceholder": "Кон каде?",
     "departure": "Поаѓање",
     "passengers": "Патници",
     "searchResult": "Резултати од пребарување",

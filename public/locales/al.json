@@ -345,6 +345,8 @@
   "searchForm": {
     "from": "Nga",
     "to": "Për",
+    "fromPlaceholder": "Nga ku?",
+    "toPlaceholder": "Drejt ku?",
     "departure": "Nisja",
     "passengers": "Udhëtarët",
     "searchResult": "Rezultatet e kërkimit",

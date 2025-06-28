@@ -361,6 +361,9 @@
   "searchForm": {
     "from": "Von",
     "to": "Nach",
+    "fromPlaceholder": "Von wo?",
+    "toPlaceholder": "Wohin?",
+
     "departure": "Abfahrt",
     "passengers": "Passagiere",
     "searchResult": "Suchergebnisse",

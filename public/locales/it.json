@@ -386,6 +386,8 @@
   "searchForm": {
     "from": "Da",
     "to": "A",
+    "fromPlaceholder": "Da dove?",
+    "toPlaceholder": "Verso dove?",
     "departure": "Partenza",
     "passengers": "Passeggeri",
     "oneWay": "Solo andata",

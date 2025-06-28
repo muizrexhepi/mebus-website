@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import type { Station } from "@/models/station";
 import useSearchStore from "@/store";
 import Cookies from "js-cookie";
@@ -13,21 +12,19 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { HiMapPin } from "react-icons/hi2";
 import { IoMdLocate } from "react-icons/io";
 import { useTranslation } from "react-i18next";
+import { cn } from "@/lib/utils";
 
 // Levenshtein distance function
 const levenshteinDistance = (str1: string, str2: string) => {
   const track = Array(str2.length + 1)
     .fill(null)
     .map(() => Array(str1.length + 1).fill(null));
-
   for (let i = 0; i <= str1.length; i += 1) {
     track[0][i] = i;
   }
-
   for (let j = 0; j <= str2.length; j += 1) {
     track[j][0] = j;
   }
-
   for (let j = 1; j <= str2.length; j += 1) {
     for (let i = 1; i <= str1.length; i += 1) {
       const indicator = str1[i - 1] === str2[j - 1] ? 0 : 1;
@@ -38,7 +35,6 @@ const levenshteinDistance = (str1: string, str2: string) => {
       );
     }
   }
-
   return track[str2.length][str1.length];
 };
 
@@ -46,12 +42,16 @@ interface CustomSelectProps {
   stations?: Station[];
   departure?: string;
   updateUrl?: boolean;
+  hasError?: boolean;
+  showError?: boolean;
 }
 
 const StationSelect: React.FC<CustomSelectProps> = ({
   stations = [],
   departure,
   updateUrl = false,
+  hasError = false,
+  showError = false,
 }) => {
   const { setFrom, setTo, setFromCity, setToCity, from, to, fromCity, toCity } =
     useSearchStore();
@@ -59,6 +59,8 @@ const StationSelect: React.FC<CustomSelectProps> = ({
   const [openOptions, setOpenOptions] = useState<boolean>(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [filteredStations, setFilteredStations] = useState<Station[]>([]);
+  const [isTouched, setIsTouched] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   const isMobile = useIsMobile();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -66,25 +68,12 @@ const StationSelect: React.FC<CustomSelectProps> = ({
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (from && to) {
-      if (departure === "from") {
-        setSearchTerm(fromCity);
-      } else if (departure === "to") {
-        setSearchTerm(toCity);
-      }
-      return;
-    } else {
-      if (departure === "from") {
-        setSearchTerm(stations[0]?.city || "");
-        setFromCity(stations[0]?.city || "");
-        setFrom(stations[0]?._id || "");
-      } else if (departure === "to") {
-        setSearchTerm(stations[2]?.city || "");
-        setToCity(stations[2]?.city || "");
-        setTo(stations[2]?._id || "");
-      }
+    if (departure === "from" && fromCity) {
+      setSearchTerm(fromCity);
+    } else if (departure === "to" && toCity) {
+      setSearchTerm(toCity);
     }
-  }, [departure, setFromCity, setFrom, setToCity, setTo, stations]);
+  }, [departure, fromCity, toCity]);
 
   // Filter stations based on search term using Levenshtein distance
   useEffect(() => {
@@ -94,16 +83,13 @@ const StationSelect: React.FC<CustomSelectProps> = ({
     }
 
     const searchTermLower = searchTerm.toLowerCase();
-
-    // Calculate Levenshtein distance for each station
     const stationsWithDistance = stations.map((station) => {
       const cityNameLower = station.city.toLowerCase();
       const distance = levenshteinDistance(searchTermLower, cityNameLower);
       return { station, distance, cityNameLower };
     });
 
-    // Sort by distance (smaller is better) and filter by threshold
-    const maxDistance = Math.min(3, searchTermLower.length); // Adjust threshold based on term length
+    const maxDistance = Math.min(3, searchTermLower.length);
     const sortedFilteredStations = stationsWithDistance
       .filter(
         (item) =>
@@ -113,12 +99,10 @@ const StationSelect: React.FC<CustomSelectProps> = ({
       .sort((a, b) => a.distance - b.distance)
       .map((item) => item.station);
 
-    // If exact matches exist, prioritize them
     const exactMatches = stations.filter((station) =>
       station.city.toLowerCase().includes(searchTermLower)
     );
 
-    // Combine exact matches with fuzzy matches, removing duplicates
     const result = [...exactMatches];
     for (const station of sortedFilteredStations) {
       if (!result.some((s) => s._id === station._id)) {
@@ -129,59 +113,80 @@ const StationSelect: React.FC<CustomSelectProps> = ({
     setFilteredStations(result);
   }, [searchTerm, stations]);
 
-  const handleSelect = (station: Station) => {
-    const value = station._id;
-    const label = station.city;
-    const name = station.name;
+  const handleSelect = useCallback(
+    (station: Station) => {
+      const value = station._id;
+      const label = station.city;
+      const name = station.name;
 
-    setSearchTerm(label);
+      setSearchTerm(label);
+      setIsTouched(true);
 
-    if (departure === "from") {
-      setFromCity(label);
-      setFrom(value!);
-    } else {
-      setToCity(label);
-      setTo(value!);
-    }
-
-    updateRecentStations(
-      departure === "from" ? "recentFromStations" : "recentToStations",
-      {
-        _id: value!,
-        city: label,
-        name: name,
+      if (departure === "from") {
+        setFromCity(label);
+        setFrom(value!);
+      } else {
+        setToCity(label);
+        setTo(value!);
       }
-    );
-    setOpenOptions(false);
 
-    if (updateUrl) {
-      const currentParams = new URLSearchParams(searchParams.toString());
-      currentParams.set(
-        departure === "from" ? "departureStation" : "arrivalStation",
-        value!
+      updateRecentStations(
+        departure === "from" ? "recentFromStations" : "recentToStations",
+        {
+          _id: value!,
+          city: label,
+          name: name,
+        }
       );
 
-      const pathParts = pathname.split("/");
-      if (departure === "from") {
-        pathParts[2] = `${label.toLowerCase()}-${pathParts[2].split("-")[1]}`;
-      } else {
-        pathParts[2] = `${pathParts[2].split("-")[0]}-${label.toLowerCase()}`;
-      }
-      const newPathname = pathParts.join("/");
+      setOpenOptions(false);
 
-      const newUrl = `${newPathname}?${currentParams.toString()}`;
-      router.push(newUrl);
-    }
-  };
+      if (updateUrl) {
+        const currentParams = new URLSearchParams(searchParams.toString());
+        currentParams.set(
+          departure === "from" ? "departureStation" : "arrivalStation",
+          value!
+        );
+
+        const pathParts = pathname.split("/");
+        if (departure === "from") {
+          pathParts[2] = `${label.toLowerCase()}-${pathParts[2].split("-")[1]}`;
+        } else {
+          pathParts[2] = `${pathParts[2].split("-")[0]}-${label.toLowerCase()}`;
+        }
+
+        const newPathname = pathParts.join("/");
+        const newUrl = `${newPathname}?${currentParams.toString()}`;
+        router.push(newUrl);
+      }
+    },
+    [
+      departure,
+      setFromCity,
+      setFrom,
+      setToCity,
+      setTo,
+      updateUrl,
+      searchParams,
+      pathname,
+      router,
+    ]
+  );
 
   const handleFocus = () => {
     setOpenOptions(true);
+    setIsTouched(true);
   };
 
   const handleBlur = () => {
     setTimeout(() => {
       setOpenOptions(false);
     }, 100);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+    setIsTouched(true);
   };
 
   const updateRecentStations = (
@@ -195,6 +200,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
         (station: { _id: string }) => station._id !== newStation._id
       ),
     ].slice(0, 5);
+
     Cookies.set(cookieName, JSON.stringify(updatedRecentStations), {
       expires: 7,
     });
@@ -211,23 +217,48 @@ const StationSelect: React.FC<CustomSelectProps> = ({
     ) || "[]"
   );
 
+  const placeholder =
+    departure === "from"
+      ? t("searchForm.fromPlaceholder")
+      : t("searchForm.toPlaceholder");
+  const shouldShowError = hasError && isTouched;
+
   if (isMobile) {
     return (
       <>
-        <Button
-          variant={"outline"}
-          className="w-full h-12 flex items-center justify-start bg-primary-bg/5 rounded-lg border-none ring-0 text-base"
-          onClick={() => setIsDialogOpen(true)}
-        >
-          {departure === "from" ? (
-            <IoMdLocate className="size-4 mr-2 text-primary-accent" />
-          ) : (
-            <HiMapPin className="size-4 mr-2 text-primary-accent" />
+        <div className="space-y-1">
+          <Button
+            variant="outline"
+            className={cn(
+              "w-full h-12 flex items-center justify-start bg-primary-bg/5 rounded-lg border-2 ring-0 text-base transition-colors",
+              shouldShowError
+                ? "border-red-500 bg-red-50"
+                : "border-transparent hover:border-gray-200"
+            )}
+            onClick={() => setIsDialogOpen(true)}
+          >
+            {departure === "from" ? (
+              <IoMdLocate className="size-4 mr-2 text-primary-accent" />
+            ) : (
+              <HiMapPin className="size-4 mr-2 text-primary-accent" />
+            )}
+            <span
+              className={cn(
+                "capitalize font-normal",
+                !searchTerm && "text-muted-foreground"
+              )}
+            >
+              {searchTerm || placeholder}
+            </span>
+          </Button>
+          {shouldShowError && showError && (
+            <p className="text-red-500 text-xs animate-in slide-in-from-top-1">
+              {departure === "from"
+                ? t("validation.fromRequired", "Please select departure city")
+                : t("validation.toRequired", "Please select arrival city")}
+            </p>
           )}
-          <span className="capitalize font-normal">
-            {searchTerm || t("searchForm.stationPlaceholder", "Select a city")}
-          </span>
-        </Button>
+        </div>
         <CitySelectDialog
           isOpen={isDialogOpen}
           onClose={() => setIsDialogOpen(false)}
@@ -241,20 +272,28 @@ const StationSelect: React.FC<CustomSelectProps> = ({
 
   return (
     <div className="relative">
-      <div className="flex items-center h-12 rounded-lg bg-primary-bg/5 px-4">
+      <div
+        className={cn(
+          "flex items-center h-12 rounded-lg bg-primary-bg/5 px-4 border-2 transition-colors",
+          shouldShowError
+            ? "border-red-500 bg-red-50"
+            : "border-transparent hover:border-gray-200 focus-within:border-primary-accent"
+        )}
+      >
         {departure === "from" ? (
           <IoMdLocate className="size-4 mr-2 shrink-0 text-primary-accent" />
         ) : (
           <HiMapPin className="size-4 mr-2 shrink-0 text-primary-accent" />
         )}
         <Input
+          ref={inputRef}
           type="text"
-          placeholder={t("searchForm.stationPlaceholder", "Search for a city")}
+          placeholder={placeholder}
           value={searchTerm}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="flex-1 rounded-lg h-12 border-none ring-0 bg-transparent text-base capitalize px-0"
+          onChange={handleInputChange}
+          className="flex-1 rounded-lg h-12 border-none ring-0 bg-transparent text-base capitalize px-0 placeholder:text-muted-foreground"
         />
       </div>
 
@@ -278,7 +317,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
                         onClick={() => handleSelect(station)}
                         type="button"
                       >
-                        {departure == "from" ? (
+                        {departure === "from" ? (
                           <IoMdLocate className="size-4 mr-2 shrink-0 text-primary-accent" />
                         ) : (
                           <HiMapPin className="size-4 mr-2 shrink-0 text-primary-accent" />
@@ -310,7 +349,6 @@ const StationSelect: React.FC<CustomSelectProps> = ({
                     {}
                   );
 
-                  // Sort countries alphabetically
                   const sortedCountries = Object.keys(stationsByCountry).sort();
 
                   return sortedCountries.map((country) => (
@@ -328,7 +366,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
                           onClick={() => handleSelect(station)}
                           type="button"
                         >
-                          {departure == "from" ? (
+                          {departure === "from" ? (
                             <IoMdLocate className="size-4 mr-2 shrink-0 text-primary-accent" />
                           ) : (
                             <HiMapPin className="size-4 mr-2 shrink-0 text-primary-accent" />
@@ -363,7 +401,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
                       onClick={() => handleSelect(station)}
                       type="button"
                     >
-                      {departure == "from" ? (
+                      {departure === "from" ? (
                         <IoMdLocate className="size-4 mr-2 shrink-0 text-primary-accent" />
                       ) : (
                         <HiMapPin className="size-4 mr-2 shrink-0 text-primary-accent" />

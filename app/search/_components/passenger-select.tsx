@@ -27,7 +27,6 @@ export default function PassengerSelect({
 
   const updatePassengers = (updatedPassengers: typeof passengers) => {
     setPassengers(updatedPassengers);
-
     if (updateUrl) {
       const currentParams = new URLSearchParams(searchParams.toString());
       currentParams.set("adult", updatedPassengers.adults.toString());
@@ -59,6 +58,24 @@ export default function PassengerSelect({
     updatePassengers(updatedPassengers);
   };
 
+  const getPassengerText = () => {
+    const adultText =
+      passengers.adults > 1
+        ? `${passengers.adults} ${t("orderSummary.adults")}`
+        : `${passengers.adults} ${t("passengerInfo.adult")}`;
+
+    const childText =
+      passengers.children > 0
+        ? `, ${passengers.children} ${
+            passengers.children > 1
+              ? t("orderSummary.children")
+              : t("passengerInfo.child")
+          }`
+        : "";
+
+    return adultText + childText;
+  };
+
   if (isMobile) {
     return (
       <>
@@ -68,17 +85,7 @@ export default function PassengerSelect({
           onClick={() => setIsDialogOpen(true)}
         >
           <FaUser className="size-4 mr-2 text-primary-accent" />
-          <span className="font-normal">
-            {passengers.adults > 1
-              ? `${passengers.adults} ${t("orderSummary.adults")}`
-              : `${passengers.adults} ${t("passengerInfo.adult")}`}
-            {passengers.children > 0 &&
-              `, ${passengers.children} ${
-                passengers.children > 1
-                  ? t("orderSummary.children")
-                  : t("passengerInfo.child")
-              }`}
-          </span>
+          <span className="font-normal truncate">{getPassengerText()}</span>
         </Button>
 
         <PassengerSelectDialog
@@ -95,23 +102,13 @@ export default function PassengerSelect({
         className="outline-none h-12 hover:bg-accent bg-primary-bg/5 rounded-lg border-none ring-0 transition-colors text-base truncate px-4"
         aria-label="Select number of passengers"
       >
-        <div className="flex items-center">
-          <FaUser className="size-4 mr-2 text-primary-accent" />
-          <span className="font-normal text-base">
-            {" "}
-            {passengers.adults > 1
-              ? `${passengers.adults} ${t("orderSummary.adults")}`
-              : `${passengers.adults} ${t("passengerInfo.adult")}`}
-            {passengers.children > 0 &&
-              `, ${passengers.children} ${
-                passengers.children > 1
-                  ? t("orderSummary.children")
-                  : t("passengerInfo.child")
-              }`}
+        <div className="flex items-center min-w-0 flex-1">
+          <FaUser className="size-4 mr-2 text-primary-accent shrink-0" />
+          <span className="font-normal text-base truncate">
+            {getPassengerText()}
           </span>
         </div>
       </SelectTrigger>
-
       <SelectContent className="w-[320px] p-4">
         <div className="space-y-5">
           <div className="space-y-2">
@@ -120,12 +117,15 @@ export default function PassengerSelect({
                 <h3 className="font-medium text-base">
                   {t("orderSummary.adults")}
                 </h3>
+                <p className="text-sm text-gray-500">
+                  {t("passengerSelect.adultAge", "Age 12+")}
+                </p>
               </div>
               <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-10 w-10 rounded-lg border-gray-200"
+                  className="h-10 w-10 rounded-lg border-gray-200 bg-transparent"
                   onClick={() => decrementPassengers("adults")}
                   disabled={passengers.adults <= 1}
                 >
@@ -137,7 +137,7 @@ export default function PassengerSelect({
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-10 w-10 rounded-lg border-gray-200"
+                  className="h-10 w-10 rounded-lg border-gray-200 bg-transparent"
                   onClick={() => incrementPassengers("adults")}
                   disabled={passengers.adults >= 9}
                 >
@@ -154,15 +154,14 @@ export default function PassengerSelect({
                   {t("orderSummary.children")}
                 </h3>
                 <p className="text-sm text-gray-500">
-                  {" "}
-                  {t("passengerSelect.aged")}
+                  {t("passengerSelect.aged", "Age 2-11")}
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-10 w-10 rounded-lg border-gray-200"
+                  className="h-10 w-10 rounded-lg border-gray-200 bg-transparent"
                   onClick={() => decrementPassengers("children")}
                   disabled={passengers.children <= 0}
                 >
@@ -174,7 +173,7 @@ export default function PassengerSelect({
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-10 w-10 rounded-lg border-gray-200"
+                  className="h-10 w-10 rounded-lg border-gray-200 bg-transparent"
                   onClick={() => incrementPassengers("children")}
                   disabled={passengers.children >= 9}
                 >
@@ -184,9 +183,12 @@ export default function PassengerSelect({
             </div>
           </div>
 
-          <div className="space-y-4">
+          <div className="pt-2 border-t">
             <p className="text-sm text-gray-500">
-              {t("passengerSelect.description")}
+              {t(
+                "passengerSelect.description",
+                "Children under 2 travel free and don't need a separate seat."
+              )}
             </p>
           </div>
         </div>
