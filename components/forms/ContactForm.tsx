@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -18,7 +17,8 @@ import { useTranslation } from "react-i18next";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     subject: "",
     message: "",
@@ -60,7 +60,14 @@ export default function ContactForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: `${formData.firstName} ${formData.lastName}`.trim(),
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        }),
       });
 
       const result = await response.json();
@@ -69,10 +76,12 @@ export default function ContactForm() {
         setSubmitStatus({
           success: true,
           message:
-            "Your message has been sent successfully. We will get back to you soon.",
+            t("contactForm.desc") ||
+            "Thank you for contacting us! We've received your message and will get back to you within 24 hours.",
         });
         setFormData({
-          name: "",
+          firstName: "",
+          lastName: "",
           email: "",
           subject: "",
           message: "",
@@ -86,7 +95,7 @@ export default function ContactForm() {
         message:
           error instanceof Error
             ? error.message
-            : "An unexpected error occurred",
+            : "An unexpected error occurred. Please try again.",
       });
     } finally {
       setIsSubmitting(false);
@@ -102,9 +111,9 @@ export default function ContactForm() {
               <Label htmlFor="first-name">{t("passengerInfo.firstName")}</Label>
               <Input
                 id="first-name"
-                name="name"
+                name="firstName"
                 placeholder={t("passengerInfo.firstNamePlaceholder")}
-                value={formData.name}
+                value={formData.firstName}
                 onChange={handleChange}
                 required
                 className="h-12 bg-primary-bg/5 rounded-lg border-none focus:ring-2 focus:ring-primary-bg/20"
@@ -116,6 +125,8 @@ export default function ContactForm() {
                 id="last-name"
                 name="lastName"
                 placeholder={t("passengerInfo.lastNamePlaceholder")}
+                value={formData.lastName}
+                onChange={handleChange}
                 required
                 className="h-12 bg-primary-bg/5 rounded-lg border-none focus:ring-2 focus:ring-primary-bg/20"
               />
