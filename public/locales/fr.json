@@ -6,6 +6,22 @@
     "about": "À propos",
     "contact": "Contact"
   },
+  "filters": {
+    "title": "Filtres",
+    "sortBy": "Trier par",
+    "departure": "Départ",
+    "earliest": "Le plus tôt",
+    "price": "Prix",
+    "lowest": "Le plus bas",
+    "duration": "Durée",
+    "shortest": "La plus courte",
+    "transfers": "Correspondances",
+    "direct": "Trajet direct",
+    "transfer": "Correspondance",
+    "departureTime": "Heure de départ",
+    "arrivalTime": "Heure d’arrivée",
+    "showTrips": "Afficher les trajets"
+  },
   "infoSection": {
     "tag": "Pourquoi nous choisir",
     "heading": "Le moyen le plus intelligent de voyager en bus",
@@ -195,6 +211,8 @@
     "free": "Gratuit"
   },
   "orderSummary": {
+    "enterCode": "Entrer le code",
+    "applying": "Application en cours",
     "returnTrip": "Voyage retour",
     "outboundTrip": "Voyage aller",
     "departure": "Départ",

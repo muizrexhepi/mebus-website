@@ -18,21 +18,27 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import TicketDetails from "@/components/ticket/ticket-details";
+import ConnectedTicketDetails from "@/components/ticket/connected-ticket-details";
 import NoTicketsAvailable from "./NoTicketsAvailable";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
-import TicketBlock from "@/components/ticket/Ticket";
+import ConnectedTicketBlock from "@/components/ticket/connected-ticket-block";
 import SearchFilters from "./search-filters";
 import { addDays, format, parse } from "date-fns";
 import { ArrowRight, Loader2 } from "lucide-react";
 import Image from "next/image";
+import { ConnectedTicket } from "@/models/connected-ticket";
+import ConnectedSearchFilters from "@/components/ticket/connected-search-fitlers";
+import TicketBlock from "@/components/ticket/Ticket";
 
-// Optimized state management with useReducer
 interface TicketState {
-  tickets: Ticket[];
-  filteredTickets: Ticket[];
+  directTickets: Ticket[];
+  connectedTickets: ConnectedTicket[];
+  filteredDirectTickets: Ticket[];
+  filteredConnectedTickets: ConnectedTicket[];
   noData: boolean;
   loading: boolean;
+  initialLoading: boolean;
   page: number;
   hasMore: boolean;
   availableDates: string[];
@@ -40,10 +46,14 @@ interface TicketState {
 }
 
 type TicketAction =
-  | { type: "SET_TICKETS"; payload: Ticket[] }
-  | { type: "ADD_TICKETS"; payload: Ticket[] }
-  | { type: "SET_FILTERED_TICKETS"; payload: Ticket[] }
+  | { type: "SET_DIRECT_TICKETS"; payload: Ticket[] }
+  | { type: "SET_CONNECTED_TICKETS"; payload: ConnectedTicket[] }
+  | { type: "ADD_DIRECT_TICKETS"; payload: Ticket[] }
+  | { type: "ADD_CONNECTED_TICKETS"; payload: ConnectedTicket[] }
+  | { type: "SET_FILTERED_DIRECT_TICKETS"; payload: Ticket[] }
+  | { type: "SET_FILTERED_CONNECTED_TICKETS"; payload: ConnectedTicket[] }
   | { type: "SET_LOADING"; payload: boolean }
+  | { type: "SET_INITIAL_LOADING"; payload: boolean }
   | { type: "SET_NO_DATA"; payload: boolean }
   | { type: "SET_PAGE"; payload: number }
   | { type: "SET_HAS_MORE"; payload: boolean }
@@ -56,19 +66,49 @@ const ticketReducer = (
   action: TicketAction
 ): TicketState => {
   switch (action.type) {
-    case "SET_TICKETS":
+    case "SET_DIRECT_TICKETS":
       return {
         ...state,
-        tickets: action.payload,
-        filteredTickets: action.payload,
+        directTickets: action.payload,
+        filteredDirectTickets: action.payload,
       };
-    case "ADD_TICKETS":
-      const newTickets = [...state.tickets, ...action.payload];
-      return { ...state, tickets: newTickets, filteredTickets: newTickets };
-    case "SET_FILTERED_TICKETS":
-      return { ...state, filteredTickets: action.payload };
+    case "SET_CONNECTED_TICKETS":
+      return {
+        ...state,
+        connectedTickets: action.payload,
+        filteredConnectedTickets: action.payload,
+      };
+    case "ADD_DIRECT_TICKETS":
+      const newDirectTickets = [...state.directTickets, ...action.payload];
+      return {
+        ...state,
+        directTickets: newDirectTickets,
+        filteredDirectTickets: [
+          ...state.filteredDirectTickets,
+          ...action.payload,
+        ],
+      };
+    case "ADD_CONNECTED_TICKETS":
+      const newConnectedTickets = [
+        ...state.connectedTickets,
+        ...action.payload,
+      ];
+      return {
+        ...state,
+        connectedTickets: newConnectedTickets,
+        filteredConnectedTickets: [
+          ...state.filteredConnectedTickets,
+          ...action.payload,
+        ],
+      };
+    case "SET_FILTERED_DIRECT_TICKETS":
+      return { ...state, filteredDirectTickets: action.payload };
+    case "SET_FILTERED_CONNECTED_TICKETS":
+      return { ...state, filteredConnectedTickets: action.payload };
     case "SET_LOADING":
       return { ...state, loading: action.payload };
+    case "SET_INITIAL_LOADING":
+      return { ...state, initialLoading: action.payload };
     case "SET_NO_DATA":
       return { ...state, noData: action.payload };
     case "SET_PAGE":
@@ -82,11 +122,14 @@ const ticketReducer = (
     case "RESET_TICKETS":
       return {
         ...state,
-        tickets: [],
-        filteredTickets: [],
+        directTickets: [],
+        connectedTickets: [],
+        filteredDirectTickets: [],
+        filteredConnectedTickets: [],
         page: 1,
         hasMore: true,
         noData: false,
+        initialLoading: true,
       };
     default:
       return state;
@@ -94,10 +137,13 @@ const ticketReducer = (
 };
 
 const initialState: TicketState = {
-  tickets: [],
-  filteredTickets: [],
+  directTickets: [],
+  connectedTickets: [],
+  filteredDirectTickets: [],
+  filteredConnectedTickets: [],
   noData: false,
   loading: false,
+  initialLoading: true,
   page: 1,
   hasMore: true,
   availableDates: [],
@@ -114,7 +160,6 @@ const TicketList: React.FC = () => {
     isSelectingReturn,
     setIsSelectingReturn,
   } = useCheckoutStore();
-
   const {
     tripType,
     setFrom,
@@ -125,7 +170,6 @@ const TicketList: React.FC = () => {
     setDepartureDate,
     setReturnDate,
   } = useSearchStore();
-
   const searchParams = useSearchParams();
   const params = useParams();
   const { setIsLoading } = useLoadingStore();
@@ -154,7 +198,6 @@ const TicketList: React.FC = () => {
     [searchParameters.destination]
   );
 
-  // Optimized date validation
   const validateAndUpdateDates = useCallback(() => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -210,7 +253,6 @@ const TicketList: React.FC = () => {
     };
   }, [router]);
 
-  // Optimized API calls with better error handling
   const fetchTickets = useCallback(
     async (pageNumber: number) => {
       const {
@@ -249,16 +291,32 @@ const TicketList: React.FC = () => {
           page: pageNumber.toString(),
         });
 
-        const response = await fetch(`${apiUrl}?${searchUrl}`);
+        // Fetch both direct and connected tickets
+        const [directResponse, connectedResponse] = await Promise.all([
+          fetch(`${apiUrl}?${searchUrl}`),
+          fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/ticket/connected?${searchUrl}`
+          ),
+        ]);
 
-        if (!response.ok) {
+        if (!directResponse.ok || !connectedResponse.ok) {
           throw new Error("Failed to fetch tickets");
         }
 
-        const data = await response.json();
-        const newTickets: Ticket[] = data.data || [];
+        const [directData, connectedData] = await Promise.all([
+          directResponse.json(),
+          connectedResponse.json(),
+        ]);
 
-        if (newTickets.length === 0) {
+        const newDirectTickets: Ticket[] = directData.data || [];
+        const newConnectedTickets: ConnectedTicket[] = connectedData.data || [];
+
+        console.log({
+          directTickets: newDirectTickets,
+          connectedTickets: newConnectedTickets,
+        });
+
+        if (newDirectTickets.length === 0 && newConnectedTickets.length === 0) {
           if (pageNumber === 1) {
             dispatch({ type: "SET_NO_DATA", payload: true });
             fetchNextAvailableDates();
@@ -266,13 +324,25 @@ const TicketList: React.FC = () => {
           dispatch({ type: "SET_HAS_MORE", payload: false });
         } else {
           if (pageNumber === 1) {
-            dispatch({ type: "SET_TICKETS", payload: newTickets });
+            dispatch({ type: "SET_DIRECT_TICKETS", payload: newDirectTickets });
+            dispatch({
+              type: "SET_CONNECTED_TICKETS",
+              payload: newConnectedTickets,
+            });
           } else {
-            dispatch({ type: "ADD_TICKETS", payload: newTickets });
+            dispatch({ type: "ADD_DIRECT_TICKETS", payload: newDirectTickets });
+            dispatch({
+              type: "ADD_CONNECTED_TICKETS",
+              payload: newConnectedTickets,
+            });
           }
           dispatch({ type: "SET_NO_DATA", payload: false });
           dispatch({ type: "SET_PAGE", payload: pageNumber + 1 });
-          dispatch({ type: "SET_HAS_MORE", payload: newTickets.length === 6 });
+          dispatch({
+            type: "SET_HAS_MORE",
+            payload:
+              newDirectTickets.length === 6 || newConnectedTickets.length > 0,
+          });
         }
       } catch (err) {
         toast({
@@ -283,6 +353,7 @@ const TicketList: React.FC = () => {
         dispatch({ type: "SET_HAS_MORE", payload: false });
       } finally {
         dispatch({ type: "SET_LOADING", payload: false });
+        dispatch({ type: "SET_INITIAL_LOADING", payload: false });
         setIsLoading(false);
       }
     },
@@ -316,7 +387,6 @@ const TicketList: React.FC = () => {
       });
 
       const response = await fetch(`${apiUrl}?${searchUrl}`);
-
       if (!response.ok) {
         throw new Error("Failed to fetch available dates");
       }
@@ -333,7 +403,6 @@ const TicketList: React.FC = () => {
     }
   }, [isSelectingReturn, validateAndUpdateDates]);
 
-  // Optimized effect with better dependencies
   useEffect(() => {
     const {
       departureStation,
@@ -345,7 +414,6 @@ const TicketList: React.FC = () => {
     } = searchParameters;
 
     if (departureStation && arrivalStation && adult && children) {
-      // Update store state
       setFrom(departureStation);
       setFromCity(fromCity);
       setToCity(toCity);
@@ -357,7 +425,6 @@ const TicketList: React.FC = () => {
       });
       setTo(arrivalStation);
 
-      // Reset and fetch tickets
       dispatch({ type: "RESET_TICKETS" });
       fetchTickets(1);
     }
@@ -387,13 +454,13 @@ const TicketList: React.FC = () => {
   }, [state.noData, state.loading, state.hasMore, fetchTickets, state.page]);
 
   const handleTicketSelection = useCallback(
-    (ticket: Ticket) => {
+    (ticket: Ticket | ConnectedTicket) => {
       setIsLoading(true);
       if (isSelectingReturn) {
-        setReturnTicket(ticket);
+        setReturnTicket(ticket as any);
         router.push("/checkout");
       } else {
-        setOutboundTicket(ticket);
+        setOutboundTicket(ticket as any);
         if (tripType === "round-trip" && searchParameters.returnDate) {
           setIsLoading(false);
           setIsSelectingReturn(true);
@@ -471,9 +538,23 @@ const TicketList: React.FC = () => {
     );
   };
 
+  const totalResults =
+    state.filteredDirectTickets.length + state.filteredConnectedTickets.length;
+
+  // Show loading skeleton during initial load
+  if (state.initialLoading) {
+    return (
+      <div className="space-y-4">
+        {[...Array(6)].map((_, index) => (
+          <TicketSkeletonton key={index} />
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-8">
-      {state.noData && state.filteredTickets.length === 0 ? (
+      {state.noData && totalResults === 0 ? (
         state.fetchingAvailableDates ? (
           <Loader2 className="animate-spin mx-auto size-6" />
         ) : (
@@ -481,19 +562,6 @@ const TicketList: React.FC = () => {
         )
       ) : (
         <div className="w-full mx-auto space-y-4">
-          <div className="w-full flex items-center justify-between">
-            <SearchFilters
-              tickets={state.tickets}
-              totalTrips={state.filteredTickets.length}
-              onFiltersChange={(filtered) =>
-                dispatch({ type: "SET_FILTERED_TICKETS", payload: filtered })
-              }
-            />
-            <p className="font-normal">
-              {state.filteredTickets.length || 0} Results
-            </p>
-          </div>
-
           <h1
             className={cn("mb-2 font-medium text-lg", {
               hidden: tripType === "one-way",
@@ -504,48 +572,135 @@ const TicketList: React.FC = () => {
               : ""}
           </h1>
 
-          <InfiniteScroll
-            dataLength={state.tickets.length}
-            className="space-y-2 sm:space-y-1"
-            next={handleLoadMore}
-            hasMore={state.hasMore}
-            loader={state.loading ? <TicketSkeletonton /> : null}
-          >
-            {state.filteredTickets.map((ticket, index) => (
-              <Sheet key={`${ticket._id}-${index}`}>
-                <SheetTrigger className="w-full">
-                  <div
-                    onClick={() => setSelectedTicket(ticket)}
-                    className="cursor-pointer"
-                  >
-                    <TicketBlock ticket={ticket} isReturn={isSelectingReturn} />
+          {/* Direct Routes Section */}
+          {state.filteredDirectTickets.length > 0 && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-full flex items-center justify-between">
+                    <p className="font-normal">{totalResults || 0} Results</p>
                   </div>
-                </SheetTrigger>
-                <SheetContent className="p-0 rounded-tl-xl rounded-bl-xl h-full flex flex-col justify-between">
-                  <div>
-                    <SheetHeader className="border-b p-4 shadow-sm">
-                      <SheetTitle className="font-medium">
-                        {t("ticketDetails.title")}
-                      </SheetTitle>
-                    </SheetHeader>
-                    <TicketDetails ticket={ticket} />
-                  </div>
-                  <SheetFooter className="p-4">
-                    <Button
-                      className="w-full h-12 button-gradient rounded-lg"
-                      onClick={() => handleTicketSelection(ticket)}
-                    >
-                      {isSelectingReturn
-                        ? t("ticket.selectReturn")
-                        : tripType !== "round-trip"
-                        ? t("ticket.continue")
-                        : t("ticket.selectOutbound")}
-                    </Button>
-                  </SheetFooter>
-                </SheetContent>
-              </Sheet>
-            ))}
-          </InfiniteScroll>
+                </div>
+                <SearchFilters
+                  tickets={state.directTickets}
+                  totalTrips={state.filteredDirectTickets.length}
+                  onFiltersChange={(filtered) => {
+                    dispatch({
+                      type: "SET_FILTERED_DIRECT_TICKETS",
+                      payload: filtered,
+                    });
+                  }}
+                />
+              </div>
+
+              <InfiniteScroll
+                dataLength={state.directTickets.length}
+                className="space-y-2 sm:space-y-1"
+                next={handleLoadMore}
+                hasMore={state.hasMore}
+                loader={state.loading ? <TicketSkeletonton /> : null}
+              >
+                {state.filteredDirectTickets.map((ticket, index) => (
+                  <Sheet key={`direct-${ticket._id}-${index}`}>
+                    <SheetTrigger className="w-full">
+                      <div
+                        onClick={() => setSelectedTicket(ticket)}
+                        className="cursor-pointer"
+                      >
+                        <TicketBlock
+                          ticket={ticket}
+                          isReturn={isSelectingReturn}
+                        />
+                      </div>
+                    </SheetTrigger>
+                    <SheetContent className="p-0 rounded-tl-xl rounded-bl-xl h-full flex flex-col justify-between">
+                      <div>
+                        <SheetHeader className="border-b p-4 shadow-sm">
+                          <SheetTitle className="font-medium">
+                            {t("ticketDetails.title")}
+                          </SheetTitle>
+                        </SheetHeader>
+                        <TicketDetails ticket={ticket} />
+                      </div>
+                      <SheetFooter className="p-4">
+                        <Button
+                          className="w-full h-12 button-gradient rounded-lg"
+                          onClick={() => handleTicketSelection(ticket)}
+                        >
+                          {isSelectingReturn
+                            ? t("ticket.selectReturn")
+                            : tripType !== "round-trip"
+                            ? t("ticket.continue")
+                            : t("ticket.selectOutbound")}
+                        </Button>
+                      </SheetFooter>
+                    </SheetContent>
+                  </Sheet>
+                ))}
+              </InfiniteScroll>
+            </div>
+          )}
+
+          {/* Connected Routes Section */}
+          {state.filteredConnectedTickets.length > 0 && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="w-full flex items-center justify-between">
+                  <p className="font-normal">{totalResults || 0} Results</p>
+                </div>
+                <ConnectedSearchFilters
+                  tickets={state.connectedTickets}
+                  totalTrips={state.filteredConnectedTickets.length}
+                  onFiltersChange={(filtered) => {
+                    dispatch({
+                      type: "SET_FILTERED_CONNECTED_TICKETS",
+                      payload: filtered,
+                    });
+                  }}
+                />
+              </div>
+
+              <div className="space-y-2 sm:space-y-1">
+                {state.filteredConnectedTickets.map((ticket, index) => (
+                  <Sheet key={`connected-${ticket._id}-${index}`}>
+                    <SheetTrigger className="w-full">
+                      <div
+                        onClick={() => setSelectedTicket(ticket as any)}
+                        className="cursor-pointer"
+                      >
+                        <ConnectedTicketBlock
+                          ticket={ticket}
+                          isReturn={isSelectingReturn}
+                        />
+                      </div>
+                    </SheetTrigger>
+                    <SheetContent className="p-0 rounded-tl-xl rounded-bl-xl h-full flex flex-col justify-between">
+                      <div>
+                        <SheetHeader className="border-b p-4 shadow-sm">
+                          <SheetTitle className="font-medium">
+                            Connected Journey Details
+                          </SheetTitle>
+                        </SheetHeader>
+                        <ConnectedTicketDetails ticket={ticket} />
+                      </div>
+                      <SheetFooter className="p-4">
+                        <Button
+                          className="w-full h-12 button-gradient rounded-lg"
+                          onClick={() => handleTicketSelection(ticket)}
+                        >
+                          {isSelectingReturn
+                            ? t("ticket.selectReturn")
+                            : tripType !== "round-trip"
+                            ? t("ticket.continue")
+                            : t("ticket.selectOutbound")}
+                        </Button>
+                      </SheetFooter>
+                    </SheetContent>
+                  </Sheet>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

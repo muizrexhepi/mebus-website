@@ -6,6 +6,22 @@
     "about": "Sobre nosotros",
     "contact": "Contacto"
   },
+  "filters": {
+    "title": "Filtros",
+    "sortBy": "Ordenar por",
+    "departure": "Salida",
+    "earliest": "Más temprano",
+    "price": "Precio",
+    "lowest": "Más bajo",
+    "duration": "Duración",
+    "shortest": "Más corta",
+    "transfers": "Transbordos",
+    "direct": "Viaje directo",
+    "transfer": "Transbordo",
+    "departureTime": "Hora de salida",
+    "arrivalTime": "Hora de llegada",
+    "showTrips": "Mostrar viajes"
+  },
   "infoSection": {
     "tag": "Por qué elegirnos",
     "heading": "La forma más inteligente de viajar en autobús",
@@ -181,6 +197,8 @@
     "free": "Gratis"
   },
   "orderSummary": {
+    "enterCode": "Introducir código",
+    "applying": "Aplicando",
     "returnTrip": "Viaje de vuelta",
     "outboundTrip": "Viaje de ida",
     "departure": "Salida",

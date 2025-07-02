@@ -1,0 +1,119 @@
+{
+  "name": "abandoned_checkouts",
+  "attributes": [
+    {
+      "key": "email",
+      "type": "string",
+      "required": true,
+      "size": 255
+    },
+    {
+      "key": "passengers",
+      "type": "string",
+      "required": true,
+      "size": 10000
+    },
+    {
+      "key": "outboundTicket",
+      "type": "string",
+      "required": true,
+      "size": 10000
+    },
+    {
+      "key": "returnTicket",
+      "type": "string",
+      "required": false,
+      "size": 10000
+    },
+    {
+      "key": "selectedFlex",
+      "type": "string",
+      "required": true,
+      "size": 50
+    },
+    {
+      "key": "flexPrice",
+      "type": "double",
+      "required": true
+    },
+    {
+      "key": "totalPrice",
+      "type": "double",
+      "required": true
+    },
+    {
+      "key": "departureDate",
+      "type": "string",
+      "required": true,
+      "size": 100
+    },
+    {
+      "key": "returnDate",
+      "type": "string",
+      "required": false,
+      "size": 100
+    },
+    {
+      "key": "fromCity",
+      "type": "string",
+      "required": true,
+      "size": 100
+    },
+    {
+      "key": "toCity",
+      "type": "string",
+      "required": true,
+      "size": 100
+    },
+    {
+      "key": "sessionId",
+      "type": "string",
+      "required": true,
+      "size": 255
+    },
+    {
+      "key": "createdAt",
+      "type": "string",
+      "required": true,
+      "size": 100
+    },
+    {
+      "key": "emailsSent",
+      "type": "integer",
+      "required": true
+    },
+    {
+      "key": "lastEmailSent",
+      "type": "string",
+      "required": false,
+      "size": 100
+    },
+    {
+      "key": "completed",
+      "type": "boolean",
+      "required": true
+    }
+  ],
+  "indexes": [
+    {
+      "key": "sessionId_index",
+      "type": "key",
+      "attributes": ["sessionId"]
+    },
+    {
+      "key": "email_index",
+      "type": "key",
+      "attributes": ["email"]
+    },
+    {
+      "key": "createdAt_index",
+      "type": "key",
+      "attributes": ["createdAt"]
+    },
+    {
+      "key": "completed_index",
+      "type": "key",
+      "attributes": ["completed"]
+    }
+  ]
+}

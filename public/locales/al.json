@@ -7,6 +7,22 @@
     "contact": "Kontakt",
     "account": "Akaunti"
   },
+  "filters": {
+    "title": "Filtrat",
+    "sortBy": "Rendit sipas",
+    "departure": "Nisja",
+    "earliest": "Më herët",
+    "price": "Çmimi",
+    "lowest": "Më i ulët",
+    "duration": "Kohëzgjatja",
+    "shortest": "Më e shkurtër",
+    "transfers": "Ndërprerje",
+    "direct": "Udhëtim direkt",
+    "transfer": "Ndërprerje",
+    "departureTime": "Ora e nisjes",
+    "arrivalTime": "Ora e mbërritjes",
+    "showTrips": "Shfaq udhëtimet"
+  },
   "infoSection": {
     "tag": "Pse të na zgjidhni ne",
     "heading": "Mënyra më e zgjuar për të udhëtuar me autobus",
@@ -178,6 +194,9 @@
     "free": "Falas"
   },
   "orderSummary": {
+    "apply": "Apliko",
+    "enterCode": "Shkruaj kodin",
+    "applying": "Duke aplikuar",
     "returnTrip": "Udhëtim Kthyes",
     "outboundTrip": "Udhëtim Vajtje",
     "departure": "Nisja",

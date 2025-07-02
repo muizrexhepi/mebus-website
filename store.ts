@@ -1,9 +1,10 @@
 import { create } from "zustand";
-import { Ticket } from "./models/ticket";
-import { PassengerData } from "./components/hooks/use-passengers";
+import type { Ticket } from "./models/ticket";
+import type { PassengerData } from "./components/hooks/use-passengers";
 import { addDays, format } from "date-fns";
 import { createJSONStorage, persist, PersistOptions } from "zustand/middleware";
 import { Models } from "appwrite";
+import { ConnectedTicket } from "./models/connected-ticket";
 
 export interface Passengers {
   adults: number;
@@ -33,18 +34,17 @@ export const usePaymentSuccessStore = create<PaymentSuccessStore>((set) => ({
 }));
 
 interface CheckoutState {
-  selectedTicket: Ticket | null;
-  outboundTicket: Ticket | null;
-  returnTicket: Ticket | null;
+  selectedTicket: Ticket | ConnectedTicket | null;
+  outboundTicket: Ticket | ConnectedTicket | null;
+  returnTicket: Ticket | ConnectedTicket | null;
   isSelectingReturn: boolean;
   passengers: PassengerData[];
   selectedFlex: string | null;
   flexPrice: number;
   totalCost: number;
-
-  setSelectedTicket: (ticket: Ticket | null) => void;
-  setOutboundTicket: (ticket: Ticket | null) => void;
-  setReturnTicket: (ticket: Ticket | null) => void;
+  setSelectedTicket: (ticket: Ticket | ConnectedTicket | null) => void;
+  setOutboundTicket: (ticket: Ticket | ConnectedTicket | null) => void;
+  setReturnTicket: (ticket: Ticket | ConnectedTicket | null) => void;
   setIsSelectingReturn: (isSelecting: boolean) => void;
   setPassengers: (passengers: PassengerData[]) => void;
   setSelectedFlex: (flex: string | null) => void;
@@ -64,7 +64,6 @@ export const useCheckoutStore = create<CheckoutState>()(
       selectedFlex: null,
       flexPrice: 0,
       totalCost: 0,
-
       setSelectedTicket: (ticket) => set({ selectedTicket: ticket }),
       setOutboundTicket: (ticket) => set({ outboundTicket: ticket }),
       setReturnTicket: (ticket) => set({ returnTicket: ticket }),
@@ -107,7 +106,6 @@ interface SearchState {
   returnDate: string | null;
   tripType: "one-way" | "round-trip";
   loading: boolean;
-
   setFrom: (from: string) => void;
   setTo: (to: string) => void;
   setFromCity: (fromCity: string) => void;
@@ -216,7 +214,6 @@ type CurrentForm = "login" | "mfaOptions" | "mfaVerification";
 interface IMFAStore {
   mfaFactors: Models.MfaFactors;
   setMFAFactors: (mfaFactors: Models.MfaFactors) => void;
-
   mfaChallenge: Models.MfaChallenge | null;
   setMfaChallenge: (challenge: Models.MfaChallenge | null) => void;
   error?: string;
@@ -235,16 +232,12 @@ export const useMFAStore = create<IMFAStore>((set) => ({
     recoveryCode: false,
   },
   setMFAFactors: (mfaFactors) => set({ mfaFactors }),
-
   mfaChallenge: null,
   setMfaChallenge: (mfaChallenge) => set({ mfaChallenge }),
-
   error: "",
   setError: (error) => set({ error }),
-
   mfaType: "",
   setMfaType: (type: string) => set({ mfaType: type }),
-
   currentForm: "login",
   setCurrentForm: (form: CurrentForm) => set({ currentForm: form }),
 }));

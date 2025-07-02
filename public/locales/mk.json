@@ -6,6 +6,22 @@
     "about": "За нас",
     "contact": "Контакт"
   },
+  "filters": {
+    "title": "Филтри",
+    "sortBy": "Сортирај по",
+    "departure": "Поаѓање",
+    "earliest": "Најрано",
+    "price": "Цена",
+    "lowest": "Најниска",
+    "duration": "Времетраење",
+    "shortest": "Најкратко",
+    "transfers": "Трансфери",
+    "direct": "Директна линија",
+    "transfer": "Трансфер",
+    "departureTime": "Време на поаѓање",
+    "arrivalTime": "Време на пристигнување",
+    "showTrips": "Прикажи линии"
+  },
   "infoSection": {
     "tag": "Зошто да не изберете нас",
     "heading": "Најпаметниот начин за патување со автобус",
@@ -178,6 +194,8 @@
   },
   "orderSummary": {
     "returnTrip": "Повратно патување",
+    "enterCode": "Внеси код",
+    "applying": "Се применува",
     "outboundTrip": "Појдовно патување",
     "departure": "Поаѓање",
     "duration": "Времетраење",

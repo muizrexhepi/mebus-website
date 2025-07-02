@@ -8,6 +8,22 @@
     "contact": "Contact",
     "account": "Account"
   },
+  "filters": {
+    "title": "Filters",
+    "sortBy": "Sort by",
+    "departure": "Departure",
+    "earliest": "Earliest",
+    "price": "Price",
+    "lowest": "Lowest",
+    "duration": "Duration",
+    "shortest": "Shortest",
+    "transfers": "Transfers",
+    "direct": "Direct trip",
+    "transfer": "Transfer",
+    "departureTime": "Departure time",
+    "arrivalTime": "Arrival time",
+    "showTrips": "Show trips"
+  },
   "infoSection": {
     "tag": "Why Choose Us",
     "heading": "The smartest way to travel by bus",
@@ -180,6 +196,9 @@
     "free": "Free"
   },
   "orderSummary": {
+    "apply": "Apply",
+    "enterCode": "Enter Code",
+    "applying": "Applying",
     "returnTrip": "Return Trip",
     "outboundTrip": "Outbound Trip",
     "departure": "Departure",

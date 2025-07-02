@@ -6,6 +6,22 @@
     "about": "Über uns",
     "contact": "Kontakt"
   },
+  "filters": {
+    "title": "Filter",
+    "sortBy": "Sortieren nach",
+    "departure": "Abfahrt",
+    "earliest": "Früheste",
+    "price": "Preis",
+    "lowest": "Niedrigster",
+    "duration": "Dauer",
+    "shortest": "Kürzeste",
+    "transfers": "Umstiege",
+    "direct": "Direktfahrt",
+    "transfer": "Umstieg",
+    "departureTime": "Abfahrtszeit",
+    "arrivalTime": "Ankunftszeit",
+    "showTrips": "Fahrten anzeigen"
+  },
   "infoSection": {
     "tag": "Warum uns wählen",
     "heading": "Die klügste Art, mit dem Bus zu reisen",
@@ -195,6 +211,8 @@
     "free": "Kostenlos"
   },
   "orderSummary": {
+    "enterCode": "Code eingeben",
+    "applying": "Wird angewendet",
     "returnTrip": "Rückfahrt",
     "outboundTrip": "Hinreise",
     "departure": "Abfahrt",
