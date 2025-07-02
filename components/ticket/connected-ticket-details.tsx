@@ -174,8 +174,16 @@ export default function ConnectedTicketDetails({
                 <div className="flex items-center justify-center mt-1">
                   <ArrowRight className="w-3 h-3 mr-1 text-yellow-600" />
                   <p className="text-xs text-yellow-700">
-                    Wait time: {Math.abs(ticket.connection_time)} minutes
+                    Wait time: {
+                      (() => {
+                        const totalMinutes = Math.abs(ticket.connection_time);
+                        const hours = Math.floor(totalMinutes / 60);
+                        const minutes = totalMinutes % 60;
+                        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+                      })()
+                    }
                   </p>
+
                 </div>
               </div>
             )}
