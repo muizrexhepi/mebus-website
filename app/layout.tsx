@@ -91,7 +91,7 @@ export const metadata: Metadata = {
       "Compare and book bus tickets across Europe and the Balkans. Best prices, comfortable buses, reliable service. Your FlixBus alternative for Balkan routes.",
     images: [
       {
-        url: "https://www.gobusly.com/og-image.jpg",
+        url: "https://www.gobusly.com/og-image.png",
         width: 1200,
         height: 630,
         alt: "GoBusly - Bus Booking Platform for Europe and Balkans",
@@ -106,7 +106,7 @@ export const metadata: Metadata = {
     title: "GoBusly - Book Affordable Bus Tickets in Europe & the Balkans",
     description:
       "Book cheap bus tickets online with GoBusly. Travel conveniently across Europe and the Balkans at the best prices. FlixBus alternative.",
-    images: ["https://www.gobusly.com/og-image.jpg"],
+    images: ["https://www.gobusly.com/og-image.png"],
   },
   robots: {
     index: true,
@@ -362,7 +362,6 @@ export default function RootLayout({
           <Toaster />
           <TranslationProvider>
             <ClientProviders>
-            
               <Navbar className="paddingX max-w-6xl py-4 mx-auto" />
               {children}
               {/* <CookieConsent /> */}
