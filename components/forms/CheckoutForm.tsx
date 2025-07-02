@@ -51,19 +51,15 @@ const ResumeCheckoutAlert = () => {
 };
 
 const CheckoutForm = () => {
-  // 🚨 ALWAYS call hooks at the top level, in the same order
   const { sessionId, resetTimeout } = useAbandonedCheckout();
 
-  // Reset timeout on any user interaction - this useEffect must come after useAbandonedCheckout
   useEffect(() => {
-    // Only set up event listeners if we have resetTimeout function
     if (!resetTimeout) return;
 
     const handleUserActivity = () => {
       resetTimeout();
     };
 
-    // Track various user activities
     const events = [
       "mousedown",
       "keydown",
@@ -84,11 +80,10 @@ const CheckoutForm = () => {
         document.removeEventListener(event, handleUserActivity);
       });
     };
-  }, [resetTimeout]); // Only depend on resetTimeout
+  }, [resetTimeout]); 
 
   return (
     <div className="space-y-6">
-      {/* Resume checkout alert */}
       <ResumeCheckoutAlert />
 
       <div className="relative mx-auto flex flex-col-reverse md:flex-row gap-8">
@@ -101,14 +96,12 @@ const CheckoutForm = () => {
         <div className="hidden flex-1 md:flex flex-col gap-4 sticky top-10 h-fit">
           <OrderSummary />
 
-          {/* Debug info in development */}
           {process.env.NODE_ENV === "development" && (
             <div className="mt-4 p-4 bg-blue-50 rounded-lg text-xs">
               <p>
                 <strong>Session ID:</strong> {sessionId || "Not generated"}
               </p>
               <p>
-                {/* <strong>Tracking:</strong> {resetTimeout ? "Active" : "Inactive"} */}
               </p>
             </div>
           )}

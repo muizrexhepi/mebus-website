@@ -2,7 +2,7 @@
 
 import type React from "react";
 import { useEffect, useMemo, useState } from "react";
-import { Locate, MapPin, Tag, X, Check, ArrowRight } from "lucide-react";
+import { Locate, MapPin, Tag, X, Check, ArrowRight, Clock } from "lucide-react";
 import moment from "moment-timezone";
 import type { Ticket } from "@/models/ticket";
 import {
@@ -47,38 +47,35 @@ interface TripProps {
 
 function TicketSummary({ ticket, isReturn }: TripProps) {
   if (isConnectedTicket(ticket)) {
-    // Connected ticket - show each leg separately
     const firstLeg = ticket.legs[0];
     const lastLeg = ticket.legs[ticket.legs.length - 1];
     const departureDate = moment.utc(firstLeg.departure_date);
     const arrivalDate = moment.utc(lastLeg.arrival_time);
     const isNextDay = !departureDate.isSame(arrivalDate, "day");
+    console.log({ ticket })
 
     return (
       <div className="space-y-4">
-        {/* Header with overall journey info */}
         <div className="flex items-center justify-between">
           <div className="text-base font-medium">
             {departureDate.format("ddd, D MMM")}
             {isNextDay && ` → ${arrivalDate.format("ddd, D MMM")}`}
           </div>
           <div className="px-3 py-1 bg-orange-100 font-medium rounded-full text-sm text-orange-700">
-            {ticket.legs.length}{" "}
-            {ticket.legs.length === 1 ? "Segment" : "Segments"}
+            {ticket.legs.length - 1}{" "}
+            {ticket.legs.length === 1 ? "Connection" : "Connections"}
           </div>
         </div>
 
-        {/* Show each leg of the journey */}
         <div className="space-y-3">
-          {ticket.legs.map((leg, index) => {
+          {ticket?.legs.map((leg, index) => {
             const legDeparture = moment.utc(leg.departure_date);
             const legArrival = moment.utc(leg.arrival_time);
 
             return (
               <div key={`leg-${index}`} className="bg-gray-50 rounded-lg p-3">
-                {/* Operator info for this leg */}
                 <div className="flex items-center justify-between mb-3">
-                  <div className="px-2.5 py-1 bg-primary-bg/10 font-medium rounded-full text-xs text-primary-bg">
+                  <div className="bg-primary-bg text-white text-xs px-2 py-1 rounded-full font-medium w-fit">
                     {leg.operator.name}
                   </div>
                   <div className="text-xs text-gray-500">
@@ -86,9 +83,10 @@ function TicketSummary({ ticket, isReturn }: TripProps) {
                   </div>
                 </div>
 
-                {/* Route for this leg */}
                 <div className="space-y-3">
-                  {/* Departure */}
+                  <span className="capitalize font-medium text-sm">
+                            {moment.utc(leg.departure_date).format("DD-MM-YYYY")}
+                          </span>
                   <div className="flex items-center gap-4">
                     <div className="flex-1 flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -108,14 +106,12 @@ function TicketSummary({ ticket, isReturn }: TripProps) {
                     </div>
                   </div>
 
-                  {/* Journey line with arrow */}
                   <div className="flex items-center gap-2 ml-6">
                     <div className="flex-1 border-t border-dashed border-gray-300"></div>
                     <ArrowRight size={14} className="text-gray-400" />
                     <div className="flex-1 border-t border-dashed border-gray-300"></div>
                   </div>
 
-                  {/* Arrival */}
                   <div className="flex items-center gap-4">
                     <div className="flex-1 flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -136,15 +132,31 @@ function TicketSummary({ ticket, isReturn }: TripProps) {
                   </div>
                 </div>
 
-                {/* Transfer info (if not the last leg) */}
                 {index < ticket.legs.length - 1 && (
-                  <div className="mt-3 pt-3 border-t border-gray-200">
-                    <div className="flex items-center gap-2 text-xs text-amber-600">
-                      <div className="w-2 h-2 bg-amber-400 rounded-full"></div>
-                      <span>
-                        Transfer time: {Math.abs(ticket.connection_time)}{" "}
-                        minutes
-                      </span>
+                  <div className="w-full my-4 bg-yellow-50 border border-yellow-200 p-3 rounded-lg">
+                    <div className="flex items-center justify-center">
+                      <Clock className="w-4 h-4 mr-2 text-yellow-600" />
+                      <p className="text-sm text-yellow-800">
+                        Transfer at{" "}
+                        <span className="font-bold">
+                          {ticket.intermediate_station?.name || leg.to_station.name}
+                        </span>
+                      </p>
+
+                    </div>
+                    <div className="flex items-center justify-center mt-1">
+                      <ArrowRight className="w-3 h-3 mr-1 text-yellow-600" />
+                      <p className="text-xs text-yellow-700">
+                        Wait time: {
+                          (() => {
+                            const totalMinutes = Math.abs(ticket.connection_time);
+                            const hours = Math.floor(totalMinutes / 60);
+                            const minutes = totalMinutes % 60;
+                            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+                          })()
+                        }
+                      </p>
+
                     </div>
                   </div>
                 )}
@@ -155,7 +167,6 @@ function TicketSummary({ ticket, isReturn }: TripProps) {
       </div>
     );
   } else {
-    // Regular ticket - show as before
     const departureDate = moment.utc(ticket.stops[0].departure_date);
     const arrivalDate = moment.utc(ticket.stops[0].arrival_time);
     const isNextDay = !departureDate.isSame(arrivalDate, "day");
@@ -167,7 +178,7 @@ function TicketSummary({ ticket, isReturn }: TripProps) {
             {departureDate.format("ddd, D MMM")}
             {isNextDay && ` → ${arrivalDate.format("ddd, D MMM")}`}
           </div>
-          <div className="px-3 py-1 bg-secondary-bg/20 font-medium rounded-full text-sm text-black">
+          <div className="bg-primary-bg text-white text-xs px-2 py-1 rounded-full font-medium w-fit">
             {ticket.operatorInfo.name}
           </div>
         </div>
@@ -257,7 +268,6 @@ const OrderSummary = ({ className }: { className?: string }) => {
     setIsApplyingCode(true);
     setDiscountError(null);
 
-    // Simulate API call delay
     setTimeout(() => {
       const percentage = validateDiscountCode(discountCode);
       if (percentage) {
@@ -267,11 +277,9 @@ const OrderSummary = ({ className }: { className?: string }) => {
         setDiscountError(null);
         setDiscountCode("");
 
-        // Save to localStorage
         localStorage.setItem("discountCode", code);
         localStorage.setItem("discountPercentage", percentage.toString());
 
-        // Optional: Set expiration, for example 30 minutes from now
         const expiration = new Date();
         expiration.setMinutes(expiration.getMinutes() + 30);
         localStorage.setItem("discountExpiration", expiration.toISOString());
@@ -362,7 +370,6 @@ const OrderSummary = ({ className }: { className?: string }) => {
     return outboundTotal + returnTotal + flexPrice;
   }, [outboundDetails, returnDetails, flexPrice]);
 
-  // Calculate discount amount if discount code is applied
   useEffect(() => {
     if (appliedDiscountCode && discountPercentage > 0) {
       const calculatedDiscount = (subtotalPrice * discountPercentage) / 100;
@@ -419,7 +426,6 @@ const OrderSummary = ({ className }: { className?: string }) => {
         )}
       </div>
 
-      {/* Discount Code Input Section */}
       <div className="bg-white rounded-lg p-4 border border-gray-200">
         <div className="flex items-center gap-2 mb-3">
           <Tag size={18} className="text-gray-600" />
@@ -541,7 +547,6 @@ const OrderSummary = ({ className }: { className?: string }) => {
 
           <hr className="w-full h-[1px] bg-neutral-500 my-2" />
 
-          {/* Applied Discount Display in Price Summary */}
           {appliedDiscountCode && (
             <>
               <PriceSummaryItem

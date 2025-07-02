@@ -641,7 +641,6 @@ const TicketList: React.FC = () => {
             </div>
           )}
 
-          {/* Connected Routes Section */}
           {state.filteredConnectedTickets.length > 0 && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">

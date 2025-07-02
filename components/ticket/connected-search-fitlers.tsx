@@ -41,14 +41,12 @@ export default function ConnectedSearchFilters({
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [selectedOperators, setSelectedOperators] = useState<string[]>([]);
 
-  // Get price range from connected tickets
   const ticketPriceRange = useState(() => {
     if (tickets.length === 0) return [0, 1000];
     const prices = tickets.map((ticket) => convertFromEUR(ticket.total_price));
     return [Math.floor(Math.min(...prices)), Math.ceil(Math.max(...prices))];
   })[0];
 
-  // Get unique operators from connected tickets
   const operators = useState(() => {
     const operatorSet = new Set<string>();
     tickets.forEach((ticket) => {
@@ -59,7 +57,6 @@ export default function ConnectedSearchFilters({
     return Array.from(operatorSet);
   })[0];
 
-  // Initialize price range
   useEffect(() => {
     setPriceRange(ticketPriceRange as [number, number]);
   }, [ticketPriceRange]);
@@ -78,7 +75,6 @@ export default function ConnectedSearchFilters({
   const filterAndSortTickets = () => {
     let filteredTickets = [...tickets];
 
-    // Filter by departure and arrival time
     filteredTickets = filteredTickets.filter((ticket) => {
       if (!ticket.legs || ticket.legs.length === 0) return false;
 
@@ -94,7 +90,6 @@ export default function ConnectedSearchFilters({
       return isDepartureInRange && isArrivalInRange;
     });
 
-    // Filter by number of transfers (legs - 1)
     if (transfers.length > 0) {
       filteredTickets = filteredTickets.filter((ticket) => {
         const transferCount = Math.max(0, ticket.legs.length - 1);
@@ -107,13 +102,11 @@ export default function ConnectedSearchFilters({
       });
     }
 
-    // Filter by price range
     filteredTickets = filteredTickets.filter((ticket) => {
       const price = convertFromEUR(ticket.total_price);
       return price >= priceRange[0] && price <= priceRange[1];
     });
 
-    // Filter by operators
     if (selectedOperators.length > 0) {
       filteredTickets = filteredTickets.filter((ticket) => {
         return ticket.legs.some((leg) =>
@@ -122,7 +115,6 @@ export default function ConnectedSearchFilters({
       });
     }
 
-    // Sort tickets
     filteredTickets.sort((a, b) => {
       switch (sortBy) {
         case "departure": {
