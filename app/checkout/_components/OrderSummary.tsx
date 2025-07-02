@@ -52,7 +52,7 @@ function TicketSummary({ ticket, isReturn }: TripProps) {
     const departureDate = moment.utc(firstLeg.departure_date);
     const arrivalDate = moment.utc(lastLeg.arrival_time);
     const isNextDay = !departureDate.isSame(arrivalDate, "day");
-    console.log({ ticket })
+    console.log({ ticket });
 
     return (
       <div className="space-y-4">
@@ -78,15 +78,12 @@ function TicketSummary({ ticket, isReturn }: TripProps) {
                   <div className="bg-primary-bg text-white text-xs px-2 py-1 rounded-full font-medium w-fit">
                     {leg.operator.name}
                   </div>
-                  <div className="text-xs text-gray-500">
-                    Leg {index + 1} of {ticket.legs.length}
-                  </div>
+                  <span className="text-xs text-gray-800">
+                    {moment.utc(leg.departure_date).format("DD-MM-YYYY")}
+                  </span>
                 </div>
 
                 <div className="space-y-3">
-                  <span className="capitalize font-medium text-sm">
-                            {moment.utc(leg.departure_date).format("DD-MM-YYYY")}
-                          </span>
                   <div className="flex items-center gap-4">
                     <div className="flex-1 flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -139,24 +136,24 @@ function TicketSummary({ ticket, isReturn }: TripProps) {
                       <p className="text-sm text-yellow-800">
                         Transfer at{" "}
                         <span className="font-bold">
-                          {ticket.intermediate_station?.name || leg.to_station.name}
+                          {ticket.intermediate_station?.name ||
+                            leg.to_station.name}
                         </span>
                       </p>
-
                     </div>
                     <div className="flex items-center justify-center mt-1">
                       <ArrowRight className="w-3 h-3 mr-1 text-yellow-600" />
                       <p className="text-xs text-yellow-700">
-                        Wait time: {
-                          (() => {
-                            const totalMinutes = Math.abs(ticket.connection_time);
-                            const hours = Math.floor(totalMinutes / 60);
-                            const minutes = totalMinutes % 60;
-                            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-                          })()
-                        }
+                        Wait time:{" "}
+                        {(() => {
+                          const totalMinutes = Math.abs(ticket.connection_time);
+                          const hours = Math.floor(totalMinutes / 60);
+                          const minutes = totalMinutes % 60;
+                          return `${hours.toString().padStart(2, "0")}:${minutes
+                            .toString()
+                            .padStart(2, "0")}`;
+                        })()}
                       </p>
-
                     </div>
                   </div>
                 )}

@@ -72,7 +72,7 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
   const convertedPrice = convertFromEUR(ticket.stops[0].other_prices.our_price);
 
   return (
-    <div className="max-w-5xl mx-auto bg-white border rounded-lg overflow-hidden shrink-0 border-l-4 border-l-primary-accent/80">
+    <div className="max-w-5xl mx-auto bg-white border rounded-lg overflow-hidden shrink-0">
       <div className="p-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
           <div className="flex gap-2 items-center mb-2 sm:mb-0 justify-between w-full">

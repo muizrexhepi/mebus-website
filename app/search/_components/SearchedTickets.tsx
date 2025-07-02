@@ -645,9 +645,9 @@ const TicketList: React.FC = () => {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="w-full flex items-center justify-between">
-                  <p className="font-normal">{totalResults || 0} Results</p>
+                  <p className="font-medium text-center">Indirect rotues</p>
                 </div>
-                <ConnectedSearchFilters
+                {/* <ConnectedSearchFilters
                   tickets={state.connectedTickets}
                   totalTrips={state.filteredConnectedTickets.length}
                   onFiltersChange={(filtered) => {
@@ -656,7 +656,7 @@ const TicketList: React.FC = () => {
                       payload: filtered,
                     });
                   }}
-                />
+                /> */}
               </div>
 
               <div className="space-y-2 sm:space-y-1">

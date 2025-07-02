@@ -61,7 +61,7 @@ const Loading = () => {
         </div>
 
         {/* Date selection block skeleton */}
-        <div className="max-w-6xl mx-auto paddingX pt-4">
+        <div className="max-w-4xl mx-auto paddingX pt-4">
           <div className="flex justify-center gap-1">
             <Skeleton className="h-10 w-24 rounded-t-lg" />
             <Skeleton className="h-10 w-24 rounded-t-lg bg-red-100" />
@@ -81,10 +81,7 @@ const Loading = () => {
         {/* Ticket skeletons */}
         <div className="space-y-4">
           {[...Array(6)].map((_, index) => (
-            <div
-              key={index}
-              className="bg-white border rounded-lg p-4 border-l-4 border-l-primary-accent/80"
-            >
+            <div key={index} className="bg-white border rounded-lg p-4">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
                 <div className="flex gap-2 items-center mb-2 sm:mb-0 justify-between w-full">
                   <Skeleton className="h-6 w-32" />
