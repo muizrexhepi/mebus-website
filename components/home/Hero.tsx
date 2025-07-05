@@ -59,14 +59,13 @@ const Hero = () => {
             <SearchBlock />
 
             {/* OPTION 1: Cleaner features section */}
-            <div className="pt-16 hidden md:grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* <div className="pt-16 hidden md:grid grid-cols-1 md:grid-cols-3 gap-8">
               {features.map((feature, index) => (
                 <div
                   key={index}
                   className="flex flex-col items-center text-center"
                 >
                   <div className="relative mb-4">
-                    {/* <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full button-gradient"></div> */}
                     {feature.icon}
                   </div>
                   <h3 className="font-medium text-lg text-gray-900">
@@ -77,7 +76,7 @@ const Hero = () => {
                   </p>
                 </div>
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

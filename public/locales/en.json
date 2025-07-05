@@ -8,6 +8,22 @@
     "contact": "Contact",
     "account": "Account"
   },
+  "filters": {
+    "title": "Filters",
+    "sortBy": "Sort by",
+    "departure": "Departure",
+    "earliest": "Earliest",
+    "price": "Price",
+    "lowest": "Lowest",
+    "duration": "Duration",
+    "shortest": "Shortest",
+    "transfers": "Transfers",
+    "direct": "Direct trip",
+    "transfer": "Transfer",
+    "departureTime": "Departure time",
+    "arrivalTime": "Arrival time",
+    "showTrips": "Show trips"
+  },
   "infoSection": {
     "tag": "Why Choose Us",
     "heading": "The smartest way to travel by bus",
@@ -21,8 +37,8 @@
       "description": "Easy and secure booking process with instant confirmation. Get your e-tickets delivered right to your phone."
     },
     "feature3": {
-      "title": "Track your journey",
-      "description": "Real-time updates on bus location, arrival times, and any schedule changes. Stay informed throughout your trip."
+      "title": "24/7 Customer Support",
+      "description": "Complete customer support, easy ticket management and real-time updates. Everything in your pocket."
     },
     "trustedBy": {
       "title": "Trusted by thousands",
@@ -180,6 +196,9 @@
     "free": "Free"
   },
   "orderSummary": {
+    "apply": "Apply",
+    "enterCode": "Enter Code",
+    "applying": "Applying",
     "returnTrip": "Return Trip",
     "outboundTrip": "Outbound Trip",
     "departure": "Departure",

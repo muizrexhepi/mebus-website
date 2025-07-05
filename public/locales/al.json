@@ -7,6 +7,22 @@
     "contact": "Kontakt",
     "account": "Akaunti"
   },
+  "filters": {
+    "title": "Filtrat",
+    "sortBy": "Rendit sipas",
+    "departure": "Nisja",
+    "earliest": "Më herët",
+    "price": "Çmimi",
+    "lowest": "Më i ulët",
+    "duration": "Kohëzgjatja",
+    "shortest": "Më e shkurtër",
+    "transfers": "Ndërprerje",
+    "direct": "Udhëtim direkt",
+    "transfer": "Ndërprerje",
+    "departureTime": "Ora e nisjes",
+    "arrivalTime": "Ora e mbërritjes",
+    "showTrips": "Shfaq udhëtimet"
+  },
   "infoSection": {
     "tag": "Pse të na zgjidhni ne",
     "heading": "Mënyra më e zgjuar për të udhëtuar me autobus",
@@ -20,8 +36,8 @@
       "description": "Proces i lehtë dhe i sigurt i rezervimit me konfirmim të menjëhershëm. Merrni biletat elektronike direkt në telefonin tuaj."
     },
     "feature3": {
-      "title": "Ndiqni udhëtimin tuaj",
-      "description": "Përditësime në kohë reale mbi vendndodhjen e autobusit, kohën e mbërritjes dhe çdo ndryshim të orarit. Qëndroni të informuar gjatë gjithë udhëtimit tuaj."
+      "title": "Mbështetje klientësh 24/7",
+      "description": "Mbështetje e plotë për klientët, menaxhim i lehtë i biletave dhe përditësime në kohë reale. Gjithçka në dorën tuaj."
     },
     "trustedBy": {
       "title": "Besuar nga mijëra njerëz",
@@ -178,6 +194,9 @@
     "free": "Falas"
   },
   "orderSummary": {
+    "apply": "Apliko",
+    "enterCode": "Shkruaj kodin",
+    "applying": "Duke aplikuar",
     "returnTrip": "Udhëtim Kthyes",
     "outboundTrip": "Udhëtim Vajtje",
     "departure": "Nisja",

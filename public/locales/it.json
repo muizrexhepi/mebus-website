@@ -6,6 +6,22 @@
     "about": "Chi siamo",
     "contact": "Contatti"
   },
+  "filters": {
+    "title": "Filtri",
+    "sortBy": "Ordina per",
+    "departure": "Partenza",
+    "earliest": "Più presto",
+    "price": "Prezzo",
+    "lowest": "Più basso",
+    "duration": "Durata",
+    "shortest": "Più breve",
+    "transfers": "Cambi",
+    "direct": "Viaggio diretto",
+    "transfer": "Cambio",
+    "departureTime": "Orario di partenza",
+    "arrivalTime": "Orario di arrivo",
+    "showTrips": "Mostra viaggi"
+  },
   "infoSection": {
     "tag": "Perché sceglierci",
     "heading": "Il modo più intelligente per viaggiare in autobus",
@@ -19,8 +35,8 @@
       "description": "Processo di prenotazione facile e sicuro con conferma immediata. Ricevi i tuoi biglietti elettronici direttamente sul tuo telefono."
     },
     "feature3": {
-      "title": "Segui il tuo viaggio",
-      "description": "Aggiornamenti in tempo reale sulla posizione dell'autobus, orari di arrivo e eventuali modifiche al programma. Rimani informato durante il viaggio."
+      "title": "Supporto clienti 24/7",
+      "description": "Supporto completo ai clienti, gestione facile dei biglietti e aggiornamenti in tempo reale. Tutto nel tuo telefono."
     },
     "trustedBy": {
       "title": "Fidato da migliaia",
@@ -181,6 +197,8 @@
     "free": "Gratuito"
   },
   "orderSummary": {
+    "enterCode": "Inserisci il codice",
+    "applying": "Applicazione in corso",
     "returnTrip": "Viaggio di ritorno",
     "outboundTrip": "Viaggio di andata",
     "departure": "Partenza",

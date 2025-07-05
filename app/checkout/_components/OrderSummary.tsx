@@ -1,15 +1,21 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
-import { Locate, MapPin, Tag, X, Check } from "lucide-react";
+import type React from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Locate, MapPin, Tag, X, Check, ArrowRight, Clock } from "lucide-react";
 import moment from "moment-timezone";
-import { Ticket } from "@/models/ticket";
-import { cn } from "@/lib/utils";
+import type { Ticket } from "@/models/ticket";
+import {
+  cn,
+  getChildrenPrice,
+  getTicketPrice,
+  isConnectedTicket,
+} from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import useSearchStore, { useDepositStore, useCheckoutStore } from "@/store";
 import { useCurrency } from "@/components/providers/currency-provider";
 import { Button } from "@/components/ui/button";
-
+import { ConnectedTicket } from "@/models/connected-ticket";
 interface PriceSummaryItemProps {
   label: string;
   amount: number;
@@ -35,60 +41,183 @@ const PriceSummaryItem: React.FC<PriceSummaryItemProps> = ({
 );
 
 interface TripProps {
-  ticket: Ticket;
+  ticket: Ticket | ConnectedTicket;
   isReturn: boolean;
 }
 
 function TicketSummary({ ticket, isReturn }: TripProps) {
-  const departureDate = moment.utc(ticket.stops[0].departure_date);
-  const arrivalDate = moment.utc(ticket.stops[0].arrival_time);
-  const isNextDay = !departureDate.isSame(arrivalDate, "day");
+  if (isConnectedTicket(ticket)) {
+    const firstLeg = ticket.legs[0];
+    const lastLeg = ticket.legs[ticket.legs.length - 1];
+    const departureDate = moment.utc(firstLeg.departure_date);
+    const arrivalDate = moment.utc(lastLeg.arrival_time);
+    const isNextDay = !departureDate.isSame(arrivalDate, "day");
+    console.log({ ticket });
 
-  return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="text-base font-medium">
-          {departureDate.format("ddd, D MMM")}
-          {isNextDay && ` → ${arrivalDate.format("ddd, D MMM")}`}
-        </div>
-        <div className="px-3 py-1 bg-secondary-bg/20 font-medium rounded-full text-sm text-black">
-          {ticket.operatorInfo.name}
-        </div>
-      </div>
-
-      <div className="relative">
-        <div className="flex items-center gap-4 mb-6">
-          <div className="flex-1 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Locate size={20} className="text-gray-600" />
-              <div className="flex flex-col">
-                <span className="capitalize">{ticket.stops[0].from.city}</span>
-                <span className="text-primary-bg/60 text-sm font-medium">
-                  {ticket.stops[0].from.name}
-                </span>
-              </div>
-            </div>
-            <span className="font-medium">{departureDate.format("HH:mm")}</span>
+    return (
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="text-base font-medium">
+            {departureDate.format("ddd, D MMM")}
+            {isNextDay && ` → ${arrivalDate.format("ddd, D MMM")}`}
+          </div>
+          <div className="px-3 py-1 bg-orange-100 font-medium rounded-full text-sm text-orange-700">
+            {ticket.legs.length - 1}{" "}
+            {ticket.legs.length === 1 ? "Connection" : "Connections"}
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="flex-1 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <MapPin size={20} className="text-gray-600" />
-              <div className="flex flex-col">
-                <span className="capitalize">{ticket.stops[0].to.city}</span>
-                <span className="text-primary-bg/60 text-sm font-medium">
-                  {ticket.stops[0].to.name}
-                </span>
+        <div className="space-y-3">
+          {ticket?.legs.map((leg, index) => {
+            const legDeparture = moment.utc(leg.departure_date);
+            const legArrival = moment.utc(leg.arrival_time);
+
+            return (
+              <div key={`leg-${index}`} className="bg-gray-50 rounded-lg p-3">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="bg-primary-bg text-white text-xs px-2 py-1 rounded-full font-medium w-fit">
+                    {leg.operator.name}
+                  </div>
+                  <span className="text-xs text-gray-800">
+                    {moment.utc(leg.departure_date).format("DD-MM-YYYY")}
+                  </span>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="flex items-center gap-4">
+                    <div className="flex-1 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Locate size={16} className="text-gray-600" />
+                        <div className="flex flex-col">
+                          <span className="capitalize font-medium text-sm">
+                            {leg.from_station.city}
+                          </span>
+                          <span className="text-primary-bg/60 text-xs">
+                            {leg.from_station.name}
+                          </span>
+                        </div>
+                      </div>
+                      <span className="font-medium text-sm">
+                        {legDeparture.format("HH:mm")}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 ml-6">
+                    <div className="flex-1 border-t border-dashed border-gray-300"></div>
+                    <ArrowRight size={14} className="text-gray-400" />
+                    <div className="flex-1 border-t border-dashed border-gray-300"></div>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <div className="flex-1 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <MapPin size={16} className="text-gray-600" />
+                        <div className="flex flex-col">
+                          <span className="capitalize font-medium text-sm">
+                            {leg.to_station.city}
+                          </span>
+                          <span className="text-primary-bg/60 text-xs">
+                            {leg.to_station.name}
+                          </span>
+                        </div>
+                      </div>
+                      <span className="font-medium text-sm">
+                        {legArrival.format("HH:mm")}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {index < ticket.legs.length - 1 && (
+                  <div className="w-full my-4 bg-yellow-50 border border-yellow-200 p-3 rounded-lg">
+                    <div className="flex items-center justify-center">
+                      <Clock className="w-4 h-4 mr-2 text-yellow-600" />
+                      <p className="text-sm text-yellow-800">
+                        Transfer at{" "}
+                        <span className="font-bold">
+                          {ticket.intermediate_station?.name ||
+                            leg.to_station.name}
+                        </span>
+                      </p>
+                    </div>
+                    <div className="flex items-center justify-center mt-1">
+                      <ArrowRight className="w-3 h-3 mr-1 text-yellow-600" />
+                      <p className="text-xs text-yellow-700">
+                        Wait time:{" "}
+                        {(() => {
+                          const totalMinutes = Math.abs(ticket.connection_time);
+                          const hours = Math.floor(totalMinutes / 60);
+                          const minutes = totalMinutes % 60;
+                          return `${hours.toString().padStart(2, "0")}:${minutes
+                            .toString()
+                            .padStart(2, "0")}`;
+                        })()}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  } else {
+    const departureDate = moment.utc(ticket.stops[0].departure_date);
+    const arrivalDate = moment.utc(ticket.stops[0].arrival_time);
+    const isNextDay = !departureDate.isSame(arrivalDate, "day");
+
+    return (
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="text-base font-medium">
+            {departureDate.format("ddd, D MMM")}
+            {isNextDay && ` → ${arrivalDate.format("ddd, D MMM")}`}
+          </div>
+          <div className="bg-primary-bg text-white text-xs px-2 py-1 rounded-full font-medium w-fit">
+            {ticket.operatorInfo.name}
+          </div>
+        </div>
+
+        <div className="relative">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="flex-1 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Locate size={20} className="text-gray-600" />
+                <div className="flex flex-col">
+                  <span className="capitalize">
+                    {ticket.stops[0].from.city}
+                  </span>
+                  <span className="text-primary-bg/60 text-sm font-medium">
+                    {ticket.stops[0].from.name}
+                  </span>
+                </div>
+              </div>
+              <span className="font-medium">
+                {departureDate.format("HH:mm")}
+              </span>
             </div>
-            <span className="font-medium">{arrivalDate.format("HH:mm")}</span>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <div className="flex-1 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <MapPin size={20} className="text-gray-600" />
+                <div className="flex flex-col">
+                  <span className="capitalize">{ticket.stops[0].to.city}</span>
+                  <span className="text-primary-bg/60 text-sm font-medium">
+                    {ticket.stops[0].to.name}
+                  </span>
+                </div>
+              </div>
+              <span className="font-medium">{arrivalDate.format("HH:mm")}</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 const OrderSummary = ({ className }: { className?: string }) => {
@@ -104,6 +233,7 @@ const OrderSummary = ({ className }: { className?: string }) => {
   const [discountAmount, setDiscountAmount] = useState<number>(0);
   const [isApplyingCode, setIsApplyingCode] = useState(false);
   const [discountError, setDiscountError] = useState<string | null>(null);
+
   const { useDeposit, depositAmount } = useDepositStore();
   const { passengers: passengerAmount } = useSearchStore();
   const { outboundTicket, returnTicket, selectedFlex, passengers } =
@@ -135,24 +265,18 @@ const OrderSummary = ({ className }: { className?: string }) => {
     setIsApplyingCode(true);
     setDiscountError(null);
 
-    // Simulate API call delay
     setTimeout(() => {
-      const percentage = validateDiscountCode(discountCode); // This is your own validation logic
-
+      const percentage = validateDiscountCode(discountCode);
       if (percentage) {
         const code = discountCode.trim().toUpperCase();
-
-        // Save to state
         setAppliedDiscountCode(code);
         setDiscountPercentage(percentage);
         setDiscountError(null);
         setDiscountCode("");
 
-        // Save to localStorage
         localStorage.setItem("discountCode", code);
         localStorage.setItem("discountPercentage", percentage.toString());
 
-        // Optional: Set expiration, for example 30 minutes from now
         const expiration = new Date();
         expiration.setMinutes(expiration.getMinutes() + 30);
         localStorage.setItem("discountExpiration", expiration.toISOString());
@@ -161,7 +285,6 @@ const OrderSummary = ({ className }: { className?: string }) => {
           t("orderSummary.invalidDiscountCode", "Invalid discount code")
         );
       }
-
       setIsApplyingCode(false);
     }, 500);
   };
@@ -213,15 +336,13 @@ const OrderSummary = ({ className }: { className?: string }) => {
     );
   }, [selectedFlex, convertFromEUR]);
 
-  const calculateTicketTotal = (ticket: Ticket) => {
-    const adultPrice = convertFromEUR(ticket.stops[0].other_prices.our_price);
-    const childPrice = convertFromEUR(
-      ticket.stops[0].other_prices.our_children_price
-    );
+  const calculateTicketTotal = (ticket: Ticket | ConnectedTicket) => {
+    const adultPrice = convertFromEUR(getTicketPrice(ticket));
+    const childPrice = convertFromEUR(getChildrenPrice(ticket));
 
     return {
-      adultTotal: adultPrice * passengerAmount.adults || 1,
-      childTotal: childPrice * passengerAmount.children || 0,
+      adultTotal: adultPrice * (passengerAmount.adults || 1),
+      childTotal: childPrice * (passengerAmount.children || 0),
       adultCount: passengerAmount.adults,
       childCount: passengerAmount.children,
       adultPrice,
@@ -246,7 +367,6 @@ const OrderSummary = ({ className }: { className?: string }) => {
     return outboundTotal + returnTotal + flexPrice;
   }, [outboundDetails, returnDetails, flexPrice]);
 
-  // Calculate discount amount if discount code is applied
   useEffect(() => {
     if (appliedDiscountCode && discountPercentage > 0) {
       const calculatedDiscount = (subtotalPrice * discountPercentage) / 100;
@@ -289,6 +409,7 @@ const OrderSummary = ({ className }: { className?: string }) => {
         <h1 className="font-medium text-2xl">
           {t("orderSummary.bookingDetails")}
         </h1>
+
         {outboundTicket && (
           <div className="w-full rounded-lg p-4 bg-white border border-gray-200">
             <TicketSummary ticket={outboundTicket} isReturn={false} />
@@ -302,7 +423,6 @@ const OrderSummary = ({ className }: { className?: string }) => {
         )}
       </div>
 
-      {/* Discount Code Input Section */}
       <div className="bg-white rounded-lg p-4 border border-gray-200">
         <div className="flex items-center gap-2 mb-3">
           <Tag size={18} className="text-gray-600" />
@@ -330,7 +450,7 @@ const OrderSummary = ({ className }: { className?: string }) => {
               >
                 {isApplyingCode
                   ? t("orderSummary.applying", "Applying...")
-                  : t("orderSummary.apply", "Apply")}
+                  : t("affiliateProgramPage.apply", "Apply")}
               </Button>
             </div>
             {discountError && (
@@ -388,6 +508,7 @@ const OrderSummary = ({ className }: { className?: string }) => {
               />
             </>
           )}
+
           {returnDetails && (
             <>
               <h2 className="font-medium text-base mt-2">
@@ -408,6 +529,7 @@ const OrderSummary = ({ className }: { className?: string }) => {
               />
             </>
           )}
+
           {selectedFlex && selectedFlex !== "no_flex" && (
             <PriceSummaryItem
               label={
@@ -419,9 +541,9 @@ const OrderSummary = ({ className }: { className?: string }) => {
               currencySymbol={currency.symbol}
             />
           )}
+
           <hr className="w-full h-[1px] bg-neutral-500 my-2" />
 
-          {/* Applied Discount Display in Price Summary */}
           {appliedDiscountCode && (
             <>
               <PriceSummaryItem
@@ -458,6 +580,7 @@ const OrderSummary = ({ className }: { className?: string }) => {
               />
             </>
           )}
+
           <PriceSummaryItem
             label={t("orderSummary.total")}
             amount={remainingAmount}

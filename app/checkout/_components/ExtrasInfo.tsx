@@ -1,11 +1,14 @@
 "use client";
 
+import type React from "react";
+
 import { useCurrency } from "@/components/providers/currency-provider";
-import { FlexFeature } from "@/lib/data";
+import type { FlexFeature } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { useCheckoutStore } from "@/store";
-import { Check, Sparkles } from "lucide-react";
+import { Check } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useAbandonedCheckout } from "@/components/hooks/use-abandoned-checkout";
 
 const flexFeatures: FlexFeature[] = [
   {
@@ -67,6 +70,7 @@ const FlexOption: React.FC<{
               {t(flex.name)}
             </h3>
           </div>
+
           <p
             className={cn(
               "font-bold",
@@ -114,7 +118,11 @@ const TravelFlex: React.FC = () => {
   const { selectedFlex, setSelectedFlex, setFlexPrice } = useCheckoutStore();
   const { convertFromEUR } = useCurrency();
 
+  // 🚨 Get resetTimeout from abandoned checkout hook
+  const { resetTimeout } = useAbandonedCheckout();
+
   const handleFlexSelection = (flex: FlexFeature) => {
+    resetTimeout(); // Reset timer on flex selection
     setSelectedFlex(flex.value);
     setFlexPrice(convertFromEUR(flex.price));
   };
@@ -143,13 +151,14 @@ const Extras: React.FC = () => {
           2
         </span>
         <div className="flex items-center gap-2">
-          {/* <Sparkles size={20} className="text-primary-bg" /> */}
           <p className="text-[#353535] font-medium text-lg">
             {t("services.title")}
           </p>
         </div>
       </div>
+
       <p className="text-sm text-gray-600">{t("services.description")}</p>
+
       <TravelFlex />
     </div>
   );

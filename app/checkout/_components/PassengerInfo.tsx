@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import type React from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
-import { PassengerData } from "@/components/hooks/use-passengers";
+import type { PassengerData } from "@/components/hooks/use-passengers";
 import useSearchStore, { useCheckoutStore } from "@/store";
 import PassengerSelector from "./PassengerSelector";
-import { CalendarIcon, CalendarX2Icon, X } from "lucide-react";
+import { CalendarIcon, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { passengerSchema } from "@/schemas";
 import { z } from "zod";
@@ -19,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useAbandonedCheckout } from "@/components/hooks/use-abandoned-checkout";
 
 interface InputFieldProps {
   label: string;
@@ -45,7 +47,11 @@ const InputField: React.FC<InputFieldProps> = ({
   error,
   onBlur,
 }) => {
+  // 🚨 Get resetTimeout from abandoned checkout hook
+  const { resetTimeout } = useAbandonedCheckout();
+
   const handleDateChange = (date: Date | null) => {
+    resetTimeout(); // Reset timer on date change
     if (date) {
       const formattedDate = date?.toISOString()?.split("T")[0];
       onChange(formattedDate);
@@ -53,6 +59,12 @@ const InputField: React.FC<InputFieldProps> = ({
       onChange("");
     }
   };
+
+  const handleInputChange = (value: string) => {
+    resetTimeout(); // Reset timer on input change
+    onChange(value);
+  };
+
   return (
     <div className="space-y-1">
       <p className="font-normal text-sm text-black/70">{label}</p>
@@ -96,8 +108,7 @@ const InputField: React.FC<InputFieldProps> = ({
                 .react-datepicker__current-month {
                   font-weight: 600;
                   font-size: 1rem;
-                  margin-bottom: 0.5rem;  margin-bottom: 0.5rem; 
-
+                  margin-bottom: 0.5rem;
                 }
                 .react-datepicker__day-name {
                   color: #64748b;
@@ -168,7 +179,7 @@ const InputField: React.FC<InputFieldProps> = ({
           placeholder={placeholder}
           value={value as string}
           onBlur={onBlur}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => handleInputChange(e.target.value)}
           required={required}
         />
       )}
@@ -188,60 +199,68 @@ const PassengerInfo: React.FC = () => {
   );
   const { passengers: passengersAmount, setPassengers: setPassengersAmount } =
     useSearchStore();
-
   const { adults, children } = {
     adults: passengersAmount.adults || 1,
     children: passengersAmount.children || 0,
   };
-
   const { user } = useAuth();
-  console.log({ user });
-  useEffect(() => {
-    const useUserInfo = user ?? false;
+  const { resetTimeout } = useAbandonedCheckout();
 
-    if (useUserInfo) {
-      console.log({ user });
-      passengers[0] = {
-        ...passengers[0],
-        first_name: user?.name?.split(" ")[0] || "",
-        last_name: user?.name?.split(" ")[1] || "",
-        email: user?.email,
-        phone: user?.phone || "",
-      };
-    }
+  // Set user data to first passenger
+  useEffect(() => {
+    if (!user || passengers.length === 0) return;
+
+    const [firstName = "", lastName = ""] = user.name?.split(" ") || [];
+
+    const updated = {
+      ...passengers[0],
+      first_name: firstName,
+      last_name: lastName,
+      email: user.email || "",
+      phone: user.phone || "",
+    };
+
+    const newPassengers = [...passengers];
+    newPassengers[0] = updated;
+    setPassengers(newPassengers);
   }, [user]);
 
+  // Ensure passenger count matches adults + children
   useEffect(() => {
-    if (passengers.length === adults + children) {
-      return;
-    }
+    const expected = adults + children;
+    if (passengers.length === expected) return;
 
-    const newPassengers: PassengerData[] = [];
-
-    for (let i = 0; i < adults + children; i++) {
-      if (i < passengers.length) {
-        newPassengers.push(passengers[i]);
-      } else {
-        newPassengers.push({
-          first_name: "",
-          last_name: "",
-          email: "",
-          phone: "",
-          birthdate: "",
-          age: i < adults ? 33 : 0,
-          price: 0,
-        });
+    const newPassengers: PassengerData[] = Array.from(
+      { length: expected },
+      (_, i) => {
+        return (
+          passengers[i] || {
+            first_name: "",
+            last_name: "",
+            email: "",
+            phone: "",
+            birthdate: "",
+            age: i < adults ? 33 : 0,
+            price: 0,
+          }
+        );
       }
-    }
+    );
 
     setPassengers(newPassengers);
-  }, [adults, children, setPassengers, passengers]);
+  }, [adults, children]);
+
+  useEffect(() => {
+    console.log("👥 Passengers updated:", passengers);
+  }, [passengers]);
 
   const updatePassenger = (
     index: number,
     field: keyof PassengerData,
     value: string
   ) => {
+    resetTimeout();
+
     const updatedPassengers = [...passengers];
     updatedPassengers[index] = {
       ...updatedPassengers[index],
@@ -252,16 +271,17 @@ const PassengerInfo: React.FC = () => {
       const birthDate = new Date(value);
       const today = new Date();
       let age = today.getFullYear() - birthDate.getFullYear();
-      const monthDiff = today.getMonth() - birthDate.getMonth();
-      if (
-        monthDiff < 0 ||
-        (monthDiff === 0 && today.getDate() < birthDate.getDate())
-      ) {
+      const mDiff = today.getMonth() - birthDate.getMonth();
+      if (mDiff < 0 || (mDiff === 0 && today.getDate() < birthDate.getDate())) {
         age--;
       }
       updatedPassengers[index].age = age;
     }
-    console.log({ passengers });
+
+    if (field === "email" && value && index === 0) {
+      console.log("📧 Email entered, abandoned checkout tracking will start");
+    }
+
     setValidationErrors(Array(adults + children).fill({}));
     setPassengers(updatedPassengers);
   };
@@ -291,29 +311,28 @@ const PassengerInfo: React.FC = () => {
     }
   };
 
-  console.log({ passengers });
-
-  const renderPassengerInputs = (passengerIndex: number, isChild: boolean) => {
-    const passenger = passengers[passengerIndex];
-    const errors = validationErrors[passengerIndex] || {};
+  const renderPassengerInputs = (index: number, isChild: boolean) => {
+    const passenger = passengers[index];
+    const errors = validationErrors[index] || {};
 
     const removePassenger = () => {
+      resetTimeout();
       if (isChild) {
-        setPassengersAmount({ adults, children: children - 1 });
+        setPassengersAmount({ adults, children: Math.max(0, children - 1) });
       } else {
-        setPassengersAmount({ children, adults: adults - 1 });
+        setPassengersAmount({ children, adults: Math.max(1, adults - 1) });
       }
     };
 
     return (
-      <div key={passengerIndex} className="">
+      <div key={index}>
         <div className="flex items-center justify-between">
           <p className="font-medium text-black mb-2">
             {isChild
-              ? `${t("passengerInfo.child")} ${passengerIndex - adults + 1}`
-              : `${t("passengerInfo.adult")} ${passengerIndex + 1}`}
+              ? `${t("passengerInfo.child")} ${index - adults + 1}`
+              : `${t("passengerInfo.adult")} ${index + 1}`}
           </p>
-          {passengerIndex !== 0 && (
+          {index !== 0 && (
             <button
               onClick={removePassenger}
               className="bg-gray-100 p-1.5 rounded-full"
@@ -322,86 +341,65 @@ const PassengerInfo: React.FC = () => {
             </button>
           )}
         </div>
+
         <div className="flex flex-col gap-2 sm:grid sm:grid-cols-2">
           <InputField
             label={t("passengerInfo.firstName")}
             placeholder={t("passengerInfo.firstNamePlaceholder")}
             type="text"
-            value={passenger.first_name || ""}
-            onBlur={() => validatePassenger(passengerIndex, "first_name")}
-            onChange={(value) => {
-              // const lastName = passenger.first_name
-              //   .split(" ")
-              //   .slice(1)
-              //   .join(" ");
-              updatePassenger(
-                passengerIndex,
-                "first_name",
-                value
-                // `${value} ${lastName}`.trim()
-              );
-            }}
+            value={passenger.first_name}
+            onBlur={() => validatePassenger(index, "first_name")}
+            onChange={(value) => updatePassenger(index, "first_name", value)}
             error={errors.first_name}
-            required={true}
+            required
           />
+
           <InputField
             label={t("passengerInfo.lastName")}
             placeholder={t("passengerInfo.lastNamePlaceholder")}
             type="text"
-            value={passenger.last_name || ""}
-            onBlur={() => validatePassenger(passengerIndex, "last_name")}
-            onChange={(value) => {
-              // const firstName = passenger.last_name.split(" ")[0];
-              updatePassenger(
-                passengerIndex,
-                "last_name",
-                value
-                // `${firstName} ${value}`.trim()
-              );
-            }}
+            value={passenger.last_name}
+            onBlur={() => validatePassenger(index, "last_name")}
+            onChange={(value) => updatePassenger(index, "last_name", value)}
             error={errors.last_name}
-            required={true}
+            required
           />
-          {passengerIndex === 0 && (
+
+          {index === 0 && (
             <>
               <InputField
                 label={t("passengerInfo.email")}
                 placeholder={t("passengerInfo.emailPlaceholder")}
                 type="email"
                 value={passenger.email}
-                onBlur={() => validatePassenger(passengerIndex, "email")}
-                onChange={(value) =>
-                  updatePassenger(passengerIndex, "email", value)
-                }
+                onBlur={() => validatePassenger(index, "email")}
+                onChange={(value) => updatePassenger(index, "email", value)}
                 error={errors.email}
-                required={true}
+                required
               />
               <InputField
                 label={t("passengerInfo.phoneNumber")}
                 placeholder={t("passengerInfo.phoneNumberPlaceholder")}
                 type="tel"
                 value={passenger.phone}
-                onBlur={() => validatePassenger(passengerIndex, "phone")}
-                onChange={(value) =>
-                  updatePassenger(passengerIndex, "phone", value)
-                }
+                onBlur={() => validatePassenger(index, "phone")}
+                onChange={(value) => updatePassenger(index, "phone", value)}
                 error={errors.phone}
-                required={true}
+                required
               />
             </>
           )}
+
           {isChild && (
             <InputField
               label={t("passengerInfo.birthdate")}
               placeholder={t("passengerInfo.birthdatePlaceholder")}
               type="date"
               value={passenger.birthdate}
-              onBlur={() => validatePassenger(passengerIndex, "birthdate")}
-              onChange={(value) =>
-                updatePassenger(passengerIndex, "birthdate", value)
-              }
+              onBlur={() => validatePassenger(index, "birthdate")}
+              onChange={(value) => updatePassenger(index, "birthdate", value)}
               error={errors.birthdate}
-              required={true}
+              required
             />
           )}
         </div>
@@ -420,11 +418,13 @@ const PassengerInfo: React.FC = () => {
         </p>
       </div>
       <p className="text-sm text-gray-600">{t("passengerInfo.instructions")}</p>
+
       <div className="space-y-3">
         {passengers.map((_, index) =>
           renderPassengerInputs(index, index >= adults)
         )}
       </div>
+
       <PassengerSelector />
     </div>
   );

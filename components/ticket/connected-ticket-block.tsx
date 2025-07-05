@@ -2,7 +2,6 @@
 
 import React from "react";
 import moment from "moment-timezone";
-import type { Ticket as TicketType } from "@/models/ticket";
 import { Button } from "@/components/ui/button";
 import useSearchStore, { useCheckoutStore, useLoadingStore } from "@/store";
 import { useRouter } from "next/navigation";
@@ -10,13 +9,17 @@ import { Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useCurrency } from "../providers/currency-provider";
 import { FaCalendarAlt } from "react-icons/fa";
+import { ConnectedTicket } from "@/models/connected-ticket";
 
-export interface TicketProps {
-  ticket: TicketType;
+export interface ConnectedTicketProps {
+  ticket: ConnectedTicket;
   isReturn?: boolean;
 }
 
-const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
+const ConnectedTicketBlock: React.FC<ConnectedTicketProps> = ({
+  ticket,
+  isReturn,
+}) => {
   const {
     setOutboundTicket,
     outboundTicket,
@@ -56,33 +59,40 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
     }
   };
 
-  const departureDate = moment.utc(ticket.stops[0].departure_date);
-  const arrivalTime = moment.utc(
-    ticket.stops[ticket.stops.length - 1].arrival_time
-  );
+  const firstLeg = ticket.legs[0];
+  const lastLeg = ticket.legs[ticket.legs.length - 1];
 
-  const duration = moment.duration(arrivalTime.diff(departureDate));
-  const totalHours = duration.hours() + duration.days() * 24; // Convert days to hours and add them
-  const minutes = duration.minutes();
+  const departureDateTime = moment.utc(firstLeg.departure_date);
+  const arrivalDateTime = moment.utc(lastLeg.arrival_time);
+
+  const duration = moment.duration(arrivalDateTime.diff(departureDateTime));
+
+  const totalHours = Math.floor(Math.abs(duration.asHours()));
+  const minutes = Math.abs(duration.minutes());
 
   const durationFormatted = `${totalHours.toString().padStart(2, "0")}:${minutes
     .toString()
     .padStart(2, "0")} hrs`;
 
-  const convertedPrice = convertFromEUR(ticket.stops[0].other_prices.our_price);
+  const convertedPrice = convertFromEUR(ticket.total_price);
 
   return (
     <div className="max-w-5xl mx-auto bg-white border rounded-lg overflow-hidden shrink-0">
       <div className="p-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
           <div className="flex gap-2 items-center mb-2 sm:mb-0 justify-between w-full">
-            <p className="button-gradient bg-clip-text text-transparent">
-              {ticket.operatorInfo?.name}
-            </p>
+            <div className="flex items-center gap-2">
+              <span className="text-xs bg-primary-accent/10 px-2 py-1 rounded-full font-medium">
+                <span className="bg-primary-accent bg-clip-text text-transparent">
+                  {ticket.legs.length - 1}{" "}
+                  {ticket.legs.length - 1 === 1 ? "Transfer" : "Transfers"}
+                </span>
+              </span>
+            </div>
 
             <div className="flex items-center text-sm text-black">
               <FaCalendarAlt className="w-4 h-4 mr-2" />
-              {departureDate.format("ddd, MMMM D, YYYY")}
+              {departureDateTime.format("ddd, MMMM D, YYYY")}
             </div>
           </div>
         </div>
@@ -91,24 +101,21 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
           <div className="w-full md:w-2/3">
             <div className="flex justify-between items-center">
               <div className="text-base sm:text-lg md:text-xl">
-                {departureDate.format("HH:mm")}
+                {/* {departureDateTime.format("HH:mm")} */}
+                {firstLeg.time}
               </div>
-
               <div className="text-center flex-1 px-2">
                 <div className="relative flex items-center">
                   <div className="flex-grow border-t border-gray-400"></div>
                   <span className="flex-shrink mx-2 text-neutral-700 font-medium text-lg sm:text-xl">
-                    {durationFormatted != "NaN:NaN hrs"
-                      ? durationFormatted
-                      : "00:00"}
+                    {durationFormatted}
                   </span>
                   <div className="flex-grow border-t border-gray-400"></div>
                 </div>
               </div>
-
               <div className="text-base sm:text-lg md:text-xl">
-                {arrivalTime.format("HH:mm") != "Invalid date"
-                  ? arrivalTime.format("HH:mm")
+                {arrivalDateTime.isValid()
+                  ? arrivalDateTime.format("HH:mm")
                   : "00:00"}
               </div>
             </div>
@@ -116,34 +123,28 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
             <div className="flex justify-between items-center">
               <div className="flex flex-col items-start">
                 <h1 className="font-medium text-base sm:text-lg capitalize">
-                  {ticket.stops[0].from.city}
+                  {firstLeg.from_station.city}
                 </h1>
                 <span className="truncate text-black/50 line-clamp-1 hidden sm:block">
-                  {ticket.stops[0].from.name}
+                  {firstLeg.from_station.name}
                 </span>
               </div>
-
               <div className="flex flex-col items-end">
                 <h1 className="font-medium text-base sm:text-lg capitalize">
-                  {ticket.stops[ticket.stops.length - 1].to.city}{" "}
+                  {lastLeg.to_station.city}
                 </h1>
                 <span className="truncate text-black/50 line-clamp-1 hidden sm:block">
-                  {ticket.stops[ticket.stops.length - 1].to.name}{" "}
+                  {lastLeg.to_station.name}
                 </span>
               </div>
             </div>
-
-            {/* <div className="text-left">
-              Seats left {ticket.number_of_tickets}
-            </div> */}
           </div>
 
           <div className="flex justify-between items-center gap-4 w-full md:flex-col md:justify-end md:items-end md:w-fit">
-            <div className="text-xl sm:text-2xl font-semibold w-full md:w-1/3 flex md:flex-col justify-between items-end ">
+            <div className="text-xl sm:text-2xl font-semibold w-full md:w-1/3 flex md:flex-col justify-between items-end">
               {currency.symbol}
               {convertedPrice.toFixed(2)}
             </div>
-
             <Button
               className="w-fit text-sm button-gradient"
               onClick={handleTicketSelection}
@@ -165,4 +166,4 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
   );
 };
 
-export default TicketBlock;
+export default ConnectedTicketBlock;

@@ -1,23 +1,32 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/hooks/use-toast";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { calculatePassengerPrices } from "@/components/hooks/use-passengers";
-import { Ticket } from "@/models/ticket";
+import type { Ticket } from "@/models/ticket";
+import type { ConnectedTicket } from "@/models/connected-ticket";
 import useSearchStore, {
   useCheckoutStore,
   usePaymentSuccessStore,
 } from "@/store";
 import { useTranslation } from "react-i18next";
-import { Booking } from "@/models/booking";
 import { Switch } from "@/components/ui/switch";
 import { Loader2 } from "lucide-react";
 import OrderSummary from "./OrderSummary";
 import { useAuth } from "@/components/providers/auth-provider";
+import { markCheckoutCompleted } from "@/lib/appwrite-abandoned-checkout";
+import { useAbandonedCheckout } from "@/components/hooks/use-abandoned-checkout";
+import {
+  isConnectedTicket,
+  getTicketPrice,
+  getOperatorPrice,
+  getChildrenPrice,
+  getOperatorChildrenPrice,
+} from "@/lib/utils";
 
 const PaymentMethod = () => {
   const stripe = useStripe();
@@ -27,11 +36,16 @@ const PaymentMethod = () => {
   const [cardExpiry, setCardExpiry] = useState<any>(null);
   const [cardCvc, setCardCvc] = useState<any>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { toast } = useToast();
   const { t } = useTranslation();
   const [saveCardInfo, setSaveCardInfo] = useState<boolean>(false);
   const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<any>();
+
+  // Abandoned checkout tracking
+  const { sessionId, resetTimeout } = useAbandonedCheckout();
+
   const { passengers: passengerAmount } = useSearchStore();
   const { user } = useAuth();
 
@@ -45,43 +59,69 @@ const PaymentMethod = () => {
     resetCheckout,
   } = useCheckoutStore();
 
+  // Check if resuming from abandoned checkout
+  useEffect(() => {
+    const resumeSessionId = searchParams.get("resume");
+    if (resumeSessionId) {
+      toast({
+        title: "Welcome back!",
+        description:
+          "We've saved your booking details. Complete your purchase below.",
+      });
+    }
+  }, [searchParams, toast]);
+
+  // Reset timeout on any user interaction
+  useEffect(() => {
+    const handleUserActivity = () => {
+      resetTimeout();
+    };
+
+    document.addEventListener("mousedown", handleUserActivity);
+    document.addEventListener("keydown", handleUserActivity);
+    document.addEventListener("scroll", handleUserActivity);
+    document.addEventListener("touchstart", handleUserActivity);
+
+    return () => {
+      document.removeEventListener("mousedown", handleUserActivity);
+      document.removeEventListener("keydown", handleUserActivity);
+      document.removeEventListener("scroll", handleUserActivity);
+      document.removeEventListener("touchstart", handleUserActivity);
+    };
+  }, [resetTimeout]);
+
   useEffect(() => {
     if (!selectedFlex) {
       setSelectedFlex("no_flex");
     }
   }, [selectedFlex, setSelectedFlex]);
 
-  const calculateTicketTotal = (ticket: Ticket) => {
-    const adultPrice = ticket.stops[0].other_prices.our_price;
-    const childPrice = ticket.stops[0].other_prices.our_children_price;
-
+  const calculateTicketTotal = (ticket: Ticket | ConnectedTicket) => {
+    const adultPrice = getTicketPrice(ticket);
+    const childPrice = getChildrenPrice(ticket);
     return (
-      adultPrice * passengerAmount.adults ||
-      1 + childPrice * passengerAmount.children ||
-      0
+      adultPrice * (passengerAmount.adults || 1) +
+      childPrice * (passengerAmount.children || 0)
     );
   };
 
-  const calculateOperatorTicketTotal = (ticket: Ticket) => {
-    const adultPrice = ticket.stops[0].price;
-    const childPrice = ticket.stops[0].children_price;
+  const calculateOperatorTicketTotal = (ticket: Ticket | ConnectedTicket) => {
+    const adultPrice = getOperatorPrice(ticket);
+    const childPrice = getChildrenPrice(ticket);
     return (
-      adultPrice * passengerAmount.adults ||
-      1 + childPrice * passengerAmount.children ||
-      0
+      adultPrice * (passengerAmount.adults || 1) +
+      childPrice * (passengerAmount.children || 0)
     );
   };
 
   const outboundTotal = outboundTicket
     ? calculateTicketTotal(outboundTicket)
     : 0;
-
   const returnTotal = returnTicket ? calculateTicketTotal(returnTicket) : 0;
 
   const operatorOutboundTotal = outboundTicket
     ? calculateOperatorTicketTotal(outboundTicket)
     : 0;
-
   const operatorReturnTotal = returnTicket
     ? calculateOperatorTicketTotal(returnTicket)
     : 0;
@@ -126,7 +166,7 @@ const PaymentMethod = () => {
         const currentDate = new Date();
 
         if (currentDate < expirationDate) {
-          const discountPercent = parseFloat(discountPercentage);
+          const discountPercent = Number.parseFloat(discountPercentage);
           appliedDiscountAmount = totalPrice * (discountPercent / 100);
           finalAmount = totalPrice - appliedDiscountAmount;
         }
@@ -157,11 +197,17 @@ const PaymentMethod = () => {
           appliedDiscountAmount,
           discountCode
         );
+        // Mark checkout as completed
+        if (sessionId) {
+          await markCheckoutCompleted(sessionId);
+        }
         return router.push("/checkout/success");
       }
 
       console.log({ paymentRes: res.data });
+
       const { clientSecret } = res.data.data;
+
       const { error: confirmError, paymentIntent } =
         await stripe.confirmCardPayment(clientSecret, {
           payment_method: {
@@ -182,6 +228,10 @@ const PaymentMethod = () => {
           appliedDiscountAmount,
           discountCode
         );
+        // Mark checkout as completed
+        if (sessionId) {
+          await markCheckoutCompleted(sessionId);
+        }
         router.push("/checkout/success");
         resetCheckout();
       }
@@ -199,33 +249,235 @@ const PaymentMethod = () => {
   const createBookings = async (
     paymentIntentId: string,
     finalAmount: number,
-    discountAmount: number = 0,
+    discountAmount = 0,
     discountCode: string | null = null
   ) => {
     const bookings = [];
 
+    // Calculate total prices for proportion calculations
+    const outboundTotalPrice = outboundTicket
+      ? isConnectedTicket(outboundTicket)
+        ? outboundTicket.legs.reduce((sum, leg) => sum + leg.price, 0)
+        : outboundTicket.stops.reduce((sum, stop) => sum + stop.price, 0)
+      : 0;
+
+    const returnTotalPrice = returnTicket
+      ? isConnectedTicket(returnTicket)
+        ? returnTicket.legs.reduce((sum, leg) => sum + leg.price, 0)
+        : returnTicket.stops.reduce((sum, stop) => sum + stop.price, 0)
+      : 0;
+
+    const grandTotalPrice = outboundTotalPrice + returnTotalPrice;
+
     if (outboundTicket) {
-      const outboundBooking = await createBooking(
-        outboundTicket,
-        false,
-        paymentIntentId,
-        finalAmount,
-        discountAmount,
-        discountCode
-      );
-      bookings.push(outboundBooking);
+      if (isConnectedTicket(outboundTicket)) {
+        // Handle connected ticket - create booking for each leg
+        for (let i = 0; i < outboundTicket.legs.length; i++) {
+          const leg = outboundTicket.legs[i];
+
+          // Calculate individual leg prices
+          const legAdultPrice = leg.price;
+          const legChildPrice = leg.children_price;
+          const legTicketTotal =
+            legAdultPrice * (passengerAmount.adults || 1) +
+            legChildPrice * (passengerAmount.children || 0);
+
+          // Calculate proportional discount for this leg based on leg price vs total outbound price
+          const legProportion = legAdultPrice / outboundTotalPrice;
+          const outboundDiscountPortion =
+            (discountAmount * outboundTotalPrice) / grandTotalPrice;
+          const legDiscountAmount = outboundDiscountPortion * legProportion;
+
+          // Operator price for this leg (same as ticket total for individual legs)
+          const legOperatorPrice = legTicketTotal;
+
+          // Create a ticket-like object for this leg
+          const legTicket = {
+            _id: leg.ticket,
+            operator: leg.operator._id,
+            stops: [
+              {
+                from: {
+                  _id: leg.from_station._id,
+                  name: leg.from_station.name,
+                  city: leg.from_station.city,
+                  location: leg.from_station.location,
+                },
+                to: {
+                  _id: leg.to_station._id,
+                  name: leg.to_station.name,
+                  city: leg.to_station.city,
+                  location: leg.to_station.location,
+                },
+                departure_date: leg.departure_date,
+                arrival_time: leg.arrival_time,
+                price: legAdultPrice,
+                children_price: legChildPrice,
+                other_prices: {
+                  our_price: legAdultPrice,
+                  our_children_price: legChildPrice,
+                },
+              },
+            ],
+            metadata: {
+              operator_name: leg.operator.name,
+              // Add connected journey metadata
+              is_connected_journey: true,
+              leg_number: leg.leg_number,
+              total_legs: outboundTicket.legs.length,
+              connection_time:
+                i < outboundTicket.legs.length - 1
+                  ? outboundTicket.connection_time
+                  : null,
+              intermediate_station:
+                i < outboundTicket.legs.length - 1
+                  ? outboundTicket.intermediate_station
+                  : null,
+            },
+          };
+
+          const legBooking = await createBooking(
+            legTicket as any,
+            false,
+            paymentIntentId,
+            legTicketTotal,
+            legDiscountAmount,
+            discountCode,
+            legOperatorPrice
+          );
+          bookings.push(legBooking);
+        }
+      } else {
+        // Handle regular ticket
+        const outboundDiscountPortion =
+          (discountAmount * outboundTotalPrice) / grandTotalPrice;
+
+        // Calculate total price from stops
+        const regularOutboundTotal = outboundTicket.stops.reduce(
+          (sum, stop) => {
+            return (
+              sum +
+              stop.price * (passengerAmount.adults || 1) +
+              (stop.children_price || 0) * (passengerAmount.children || 0)
+            );
+          },
+          0
+        );
+
+        const outboundBooking = await createBooking(
+          outboundTicket,
+          false,
+          paymentIntentId,
+          regularOutboundTotal,
+          outboundDiscountPortion,
+          discountCode
+        );
+        bookings.push(outboundBooking);
+      }
     }
 
     if (returnTicket) {
-      const returnBooking = await createBooking(
-        returnTicket,
-        true,
-        paymentIntentId,
-        finalAmount,
-        discountAmount,
-        discountCode
-      );
-      bookings.push(returnBooking);
+      if (isConnectedTicket(returnTicket)) {
+        // Handle connected return ticket - create booking for each leg
+        for (let i = 0; i < returnTicket.legs.length; i++) {
+          const leg = returnTicket.legs[i];
+
+          // Calculate individual leg prices
+          const legAdultPrice = leg.price;
+          const legChildPrice = leg.children_price;
+          const legTicketTotal =
+            legAdultPrice * (passengerAmount.adults || 1) +
+            legChildPrice * (passengerAmount.children || 0);
+
+          // Calculate proportional discount for this leg based on leg price vs total return price
+          const legProportion = legAdultPrice / returnTotalPrice;
+          const returnDiscountPortion =
+            (discountAmount * returnTotalPrice) / grandTotalPrice;
+          const legDiscountAmount = returnDiscountPortion * legProportion;
+
+          // Operator price for this leg (same as ticket total for individual legs)
+          const legOperatorPrice = legTicketTotal;
+
+          // Create a ticket-like object for this leg
+          const legTicket = {
+            _id: leg.ticket,
+            operator: leg.operator._id,
+            stops: [
+              {
+                from: {
+                  _id: leg.from_station._id,
+                  name: leg.from_station.name,
+                  city: leg.from_station.city,
+                  location: leg.from_station.location,
+                },
+                to: {
+                  _id: leg.to_station._id,
+                  name: leg.to_station.name,
+                  city: leg.to_station.city,
+                  location: leg.to_station.location,
+                },
+                departure_date: leg.departure_date,
+                arrival_time: leg.arrival_time,
+                price: legAdultPrice,
+                children_price: legChildPrice,
+                other_prices: {
+                  our_price: legAdultPrice,
+                  our_children_price: legChildPrice,
+                },
+              },
+            ],
+            metadata: {
+              operator_name: leg.operator.name,
+              // Add connected journey metadata
+              is_connected_journey: true,
+              leg_number: leg.leg_number,
+              total_legs: returnTicket.legs.length,
+              connection_time:
+                i < returnTicket.legs.length - 1
+                  ? returnTicket.connection_time
+                  : null,
+              intermediate_station:
+                i < returnTicket.legs.length - 1
+                  ? returnTicket.intermediate_station
+                  : null,
+            },
+          };
+
+          const legBooking = await createBooking(
+            legTicket as any,
+            true,
+            paymentIntentId,
+            legTicketTotal,
+            legDiscountAmount,
+            discountCode,
+            legOperatorPrice
+          );
+          bookings.push(legBooking);
+        }
+      } else {
+        // Handle regular return ticket
+        const returnDiscountPortion =
+          (discountAmount * returnTotalPrice) / grandTotalPrice;
+
+        // Calculate total price from stops
+        const regularReturnTotal = returnTicket.stops.reduce((sum, stop) => {
+          return (
+            sum +
+            stop.price * (passengerAmount.adults || 1) +
+            (stop.children_price || 0) * (passengerAmount.children || 0)
+          );
+        }, 0);
+
+        const returnBooking = await createBooking(
+          returnTicket,
+          true,
+          paymentIntentId,
+          regularReturnTotal,
+          returnDiscountPortion,
+          discountCode
+        );
+        bookings.push(returnBooking);
+      }
     }
 
     return bookings;
@@ -235,40 +487,37 @@ const PaymentMethod = () => {
     ticket: Ticket,
     isReturn: boolean,
     paymentIntentId: string,
-    finalAmount: number,
-    discountAmount: number = 0,
-    discountCode: string | null = null
+    ticketTotal: number,
+    discountAmount = 0,
+    discountCode: string | null = null,
+    operatorPrice?: number // Add operator price parameter
   ) => {
     let affiliateCode = null;
     if (typeof window !== "undefined") {
       const storedAffiliate = localStorage.getItem("affiliate");
       if (storedAffiliate) {
         const { code, expires } = JSON.parse(storedAffiliate);
-        console.log({code, expires})
+        console.log({ code, expires });
         if (Date.now() < expires) {
-          affiliateCode = code; 
+          affiliateCode = code;
         } else {
           console.log("Affiliate code expired");
           localStorage.removeItem("affiliate");
         }
       }
     }
-  
-    const departure_station = ticket.stops[0].from._id;
-    const arrival_station = ticket.stops[0].to._id;
-    const departure_station_label = ticket.stops[0].from.name;
-    const arrival_station_label = ticket.stops[0].to.name;
+
     const passengersWithPrices = calculatePassengerPrices(passengers, ticket);
-  
-    const originalTicketTotal = isReturn ? returnTotal : outboundTotal;
-    const proportion = originalTicketTotal / totalPrice;
-    const ticketDiscountAmount = discountAmount * proportion;
-    const ticketTotal = originalTicketTotal - ticketDiscountAmount;
-  
+
+    // For connected tickets, we're already getting the correct ticketTotal and discountAmount
+    // from createBookings, so we don't need to recalculate proportions
+    const ticketTotalDiscounted = ticketTotal - discountAmount;
+
     const { setIsPaymentSuccess, setBookingDetails } =
       usePaymentSuccessStore.getState();
-  
+
     try {
+      // Handle regular ticket - use existing route
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/booking/create/${ticket.operator}/${
           user ? user._id : null
@@ -279,25 +528,27 @@ const PaymentMethod = () => {
           payment_intent_id: paymentIntentId,
           platform: "web",
           flex_price: isReturn ? 0 : flexPrice,
-          total_price: ticketTotal + (isReturn ? 0 : flexPrice),
-          original_price: originalTicketTotal + (isReturn ? 0 : flexPrice),
-          discount_amount: ticketDiscountAmount,
+          total_price: ticketTotalDiscounted + (isReturn ? 0 : flexPrice),
+          original_price: ticketTotal + (isReturn ? 0 : flexPrice),
+          discount_amount: discountAmount,
           discount_code: discountCode,
-          operator_price: isReturn ? operatorReturnTotal : operatorOutboundTotal,
-          departure_station,
-          arrival_station,
-          departure_station_label,
-          arrival_station_label,
+          operator_price: operatorPrice || ticketTotal, // Use operatorPrice if provided, otherwise use ticketTotal
+          departure_station: ticket.stops[0].from._id,
+          arrival_station: ticket.stops[0].to._id,
+          departure_station_label: ticket.stops[0].from.name,
+          arrival_station_label: ticket.stops[0].to.name,
           is_using_deposited_money: false,
           deposit_spent: 0,
           stop: ticket.stops[0],
           is_return: isReturn,
-          affiliate_code: affiliateCode, 
+          affiliate_code: affiliateCode,
+          // Pass through any connected journey metadata
+          ...ticket.metadata,
         }
       );
-  
-      const newBooking: Booking = response.data.data;
-  
+
+      const newBooking = response.data.data;
+
       if (typeof window !== "undefined") {
         const savedBookings = JSON.parse(
           localStorage.getItem("noUserBookings") || "[]"
@@ -305,38 +556,46 @@ const PaymentMethod = () => {
         const allBookings = [...savedBookings, newBooking];
         localStorage.setItem("noUserBookings", JSON.stringify(allBookings));
       }
-  
+
       console.log({
         newBooking,
         appliedDiscount: discountCode
           ? {
               code: discountCode,
-              amount: ticketDiscountAmount,
+              amount: discountAmount,
             }
           : null,
       });
-  
+
       setIsPaymentSuccess(true);
+
+      // Set booking details based on ticket type
+      const departureStationLabel = ticket.stops[0].from.name;
+      const arrivalStationLabel = ticket.stops[0].to.name;
+      const operatorName = ticket.metadata?.operator_name || "Unknown";
+
       setBookingDetails({
         bookingId: newBooking._id,
         transactionId: newBooking.metadata.payment_intent_id,
-        departureStation: departure_station_label,
-        arrivalStation: arrival_station_label,
+        departureStation: departureStationLabel,
+        arrivalStation: arrivalStationLabel,
         departureDate: new Date(newBooking.departure_date),
-        price: ticketTotal + (isReturn ? 0 : flexPrice),
-        operator: ticket.metadata.operator_name,
+        price: ticketTotalDiscounted + (isReturn ? 0 : flexPrice),
+        operator: operatorName,
       });
+
+      return newBooking;
     } catch (error) {
       console.error("Booking creation failed:", error);
       setIsPaymentSuccess(false);
       setBookingDetails(null);
+      throw error;
     } finally {
       if (saveCardInfo && !user?.stripe_payment_method_id) {
         handleSaveCardInfo();
       }
     }
   };
-  
 
   const handleSaveCardInfo = async () => {
     if (!stripe || !elements) {
@@ -352,6 +611,7 @@ const PaymentMethod = () => {
         description: "No such customer",
         variant: "destructive",
       });
+      return;
     }
 
     try {
@@ -374,6 +634,7 @@ const PaymentMethod = () => {
             email: user?.email || undefined,
           },
         });
+
       console.log({ paymentMethod });
 
       if (stripeError) {
@@ -412,18 +673,24 @@ const PaymentMethod = () => {
   async function fetchPaymentMethods() {
     try {
       console.log({ acc: user });
+
       if (!user?.stripe_customer_id) {
         setPaymentMethods([]);
         return console.info("No such customer");
       }
+
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/payment/customer/retrieve-payment-methods/${user?.stripe_customer_id}`
       );
+
       if (!response.ok) {
         throw new Error("Failed to fetch payment methods");
       }
+
       const data: any = await response.json();
+
       console.log({ methods: data.data.data });
+
       setPaymentMethods(data.data.data);
     } catch (err) {
       console.log({ err });
@@ -482,6 +749,7 @@ const PaymentMethod = () => {
             />
           </svg>
         );
+
       case CardNetwork.Mastercard:
         return (
           <svg
@@ -499,6 +767,7 @@ const PaymentMethod = () => {
             />
           </svg>
         );
+
       case CardNetwork.AmericanExpress:
         return (
           <svg
@@ -518,6 +787,7 @@ const PaymentMethod = () => {
             />
           </svg>
         );
+
       default:
         return (
           <svg
@@ -550,7 +820,6 @@ const PaymentMethod = () => {
               {t("paymentMethod.title")}
             </p>
           </div>
-
           <p className="text-sm text-gray-600 my-4">
             {t("paymentMethod.description")}
           </p>
@@ -601,6 +870,7 @@ const PaymentMethod = () => {
                             {method?.card?.exp_year})
                           </h3>
                         </div>
+
                         {selectedPaymentMethod?.id == method.id && (
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -632,6 +902,7 @@ const PaymentMethod = () => {
                     </span>
                   </div>
                 </div>
+
                 <h3
                   className={`font-medium text-gray-700 ${
                     selectedPaymentMethod && "hidden"
@@ -639,6 +910,7 @@ const PaymentMethod = () => {
                 >
                   {t("paymentMethod.cardInformation")}
                 </h3>
+
                 <div
                   className={`grid grid-cols-2 gap-2 ${
                     selectedPaymentMethod && "hidden"
@@ -676,9 +948,11 @@ const PaymentMethod = () => {
           }
         </div>
       </div>
+
       <div className="flex-1 flex flex-col md:hidden gap-4">
         <OrderSummary />
       </div>
+
       <div className="flex items-center justify-end gap-2">
         <Button
           className="rounded-lg h-12 bg-primary-bg px-6 py-3.5 gap-1"
