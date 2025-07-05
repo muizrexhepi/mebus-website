@@ -44,8 +44,19 @@ export interface ConnectedTicket {
   connection_time: number;
   intermediate_station: Station;
   total_price: number;
-  total_children_price: number;
+  stops: any;
   total_duration: number;
+  operator: {
+    _id: string;
+    name: string;
+    company_name: string;
+  };
+  metadata: {
+    operator_name: string;
+    operator_company_name: string;
+    features: string[];
+    is_single_ticket: boolean;
+  };
 }
 
 // Union type for all ticket types

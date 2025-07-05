@@ -148,7 +148,7 @@ export function useAbandonedCheckout() {
       ? {
           _id: outboundTicket._id,
           operator: outboundTicket.operator,
-          stops: outboundTicket.stops?.map((stop) => ({
+          stops: outboundTicket.stops?.map((stop: any) => ({
             _id: stop._id,
             departure_date: stop.departure_date,
             arrival_date: stop.arrival_time,
@@ -179,7 +179,7 @@ export function useAbandonedCheckout() {
       ? {
           _id: returnTicket._id,
           operator: returnTicket.operator,
-          stops: returnTicket.stops?.map((stop) => ({
+          stops: returnTicket.stops?.map((stop: any) => ({
             _id: stop._id,
             departure_date: stop.departure_date,
             arrival_date: stop.arrival_time,
