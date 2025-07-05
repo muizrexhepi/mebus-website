@@ -75,9 +75,9 @@ export default function ConnectedTicketDetails({
   return (
     <>
       <div className="space-y-4">
-        <div className="space-y-4 text-sm items-center justify-between px-4 pt-4">
+        <div className="space-y-3 text-sm px-4 pt-4">
           <div
-            className="flex items-center space-x-4 cursor-pointer rounded-lg transition-colors"
+            className="flex items-center space-x-3 cursor-pointer rounded-lg transition-colors hover:bg-gray-50"
             onClick={() =>
               handleLocation(
                 firstLeg.from_station.location,
@@ -87,19 +87,19 @@ export default function ConnectedTicketDetails({
               )
             }
           >
-            <IoMdLocate className="size-5 text-primary-bg" />
-            <div>
-              <p className="font-medium capitalize">
+            <IoMdLocate className="w-5 h-5 text-primary-bg flex-shrink-0" />
+            <div className="min-w-0 flex-1">
+              <p className="font-medium capitalize text-sm sm:text-base truncate">
                 {firstLeg.from_station.city}
               </p>
-              <p className="text-black/60 text-sm">
+              <p className="text-black/60 text-xs sm:text-sm">
                 {t("ticketDetails.viewLocation")}
               </p>
             </div>
           </div>
 
           <div
-            className="flex items-center space-x-4 cursor-pointer rounded-lg transition-colors"
+            className="flex items-center space-x-3 cursor-pointer rounded-lg transition-colors hover:bg-gray-50"
             onClick={() =>
               handleLocation(
                 lastLeg.to_station.location,
@@ -109,12 +109,12 @@ export default function ConnectedTicketDetails({
               )
             }
           >
-            <HiMapPin className="size-5 text-primary-bg" />
-            <div>
-              <p className="font-medium capitalize">
+            <HiMapPin className="w-5 h-5 text-primary-bg flex-shrink-0" />
+            <div className="min-w-0 flex-1">
+              <p className="font-medium capitalize text-sm sm:text-base truncate">
                 {lastLeg.to_station.city}
               </p>
-              <p className="text-black/60 text-sm">
+              <p className="text-black/60 text-xs sm:text-sm">
                 {t("ticketDetails.viewLocation")}
               </p>
             </div>
@@ -123,17 +123,17 @@ export default function ConnectedTicketDetails({
 
         <Separator />
 
-        <div className="flex sm:items-center text-sm sm:flex-row flex-col items-start justify-between px-4 py gap-2">
-          <div className="flex items-center space-x-4">
-            <FaCalendarAlt className="size-5 text-primary-bg" />
-            <span className="font-medium">
+        <div className="flex flex-col sm:flex-row sm:items-center text-sm justify-between px-4 py-2 gap-3 sm:gap-2">
+          <div className="flex items-center space-x-3">
+            <FaCalendarAlt className="w-4 h-4 sm:w-5 sm:h-5 text-primary-bg flex-shrink-0" />
+            <span className="font-medium text-sm sm:text-base">
               {formatDate(firstLeg.departure_date)}
             </span>
           </div>
 
-          <div className="flex items-center space-x-4">
-            <FaClock className="size-5 text-primary-bg" />
-            <span className="font-medium">
+          <div className="flex items-center space-x-3">
+            <FaClock className="w-4 h-4 sm:w-5 sm:h-5 text-primary-bg flex-shrink-0" />
+            <span className="font-medium text-sm sm:text-base">
               {moment.utc(firstLeg.departure_date).format("HH:mm")}
             </span>
           </div>
@@ -146,15 +146,15 @@ export default function ConnectedTicketDetails({
             <Fragment key={`${leg.ticket}-${legIndex}`}>
               <div className="mb-6">
                 <div className="flex items-start">
-                  <div className="flex flex-col items-center mr-4">
+                  <div className="flex flex-col items-center mr-3 sm:mr-4">
                     <div className="w-3 h-3 bg-primary-bg rounded-full" />
-                    <div className="w-0.5 h-16 bg-gray-300 my-1" />
+                    <div className="w-0.5 h-12 sm:h-16 bg-gray-300 my-1" />
                     <div className="w-3 h-3 bg-primary-bg rounded-full" />
                   </div>
-                  <div className="flex-1 ml-1 -mt-1">
-                    <div className="flex w-full justify-between items-center mb-1">
+                  <div className="flex-1 min-w-0 ml-1 -mt-1">
+                    <div className="flex w-full justify-between items-start sm:items-center mb-2 gap-2">
                       <div
-                        className="cursor-pointer"
+                        className="cursor-pointer min-w-0 flex-1"
                         onClick={() =>
                           handleLocation(
                             leg.from_station.location,
@@ -164,21 +164,25 @@ export default function ConnectedTicketDetails({
                           )
                         }
                       >
-                        <p className="text-black font-medium text-sm capitalize line-clamp-1 truncate">
+                        <p className="text-black font-medium text-sm sm:text-base capitalize truncate">
                           {leg.from_station.name}
                         </p>
-                        <p className="text-xs text-gray-500 capitalize">
+                        <p className="text-xs sm:text-sm text-gray-500 capitalize truncate">
                           {leg.from_station.city}
                         </p>
                       </div>
-                      <span className="font-medium shrink-0">{leg.time}</span>
+                      <span className="font-medium text-sm sm:text-base shrink-0 ml-2">
+                        {leg.time}
+                      </span>
                     </div>
-                    <div className="bg-primary-bg text-white text-xs px-2 py-1 rounded-full font-medium w-fit">
-                      {leg.operator.name}
+                    <div className="bg-primary-bg text-white text-xs px-2 py-1 rounded-full font-medium w-fit mb-3">
+                      <span className="truncate max-w-[150px] sm:max-w-none inline-block">
+                        {leg.operator.name}
+                      </span>
                     </div>
-                    <div className="flex w-full justify-between items-end mt-4">
+                    <div className="flex w-full justify-between items-start sm:items-end gap-2">
                       <div
-                        className="cursor-pointer"
+                        className="cursor-pointer min-w-0 flex-1"
                         onClick={() =>
                           handleLocation(
                             leg.to_station.location,
@@ -188,14 +192,14 @@ export default function ConnectedTicketDetails({
                           )
                         }
                       >
-                        <p className="text-black font-medium text-sm capitalize line-clamp-1 truncate">
+                        <p className="text-black font-medium text-sm sm:text-base capitalize truncate">
                           {leg.to_station.name}
                         </p>
-                        <p className="text-xs text-gray-500 capitalize">
+                        <p className="text-xs sm:text-sm text-gray-500 capitalize truncate">
                           {leg.to_station.city}
                         </p>
                       </div>
-                      <span className="font-medium shrink-0">
+                      <span className="font-medium text-sm sm:text-base shrink-0 ml-2">
                         {moment.utc(leg.arrival_time).format("HH:mm")}
                       </span>
                     </div>
@@ -205,15 +209,18 @@ export default function ConnectedTicketDetails({
 
               {legIndex < ticket.legs.length - 1 && (
                 <div className="w-full my-4 bg-yellow-50 border border-yellow-200 p-3 rounded-lg">
-                  <div className="flex items-center justify-center">
-                    <Clock className="w-4 h-4 mr-2 text-yellow-600" />
-                    <p className="text-sm text-yellow-800 font-medium">
-                      Transfer at{" "}
-                      {ticket.intermediate_station?.name || leg.to_station.name}
+                  <div className="flex items-center justify-center mb-1">
+                    <Clock className="w-4 h-4 mr-2 text-yellow-600 flex-shrink-0" />
+                    <p className="text-sm text-yellow-800 font-medium text-center">
+                      <span className="block sm:inline">Transfer at </span>
+                      <span className="truncate max-w-[200px] sm:max-w-none inline-block">
+                        {ticket.intermediate_station?.name ||
+                          leg.to_station.name}
+                      </span>
                     </p>
                   </div>
-                  <div className="flex items-center justify-center mt-1">
-                    <ArrowRight className="w-3 h-3 mr-1 text-yellow-600" />
+                  <div className="flex items-center justify-center">
+                    <ArrowRight className="w-3 h-3 mr-1 text-yellow-600 flex-shrink-0" />
                     <p className="text-xs text-yellow-700">
                       Wait time:{" "}
                       {(() => {
@@ -236,15 +243,15 @@ export default function ConnectedTicketDetails({
 
         <div className="px-4 space-y-2">
           {firstLeg.metadata?.features?.map((feature, index) => (
-            <div key={index} className="flex items-center space-x-4">
+            <div key={index} className="flex items-center space-x-3">
               {feature === "ac/heating" ? (
-                <Snowflake className="h-5 w-5 shrink-0 text-primary-bg" />
+                <Snowflake className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 text-primary-bg" />
               ) : feature === "usb charging ports" ? (
-                <Plug className="h-5 w-5 shrink-0 text-primary-bg" />
+                <Plug className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 text-primary-bg" />
               ) : (
-                <Bus className="h-5 w-5 shrink-0 text-primary-bg" />
+                <Bus className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 text-primary-bg" />
               )}
-              <span className="capitalize">
+              <span className="capitalize text-sm sm:text-base">
                 {feature === "ac/heating"
                   ? t(`ticketDetails.features.acHeating`)
                   : feature === "usb charging ports"

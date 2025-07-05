@@ -82,9 +82,9 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
     <>
       <div className="space-y-4">
         {/* Location Selection Section */}
-        <div className="space-y-4 text-sm items-center justify-between px-4 pt-4">
+        <div className="space-y-3 text-sm px-4 pt-4">
           <div
-            className="flex items-center space-x-4 cursor-pointer rounded-lg transition-colors"
+            className="flex items-center space-x-3 cursor-pointer rounded-lg transition-colors hover:bg-gray-50"
             onClick={() =>
               handleLocation(
                 firstStop?.from?.location,
@@ -94,17 +94,19 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
               )
             }
           >
-            <IoMdLocate className="size-5 text-primary-bg" />
-            <div>
-              <p className="font-medium capitalize">{firstStop.from.city}</p>
-              <p className="text-black/60 text-sm">
+            <IoMdLocate className="w-5 h-5 text-primary-bg flex-shrink-0" />
+            <div className="min-w-0 flex-1">
+              <p className="font-medium capitalize text-sm sm:text-base truncate">
+                {firstStop.from.city}
+              </p>
+              <p className="text-black/60 text-xs sm:text-sm">
                 {t("ticketDetails.viewLocation")}
               </p>
             </div>
           </div>
 
           <div
-            className="flex items-center space-x-4 cursor-pointer rounded-lg transition-colors"
+            className="flex items-center space-x-3 cursor-pointer rounded-lg transition-colors hover:bg-gray-50"
             onClick={() =>
               handleLocation(
                 lastStop?.to?.location,
@@ -114,10 +116,12 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
               )
             }
           >
-            <HiMapPin className="size-5 text-primary-bg" />
-            <div>
-              <p className="font-medium capitalize">{lastStop.to.city}</p>
-              <p className="text-black/60 text-sm">
+            <HiMapPin className="w-5 h-5 text-primary-bg flex-shrink-0" />
+            <div className="min-w-0 flex-1">
+              <p className="font-medium capitalize text-sm sm:text-base truncate">
+                {lastStop.to.city}
+              </p>
+              <p className="text-black/60 text-xs sm:text-sm">
                 {t("ticketDetails.viewLocation")}
               </p>
             </div>
@@ -127,17 +131,17 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
         <Separator />
 
         {/* Date and Time Info */}
-        <div className="flex sm:items-center text-sm sm:flex-row flex-col items-start justify-between px-4 py gap-2">
-          <div className="flex items-center space-x-4">
-            <FaCalendarAlt className="size-5 text-primary-bg" />
-            <span className="font-medium">
+        <div className="flex flex-col sm:flex-row sm:items-center text-sm justify-between px-4 py-2 gap-3 sm:gap-2">
+          <div className="flex items-center space-x-3">
+            <FaCalendarAlt className="w-4 h-4 sm:w-5 sm:h-5 text-primary-bg flex-shrink-0" />
+            <span className="font-medium text-sm sm:text-base">
               {formatDate(ticket.departure_date)}
             </span>
           </div>
 
-          <div className="flex items-center space-x-4">
-            <FaClock className="size-5 text-primary-bg" />
-            <span className="font-medium">
+          <div className="flex items-center space-x-3">
+            <FaClock className="w-4 h-4 sm:w-5 sm:h-5 text-primary-bg flex-shrink-0" />
+            <span className="font-medium text-sm sm:text-base">
               {moment.utc(firstStop.departure_date).format("HH:mm")}
             </span>
           </div>
@@ -149,117 +153,67 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
         <div className="px-4">
           {/* Departure Station */}
           <div className="flex items-start">
-            <div className="flex flex-col items-center mr-4">
+            <div className="flex flex-col items-center mr-3 sm:mr-4">
               <div className="w-3 h-3 bg-primary-bg rounded-full" />
               {(hasIntermediateStops || !ticket.is_direct_route) && (
-                <div className="w-0.5 h-8 bg-gray-300 mt-1" />
+                <div className="w-0.5 h-6 sm:h-8 bg-gray-300 mt-1" />
               )}
             </div>
 
-            <div className="flex-1 ml-1 -mt-1">
-              <div className="flex w-full justify-between items-center mb-1">
-                <p className="text-black font-medium text-sm capitalize line-clamp-1 truncate">
-                  {firstStop.from.name}
-                </p>
-                <span className="font-medium shrink-0">
+            <div className="flex-1 min-w-0 ml-1 -mt-1">
+              <div className="flex w-full justify-between items-start sm:items-center mb-1 gap-2">
+                <div
+                  className="cursor-pointer min-w-0 flex-1"
+                  onClick={() =>
+                    handleLocation(
+                      firstStop?.from?.location,
+                      firstStop.from.name,
+                      firstStop.from.city,
+                      firstStop.from.address
+                    )
+                  }
+                >
+                  <p className="text-black font-medium text-sm sm:text-base capitalize truncate">
+                    {firstStop.from.name}
+                  </p>
+                  <p className="text-xs sm:text-sm text-gray-500 capitalize truncate">
+                    {firstStop.from.city}
+                  </p>
+                </div>
+                <span className="font-medium text-sm sm:text-base shrink-0 ml-2">
                   {moment.utc(firstStop.departure_date).format("HH:mm")}
                 </span>
               </div>
             </div>
           </div>
 
-          {/* {hasIntermediateStops && (
-            <div className="relative mt-2">
-              <div className="flex items-start">
-                <div className="flex flex-col items-center mr-4">
-                  <div className="w-0.5 h-4 bg-gray-300" />
-                </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowStops(!showStops)}
-                  className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 p-0 h-auto ml-1 -mt-1"
-                >
-                  <span>{intermediateStopsCount} stops</span>
-                  {showStops ? (
-                    <ChevronUp className="w-4 h-4" />
-                  ) : (
-                    <ChevronDown className="w-4 h-4" />
-                  )}
-                </Button>
-              </div>
-
-              {showStops && (
-                <div className="mt-2">
-                  {ticket.stop_sequence.map((stop, index) => (
-                    <div key={stop._id} className="flex items-start mb-2">
-                      <div className="flex flex-col items-center mr-4">
-                        <div className="w-0.5 h-2 bg-gray-300" />
-                        <div className="w-2 h-2 bg-gray-400 rounded-full" />
-                        <div className="w-0.5 h-2 bg-gray-300" />
-                      </div>
-                      <div className="flex-1 ml-1 -mt-1">
-                        <div
-                          className="flex w-full justify-between items-center cursor-pointer p-1 rounded transition-colors"
-                          onClick={() =>
-                            handleLocation(
-                              stop.location,
-                              stop.name,
-                              stop.city,
-                              stop.address
-                            )
-                          }
-                        >
-                          <div>
-                            <p className="text-sm font-medium text-gray-900 capitalize truncate">
-                              {stop.name}
-                            </p>
-                            <div className="flex items-center gap-1">
-                              <p className="text-xs text-gray-500 capitalize">
-                                {stop.city}
-                              </p>
-                              {stop.country && (
-                                <>
-                                  <span className="text-xs text-gray-400">
-                                    •
-                                  </span>
-                                  <p className="text-xs text-gray-500 uppercase">
-                                    {stop.country}
-                                  </p>
-                                </>
-                              )}
-                            </div>
-                          </div>
-                          <span className="text-sm text-gray-600 shrink-0">
-                            0 mins
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              <div className="flex items-start">
-                <div className="flex flex-col items-center mr-4">
-                  <div className="w-0.5 h-4 bg-gray-300" />
-                </div>
-              </div>
-            </div>
-          )} */}
-
           {/* Arrival Station */}
-          <div className="flex items-start mt-2">
-            <div className="flex flex-col items-center mr-4">
+          <div className="flex items-start mt-4">
+            <div className="flex flex-col items-center mr-3 sm:mr-4">
               <div className="w-3 h-3 bg-primary-bg rounded-full" />
             </div>
 
-            <div className="flex-1 ml-1 -mt-1">
-              <div className="flex w-full justify-between items-end">
-                <p className="text-black font-medium text-sm capitalize line-clamp-1 truncate">
-                  {lastStop.to.name}
-                </p>
-                <span className="font-medium shrink-0">
+            <div className="flex-1 min-w-0 ml-1 -mt-1">
+              <div className="flex w-full justify-between items-start sm:items-end gap-2">
+                <div
+                  className="cursor-pointer min-w-0 flex-1"
+                  onClick={() =>
+                    handleLocation(
+                      lastStop?.to?.location,
+                      lastStop.to.name,
+                      lastStop.to.city,
+                      lastStop.to.address
+                    )
+                  }
+                >
+                  <p className="text-black font-medium text-sm sm:text-base capitalize truncate">
+                    {lastStop.to.name}
+                  </p>
+                  <p className="text-xs sm:text-sm text-gray-500 capitalize truncate">
+                    {lastStop.to.city}
+                  </p>
+                </div>
+                <span className="font-medium text-sm sm:text-base shrink-0 ml-2">
                   {moment.utc(lastStop.arrival_time).format("HH:mm")}
                 </span>
               </div>
@@ -268,10 +222,10 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
 
           {/* Transfer Time Info for Non-Direct Routes */}
           {!ticket.is_direct_route && ticket.stops.length > 1 && (
-            <div className="w-full my-4 bg-gray-100 p-2 rounded-lg">
+            <div className="w-full my-4 bg-gray-100 p-3 rounded-lg">
               <div className="flex items-center justify-center">
-                <Clock className="w-4 h-4 mr-2 text-gray-500" />
-                <p className="text-sm text-gray-500">
+                <Clock className="w-4 h-4 mr-2 text-gray-500 flex-shrink-0" />
+                <p className="text-sm text-gray-500 text-center">
                   {(() => {
                     const totalStops = ticket.stops.length;
                     if (totalStops > 1) {
@@ -299,15 +253,15 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
         {/* Amenities Section */}
         <div className="px-4 space-y-2">
           {ticket.metadata?.features?.map((feature, index) => (
-            <div key={index} className="flex items-center space-x-4">
+            <div key={index} className="flex items-center space-x-3">
               {feature === "ac/heating" ? (
-                <Snowflake className="h-5 w-5 shrink-0 text-primary-bg" />
+                <Snowflake className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 text-primary-bg" />
               ) : feature === "usb charging ports" ? (
-                <Plug className="h-5 w-5 shrink-0 text-primary-bg" />
+                <Plug className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 text-primary-bg" />
               ) : (
-                <Bus className="h-5 w-5 shrink-0 text-primary-bg" />
+                <Bus className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 text-primary-bg" />
               )}
-              <span className="capitalize">
+              <span className="capitalize text-sm sm:text-base">
                 {feature === "ac/heating"
                   ? t(`ticketDetails.features.acHeating`)
                   : feature === "usb charging ports"
