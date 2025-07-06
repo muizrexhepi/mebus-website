@@ -51,6 +51,7 @@ export interface ConnectedTicket {
     name: string;
     company_name: string;
   };
+  total_children_price: number;
   metadata: {
     operator_name: string;
     operator_company_name: string;
