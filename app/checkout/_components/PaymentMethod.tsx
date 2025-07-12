@@ -187,6 +187,7 @@ const PaymentMethod = () => {
           amount_in_cents: Math.round(finalAmount * 100),
           discount_amount_in_cents: Math.round(appliedDiscountAmount * 100),
           discount_code: discountCode || null,
+          ticket_id: outboundTicket?._id
         }
       );
 
