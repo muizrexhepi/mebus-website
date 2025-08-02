@@ -19,7 +19,8 @@ const Navbar = ({ className }: { className?: string }) => {
   return (
     <header
       className={cn("w-full flex justify-between items-center", className, {
-        "hidden md:flex": path.includes("/search")||path.includes('/checkout'),
+        "hidden md:flex":
+          path.includes("/search") || path.includes("/checkout"),
       })}
     >
       <div className="flex items-center gap-8">
@@ -33,7 +34,7 @@ const Navbar = ({ className }: { className?: string }) => {
             priority
           />
         </Link>
-        {/* <nav className="hidden md:flex gap-8 items-center">
+        <nav className="hidden md:flex gap-8 items-center">
           {NAV_LINKS.map((link, index) => (
             <Link
               href={link.url}
@@ -43,7 +44,7 @@ const Navbar = ({ className }: { className?: string }) => {
               {t(`nav.${link.name.toLowerCase()}`)}
             </Link>
           ))}
-        </nav> */}
+        </nav>
       </div>
 
       <div className="flex items-center gap-4">

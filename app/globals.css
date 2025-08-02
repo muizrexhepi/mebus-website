@@ -97,7 +97,70 @@ input[type="radio"]:checked {
   background-color: #ff284d;
   border-color: #ff007f;
 }
+.prose {
+  @apply text-gray-700;
+}
 
+.prose .lead {
+  @apply text-xl text-gray-800 font-medium mb-6 leading-relaxed;
+}
+
+.prose h2 {
+  @apply text-2xl font-bold text-gray-900 mt-12 mb-6 leading-tight;
+}
+
+.prose h3 {
+  @apply text-xl font-semibold text-gray-900 mt-8 mb-4 leading-tight;
+}
+
+.prose p {
+  @apply mb-6 leading-relaxed;
+}
+
+.prose ul,
+.prose ol {
+  @apply mb-6 pl-6;
+}
+
+.prose li {
+  @apply mb-2 leading-relaxed;
+}
+
+.prose strong {
+  @apply font-semibold text-gray-900;
+}
+
+.prose a {
+  @apply text-[#ff284d] hover:underline font-medium;
+}
+
+.prose .image-placeholder {
+  @apply my-8 text-center;
+}
+
+.prose .image-caption {
+  @apply text-sm text-gray-500 mt-3 italic;
+}
+
+.prose .cta-section {
+  @apply mt-12 p-8 bg-gradient-to-r from-[#ff284d]/5 to-orange-50 rounded-2xl text-center;
+}
+
+.prose .btn {
+  @apply inline-flex items-center justify-center px-6 py-3 rounded-xl font-medium transition-colors no-underline;
+}
+
+.prose .btn-primary {
+  @apply bg-[#ff284d] text-white hover:bg-[#ff284d]/90;
+}
+
+.prose .btn-secondary {
+  @apply bg-white text-gray-700 border border-gray-300 hover:bg-gray-50;
+}
+
+.prose .cta-buttons {
+  @apply flex flex-col sm:flex-row gap-4 justify-center mt-6;
+}
 .button-gradient {
   @apply bg-gradient-to-tr from-[#ff6700] to-[#ff007f];
 }

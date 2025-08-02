@@ -30,13 +30,17 @@ export const NAV_LINKS = [
     name: "Help",
     url: "/help",
   },
-  {
-    name: "Contact",
-    url: "/help/contact-support",
-  },
+  // {
+  //   name: "Contact",
+  //   url: "/help/contact-support",
+  // },
   {
     name: "Routes",
     url: "/routes",
+  },
+  {
+    name: "Blogs",
+    url: "/blogs",
   },
 ];
 
