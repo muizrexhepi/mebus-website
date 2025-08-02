@@ -181,7 +181,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
   const handleBlur = () => {
     setTimeout(() => {
       setOpenOptions(false);
-    }, 100);
+    }, 200);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
