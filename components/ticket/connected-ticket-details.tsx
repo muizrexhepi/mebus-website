@@ -74,7 +74,7 @@ export default function ConnectedTicketDetails({
 
   return (
     <>
-      <div className="space-y-4">
+      <div className="space-y-4 overflow-y-auto h-full">
         <div className="space-y-3 text-sm px-4 pt-4">
           <div
             className="flex items-center space-x-3 cursor-pointer rounded-lg transition-colors hover:bg-gray-50"

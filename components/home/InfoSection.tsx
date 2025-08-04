@@ -45,7 +45,9 @@ const FeaturesSection = () => {
                   src={feature.image}
                   alt={feature.defaultTitle}
                   fill
+                  sizes="(max-width: 768px) 50vw, 33vw"
                   className="object-contain"
+                  loading="lazy"
                 />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-4 leading-tight">

@@ -1,6 +1,5 @@
 import dynamic from "next/dynamic";
 import Footer from "@/components/Footer";
-import FeaturesSection from "@/components/home/InfoSection";
 import HeroWrapper from "@/components/hero-wrapper";
 
 const AffiliateTracker = dynamic(
@@ -15,6 +14,9 @@ const PopularBusRoutes = dynamic(
     ssr: false,
   }
 );
+const FeaturesSection = dynamic(() => import("@/components/home/InfoSection"), {
+  ssr: false,
+});
 
 export default function Home() {
   return (

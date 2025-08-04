@@ -673,7 +673,7 @@ const TicketList: React.FC = () => {
                         />
                       </div>
                     </SheetTrigger>
-                    <SheetContent className="p-0 rounded-tl-xl rounded-bl-xl h-full flex flex-col justify-between">
+                    <SheetContent className="p-0 rounded-tl-xl rounded-bl-xl h-full flex flex-col justify-between overflow-y-auto">
                       <div>
                         <SheetHeader className="border-b p-4 shadow-sm">
                           <SheetTitle className="font-medium">
