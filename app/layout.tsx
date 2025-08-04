@@ -1,19 +1,24 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
+import Script from "next/script";
 import ReactQueryProvider from "../components/providers/ReactQueryProvider";
 import { Toaster } from "@/components/ui/toaster";
-import CookieConsent from "@/components/CookieConsent";
 import TranslationProvider from "@/components/providers/TranslationProvider";
 import { Analytics } from "@vercel/analytics/react";
 import ClientProviders from "@/components/providers/client-providers";
-import Navbar from "@/components/navbar/Navbar";
-import Script from "next/script";
+import dynamic from "next/dynamic";
+const Navbar = dynamic(() => import("@/components/navbar/Navbar"), {
+  ssr: false,
+});
+const MobileTabs = dynamic(() => import("@/components/mobile/mobile-tabs"), {
+  ssr: false,
+});
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
   subsets: ["latin-ext"],
-  display: "swap", // Better font loading performance
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -137,6 +142,12 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
+        <link
+          rel="preload"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+          as="font"
+          type="font/woff2"
+        />
 
         {/* Enhanced viewport for better mobile experience */}
         <meta
@@ -217,9 +228,17 @@ export default function RootLayout({
                 "@type": "Country",
                 name: "Slovenia",
               },
+              {
+                "@type": "Country",
+                name: "Switzerland",
+              },
+              {
+                "@type": "Country",
+                name: "Italy",
+              },
             ],
             serviceType: "Bus Transportation Booking",
-            priceRange: "€5-€100",
+            priceRange: "€5-€120",
             telephone: "+389-70-250-259",
             address: {
               "@type": "PostalAddress",
@@ -362,8 +381,8 @@ export default function RootLayout({
           <Toaster />
           <TranslationProvider>
             <ClientProviders>
-              <Navbar className="paddingX max-w-6xl py-4 mx-auto" />
-              {children}
+              <Navbar className="paddingX max-w-6xl py-4 mx-auto hidden md:flex" />
+              {children} <MobileTabs />
               {/* <CookieConsent /> */}
             </ClientProviders>
           </TranslationProvider>

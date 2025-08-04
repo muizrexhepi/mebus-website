@@ -41,13 +41,21 @@ export const ContactClientPage = () => {
       <div className="space-y-4">
         <ContactInfo
           icon={<Phone size={24} strokeWidth={1.5} />}
-          title="Professional Phone Support"
+          title="Phone Support"
           content={
             <div className="space-y-2">
-              <p className="text-gray-600">Toll-Free: 1-800-GoBusly-01</p>
-              <p className="text-gray-600">International: +1-555-GoBusly-02</p>
+              <p className="text-gray-600">
+                <a href="tel:+38970250259" className="e text-primary">
+                  +389 70 250 259
+                </a>
+              </p>
+              <p className="text-gray-600">
+                <a href="tel:+38976224065" className="e text-primary">
+                  +389 76 224 065
+                </a>
+              </p>
               <p className="text-sm text-transparent bg-clip-text button-gradient font-medium">
-                24/7 Expert Support
+                Mon-Fri, 9AM-6PM
               </p>
             </div>
           }
@@ -55,17 +63,19 @@ export const ContactClientPage = () => {
 
         <ContactInfo
           icon={<Mail size={24} strokeWidth={1.5} />}
-          title="Professional Email Support"
+          title="Email Support"
           content={
             <div className="space-y-2">
               <p className="text-gray-600">
-                General Inquiries: support@gobusly.com
-              </p>
-              <p className="text-gray-600">
-                Booking Assistance: bookings@gobusly.com
+                <a
+                  href="mailto:gobuslyinternal@gmail.com"
+                  className="e text-primary"
+                >
+                  gobuslyinternal@gmail.com
+                </a>
               </p>
               <p className="text-sm text-transparent bg-clip-text button-gradient font-medium">
-                Guaranteed 24-Hour Response
+                Response within 24 hours
               </p>
             </div>
           }
@@ -73,13 +83,13 @@ export const ContactClientPage = () => {
 
         <ContactInfo
           icon={<MapPin size={24} strokeWidth={1.5} />}
-          title="Corporate Headquarters"
+          title="Our Office"
           content={
             <div className="space-y-2">
               <p className="text-gray-600">SEEU Techpark, GoBusly</p>
-              <p className="text-gray-600">Tetovo, 1200</p>
+              <p className="text-gray-600">Tetovo, 1200, North Macedonia</p>
               <p className="text-sm text-transparent bg-clip-text button-gradient font-medium">
-                Business Hours: Mon-Fri, 9AM-6PM
+                Mon-Fri, 9AM-6PM
               </p>
             </div>
           }

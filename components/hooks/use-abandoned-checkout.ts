@@ -424,7 +424,6 @@ export function useAbandonedCheckout() {
   return {
     sessionId: sessionId.current || null,
     resetTimeout,
-    // Add these for debugging if needed
     debug: {
       isTracking: isTrackingRef.current,
       hasBeenSaved: hasBeenSavedRef.current,

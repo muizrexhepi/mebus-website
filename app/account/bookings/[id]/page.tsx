@@ -75,7 +75,7 @@ export default function BookingDetailsPage({
   }
 
   return (
-    <div className="max-w-4xl mx-auto min-h-screen">
+    <div className="max-w-4xl mx-auto min-h-screen pb-20 md:pb-0">
       <DownloadableBookingPDF booking={booking} />
     </div>
   );

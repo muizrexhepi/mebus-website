@@ -7,34 +7,6 @@ import { useTranslation } from "react-i18next";
 const Hero = () => {
   const { t } = useTranslation();
 
-  // Option 1: Keep as features but with cleaner design
-  const features = [
-    {
-      icon: <Users className="w-6 h-6 text-[#ff284d]" />,
-      title: t("hero.features.comfortable", "Comfortable Travel"),
-      description: t(
-        "hero.features.comfortableDesc",
-        "Experience comfort with our modern bus fleet"
-      ),
-    },
-    {
-      icon: <Calendar className="w-6 h-6 text-[#ff284d]" />,
-      title: t("hero.features.flexible", "Flexible Booking"),
-      description: t(
-        "hero.features.flexibleDesc",
-        "Easy scheduling with multiple departure options"
-      ),
-    },
-    {
-      icon: <Shield className="w-6 h-6 text-[#ff284d]" />,
-      title: t("hero.features.secure", "Secure Booking"),
-      description: t(
-        "hero.features.secureDesc",
-        "Safe and secure online booking system"
-      ),
-    },
-  ];
-
   return (
     <div className="relative flex flex-col justify-between md:pb-20 bg-white">
       <div className="absolute inset-0 pointer-events-none overflow-hidden max-w-6xl mx-auto paddingX">
@@ -57,26 +29,6 @@ const Hero = () => {
             </div>
 
             <SearchBlock />
-
-            {/* OPTION 1: Cleaner features section */}
-            {/* <div className="pt-16 hidden md:grid grid-cols-1 md:grid-cols-3 gap-8">
-              {features.map((feature, index) => (
-                <div
-                  key={index}
-                  className="flex flex-col items-center text-center"
-                >
-                  <div className="relative mb-4">
-                    {feature.icon}
-                  </div>
-                  <h3 className="font-medium text-lg text-gray-900">
-                    {feature.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 mt-1 max-w-xs">
-                    {feature.description}
-                  </p>
-                </div>
-              ))}
-            </div> */}
           </div>
         </div>
       </div>

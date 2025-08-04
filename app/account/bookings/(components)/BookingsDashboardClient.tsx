@@ -112,9 +112,11 @@ const BookingsDashboardClient: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col w-full space-y-8">
+    <div className="flex flex-col w-full space-y-8 pb-20 md:pb-0">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-semibold">{t("bookings.myBookings")}</h1>
+        <h1 className="text-3xl font-semibold hidden sm:block">
+          {t("bookings.myBookings")}
+        </h1>
 
         {/* <Button asChild variant={"outline"}>
           <Link href="/account/bookings/retrieve-booking">

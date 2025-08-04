@@ -52,7 +52,7 @@ export default function DownloadableBookingPDF({
   return (
     <div className="space-y-4">
       <div className="flex justify-start gap-2 items-center">
-        <Link href="/account/bookings">
+        <Link href="/account/bookings" className="hidden md:block">
           <Button variant="outline" className="">
             <ChevronLeft className="mr-2 h-4 w-4" /> Back
           </Button>

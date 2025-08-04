@@ -14,10 +14,8 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { account } from "@/appwrite.config";
 import axios from "axios";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+
 import { loadStripe } from "@stripe/stripe-js";
 import {
   Elements,
@@ -29,7 +27,6 @@ import PaymentMethodCard from "./_components/payment-method-card";
 import { PaymentMethod } from "@stripe/stripe-js";
 import { useToast } from "@/components/hooks/use-toast";
 import { useAuth } from "@/components/providers/auth-provider";
-import { RESPONSE_LIMIT_DEFAULT } from "next/dist/server/api-utils";
 import Image from "next/image";
 
 const stripePromise = loadStripe(
