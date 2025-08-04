@@ -3,7 +3,7 @@ import { AccountSidebar } from "./(components)/account-sidebar";
 import { AccountHeader } from "@/components/mobile/account-header";
 
 export const metadata: Metadata = {
-  title: "Your account | GoBusly",
+  title: "Your account",
   description: "Change your account security, and personal information.",
 };
 

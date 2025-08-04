@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { SearchForm } from "../forms/SearchForm";
+import LanguageSelector from "../dialogs/LanguageDialog";
 
 const MobileHero = () => {
   return (
@@ -15,7 +16,9 @@ const MobileHero = () => {
             className="object-cover object-bottom"
           />
         </div>
-
+        <div className="absolute top-4 right-4 bg-white/50 pt-2 px-2 border-white/80 rounded-2xl">
+          <LanguageSelector />
+        </div>
         <div className="p-4 rounded-t-xl relative -top-8 z-10 bg-white">
           <SearchForm />
         </div>
