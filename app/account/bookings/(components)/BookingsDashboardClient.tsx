@@ -1,22 +1,25 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { Loader2 } from "lucide-react";
+import type React from "react";
+import { useEffect, useState } from "react";
+import { Loader2 } from "lucide-react"; // Using Lucide React
 import axios from "axios";
-import { Booking } from "@/models/booking";
+import type { Booking } from "@/models/booking"; // Importing your Booking model
 import { useToast } from "@/components/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/components/providers/auth-provider";
+import { useNavbarStore } from "@/store";
 import { BookingCard } from "./BookingCard";
 import { NoBookingsMessage } from "./NoBookingsMessage";
 
 const BookingsDashboardClient: React.FC = () => {
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth(); // Get isAuthenticated from useAuth
   const [loading, setLoading] = useState<boolean>(false);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const { toast } = useToast();
   const { t } = useTranslation();
+  const { setOpenLogin } = useNavbarStore();
 
   const handleNoFlexAction = () => {
     toast({
@@ -47,7 +50,6 @@ const BookingsDashboardClient: React.FC = () => {
           variant: "destructive",
         });
       }
-
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/booking/cancel-and-refund/${booking_id}/${payment_intent_id}`,
         {
@@ -56,80 +58,94 @@ const BookingsDashboardClient: React.FC = () => {
           amount_in_cents: refund_amount_in_cents,
         }
       );
+      toast({
+        title: "Success",
+        description: "Booking cancelled and refunded successfully.",
+      });
+      // Refetch bookings after successful cancellation
+      if (user) {
+        fetchBookings();
+      }
     } catch (error: any) {
-      return toast({
-        description: error.response.data.message,
+      console.error("Cancellation failed:", error);
+      toast({
+        description:
+          error.response?.data?.message || "Failed to cancel booking.",
         variant: "destructive",
       });
     }
   };
 
+  const fetchBookings = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/booking/client/${user?._id}?select=departure_date metadata destinations labels price`
+      );
+      setBookings(res.data.data);
+    } catch (error) {
+      console.error("Failed to fetch bookings:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (user) {
-      const fetchBookings = async () => {
-        try {
-          setLoading(true);
-          const res = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_URL}/booking/client/${user._id}?select=departure_date metadata destinations labels price`
-          );
-          setBookings(res.data.data);
-          if (res.data) {
-            setLoading(false);
-          }
-        } catch (error) {
-          console.error("Failed to fetch bookings:", error);
-          setLoading(false);
-        }
-      };
       fetchBookings();
     }
-  }, [user]);
+  }, [user]); // Depend on user to refetch when user state changes
 
-  const renderBookings = (filteredBookings: Booking[]) => {
+  const handleLoginClick = () => {
+    setOpenLogin(true);
+  };
+
+  const renderContent = () => {
     if (loading) {
       return (
         <div className="flex flex-col items-center justify-center py-20">
-          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
+          <Loader2 className="animate-spin h-10 w-10 text-primary" />
         </div>
       );
     }
 
-    if (!filteredBookings || filteredBookings.length === 0) {
-      return <NoBookingsMessage isLoading={loading} />;
+    if (!isAuthenticated || bookings.length === 0) {
+      return (
+        <NoBookingsMessage
+          isLoading={loading}
+          isAuthenticated={isAuthenticated}
+          onLoginClick={handleLoginClick}
+        />
+      );
     }
 
-    return filteredBookings
-      .map((booking) => (
-        <BookingCard
-          onBookingUpdated={() => {}}
-          key={booking._id}
-          booking={booking}
-          handleNoFlexAction={handleNoFlexAction}
-          handleCancelBookingAndRefund={handleCancelBookingAndRefund}
-        />
-      ))
-      .reverse();
+    return (
+      <div className="space-y-6">
+        {bookings
+          .map((booking) => (
+            <BookingCard
+              onBookingUpdated={() => {
+                if (user) fetchBookings();
+              }}
+              key={booking._id}
+              booking={booking}
+              handleNoFlexAction={handleNoFlexAction}
+              handleCancelBookingAndRefund={handleCancelBookingAndRefund}
+            />
+          ))
+          .reverse()}
+      </div>
+    );
   };
 
   return (
     <div className="flex flex-col w-full space-y-8 pb-20 md:pb-0">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-semibold hidden sm:block">
-          {t("bookings.myBookings")}
+      <div className="flex justify-between items-center px-4 md:px-0">
+        <h1 className="text-4xl font-bold text-gray-900 hidden sm:block">
+          {t("bookings.myBookings", "Your bookings")}
         </h1>
-
-        {/* <Button asChild variant={"outline"}>
-          <Link href="/account/bookings/retrieve-booking">
-            Retrieve Booking
-          </Link>
-        </Button> */}
       </div>
-
-      {user ? (
-        <div className="space-y-6">{renderBookings(bookings)}</div>
-      ) : (
-        <NoBookingsMessage isLoading={loading} />
-      )}
+      {renderContent()}
     </div>
   );
 };

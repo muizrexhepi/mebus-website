@@ -1,7 +1,7 @@
 "use client";
 
 import SearchBlock from "@/app/search/_components/SearchBlock";
-import { Bus, MapPin, Users, Calendar, Shield } from "lucide-react";
+import { Bus, MapPin } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const Hero = () => {
