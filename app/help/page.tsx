@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import HelpPageClient from "@/app/help/_components/HelpPageClient";
 
 export const metadata: Metadata = {
@@ -34,8 +34,10 @@ export const metadata: Metadata = {
 
 export default function HelpPage() {
   return (
-    <div className="max-w-6xl mx-auto paddingX pt-12">
-      <HelpPageClient />
+    <div className="min-h-screen bg-gray-50">
+      <div className="container max-w-6xl mx-auto px-4 py-8 sm:py-12">
+        <HelpPageClient />
+      </div>
     </div>
   );
 }

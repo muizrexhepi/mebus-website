@@ -1,5 +1,4 @@
-import React from "react";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ChevronLeft,
@@ -25,27 +24,6 @@ export const metadata: Metadata = {
     "GoBusly, Travel Services, Booking Management, Bus Booking Options, Change Booking, Travel Options, Customer Support",
   authors: [{ name: "GoBusly" }],
   robots: "index, follow",
-  openGraph: {
-    title: "Travel Service Options - Help Center | GoBusly",
-    description:
-      "Learn about our travel service options and choose the right level of service for your journey with GoBusly. Get tips on managing your booking and benefit from our service tiers.",
-    url: "https://www.gobusly.com/help/travel-services",
-    type: "article",
-    images: [
-      {
-        url: "https://www.gobusly.com/images/travel-services-banner.jpg",
-        width: 1200,
-        height: 630,
-        alt: "GoBusly Travel Service Options",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Travel Service Options - Help Center | GoBusly",
-    description:
-      "Explore GoBusly's travel service options and how to manage your bookings with different service tiers.",
-  },
 };
 
 interface FlexFeature {
@@ -85,85 +63,110 @@ const flexFeatures: FlexFeature[] = [
 
 const TravelServicesPage = () => {
   return (
-    <div className="min-h-screen flex flex-col">
-      <main className="flex-grow container max-w-4xl mx-auto px-4 sm:px-8 xl:px-0 pt-12">
-        <div className="flex flex-col gap-4 sm:flex-row items-start sm:items-center justify-between">
-          <h1 className="text-3xl font-bold md:mb-8 text-primary">
+    <div className="min-h-screen bg-gray-50">
+      <div className="container max-w-4xl mx-auto px-4 py-8 sm:py-12">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
             Travel Service Options
           </h1>
           <Link href="/help">
-            <Button variant="outline" className="mb-4">
-              <ChevronLeft className="mr-2 h-4 w-4" /> Back to Help Center
+            <Button
+              variant="outline"
+              className="flex items-center gap-2 rounded-xl bg-transparent"
+            >
+              <ChevronLeft className="h-4 w-4" />
+              Back to Help Center
             </Button>
           </Link>
         </div>
 
-        <Card className="mb-8">
+        {/* Understanding Section */}
+        <Card className="mb-8 shadow-sm border-0">
           <CardHeader>
-            <CardTitle>Understanding Travel Service Options</CardTitle>
+            <CardTitle className="text-xl">
+              Understanding Travel Service Options
+            </CardTitle>
             <CardDescription>
               Choose the right service level for your journey
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <p className="mb-4">
+          <CardContent className="space-y-4">
+            <p className="text-gray-700 leading-relaxed">
               Our Travel Service Options are designed to give you control over
               your booking and peace of mind during your journey. Select the
               service tier that best matches your travel needs.
             </p>
-            <div className="flex items-start mb-4">
-              <AlertCircle className="mr-2 h-4 w-4 mt-1 flex-shrink-0 text-yellow-500" />
-              <p className="text-sm text-muted-foreground">
-                <strong>Important:</strong> Service options must be selected at
-                the time of booking and cannot be added later.
-              </p>
+            <div className="flex items-start gap-3 p-4 bg-yellow-50 rounded-xl border border-yellow-200">
+              <AlertCircle className="h-5 w-5 text-yellow-600 mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="text-sm font-medium text-yellow-800">Important</p>
+                <p className="text-sm text-yellow-700">
+                  Service options must be selected at the time of booking and
+                  cannot be added later.
+                </p>
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="mb-8">
+        {/* Service Tiers */}
+        <Card className="mb-8 shadow-sm border-0">
           <CardHeader>
-            <CardTitle>Service Tiers</CardTitle>
+            <CardTitle className="text-xl">Service Tiers</CardTitle>
             <CardDescription>
               Compare our service options to find the best fit for your needs
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-6">
+            <div className="space-y-8">
               {flexFeatures.map((option) => (
-                <div key={option.value}>
-                  <h3 className="text-lg font-semibold mb-2">
-                    {option.name}{" "}
-                    <span className="text-sm font-normal text-muted-foreground">
-                      (€{option.price})
+                <div
+                  key={option.value}
+                  className="border border-gray-200 rounded-xl p-6"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      {option.name}
+                    </h3>
+                    <span className="text-2xl font-bold text-blue-600">
+                      €{option.price}
                     </span>
-                  </h3>
-                  <ul className="space-y-2">
+                  </div>
+                  <ul className="space-y-3">
                     {option.features.map((feature, index) => (
-                      <li key={index} className="flex items-center">
-                        <CheckCircle className="mr-2 h-4 w-4 text-green-500" />
-                        {feature}
+                      <li key={index} className="flex items-start gap-3">
+                        <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-700">{feature}</span>
                       </li>
                     ))}
                     {option.value === "no_flex" && (
                       <>
-                        <li className="flex items-center">
-                          <XCircle className="mr-2 h-4 w-4 text-red-500" />
-                          Non-refundable booking
+                        <li className="flex items-start gap-3">
+                          <XCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-700">
+                            Non-refundable booking
+                          </span>
                         </li>
-                        <li className="flex items-center">
-                          <XCircle className="mr-2 h-4 w-4 text-red-500" />
-                          No modifications allowed
+                        <li className="flex items-start gap-3">
+                          <XCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-700">
+                            No modifications allowed
+                          </span>
                         </li>
-                        <li className="flex items-center">
-                          <XCircle className="mr-2 h-4 w-4 text-red-500" />
-                          Standard support only
+                        <li className="flex items-start gap-3">
+                          <XCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-700">
+                            Standard support only
+                          </span>
                         </li>
                       </>
                     )}
-                    <li className="flex items-center">
-                      <HeadphonesIcon className="mr-2 h-4 w-4 text-green-500" />
-                      Customer support assistance
+                    <li className="flex items-start gap-3">
+                      <HeadphonesIcon className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-gray-700">
+                        Customer support assistance
+                      </span>
                     </li>
                   </ul>
                 </div>
@@ -172,82 +175,114 @@ const TravelServicesPage = () => {
           </CardContent>
         </Card>
 
-        <Card className="mb-8">
+        {/* Service Policy */}
+        <Card className="mb-8 shadow-sm border-0">
           <CardHeader>
-            <CardTitle>Service Policy</CardTitle>
+            <CardTitle className="text-xl">Service Policy</CardTitle>
             <CardDescription>
               Important details regarding refunds, fees, and limitations
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <p className="mb-4">
+          <CardContent className="space-y-4">
+            <p className="text-gray-700 leading-relaxed">
               Please review the following policy to understand how your chosen
               service tier affects your booking.
             </p>
-            <ul className="list-disc list-inside space-y-2">
-              <li>
-                <strong>Refund Policy:</strong> Priority Service offers full
-                refunds, while Standard Service provides partial refunds with a
-                10% processing fee.
+            <ul className="space-y-3">
+              <li className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                <div>
+                  <strong className="text-gray-900">Refund Policy:</strong>
+                  <span className="text-gray-700 ml-1">
+                    Priority Service offers full refunds, while Standard Service
+                    provides partial refunds with a 10% processing fee.
+                  </span>
+                </div>
               </li>
-              <li>
-                <strong>Modification Fees:</strong> Priority Service changes are
-                complimentary, while Standard Service includes a small
-                processing fee.
+              <li className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                <div>
+                  <strong className="text-gray-900">Modification Fees:</strong>
+                  <span className="text-gray-700 ml-1">
+                    Priority Service changes are complimentary, while Standard
+                    Service includes a small processing fee.
+                  </span>
+                </div>
               </li>
-              <li>
-                <strong>Basic Service:</strong> Basic Service bookings are
-                non-refundable and cannot be modified.
+              <li className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                <div>
+                  <strong className="text-gray-900">Basic Service:</strong>
+                  <span className="text-gray-700 ml-1">
+                    Basic Service bookings are non-refundable and cannot be
+                    modified.
+                  </span>
+                </div>
               </li>
-              <li>
-                <strong>Service Limitations:</strong> Service options do not
-                cover delays caused by force majeure, including weather or other
-                unforeseen events.
+              <li className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                <div>
+                  <strong className="text-gray-900">
+                    Service Limitations:
+                  </strong>
+                  <span className="text-gray-700 ml-1">
+                    Service options do not cover delays caused by force majeure,
+                    including weather or other unforeseen events.
+                  </span>
+                </div>
               </li>
             </ul>
           </CardContent>
         </Card>
 
-        <Card className="mb-8">
+        {/* Managing Booking */}
+        <Card className="mb-8 shadow-sm border-0">
           <CardHeader>
-            <CardTitle>Managing Your Booking</CardTitle>
+            <CardTitle className="text-xl">Managing Your Booking</CardTitle>
             <CardDescription>
               Follow these steps to modify your eligible booking
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ol className="list-decimal list-inside space-y-2">
-              <li>Log in to your account on our website or mobile app</li>
-              <li>Navigate to &quot;My Bookings&quot;</li>
-              <li>Select the booking you wish to modify</li>
-              <li>Choose your desired action (refund or modification)</li>
-              <li>Follow the prompts to complete your request</li>
-              <li>
-                Receive a confirmation email with your updated booking details
-              </li>
+            <ol className="space-y-3">
+              {[
+                "Log in to your account on our website or mobile app",
+                'Navigate to "My Bookings"',
+                "Select the booking you wish to modify",
+                "Choose your desired action (refund or modification)",
+                "Follow the prompts to complete your request",
+                "Receive a confirmation email with your updated booking details",
+              ].map((step, index) => (
+                <li key={index} className="flex items-start gap-4">
+                  <span className="flex items-center justify-center w-6 h-6 bg-blue-100 text-blue-600 rounded-full text-sm font-medium flex-shrink-0">
+                    {index + 1}
+                  </span>
+                  <span className="text-gray-700">{step}</span>
+                </li>
+              ))}
             </ol>
           </CardContent>
         </Card>
 
-        <Card>
+        {/* Need Assistance */}
+        <Card className="shadow-sm border-0">
           <CardHeader>
-            <CardTitle>Need Assistance?</CardTitle>
+            <CardTitle className="text-xl">Need Assistance?</CardTitle>
             <CardDescription>
-              We&apos;re here to help with any questions about our service
-              options
+              We're here to help with any questions about our service options
             </CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col items-start justify-between gap-4">
-            <p className="text-muted-foreground">
+          <CardContent className="space-y-4">
+            <p className="text-gray-700 leading-relaxed">
               If you need clarification about our service tiers or help managing
               your booking, our support team is ready to assist you.
             </p>
-            <Button asChild className="rounded-lg button-gradient">
-              <Link href={"/help/contact-support"}>Contact Support</Link>
+            <Button variant="primary" asChild className="rounded-xl">
+              <Link href="/help/contact-support">Contact Support</Link>
             </Button>
           </CardContent>
         </Card>
-      </main>
+      </div>
     </div>
   );
 };

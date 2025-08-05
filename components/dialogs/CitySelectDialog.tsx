@@ -1,4 +1,7 @@
-import React, { useState, useEffect, useMemo } from "react";
+"use client";
+
+import type React from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   Dialog,
   DialogContent,
@@ -8,37 +11,31 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Cookies from "js-cookie";
-import { Station } from "@/models/station";
-import { ScrollArea } from "../ui/scroll-area";
-import { IoMdLocate, IoMdSearch } from "react-icons/io";
-import { HiMapPin } from "react-icons/hi2";
-import { MdHistory } from "react-icons/md";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { ArrowLeft, Search, Clock } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Station } from "@/models/station";
 
 const levenshteinDistance = (str1: string, str2: string) => {
   const track = Array(str2.length + 1)
     .fill(null)
     .map(() => Array(str1.length + 1).fill(null));
-
   for (let i = 0; i <= str1.length; i += 1) {
     track[0][i] = i;
   }
-
   for (let j = 0; j <= str2.length; j += 1) {
     track[j][0] = j;
   }
-
   for (let j = 1; j <= str2.length; j += 1) {
     for (let i = 1; i <= str1.length; i += 1) {
       const indicator = str1[i - 1] === str2[j - 1] ? 0 : 1;
       track[j][i] = Math.min(
-        track[j][i - 1] + 1, // deletion
-        track[j - 1][i] + 1, // insertion
-        track[j - 1][i - 1] + indicator // substitution
+        track[j][i - 1] + 1,
+        track[j - 1][i] + 1,
+        track[j - 1][i - 1] + indicator
       );
     }
   }
-
   return track[str2.length][str1.length];
 };
 
@@ -83,7 +80,6 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
       grouped[country].push(station);
     });
 
-    // Sort countries alphabetically and stations within each country
     const sortedGrouped: GroupedStations = {};
     Object.keys(grouped)
       .sort()
@@ -92,7 +88,6 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
           a.city.localeCompare(b.city)
         );
       });
-
     return sortedGrouped;
   }, [filteredStations]);
 
@@ -105,17 +100,14 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
     }
 
     setShowRecent(false);
-
     const searchTermLower = searchTerm.toLowerCase();
 
-    // Calculate both exact matches and Levenshtein distance matches
     const exactMatches = stations.filter(
       (station) =>
         station.city.toLowerCase().includes(searchTermLower) ||
         station.country?.toLowerCase().includes(searchTermLower)
     );
 
-    // For fuzzy matching
     const stationsWithDistance = stations.map((station) => {
       const cityNameLower = station.city.toLowerCase();
       const countryNameLower = station.country?.toLowerCase() || "";
@@ -125,14 +117,10 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
         countryNameLower
       );
       const distance = Math.min(cityDistance, countryDistance);
-
-      return { station, distance, cityNameLower, countryNameLower };
+      return { station, distance };
     });
 
-    // Adjust threshold based on search term length
     const maxDistance = Math.min(3, searchTermLower.length);
-
-    // Get fuzzy matches that aren't already in exact matches
     const fuzzyMatches = stationsWithDistance
       .filter(
         (item) =>
@@ -142,7 +130,6 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
       .sort((a, b) => a.distance - b.distance)
       .map((item) => item.station);
 
-    // Combine exact and fuzzy matches
     setFilteredStations([...exactMatches, ...fuzzyMatches]);
   }, [searchTerm, stations]);
 
@@ -171,16 +158,33 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px] py-20 h-full sm:h-auto flex flex-col px-0">
+      <DialogContent
+        hideCloseButton={true}
+        className="sm:max-w-[425px] h-full sm:h-[90vh] max-h-[100vh] flex flex-col p-0 gap-0 rounded-none sm:rounded-2xl"
+      >
         {/* Header */}
-        <DialogHeader className="space-y-4 h-fit px-4">
-          <DialogTitle className="text-lg font-semibold">
-            {departure === "from"
-              ? "Select departure city"
-              : "Select destination city"}
-          </DialogTitle>
+        <DialogHeader className="bg-gray-50 px-4 py-4 border-b border-gray-100 flex-shrink-0">
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onClose}
+              className="h-10 w-10 rounded-full hover:bg-gray-200 transition-colors"
+            >
+              <ArrowLeft className="h-5 w-5 text-gray-700" />
+            </Button>
+            <DialogTitle className="text-lg font-medium text-gray-900">
+              {departure === "from"
+                ? "Select departure city"
+                : "Select destination city"}
+            </DialogTitle>
+          </div>
+        </DialogHeader>
+
+        {/* Search Bar */}
+        <div className="px-4 py-4 border-b border-gray-100 flex-shrink-0">
           <div className="relative">
-            <IoMdSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <Input
               type="text"
               placeholder={t(
@@ -189,113 +193,92 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
               )}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 h-12 border-none ring-0 font-medium bg-primary-bg/5"
+              className="pl-11 h-12 bg-gray-50 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
             />
           </div>
-        </DialogHeader>
+        </div>
 
-        {/* Content */}
-        <ScrollArea>
-          <div className="mt-4 max-h-[calc(100vh-200px)] overflow-y-auto">
-            {/* Recent Searches */}
-            {showRecent && recentStations.length > 0 && (
-              <>
-                <div className="bg-muted px-4 py-2 border-b border-border mb-2">
-                  <h3 className="font-medium text-sm text-foreground/70">
-                    {t("searchForm.recentSearches")}
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-hidden">
+          <ScrollArea className="h-full">
+            <div className="pb-6">
+              {/* Recent Searches */}
+              {showRecent && recentStations.length > 0 && (
+                <div className="px-4 py-6 border-b border-gray-100">
+                  <h3 className="font-semibold text-lg text-gray-900 mb-4">
+                    {t("searchForm.recentSearches", "Recent searches")}
                   </h3>
-                </div>
-                {recentStations.map((station: Station) => (
-                  <Button
-                    key={station._id}
-                    variant="ghost"
-                    className="w-full justify-start text-left mb-2"
-                    onClick={() => handleStationSelect(station)}
-                    type="button"
-                  >
-                    {departure === "from" ? (
-                      <IoMdLocate className="size-5 mr-2 text-primary-accent" />
-                    ) : (
-                      <HiMapPin className="size-5 mr-2 shrink-0 text-primary-accent" />
-                    )}
-                    <div className="flex flex-col items-start">
-                      <span className="capitalize font-medium">
-                        {station.city}
-                      </span>
-                      {station.country && (
-                        <span className="text-sm text-muted-foreground capitalize">
-                          {getCountryFlag(station.country)} {station.country}
-                        </span>
-                      )}
-                    </div>
-                  </Button>
-                ))}
-                <div className="mt-2 mb-4 border-t border-gray-200" />
-              </>
-            )}
-
-            {/* Search Results or All Cities */}
-            {searchTerm !== "" && (
-              <div className="bg-muted px-4 py-2 border-b border-border mb-2">
-                <h3 className="font-medium text-sm text-foreground/70">
-                  {t("searchForm.searchResult")}
-                </h3>
-              </div>
-            )}
-
-            {Object.keys(groupedStations).length > 0
-              ? Object.entries(groupedStations).map(
-                  ([country, countryStations]) => (
-                    <div key={country} className="mb-4">
-                      {/* Country Header */}
-                      <div className="bg-muted/50 px-4 py-2 mb-2">
-                        <h4 className="font-medium text-sm text-foreground/80 flex items-center gap-2">
-                          <span>{getCountryFlag(country)}</span>
-                          <span className="capitalize">{country}</span>
-                          <span className="text-muted-foreground">
-                            ({countryStations.length})
-                          </span>
-                        </h4>
-                      </div>
-
-                      {/* Cities in Country */}
-                      {countryStations.map((station) => (
+                  <div className="space-y-0">
+                    {recentStations.map((station: Station, index: number) => (
+                      <div key={station._id || index}>
                         <Button
-                          key={station._id}
                           variant="ghost"
-                          className="w-full justify-start text-left mb-2"
+                          className="w-full justify-between text-left p-0 h-auto py-4 hover:bg-gray-50 rounded-none"
                           onClick={() => handleStationSelect(station)}
                           type="button"
                         >
-                          {departure === "from" ? (
-                            <IoMdLocate className="size-5 mr-2 text-primary-accent" />
-                          ) : (
-                            <HiMapPin className="size-5 mr-2 shrink-0 text-primary-accent" />
-                          )}
-                          <div className="flex flex-col items-start">
-                            <span className="capitalize font-medium">
+                          <div className="flex items-center gap-4">
+                            <Clock className="w-5 h-5 text-gray-500" />
+                            <span className="text-lg font-normal text-black capitalize">
                               {station.city}
                             </span>
-                            {station.name &&
-                              station.name !==
-                                `${station.city} bus station` && (
-                                <span className="text-sm text-muted-foreground">
-                                  {station.name}
-                                </span>
-                              )}
                           </div>
+                          <span className="text-sm text-gray-400">Route</span>
                         </Button>
-                      ))}
-                    </div>
-                  )
-                )
-              : searchTerm !== "" && (
-                  <div className="px-4 py-3 text-muted-foreground text-sm">
-                    {t("searchForm.noResults", "No results found")}
+                        <div className="border-b border-gray-200" />
+                      </div>
+                    ))}
                   </div>
-                )}
-          </div>
-        </ScrollArea>
+                </div>
+              )}
+
+              {/* Search Results or Popular Cities */}
+              <div className="px-4 py-6">
+                <h3 className="font-semibold text-lg text-gray-900 mb-4">
+                  {searchTerm
+                    ? t("searchForm.searchResult", "Search Results")
+                    : "Popular Cities"}
+                </h3>
+
+                <div className="space-y-0">
+                  {Object.keys(groupedStations).length > 0 ? (
+                    Object.entries(groupedStations).map(
+                      ([country, countryStations]) => (
+                        <div key={country}>
+                          {countryStations.map((station, index) => (
+                            <div key={station._id || `${country}-${index}`}>
+                              <Button
+                                variant="ghost"
+                                className="w-full justify-start text-left p-0 h-auto py-4 hover:bg-gray-50 rounded-none"
+                                onClick={() => handleStationSelect(station)}
+                                type="button"
+                              >
+                                <span className="text-lg font-normal text-black capitalize">
+                                  {station.city}
+                                </span>
+                              </Button>
+                              {/* Add divider line except for last item */}
+                              <div className="border-b border-gray-200" />
+                            </div>
+                          ))}
+                        </div>
+                      )
+                    )
+                  ) : searchTerm !== "" ? (
+                    <div className="py-12 text-center">
+                      <p className="text-gray-500 text-base">
+                        {t("searchForm.noResults", "No results found")}
+                      </p>
+                      <p className="text-sm text-gray-400 mt-1">
+                        Try searching with different keywords
+                      </p>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          </ScrollArea>
+        </div>
       </DialogContent>
     </Dialog>
   );

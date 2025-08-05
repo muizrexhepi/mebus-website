@@ -22,7 +22,6 @@ import useSearchStore from "@/store";
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -31,6 +30,7 @@ import useIsMobile from "@/components/hooks/use-mobile";
 import { LOCALE_MAP } from "@/lib/data";
 import { enUS } from "date-fns/locale";
 import { FaCalendarAlt } from "react-icons/fa";
+import { ArrowLeft } from "lucide-react";
 
 export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
   const { t, i18n } = useTranslation();
@@ -49,10 +49,8 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
     if (departureDate) {
       const parsedDate = parse(departureDate, "dd-MM-yyyy", new Date());
       const today = startOfDay(new Date());
-
       if (isValid(parsedDate)) {
         if (isBefore(parsedDate, today)) {
-          // If date is in the past, set to today
           const formattedToday = format(today, "dd-MM-yyyy");
           setDepartureDate(formattedToday);
           setDate(today);
@@ -61,7 +59,6 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
         }
       }
     } else {
-      // Set default to today if no date is set
       const today = startOfDay(new Date());
       const formattedToday = format(today, "dd-MM-yyyy");
       setDepartureDate(formattedToday);
@@ -69,16 +66,12 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
     }
   }, [departureDate, date, setDepartureDate]);
 
-  // Scroll to the selected date when dialog opens
   React.useEffect(() => {
     if (isDialogOpen && isMobile && scrollAreaRef.current && date) {
       const selectedMonth = date.getMonth();
       const currentMonth = new Date().getMonth();
       const monthDiff = selectedMonth - currentMonth;
-
-      // Calculate scroll position (each calendar is roughly 300px height)
       const scrollPosition = Math.max(0, monthDiff * 300);
-
       setTimeout(() => {
         if (scrollAreaRef.current) {
           scrollAreaRef.current.scrollTop = scrollPosition;
@@ -96,7 +89,6 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
       setDate(selectedDate);
       const formattedDate = format(selectedDate, "dd-MM-yyyy");
       setDepartureDate(formattedDate);
-
       if (updateUrl) {
         const currentParams = new URLSearchParams(searchParams.toString());
         currentParams.set("departureDate", formattedDate);
@@ -106,7 +98,6 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
         router.push(newPathname, { scroll: false });
       }
     }
-
     if (isMobile) {
       setIsDialogOpen(false);
     }
@@ -116,7 +107,6 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
     ? format(date, "E, LLL dd", { locale: currentLocale })
     : t("searchForm.departure");
 
-  // Generate 12 months starting from current month
   const currentMonth = new Date().getMonth();
   const currentYear = new Date().getFullYear();
   const months = Array.from({ length: 12 }, (_, i) => {
@@ -138,44 +128,63 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
         </Button>
 
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogContent className="sm:max-w-[425px] py-20 h-full sm:h-auto flex flex-col px-0">
-            <DialogHeader className="space-y-4 h-fit px-4">
-              <DialogTitle>{t("searchForm.departure")}</DialogTitle>
+          <DialogContent
+            hideCloseButton={true}
+            className="sm:max-w-[425px] h-full sm:h-[90vh] max-h-[100vh] flex flex-col p-0 gap-0 rounded-none sm:rounded-2xl"
+          >
+            {/* Header */}
+            <DialogHeader className="bg-gray-50 px-4 py-4 border-b border-gray-100 flex-shrink-0">
+              <div className="flex items-center gap-3">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsDialogOpen(false)}
+                  className="h-10 w-10 rounded-full hover:bg-gray-200 transition-colors"
+                >
+                  <ArrowLeft className="h-5 w-5 text-gray-700" />
+                </Button>
+                <DialogTitle className="text-lg font-medium text-gray-900">
+                  {t("searchForm.departure", "Select departure date")}
+                </DialogTitle>
+              </div>
             </DialogHeader>
 
-            <ScrollArea className="flex-1" ref={scrollAreaRef}>
-              <div className="p-4">
-                {months.map(({ month, year }, i) => {
-                  const monthDate = new Date(year, month, 1);
-                  return (
-                    <div key={`${month}-${year}`} className="mb-4">
-                      <Calendar
-                        mode="single"
-                        disableNavigation
-                        selected={date}
-                        onSelect={handleDateSelect}
-                        initialFocus={i === 0}
-                        month={monthDate}
-                        fromDate={new Date()}
-                        locale={currentLocale}
-                        className="w-full"
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-            </ScrollArea>
+            {/* Calendar Content */}
+            <div className="flex-1 overflow-hidden">
+              <ScrollArea className="h-full" ref={scrollAreaRef}>
+                <div className="p-4">
+                  {months.map(({ month, year }, i) => {
+                    const monthDate = new Date(year, month, 1);
+                    return (
+                      <div key={`${month}-${year}`} className="mb-6">
+                        <Calendar
+                          mode="single"
+                          disableNavigation
+                          selected={date}
+                          onSelect={handleDateSelect}
+                          initialFocus={i === 0}
+                          month={monthDate}
+                          fromDate={new Date()}
+                          locale={currentLocale}
+                          className="w-full rounded-xl border border-gray-200 bg-white shadow-sm"
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              </ScrollArea>
+            </div>
 
-            <DialogFooter>
-              <div className="px-4 py-8 absolute bottom-0 bg-white left-0 w-full border-t">
-                <Button
-                  onClick={() => setIsDialogOpen(false)}
-                  className="w-full h-12 button-gradient"
-                >
-                  {t("actions.confirmCancellation", "Confirm")}
-                </Button>
-              </div>
-            </DialogFooter>
+            {/* Footer */}
+            <div className="p-4 border-t border-gray-100 bg-white">
+              <Button
+                onClick={() => setIsDialogOpen(false)}
+                variant={"primary"}
+                className="w-full h-12 text-white rounded-xl"
+              >
+                {t("actions.confirmCancellation", "Confirm")}
+              </Button>
+            </div>
           </DialogContent>
         </Dialog>
       </>
