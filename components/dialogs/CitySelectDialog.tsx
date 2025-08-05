@@ -213,17 +213,14 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
                       <div key={station._id || index}>
                         <Button
                           variant="ghost"
-                          className="w-full justify-between text-left p-0 h-auto py-4 hover:bg-gray-50 rounded-none"
+                          className="w-full justify-between items-center text-left p-0 h-auto py-4 hover:bg-gray-50 rounded-none"
                           onClick={() => handleStationSelect(station)}
                           type="button"
                         >
-                          <div className="flex items-center gap-4">
-                            <Clock className="w-5 h-5 text-gray-500" />
-                            <span className="text-lg font-normal text-black capitalize">
-                              {station.city}
-                            </span>
-                          </div>
-                          <span className="text-sm text-gray-400">Route</span>
+                          <span className="text-lg font-normal text-black capitalize">
+                            {station.city}
+                          </span>
+                          <Clock className="w-5 h-5 text-gray-500" />
                         </Button>
                         <div className="border-b border-gray-200" />
                       </div>
