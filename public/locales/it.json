@@ -7,6 +7,15 @@
     "it": "Cerca",
     "contact": "Contatti"
   },
+  "loginCTA": {
+    "saveBookingTitle": "Salva i dettagli della prenotazione",
+    "saveBookingDescription": "Accedi per salvare la cronologia delle prenotazioni, tenere traccia dei tuoi viaggi e ottenere un checkout più veloce la prossima volta.",
+    "benefit1": "Salva cronologia prenotazioni",
+    "benefit2": "Checkout più veloci in futuro",
+    "benefit3": "Metodi di pagamento sicuri",
+    "quickLogin": "Richiede meno di 30 secondi",
+    "loginButton": "Accedi / Registrati"
+  },
   "filters": {
     "title": "Filtri",
     "sortBy": "Ordina per",

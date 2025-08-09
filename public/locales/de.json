@@ -7,6 +7,15 @@
     "de": "Suche",
     "contact": "Kontakt"
   },
+  "loginCTA": {
+    "saveBookingTitle": "Speichern Sie Ihre Buchungsdetails",
+    "saveBookingDescription": "Melden Sie sich an, um Ihre Buchungshistorie zu speichern, Ihre Reisen zu verfolgen und beim nächsten Mal schneller auszuchecken.",
+    "benefit1": "Buchungshistorie speichern",
+    "benefit2": "Schnellere zukünftige Checkouts",
+    "benefit3": "Sichere Zahlungsmethoden",
+    "quickLogin": "Dauert weniger als 30 Sekunden",
+    "loginButton": "Anmelden / Registrieren"
+  },
   "filters": {
     "title": "Filter",
     "sortBy": "Sortieren nach",

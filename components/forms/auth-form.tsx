@@ -6,7 +6,7 @@ import Image from "next/image";
 import { ArrowLeft, Loader2, Mail } from "lucide-react";
 import { z } from "zod";
 import type { FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import axios from "axios";
 
 import { Button } from "@/components/ui/button";
@@ -28,6 +28,7 @@ const emailSchema = z
 
 export default function AuthForm() {
   const router = useRouter();
+  const pathname = usePathname();
   const { toast } = useToast();
   const [formState, setFormState] = useState<"initial" | "email" | "otp">(
     "initial"
@@ -50,6 +51,9 @@ export default function AuthForm() {
       return false;
     }
   };
+
+  // Check if user is on checkout page
+  const isOnCheckout = pathname?.includes("/checkout");
 
   // API calls
   const sendEmailOtp = async () => {
@@ -90,7 +94,22 @@ export default function AuthForm() {
       });
 
       if (result?.ok) {
-        router.push("/");
+        // Close the login dialog
+        setOpenLogin(false);
+
+        // Show success message
+        toast({
+          title: "Successfully logged in!",
+          description: isOnCheckout
+            ? "You can now complete your booking"
+            : "Welcome back!",
+        });
+
+        // Only redirect if NOT on checkout page
+        if (!isOnCheckout) {
+          router.push("/");
+        }
+        // If on checkout, stay on the page - the user data will refresh automatically
       } else {
         toast({
           title: "Verification failed",
@@ -122,7 +141,6 @@ export default function AuthForm() {
     e.preventDefault();
     if (otp.length === 4) {
       await verifyOTP();
-      setOpenLogin(false);
     }
   };
 
@@ -176,6 +194,11 @@ export default function AuthForm() {
             ? "Sign in with Email"
             : "Welcome back"}
         </h2>
+        {isOnCheckout && (
+          <p className="text-sm text-muted-foreground">
+            Login to save your booking and continue checkout
+          </p>
+        )}
       </div>
 
       {/* OTP form */}
@@ -207,7 +230,13 @@ export default function AuthForm() {
             className="w-full h-12"
             disabled={otp.length !== 4 || isLoading}
           >
-            {isLoading ? <Loader2 className="animate-spin" /> : "Verify Code"}
+            {isLoading ? (
+              <Loader2 className="animate-spin" />
+            ) : isOnCheckout ? (
+              "Login & Continue Checkout"
+            ) : (
+              "Verify Code"
+            )}
           </Button>
           <p className="text-sm text-center text-muted-foreground mt-2">
             Didn't receive the code?{" "}

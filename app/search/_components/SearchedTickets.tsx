@@ -677,7 +677,7 @@ const TicketList: React.FC = () => {
                       <div>
                         <SheetHeader className="border-b p-4 shadow-sm">
                           <SheetTitle className="font-medium">
-                            Connected Journey Details
+                            {t("ticketDetails.title")}
                           </SheetTitle>
                         </SheetHeader>
                         <ConnectedTicketDetails ticket={ticket} />

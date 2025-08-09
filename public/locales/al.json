@@ -8,6 +8,15 @@
     "account": "Akaunti",
     "al": "Kërko"
   },
+  "loginCTA": {
+    "saveBookingTitle": "Ruaj detajet e rezervimit tënd",
+    "saveBookingDescription": "Identifikohu për të ruajtur historikun e rezervimeve të tua, për të ndjekur udhëtimet dhe për të pasur një pagesë më të shpejtë herën tjetër.",
+    "benefit1": "Ruaj historikun e rezervimeve",
+    "benefit2": "Pagesa më të shpejta në të ardhmen",
+    "benefit3": "Metoda të sigurta pagese",
+    "quickLogin": "Merr më pak se 30 sekonda",
+    "loginButton": "Identifikohu / Regjistrohu"
+  },
   "filters": {
     "title": "Filtrat",
     "sortBy": "Rendit sipas",

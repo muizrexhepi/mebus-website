@@ -182,12 +182,8 @@ export default function Account() {
                   "Sign in or create an account to access your past and upcoming bus ticket bookings."
                 )}
               </p>
-              <Button
-                variant="default"
-                onClick={() => setOpenLogin(true)}
-                className="w-full bg-gradient-to-r from-orange-500 to-pink-600 text-white hover:from-orange-600 hover:to-pink-700"
-              >
-                Log In
+              <Button variant="primary" onClick={() => setOpenLogin(true)}>
+                {t("auth.login")}
               </Button>
             </div>
           )}
@@ -234,7 +230,7 @@ export default function Account() {
           {/* Logout Button */}
           {isAuthenticated && (
             <button
-              className="flex items-center justify-between py-4 px-4 border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition-colors w-full"
+              className="flex items-center justify-between py-4 border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition-colors w-full"
               onClick={handleLogout}
             >
               <div className="flex items-center space-x-4">

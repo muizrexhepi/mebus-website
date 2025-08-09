@@ -8,7 +8,7 @@ import { HelpCircle } from "lucide-react";
 
 const mobileTabLinks = [
   {
-    labelKey: "nav.home",
+    labelKey: "searchForm.searchButton.default",
     href: "/",
     icon: FaHome,
   },

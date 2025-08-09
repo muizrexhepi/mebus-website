@@ -12,6 +12,7 @@ import PassengerInfo from "@/app/checkout/_components/PassengerInfo";
 import Extras from "@/app/checkout/_components/ExtrasInfo";
 import PaymentMethod from "@/app/checkout/_components/PaymentMethod";
 import OrderSummary from "@/app/checkout/_components/OrderSummary";
+import LoginCTA from "@/app/checkout/_components/LoginCTA";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -80,7 +81,7 @@ const CheckoutForm = () => {
         document.removeEventListener(event, handleUserActivity);
       });
     };
-  }, [resetTimeout]); 
+  }, [resetTimeout]);
 
   return (
     <div className="space-y-6">
@@ -88,6 +89,8 @@ const CheckoutForm = () => {
 
       <div className="relative mx-auto flex flex-col-reverse md:flex-row gap-8">
         <div className="flex-[2] flex flex-col gap-4">
+          {" "}
+          <LoginCTA />
           <PassengerInfo />
           <Extras />
           <PaymentMethod />
@@ -101,8 +104,7 @@ const CheckoutForm = () => {
               <p>
                 <strong>Session ID:</strong> {sessionId || "Not generated"}
               </p>
-              <p>
-              </p>
+              <p></p>
             </div>
           )}
         </div>

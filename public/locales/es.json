@@ -7,6 +7,15 @@
     "es": "Buscar",
     "contact": "Contacto"
   },
+  "loginCTA": {
+    "saveBookingTitle": "Guarda los detalles de tu reserva",
+    "saveBookingDescription": "Inicia sesión para guardar tu historial de reservas, seguir tus viajes y tener un pago más rápido la próxima vez.",
+    "benefit1": "Guardar historial de reservas",
+    "benefit2": "Pagos más rápidos en el futuro",
+    "benefit3": "Métodos de pago seguros",
+    "quickLogin": "Toma menos de 30 segundos",
+    "loginButton": "Iniciar sesión / Registrarse"
+  },
   "filters": {
     "title": "Filtros",
     "sortBy": "Ordenar por",

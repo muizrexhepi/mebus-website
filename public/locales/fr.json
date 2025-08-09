@@ -7,6 +7,15 @@
     "about": "À propos",
     "contact": "Contact"
   },
+  "loginCTA": {
+    "saveBookingTitle": "Sauvegardez vos détails de réservation",
+    "saveBookingDescription": "Connectez-vous pour sauvegarder votre historique de réservations, suivre vos voyages et avoir un paiement plus rapide la prochaine fois.",
+    "benefit1": "Sauvegarder l'historique des réservations",
+    "benefit2": "Paiements plus rapides à l'avenir",
+    "benefit3": "Méthodes de paiement sécurisées",
+    "quickLogin": "Prend moins de 30 secondes",
+    "loginButton": "Se connecter / S'inscrire"
+  },
   "filters": {
     "title": "Filtres",
     "sortBy": "Trier par",

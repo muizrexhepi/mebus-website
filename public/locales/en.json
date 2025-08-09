@@ -10,6 +10,15 @@
     "account": "Account",
     "home": "Search"
   },
+  "loginCTA": {
+    "saveBookingTitle": "Save your booking details",
+    "saveBookingDescription": "Login to save your booking history, track your trips, and get faster checkout next time.",
+    "benefit1": "Save booking history",
+    "benefit2": "Faster future checkouts",
+    "benefit3": "Secure payment methods",
+    "quickLogin": "Takes less than 30 seconds",
+    "loginButton": "Login / Sign up"
+  },
   "filters": {
     "title": "Filters",
     "sortBy": "Sort by",

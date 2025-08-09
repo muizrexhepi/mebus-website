@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
@@ -42,8 +42,8 @@ const PaymentMethod = () => {
   const [saveCardInfo, setSaveCardInfo] = useState<boolean>(false);
   const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<any>();
-
-  // Abandoned checkout tracking
+  const [showStickyButton, setShowStickyButton] = useState(true);
+  const buttonRef = useRef<HTMLDivElement>(null);
   const { sessionId, resetTimeout } = useAbandonedCheckout();
 
   const { passengers: passengerAmount } = useSearchStore();
@@ -59,7 +59,6 @@ const PaymentMethod = () => {
     resetCheckout,
   } = useCheckoutStore();
 
-  // Check if resuming from abandoned checkout
   useEffect(() => {
     const resumeSessionId = searchParams.get("resume");
     if (resumeSessionId) {
@@ -187,7 +186,7 @@ const PaymentMethod = () => {
           amount_in_cents: Math.round(finalAmount * 100),
           discount_amount_in_cents: Math.round(appliedDiscountAmount * 100),
           discount_code: discountCode || null,
-          ticket_id: outboundTicket?._id
+          ticket_id: outboundTicket?._id,
         }
       );
 
@@ -713,7 +712,21 @@ const PaymentMethod = () => {
       console.log({ error });
     }
   };
+  useEffect(() => {
+    const handleScroll = () => {
+      if (buttonRef.current) {
+        const buttonRect = buttonRef.current.getBoundingClientRect();
+        const isButtonVisible =
+          buttonRect.top < window.innerHeight && buttonRect.bottom > 0;
+        setShowStickyButton(!isButtonVisible);
+      }
+    };
 
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Check initial state
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   enum CardNetwork {
     Visa = "visa",
     Mastercard = "mastercard",
@@ -954,13 +967,7 @@ const PaymentMethod = () => {
         <OrderSummary />
       </div>
 
-      <div className="flex items-center justify-end gap-2">
-        <Button
-          className="rounded-lg h-12 bg-primary-bg px-6 py-3.5 gap-1"
-          onClick={() => router.back()}
-        >
-          Back
-        </Button>
+      <div ref={buttonRef} className="flex items-center justify-end gap-2">
         <Button
           onClick={handlePayment}
           className="px-6 py-3.5 button-gradient text-white hover:bg-primary-bg/95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-bg h-12 rounded-lg w-full sm:w-40"
@@ -970,6 +977,25 @@ const PaymentMethod = () => {
             <Loader2 className="animate-spin h-5 w-5 mx-auto" />
           ) : (
             t("paymentMethod.completePayment")
+          )}
+        </Button>
+      </div>
+
+      {/* Sticky button for mobile */}
+      <div
+        className={`md:hidden fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200 z-50 transition-transform duration-300 ${
+          showStickyButton ? "translate-y-0" : "translate-y-full"
+        }`}
+      >
+        <Button
+          onClick={handlePayment}
+          className="px-6 py-3.5 button-gradient text-white hover:bg-primary-bg/95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-bg h-12 rounded-lg w-full"
+          disabled={!stripe || loading}
+        >
+          {loading ? (
+            <Loader2 className="animate-spin h-5 w-5 mx-auto" />
+          ) : (
+            `${t("paymentMethod.completePayment")} - €${totalPrice.toFixed(2)}`
           )}
         </Button>
       </div>

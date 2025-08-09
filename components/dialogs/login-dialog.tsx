@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useNavbarStore } from "@/store";
 import AuthForm from "../forms/auth-form";
-import LoginForm from "../forms/LoginForm";
+import { ChevronLeft } from "lucide-react";
 
 export const LoginDialog = () => {
   const { t } = useTranslation();
@@ -17,7 +17,12 @@ export const LoginDialog = () => {
         <DialogTitle aria-readonly className="hidden">
           Login Dialog
         </DialogTitle>
-
+        <button
+          onClick={() => setOpenLogin(false)}
+          className="absolute left-4 top-6 z-10 p-2 rounded-md hover:bg-gray-100"
+        >
+          <ChevronLeft className="size-5" />
+        </button>
         <div className="grid lg:grid-cols-2 h-full">
           <div className="hidden lg:flex flex-col justify-center w-full items-center p-8 bg-gradient-to-br from-primary-bg/10 to-primary-bg/5">
             <div className="flex justify-center items-center flex-col mx-auto space-y-6">
