@@ -104,7 +104,7 @@ export default function ContactForm() {
 
   return (
     <div className="h-fit">
-      <div className="p-8 shadow-md rounded-xl bg-white">
+      <div className="p-8 shadow-sm rounded-xl bg-white">
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">

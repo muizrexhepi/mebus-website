@@ -13,12 +13,12 @@ export default function AccountLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
+    <div className="bg-[#f9fafb]">
       <AccountHeader />
       <div className="flex max-w-6xl mx-auto paddingX min-h-screen paddingY gap-12 !py-6 sm:!py-14 md:!py-20">
         <AccountSidebar />
         {children}
       </div>
-    </>
+    </div>
   );
 }

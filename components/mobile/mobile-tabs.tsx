@@ -17,11 +17,11 @@ const mobileTabLinks = [
     href: "/account/bookings",
     icon: FaBookmark,
   },
-  {
-    labelKey: "nav.help",
-    href: "/help",
-    icon: LifeBuoyIcon,
-  },
+  // {
+  //   labelKey: "nav.help",
+  //   href: "/help",
+  //   icon: LifeBuoyIcon,
+  // },
   {
     labelKey: "nav.account",
     href: "/account",
@@ -33,12 +33,8 @@ const MobileTabs = () => {
   const pathname = usePathname();
   const { t } = useTranslation();
 
-  // const shouldShowTabs =
-  //   pathname === "/" ||
-  //   pathname.includes("/account") ||
-  //   pathname.includes("/help");
-
-  const shouldShowTabs = true;
+  const shouldShowTabs =
+    pathname !== "/checkout" && !pathname.includes("/search");
 
   if (!shouldShowTabs) {
     return null;
@@ -46,7 +42,7 @@ const MobileTabs = () => {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
-      <div className="bg-white border-t border-gray-200 safe-area-pb">
+      <div className="bg-white border-t border-gray-200 ">
         <div className="flex justify-around items-center px-2 py-1">
           {mobileTabLinks.map((link) => {
             const isActive =

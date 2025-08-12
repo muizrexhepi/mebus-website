@@ -22,7 +22,7 @@ export function NoBookingsMessage({
 
   if (!isAuthenticated) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 px-4 text-center bg-white rounded-lg shadow-sm">
+      <div className="flex flex-col items-center justify-center py-16 px-4 text-center rounded-lg">
         <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
           {t("login.getFullExperience", "Log in to view your bookings")}
         </h2>

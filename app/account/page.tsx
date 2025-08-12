@@ -13,6 +13,8 @@ import {
   Ticket,
   ChevronRight,
   LogOut,
+  Contact2,
+  HelpCircle,
 } from "lucide-react";
 import { useAuth } from "@/components/providers/auth-provider";
 import { useNavbarStore } from "@/store";
@@ -53,6 +55,11 @@ const ACCOUNT_SETTINGS: AccountSetting[] = [
     href: "/account/notifications",
     icon: Bell,
     title: "sidebar.notifications",
+  },
+  {
+    href: "/help/contact-support",
+    icon: HelpCircle,
+    title: "helpPage.quickLinks.contactSupport",
   },
 ];
 
@@ -156,7 +163,7 @@ export default function Account() {
       {/* Mobile view */}
       <div className="md:hidden">
         {/* Header */}
-        <div className="bg-white pt-6 pb-4 border-b border-gray-100">
+        <div className=" pt-6 pb-4 border-b border-gray-200">
           {user ? (
             <div className="flex items-center space-x-4">
               <div className="w-16 h-16 bg-gradient-to-tr from-[#ff6700] to-[#ff007f] rounded-full flex items-center justify-center flex-shrink-0">
@@ -190,13 +197,13 @@ export default function Account() {
         </div>
 
         {/* Account Menu */}
-        <div className="bg-white mt-4">
+        <div className=" mt-4">
           {ACCOUNT_SETTINGS.map((link) =>
             isAuthenticated ? (
               <Link
                 key={link.title}
                 href={link.href}
-                className="flex items-center justify-between py-4 border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition-colors"
+                className="flex items-center justify-between py-4 border-b border-gray-200 hover:bg-gray-50 active:bg-gray-100 transition-colors"
                 prefetch={false}
               >
                 <div className="flex items-center space-x-4">
@@ -213,7 +220,7 @@ export default function Account() {
               <button
                 key={link.title}
                 onClick={() => setOpenLogin(true)}
-                className="w-full flex items-center justify-between py-4 border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition-colors"
+                className="w-full flex items-center justify-between py-4 border-b border-gray-200 hover:bg-gray-50 active:bg-gray-100 transition-colors"
               >
                 <div className="flex items-center space-x-4">
                   <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
@@ -230,7 +237,7 @@ export default function Account() {
           {/* Logout Button */}
           {isAuthenticated && (
             <button
-              className="flex items-center justify-between py-4 border-b border-gray-100 hover:bg-gray-50 active:bg-gray-100 transition-colors w-full"
+              className="flex items-center justify-between py-4 border-b border-gray-200 hover:bg-gray-50 active:bg-gray-100 transition-colors w-full"
               onClick={handleLogout}
             >
               <div className="flex items-center space-x-4">

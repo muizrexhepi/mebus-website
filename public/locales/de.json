@@ -222,6 +222,7 @@
   },
   "orderSummary": {
     "enterCode": "Code eingeben",
+    "discountCode": "",
     "applying": "Wird angewendet",
     "returnTrip": "Rückfahrt",
     "outboundTrip": "Hinreise",

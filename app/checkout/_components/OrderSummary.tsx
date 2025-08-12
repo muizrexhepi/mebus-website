@@ -427,7 +427,7 @@ const OrderSummary = ({ className }: { className?: string }) => {
         <div className="flex items-center gap-2 mb-3">
           <Tag size={18} className="text-gray-600" />
           <h3 className="font-medium text-base">
-            {t("orderSummary.discountCode", "Discount Code")}
+            {t("discountCodes.title", "Discount Code")}
           </h3>
         </div>
 

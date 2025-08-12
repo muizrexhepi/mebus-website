@@ -10,7 +10,7 @@ const ContactInfo: React.FC<{
   title: string;
   content: React.ReactNode;
 }> = ({ icon, title, content }) => (
-  <Card className="flex items-start space-x-4 p-6 rounded-lg hover:shadow-md transition-all duration-300 border-gray-100">
+  <Card className="flex items-start space-x-4 p-6 rounded-xl border-none">
     <div className="text-primary-bg p-3 rounded-full bg-primary-bg/10">
       {icon}
     </div>
@@ -67,11 +67,8 @@ export const ContactClientPage = () => {
           content={
             <div className="space-y-2">
               <p className="text-gray-600">
-                <a
-                  href="mailto:gobuslyinternal@gmail.com"
-                  className="e text-primary"
-                >
-                  gobuslyinternal@gmail.com
+                <a href="mailto:contact@gobusly.com" className="e text-primary">
+                  contact@gobusly.com
                 </a>
               </p>
               <p className="text-sm text-transparent bg-clip-text button-gradient font-medium">

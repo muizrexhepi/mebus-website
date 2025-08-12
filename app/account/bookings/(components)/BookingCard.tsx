@@ -13,23 +13,26 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  ClockIcon,
+  Clock,
   DollarSign,
-  ChevronDownIcon,
-  View,
-  XCircle,
+  ChevronDown,
+  Eye,
+  X,
+  MoreHorizontal,
+  ArrowRight,
 } from "lucide-react";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "@/components/hooks/use-toast";
-import { FlexUpgradeSheet } from "@/components/dialogs/FlexUpgradeDialog"; // Assuming this path is correct
+import { FlexUpgradeSheet } from "@/components/dialogs/FlexUpgradeDialog";
 import { loadStripe } from "@stripe/stripe-js";
 import { isBefore, startOfDay } from "date-fns";
 import { usePaymentSuccessStore } from "@/store";
 import { Booking } from "@/models/booking";
 import { Operator } from "@/models/operator";
+import Link from "next/link";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
@@ -157,124 +160,148 @@ export const BookingCard: React.FC<BookingCardProps> = ({
     return priceDifference > 0 ? Number(priceDifference?.toFixed(2)) : 0;
   };
 
+  const formatCityName = (cityName: string) => {
+    return cityName?.charAt(0).toUpperCase() + cityName?.slice(1).toLowerCase();
+  };
+
+  const isRefunded = booking?.metadata?.refund_action?.is_refunded;
+
   return (
-    <Card className="mb-4 shadow-sm rounded-xl border border-gray-200">
-      <CardContent className="p-4 sm:p-6">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0 relative">
-          {/* Date and Time/Price Section */}
-          <div className="flex items-center space-x-4 w-full sm:w-auto">
-            <div className="text-center flex-shrink-0 pr-4 border-r border-gray-200">
-              <p className="text-lg font-semibold text-gray-900">
+    <Card className="bg-white border-0 transition-all duration-200 rounded-2xl overflow-hidden mb-3">
+      <CardContent className="p-0 relative">
+        {/* Header with date and actions */}
+        <Link
+          href={`/account/bookings/${booking._id}`}
+          className="text-sm text-transparent font-normal button-gradient bg-clip-text bottom-5 right-5 absolute p-1"
+        >
+          View details
+        </Link>
+        <div className="flex items-center justify-between px-5 pt-5 pb-3">
+          <div className="flex items-center gap-3">
+            <div className="text-left">
+              <div className="text-lg font-semibold text-gray-900 leading-tight">
                 {moment.utc(booking?.departure_date).format("MMM DD")}
-              </p>
-              <p className="text-sm text-gray-600">
+              </div>
+              <div className="text-sm text-gray-500 font-medium">
                 {moment.utc(booking?.departure_date).format("YYYY")}
-              </p>
-            </div>
-            <div className="flex flex-col space-y-1 whitespace-nowrap">
-              <div className="flex items-center space-x-2 text-sm text-gray-700">
-                <ClockIcon className="h-4 w-4 text-gray-500" />
-                <span>
-                  {moment.utc(booking?.departure_date).format("HH:mm")}
-                </span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-gray-700">
-                <DollarSign className="h-4 w-4 text-gray-500" />
-                <span>{booking?.price?.toFixed(2)}</span>
+            </div>
+            <div className="h-8 w-px bg-gray-200"></div>
+            <div className="text-left">
+              <div className="text-sm font-medium text-gray-900">
+                {moment.utc(booking?.departure_date).format("HH:mm")}
+              </div>
+              <div className="text-sm text-gray-500">
+                ${booking?.price?.toFixed(2)}
               </div>
             </div>
           </div>
 
-          {/* Origin/Destination Section (Timeline) */}
-          <div className="flex items-center space-x-4 w-full sm:w-auto sm:flex-1 sm:justify-center">
-            <div className="flex flex-col justify-between h-16">
-              <div className="h-3 w-3 rounded-full bg-[#ff007f]" />
-              <div className="flex-1 ml-[5px] border-l-2 border-dashed border-blue-300 w-0" />
-              <div className="h-3 w-3 rounded-full bg-[#ff007f]" />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 p-0 rounded-full hover:bg-gray-100 text-gray-500 hover:text-gray-700"
+              >
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem
+                className="gap-2 py-2.5"
+                disabled={isRefunded}
+                onClick={isNoFlex ? handleNoFlexAction : handleReschedule}
+              >
+                <Clock className="h-4 w-4" />
+                {t("actions.rescheduleBooking")}
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="gap-2 py-2.5"
+                onClick={() => router.push(`/account/bookings/${booking?._id}`)}
+              >
+                <Eye className="h-4 w-4" />
+                {t("actions.viewDetails")}
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                disabled={isRefunded}
+                className="gap-2 py-2.5 text-red-600 focus:bg-red-50 focus:text-red-700"
+                onClick={
+                  isNoFlex
+                    ? handleNoFlexAction
+                    : () =>
+                        handleCancelBookingAndRefund(
+                          booking?._id,
+                          booking?.metadata?.payment_intent_id,
+                          booking?.metadata?.travel_flex,
+                          Math.round(booking?.price * 100 * 0.7)
+                        )
+                }
+              >
+                <X className="h-4 w-4" />
+                {t("actions.cancelBooking")}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        {/* Route visualization */}
+        <div className="px-5 py-4">
+          <div className="flex items-start gap-4">
+            {/* Timeline dots and line */}
+            <div className="flex flex-col items-center mt-1 md:hidden">
+              <div className="w-3 h-3 rounded-full bg-[#ff007f]/80 ring-2 ring-pink-100"></div>
+              <div className="w-px h-12 bg-gradient-to-b from-[#ff007f] to-gray-300 my-1"></div>
+              <div className="w-3 h-3 rounded-full bg-[#ff007f]/80 ring-2 ring-pink-100"></div>
             </div>
-            <div className="flex flex-col h-16 justify-between">
-              <div className="text-base font-semibold capitalize text-gray-900">
-                {booking?.labels?.from_city}
-                <span className="text-sm text-gray-500 block">
+
+            {/* Route details */}
+            <div className="flex-1 space-y-6 md:flex md:space-y-0 items-center gap-12">
+              <div>
+                <div className="font-semibold text-gray-900 text-base">
+                  {formatCityName(booking?.labels?.from_city)}
+                </div>
+                <div className="text-sm text-gray-500 mt-0.5">
                   {booking?.destinations?.departure_station_label}
-                </span>
+                </div>
               </div>
-              <div className="text-base font-semibold capitalize text-gray-900">
-                {booking?.labels?.to_city}
-                <span className="text-sm text-gray-500 block">
+
+              <div className="hidden md:block">
+                <ArrowRight className=" text-[#ff007f]/80" />
+              </div>
+              <div>
+                <div className="font-semibold text-gray-900 text-base">
+                  {formatCityName(booking?.labels?.to_city)}
+                </div>
+                <div className="text-sm text-gray-500 mt-0.5">
                   {booking?.destinations?.arrival_station_label}
-                </span>
+                </div>
               </div>
             </div>
-          </div>
-
-          {/* Badge and Dropdown Section */}
-          <div className="flex flex-col sm:flex-row items-end sm:items-center gap-3 w-full sm:w-auto">
-            <Badge
-              className={`capitalize px-3 py-1 text-xs font-medium rounded-full ${
-                booking?.metadata?.refund_action?.is_refunded
-                  ? "bg-red-500 text-white"
-                  : "bg-primary-accent/10 text-[#ff007f]"
-              }`}
-            >
-              {!booking?.metadata?.refund_action?.is_refunded
-                ? booking?.metadata?.travel_flex === "no_flex"
-                  ? "No flexibility"
-                  : booking?.metadata?.travel_flex
-                : "Refunded"}
-            </Badge>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  className="w-full sm:w-auto text-gray-700 hover:bg-gray-100 bg-transparent"
-                >
-                  {t("actions.actions")}
-                  <ChevronDownIcon className="ml-2 h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem
-                  className="gap-2"
-                  disabled={booking?.metadata?.refund_action?.is_refunded}
-                  onClick={isNoFlex ? handleNoFlexAction : handleReschedule}
-                >
-                  <ClockIcon className="h-4 w-4" />
-                  {t("actions.rescheduleBooking")}
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  className="gap-2"
-                  onClick={() =>
-                    router.push(`/account/bookings/${booking?._id}`)
-                  }
-                >
-                  <View className="h-4 w-4" />
-                  {t("actions.viewDetails")}
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  disabled={booking?.metadata?.refund_action?.is_refunded}
-                  className="gap-2 text-red-600 focus:bg-red-50 focus:text-red-700"
-                  onClick={
-                    isNoFlex
-                      ? handleNoFlexAction
-                      : () =>
-                          handleCancelBookingAndRefund(
-                            booking?._id,
-                            booking?.metadata?.payment_intent_id,
-                            booking?.metadata?.travel_flex,
-                            Math.round(booking?.price * 100 * 0.7)
-                          )
-                  }
-                >
-                  <XCircle className="h-4 w-4" />
-                  {t("actions.cancelBooking")}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
           </div>
         </div>
+
+        <div className="px-5 pb-5">
+          <Badge
+            variant="secondary"
+            className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium border-0 ${
+              isRefunded
+                ? "bg-red-50 text-red-700"
+                : booking?.metadata?.travel_flex === "no_flex"
+                ? "bg-gray-100 text-gray-700"
+                : "bg-pink-50 text-[#ff007f]"
+            }`}
+          >
+            {isRefunded
+              ? "Refunded"
+              : booking?.metadata?.travel_flex === "no_flex"
+              ? "No flexibility"
+              : booking?.metadata?.travel_flex?.replace(/_/g, " ")}
+          </Badge>
+        </div>
       </CardContent>
+
       <FlexUpgradeSheet
         isOpen={isDatePickerOpen}
         setIsOpen={setIsDatePickerOpen}

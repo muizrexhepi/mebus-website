@@ -8,7 +8,7 @@ export default function HelpLayout({
   return (
     <div className="pb-16 md:pb-0">
       {children}
-      <SecondaryFooter className="mt-12 hidden md:block" />
+      <SecondaryFooter className="pt-12 hidden md:block bg-[#f9fafb]" />
     </div>
   );
 }

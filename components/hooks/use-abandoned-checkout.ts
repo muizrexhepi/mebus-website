@@ -103,7 +103,6 @@ export function useAbandonedCheckout() {
       sessionId.current = `${prefix}_${Date.now()}_${Math.random()
         .toString(36)
         .substr(2, 9)}`;
-      console.log("🆔 Generated session ID:", sessionId.current);
 
       // Reset all tracking state for new sessions
       isTrackingRef.current = false;
@@ -233,30 +232,23 @@ export function useAbandonedCheckout() {
   const saveAbandonedData = useCallback(async () => {
     // Prevent multiple saves for the same session
     if (hasBeenSavedRef.current) {
-      console.log("🚫 Already saved for this session");
       return { success: false, error: "Already saved for this session" };
     }
 
     // Don't save if this is a resumed session
     if (resumeSessionId) {
-      console.log("🚫 Skipping save for resumed session");
       return { success: false, error: "Resumed session, no save needed" };
     }
 
     // If already saving, return the existing promise
     if (savePromiseRef.current) {
-      console.log("🔄 Save already in progress, waiting for completion...");
       return savePromiseRef.current;
     }
 
     const abandonedData = prepareAbandonedData();
     if (!abandonedData) {
-      console.log("❌ Missing required data for saving");
       return { success: false, error: "Missing required data" };
     }
-
-    console.log("💾 Starting save process...");
-    console.log("📋 Save triggered for session:", sessionId.current);
 
     // Mark as saved to prevent duplicates
     hasBeenSavedRef.current = true;
@@ -264,19 +256,10 @@ export function useAbandonedCheckout() {
     // Create and store the promise
     savePromiseRef.current = (async () => {
       try {
-        console.log("📋 Abandoned data to save:", {
-          email: abandonedData.email,
-          passengersCount: passengers.length,
-          totalPrice: abandonedData.totalPrice,
-          sessionId: abandonedData.sessionId,
-        });
-
         const result = await saveToAPI(abandonedData);
 
         if (result.success) {
-          console.log("✅ Abandoned checkout saved successfully");
         } else {
-          console.error("❌ Failed to save abandoned checkout:", result.error);
           // Reset the flag if save failed so it can be retried
           hasBeenSavedRef.current = false;
         }
@@ -303,13 +286,11 @@ export function useAbandonedCheckout() {
   useEffect(() => {
     // Don't track if this is a resumed session
     if (resumeSessionId) {
-      console.log("🚫 Skipping tracking for resumed session");
       return;
     }
 
     // Don't track if already saved
     if (hasBeenSavedRef.current) {
-      console.log("🚫 Already saved, skipping tracking");
       return;
     }
 
@@ -318,11 +299,6 @@ export function useAbandonedCheckout() {
       passengers.length > 0 && outboundTicket && passengers[0]?.email;
 
     if (!hasRequiredData) {
-      console.log("⏳ Waiting for required data...", {
-        hasPassengers: passengers.length > 0,
-        hasOutbound: !!outboundTicket,
-        hasEmail: !!passengers[0]?.email,
-      });
       return;
     }
 
@@ -367,13 +343,9 @@ export function useAbandonedCheckout() {
 
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
-      console.log("🔄 Reset abandoned checkout timer");
 
       // Restart the timer
       timeoutRef.current = setTimeout(() => {
-        console.log(
-          "⏰ 1 minute passed after reset, saving abandoned checkout..."
-        );
         saveAbandonedData();
       }, 1 * 60 * 1000); // 1 minute
     }

@@ -44,7 +44,7 @@ export function AccountSidebar() {
   const { t } = useTranslation(); // Use the translation hook
 
   return (
-    <nav className="w-[240px] hidden md:block flex-shrink-0 shadow h-fit rounded-xl overflow-hidden">
+    <nav className="w-[240px] hidden md:block flex-shrink-0 shadow-sm h-fit rounded-xl overflow-hidden bg-white">
       <ul className="divide-y">
         {sidebarLinks.map((link) => {
           const isActive = pathname.includes(link.href);
