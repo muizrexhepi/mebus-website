@@ -4,7 +4,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { FaHome, FaBookmark, FaUser } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
-import { HelpCircle } from "lucide-react";
+import { HelpCircle, LifeBuoyIcon } from "lucide-react";
 
 const mobileTabLinks = [
   {
@@ -20,7 +20,7 @@ const mobileTabLinks = [
   {
     labelKey: "nav.help",
     href: "/help",
-    icon: HelpCircle,
+    icon: LifeBuoyIcon,
   },
   {
     labelKey: "nav.account",
@@ -33,10 +33,12 @@ const MobileTabs = () => {
   const pathname = usePathname();
   const { t } = useTranslation();
 
-  const shouldShowTabs =
-    pathname === "/" ||
-    pathname.includes("/account") ||
-    pathname.includes("/help");
+  // const shouldShowTabs =
+  //   pathname === "/" ||
+  //   pathname.includes("/account") ||
+  //   pathname.includes("/help");
+
+  const shouldShowTabs = true;
 
   if (!shouldShowTabs) {
     return null;

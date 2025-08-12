@@ -96,7 +96,7 @@ export default function LocationMap({
       <SheetContent className="p-0 rounded-l-xl">
         <SheetHeader className="p-4 border-b">
           <div className="flex items-center justify-between">
-            <SheetTitle className="text-lg font-semibold">
+            <SheetTitle className="text-lg font-medium capitalize">
               {stationName}
             </SheetTitle>
             <Button

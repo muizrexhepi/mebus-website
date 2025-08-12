@@ -112,7 +112,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
                 lastStop?.to?.location,
                 lastStop.to.name,
                 lastStop.to.city,
-                lastStop.from.address
+                lastStop.to.address
               )
             }
           >

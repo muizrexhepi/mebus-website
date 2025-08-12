@@ -56,7 +56,7 @@ const LoginCTA = () => {
               <h3 className="font-medium text-gray-900 mb-1">
                 {t("loginCTA.saveBookingTitle", "Save your booking details")}
               </h3>
-              <p className="text-sm text-gray-600 mb-3">
+              <p className="text-sm text-gray-600">
                 {t(
                   "loginCTA.saveBookingDescription",
                   "Login to save your booking history, track your trips, and get faster checkout next time."
@@ -64,7 +64,7 @@ const LoginCTA = () => {
               </p>
 
               {/* Benefits list */}
-              <div className="space-y-2 mb-4">
+              {/* <div className="space-y-2 mb-4">
                 <div className="flex items-center gap-2 text-xs text-gray-600">
                   <BookmarkCheck className="w-3 h-3 text-green-600" />
                   <span>{t("loginCTA.benefit1", "Save booking history")}</span>
@@ -81,7 +81,7 @@ const LoginCTA = () => {
                     {t("loginCTA.benefit3", "Secure payment methods")}
                   </span>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 

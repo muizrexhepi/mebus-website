@@ -15,7 +15,7 @@ import useSearchStore, {
 } from "@/store";
 import { useTranslation } from "react-i18next";
 import { Switch } from "@/components/ui/switch";
-import { Loader2 } from "lucide-react";
+import { Loader2, Smartphone, CreditCard } from "lucide-react";
 import OrderSummary from "./OrderSummary";
 import { useAuth } from "@/components/providers/auth-provider";
 import { markCheckoutCompleted } from "@/lib/appwrite-abandoned-checkout";
@@ -28,6 +28,9 @@ import {
   getOperatorChildrenPrice,
 } from "@/lib/utils";
 
+// Payment method types
+type PaymentMethodType = "card" | "google_pay" | "apple_pay";
+
 const PaymentMethod = () => {
   const stripe = useStripe();
   const elements = useElements();
@@ -35,6 +38,10 @@ const PaymentMethod = () => {
   const [cardNumber, setCardNumber] = useState<any>(null);
   const [cardExpiry, setCardExpiry] = useState<any>(null);
   const [cardCvc, setCardCvc] = useState<any>(null);
+  const [paymentRequest, setPaymentRequest] = useState<any>(null);
+  const [canMakePayment, setCanMakePayment] = useState<any>(null);
+  const [selectedPaymentType, setSelectedPaymentType] =
+    useState<PaymentMethodType>("card");
   const router = useRouter();
   const searchParams = useSearchParams();
   const { toast } = useToast();
@@ -127,23 +134,142 @@ const PaymentMethod = () => {
 
   const totalPrice = outboundTotal + returnTotal + flexPrice;
 
+  // Initialize Stripe Elements and Payment Request
+  // 1. Create card fields once
   useEffect(() => {
-    if (stripe && elements) {
-      const cardNumberElement = elements.create("cardNumber");
-      const cardExpiryElement = elements.create("cardExpiry");
-      const cardCvcElement = elements.create("cardCvc");
+    if (!stripe || !elements) return;
 
-      cardNumberElement.mount("#card-number-element");
-      cardExpiryElement.mount("#card-expiry-element");
-      cardCvcElement.mount("#card-cvc-element");
+    const cardNumberElement = elements.create("cardNumber");
+    const cardExpiryElement = elements.create("cardExpiry");
+    const cardCvcElement = elements.create("cardCvc");
 
-      setCardNumber(cardNumberElement);
-      setCardExpiry(cardExpiryElement);
-      setCardCvc(cardCvcElement);
-    }
+    cardNumberElement.mount("#card-number-element");
+    cardExpiryElement.mount("#card-expiry-element");
+    cardCvcElement.mount("#card-cvc-element");
+
+    setCardNumber(cardNumberElement);
+    setCardExpiry(cardExpiryElement);
+    setCardCvc(cardCvcElement);
+    return () => {
+      cardNumberElement.unmount();
+      cardExpiryElement.unmount();
+      cardCvcElement.unmount();
+    };
   }, [stripe, elements]);
 
-  const handlePayment = async () => {
+  useEffect(() => {
+    if (!stripe) return;
+
+    const pr = stripe.paymentRequest({
+      country: "US", // Change to your country
+      currency: "eur",
+      total: {
+        label: "Bus Booking",
+        amount: Math.round(totalPrice * 100),
+      },
+      requestPayerName: true,
+      requestPayerEmail: true,
+    });
+
+    pr.canMakePayment().then((result) => {
+      setCanMakePayment(result);
+    });
+
+    pr.on("paymentmethod", async (ev) => {
+      try {
+        setLoading(true);
+        await handleDigitalWalletPayment(ev);
+      } catch (error) {
+        console.error("Payment failed:", error);
+        ev.complete("fail");
+      } finally {
+        setLoading(false);
+      }
+    });
+
+    setPaymentRequest(pr);
+  }, [stripe, totalPrice]);
+
+  // Handle digital wallet payment (Google Pay/Apple Pay)
+  const handleDigitalWalletPayment = async (ev: any) => {
+    try {
+      // Check if discount is applied
+      const discountCode = localStorage.getItem("discountCode");
+      const discountPercentage = localStorage.getItem("discountPercentage");
+      const discountExpiration = localStorage.getItem("discountExpiration");
+
+      // Calculate final amount with discount if applicable
+      let finalAmount = totalPrice;
+      let appliedDiscountAmount = 0;
+
+      if (discountCode && discountPercentage && discountExpiration) {
+        const expirationDate = new Date(discountExpiration);
+        const currentDate = new Date();
+
+        if (currentDate < expirationDate) {
+          const discountPercent = Number.parseFloat(discountPercentage);
+          appliedDiscountAmount = totalPrice * (discountPercent / 100);
+          finalAmount = totalPrice - appliedDiscountAmount;
+        }
+      }
+
+      const res = await axios.post<any>(
+        `${
+          process.env.NEXT_PUBLIC_API_URL
+        }/payment/create-payment-intent?customer_id=${
+          user?.stripe_customer_id || ""
+        }`,
+        {
+          passengers,
+          amount_in_cents: Math.round(finalAmount * 100),
+          discount_amount_in_cents: Math.round(appliedDiscountAmount * 100),
+          discount_code: discountCode || null,
+          ticket_id: outboundTicket?._id,
+        }
+      );
+
+      const { clientSecret } = res.data.data;
+
+      // Confirm the payment with the payment method from the digital wallet
+      const { error: confirmError, paymentIntent } =
+        await stripe!.confirmCardPayment(clientSecret, {
+          payment_method: ev.paymentMethod.id,
+        });
+
+      if (confirmError) {
+        console.error("Confirmation error:", confirmError);
+        ev.complete("fail");
+        toast({
+          description: confirmError.message || "Something went wrong!",
+          variant: "destructive",
+        });
+      } else if (paymentIntent.status === "succeeded") {
+        ev.complete("success");
+        await createBookings(
+          paymentIntent.id,
+          finalAmount,
+          appliedDiscountAmount,
+          discountCode
+        );
+        // Mark checkout as completed
+        if (sessionId) {
+          await markCheckoutCompleted(sessionId);
+        }
+        router.push("/checkout/success");
+        resetCheckout();
+      }
+    } catch (err: any) {
+      console.error("Digital wallet payment error:", err);
+      ev.complete("fail");
+      toast({
+        description: err?.response?.data?.message || "Payment failed",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Handle traditional card payment
+  const handleCardPayment = async () => {
     if (!stripe || !elements || !cardNumber || !cardExpiry || !cardCvc) {
       return;
     }
@@ -243,6 +369,20 @@ const PaymentMethod = () => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Handle payment based on selected method
+  const handlePayment = async () => {
+    if (selectedPaymentType === "card") {
+      await handleCardPayment();
+    } else if (
+      selectedPaymentType === "google_pay" ||
+      selectedPaymentType === "apple_pay"
+    ) {
+      if (paymentRequest) {
+        paymentRequest.show();
+      }
     }
   };
 
@@ -712,6 +852,7 @@ const PaymentMethod = () => {
       console.log({ error });
     }
   };
+
   useEffect(() => {
     const handleScroll = () => {
       if (buttonRef.current) {
@@ -727,6 +868,7 @@ const PaymentMethod = () => {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
   enum CardNetwork {
     Visa = "visa",
     Mastercard = "mastercard",
@@ -838,112 +980,233 @@ const PaymentMethod = () => {
             {t("paymentMethod.description")}
           </p>
 
-          {
-            <div
-              className={`${
-                Math.abs(totalPrice) < 0.01 ? "hidden" : ""
-              } space-y-4`}
-            >
-              <div className="flex-col flex gap-4 justify-between">
-                {user && !user?.stripe_payment_method_ids && (
-                  <div className="text-gray-700 text-sm flex gap-2 items-center">
-                    <p>Save card info for future payments</p>
-                    <Switch
-                      onCheckedChange={() => setSaveCardInfo(!saveCardInfo)}
-                      className="data-[state=checked]:bg-primary-accent"
-                    />
-                  </div>
-                )}
-
-                {user?.stripe_payment_method_ids && (
-                  <div className="space-y-2 ">
-                    <h3 className="font-medium text-gray-700">
-                      Choose your saved payment methods
-                    </h3>
-                    {paymentMethods?.map((method) => (
-                      <div
-                        key={method?.id}
-                        onClick={() => handleSelectPaymentMethod(method)}
-                        className={`
-                          cursor-pointer p-3 border border-gray-300 rounded-lg
-                          ${
-                            selectedPaymentMethod?.id == method.id
-                              ? "bg-blue-50 border-blue-500 hover:bg-blue-100"
-                              : "hover:bg-gray-100"
-                          }
-                          flex items-center justify-between
-                        `}
-                      >
-                        <div className="flex gap-2">
-                          {renderNetworkLogo(method?.card?.brand)}{" "}
-                          <h3 className="font-medium text-gray-700">
-                            ••••{method?.card?.last4}
-                          </h3>
-                          <h3 className="font-medium text-gray-700">
-                            (Exp: {method?.card?.exp_month}/
-                            {method?.card?.exp_year})
-                          </h3>
-                        </div>
-
-                        {selectedPaymentMethod?.id == method.id && (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5 text-blue-600"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                <div
-                  className={`relative ${selectedPaymentMethod && "hidden"}`}
-                >
-                  <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t" />
-                  </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">
-                      {t("login.orContinueWith")}
-                    </span>
-                  </div>
-                </div>
-
-                <h3
-                  className={`font-medium text-gray-700 ${
-                    selectedPaymentMethod && "hidden"
-                  }`}
-                >
-                  {t("paymentMethod.cardInformation")}
+          {Math.abs(totalPrice) >= 0.01 && (
+            <div className="space-y-4">
+              {/* Payment Method Selection */}
+              <div className="space-y-3">
+                <h3 className="font-medium text-gray-700">
+                  Select Payment Method
                 </h3>
 
-                <div
-                  className={`grid grid-cols-2 gap-2 ${
-                    selectedPaymentMethod && "hidden"
+                {/* Digital Wallets */}
+                {canMakePayment && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {canMakePayment.applePay && (
+                      <button
+                        onClick={() => setSelectedPaymentType("apple_pay")}
+                        className={`p-3 border rounded-lg flex items-center justify-center gap-3 transition-colors ${
+                          selectedPaymentType === "apple_pay"
+                            ? `bg-gray-50 border-gray-300`
+                            : "border-gray-100 bg-white hover:border-gray-200"
+                        }`}
+                      >
+                        <Smartphone className="h-5 w-5" />
+                        <span
+                          className={`font-medium ${
+                            selectedPaymentType === "apple_pay"
+                              ? "button-gradient bg-clip-text text-transparent"
+                              : "text-gray-800 group-hover:text-black"
+                          }`}
+                        >
+                          Apple Pay
+                        </span>
+                        <div className="ml-2">
+                          <svg
+                            className="h-6 w-12"
+                            viewBox="0 0 48 24"
+                            fill="none"
+                          >
+                            <path
+                              d="M17.5 11.5c0-.9.4-1.8 1.1-2.4-.7-1-1.8-1.6-3-1.6-1.3 0-2.4.8-3 .8s-1.8-.7-2.9-.7c-1.5 0-2.8.9-3.6 2.2-1.5 2.6-.4 6.5 1.1 8.6.7 1 1.6 2.2 2.7 2.1 1.1 0 1.5-.7 2.8-.7 1.3 0 1.6.7 2.8.7 1.2 0 1.9-1 2.6-2.1.8-1.2 1.1-2.4 1.1-2.5-.1 0-2.1-.8-2.1-3.1zm-1.9-5.6c.6-.7 1-1.7.9-2.7-.9 0-1.9.6-2.5 1.3-.6.7-.9 1.6-.8 2.6.9.1 1.8-.5 2.4-1.2z"
+                              fill="#000"
+                            />
+                            <path
+                              d="M25 7h2.5c1.4 0 2.5 1.1 2.5 2.5s-1.1 2.5-2.5 2.5H25v3h-1V7zm1 4h1.5c.8 0 1.5-.7 1.5-1.5S28.3 8 27.5 8H26v3zm5 2c0-1.7 1.3-3 3-3s3 1.3 3 3-1.3 3-3 3-3-1.3-3-3zm5 0c0-1.1-.9-2-2-2s-2 .9-2 2 .9 2 2 2 2-.9 2-2zm3-3h1l2 5.5L44 10h1l-2.5 6h-1l-2.5-6z"
+                              fill="#000"
+                            />
+                          </svg>
+                        </div>
+                      </button>
+                    )}
+
+                    {canMakePayment.googlePay && (
+                      <button
+                        onClick={() => setSelectedPaymentType("google_pay")}
+                        className={`p-3 border rounded-lg flex items-center justify-center gap-3 transition-colors ${
+                          selectedPaymentType === "google_pay"
+                            ? `bg-gray-50 border-gray-300`
+                            : "border-gray-100 bg-white hover:border-gray-200"
+                        }`}
+                      >
+                        <Smartphone className="h-5 w-5" />
+                        <span
+                          className={`font-medium ${
+                            selectedPaymentType === "google_pay"
+                              ? "button-gradient bg-clip-text text-transparent"
+                              : "text-gray-800 group-hover:text-black"
+                          }`}
+                        >
+                          Google Pay
+                        </span>
+                        <div className="ml-2">
+                          <svg
+                            className="h-6 w-12"
+                            viewBox="0 0 48 24"
+                            fill="none"
+                          >
+                            <path
+                              d="M24 9.5c0-1.7 1.3-3 3-3 .8 0 1.5.3 2 .8l1.5-1.5c-1-1-2.4-1.6-3.5-1.6-2.8 0-5 2.2-5 5s2.2 5 5 5c1.1 0 2.5-.6 3.5-1.6l-1.5-1.5c-.5.5-1.2.8-2 .8-1.7 0-3-1.3-3-3z"
+                              fill="#4285f4"
+                            />
+                            <path
+                              d="M8 9.5c0-1.7 1.3-3 3-3s3 1.3 3 3-1.3 3-3 3-3-1.3-3-3zm3-5c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5z"
+                              fill="#ea4335"
+                            />
+                            <path
+                              d="M35 7.5h2v9h-2v-.8c-.6.6-1.4 1-2.5 1-2.3 0-4.1-1.8-4.1-4.1s1.8-4.1 4.1-4.1c1.1 0 1.9.4 2.5 1v-.8zm0 4.5c0-1.4-1.1-2.5-2.5-2.5s-2.5 1.1-2.5 2.5 1.1 2.5 2.5 2.5 2.5-1.1 2.5-2.5z"
+                              fill="#fbbc04"
+                            />
+                            <path
+                              d="M44 12.5v-8h-2v8c0 1.1-.9 2-2 2s-2-.9-2-2v-8h-2v8c0 2.2 1.8 4 4 4s4-1.8 4-4z"
+                              fill="#34a853"
+                            />
+                          </svg>
+                        </div>
+                      </button>
+                    )}
+                  </div>
+                )}
+
+                {/* Card Payment Option */}
+                <button
+                  onClick={() => setSelectedPaymentType("card")}
+                  className={`w-full p-3 border rounded-lg flex items-center justify-center gap-3 transition-colors ${
+                    selectedPaymentType === "card"
+                      ? `bg-gray-50 border-gray-300`
+                      : "border-gray-100 bg-white hover:border-gray-200"
                   }`}
                 >
-                  <div
-                    id="card-number-element"
-                    className="col-span-2 p-4 bg-primary-bg/5 rounded-lg"
-                  ></div>
-                  <div
-                    id="card-expiry-element"
-                    className="p-4 bg-primary-bg/5 rounded-lg"
-                  ></div>
-                  <div
-                    id="card-cvc-element"
-                    className="p-4 bg-primary-bg/5 rounded-lg"
-                  ></div>
-                </div>
-              </div>{" "}
+                  <CreditCard className="h-5 w-5" />
+                  <span
+                    className={`font-medium ${
+                      selectedPaymentType === "card"
+                        ? "button-gradient bg-clip-text text-transparent"
+                        : "text-gray-800 group-hover:text-black"
+                    }`}
+                  >
+                    Credit/Debit Card
+                  </span>
+                </button>
+              </div>
+
+              {/* Show card form only when card is selected */}
+              {selectedPaymentType === "card" && (
+                <>
+                  <div className="flex-col flex gap-3 justify-between">
+                    {user && !user?.stripe_payment_method_ids && (
+                      <div className="text-gray-700 text-sm flex gap-2 items-center">
+                        <p>Save card info for future payments</p>
+                        <Switch
+                          onCheckedChange={() => setSaveCardInfo(!saveCardInfo)}
+                          className="data-[state=checked]:bg-primary-accent"
+                        />
+                      </div>
+                    )}
+
+                    {user?.stripe_payment_method_ids && (
+                      <div className="space-y-2 ">
+                        <h3 className="font-medium text-gray-700">
+                          Choose your saved payment methods
+                        </h3>
+                        {paymentMethods?.map((method) => (
+                          <div
+                            key={method?.id}
+                            onClick={() => handleSelectPaymentMethod(method)}
+                            className={`
+                              cursor-pointer p-3 border border-gray-300 rounded-lg
+                              ${
+                                selectedPaymentMethod?.id == method.id
+                                  ? "bg-blue-50 border-blue-500 hover:bg-blue-100"
+                                  : "hover:bg-gray-100"
+                              }
+                              flex items-center justify-between
+                            `}
+                          >
+                            <div className="flex gap-2">
+                              {renderNetworkLogo(method?.card?.brand)}{" "}
+                              <h3 className="font-medium text-gray-700">
+                                ••••{method?.card?.last4}
+                              </h3>
+                              <h3 className="font-medium text-gray-700">
+                                (Exp: {method?.card?.exp_month}/
+                                {method?.card?.exp_year})
+                              </h3>
+                            </div>
+
+                            {selectedPaymentMethod?.id == method.id && (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5 text-blue-600"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <div
+                      className={`relative ${
+                        selectedPaymentMethod && "hidden"
+                      }`}
+                    >
+                      <div className="absolute inset-0 flex items-center">
+                        <span className="w-full border-t" />
+                      </div>
+                      <div className="relative flex justify-center text-xs uppercase">
+                        <span className="bg-background px-2 text-muted-foreground">
+                          {t("login.orContinueWith")}
+                        </span>
+                      </div>
+                    </div>
+
+                    <h3
+                      className={`font-medium text-gray-700 ${
+                        selectedPaymentMethod && "hidden"
+                      }`}
+                    >
+                      {t("paymentMethod.cardInformation")}
+                    </h3>
+
+                    <div
+                      className={`grid grid-cols-2 gap-2 ${
+                        selectedPaymentMethod && "hidden"
+                      }`}
+                    >
+                      <div
+                        id="card-number-element"
+                        className="col-span-2 p-3 bg-primary-bg/5 rounded-lg"
+                      ></div>
+                      <div
+                        id="card-expiry-element"
+                        className="p-3 bg-primary-bg/5 rounded-lg"
+                      ></div>
+                      <div
+                        id="card-cvc-element"
+                        className="p-3 bg-primary-bg/5 rounded-lg"
+                      ></div>
+                    </div>
+                  </div>
+                </>
+              )}
+
               <div className="flex items-center justify-end space-x-1 mt-6">
                 <span className="text-sm text-gray-500">Powered by</span>
                 <svg
@@ -959,7 +1222,7 @@ const PaymentMethod = () => {
                 </svg>
               </div>
             </div>
-          }
+          )}
         </div>
       </div>
 
@@ -983,7 +1246,7 @@ const PaymentMethod = () => {
 
       {/* Sticky button for mobile */}
       <div
-        className={`md:hidden fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200 z-50 transition-transform duration-300 ${
+        className={`md:hidden fixed bottom-0 left-0 right-0 p-3 bg-white border-t border-gray-200 z-50 transition-transform duration-300 ${
           showStickyButton ? "translate-y-0" : "translate-y-full"
         }`}
       >
