@@ -135,41 +135,59 @@ const PassengerInfo = ({ booking }: { booking: Booking }) => (
         className="bg-white p-2 rounded-lg"
       />
     </div>
-    <div className="grid sm:grid-cols-2 gap-4">
-      <div className="space-y-4">
-        <div className="flex items-start gap-3">
-          <User className="w-5 h-5 mt-0.5 shrink-0" />
-          <div>
-            <p className="text-sm text-primary-bg/70">Name</p>
-            <p className="font-medium truncate">
-              {booking.passengers[0].full_name}
-            </p>
+    
+    <div className="space-y-6">
+      {booking.passengers.map((passenger, index) => (
+        <div key={index} className="border-b border-gray-200 pb-4 last:border-b-0">
+          <h3 className="text-lg font-semibold mb-4 text-primary-bg">
+            Passenger {index + 1}
+          </h3>
+          
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div className="space-y-4">
+              <div className="flex items-start gap-3">
+                <User className="w-5 h-5 mt-0.5 shrink-0" />
+                <div>
+                  <p className="text-sm text-primary-bg/70">Name</p>
+                  <p className="font-medium truncate">
+                    {passenger.full_name}
+                  </p>
+                </div>
+              </div>
+              
+              {passenger.email && (
+                <div className="flex items-start gap-3">
+                  <Mail className="w-5 h-5 mt-0.5 shrink-0" />
+                  <div>
+                    <p className="text-sm text-primary-bg/70">Email</p>
+                    <p className="font-medium truncate">
+                      {passenger.email}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+            
+            <div className="space-y-4">
+              {passenger.phone && (
+                <div className="flex items-start gap-3">
+                  <Phone className="w-5 h-5 mt-0.5 shrink-0" />
+                  <div>
+                    <p className="text-sm text-primary-bg/70">Phone</p>
+                    <p className="font-medium truncate">
+                      {passenger.phone}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-        <div className="flex items-start gap-3">
-          <Mail className="w-5 h-5 mt-0.5 shrink-0" />
-          <div>
-            <p className="text-sm text-primary-bg/70">Email</p>
-            <p className="font-medium truncate">
-              {booking.passengers[0].email}
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className="space-y-4">
-        <div className="flex items-start gap-3">
-          <Phone className="w-5 h-5 mt-0.5 shrink-0" />
-          <div>
-            <p className="text-sm text-primary-bg/70">Phone</p>
-            <p className="font-medium truncate">
-              {booking.passengers[0].phone}
-            </p>
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   </div>
 );
+
 
 const AdditionalInfo = ({ booking }: { booking: Booking }) => (
   <div className="p-4 md:p-6 space-y-6">
