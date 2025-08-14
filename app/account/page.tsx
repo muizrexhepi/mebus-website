@@ -57,7 +57,7 @@ const ACCOUNT_SETTINGS: AccountSetting[] = [
     title: "sidebar.notifications",
   },
   {
-    href: "/help/contact-support",
+    href: "https://support.gobusly.com/contact",
     icon: HelpCircle,
     title: "helpPage.quickLinks.contactSupport",
   },
@@ -114,11 +114,36 @@ export default function Account() {
           )}
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {ACCOUNT_SETTINGS.map((link) =>
-            isAuthenticated ? (
+          {ACCOUNT_SETTINGS.map((link) => {
+            const isExternal = link.href.startsWith("http");
+            const isSupportLink =
+              link.href === "https://support.gobusly.com/contact";
+
+            if (!isAuthenticated && !isSupportLink) {
+              return (
+                <button
+                  key={link.title}
+                  onClick={handleUnauthenticatedClick}
+                  className="block w-full"
+                >
+                  <Card className="h-full flex flex-col justify-between items-start p-6 cursor-pointer hover:shadow-lg transition-shadow duration-200">
+                    <CardContent className="p-0 flex flex-col justify-between items-start h-full w-full">
+                      <link.icon className="w-10 h-10 mb-4 text-gray-400" />
+                      <h2 className="text-xl font-semibold text-gray-600">
+                        {t(link.title)}
+                      </h2>
+                    </CardContent>
+                  </Card>
+                </button>
+              );
+            }
+
+            return (
               <Link
                 key={link.title}
                 href={link.href}
+                target={isExternal ? "_blank" : undefined}
+                rel={isExternal ? "noopener noreferrer" : undefined}
                 className="block"
                 prefetch={false}
               >
@@ -140,23 +165,8 @@ export default function Account() {
                   </CardContent>
                 </Card>
               </Link>
-            ) : (
-              <button
-                key={link.title}
-                onClick={handleUnauthenticatedClick}
-                className="block w-full"
-              >
-                <Card className="h-full flex flex-col justify-between items-start p-6 cursor-pointer hover:shadow-lg transition-shadow duration-200">
-                  <CardContent className="p-0 flex flex-col justify-between items-start h-full w-full">
-                    <link.icon className="w-10 h-10 mb-4 text-gray-400" />
-                    <h2 className="text-xl font-semibold text-gray-600">
-                      {t(link.title)}
-                    </h2>
-                  </CardContent>
-                </Card>
-              </button>
-            )
-          )}
+            );
+          })}
         </div>
       </div>
 
@@ -198,11 +208,37 @@ export default function Account() {
 
         {/* Account Menu */}
         <div className=" mt-4">
-          {ACCOUNT_SETTINGS.map((link) =>
-            isAuthenticated ? (
+          {ACCOUNT_SETTINGS.map((link) => {
+            const isExternal = link.href.startsWith("http");
+            const isSupportLink =
+              link.href === "https://support.gobusly.com/contact";
+
+            if (!isAuthenticated && !isSupportLink) {
+              return (
+                <button
+                  key={link.title}
+                  onClick={() => setOpenLogin(true)}
+                  className="w-full flex items-center justify-between py-4 border-b border-gray-200 hover:bg-gray-50 active:bg-gray-100 transition-colors"
+                >
+                  <div className="flex items-center space-x-4">
+                    <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
+                      <link.icon className="w-5 h-5 text-gray-400" />
+                    </div>
+                    <h3 className="text-base font-medium text-gray-600">
+                      {t(link.title)}
+                    </h3>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-gray-300" />
+                </button>
+              );
+            }
+
+            return (
               <Link
                 key={link.title}
                 href={link.href}
+                target={isExternal ? "_blank" : undefined}
+                rel={isExternal ? "noopener noreferrer" : undefined}
                 className="flex items-center justify-between py-4 border-b border-gray-200 hover:bg-gray-50 active:bg-gray-100 transition-colors"
                 prefetch={false}
               >
@@ -216,24 +252,9 @@ export default function Account() {
                 </div>
                 <ChevronRight className="w-4 h-4 text-gray-400" />
               </Link>
-            ) : (
-              <button
-                key={link.title}
-                onClick={() => setOpenLogin(true)}
-                className="w-full flex items-center justify-between py-4 border-b border-gray-200 hover:bg-gray-50 active:bg-gray-100 transition-colors"
-              >
-                <div className="flex items-center space-x-4">
-                  <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
-                    <link.icon className="w-5 h-5 text-gray-400" />
-                  </div>
-                  <h3 className="text-base font-medium text-gray-600">
-                    {t(link.title)}
-                  </h3>
-                </div>
-                <ChevronRight className="w-4 h-4 text-gray-300" />
-              </button>
-            )
-          )}
+            );
+          })}
+
           {/* Logout Button */}
           {isAuthenticated && (
             <button

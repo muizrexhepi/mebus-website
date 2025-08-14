@@ -18,9 +18,9 @@ const FOOTER_LINKS = [
     title: "Company",
     links: [
       // { name: "About Us", link: "/about" },
-      { name: "Contact", link: "/contact" },
-      { name: "FAQ", link: "/help" },
-      { name: "Help", link: "/help" },
+      { name: "Contact", link: "https://support.gobusly.com/contact" },
+      { name: "FAQ", link: "https://support.gobusly.com/faq" },
+      { name: "Help", link: "https://support.gobusly.com" },
     ],
   },
   {
@@ -107,6 +107,11 @@ const Footer = () => {
                       <li key={link.name}>
                         <Link
                           href={link.link}
+                          target={
+                            link.link.includes("support.gobusly.com")
+                              ? "_blank"
+                              : undefined
+                          }
                           className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
                         >
                           {t(

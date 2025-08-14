@@ -139,7 +139,7 @@ const BookingsDashboardClient: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col w-full space-y-8 pb-20 md:pb-0">
+    <div className="flex flex-col w-full pb-20 md:pb-0">
       <div className="flex justify-between items-center px-4 md:px-0">
         <h1 className="text-4xl font-bold text-gray-900 hidden sm:block">
           {t("bookings.myBookings", "Your bookings")}
