@@ -1,7 +1,8 @@
+// app/ga-listener.tsx
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 
 declare global {
   interface Window {
@@ -11,7 +12,7 @@ declare global {
 
 const GA_MEASUREMENT_ID = "G-RLCE6W4KDQ";
 
-export default function GAListener() {
+function GAInner() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -25,4 +26,12 @@ export default function GAListener() {
   }, [pathname, searchParams]);
 
   return null;
+}
+
+export default function GAListener() {
+  return (
+    <Suspense fallback={null}>
+      <GAInner />
+    </Suspense>
+  );
 }
