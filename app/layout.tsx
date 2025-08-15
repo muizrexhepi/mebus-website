@@ -8,6 +8,7 @@ import TranslationProvider from "@/components/providers/TranslationProvider";
 import { Analytics } from "@vercel/analytics/react";
 import ClientProviders from "@/components/providers/client-providers";
 import dynamic from "next/dynamic";
+import GAListener from "./ga-listener";
 const Navbar = dynamic(() => import("@/components/navbar/Navbar"), {
   ssr: false,
 });
@@ -127,6 +128,7 @@ export const metadata: Metadata = {
   category: "travel",
 };
 
+const GA_MEASUREMENT_ID = "G-RLCE6W4KDQ";
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -170,7 +172,6 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
       </head>
-
       {/* Enhanced Organization Schema */}
       <Script
         id="organization-schema"
@@ -255,8 +256,22 @@ export default function RootLayout({
             ],
           }),
         }}
+      />{" "}
+      <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+        strategy="afterInteractive"
       />
-
+      <Script id="ga-setup" strategy="afterInteractive">
+        {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}', {
+              page_path: window.location.pathname,
+            });
+          `}
+      </Script>
+      <GAListener />
       <Script
         id="website-schema"
         type="application/ld+json"
@@ -292,7 +307,6 @@ export default function RootLayout({
           }),
         }}
       />
-
       {/* Service Schema */}
       <Script
         id="service-schema"
@@ -336,7 +350,6 @@ export default function RootLayout({
           }),
         }}
       />
-
       {/* FAQ Schema for common questions */}
       <Script
         id="faq-schema"
@@ -374,7 +387,6 @@ export default function RootLayout({
           }),
         }}
       />
-
       <body className={roboto.className}>
         <Analytics />
         <ReactQueryProvider>
