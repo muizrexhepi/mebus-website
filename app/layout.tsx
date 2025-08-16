@@ -9,6 +9,7 @@ import { Analytics } from "@vercel/analytics/react";
 import ClientProviders from "@/components/providers/client-providers";
 import dynamic from "next/dynamic";
 import GAListener from "./ga-listener";
+
 const Navbar = dynamic(() => import("@/components/navbar/Navbar"), {
   ssr: false,
 });
