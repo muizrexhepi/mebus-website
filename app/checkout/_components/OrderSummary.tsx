@@ -423,7 +423,7 @@ const OrderSummary = ({ className }: { className?: string }) => {
         )}
       </div>
 
-      <div className="bg-white rounded-lg p-4 border border-gray-200">
+      {/* <div className="bg-white rounded-lg p-4 border border-gray-200">
         <div className="flex items-center gap-2 mb-3">
           <Tag size={18} className="text-gray-600" />
           <h3 className="font-medium text-base">
@@ -479,7 +479,7 @@ const OrderSummary = ({ className }: { className?: string }) => {
             </button>
           </div>
         )}
-      </div>
+      </div> */}
 
       <div
         className={cn(
@@ -544,7 +544,7 @@ const OrderSummary = ({ className }: { className?: string }) => {
 
           <hr className="w-full h-[1px] bg-neutral-500 my-2" />
 
-          {appliedDiscountCode && (
+          {/* {appliedDiscountCode && (
             <>
               <PriceSummaryItem
                 label={t("orderSummary.subtotal")}
@@ -562,7 +562,7 @@ const OrderSummary = ({ className }: { className?: string }) => {
                 currencySymbol={currency.symbol}
               />
             </>
-          )}
+          )} */}
 
           {useDeposit && (
             <>
