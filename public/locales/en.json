@@ -312,7 +312,8 @@
   "ticket": {
     "selectReturn": "Select Return",
     "continue": "Continue",
-    "selectOutbound": "Select Outbound"
+    "selectOutbound": "Select Outbound",
+    "seatsLeft": "Seats Left"
   },
   "ticketDetails": {
     "title": "Ticket Details",
@@ -600,7 +601,7 @@
     "expired": "Expired",
     "expiresSoon": "Expires soon",
     "discount": "Discount",
-    "validUntil": "Valid until {{date}} ({{daysLeft}} days left)",
+    "validUntil": "Valid until {{{date}}} ({{daysLeft}} days left)",
     "copied": "Copied!",
     "copyCode": "Copy code",
     "autoApplied": "Automatically applied at checkout",
@@ -658,22 +659,53 @@
     "verify": "Verify",
     "verified": "Verified"
   },
-  "dataPrivacy": {
-    "dataPrivacy": "Data and Privacy",
-    "dataExport": "Data Export",
-    "download data": "Download a copy of your personal data",
-    "exportData": "Export Data",
-    "requestDataDeletion": "Request Data Deletion",
-    "parmanentlyDeleteData": "Permanently delete all your data from our systems",
-    "deleteData": "Delete Data",
-    "deleteDataAlert": "This action will permanently delete all your data. Please enter your password to confirm.",
+  "dataAndSecurity": {
+    "title": "Data & Security",
+    "dataExportTitle": "Data Export",
+    "dataExportSubtitle": "Download your personal information and booking history",
+    "gdprCompliance": "GDPR Compliant Data Export",
+    "gdprDescription": "Export includes all your personal data and bookings in PDF format",
+    "personalDataExport": "Personal Data Export",
+    "exportTooltip": "Downloads a complete copy of your data including personal info, bookings, and account history",
+    "exportDescription": "PDF file with all your account data",
+    "downloadButton": "Download Data",
+    "exporting": "Preparing...",
+    "exportSuccess": "Your data has been successfully downloaded",
+    "exportError": "Failed to export data. Please try again",
+    "userNotFound": "User not found. Please log in again",
+
+    "accountSecurityTitle": "Account Security",
+    "accountSecuritySubtitle": "Manage your password and login security",
+    "securityInfo": "Keep your account secure by using a strong password",
     "password": "Password",
-    "passwordPlaceholder": "Enter your password",
-    "confirmDeletion": "Confirm Deletion",
-    "areYouSure": "Are you absolutely sure?",
-    "cannotBeUndone": "This action cannot be undone. All of your data will be permanently deleted from our servers.",
+    "passwordLastChanged": "Last changed: {{date}}",
+    "changePassword": "Change",
+    "loginSecurity": "Login Security",
+    "lastLogin": "Last login: {{date}}",
+    "secure": "Secure",
+    "unknown": "Unknown",
+
+    "changePasswordTitle": "Change Password",
+    "changePasswordDescription": "Enter your current password and choose a new secure password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "passwordMismatch": "Passwords do not match",
+    "passwordTooShort": "Password must be at least 8 characters",
+    "passwordChanged": "Password successfully changed",
+    "passwordChangeError": "Failed to change password",
+    "changing": "Changing...",
     "cancel": "Cancel",
-    "yes": "Yes, delete my data"
+
+    "privacyTitle": "Privacy & Data",
+    "privacySubtitle": "Control how your data is processed and stored",
+    "dataRetention": "Data Retention",
+    "dataRetentionDescription": "Your data is retained according to our privacy policy",
+    "automatic": "Automatic",
+
+    "deleteAccountTitle": "Delete Account",
+    "deleteAccountDescription": "Need to delete your account? Contact our support team for assistance.",
+    "contactSupport": "Visit our support page:"
   },
   "notifications": {
     "title": "Notifications",

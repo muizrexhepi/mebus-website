@@ -8,20 +8,16 @@ import { useRouter, useSearchParams } from "next/navigation";
 import type { Ticket } from "@/models/ticket";
 import type { ConnectedTicket } from "@/models/connected-ticket";
 import useSearchStore, { useCheckoutStore } from "@/store";
-import { Switch } from "@/components/ui/switch";
 import { Loader2 } from "lucide-react";
 import OrderSummary from "./OrderSummary";
 import { useAuth } from "@/components/providers/auth-provider";
 import { markCheckoutCompleted } from "@/lib/appwrite-abandoned-checkout";
 import { useAbandonedCheckout } from "@/components/hooks/use-abandoned-checkout";
 import { getTicketPrice, getChildrenPrice } from "@/lib/utils";
-import { renderNetworkLogo } from "@/actions/checkout/render-cardlogo";
 
 import {
   createPaymentIntent,
   createBookings,
-  saveCardInfo,
-  fetchPaymentMethods,
   type CreatePaymentIntentParams,
   type CreateBookingsParams,
 } from "@/actions/checkout/payment-actions";
@@ -30,6 +26,12 @@ import {
   calculateDiscountedAmount,
   clearStoredDiscount,
 } from "@/actions/checkout/discount-utilies";
+
+interface CardValidationErrors {
+  cardNumber?: string;
+  cardExpiry?: string;
+  cardCvc?: string;
+}
 
 const PaymentMethod = () => {
   const stripe = useStripe();
@@ -42,12 +44,23 @@ const PaymentMethod = () => {
   const searchParams = useSearchParams();
   const { toast } = useToast();
   const { t } = useTranslation();
-  const [saveCardInfoState, setSaveCardInfoState] = useState<boolean>(false);
-  const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<any>();
   const [showStickyButton, setShowStickyButton] = useState(true);
   const buttonRef = useRef<HTMLDivElement>(null);
   const { sessionId, resetTimeout } = useAbandonedCheckout();
+
+  const [cardValidationErrors, setCardValidationErrors] =
+    useState<CardValidationErrors>({});
+  const [cardFieldsComplete, setCardFieldsComplete] = useState({
+    cardNumber: false,
+    cardExpiry: false,
+    cardCvc: false,
+  });
+
+  const [paymentAvailability, setPaymentAvailability] = useState({
+    applePay: false,
+    googlePay: false,
+  });
+  const [paymentRequest, setPaymentRequest] = useState<any>(null);
 
   const { passengers: passengerAmount } = useSearchStore();
   const { user } = useAuth();
@@ -112,10 +125,95 @@ const PaymentMethod = () => {
   const totalPrice = outboundTotal + returnTotal + flexPrice;
 
   useEffect(() => {
-    if (stripe && elements) {
+    if (stripe && totalPrice > 0) {
+      const pr = stripe.paymentRequest({
+        country: "DE",
+        currency: "eur",
+        total: {
+          label: "GoBusly Bus Ticket",
+          amount: Math.round(totalPrice * 100),
+        },
+        requestPayerName: true,
+        requestPayerEmail: true,
+      });
+
+      setPaymentRequest(pr);
+
+      pr.canMakePayment().then((result) => {
+        if (result) {
+          setPaymentAvailability({
+            applePay: result.applePay || false,
+            googlePay: result.googlePay || false,
+          });
+        }
+      });
+
+      pr.on("paymentmethod", handleExpressPayment);
+    }
+  }, [stripe, totalPrice]);
+
+  useEffect(() => {
+    if (stripe && elements && !cardNumber && !cardExpiry && !cardCvc) {
       const cardNumberElement = elements.create("cardNumber");
       const cardExpiryElement = elements.create("cardExpiry");
       const cardCvcElement = elements.create("cardCvc");
+
+      cardNumberElement.on("change", (event) => {
+        resetTimeout();
+        setCardFieldsComplete((prev) => ({
+          ...prev,
+          cardNumber: event.complete,
+        }));
+
+        if (event.error) {
+          setCardValidationErrors((prev) => ({
+            ...prev,
+            cardNumber: event.error?.message,
+          }));
+        } else {
+          setCardValidationErrors((prev) => ({
+            ...prev,
+            cardNumber: undefined,
+          }));
+        }
+      });
+
+      cardExpiryElement.on("change", (event) => {
+        resetTimeout();
+        setCardFieldsComplete((prev) => ({
+          ...prev,
+          cardExpiry: event.complete,
+        }));
+
+        if (event.error) {
+          setCardValidationErrors((prev) => ({
+            ...prev,
+            cardExpiry: event.error?.message,
+          }));
+        } else {
+          setCardValidationErrors((prev) => ({
+            ...prev,
+            cardExpiry: undefined,
+          }));
+        }
+      });
+
+      cardCvcElement.on("change", (event) => {
+        resetTimeout();
+        setCardFieldsComplete((prev) => ({ ...prev, cardCvc: event.complete }));
+
+        if (event.error) {
+          setCardValidationErrors((prev) => ({
+            ...prev,
+            cardCvc: event.error?.message,
+          }));
+        } else {
+          setCardValidationErrors((prev) => ({
+            ...prev,
+            cardCvc: undefined,
+          }));
+        }
+      });
 
       cardNumberElement.mount("#card-number-element");
       cardExpiryElement.mount("#card-expiry-element");
@@ -124,26 +222,156 @@ const PaymentMethod = () => {
       setCardNumber(cardNumberElement);
       setCardExpiry(cardExpiryElement);
       setCardCvc(cardCvcElement);
+
+      return () => {
+        if (cardNumberElement) {
+          cardNumberElement.unmount();
+          cardNumberElement.destroy();
+        }
+        if (cardExpiryElement) {
+          cardExpiryElement.unmount();
+          cardExpiryElement.destroy();
+        }
+        if (cardCvcElement) {
+          cardCvcElement.unmount();
+          cardCvcElement.destroy();
+        }
+      };
     }
   }, [stripe, elements]);
 
+  useEffect(() => {
+    return () => {
+      if (cardNumber) {
+        cardNumber.unmount();
+        cardNumber.destroy();
+      }
+      if (cardExpiry) {
+        cardExpiry.unmount();
+        cardExpiry.destroy();
+      }
+      if (cardCvc) {
+        cardCvc.unmount();
+        cardCvc.destroy();
+      }
+    };
+  }, []);
+
+  const validateCardFields = (): boolean => {
+    const { cardNumber, cardExpiry, cardCvc } = cardFieldsComplete;
+
+    if (!cardNumber || !cardExpiry || !cardCvc) {
+      const errors: CardValidationErrors = {};
+
+      if (!cardNumber) errors.cardNumber = "Card number is required";
+      if (!cardExpiry) errors.cardExpiry = "Expiry date is required";
+      if (!cardCvc) errors.cardCvc = "CVC is required";
+
+      setCardValidationErrors(errors);
+
+      toast({
+        description: "Please fill in all card details",
+        variant: "destructive",
+      });
+
+      return false;
+    }
+
+    const hasErrors = Object.values(cardValidationErrors).some(
+      (error) => error
+    );
+    if (hasErrors) {
+      toast({
+        description: "Please fix card validation errors",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleExpressPayment = async (event: any) => {
+    setLoading(true);
+    try {
+      const discountResult = calculateDiscountedAmount(totalPrice);
+      const finalAmount = discountResult?.finalAmount ?? totalPrice;
+
+      const paymentIntentParams: CreatePaymentIntentParams = {
+        passengers,
+        finalAmount,
+        appliedDiscountAmount: discountResult?.amount ?? 0,
+        discountCode: discountResult?.code ?? null,
+        outboundTicketId: outboundTicket?._id,
+        userStripeCustomerId: user?.stripe_customer_id,
+        selectedPaymentMethodId: undefined,
+        useSavedCard: false,
+      };
+
+      const paymentResponse = await createPaymentIntent(paymentIntentParams);
+      const { clientSecret } = paymentResponse.data;
+
+      const { error, paymentIntent } = await stripe!.confirmCardPayment(
+        clientSecret,
+        { payment_method: event.paymentMethod.id },
+        { handleActions: false }
+      );
+
+      if (error) {
+        event.complete("fail");
+        toast({
+          description: error.message || "Payment failed",
+          variant: "destructive",
+        });
+      } else {
+        event.complete("success");
+        await handleBookingCreation(
+          paymentIntent.id,
+          finalAmount,
+          discountResult?.amount ?? 0,
+          discountResult?.code ?? null
+        );
+      }
+    } catch (error) {
+      event.complete("fail");
+      toast({
+        description: "Payment failed",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleApplePay = () => {
+    if (paymentRequest) {
+      paymentRequest.show();
+    }
+  };
+
+  const handleGooglePay = () => {
+    if (paymentRequest) {
+      paymentRequest.show();
+    }
+  };
+
   const handlePayment = async () => {
-    if (!stripe || !elements || !cardNumber || !cardExpiry || !cardCvc) {
+    if (!stripe || !elements) {
+      return;
+    }
+
+    if (!validateCardFields()) {
       return;
     }
 
     setLoading(true);
 
     try {
-      // Calculate final amount with discount
       const discountResult = calculateDiscountedAmount(totalPrice);
       const finalAmount = discountResult?.finalAmount ?? totalPrice;
       const appliedDiscountAmount = discountResult?.amount ?? 0;
       const discountCode = discountResult?.code ?? null;
 
-      console.log({ finalAmount });
-
-      // Create payment intent
       const paymentIntentParams: CreatePaymentIntentParams = {
         passengers,
         finalAmount,
@@ -151,8 +379,8 @@ const PaymentMethod = () => {
         discountCode,
         outboundTicketId: outboundTicket?._id,
         userStripeCustomerId: user?.stripe_customer_id,
-        selectedPaymentMethodId: selectedPaymentMethod?.id,
-        useSavedCard: !!selectedPaymentMethod,
+        selectedPaymentMethodId: undefined,
+        useSavedCard: false,
       };
 
       const paymentResponse = await createPaymentIntent(paymentIntentParams);
@@ -191,7 +419,6 @@ const PaymentMethod = () => {
         );
       }
     } catch (err: any) {
-      console.log({ err });
       toast({
         description: err?.response?.data?.message || "Payment failed",
         variant: "destructive",
@@ -223,68 +450,13 @@ const PaymentMethod = () => {
 
     await createBookings(bookingParams);
 
-    // Mark checkout as completed
     if (sessionId) {
       await markCheckoutCompleted(sessionId);
     }
 
-    // Clean up discount after successful payment
     clearStoredDiscount();
-
     router.push("/checkout/success");
     resetCheckout();
-  };
-
-  const handleSaveCardInfo = async () => {
-    if (!stripe || !elements) {
-      toast({
-        description: "Stripe is not initialized",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    try {
-      await saveCardInfo({ stripe, elements, user });
-      await loadPaymentMethods();
-
-      toast({
-        description: "Payment method saved successfully",
-        variant: "default",
-      });
-    } catch (error: any) {
-      console.error(error);
-      toast({
-        description: error.message || "Failed to save payment method",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const loadPaymentMethods = async () => {
-    try {
-      if (!user?.stripe_customer_id) {
-        setPaymentMethods([]);
-        return;
-      }
-
-      const methods = await fetchPaymentMethods(user.stripe_customer_id);
-      setPaymentMethods(methods);
-    } catch (err) {
-      console.log("Failed to load payment methods:", err);
-    }
-  };
-
-  useEffect(() => {
-    loadPaymentMethods();
-  }, [user]);
-
-  const handleSelectPaymentMethod = (method: any) => {
-    if (selectedPaymentMethod?.id === method.id) {
-      setSelectedPaymentMethod(null);
-    } else {
-      setSelectedPaymentMethod(method);
-    }
   };
 
   useEffect(() => {
@@ -298,17 +470,13 @@ const PaymentMethod = () => {
     };
 
     window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Check initial state
+    handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Handle card saving after payment
-  useEffect(() => {
-    if (saveCardInfoState && !user?.stripe_payment_method_id && !loading) {
-      handleSaveCardInfo();
-    }
-  }, [saveCardInfoState, user?.stripe_payment_method_id, loading]);
+  const hasExpressPayment =
+    paymentAvailability.applePay || paymentAvailability.googlePay;
 
   return (
     <div className="space-y-6">
@@ -329,105 +497,132 @@ const PaymentMethod = () => {
           {Math.abs(totalPrice) >= 0.01 && (
             <div className="space-y-4">
               <div className="flex-col flex gap-4 justify-between">
-                {user && !user?.stripe_payment_method_ids && (
-                  <div className="text-gray-700 text-sm flex gap-2 items-center">
-                    <p>Save card info for future payments</p>
-                    <Switch
-                      onCheckedChange={() =>
-                        setSaveCardInfoState(!saveCardInfoState)
-                      }
-                      className="data-[state=checked]:bg-primary-accent"
-                    />
-                  </div>
-                )}
-
-                {user?.stripe_payment_method_ids && (
-                  <div className="space-y-2">
-                    <h3 className="font-medium text-gray-700">
-                      Choose your saved payment methods
+                {hasExpressPayment && (
+                  <div className="space-y-3">
+                    <h3 className="font-medium text-gray-700 text-center">
+                      Pay with one touch
                     </h3>
-                    {paymentMethods?.map((method) => (
-                      <div
-                        key={method?.id}
-                        onClick={() => handleSelectPaymentMethod(method)}
-                        className={`
-                          cursor-pointer p-3 border border-gray-300 rounded-lg
-                          ${
-                            selectedPaymentMethod?.id === method.id
-                              ? "bg-blue-50 border-blue-500 hover:bg-blue-100"
-                              : "hover:bg-gray-100"
-                          }
-                          flex items-center justify-between
-                        `}
-                      >
-                        <div className="flex gap-2">
-                          {renderNetworkLogo(method?.card?.brand)}{" "}
-                          <h3 className="font-medium text-gray-700">
-                            ••••{method?.card?.last4}
-                          </h3>
-                          <h3 className="font-medium text-gray-700">
-                            (Exp: {method?.card?.exp_month}/
-                            {method?.card?.exp_year})
-                          </h3>
-                        </div>
 
-                        {selectedPaymentMethod?.id === method.id && (
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      {paymentAvailability.applePay && (
+                        <button
+                          onClick={handleApplePay}
+                          disabled={loading}
+                          className="flex-1 bg-black hover:bg-gray-800 text-white rounded-lg px-6 py-4 flex items-center justify-center gap-3 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed min-h-[56px]"
+                        >
                           <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5 text-blue-600"
-                            viewBox="0 0 20 20"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                          >
+                            <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.09997 22C7.78997 22.05 6.79997 20.68 5.95997 19.47C4.24997 17 2.93997 12.45 4.69997 9.39C5.56997 7.87 7.12997 6.91 8.81997 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z" />
+                          </svg>
+                          <span className="font-medium">Pay</span>
+                        </button>
+                      )}
+
+                      {paymentAvailability.googlePay && (
+                        <button
+                          onClick={handleGooglePay}
+                          disabled={loading}
+                          className="flex-1 bg-white hover:bg-gray-50 border-2 border-gray-300 text-gray-700 rounded-lg px-6 py-4 flex items-center justify-center gap-3 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed min-h-[56px]"
+                        >
+                          <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
                             fill="currentColor"
                           >
                             <path
-                              fillRule="evenodd"
-                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                              clipRule="evenodd"
+                              d="M22.56 12.25C22.56 11.47 22.49 10.72 22.36 10H12V14.26H17.92C17.66 15.63 16.88 16.78 15.71 17.57V20.34H19.28C21.36 18.42 22.56 15.6 22.56 12.25Z"
+                              fill="#4285F4"
+                            />
+                            <path
+                              d="M12 23C15.24 23 17.95 21.92 19.28 20.34L15.71 17.57C14.74 18.22 13.48 18.63 12 18.63C8.91 18.63 6.26 16.67 5.39 13.86H1.71V16.71C3.03 19.35 7.26 23 12 23Z"
+                              fill="#34A853"
+                            />
+                            <path
+                              d="M5.39 13.86C5.17 13.21 5.05 12.51 5.05 11.77S5.17 10.33 5.39 9.68V6.83H1.71C0.98 8.29 0.56 9.97 0.56 11.77S0.98 15.25 1.71 16.71L5.39 13.86Z"
+                              fill="#FBBC05"
+                            />
+                            <path
+                              d="M12 4.91C13.62 4.91 15.06 5.47 16.18 6.54L19.34 3.38C17.95 2.09 15.24 1.32 12 1.32C7.26 1.32 3.03 4.97 1.71 7.61L5.39 10.46C6.26 7.65 8.91 4.91 12 4.91Z"
+                              fill="#EA4335"
                             />
                           </svg>
-                        )}
-                      </div>
-                    ))}
+                          <span className="font-medium text-gray-700">Pay</span>
+                        </button>
+                      )}
+                    </div>
                   </div>
                 )}
 
-                <div
-                  className={`relative ${selectedPaymentMethod && "hidden"}`}
-                >
-                  <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t" />
+                {hasExpressPayment && (
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <span className="w-full border-t" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-white px-2 text-muted-foreground">
+                        {t("login.orContinueWith")}
+                      </span>
+                    </div>
                   </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">
-                      {t("login.orContinueWith")}
-                    </span>
-                  </div>
-                </div>
+                )}
 
-                <h3
-                  className={`font-medium text-gray-700 ${
-                    selectedPaymentMethod && "hidden"
-                  }`}
-                >
+                <h3 className="font-medium text-gray-700">
                   {t("paymentMethod.cardInformation")}
                 </h3>
 
-                <div
-                  className={`grid grid-cols-2 gap-2 ${
-                    selectedPaymentMethod && "hidden"
-                  }`}
-                >
-                  <div
-                    id="card-number-element"
-                    className="col-span-2 p-4 bg-primary-bg/5 rounded-lg"
-                  ></div>
-                  <div
-                    id="card-expiry-element"
-                    className="p-4 bg-primary-bg/5 rounded-lg"
-                  ></div>
-                  <div
-                    id="card-cvc-element"
-                    className="p-4 bg-primary-bg/5 rounded-lg"
-                  ></div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="col-span-2 space-y-1">
+                    <div
+                      id="card-number-element"
+                      className={`p-4 rounded-lg border ${
+                        cardValidationErrors.cardNumber
+                          ? "border-none bg-red-500/10"
+                          : "bg-primary-bg/5 border-transparent"
+                      }`}
+                    ></div>
+                    {cardValidationErrors.cardNumber && (
+                      <p className="text-red-500 text-sm">
+                        {cardValidationErrors.cardNumber}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="space-y-1">
+                    <div
+                      id="card-expiry-element"
+                      className={`p-4 rounded-lg border ${
+                        cardValidationErrors.cardExpiry
+                          ? "border-none bg-red-500/10"
+                          : "bg-primary-bg/5 border-transparent"
+                      }`}
+                    ></div>
+                    {cardValidationErrors.cardExpiry && (
+                      <p className="text-red-500 text-sm">
+                        {cardValidationErrors.cardExpiry}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="space-y-1">
+                    <div
+                      id="card-cvc-element"
+                      className={`p-4 rounded-lg border ${
+                        cardValidationErrors.cardCvc
+                          ? "border-none bg-red-500/10"
+                          : "bg-primary-bg/5 border-transparent"
+                      }`}
+                    ></div>
+                    {cardValidationErrors.cardCvc && (
+                      <p className="text-red-500 text-sm">
+                        {cardValidationErrors.cardCvc}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -473,17 +668,23 @@ const PaymentMethod = () => {
           showStickyButton ? "translate-y-0" : "translate-y-full"
         }`}
       >
-        <Button
-          onClick={handlePayment}
-          className="px-6 py-3.5 button-gradient text-white hover:bg-primary-bg/95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-bg h-12 rounded-lg w-full"
-          disabled={!stripe || loading}
-        >
-          {loading ? (
-            <Loader2 className="animate-spin h-5 w-5 mx-auto" />
-          ) : (
-            `${t("paymentMethod.completePayment")} - €${totalPrice.toFixed(2)}`
-          )}
-        </Button>
+        <div className="flex items-center justify-between gap-4">
+          <p className="text-xl font-bold text-[#353535]">
+            €{totalPrice.toFixed(2)}
+          </p>
+          <Button
+            onClick={handlePayment}
+            variant={"primary"}
+            className="flex-1 px-6 py-3.5 h-12 rounded-lg"
+            disabled={!stripe || loading}
+          >
+            {loading ? (
+              <Loader2 className="animate-spin h-5 w-5 mx-auto" />
+            ) : (
+              t("paymentMethod.completePayment")
+            )}
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -285,9 +285,10 @@
     }
   },
   "ticket": {
-    "selectReturn": "Zgjidh Kthimin",
+    "selectReturn": "Zgjidh kthimin",
     "continue": "Vazhdo",
-    "selectOutbound": "Zgjidh Vajtjen"
+    "selectOutbound": "Zgjidh udhëtimin e shkuar",
+    "seatsLeft": "Vende të mbetura"
   },
   "services": {
     "title": "Shërbimet e Udhëtimit",
@@ -649,22 +650,53 @@
     "verify": "Verifiko",
     "verified": "E Verifikuar"
   },
-  "dataPrivacy": {
-    "dataPrivacy": "Të Dhënat dhe Privatësia",
-    "dataExport": "Eksporti i të Dhënave",
-    "download data": "Shkarko një kopje të të dhënave tuaja personale",
-    "exportData": "Eksporto të Dhëna",
-    "requestDataDeletion": "Kërko Fshirjen e të Dhënave",
-    "parmanentlyDeleteData": "Fshij të gjitha të dhënat tuaja nga sistemet tona përgjithmonë",
-    "deleteData": "Fshij të Dhëna",
-    "deleteDataAlert": "Kjo veprim do të fshijë përgjithmonë të gjitha të dhënat tuaja. Ju lutemi shkruani fjalëkalimin për të konfirmuar.",
+  "dataAndSecurity": {
+    "title": "Të Dhënat dhe Siguria",
+    "dataExportTitle": "Eksporti i të Dhënave",
+    "dataExportSubtitle": "Shkarkoni informacionin tuaj personal dhe historikun e rezervimeve",
+    "gdprCompliance": "Eksport i të Dhënave në Përputhje me GDPR",
+    "gdprDescription": "Eksporti përfshin të gjitha të dhënat tuaja personale dhe rezervimet në format CSV",
+    "personalDataExport": "Eksporti i të Dhënave Personale",
+    "exportTooltip": "Shkarkoni një kopje të plotë të të dhënave tuaja duke përfshirë informacionin personal, rezervimet dhe historikun e llogarisë",
+    "exportDescription": "Skedar PDF me të gjitha të dhënat e llogarisë suaj",
+    "downloadButton": "Shkarkoni të Dhënat",
+    "exporting": "Duke u përgatitur...",
+    "exportSuccess": "Të dhënat tuaja u shkarkuan me sukses",
+    "exportError": "Eksporti i të dhënave dështoi. Provoni përsëri",
+    "userNotFound": "Përdoruesi nuk u gjet. Kyçuni përsëri",
+
+    "accountSecurityTitle": "Siguria e Llogarisë",
+    "accountSecuritySubtitle": "Menaxhoni fjalëkalimin tuaj dhe sigurinë e kyçjes",
+    "securityInfo": "Mbajeni llogarinë tuaj të sigurt duke përdorur një fjalëkalim të fortë",
     "password": "Fjalëkalimi",
-    "passwordPlaceholder": "Shkruani fjalëkalimin tuaj",
-    "confirmDeletion": "Konfirmo Fshirjen",
-    "areYouSure": "A jeni plotësisht të sigurt?",
-    "cannotBeUndone": "Kjo veprim nuk mund të zhbëhet. Të gjitha të dhënat tuaja do të fshihen përgjithmonë nga serverët tanë.",
+    "passwordLastChanged": "Ndryshuar së fundi: {date}",
+    "changePassword": "Ndrysho",
+    "loginSecurity": "Siguria e Kyçjes",
+    "lastLogin": "Kyçja e fundit: {date}",
+    "secure": "E Sigurt",
+    "unknown": "I Panjohur",
+
+    "changePasswordTitle": "Ndrysho Fjalëkalimin",
+    "changePasswordDescription": "Futni fjalëkalimin tuaj aktual dhe zgjidhni një fjalëkalim të ri të sigurt",
+    "currentPassword": "Fjalëkalimi Aktual",
+    "newPassword": "Fjalëkalimi i Ri",
+    "confirmPassword": "Konfirmoni Fjalëkalimin",
+    "passwordMismatch": "Fjalëkalimet nuk përputhen",
+    "passwordTooShort": "Fjalëkalimi duhet të ketë të paktën 8 karaktere",
+    "passwordChanged": "Fjalëkalimi u ndryshua me sukses",
+    "passwordChangeError": "Dështoi ndryshimi i fjalëkalimit",
+    "changing": "Duke ndryshuar...",
     "cancel": "Anulo",
-    "yes": "Po, fshi të dhënat e mia"
+
+    "privacyTitle": "Privatësia dhe të Dhënat",
+    "privacySubtitle": "Kontrolloni se si përpunohen dhe ruhen të dhënat tuaja",
+    "dataRetention": "Ruajtja e të Dhënave",
+    "dataRetentionDescription": "Të dhënat tuaja ruhen sipas politikës sonë të privatësisë",
+    "automatic": "Automatike",
+
+    "deleteAccountTitle": "Fshini Llogarinë",
+    "deleteAccountDescription": "Duhet të fshini llogarinë tuaj? Kontaktoni ekipin tonë të mbështetjes për ndihmë.",
+    "contactSupport": "Vizitoni faqen tonë të mbështetjes:"
   },
   "notifications": {
     "title": "Njoftime",

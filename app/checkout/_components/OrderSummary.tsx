@@ -45,7 +45,7 @@ interface TripProps {
   isReturn: boolean;
 }
 
-function TicketSummary({ ticket, isReturn }: TripProps) {
+function TicketSummary({ ticket }: TripProps) {
   if (isConnectedTicket(ticket)) {
     const firstLeg = ticket.legs[0];
     const lastLeg = ticket.legs[ticket.legs.length - 1];

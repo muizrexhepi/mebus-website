@@ -58,6 +58,7 @@ export interface ConnectedTicket {
     features: string[];
     is_single_ticket: boolean;
   };
+  operatorInfo?: any;
 }
 
 // Union type for all ticket types

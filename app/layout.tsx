@@ -9,6 +9,7 @@ import { Analytics } from "@vercel/analytics/react";
 import ClientProviders from "@/components/providers/client-providers";
 import dynamic from "next/dynamic";
 import GAListener from "./ga-listener";
+import CookieConsent from "@/components/CookieConsent";
 
 const Navbar = dynamic(() => import("@/components/navbar/Navbar"), {
   ssr: false,
@@ -396,7 +397,7 @@ export default function RootLayout({
             <ClientProviders>
               <Navbar className="paddingX max-w-6xl py-4 mx-auto hidden md:flex" />
               {children} <MobileTabs />
-              {/* <CookieConsent /> */}
+              <CookieConsent />
             </ClientProviders>
           </TranslationProvider>
         </ReactQueryProvider>

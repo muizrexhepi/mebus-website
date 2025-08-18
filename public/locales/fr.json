@@ -303,7 +303,8 @@
   "ticket": {
     "selectReturn": "Sélectionner le retour",
     "continue": "Continuer",
-    "selectOutbound": "Sélectionner l'aller"
+    "selectOutbound": "Sélectionner l'aller",
+    "seatsLeft": "Places restantes"
   },
   "ticketDetails": {
     "title": "Détails du billet",
@@ -637,22 +638,53 @@
     "verify": "Vérifier",
     "verified": "Vérifié"
   },
-  "dataPrivacy": {
-    "dataPrivacy": "Données et Confidentialité",
-    "dataExport": "Exportation de Données",
-    "download data": "Téléchargez une copie de vos données personnelles",
-    "exportData": "Exporter les Données",
-    "requestDataDeletion": "Demander la Suppression des Données",
-    "parmanentlyDeleteData": "Supprimez définitivement toutes vos données de nos systèmes",
-    "deleteData": "Supprimer les Données",
-    "deleteDataAlert": "Cette action supprimera définitivement toutes vos données. Veuillez entrer votre mot de passe pour confirmer.",
+  "dataAndSecurity": {
+    "title": "Données et Sécurité",
+    "dataExportTitle": "Export des Données",
+    "dataExportSubtitle": "Téléchargez vos informations personnelles et votre historique de réservations",
+    "gdprCompliance": "Export de Données Conforme RGPD",
+    "gdprDescription": "L'export inclut toutes vos données personnelles et réservations au format CSV",
+    "personalDataExport": "Export des Données Personnelles",
+    "exportTooltip": "Télécharge une copie complète de vos données incluant informations personnelles, réservations et historique du compte",
+    "exportDescription": "Fichier PDF avec toutes les données de votre compte",
+    "downloadButton": "Télécharger les Données",
+    "exporting": "Préparation en cours...",
+    "exportSuccess": "Vos données ont été téléchargées avec succès",
+    "exportError": "Échec de l'export des données. Veuillez réessayer",
+    "userNotFound": "Utilisateur non trouvé. Veuillez vous reconnecter",
+
+    "accountSecurityTitle": "Sécurité du Compte",
+    "accountSecuritySubtitle": "Gérez votre mot de passe et la sécurité de connexion",
+    "securityInfo": "Sécurisez votre compte en utilisant un mot de passe fort",
     "password": "Mot de Passe",
-    "passwordPlaceholder": "Entrez votre mot de passe",
-    "confirmDeletion": "Confirmer la Suppression",
-    "areYouSure": "Êtes-vous absolument sûr?",
-    "cannotBeUndone": "Cette action ne peut pas être annulée. Toutes vos données seront définitivement supprimées de nos serveurs.",
+    "passwordLastChanged": "Dernière modification : {date}",
+    "changePassword": "Modifier",
+    "loginSecurity": "Sécurité de Connexion",
+    "lastLogin": "Dernière connexion : {date}",
+    "secure": "Sécurisé",
+    "unknown": "Inconnu",
+
+    "changePasswordTitle": "Changer le Mot de Passe",
+    "changePasswordDescription": "Entrez votre mot de passe actuel et choisissez un nouveau mot de passe sécurisé",
+    "currentPassword": "Mot de Passe Actuel",
+    "newPassword": "Nouveau Mot de Passe",
+    "confirmPassword": "Confirmer le Mot de Passe",
+    "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
+    "passwordChanged": "Mot de passe modifié avec succès",
+    "passwordChangeError": "Impossible de modifier le mot de passe",
+    "changing": "Modification en cours...",
     "cancel": "Annuler",
-    "yes": "Oui, supprimer mes données"
+
+    "privacyTitle": "Confidentialité et Données",
+    "privacySubtitle": "Contrôlez comment vos données sont traitées et stockées",
+    "dataRetention": "Conservation des Données",
+    "dataRetentionDescription": "Vos données sont conservées selon notre politique de confidentialité",
+    "automatic": "Automatique",
+
+    "deleteAccountTitle": "Supprimer le Compte",
+    "deleteAccountDescription": "Besoin de supprimer votre compte ? Contactez notre équipe de support pour assistance.",
+    "contactSupport": "Visitez notre page de support :"
   },
   "notifications": {
     "title": "Notifications",

@@ -8,12 +8,13 @@ import {
   FaCreditCard,
   FaUser,
   FaTicketAlt,
+  FaKey,
 } from "react-icons/fa";
 import { useTranslation } from "react-i18next"; // Import i18n hook
 
 const sidebarLinks = [
   {
-    labelKey: "sidebar.passengerDetails", // Updated for translation
+    labelKey: "personalInfo.title", // Updated for translation
     href: "/account/personal-info",
     icon: FaUser,
   },
@@ -23,15 +24,20 @@ const sidebarLinks = [
     icon: FaBookmark,
   },
   {
-    labelKey: "sidebar.paymentMethods", // Updated for translation
-    href: "/account/wallet",
-    icon: FaCreditCard,
+    labelKey: "dataAndSecurity.title", // Updated for translation
+    href: "/account/data-security",
+    icon: FaKey,
   },
-  {
-    labelKey: "sidebar.discountCodes", // Updated for translation
-    href: "/account/discount-codes",
-    icon: FaTicketAlt,
-  },
+  // {
+  //   labelKey: "sidebar.paymentMethods", // Updated for translation
+  //   href: "/account/wallet",
+  //   icon: FaCreditCard,
+  // },
+  // {
+  //   labelKey: "sidebar.discountCodes", // Updated for translation
+  //   href: "/account/discount-codes",
+  //   icon: FaTicketAlt,
+  // },
   {
     labelKey: "sidebar.notifications", // Updated for translation
     href: "/account/notifications",

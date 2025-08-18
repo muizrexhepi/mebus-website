@@ -65,10 +65,7 @@ export function NoBookingsMessage({
           "You don't have any bus ticket bookings yet. Start exploring and book your next trip!"
         )}
       </p>
-      <Button
-        asChild
-        className="bg-gradient-to-r from-orange-500 to-pink-600 text-white hover:from-orange-600 hover:to-pink-700 px-8 py-6 text-lg rounded-lg shadow-lg"
-      >
+      <Button asChild variant={"primary"}>
         <Link href="/">{t("bookings.bookNewTicket", "Book a New Ticket")}</Link>
       </Button>
     </div>

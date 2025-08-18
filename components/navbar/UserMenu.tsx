@@ -6,11 +6,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
 import { useTranslation } from "react-i18next";
-import { LogOut, Menu } from "lucide-react";
+import { Bookmark, LogOut, Menu, User } from "lucide-react";
 import {
   FaBell,
   FaBookmark,
   FaCreditCard,
+  FaHeadphones,
+  FaKey,
   FaTicketAlt,
   FaUser,
 } from "react-icons/fa";
@@ -56,38 +58,38 @@ const UserNavbarMenu = () => {
 
   const sidebarLinks = [
     {
-      label: "Passenger details",
       href: "/account/personal-info",
       icon: FaUser,
+      label: t("sidebar.passengerDetails"),
     },
     {
-      label: "Your bookings",
       href: "/account/bookings",
       icon: FaBookmark,
+      label: t("sidebar.yourBookings"),
     },
     {
-      label: "Payment methods",
-      href: "/account/wallet",
-      icon: FaCreditCard,
+      href: "/account/data-security",
+      icon: FaKey,
+      label: t("dataAndSecurity.title"), // Updated for translation
     },
-    {
-      label: "Discount codes",
-      href: "/account/discount-codes",
-      icon: FaTicketAlt,
-    },
-    {
-      label: "Notifications",
-      href: "/account/notifications",
-      icon: FaBell,
-    },
+    // {
+    //   label: "Discount codes",
+    //   href: "/account/discount-codes",
+    //   icon: FaTicketAlt,
+    // },
+    // {
+    //   label: "Notifications",
+    //   href: "/account/notifications",
+    //   icon: FaBell,
+    // },
     {
       label: t("footer.links.customersupport"),
-      href: "/help",
-      icon: BiSupport,
+      href: "https://support.gobusly.com",
+      icon: FaHeadphones,
     },
     {
       label: t("nav.contact"),
-      href: "/help/contact-support",
+      href: "https://support.gobusly.com/contact",
       icon: IoMdContact,
     },
   ];
@@ -232,7 +234,7 @@ const UserNavbarMenu = () => {
         <DropdownMenuSeparator />
 
         <div className="py-2">
-          {sidebarLinks.slice(5).map((link) => (
+          {/* {sidebarLinks.slice(5).map((link) => (
             <DropdownMenuItem
               key={link.href}
               asChild
@@ -243,7 +245,7 @@ const UserNavbarMenu = () => {
                 {link.label}
               </Link>
             </DropdownMenuItem>
-          ))}
+          ))} */}
 
           <DropdownMenuItem
             className="py-2.5 px-3 rounded-md cursor-pointer text-gray-700"

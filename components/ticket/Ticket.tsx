@@ -62,7 +62,7 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
   );
 
   const duration = moment.duration(arrivalTime.diff(departureDate));
-  const totalHours = duration.hours() + duration.days() * 24; // Convert days to hours and add them
+  const totalHours = duration.hours() + duration.days() * 24;
   const minutes = duration.minutes();
 
   const durationFormatted = `${totalHours.toString().padStart(2, "0")}:${minutes
@@ -133,9 +133,14 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
               </div>
             </div>
 
-            {/* <div className="text-left">
-              Seats left {ticket.number_of_tickets}
-            </div> */}
+            {ticket.number_of_tickets <= 3 && (
+              <div className="text-left mt-2">
+                <span className="text-sm text-transparent button-gradient bg-clip-text font-medium">
+                  {ticket.number_of_tickets}{" "}
+                  {t("ticket.seatsLeft", "Seats Left")}
+                </span>
+              </div>
+            )}
           </div>
 
           <div className="flex justify-between items-center gap-4 w-full md:flex-col md:justify-end md:items-end md:w-fit">

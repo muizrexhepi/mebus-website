@@ -1,8 +1,10 @@
+// components/CookieConsent.tsx
+
 "use client";
 
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import { X, Cookie } from "lucide-react";
+import { X, Cookie, ArrowRight, XCircle, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,7 +15,10 @@ import {
 } from "@/components/ui/dialog";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import Link from "next/link";
+import { Separator } from "@/components/ui/separator";
 
+// Define the structure for your cookie preferences
 type CookiePreferences = {
   necessary: boolean;
   functional: boolean;
@@ -21,8 +26,11 @@ type CookiePreferences = {
   marketing: boolean;
 };
 
+// Key used to store the preferences in a cookie
+const COOKIE_NAME = "gobusly_cookie_consent";
+
 export default function CookieConsent() {
-  const [showConsent, setShowConsent] = useState(false);
+  const [showBanner, setShowBanner] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [preferences, setPreferences] = useState<CookiePreferences>({
     necessary: true,
@@ -32,15 +40,16 @@ export default function CookieConsent() {
   });
 
   useEffect(() => {
-    const consentGiven = Cookies.get("cookie_consent");
+    const consentGiven = Cookies.get(COOKIE_NAME);
     if (!consentGiven) {
-      setShowConsent(true);
+      setShowBanner(true);
     } else {
       try {
         const savedPreferences = JSON.parse(consentGiven);
         setPreferences(savedPreferences);
       } catch (error) {
         console.error("Error parsing cookie preferences:", error);
+        setShowBanner(true);
       }
     }
   }, []);
@@ -52,142 +61,210 @@ export default function CookieConsent() {
       analytics: true,
       marketing: true,
     };
-    Cookies.set("cookie_consent", JSON.stringify(allAccepted), {
-      expires: 365,
-    });
+    Cookies.set(COOKIE_NAME, JSON.stringify(allAccepted), { expires: 365 });
     setPreferences(allAccepted);
-    setShowConsent(false);
+    setShowBanner(false);
+  };
+
+  const handleRejectAll = () => {
+    const allRejected = {
+      necessary: true,
+      functional: false,
+      analytics: false,
+      marketing: false,
+    };
+    Cookies.set(COOKIE_NAME, JSON.stringify(allRejected), { expires: 365 });
+    setPreferences(allRejected);
+    setShowBanner(false);
   };
 
   const handleSavePreferences = () => {
-    Cookies.set("cookie_consent", JSON.stringify(preferences), {
-      expires: 365,
-    });
+    Cookies.set(COOKIE_NAME, JSON.stringify(preferences), { expires: 365 });
     setShowModal(false);
-    setShowConsent(false);
+    setShowBanner(false);
   };
 
   const handlePreferenceChange = (key: keyof CookiePreferences) => {
     setPreferences((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  if (!showConsent) return null;
+  if (!showBanner) return null;
 
   return (
     <>
-      <div className="fixed bottom-4 right-4 left-4 sm:left-auto z-50 max-w-sm bg-primary-bg text-primary-foreground rounded-lg shadow-lg overflow-hidden">
-        <div className="p-4">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">Cookie Preferences</h2>
-            <Button
-              onClick={() => setShowConsent(false)}
-              variant="ghost"
-              size="icon"
-              className="text-primary-foreground hover:text-primary-foreground/80"
-              aria-label="Close"
-            >
-              <X className="h-5 w-5" />
-            </Button>
+      {/* Cookie Consent Banner */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white shadow-xl border-t border-gray-100 animate-slideUp">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4 flex-wrap">
+          <div className="flex-1 flex items-center gap-2">
+            <div className="flex-shrink-0 p-2 bg-white rounded-full">
+              {/* Added gradient to the cookie icon and its parent div */}
+              <Cookie className="h-5 w-5 bg-clip-text text-transparent bg-gradient-to-tr from-[#ff6700] to-[#ff007f]" />
+            </div>
+            <p className="text-sm text-gray-700">
+              We use cookies to improve your experience. By continuing to use
+              our site, you agree to our
+              {/* Added gradient to the link */}
+              <Link
+                href="/legal/cookie-policy"
+                className="font-bold bg-clip-text text-transparent bg-gradient-to-tr from-[#ff6700] to-[#ff007f] hover:from-[#ff007f] hover:to-[#ff6700] ml-1"
+              >
+                Cookie Policy.
+              </Link>
+            </p>
           </div>
-          <p className="text-sm mb-4">
-            We use cookies to enhance your experience and provide personalized
-            services.
-          </p>
-          <div className="flex flex-col space-y-2">
+          <div className="flex gap-2 flex-shrink-0">
+            <Button
+              onClick={handleRejectAll}
+              variant="outline"
+              className="rounded-full text-gray-600 border-gray-300 hover:bg-gray-100"
+            >
+              Reject All
+            </Button>
             <Button
               onClick={() => setShowModal(true)}
-              variant="secondary"
-              className="w-full justify-center h-12 rounded-lg"
+              variant="outline"
+              className="rounded-full text-gray-600 border-gray-300 hover:bg-gray-100"
             >
-              <Cookie className="h-4 w-4 mr-2" />
               Customize
             </Button>
             <Button
               onClick={handleAcceptAll}
-              variant="secondary"
-              className="w-full rounded-lg h-12 button-gradient text-white"
+              // Added gradient to the Accept All button
+              className="rounded-full bg-gradient-to-tr from-[#ff6700] to-[#ff007f] text-white hover:from-[#ff007f] hover:to-[#ff6700] transition-colors shadow-md"
             >
               Accept All
+            </Button>
+            <Button
+              onClick={() => setShowBanner(false)}
+              variant="ghost"
+              className="ml-2 px-2 text-gray-500 hover:bg-gray-100"
+            >
+              <X className="h-5 w-5" />
             </Button>
           </div>
         </div>
       </div>
 
+      {/* Cookie Preferences Modal */}
       <Dialog open={showModal} onOpenChange={setShowModal}>
-        <DialogContent className="sm:max-w-[500px]">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold">
-              Cookie Preferences
+        <DialogContent className="sm:max-w-[500px] rounded-xl shadow-2xl">
+          <DialogHeader className="text-left">
+            <DialogTitle className="text-2xl font-bold text-gray-800">
+              Your Cookie Preferences
             </DialogTitle>
           </DialogHeader>
+
+          <Separator />
+
           <div className="grid gap-6 py-4">
-            <div>
-              <div className="flex items-center space-x-2">
-                <Checkbox id="necessary" checked disabled />
-                <Label htmlFor="necessary" className="font-semibold">
-                  Essential Cookies
-                </Label>
+            {/* Essential Cookies */}
+            <div className="flex items-start space-x-4">
+              <Checkbox id="necessary" checked disabled className="mt-1" />
+              <div className="flex-1">
+                <div className="flex items-center">
+                  <Label
+                    htmlFor="necessary"
+                    className="font-semibold text-gray-800 cursor-default"
+                  >
+                    Essential Cookies
+                  </Label>
+                  {/* Added gradient to the Always Active span */}
+                  <span className="ml-2 text-xs font-medium bg-clip-text text-transparent bg-gradient-to-tr from-[#ff6700] to-[#ff007f] px-2 py-0.5 rounded-full bg-blue-50">
+                    Always Active
+                  </span>
+                </div>
+                <p className="text-sm text-gray-500 mt-1">
+                  These cookies are essential for the website to function
+                  properly and cannot be switched off. They enable core
+                  functionalities like security, network management, and
+                  accessibility.
+                </p>
               </div>
-              <p className="text-sm text-muted-foreground mt-1 ml-6">
-                These cookies are required for basic site functionality and
-                cannot be disabled.
-              </p>
             </div>
-            <div>
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="functional"
-                  checked={preferences.functional}
-                  onCheckedChange={() => handlePreferenceChange("functional")}
-                />
-                <Label htmlFor="functional" className="font-semibold">
+
+            {/* Functional Cookies */}
+            <div className="flex items-start space-x-4">
+              <Checkbox
+                id="functional"
+                checked={preferences.functional}
+                onCheckedChange={() => handlePreferenceChange("functional")}
+                className="mt-1"
+              />
+              <div className="flex-1">
+                <Label
+                  htmlFor="functional"
+                  className="font-semibold text-gray-800"
+                >
                   Functional Cookies
                 </Label>
+                <p className="text-sm text-gray-500 mt-1">
+                  These cookies allow us to remember choices you make to provide
+                  a more personalized and enhanced experience, such as
+                  remembering your language or currency settings.
+                </p>
               </div>
-              <p className="text-sm text-muted-foreground mt-1 ml-6">
-                These cookies allow us to remember choices you make to give you
-                better functionality and personal features.
-              </p>
             </div>
-            <div>
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="analytics"
-                  checked={preferences.analytics}
-                  onCheckedChange={() => handlePreferenceChange("analytics")}
-                />
-                <Label htmlFor="analytics" className="font-semibold">
+
+            {/* Analytics Cookies */}
+            <div className="flex items-start space-x-4">
+              <Checkbox
+                id="analytics"
+                checked={preferences.analytics}
+                onCheckedChange={() => handlePreferenceChange("analytics")}
+                className="mt-1"
+              />
+              <div className="flex-1">
+                <Label
+                  htmlFor="analytics"
+                  className="font-semibold text-gray-800"
+                >
                   Analytics Cookies
                 </Label>
+                <p className="text-sm text-gray-500 mt-1">
+                  These cookies help us understand how visitors interact with
+                  our website. This information is used to measure and improve
+                  our services, helping us provide a better user experience.
+                </p>
               </div>
-              <p className="text-sm text-muted-foreground mt-1 ml-6">
-                These cookies help us understand how visitors interact with our
-                website, helping us improve our services and user experience.
-              </p>
             </div>
-            <div>
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="marketing"
-                  checked={preferences.marketing}
-                  onCheckedChange={() => handlePreferenceChange("marketing")}
-                />
-                <Label htmlFor="marketing" className="font-semibold">
+
+            {/* Marketing Cookies */}
+            <div className="flex items-start space-x-4">
+              <Checkbox
+                id="marketing"
+                checked={preferences.marketing}
+                onCheckedChange={() => handlePreferenceChange("marketing")}
+                className="mt-1"
+              />
+              <div className="flex-1">
+                <Label
+                  htmlFor="marketing"
+                  className="font-semibold text-gray-800"
+                >
                   Marketing Cookies
                 </Label>
+                <p className="text-sm text-gray-500 mt-1">
+                  These cookies are used by our advertising partners to track
+                  your browsing habits across different websites and build a
+                  profile of your interests to show you relevant advertisements.
+                </p>
               </div>
-              <p className="text-sm text-muted-foreground mt-1 ml-6">
-                These cookies are used to make advertising messages more
-                relevant to you and your interests.
-              </p>
             </div>
           </div>
-          <DialogFooter>
+
+          <DialogFooter className="flex-col sm:flex-row-reverse sm:justify-start gap-2">
             <Button
               onClick={handleSavePreferences}
-              className=" button-gradient h-12 text-white"
+              className="w-full sm:w-auto rounded-full bg-gradient-to-tr from-[#ff6700] to-[#ff007f] text-white hover:from-[#ff007f] hover:to-[#ff6700] transition-colors"
             >
               Save Preferences
+            </Button>
+            <Button
+              onClick={() => setShowModal(false)}
+              variant="outline"
+              className="w-full sm:w-auto rounded-full text-gray-600 border-gray-300 hover:bg-gray-100"
+            >
+              Cancel
             </Button>
           </DialogFooter>
         </DialogContent>

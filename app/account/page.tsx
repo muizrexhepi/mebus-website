@@ -5,22 +5,14 @@ import type React from "react";
 import Link from "next/link";
 import type { ComponentType, SVGProps } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Bell,
-  Bookmark,
-  CreditCard,
-  User,
-  Ticket,
-  ChevronRight,
-  LogOut,
-  Contact2,
-  HelpCircle,
-} from "lucide-react";
+import { ChevronRight, LogOut, HelpCircle } from "lucide-react";
 import { useAuth } from "@/components/providers/auth-provider";
 import { useNavbarStore } from "@/store";
 import { Button } from "@/components/ui/button";
 import { signOut } from "next-auth/react";
 import { Card, CardContent } from "@/components/ui/card";
+import { FaBookmark, FaHeadphones, FaKey, FaUser } from "react-icons/fa";
+import { BiHelpCircle } from "react-icons/bi";
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -33,32 +25,32 @@ interface AccountSetting {
 const ACCOUNT_SETTINGS: AccountSetting[] = [
   {
     href: "/account/personal-info",
-    icon: User,
+    icon: FaUser,
     title: "sidebar.passengerDetails",
   },
   {
     href: "/account/bookings",
-    icon: Bookmark,
+    icon: FaBookmark,
     title: "sidebar.yourBookings",
   },
   {
-    href: "/account/wallet",
-    icon: CreditCard,
-    title: "sidebar.paymentMethods",
+    href: "/account/data-security",
+    icon: FaKey,
+    title: "dataAndSecurity.title", // Updated for translation
   },
-  {
-    href: "/account/discount-codes",
-    icon: Ticket,
-    title: "sidebar.discountCodes",
-  },
-  {
-    href: "/account/notifications",
-    icon: Bell,
-    title: "sidebar.notifications",
-  },
+  // {
+  //   href: "/account/discount-codes",
+  //   icon: Ticket,
+  //   title: "sidebar.discountCodes",
+  // },
+  // {
+  //   href: "/account/notifications",
+  //   icon: Bell,
+  //   title: "sidebar.notifications",
+  // },
   {
     href: "https://support.gobusly.com/contact",
-    icon: HelpCircle,
+    icon: FaHeadphones,
     title: "helpPage.quickLinks.contactSupport",
   },
 ];

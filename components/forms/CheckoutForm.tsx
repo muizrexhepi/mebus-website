@@ -99,14 +99,14 @@ const CheckoutForm = () => {
         <div className="hidden flex-1 md:flex flex-col gap-4 sticky top-10 h-fit">
           <OrderSummary />
 
-          {process.env.NODE_ENV === "development" && (
+          {/* {process.env.NODE_ENV === "development" && (
             <div className="mt-4 p-4 bg-blue-50 rounded-lg text-xs">
               <p>
                 <strong>Session ID:</strong> {sessionId || "Not generated"}
               </p>
               <p></p>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>

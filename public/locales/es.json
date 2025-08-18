@@ -287,9 +287,10 @@
     }
   },
   "ticket": {
-    "selectReturn": "Seleccionar Vuelta",
+    "selectReturn": "Seleccionar regreso",
     "continue": "Continuar",
-    "selectOutbound": "Seleccionar Ida"
+    "selectOutbound": "Seleccionar ida",
+    "seatsLeft": "Asientos disponibles"
   },
   "ticketDetails": {
     "title": "Detalles del Billete",
@@ -656,22 +657,53 @@
     "verify": "Verificar",
     "verified": "Verificado"
   },
-  "dataPrivacy": {
-    "dataPrivacy": "Datos y Privacidad",
-    "dataExport": "Exportación de Datos",
-    "download data": "Descargue una copia de sus datos personales",
-    "exportData": "Exportar Datos",
-    "requestDataDeletion": "Solicitar Eliminación de Datos",
-    "parmanentlyDeleteData": "Eliminar permanentemente todos sus datos de nuestros sistemas",
-    "deleteData": "Eliminar Datos",
-    "deleteDataAlert": "Esta acción eliminará permanentemente todos sus datos. Por favor, introduzca su contraseña para confirmar.",
+  "dataAndSecurity": {
+    "title": "Datos y Seguridad",
+    "dataExportTitle": "Exportación de Datos",
+    "dataExportSubtitle": "Descarga tu información personal e historial de reservas",
+    "gdprCompliance": "Exportación de Datos Conforme GDPR",
+    "gdprDescription": "La exportación incluye todos tus datos personales y reservas en formato CSV",
+    "personalDataExport": "Exportación de Datos Personales",
+    "exportTooltip": "Descarga una copia completa de tus datos incluyendo información personal, reservas e historial de cuenta",
+    "exportDescription": "Archivo PDF con todos los datos de tu cuenta",
+    "downloadButton": "Descargar Datos",
+    "exporting": "Preparando...",
+    "exportSuccess": "Tus datos se han descargado exitosamente",
+    "exportError": "Fallo en la exportación de datos. Inténtalo de nuevo",
+    "userNotFound": "Usuario no encontrado. Inicia sesión nuevamente",
+
+    "accountSecurityTitle": "Seguridad de la Cuenta",
+    "accountSecuritySubtitle": "Administra tu contraseña y seguridad de inicio de sesión",
+    "securityInfo": "Mantén tu cuenta segura usando una contraseña fuerte",
     "password": "Contraseña",
-    "passwordPlaceholder": "Ingrese su contraseña",
-    "confirmDeletion": "Confirmar Eliminación",
-    "areYouSure": "¿Está completamente seguro?",
-    "cannotBeUndone": "Esta acción no se puede deshacer. Todos sus datos serán eliminados permanentemente de nuestros servidores.",
+    "passwordLastChanged": "Último cambio: {date}",
+    "changePassword": "Cambiar",
+    "loginSecurity": "Seguridad de Inicio de Sesión",
+    "lastLogin": "Último inicio de sesión: {date}",
+    "secure": "Seguro",
+    "unknown": "Desconocido",
+
+    "changePasswordTitle": "Cambiar Contraseña",
+    "changePasswordDescription": "Ingresa tu contraseña actual y elige una nueva contraseña segura",
+    "currentPassword": "Contraseña Actual",
+    "newPassword": "Nueva Contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "passwordMismatch": "Las contraseñas no coinciden",
+    "passwordTooShort": "La contraseña debe tener al menos 8 caracteres",
+    "passwordChanged": "Contraseña cambiada exitosamente",
+    "passwordChangeError": "No se pudo cambiar la contraseña",
+    "changing": "Cambiando...",
     "cancel": "Cancelar",
-    "yes": "Sí, eliminar mis datos"
+
+    "privacyTitle": "Privacidad y Datos",
+    "privacySubtitle": "Controla cómo se procesan y almacenan tus datos",
+    "dataRetention": "Retención de Datos",
+    "dataRetentionDescription": "Tus datos se conservan según nuestra política de privacidad",
+    "automatic": "Automático",
+
+    "deleteAccountTitle": "Eliminar Cuenta",
+    "deleteAccountDescription": "¿Necesitas eliminar tu cuenta? Contacta nuestro equipo de soporte para asistencia.",
+    "contactSupport": "Visita nuestra página de soporte:"
   },
   "notifications": {
     "title": "Notificaciones",

@@ -75,7 +75,7 @@ const InputField: React.FC<InputFieldProps> = ({
               variant="outline"
               className={`w-full justify-start text-left font-normal h-12 ${
                 error
-                  ? "border-red-500 bg-red-500/10"
+                  ? "border-none bg-red-500/10"
                   : "bg-primary-bg/5 border-none"
               }`}
             >
@@ -174,7 +174,7 @@ const InputField: React.FC<InputFieldProps> = ({
         <Input
           type={type}
           className={`font-normal text-black rounded-lg h-12 bg-primary-bg/5 p-2 ${
-            error ? "border-red-500 bg-red-500/10" : "border-none"
+            error ? "border-none bg-red-500/10" : "border-none"
           }`}
           placeholder={placeholder}
           value={value as string}
