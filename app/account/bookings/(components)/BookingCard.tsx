@@ -14,12 +14,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
   Clock,
-  DollarSign,
-  ChevronDown,
   Eye,
   X,
   MoreHorizontal,
   ArrowRight,
+  Wallet,
+  Download,
+  Loader2,
 } from "lucide-react";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
@@ -28,10 +29,10 @@ import axios from "axios";
 import { toast } from "@/components/hooks/use-toast";
 import { FlexUpgradeSheet } from "@/components/dialogs/FlexUpgradeDialog";
 import { loadStripe } from "@stripe/stripe-js";
-import { isBefore, startOfDay } from "date-fns";
+import { isBefore, startOfDay, differenceInDays } from "date-fns";
 import { usePaymentSuccessStore } from "@/store";
-import { Booking } from "@/models/booking";
-import { Operator } from "@/models/operator";
+import { type Booking, TravelFlexPermissions, Flex } from "@/models/booking";
+import type { Operator } from "@/models/operator";
 import Link from "next/link";
 
 const stripePromise = loadStripe(
@@ -75,12 +76,131 @@ export const BookingCard: React.FC<BookingCardProps> = ({
   const [newDepartureDate, setNewDepartureDate] = useState<AvailableDate>();
   const [priceToBePaid, setPriceToBePaid] = useState<any>();
   const { isPaymentSuccess } = usePaymentSuccessStore();
+  const [pdfLoading, setPdfLoading] = useState<boolean>(false);
+
+  const [walletSupport, setWalletSupport] = useState<{
+    supported: boolean;
+    platform: "ios" | "google" | null;
+  }>({
+    supported: false,
+    platform: null,
+  });
 
   const adults =
     booking.passengers?.filter((passenger) => passenger?.age >= 10)?.length ||
     0;
   const children =
     booking.passengers?.filter((passenger) => passenger?.age < 10)?.length || 0;
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent;
+    const isIOS =
+      /iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream;
+    const isChrome =
+      /Chrome/.test(userAgent) && /Google Inc/.test(navigator.vendor);
+
+    if (isIOS) {
+      setWalletSupport({ supported: true, platform: "ios" });
+    } else if (isChrome) {
+      setWalletSupport({ supported: true, platform: "google" });
+    } else {
+      setWalletSupport({ supported: false, platform: null });
+    }
+  }, []);
+
+  const downloadPdf = async () => {
+    try {
+      setPdfLoading(true);
+      const response = await axios({
+        method: "post",
+        url: `${process.env.NEXT_PUBLIC_API_URL}/booking/download/pdf/e-ticket/${booking._id}`,
+        responseType: "blob",
+        headers: {
+          Accept: "application/pdf",
+        },
+      });
+
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "ticket.pdf");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      toast({
+        title: "Success",
+        description: "PDF downloaded successfully!",
+      });
+    } catch (error) {
+      console.error("Error downloading PDF:", error);
+      toast({
+        title: "Error",
+        description: "Failed to download PDF.",
+        variant: "destructive",
+      });
+    } finally {
+      setPdfLoading(false);
+    }
+  };
+
+  const addToWallet = async () => {
+    try {
+      const endpoint =
+        walletSupport.platform === "ios"
+          ? `${process.env.NEXT_PUBLIC_API_URL}/wallet/ios/${booking._id}`
+          : `${process.env.NEXT_PUBLIC_API_URL}/wallet/google/${booking._id}`;
+
+      const response = await axios.post(endpoint);
+
+      if (response.data?.walletUrl) {
+        window.open(response.data.walletUrl, "_blank");
+        toast({
+          title: "Success",
+          description: "Ticket added to wallet successfully!",
+        });
+      }
+    } catch (error) {
+      console.error("Error adding to wallet:", error);
+      toast({
+        title: "Error",
+        description: "Failed to add ticket to wallet.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const canReschedule = () => {
+    const today = new Date();
+    const departureDate = new Date(booking.departure_date);
+    const daysUntilDeparture = differenceInDays(departureDate, today);
+
+    let rescheduleLimit = 0;
+    switch (booking.metadata.travel_flex) {
+      case Flex.PREMIUM:
+        rescheduleLimit = TravelFlexPermissions.PREMIUM.RESCHEDULE;
+        break;
+      case Flex.BASIC:
+        rescheduleLimit = TravelFlexPermissions.BASIC.RESCHEDULE;
+        break;
+      case Flex.NO_FLEX:
+        rescheduleLimit = TravelFlexPermissions.NO_FLEX.RESCHEDULE;
+        break;
+      default:
+        rescheduleLimit = 0;
+    }
+
+    // Can reschedule if departure is more than rescheduleLimit days away
+    return daysUntilDeparture >= rescheduleLimit;
+  };
+
+  const canCancel = () => {
+    const today = new Date();
+    const departureDate = new Date(booking.departure_date);
+    return departureDate > today;
+  };
 
   const fetchAvailableDates = async () => {
     try {
@@ -108,6 +228,33 @@ export const BookingCard: React.FC<BookingCardProps> = ({
   }, [selectedDate]);
 
   const handleReschedule = () => {
+    if (!canReschedule()) {
+      const daysUntilDeparture = differenceInDays(
+        new Date(booking.departure_date),
+        new Date()
+      );
+      let rescheduleLimit = 0;
+
+      switch (booking.metadata.travel_flex) {
+        case Flex.PREMIUM:
+          rescheduleLimit = TravelFlexPermissions.PREMIUM.RESCHEDULE;
+          break;
+        case Flex.BASIC:
+          rescheduleLimit = TravelFlexPermissions.BASIC.RESCHEDULE;
+          break;
+        case Flex.NO_FLEX:
+          rescheduleLimit = TravelFlexPermissions.NO_FLEX.RESCHEDULE;
+          break;
+      }
+
+      toast({
+        title: "Rescheduling Not Available",
+        description: `You can only reschedule ${rescheduleLimit} days before departure. Your departure is in ${daysUntilDeparture} days.`,
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsDatePickerOpen(true);
   };
 
@@ -208,9 +355,35 @@ export const BookingCard: React.FC<BookingCardProps> = ({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
+              {walletSupport.supported && (
+                <>
+                  <DropdownMenuItem
+                    className="gap-2 py-2.5"
+                    onClick={addToWallet}
+                    disabled={isRefunded}
+                  >
+                    <Wallet className="h-4 w-4" />
+                    Add to Wallet
+                  </DropdownMenuItem>
+                  {/* <DropdownMenuSeparator /> */}
+                </>
+              )}
               <DropdownMenuItem
                 className="gap-2 py-2.5"
-                disabled={isRefunded}
+                onClick={downloadPdf}
+                disabled={pdfLoading || isRefunded}
+              >
+                {pdfLoading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Download className="h-4 w-4" />
+                )}
+                Download PDF
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className="gap-2 py-2.5"
+                disabled={isRefunded || !canReschedule()}
                 onClick={isNoFlex ? handleNoFlexAction : handleReschedule}
               >
                 <Clock className="h-4 w-4" />
@@ -225,11 +398,19 @@ export const BookingCard: React.FC<BookingCardProps> = ({
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                disabled={isRefunded}
+                disabled={isRefunded || !canCancel()}
                 className="gap-2 py-2.5 text-red-600 focus:bg-red-50 focus:text-red-700"
                 onClick={
                   isNoFlex
                     ? handleNoFlexAction
+                    : !canCancel()
+                    ? () =>
+                        toast({
+                          title: "Cancellation Not Available",
+                          description:
+                            "You cannot cancel a booking after the departure date has passed.",
+                          variant: "destructive",
+                        })
                     : () =>
                         handleCancelBookingAndRefund(
                           booking?._id,

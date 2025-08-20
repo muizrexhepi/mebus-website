@@ -122,6 +122,11 @@ const BookingsDashboardClient: React.FC = () => {
     return (
       <div className="space-y-6">
         {bookings
+          .sort(
+            (a, b) =>
+              new Date(b.departure_date).getTime() -
+              new Date(a.departure_date).getTime()
+          )
           .map((booking) => (
             <BookingCard
               onBookingUpdated={() => {
@@ -132,8 +137,7 @@ const BookingsDashboardClient: React.FC = () => {
               handleNoFlexAction={handleNoFlexAction}
               handleCancelBookingAndRefund={handleCancelBookingAndRefund}
             />
-          ))
-          .reverse()}
+          ))}
       </div>
     );
   };
