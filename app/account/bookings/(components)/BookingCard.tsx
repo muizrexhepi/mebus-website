@@ -152,11 +152,12 @@ export const BookingCard: React.FC<BookingCardProps> = ({
         walletSupport.platform === "ios"
           ? `${process.env.NEXT_PUBLIC_API_URL}/wallet/ios/${booking._id}`
           : `${process.env.NEXT_PUBLIC_API_URL}/wallet/google/${booking._id}`;
+      // const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/wallet/google/${booking._id}`;
 
       const response = await axios.post(endpoint);
 
-      if (response.data?.walletUrl) {
-        window.open(response.data.walletUrl, "_blank");
+      if (response.data?.saveUrl) {
+        window.open(response.data.saveUrl, "_blank");
         toast({
           title: "Success",
           description: "Ticket added to wallet successfully!",
