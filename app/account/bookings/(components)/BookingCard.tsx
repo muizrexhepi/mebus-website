@@ -69,14 +69,14 @@ export const BookingCard: React.FC<BookingCardProps> = ({
   const router = useRouter();
   const isNoFlex = booking.metadata.travel_flex === "no_flex";
   const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
-  const [isExtraPaymentNeeded, setIsExtraPaymentNeeded] =
-    useState<boolean>(false);
+  const [isExtraPaymentNeeded, setIsExtraPaymentNeeded] = useState<boolean>(false);
   const [availableDates, setAvailableDates] = useState<any>([]);
   const [selectedDate, setSelectedDate] = useState<any>(null);
   const [newDepartureDate, setNewDepartureDate] = useState<AvailableDate>();
   const [priceToBePaid, setPriceToBePaid] = useState<any>();
   const { isPaymentSuccess } = usePaymentSuccessStore();
   const [pdfLoading, setPdfLoading] = useState<boolean>(false);
+  const [walletLoading, setWalletLoading] = useState<boolean>(false);
 
   const [walletSupport, setWalletSupport] = useState<{
     supported: boolean;
@@ -86,18 +86,13 @@ export const BookingCard: React.FC<BookingCardProps> = ({
     platform: null,
   });
 
-  const adults =
-    booking.passengers?.filter((passenger) => passenger?.age >= 10)?.length ||
-    0;
-  const children =
-    booking.passengers?.filter((passenger) => passenger?.age < 10)?.length || 0;
+  const adults = booking.passengers?.filter((passenger) => passenger?.age >= 10)?.length || 0;
+  const children = booking.passengers?.filter((passenger) => passenger?.age < 10)?.length || 0;
 
   useEffect(() => {
     const userAgent = navigator.userAgent;
-    const isIOS =
-      /iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream;
-    const isChrome =
-      /Chrome/.test(userAgent) && /Google Inc/.test(navigator.vendor);
+    const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream;
+    const isChrome = /Chrome/.test(userAgent) && /Google Inc/.test(navigator.vendor);
 
     if (isIOS) {
       setWalletSupport({ supported: true, platform: "ios" });
@@ -146,30 +141,79 @@ export const BookingCard: React.FC<BookingCardProps> = ({
     }
   };
 
-  const addToWallet = async () => {
+  const addToAppleWallet = async () => {
+    setWalletLoading(true);
     try {
-      const endpoint =
-        walletSupport.platform === "ios"
-          ? `${process.env.NEXT_PUBLIC_API_URL}/wallet/ios/${booking._id}`
-          : `${process.env.NEXT_PUBLIC_API_URL}/wallet/google/${booking._id}`;
-      // const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/wallet/google/${booking._id}`;
+      const response = await axios({
+        method: "post",
+        url: `${process.env.NEXT_PUBLIC_API_URL}/wallet/ios/${booking._id}`,
+        responseType: "blob",
+        headers: {
+          Accept: "application/vnd.apple.pkpass",
+        },
+      });
 
-      const response = await axios.post(endpoint);
+      const blob = new Blob([response.data], { type: "application/vnd.apple.pkpass" });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `gobusly-ticket-${booking._id}.pkpass`;
+      link.style.display = "none";
+      
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      
+      toast({
+        title: "Success",
+        description: "Pass downloaded! Open the file to add to Apple Wallet.",
+      });
+    } catch (error) {
+      console.error("Error adding to Apple Wallet:", error);
+      toast({
+        title: "Error",
+        description: "Failed to add ticket to Apple Wallet.",
+        variant: "destructive",
+      });
+    } finally {
+      setWalletLoading(false);
+    }
+  };
 
-      if (response.data?.saveUrl) {
+  const addToGooglePay = async () => {
+    setWalletLoading(true);
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/wallet/google/${booking._id}`
+      );
+
+      if (response.data.success && response.data.saveUrl) {
         window.open(response.data.saveUrl, "_blank");
         toast({
           title: "Success",
-          description: "Ticket added to wallet successfully!",
+          description: "Redirecting to Google Pay...",
         });
+      } else {
+        throw new Error("Failed to generate Google Pay pass");
       }
     } catch (error) {
-      console.error("Error adding to wallet:", error);
+      console.error("Error adding to Google Pay:", error);
       toast({
         title: "Error",
-        description: "Failed to add ticket to wallet.",
+        description: "Failed to add ticket to Google Pay.",
         variant: "destructive",
       });
+    } finally {
+      setWalletLoading(false);
+    }
+  };
+
+  const addToWallet = async () => {
+    if (walletSupport.platform === "ios") {
+      await addToAppleWallet();
+    } else if (walletSupport.platform === "google") {
+      await addToGooglePay();
     }
   };
 
@@ -193,7 +237,6 @@ export const BookingCard: React.FC<BookingCardProps> = ({
         rescheduleLimit = 0;
     }
 
-    // Can reschedule if departure is more than rescheduleLimit days away
     return daysUntilDeparture >= rescheduleLimit;
   };
 
@@ -206,9 +249,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({
   const fetchAvailableDates = async () => {
     try {
       const response = await axios.get(
-        `${
-          process.env.NEXT_PUBLIC_API_URL
-        }/ticket/search/available-dates?departureStation=${
+        `${process.env.NEXT_PUBLIC_API_URL}/ticket/search/available-dates?departureStation=${
           booking.destinations?.departure_station
         }&arrivalStation=${
           booking.destinations?.arrival_station
@@ -317,7 +358,6 @@ export const BookingCard: React.FC<BookingCardProps> = ({
   return (
     <Card className="bg-white border-0 transition-all duration-200 rounded-2xl overflow-hidden mb-3">
       <CardContent className="p-0 relative">
-        {/* Header with date and actions */}
         <Link
           href={`/account/bookings/${booking._id}`}
           className="text-sm text-transparent font-normal button-gradient bg-clip-text bottom-5 right-5 absolute p-1"
@@ -340,7 +380,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({
                 {moment.utc(booking?.departure_date).format("HH:mm")}
               </div>
               <div className="text-sm text-gray-500">
-                ${booking?.price?.toFixed(2)}
+                €{booking?.price?.toFixed(2)}
               </div>
             </div>
           </div>
@@ -361,12 +401,16 @@ export const BookingCard: React.FC<BookingCardProps> = ({
                   <DropdownMenuItem
                     className="gap-2 py-2.5"
                     onClick={addToWallet}
-                    disabled={isRefunded}
+                    disabled={isRefunded || walletLoading}
                   >
-                    <Wallet className="h-4 w-4" />
+                    {walletLoading ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Wallet className="h-4 w-4" />
+                    )}
                     Add to Wallet
                   </DropdownMenuItem>
-                  {/* <DropdownMenuSeparator /> */}
+                  <DropdownMenuSeparator />
                 </>
               )}
               <DropdownMenuItem
@@ -428,17 +472,14 @@ export const BookingCard: React.FC<BookingCardProps> = ({
           </DropdownMenu>
         </div>
 
-        {/* Route visualization */}
         <div className="px-5 py-4">
           <div className="flex items-start gap-4">
-            {/* Timeline dots and line */}
             <div className="flex flex-col items-center mt-1 md:hidden">
               <div className="w-3 h-3 rounded-full bg-[#ff007f]/80 ring-2 ring-pink-100"></div>
               <div className="w-px h-12 bg-gradient-to-b from-[#ff007f] to-gray-300 my-1"></div>
               <div className="w-3 h-3 rounded-full bg-[#ff007f]/80 ring-2 ring-pink-100"></div>
             </div>
 
-            {/* Route details */}
             <div className="flex-1 space-y-6 md:flex md:space-y-0 items-center gap-12">
               <div>
                 <div className="font-semibold text-gray-900 text-base">
@@ -450,7 +491,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({
               </div>
 
               <div className="hidden md:block">
-                <ArrowRight className=" text-[#ff007f]/80" />
+                <ArrowRight className="text-[#ff007f]/80" />
               </div>
               <div>
                 <div className="font-semibold text-gray-900 text-base">
