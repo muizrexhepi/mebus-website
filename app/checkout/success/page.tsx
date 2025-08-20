@@ -102,8 +102,8 @@ const SuccessPage: React.FC = () => {
 
       const response = await axios.post(endpoint);
 
-      if (response.data?.walletUrl) {
-        window.open(response.data.walletUrl, "_blank");
+      if (response.data?.saveUrl) {
+        window.open(response.data.saveUrl, "_blank");
       }
     } catch (error) {
       console.error("Error adding to wallet:", error);
