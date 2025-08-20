@@ -206,26 +206,10 @@ const PassengerInfo: React.FC = () => {
   const { user } = useAuth();
   const { resetTimeout } = useAbandonedCheckout();
 
-  // Set user data to first passenger
-  useEffect(() => {
-    if (!user || passengers.length === 0) return;
+  // Track if we've already set user data to avoid infinite loops
+  const [userDataSet, setUserDataSet] = useState(false);
 
-    const [firstName = "", lastName = ""] = user.name?.split(" ") || [];
-
-    const updated = {
-      ...passengers[0],
-      first_name: firstName,
-      last_name: lastName,
-      email: user.email || "",
-      phone: user.phone || "",
-    };
-
-    const newPassengers = [...passengers];
-    newPassengers[0] = updated;
-    setPassengers(newPassengers);
-  }, [user]);
-
-  // Ensure passenger count matches adults + children
+  // Ensure passenger count matches adults + children FIRST
   useEffect(() => {
     const expected = adults + children;
     if (passengers.length === expected) return;
@@ -248,7 +232,44 @@ const PassengerInfo: React.FC = () => {
     );
 
     setPassengers(newPassengers);
+    setUserDataSet(false); // Reset user data flag when passengers change
   }, [adults, children]);
+
+  // Set user data to first passenger AFTER passengers are initialized
+  useEffect(() => {
+    if (!user || passengers.length === 0 || userDataSet) return;
+
+    // Only proceed if the first passenger exists and has empty fields
+    const firstPassenger = passengers[0];
+    if (!firstPassenger) return;
+
+    const [firstName = "", lastName = ""] = user.name?.split(" ") || [];
+
+    // Only update if the fields are actually empty to avoid overwriting user input
+    const shouldUpdate =
+      !firstPassenger.first_name ||
+      !firstPassenger.last_name ||
+      !firstPassenger.email ||
+      !firstPassenger.phone;
+
+    if (!shouldUpdate) {
+      setUserDataSet(true);
+      return;
+    }
+
+    const updated = {
+      ...firstPassenger,
+      first_name: firstName || firstPassenger.first_name,
+      last_name: lastName || firstPassenger.last_name,
+      email: user.email || firstPassenger.email,
+      phone: user.phone || firstPassenger.phone,
+    };
+
+    const newPassengers = [...passengers];
+    newPassengers[0] = updated;
+    setPassengers(newPassengers);
+    setUserDataSet(true);
+  }, [user, passengers, userDataSet, setPassengers]);
 
   useEffect(() => {
     console.log("👥 Passengers updated:", passengers);

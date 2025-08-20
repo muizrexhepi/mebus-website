@@ -11,8 +11,6 @@ import useSearchStore, { useCheckoutStore } from "@/store";
 import { Loader2 } from "lucide-react";
 import OrderSummary from "./OrderSummary";
 import { useAuth } from "@/components/providers/auth-provider";
-import { markCheckoutCompleted } from "@/lib/appwrite-abandoned-checkout";
-import { useAbandonedCheckout } from "@/components/hooks/use-abandoned-checkout";
 import { getTicketPrice, getChildrenPrice } from "@/lib/utils";
 
 import {
@@ -33,10 +31,17 @@ interface CardValidationErrors {
   cardCvc?: string;
 }
 
+type LoadingState =
+  | "idle"
+  | "payment-intent"
+  | "confirming-payment"
+  | "creating-booking"
+  | "express-payment";
+
 const PaymentMethod = () => {
   const stripe = useStripe();
   const elements = useElements();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<LoadingState>("idle");
   const [cardNumber, setCardNumber] = useState<any>(null);
   const [cardExpiry, setCardExpiry] = useState<any>(null);
   const [cardCvc, setCardCvc] = useState<any>(null);
@@ -46,7 +51,6 @@ const PaymentMethod = () => {
   const { t } = useTranslation();
   const [showStickyButton, setShowStickyButton] = useState(true);
   const buttonRef = useRef<HTMLDivElement>(null);
-  const { sessionId, resetTimeout } = useAbandonedCheckout();
 
   const [cardValidationErrors, setCardValidationErrors] =
     useState<CardValidationErrors>({});
@@ -75,6 +79,23 @@ const PaymentMethod = () => {
     resetCheckout,
   } = useCheckoutStore();
 
+  // Loading helper functions
+  const isLoading = loading !== "idle";
+  const getLoadingText = () => {
+    switch (loading) {
+      case "payment-intent":
+        return t("paymentMethod.processingPayment") || "Processing payment...";
+      case "confirming-payment":
+        return t("paymentMethod.confirmingPayment") || "Confirming payment...";
+      case "creating-booking":
+        return t("paymentMethod.creatingBooking") || "Creating booking...";
+      case "express-payment":
+        return t("paymentMethod.processingPayment") || "Processing payment...";
+      default:
+        return t("paymentMethod.completePayment") || "Complete Payment";
+    }
+  };
+
   useEffect(() => {
     const resumeSessionId = searchParams.get("resume");
     if (resumeSessionId) {
@@ -85,23 +106,6 @@ const PaymentMethod = () => {
       });
     }
   }, [searchParams, toast]);
-
-  useEffect(() => {
-    const handleUserActivity = () => {
-      resetTimeout();
-    };
-
-    const events = ["mousedown", "keydown", "scroll", "touchstart"];
-    events.forEach((event) => {
-      document.addEventListener(event, handleUserActivity);
-    });
-
-    return () => {
-      events.forEach((event) => {
-        document.removeEventListener(event, handleUserActivity);
-      });
-    };
-  }, [resetTimeout]);
 
   useEffect(() => {
     if (!selectedFlex) {
@@ -159,7 +163,6 @@ const PaymentMethod = () => {
       const cardCvcElement = elements.create("cardCvc");
 
       cardNumberElement.on("change", (event) => {
-        resetTimeout();
         setCardFieldsComplete((prev) => ({
           ...prev,
           cardNumber: event.complete,
@@ -179,7 +182,6 @@ const PaymentMethod = () => {
       });
 
       cardExpiryElement.on("change", (event) => {
-        resetTimeout();
         setCardFieldsComplete((prev) => ({
           ...prev,
           cardExpiry: event.complete,
@@ -199,7 +201,6 @@ const PaymentMethod = () => {
       });
 
       cardCvcElement.on("change", (event) => {
-        resetTimeout();
         setCardFieldsComplete((prev) => ({ ...prev, cardCvc: event.complete }));
 
         if (event.error) {
@@ -292,7 +293,7 @@ const PaymentMethod = () => {
   };
 
   const handleExpressPayment = async (event: any) => {
-    setLoading(true);
+    setLoading("express-payment");
     try {
       const discountResult = calculateDiscountedAmount(totalPrice);
       const finalAmount = discountResult?.finalAmount ?? totalPrice;
@@ -332,31 +333,32 @@ const PaymentMethod = () => {
           discountResult?.code ?? null
         );
       }
-    } catch (error) {
+    } catch (error: any) {
       event.complete("fail");
+      console.error("Express payment error:", error);
       toast({
-        description: "Payment failed",
+        description: error?.message || "Payment failed",
         variant: "destructive",
       });
     } finally {
-      setLoading(false);
+      setLoading("idle");
     }
   };
 
   const handleApplePay = () => {
-    if (paymentRequest) {
+    if (paymentRequest && !isLoading) {
       paymentRequest.show();
     }
   };
 
   const handleGooglePay = () => {
-    if (paymentRequest) {
+    if (paymentRequest && !isLoading) {
       paymentRequest.show();
     }
   };
 
   const handlePayment = async () => {
-    if (!stripe || !elements) {
+    if (!stripe || !elements || isLoading) {
       return;
     }
 
@@ -364,9 +366,9 @@ const PaymentMethod = () => {
       return;
     }
 
-    setLoading(true);
-
     try {
+      setLoading("payment-intent");
+
       const discountResult = calculateDiscountedAmount(totalPrice);
       const finalAmount = discountResult?.finalAmount ?? totalPrice;
       const appliedDiscountAmount = discountResult?.amount ?? 0;
@@ -385,7 +387,9 @@ const PaymentMethod = () => {
 
       const paymentResponse = await createPaymentIntent(paymentIntentParams);
 
+      // Handle auto-capture scenario (no payment confirmation needed)
       if (paymentResponse.auto_capture) {
+        setLoading("creating-booking");
         await handleBookingCreation(
           paymentResponse.data.id,
           finalAmount,
@@ -397,6 +401,8 @@ const PaymentMethod = () => {
 
       const { clientSecret } = paymentResponse.data;
 
+      setLoading("confirming-payment");
+
       const { error: confirmError, paymentIntent } =
         await stripe.confirmCardPayment(clientSecret, {
           payment_method: {
@@ -406,25 +412,27 @@ const PaymentMethod = () => {
         });
 
       if (confirmError) {
-        toast({
-          description: confirmError.message || "Something went wrong!",
-          variant: "destructive",
-        });
+        throw new Error(confirmError.message || "Payment confirmation failed");
       } else if (paymentIntent.status === "succeeded") {
+        setLoading("creating-booking");
         await handleBookingCreation(
           paymentIntent.id,
           finalAmount,
           appliedDiscountAmount,
           discountCode
         );
+      } else {
+        throw new Error(`Unexpected payment status: ${paymentIntent.status}`);
       }
     } catch (err: any) {
+      console.error("Payment error:", err);
       toast({
-        description: err?.response?.data?.message || "Payment failed",
+        description:
+          err?.response?.data?.message || err?.message || "Payment failed",
         variant: "destructive",
       });
     } finally {
-      setLoading(false);
+      setLoading("idle");
     }
   };
 
@@ -434,29 +442,54 @@ const PaymentMethod = () => {
     discountAmount = 0,
     discountCode: string | null = null
   ) => {
-    const bookingParams: CreateBookingsParams = {
-      outboundTicket,
-      returnTicket,
-      paymentIntentId,
-      finalAmount,
-      discountAmount,
-      discountCode,
-      passengerAmount,
-      passengers,
-      selectedFlex: selectedFlex || "",
-      flexPrice,
-      userId: user?._id,
-    };
+    try {
+      const bookingParams: CreateBookingsParams = {
+        outboundTicket,
+        returnTicket,
+        paymentIntentId,
+        finalAmount,
+        discountAmount,
+        discountCode,
+        passengerAmount,
+        passengers,
+        selectedFlex: selectedFlex || "",
+        flexPrice,
+        userId: user?._id,
+      };
 
-    await createBookings(bookingParams);
+      const result = await createBookings(bookingParams);
 
-    if (sessionId) {
-      await markCheckoutCompleted(sessionId);
+      // Check if booking creation was successful
+      if (!result) {
+        throw new Error("Failed to create booking");
+      }
+
+      // Clear stored discount
+      try {
+        clearStoredDiscount();
+      } catch (error) {
+        console.warn("Failed to clear stored discount:", error);
+        // Don't throw here as the booking was successful
+      }
+
+      // Reset checkout state
+      resetCheckout();
+
+      // Show success message
+      toast({
+        title: "Payment Successful!",
+        description:
+          "Your booking has been confirmed. Redirecting to confirmation page...",
+      });
+
+      // Use replace instead of push and add a small delay to ensure state is cleared
+      setTimeout(() => {
+        router.replace("/checkout/success");
+      }, 100);
+    } catch (error: any) {
+      console.error("Booking creation error:", error);
+      throw new Error(error?.message || "Failed to create booking");
     }
-
-    clearStoredDiscount();
-    router.push("/checkout/success");
-    resetCheckout();
   };
 
   useEffect(() => {
@@ -507,51 +540,65 @@ const PaymentMethod = () => {
                       {paymentAvailability.applePay && (
                         <button
                           onClick={handleApplePay}
-                          disabled={loading}
+                          disabled={isLoading}
                           className="flex-1 bg-black hover:bg-gray-800 text-white rounded-lg px-6 py-4 flex items-center justify-center gap-3 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed min-h-[56px]"
                         >
-                          <svg
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                          >
-                            <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.09997 22C7.78997 22.05 6.79997 20.68 5.95997 19.47C4.24997 17 2.93997 12.45 4.69997 9.39C5.56997 7.87 7.12997 6.91 8.81997 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z" />
-                          </svg>
-                          <span className="font-medium">Pay</span>
+                          {loading === "express-payment" ? (
+                            <Loader2 className="animate-spin h-5 w-5" />
+                          ) : (
+                            <>
+                              <svg
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                              >
+                                <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.09997 22C7.78997 22.05 6.79997 20.68 5.95997 19.47C4.24997 17 2.93997 12.45 4.69997 9.39C5.56997 7.87 7.12997 6.91 8.81997 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z" />
+                              </svg>
+                              <span className="font-medium">Pay</span>
+                            </>
+                          )}
                         </button>
                       )}
 
                       {paymentAvailability.googlePay && (
                         <button
                           onClick={handleGooglePay}
-                          disabled={loading}
+                          disabled={isLoading}
                           className="flex-1 bg-white hover:bg-gray-50 border-2 border-gray-300 text-gray-700 rounded-lg px-6 py-4 flex items-center justify-center gap-3 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed min-h-[56px]"
                         >
-                          <svg
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                          >
-                            <path
-                              d="M22.56 12.25C22.56 11.47 22.49 10.72 22.36 10H12V14.26H17.92C17.66 15.63 16.88 16.78 15.71 17.57V20.34H19.28C21.36 18.42 22.56 15.6 22.56 12.25Z"
-                              fill="#4285F4"
-                            />
-                            <path
-                              d="M12 23C15.24 23 17.95 21.92 19.28 20.34L15.71 17.57C14.74 18.22 13.48 18.63 12 18.63C8.91 18.63 6.26 16.67 5.39 13.86H1.71V16.71C3.03 19.35 7.26 23 12 23Z"
-                              fill="#34A853"
-                            />
-                            <path
-                              d="M5.39 13.86C5.17 13.21 5.05 12.51 5.05 11.77S5.17 10.33 5.39 9.68V6.83H1.71C0.98 8.29 0.56 9.97 0.56 11.77S0.98 15.25 1.71 16.71L5.39 13.86Z"
-                              fill="#FBBC05"
-                            />
-                            <path
-                              d="M12 4.91C13.62 4.91 15.06 5.47 16.18 6.54L19.34 3.38C17.95 2.09 15.24 1.32 12 1.32C7.26 1.32 3.03 4.97 1.71 7.61L5.39 10.46C6.26 7.65 8.91 4.91 12 4.91Z"
-                              fill="#EA4335"
-                            />
-                          </svg>
-                          <span className="font-medium text-gray-700">Pay</span>
+                          {loading === "express-payment" ? (
+                            <Loader2 className="animate-spin h-5 w-5" />
+                          ) : (
+                            <>
+                              <svg
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                              >
+                                <path
+                                  d="M22.56 12.25C22.56 11.47 22.49 10.72 22.36 10H12V14.26H17.92C17.66 15.63 16.88 16.78 15.71 17.57V20.34H19.28C21.36 18.42 22.56 15.6 22.56 12.25Z"
+                                  fill="#4285F4"
+                                />
+                                <path
+                                  d="M12 23C15.24 23 17.95 21.92 19.28 20.34L15.71 17.57C14.74 18.22 13.48 18.63 12 18.63C8.91 18.63 6.26 16.67 5.39 13.86H1.71V16.71C3.03 19.35 7.26 23 12 23Z"
+                                  fill="#34A853"
+                                />
+                                <path
+                                  d="M5.39 13.86C5.17 13.21 5.05 12.51 5.05 11.77S5.17 10.33 5.39 9.68V6.83H1.71C0.98 8.29 0.56 9.97 0.56 11.77S0.98 15.25 1.71 16.71L5.39 13.86Z"
+                                  fill="#FBBC05"
+                                />
+                                <path
+                                  d="M12 4.91C13.62 4.91 15.06 5.47 16.18 6.54L19.34 3.38C17.95 2.09 15.24 1.32 12 1.32C7.26 1.32 3.03 4.97 1.71 7.61L5.39 10.46C6.26 7.65 8.91 4.91 12 4.91Z"
+                                  fill="#EA4335"
+                                />
+                              </svg>
+                              <span className="font-medium text-gray-700">
+                                Pay
+                              </span>
+                            </>
+                          )}
                         </button>
                       )}
                     </div>
@@ -583,7 +630,7 @@ const PaymentMethod = () => {
                         cardValidationErrors.cardNumber
                           ? "border-none bg-red-500/10"
                           : "bg-primary-bg/5 border-transparent"
-                      }`}
+                      } ${isLoading ? "opacity-50 pointer-events-none" : ""}`}
                     ></div>
                     {cardValidationErrors.cardNumber && (
                       <p className="text-red-500 text-sm">
@@ -599,7 +646,7 @@ const PaymentMethod = () => {
                         cardValidationErrors.cardExpiry
                           ? "border-none bg-red-500/10"
                           : "bg-primary-bg/5 border-transparent"
-                      }`}
+                      } ${isLoading ? "opacity-50 pointer-events-none" : ""}`}
                     ></div>
                     {cardValidationErrors.cardExpiry && (
                       <p className="text-red-500 text-sm">
@@ -615,7 +662,7 @@ const PaymentMethod = () => {
                         cardValidationErrors.cardCvc
                           ? "border-none bg-red-500/10"
                           : "bg-primary-bg/5 border-transparent"
-                      }`}
+                      } ${isLoading ? "opacity-50 pointer-events-none" : ""}`}
                     ></div>
                     {cardValidationErrors.cardCvc && (
                       <p className="text-red-500 text-sm">
@@ -653,12 +700,15 @@ const PaymentMethod = () => {
         <Button
           onClick={handlePayment}
           className="px-6 py-3.5 button-gradient text-white hover:bg-primary-bg/95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-bg h-12 rounded-lg w-full sm:w-40"
-          disabled={!stripe || loading}
+          disabled={!stripe || isLoading}
         >
-          {loading ? (
-            <Loader2 className="animate-spin h-5 w-5 mx-auto" />
+          {isLoading ? (
+            <div className="flex items-center gap-2">
+              <Loader2 className="animate-spin h-5 w-5" />
+              <span className="hidden sm:inline">{getLoadingText()}</span>
+            </div>
           ) : (
-            t("paymentMethod.completePayment")
+            getLoadingText()
           )}
         </Button>
       </div>
@@ -676,12 +726,15 @@ const PaymentMethod = () => {
             onClick={handlePayment}
             variant={"primary"}
             className="flex-1 px-6 py-3.5 h-12 rounded-lg"
-            disabled={!stripe || loading}
+            disabled={!stripe || isLoading}
           >
-            {loading ? (
-              <Loader2 className="animate-spin h-5 w-5 mx-auto" />
+            {isLoading ? (
+              <div className="flex items-center gap-2">
+                <Loader2 className="animate-spin h-5 w-5" />
+                <span>{getLoadingText()}</span>
+              </div>
             ) : (
-              t("paymentMethod.completePayment")
+              getLoadingText()
             )}
           </Button>
         </div>

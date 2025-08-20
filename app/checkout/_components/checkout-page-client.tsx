@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { MobileCheckoutBlock } from "@/app/search/_components/checkout-mobile-header";
 import SecondaryFooter from "@/components/SecondaryFooter";
 import CheckoutForm from "@/components/forms/CheckoutForm";
@@ -11,11 +11,12 @@ import { CarrierTerms } from "./CarrierTerms";
 const CheckoutClientPage = () => {
   const router = useRouter();
   const { selectedTicket, outboundTicket, returnTicket } = useCheckoutStore();
+  const path = usePathname();
 
   useEffect(() => {
     const hasTickets = selectedTicket || outboundTicket || returnTicket;
 
-    if (!hasTickets) {
+    if (!hasTickets && path !== "/checkout/success") {
       router.push("/");
     }
   }, [selectedTicket, outboundTicket, returnTicket, router]);

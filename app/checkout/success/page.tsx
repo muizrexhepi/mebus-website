@@ -1,24 +1,68 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { CheckCircle, Download, FileText } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import {
+  CheckCircle,
+  Download,
+  FileText,
+  Wallet,
+  MapPin,
+  Clock,
+  Calendar,
+  ArrowRight,
+} from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { usePaymentSuccessStore } from "@/store";
 import axios from "axios";
+import moment from "moment-timezone";
 
 const SuccessPage: React.FC = () => {
   const { isPaymentSuccess, bookingDetails } = usePaymentSuccessStore();
+  const [walletSupport, setWalletSupport] = useState<{
+    supported: boolean;
+    platform: "ios" | "google" | null;
+  }>({
+    supported: false,
+    platform: null,
+  });
+
+  // Detect wallet support based on platform
+  useEffect(() => {
+    const userAgent = navigator.userAgent;
+    const isIOS =
+      /iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream;
+    const isChrome =
+      /Chrome/.test(userAgent) && /Google Inc/.test(navigator.vendor);
+
+    if (isIOS) {
+      setWalletSupport({ supported: true, platform: "ios" });
+    } else if (isChrome) {
+      setWalletSupport({ supported: true, platform: "google" });
+    } else {
+      setWalletSupport({ supported: false, platform: null });
+    }
+  }, []);
 
   if (!isPaymentSuccess || !bookingDetails) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-background">
-        <div className="w-full max-w-2xl text-center">
-          <h1 className="text-2xl font-bold mb-4">Payment Failed</h1>
-          <p className="text-muted-foreground">
-            Something went wrong with your payment. Please try again.
-          </p>
+      <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-50">
+        <div className="w-full max-w-md text-center space-y-6">
+          <div className="mx-auto w-16 h-16 bg-red-50 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 text-red-500 text-2xl font-bold">!</div>
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              Payment Failed
+            </h1>
+            <p className="text-gray-600">
+              Something went wrong with your payment. Please try again.
+            </p>
+          </div>
+          <Button asChild className="w-full">
+            <Link href="/">Return Home</Link>
+          </Button>
         </div>
       </div>
     );
@@ -36,20 +80,33 @@ const SuccessPage: React.FC = () => {
       });
 
       const blob = new Blob([response.data], { type: "application/pdf" });
-
       const url = window.URL.createObjectURL(blob);
-
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", "ticket.pdf");
-
+      link.setAttribute("download", `ticket-${bookingDetails.bookingId}.pdf`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Error downloading PDF:", error);
+    }
+  };
+
+  const addToWallet = async () => {
+    try {
+      const endpoint =
+        walletSupport.platform === "ios"
+          ? `${process.env.NEXT_PUBLIC_API_URL}/wallet/ios/${bookingDetails.bookingId}`
+          : `${process.env.NEXT_PUBLIC_API_URL}/wallet/google/${bookingDetails.bookingId}`;
+
+      const response = await axios.post(endpoint);
+
+      if (response.data?.walletUrl) {
+        window.open(response.data.walletUrl, "_blank");
+      }
+    } catch (error) {
+      console.error("Error adding to wallet:", error);
     }
   };
 
@@ -57,140 +114,155 @@ const SuccessPage: React.FC = () => {
     downloadPdf();
   }, []);
 
-  // const downloadPDF = () => {
-
-  //   const doc = new jsPDF();
-  //   const pageWidth = doc.internal.pageSize.width;
-  //   const pageHeight = doc.internal.pageSize.height;
-  //   const margin = 20;
-  //   let yPos = margin;
-
-  //   const addText = (
-  //     text: string,
-  //     fontSize: number,
-  //     isBold: boolean = false
-  //   ) => {
-  //     doc.setFontSize(fontSize);
-  //     doc.setFont(isBold ? "bold" : "normal");
-  //     doc.text(text, margin, yPos);
-  //     yPos += fontSize / 2 + 5;
-  //   };
-
-  //   addText("Payment Confirmation", 24, true);
-  //   yPos += 10;
-
-  //   addText("Transaction Details", 16, true);
-  //   addText(`Booking ID: ${bookingDetails.bookingId}`, 12);
-  //   addText(`Payment Intent ID: ${bookingDetails.transactionId || "N/A"}`, 12);
-  //   addText(`Amount Paid: $${bookingDetails.price.toFixed(2)}`, 12);
-  //   yPos += 10;
-
-  //   addText("Travel Details", 16, true);
-  //   addText(`From: ${bookingDetails.departureStation}`, 12);
-  //   addText(`To: ${bookingDetails.arrivalStation}`, 12);
-  //   addText(`Departure: ${bookingDetails.departureDate.toLocaleString()}`, 12);
-  //   addText(`Operator: ${bookingDetails.operator || "Unknown Operator"}`, 12);
-
-  //   doc.setFontSize(10);
-  //   doc.text(
-  //     "Thank you for choosing our service!",
-  //     margin,
-  //     pageHeight - margin
-  //   );
-
-  //   doc.save("ticket.pdf");
-  // };
-
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-background">
-      <div className="w-full max-w-2xl space-y-6">
-        <div className="text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100">
+    <div className="min-h-screen bg-gray-50 p-4 pb-24">
+      <div className="max-w-lg mx-auto space-y-6">
+        {/* Success Header */}
+        <div className="text-center py-6">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
             <CheckCircle
-              className="h-10 w-10 text-emerald-600"
+              className="h-8 w-8 text-green-600"
               aria-hidden="true"
             />
           </div>
-          <h1 className="text-2xl font-bold mb-2">Payment Successful!</h1>
-          <p className="text-muted-foreground">
-            Thank you for your purchase. Below are the details of your
-            successful transaction.
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            Payment Successful!
+          </h1>
+          <p className="text-gray-600">
+            Thank you for your purchase. Your booking has been confirmed.
           </p>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Transaction Details</CardTitle>
+        {/* Journey Card */}
+        <Card className="shadow-sm">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg font-semibold">
+              Your Journey
+            </CardTitle>
           </CardHeader>
-          <CardContent className="grid gap-2 text-sm">
-            <div className="flex justify-between">
-              <span className="font-medium">Booking ID:</span>
-              <span className="text-muted-foreground">
+          <CardContent className="space-y-4">
+            {/* Route */}
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <div className="flex items-center text-sm text-gray-500 mb-1">
+                  <MapPin className="w-4 h-4 mr-1" />
+                  From
+                </div>
+                <div className="font-medium text-gray-900 text-sm">
+                  {bookingDetails.departureStation}
+                </div>
+              </div>
+
+              <div className="flex-shrink-0 mx-4">
+                <ArrowRight className="w-5 h-5 text-gray-400" />
+              </div>
+
+              <div className="flex-1 text-right">
+                <div className="flex items-center justify-end text-sm text-gray-500 mb-1">
+                  To
+                  <MapPin className="w-4 h-4 ml-1" />
+                </div>
+                <div className="font-medium text-gray-900 text-sm">
+                  {bookingDetails.arrivalStation}
+                </div>
+              </div>
+            </div>
+
+            {/* Date and Time */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-gray-50 rounded-lg p-3">
+                <div className="flex items-center text-gray-600 text-xs mb-1">
+                  <Calendar className="w-4 h-4 mr-1" />
+                  Date
+                </div>
+                <div className="text-sm font-medium text-gray-900">
+                  {bookingDetails.departureDate.toLocaleDateString()}
+                </div>
+              </div>
+
+              <div className="bg-gray-50 rounded-lg p-3">
+                <div className="flex items-center text-gray-600 text-xs mb-1">
+                  <Clock className="w-4 h-4 mr-1" />
+                  Time
+                </div>
+                <div className="text-sm font-medium text-gray-900">
+                  {moment.utc(bookingDetails?.departureDate).format("HH:mm")}
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-2 border-t border-gray-100">
+              <div className="text-xs text-gray-500 mb-1">Operator</div>
+              <div className="text-sm font-medium text-gray-900">
+                {bookingDetails.operator || "Bus Operator"}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Transaction Details */}
+        <div className="space-y-3">
+          {/* <Button
+            onClick={downloadPdf}
+            variant={"primary"}
+            className="w-full h-12 text-white"
+          >
+            <Download className="w-4 h-4 mr-2" />
+            Download Ticket
+          </Button> */}
+
+          <div className="grid grid-cols-2 gap-3">
+            <Button asChild variant="outline" className="h-12">
+              <Link href="/account/bookings">
+                <FileText className="w-4 h-4 mr-2" />
+                My Bookings
+              </Link>
+            </Button>
+
+            {walletSupport.supported && (
+              <Button onClick={addToWallet} variant="primary" className="h-12">
+                <Wallet className="w-4 h-4 mr-2" />
+                Add to Wallet
+              </Button>
+            )}
+          </div>
+        </div>
+        <Card className="shadow-sm">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg font-semibold">
+              Transaction Details
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">Booking ID</span>
+              <span className="text-sm font-mono text-gray-900">
                 {bookingDetails.bookingId}
               </span>
             </div>
-            <div className="flex justify-between">
-              <span className="font-medium">Payment Intent ID:</span>
-              <span className="text-muted-foreground">
-                {bookingDetails.transactionId || "N/A"}
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-600">Payment ID</span>
+              <span className="text-xs font-mono text-gray-900">
+                {bookingDetails.transactionId?.slice(-12) || "N/A"}
               </span>
             </div>
-            <div className="flex justify-between">
-              <span className="font-medium">Amount Paid:</span>
-              <span className="text-muted-foreground">
-                ${bookingDetails.price.toFixed(2)}
-              </span>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Travel Details</CardTitle>
-          </CardHeader>
-          <CardContent className="grid gap-2 text-sm">
-            <div className="flex justify-between">
-              <span className="font-medium">From:</span>
-              <span className="text-muted-foreground">
-                {bookingDetails.departureStation}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="font-medium">To:</span>
-              <span className="text-muted-foreground">
-                {bookingDetails.arrivalStation}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="font-medium">Departure:</span>
-              <span className="text-muted-foreground">
-                {bookingDetails.departureDate.toLocaleString()}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="font-medium">Operator:</span>
-              <span className="text-muted-foreground">
-                {bookingDetails.operator || "Unknown Operator"}
+            <div className="flex justify-between items-center pt-2 border-t border-gray-100">
+              <span className="font-medium text-gray-900">Amount Paid</span>
+              <span className="font-bold text-lg text-gray-900">
+                €{bookingDetails.price.toFixed(2)}
               </span>
             </div>
           </CardContent>
         </Card>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button asChild className="w-full sm:w-auto">
-            <Link href="/account/bookings">
-              <FileText className="mr-2 h-4 w-4" aria-hidden="true" />
-              View My Bookings
-            </Link>
-          </Button>
-          {/* <Button
-            variant="outline"
-            className="w-full sm:w-auto"
-            onClick={downloadPdf}
-          >
-            <Download className="mr-2 h-4 w-4" aria-hidden="true" />
-            Download Ticket
-          </Button> */}
+        {/* Action Buttons */}
+
+        {/* Quick tip */}
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <p className="text-sm text-blue-800">
+            <strong>Pro tip:</strong> Arrive at the station 15 minutes before
+            departure and keep your ticket ready for inspection.
+          </p>
         </div>
       </div>
     </div>
