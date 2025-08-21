@@ -4,6 +4,7 @@ import type { ConnectedTicket } from "@/models/connected-ticket";
 import { calculatePassengerPrices } from "@/components/hooks/use-passengers";
 import { usePaymentSuccessStore } from "@/store";
 import { isConnectedTicket } from "@/lib/utils";
+import { getLanguageFromCookies } from "@/lib/i18next";
 
 export interface CreatePaymentIntentParams {
   passengers: any[];
@@ -315,7 +316,7 @@ export async function createBooking(params: CreateBookingParams) {
         stop: ticket.stops[0],
         is_return: isReturn,
         affiliate_code: affiliateCode,
-        // Pass through any connected journey metadata
+        gobusly_language: getLanguageFromCookies() || "en",
         ...ticket.metadata,
       }
     );

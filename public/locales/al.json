@@ -387,7 +387,10 @@
     "searchButton": {
       "default": "Kërko",
       "submitting": "Duke kërkuar..."
-    }
+    },
+    "selectDepartureCity": "Zgjidh qytetin e nisjes",
+    "selectDestinationCity": "Zgjidh qytetin e destinacionit",
+    "popularCities": "Qytete të njohura"
   },
   "auth": {
     "logout": "Shkyçuni",

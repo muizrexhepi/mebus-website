@@ -11,6 +11,11 @@ import {
 import { Check, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import {
+  getLanguageFromCookies,
+  setLanguageCookie,
+  type SupportedLanguage,
+} from "@/lib/i18next";
 
 export const languages = [
   { code: "en", label: "English" },
@@ -24,21 +29,26 @@ export const languages = [
 
 export default function LanguageSelector() {
   const { i18n } = useTranslation();
-  const [selectedLanguage, setSelectedLanguage] = useState(
-    localStorage.getItem("language") || "en"
-  );
+  const [selectedLanguage, setSelectedLanguage] =
+    useState<SupportedLanguage>("en");
 
   useEffect(() => {
-    localStorage.setItem("language", selectedLanguage);
-    i18n.changeLanguage(selectedLanguage);
-  }, [selectedLanguage, i18n]);
+    const cookieLanguage = getLanguageFromCookies();
+    setSelectedLanguage(cookieLanguage);
+  }, []);
+
+  const handleLanguageChange = async (languageCode: SupportedLanguage) => {
+    setSelectedLanguage(languageCode);
+    setLanguageCookie(languageCode);
+    await i18n.changeLanguage(languageCode);
+  };
 
   const selectedLang = languages.find((lang) => lang.code === selectedLanguage);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="focus:outline-none">
-        <div className="flex items-center gap-2 ">
+        <div className="flex items-center gap-2">
           <Image
             src={`/assets/flags/${selectedLang?.code}.svg`}
             alt={selectedLang?.label || ""}
@@ -54,7 +64,7 @@ export default function LanguageSelector() {
           <DropdownMenuItem
             key={lang.code}
             className="flex items-center justify-between cursor-pointer"
-            onClick={() => setSelectedLanguage(lang.code)}
+            onClick={() => handleLanguageChange(lang.code as SupportedLanguage)}
           >
             <div className="flex items-center justify-between w-full px-2">
               <div className="flex items-center gap-2">

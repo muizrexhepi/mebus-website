@@ -13,12 +13,33 @@ export const languageResources = {
   es: { translation: es },
 };
 
-export const getLanguageFromLocalStorage = () => {
+export type SupportedLanguage = keyof typeof languageResources;
+
+export const LANGUAGE_COOKIE_NAME = "gobusly_language";
+
+// Client-side cookie helpers
+export const getLanguageFromCookies = (): SupportedLanguage => {
   if (typeof window !== "undefined") {
-    const savedLanguage = localStorage.getItem("language");
-    return savedLanguage || "en";
+    const cookies = document.cookie.split(";");
+    const languageCookie = cookies.find((cookie) =>
+      cookie.trim().startsWith(`${LANGUAGE_COOKIE_NAME}=`)
+    );
+    if (languageCookie) {
+      const language = languageCookie.split("=")[1] as SupportedLanguage;
+      return language in languageResources ? language : "en";
+    }
   }
   return "en";
+};
+
+export const setLanguageCookie = (language: SupportedLanguage): void => {
+  if (typeof window !== "undefined") {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + 365 * 24 * 60 * 60 * 1000);
+    document.cookie = `${LANGUAGE_COOKIE_NAME}=${language}; expires=${expires.toUTCString()}; path=/; SameSite=Lax${
+      process.env.NODE_ENV === "production" ? "; Secure" : ""
+    }`;
+  }
 };
 
 i18n
@@ -26,7 +47,7 @@ i18n
   .use(initReactI18next)
   .init({
     compatibilityJSON: "v3",
-    lng: getLanguageFromLocalStorage(),
+    lng: getLanguageFromCookies(),
     fallbackLng: "en",
     resources: languageResources,
     debug: process.env.NODE_ENV === "development",
@@ -34,8 +55,15 @@ i18n
       escapeValue: false,
     },
     detection: {
-      order: ["localStorage", "navigator"],
-      caches: ["localStorage"],
+      order: ["cookie", "navigator"],
+      caches: ["cookie"],
+      lookupCookie: LANGUAGE_COOKIE_NAME,
+      cookieMinutes: 525600, // 1 year in minutes
+      cookieOptions: {
+        path: "/",
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+      },
     },
   });
 

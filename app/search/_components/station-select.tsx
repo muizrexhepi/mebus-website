@@ -14,28 +14,125 @@ import { IoMdLocate } from "react-icons/io";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 
-// Levenshtein distance function
-const levenshteinDistance = (str1: string, str2: string) => {
-  const track = Array(str2.length + 1)
+// Levenshtein distance calculation
+const levenshteinDistance = (a: string, b: string): number => {
+  if (a.length === 0) return b.length;
+  if (b.length === 0) return a.length;
+
+  const matrix = Array(b.length + 1)
     .fill(null)
-    .map(() => Array(str1.length + 1).fill(null));
-  for (let i = 0; i <= str1.length; i += 1) {
-    track[0][i] = i;
+    .map(() => Array(a.length + 1).fill(null));
+
+  for (let i = 0; i <= a.length; i += 1) {
+    matrix[0][i] = i;
   }
-  for (let j = 0; j <= str2.length; j += 1) {
-    track[j][0] = j;
+
+  for (let j = 0; j <= b.length; j += 1) {
+    matrix[j][0] = j;
   }
-  for (let j = 1; j <= str2.length; j += 1) {
-    for (let i = 1; i <= str1.length; i += 1) {
-      const indicator = str1[i - 1] === str2[j - 1] ? 0 : 1;
-      track[j][i] = Math.min(
-        track[j][i - 1] + 1, // deletion
-        track[j - 1][i] + 1, // insertion
-        track[j - 1][i - 1] + indicator // substitution
+
+  for (let j = 1; j <= b.length; j += 1) {
+    for (let i = 1; i <= a.length; i += 1) {
+      const indicator = a[i - 1] === b[j - 1] ? 0 : 1;
+      matrix[j][i] = Math.min(
+        matrix[j][i - 1] + 1, // deletion
+        matrix[j - 1][i] + 1, // insertion
+        matrix[j - 1][i - 1] + indicator // substitution
       );
     }
   }
-  return track[str2.length][str1.length];
+
+  return matrix[b.length][a.length];
+};
+
+// Improved search algorithm with multiple scoring strategies
+const calculateSearchScore = (station: Station, searchTerm: string): number => {
+  const searchLower = searchTerm.toLowerCase().trim();
+  const cityLower = station.city.toLowerCase();
+  const countryLower = station.country?.toLowerCase() || "";
+
+  if (!searchLower) return 0;
+
+  // Helper function to normalize strings (remove diacritics, etc.)
+  const normalize = (str: string) => {
+    return str
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "") // Remove diacritics
+      .replace(/[^a-z0-9\s]/g, "") // Remove special characters
+      .trim();
+  };
+
+  const normalizedSearch = normalize(searchLower);
+  const normalizedCity = normalize(cityLower);
+  const normalizedCountry = normalize(countryLower);
+
+  let bestScore = 0;
+
+  // Check both city and country for all scoring methods
+  const candidates = [
+    { text: cityLower, normalized: normalizedCity, isCity: true },
+    { text: countryLower, normalized: normalizedCountry, isCity: false },
+  ];
+
+  for (const candidate of candidates) {
+    if (!candidate.text) continue;
+
+    let score = 0;
+
+    // 1. Exact match (highest priority)
+    if (
+      candidate.text === searchLower ||
+      candidate.normalized === normalizedSearch
+    ) {
+      score = 1000;
+    }
+    // 2. Starts with match (very high priority)
+    else if (
+      candidate.text.startsWith(searchLower) ||
+      candidate.normalized.startsWith(normalizedSearch)
+    ) {
+      score = 900 - searchLower.length; // Prefer longer matches
+    }
+    // 3. Word boundary match (high priority)
+    else if (
+      candidate.text.includes(" " + searchLower) ||
+      candidate.normalized.includes(" " + normalizedSearch)
+    ) {
+      score = 800;
+    }
+    // 4. Contains match (medium-high priority)
+    else if (
+      candidate.text.includes(searchLower) ||
+      candidate.normalized.includes(normalizedSearch)
+    ) {
+      score = 700 - candidate.text.indexOf(searchLower); // Prefer matches closer to start
+    }
+    // 5. Fuzzy match using Levenshtein distance
+    else {
+      const distance1 = levenshteinDistance(searchLower, candidate.text);
+      const distance2 = levenshteinDistance(
+        normalizedSearch,
+        candidate.normalized
+      );
+      const minDistance = Math.min(distance1, distance2);
+      const maxLength = Math.max(searchLower.length, candidate.text.length);
+
+      // Only consider if similarity is reasonable
+      if (minDistance <= Math.max(2, Math.floor(maxLength * 0.4))) {
+        const similarity = 1 - minDistance / maxLength;
+        score = Math.floor(similarity * 600); // Max 600 for fuzzy matches
+      }
+    }
+
+    // Boost city matches slightly over country matches
+    if (candidate.isCity && score > 0) {
+      score += 10;
+    }
+
+    bestScore = Math.max(bestScore, score);
+  }
+
+  return bestScore;
 };
 
 interface CustomSelectProps {
@@ -75,42 +172,32 @@ const StationSelect: React.FC<CustomSelectProps> = ({
     }
   }, [departure, fromCity, toCity]);
 
-  // Filter stations based on search term using Levenshtein distance
+  // Filter stations using improved search algorithm
   useEffect(() => {
-    if (!searchTerm) {
+    if (!searchTerm.trim()) {
       setFilteredStations(stations);
       return;
     }
 
-    const searchTermLower = searchTerm.toLowerCase();
-    const stationsWithDistance = stations.map((station) => {
-      const cityNameLower = station.city.toLowerCase();
-      const distance = levenshteinDistance(searchTermLower, cityNameLower);
-      return { station, distance, cityNameLower };
-    });
-
-    const maxDistance = Math.min(3, searchTermLower.length);
-    const sortedFilteredStations = stationsWithDistance
-      .filter(
-        (item) =>
-          item.distance <= maxDistance ||
-          item.cityNameLower.includes(searchTermLower)
-      )
-      .sort((a, b) => a.distance - b.distance)
+    // Calculate scores for all stations
+    const stationsWithScores = stations
+      .map((station) => ({
+        station,
+        score: calculateSearchScore(station, searchTerm),
+      }))
+      .filter((item) => item.score > 0)
+      .sort((a, b) => {
+        // Sort by score (descending), then by city name length (ascending), then alphabetically
+        if (b.score !== a.score) return b.score - a.score;
+        if (a.station.city.length !== b.station.city.length) {
+          return a.station.city.length - b.station.city.length;
+        }
+        return a.station.city.localeCompare(b.station.city);
+      })
+      .slice(0, 30) // Limit results for performance
       .map((item) => item.station);
 
-    const exactMatches = stations.filter((station) =>
-      station.city.toLowerCase().includes(searchTermLower)
-    );
-
-    const result = [...exactMatches];
-    for (const station of sortedFilteredStations) {
-      if (!result.some((s) => s._id === station._id)) {
-        result.push(station);
-      }
-    }
-
-    setFilteredStations(result);
+    setFilteredStations(stationsWithScores);
   }, [searchTerm, stations]);
 
   const handleSelect = useCallback(

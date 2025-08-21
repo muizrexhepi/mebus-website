@@ -389,7 +389,10 @@
     "searchButton": {
       "default": "Пребарај",
       "submitting": "Пребарување..."
-    }
+    },
+    "selectDepartureCity": "Изберете град на поаѓање",
+    "selectDestinationCity": "Изберете град на дестинација",
+    "popularCities": "Популарни градови"
   },
   "auth": {
     "logout": "Одјави се",

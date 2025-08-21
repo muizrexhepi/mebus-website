@@ -404,7 +404,10 @@
     "searchButton": {
       "default": "Suchen",
       "submitting": "Suche läuft..."
-    }
+    },
+    "selectDepartureCity": "Abfahrtsstadt auswählen",
+    "selectDestinationCity": "Zielstadt auswählen",
+    "popularCities": "Beliebte Städte"
   },
   "auth": {
     "logout": "Abmelden",

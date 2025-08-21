@@ -427,7 +427,10 @@
     "searchButton": {
       "default": "Buscar",
       "submitting": "Buscando..."
-    }
+    },
+    "selectDepartureCity": "Selecciona la ciudad de salida",
+    "selectDestinationCity": "Selecciona la ciudad de destino",
+    "popularCities": "Ciudades populares"
   },
   "auth": {
     "logout": "Cerrar sesión",

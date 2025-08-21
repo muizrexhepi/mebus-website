@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import {
   Dialog,
   DialogContent,
@@ -16,27 +16,125 @@ import { ArrowLeft, Search, Clock } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Station } from "@/models/station";
 
-const levenshteinDistance = (str1: string, str2: string) => {
-  const track = Array(str2.length + 1)
+// Levenshtein distance calculation
+const levenshteinDistance = (a: string, b: string): number => {
+  if (a.length === 0) return b.length;
+  if (b.length === 0) return a.length;
+
+  const matrix = Array(b.length + 1)
     .fill(null)
-    .map(() => Array(str1.length + 1).fill(null));
-  for (let i = 0; i <= str1.length; i += 1) {
-    track[0][i] = i;
+    .map(() => Array(a.length + 1).fill(null));
+
+  for (let i = 0; i <= a.length; i += 1) {
+    matrix[0][i] = i;
   }
-  for (let j = 0; j <= str2.length; j += 1) {
-    track[j][0] = j;
+
+  for (let j = 0; j <= b.length; j += 1) {
+    matrix[j][0] = j;
   }
-  for (let j = 1; j <= str2.length; j += 1) {
-    for (let i = 1; i <= str1.length; i += 1) {
-      const indicator = str1[i - 1] === str2[j - 1] ? 0 : 1;
-      track[j][i] = Math.min(
-        track[j][i - 1] + 1,
-        track[j - 1][i] + 1,
-        track[j - 1][i - 1] + indicator
+
+  for (let j = 1; j <= b.length; j += 1) {
+    for (let i = 1; i <= a.length; i += 1) {
+      const indicator = a[i - 1] === b[j - 1] ? 0 : 1;
+      matrix[j][i] = Math.min(
+        matrix[j][i - 1] + 1, // deletion
+        matrix[j - 1][i] + 1, // insertion
+        matrix[j - 1][i - 1] + indicator // substitution
       );
     }
   }
-  return track[str2.length][str1.length];
+
+  return matrix[b.length][a.length];
+};
+
+// Improved search algorithm with multiple scoring strategies
+const calculateSearchScore = (station: Station, searchTerm: string): number => {
+  const searchLower = searchTerm.toLowerCase().trim();
+  const cityLower = station.city.toLowerCase();
+  const countryLower = station.country?.toLowerCase() || "";
+
+  if (!searchLower) return 0;
+
+  // Helper function to normalize strings (remove diacritics, etc.)
+  const normalize = (str: string) => {
+    return str
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "") // Remove diacritics
+      .replace(/[^a-z0-9\s]/g, "") // Remove special characters
+      .trim();
+  };
+
+  const normalizedSearch = normalize(searchLower);
+  const normalizedCity = normalize(cityLower);
+  const normalizedCountry = normalize(countryLower);
+
+  let bestScore = 0;
+
+  // Check both city and country for all scoring methods
+  const candidates = [
+    { text: cityLower, normalized: normalizedCity, isCity: true },
+    { text: countryLower, normalized: normalizedCountry, isCity: false },
+  ];
+
+  for (const candidate of candidates) {
+    if (!candidate.text) continue;
+
+    let score = 0;
+
+    // 1. Exact match (highest priority)
+    if (
+      candidate.text === searchLower ||
+      candidate.normalized === normalizedSearch
+    ) {
+      score = 1000;
+    }
+    // 2. Starts with match (very high priority)
+    else if (
+      candidate.text.startsWith(searchLower) ||
+      candidate.normalized.startsWith(normalizedSearch)
+    ) {
+      score = 900 - searchLower.length; // Prefer longer matches
+    }
+    // 3. Word boundary match (high priority)
+    else if (
+      candidate.text.includes(" " + searchLower) ||
+      candidate.normalized.includes(" " + normalizedSearch)
+    ) {
+      score = 800;
+    }
+    // 4. Contains match (medium-high priority)
+    else if (
+      candidate.text.includes(searchLower) ||
+      candidate.normalized.includes(normalizedSearch)
+    ) {
+      score = 700 - candidate.text.indexOf(searchLower); // Prefer matches closer to start
+    }
+    // 5. Fuzzy match using Levenshtein distance
+    else {
+      const distance1 = levenshteinDistance(searchLower, candidate.text);
+      const distance2 = levenshteinDistance(
+        normalizedSearch,
+        candidate.normalized
+      );
+      const minDistance = Math.min(distance1, distance2);
+      const maxLength = Math.max(searchLower.length, candidate.text.length);
+
+      // Only consider if similarity is reasonable
+      if (minDistance <= Math.max(2, Math.floor(maxLength * 0.4))) {
+        const similarity = 1 - minDistance / maxLength;
+        score = Math.floor(similarity * 600); // Max 600 for fuzzy matches
+      }
+    }
+
+    // Boost city matches slightly over country matches
+    if (candidate.isCity && score > 0) {
+      score += 10;
+    }
+
+    bestScore = Math.max(bestScore, score);
+  }
+
+  return bestScore;
 };
 
 interface CitySelectDialogProps {
@@ -61,6 +159,7 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [showRecent, setShowRecent] = useState(true);
   const [filteredStations, setFilteredStations] = useState<Station[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
 
   const recentStations = JSON.parse(
@@ -68,6 +167,17 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
       departure === "from" ? "recentFromStations" : "recentToStations"
     ) || "[]"
   );
+
+  // Autofocus when dialog opens
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      // Use setTimeout to ensure the dialog is fully rendered
+      const timer = setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
 
   // Group stations by country
   const groupedStations = useMemo(() => {
@@ -93,44 +203,33 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
 
   // Update filtered stations when search term changes
   useEffect(() => {
-    if (!searchTerm) {
-      setFilteredStations(stations);
+    if (!searchTerm.trim()) {
+      setFilteredStations(stations); // Show all stations when no search
       setShowRecent(true);
       return;
     }
 
     setShowRecent(false);
-    const searchTermLower = searchTerm.toLowerCase();
 
-    const exactMatches = stations.filter(
-      (station) =>
-        station.city.toLowerCase().includes(searchTermLower) ||
-        station.country?.toLowerCase().includes(searchTermLower)
-    );
-
-    const stationsWithDistance = stations.map((station) => {
-      const cityNameLower = station.city.toLowerCase();
-      const countryNameLower = station.country?.toLowerCase() || "";
-      const cityDistance = levenshteinDistance(searchTermLower, cityNameLower);
-      const countryDistance = levenshteinDistance(
-        searchTermLower,
-        countryNameLower
-      );
-      const distance = Math.min(cityDistance, countryDistance);
-      return { station, distance };
-    });
-
-    const maxDistance = Math.min(3, searchTermLower.length);
-    const fuzzyMatches = stationsWithDistance
-      .filter(
-        (item) =>
-          item.distance <= maxDistance &&
-          !exactMatches.some((exact) => exact._id === item.station._id)
-      )
-      .sort((a, b) => a.distance - b.distance)
+    // Calculate scores for all stations
+    const stationsWithScores = stations
+      .map((station) => ({
+        station,
+        score: calculateSearchScore(station, searchTerm),
+      }))
+      .filter((item) => item.score > 0)
+      .sort((a, b) => {
+        // Sort by score (descending), then by city name length (ascending), then alphabetically
+        if (b.score !== a.score) return b.score - a.score;
+        if (a.station.city.length !== b.station.city.length) {
+          return a.station.city.length - b.station.city.length;
+        }
+        return a.station.city.localeCompare(b.station.city);
+      })
+      .slice(0, 30) // Limit results for performance
       .map((item) => item.station);
 
-    setFilteredStations([...exactMatches, ...fuzzyMatches]);
+    setFilteredStations(stationsWithScores);
   }, [searchTerm, stations]);
 
   const handleStationSelect = (station: Station) => {
@@ -138,26 +237,13 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
     setSearchTerm("");
   };
 
-  const getCountryFlag = (country: string) => {
-    const flagMap: { [key: string]: string } = {
-      kosovo: "🇽🇰",
-      albania: "🇦🇱",
-      "north macedonia": "🇲🇰",
-      macedonia: "🇲🇰",
-      serbia: "🇷🇸",
-      montenegro: "🇲🇪",
-      bosnia: "🇧🇦",
-      croatia: "🇭🇷",
-      slovenia: "🇸🇮",
-      germany: "🇩🇪",
-      switzerland: "🇨🇭",
-      austria: "🇦🇹",
-    };
-    return flagMap[country.toLowerCase()] || "🌍";
+  const handleClose = () => {
+    setSearchTerm("");
+    onClose();
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent
         hideCloseButton={true}
         className="sm:max-w-[425px] h-full sm:h-[90vh] max-h-[100vh] flex flex-col p-0 gap-0 rounded-none sm:rounded-2xl"
@@ -168,15 +254,18 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
             <Button
               variant="ghost"
               size="icon"
-              onClick={onClose}
+              onClick={handleClose}
               className="h-10 w-10 rounded-full hover:bg-gray-200 transition-colors"
             >
               <ArrowLeft className="h-5 w-5 text-gray-700" />
             </Button>
             <DialogTitle className="text-lg font-medium text-gray-900">
               {departure === "from"
-                ? "Select departure city"
-                : "Select destination city"}
+                ? t("searchForm.selectDepartureCity", "Select departure city")
+                : t(
+                    "searchForm.selectDestinationCity",
+                    "Select destination city"
+                  )}
             </DialogTitle>
           </div>
         </DialogHeader>
@@ -186,14 +275,17 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <Input
+              ref={inputRef}
               type="text"
               placeholder={t(
                 "searchForm.stationPlaceholder",
                 "Search cities or countries..."
               )}
+              autoFocus
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-11 h-12 bg-gray-50 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
+              autoComplete="off"
             />
           </div>
         </div>
@@ -219,6 +311,9 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
                         >
                           <span className="text-lg font-normal text-black capitalize">
                             {station.city}
+                          </span>{" "}
+                          <span className="text-sm text-gray-500 capitalize">
+                            {station.country}
                           </span>
                           <Clock className="w-5 h-5 text-gray-500" />
                         </Button>
@@ -234,7 +329,7 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
                 <h3 className="font-semibold text-lg text-gray-900 mb-4">
                   {searchTerm
                     ? t("searchForm.searchResult", "Search Results")
-                    : "Popular Cities"}
+                    : t("searchForm.popularCities", "Popular Cities")}
                 </h3>
 
                 <div className="space-y-0">
@@ -250,11 +345,15 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
                                 onClick={() => handleStationSelect(station)}
                                 type="button"
                               >
-                                <span className="text-lg font-normal text-black capitalize">
-                                  {station.city}
-                                </span>
+                                <div className="flex flex-col items-start">
+                                  <span className="text-lg font-normal text-black capitalize">
+                                    {station.city}
+                                  </span>
+                                  <span className="text-sm text-gray-500 capitalize">
+                                    {station.country}
+                                  </span>
+                                </div>
                               </Button>
-                              {/* Add divider line except for last item */}
                               <div className="border-b border-gray-200" />
                             </div>
                           ))}
@@ -267,7 +366,10 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
                         {t("searchForm.noResults", "No results found")}
                       </p>
                       <p className="text-sm text-gray-400 mt-1">
-                        Try searching with different keywords
+                        {t(
+                          "searchForm.tryDifferentKeywords",
+                          "Try searching with different keywords"
+                        )}
                       </p>
                     </div>
                   ) : null}

@@ -405,7 +405,10 @@
     "searchButton": {
       "default": "Search",
       "submitting": "Searching..."
-    }
+    },
+    "selectDepartureCity": "Select departure city",
+    "selectDestinationCity": "Select destination city",
+    "popularCities": "Popular Cities"
   },
   "auth": {
     "logout": "Logout",

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useCallback } from "react";
 import { useCheckoutStore } from "@/store";
 import { useSearchParams } from "next/navigation";
-import { getLanguageFromLocalStorage } from "@/lib/i18next";
+import { getLanguageFromCookies } from "@/lib/i18next";
 
 // Client-side function to call API route
 async function saveToAPI(data: any) {
@@ -224,7 +224,7 @@ export function useAbandonedCheckout() {
       fromCity: outboundTicket?.stops?.[0]?.from?.city || "",
       toCity: outboundTicket?.stops?.[0]?.to?.city || "",
       sessionId: sessionId.current!,
-      language: getLanguageFromLocalStorage(), // Assuming English for now, can be dynamic
+      language: getLanguageFromCookies(), // Assuming English for now, can be dynamic
     };
   }, [passengers, outboundTicket, returnTicket, selectedFlex, flexPrice]);
 
