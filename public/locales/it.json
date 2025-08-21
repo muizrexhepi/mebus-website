@@ -412,6 +412,26 @@
     "emailPlaceholder": "Inserisci il tuo indirizzo email",
     "buttonText": "Ricevi Aggiornamenti"
   },
+  "paymentSuccess": {
+    "paymentSuccessful": "Pagamento riuscito!",
+    "paymentFailed": "Pagamento non riuscito",
+    "thankYou": "Grazie per il tuo acquisto. La tua prenotazione è stata confermata.",
+    "somethingWentWrong": "Si è verificato un errore durante il pagamento. Per favore riprova.",
+    "returnHome": "Torna alla home",
+    "yourJourney": "Il tuo viaggio",
+    "from": "Da",
+    "to": "A",
+    "date": "Data",
+    "time": "Ora",
+    "operator": "Operatore",
+    "transactionDetails": "Dettagli della transazione",
+    "bookingId": "ID prenotazione",
+    "paymentId": "ID pagamento",
+    "amountPaid": "Importo pagato",
+    "myBookings": "Le mie prenotazioni",
+    "addToWallet": "Aggiungi al Wallet",
+    "proTip": "Suggerimento: Arriva alla stazione 15 minuti prima della partenza e tieni pronto il biglietto per il controllo."
+  },
   "searchForm": {
     "from": "Da",
     "to": "A",

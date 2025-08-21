@@ -388,6 +388,26 @@
     "searchError": "Fehler beim Abrufen der Stationen.",
     "resetSearch": "Suche zurücksetzen"
   },
+  "paymentSuccess": {
+    "paymentSuccessful": "Zahlung erfolgreich!",
+    "paymentFailed": "Zahlung fehlgeschlagen",
+    "thankYou": "Vielen Dank für Ihren Kauf. Ihre Buchung wurde bestätigt.",
+    "somethingWentWrong": "Bei Ihrer Zahlung ist etwas schiefgelaufen. Bitte versuchen Sie es erneut.",
+    "returnHome": "Zurück nach Hause",
+    "yourJourney": "Ihre Reise",
+    "from": "Von",
+    "to": "Nach",
+    "date": "Datum",
+    "time": "Uhrzeit",
+    "operator": "Betreiber",
+    "transactionDetails": "Transaktionsdetails",
+    "bookingId": "Buchungs-ID",
+    "paymentId": "Zahlungs-ID",
+    "amountPaid": "Bezahlter Betrag",
+    "myBookings": "Meine Buchungen",
+    "addToWallet": "Zur Wallet hinzufügen",
+    "proTip": "Tipp: Kommen Sie 15 Minuten vor Abfahrt am Bahnhof an und halten Sie Ihr Ticket bereit."
+  },
   "searchForm": {
     "from": "Von",
     "to": "Nach",

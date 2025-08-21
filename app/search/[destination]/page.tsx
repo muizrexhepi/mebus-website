@@ -58,10 +58,6 @@ export async function generateMetadata({
     formattedSearchParams
   ).toString()}`;
 
-  const imagePathSegment = `${encodeURIComponent(
-    departureCity.toLowerCase()
-  )}-${encodeURIComponent(arrivalCity.toLowerCase())}.jpg`;
-
   return {
     title,
     description,
@@ -75,14 +71,6 @@ export async function generateMetadata({
       description: `Compare bus fares from ${departureCity} to ${arrivalCity} and travel comfortably. Book online with GoBusly for the best prices and reliable service.`,
       url: canonicalUrl,
       siteName: "GoBusly",
-      images: [
-        {
-          url: `${process.env.NEXT_PUBLIC_BASE_URL}/images/routes/${imagePathSegment}`,
-          width: 1200,
-          height: 630,
-          alt: `Bus from ${departureCity} to ${arrivalCity}`,
-        },
-      ],
       locale: "en_US",
       type: "website",
     },
@@ -90,9 +78,6 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: `Bus from ${departureCity} to ${arrivalCity} - Compare & Book Online`,
       description: `Find and book bus tickets from ${departureCity} to ${arrivalCity}. Compare prices, check schedules, and travel comfortably with GoBusly.`,
-      images: [
-        `${process.env.NEXT_PUBLIC_BASE_URL}/images/routes/${imagePathSegment}`,
-      ],
     },
     other: {
       "mobile-web-app-capable": "yes",

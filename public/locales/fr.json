@@ -386,6 +386,26 @@
       "other": "Autre"
     }
   },
+  "paymentSuccess": {
+    "paymentSuccessful": "Paiement réussi !",
+    "paymentFailed": "Échec du paiement",
+    "thankYou": "Merci pour votre achat. Votre réservation a été confirmée.",
+    "somethingWentWrong": "Un problème est survenu lors de votre paiement. Veuillez réessayer.",
+    "returnHome": "Retour à l'accueil",
+    "yourJourney": "Votre voyage",
+    "from": "De",
+    "to": "À",
+    "date": "Date",
+    "time": "Heure",
+    "operator": "Opérateur",
+    "transactionDetails": "Détails de la transaction",
+    "bookingId": "ID de réservation",
+    "paymentId": "ID de paiement",
+    "amountPaid": "Montant payé",
+    "myBookings": "Mes réservations",
+    "addToWallet": "Ajouter au Wallet",
+    "proTip": "Astuce : Arrivez à la gare 15 minutes avant le départ et ayez votre billet prêt pour inspection."
+  },
   "CTA": {
     "badgeText": "Rejoignez Notre Communauté de Voyage",
     "title": "Prêt à découvrir des offres spéciales et des inspirations de voyage?",

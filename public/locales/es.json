@@ -412,6 +412,26 @@
     "emailPlaceholder": "Introduce tu dirección de correo electrónico",
     "buttonText": "Recibir Actualizaciones"
   },
+  "paymentSuccess": {
+    "paymentSuccessful": "¡Pago exitoso!",
+    "paymentFailed": "Pago fallido",
+    "thankYou": "Gracias por su compra. Su reserva ha sido confirmada.",
+    "somethingWentWrong": "Algo salió mal con su pago. Por favor, inténtelo de nuevo.",
+    "returnHome": "Volver a inicio",
+    "yourJourney": "Tu viaje",
+    "from": "Desde",
+    "to": "Hasta",
+    "date": "Fecha",
+    "time": "Hora",
+    "operator": "Operador",
+    "transactionDetails": "Detalles de la transacción",
+    "bookingId": "ID de reserva",
+    "paymentId": "ID de pago",
+    "amountPaid": "Cantidad pagada",
+    "myBookings": "Mis reservas",
+    "addToWallet": "Agregar a Wallet",
+    "proTip": "Consejo: Llega a la estación 15 minutos antes de la salida y ten tu boleto listo para la inspección."
+  },
   "searchForm": {
     "from": "Desde",
     "to": "Hasta",

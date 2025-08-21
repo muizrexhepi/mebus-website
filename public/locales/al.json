@@ -372,6 +372,26 @@
     "searchError": "Gabim në marrjen e stacioneve.",
     "resetSearch": "Rivendos Kërkimin"
   },
+  "paymentSuccess": {
+    "paymentSuccessful": "Pagesa u krye me sukses!",
+    "paymentFailed": "Pagesa dështoi",
+    "thankYou": "Faleminderit për blerjen tuaj. Rezervimi juaj është konfirmuar.",
+    "somethingWentWrong": "Diçka shkoi keq me pagesën tuaj. Ju lutemi provoni përsëri.",
+    "returnHome": "Kthehu në shtëpi",
+    "yourJourney": "Udhëtimi juaj",
+    "from": "Nga",
+    "to": "Deri te",
+    "date": "Data",
+    "time": "Ora",
+    "operator": "Operatori",
+    "transactionDetails": "Detajet e transaksionit",
+    "bookingId": "ID e rezervimit",
+    "paymentId": "ID e pagesës",
+    "amountPaid": "Shuma e paguar",
+    "myBookings": "Rezervimet e mia",
+    "addToWallet": "Shto në Wallet",
+    "proTip": "Këshillë: Arrini në stacion 15 minuta para nisjes dhe mbani biletën gati për kontroll."
+  },
   "searchForm": {
     "from": "Nga",
     "to": "Për",

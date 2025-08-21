@@ -390,6 +390,26 @@
     "searchError": "Error fetching stations.",
     "resetSearch": "Reset Search"
   },
+  "paymentSuccess": {
+    "paymentSuccessful": "Payment Successful!",
+    "paymentFailed": "Payment Failed",
+    "thankYou": "Thank you for your purchase. Your booking has been confirmed.",
+    "somethingWentWrong": "Something went wrong with your payment. Please try again.",
+    "returnHome": "Return Home",
+    "yourJourney": "Your Journey",
+    "from": "From",
+    "to": "To",
+    "date": "Date",
+    "time": "Time",
+    "operator": "Operator",
+    "transactionDetails": "Transaction Details",
+    "bookingId": "Booking ID",
+    "paymentId": "Payment ID",
+    "amountPaid": "Amount Paid",
+    "myBookings": "My Bookings",
+    "addToWallet": "Add to Wallet",
+    "proTip": "Pro tip: Arrive at the station 15 minutes before departure and keep your ticket ready for inspection."
+  },
   "searchForm": {
     "from": "From",
     "to": "To",

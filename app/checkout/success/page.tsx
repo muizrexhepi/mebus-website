@@ -17,16 +17,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { usePaymentSuccessStore } from "@/store";
 import axios from "axios";
 import moment from "moment-timezone";
+import { useTranslation } from "react-i18next";
 
 const SuccessPage: React.FC = () => {
+  const { t } = useTranslation();
   const { isPaymentSuccess, bookingDetails } = usePaymentSuccessStore();
   const [walletSupport, setWalletSupport] = useState<{
     supported: boolean;
     platform: "ios" | "google" | null;
-  }>({
-    supported: false,
-    platform: null,
-  });
+  }>({ supported: false, platform: null });
 
   // Detect wallet support based on platform
   useEffect(() => {
@@ -36,13 +35,10 @@ const SuccessPage: React.FC = () => {
     const isChrome =
       /Chrome/.test(userAgent) && /Google Inc/.test(navigator.vendor);
 
-    if (isIOS) {
-      setWalletSupport({ supported: true, platform: "ios" });
-    } else if (isChrome) {
+    if (isIOS) setWalletSupport({ supported: true, platform: "ios" });
+    else if (isChrome)
       setWalletSupport({ supported: true, platform: "google" });
-    } else {
-      setWalletSupport({ supported: false, platform: null });
-    }
+    else setWalletSupport({ supported: false, platform: null });
   }, []);
 
   if (!isPaymentSuccess || !bookingDetails) {
@@ -54,14 +50,14 @@ const SuccessPage: React.FC = () => {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-gray-900 mb-2">
-              Payment Failed
+              {t("paymentSuccess.paymentFailed")}
             </h1>
             <p className="text-gray-600">
-              Something went wrong with your payment. Please try again.
+              {t("paymentSuccess.somethingWentWrong")}
             </p>
           </div>
           <Button asChild className="w-full">
-            <Link href="/">Return Home</Link>
+            <Link href="/">{t("paymentSuccess.returnHome")}</Link>
           </Button>
         </div>
       </div>
@@ -74,11 +70,8 @@ const SuccessPage: React.FC = () => {
         method: "post",
         url: `${process.env.NEXT_PUBLIC_API_URL}/booking/download/pdf/e-ticket/${bookingDetails.bookingId}`,
         responseType: "blob",
-        headers: {
-          Accept: "application/pdf",
-        },
+        headers: { Accept: "application/pdf" },
       });
-
       const blob = new Blob([response.data], { type: "application/pdf" });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -101,10 +94,7 @@ const SuccessPage: React.FC = () => {
           : `${process.env.NEXT_PUBLIC_API_URL}/wallet/google/${bookingDetails.bookingId}`;
 
       const response = await axios.post(endpoint);
-
-      if (response.data?.saveUrl) {
-        window.open(response.data.saveUrl, "_blank");
-      }
+      if (response.data?.saveUrl) window.open(response.data.saveUrl, "_blank");
     } catch (error) {
       console.error("Error adding to wallet:", error);
     }
@@ -126,18 +116,16 @@ const SuccessPage: React.FC = () => {
             />
           </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            Payment Successful!
+            {t("paymentSuccess.paymentSuccessful")}
           </h1>
-          <p className="text-gray-600">
-            Thank you for your purchase. Your booking has been confirmed.
-          </p>
+          <p className="text-gray-600">{t("paymentSuccess.thankYou")}</p>
         </div>
 
         {/* Journey Card */}
         <Card className="shadow-sm">
           <CardHeader className="pb-3">
             <CardTitle className="text-lg font-semibold">
-              Your Journey
+              {t("paymentSuccess.yourJourney")}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -146,7 +134,7 @@ const SuccessPage: React.FC = () => {
               <div className="flex-1">
                 <div className="flex items-center text-sm text-gray-500 mb-1">
                   <MapPin className="w-4 h-4 mr-1" />
-                  From
+                  {t("paymentSuccess.from")}
                 </div>
                 <div className="font-medium text-gray-900 text-sm">
                   {bookingDetails.departureStation}
@@ -159,7 +147,7 @@ const SuccessPage: React.FC = () => {
 
               <div className="flex-1 text-right">
                 <div className="flex items-center justify-end text-sm text-gray-500 mb-1">
-                  To
+                  {t("paymentSuccess.to")}
                   <MapPin className="w-4 h-4 ml-1" />
                 </div>
                 <div className="font-medium text-gray-900 text-sm">
@@ -173,7 +161,7 @@ const SuccessPage: React.FC = () => {
               <div className="bg-gray-50 rounded-lg p-3">
                 <div className="flex items-center text-gray-600 text-xs mb-1">
                   <Calendar className="w-4 h-4 mr-1" />
-                  Date
+                  {t("paymentSuccess.date")}
                 </div>
                 <div className="text-sm font-medium text-gray-900">
                   {bookingDetails.departureDate.toLocaleDateString()}
@@ -183,7 +171,7 @@ const SuccessPage: React.FC = () => {
               <div className="bg-gray-50 rounded-lg p-3">
                 <div className="flex items-center text-gray-600 text-xs mb-1">
                   <Clock className="w-4 h-4 mr-1" />
-                  Time
+                  {t("paymentSuccess.time")}
                 </div>
                 <div className="text-sm font-medium text-gray-900">
                   {moment.utc(bookingDetails?.departureDate).format("HH:mm")}
@@ -192,7 +180,9 @@ const SuccessPage: React.FC = () => {
             </div>
 
             <div className="pt-2 border-t border-gray-100">
-              <div className="text-xs text-gray-500 mb-1">Operator</div>
+              <div className="text-xs text-gray-500 mb-1">
+                {t("paymentSuccess.operator")}
+              </div>
               <div className="text-sm font-medium text-gray-900">
                 {bookingDetails.operator || "Bus Operator"}
               </div>
@@ -202,52 +192,50 @@ const SuccessPage: React.FC = () => {
 
         {/* Transaction Details */}
         <div className="space-y-3">
-          {/* <Button
-            onClick={downloadPdf}
-            variant={"primary"}
-            className="w-full h-12 text-white"
-          >
-            <Download className="w-4 h-4 mr-2" />
-            Download Ticket
-          </Button> */}
-
           <div className="grid grid-cols-2 gap-3">
             <Button asChild variant="outline" className="h-12">
               <Link href="/account/bookings">
                 <FileText className="w-4 h-4 mr-2" />
-                My Bookings
+                {t("paymentSuccess.myBookings")}
               </Link>
             </Button>
 
             {walletSupport.supported && (
               <Button onClick={addToWallet} variant="primary" className="h-12">
                 <Wallet className="w-4 h-4 mr-2" />
-                Add to Wallet
+                {t("paymentSuccess.addToWallet")}
               </Button>
             )}
           </div>
         </div>
+
         <Card className="shadow-sm">
           <CardHeader className="pb-3">
             <CardTitle className="text-lg font-semibold">
-              Transaction Details
+              {t("paymentSuccess.transactionDetails")}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Booking ID</span>
+              <span className="text-sm text-gray-600">
+                {t("paymentSuccess.bookingId")}
+              </span>
               <span className="text-sm font-mono text-gray-900">
                 {bookingDetails.bookingId}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Payment ID</span>
+              <span className="text-sm text-gray-600">
+                {t("paymentSuccess.paymentId")}
+              </span>
               <span className="text-xs font-mono text-gray-900">
                 {bookingDetails.transactionId?.slice(-12) || "N/A"}
               </span>
             </div>
             <div className="flex justify-between items-center pt-2 border-t border-gray-100">
-              <span className="font-medium text-gray-900">Amount Paid</span>
+              <span className="font-medium text-gray-900">
+                {t("paymentSuccess.amountPaid")}
+              </span>
               <span className="font-bold text-lg text-gray-900">
                 €{bookingDetails.price.toFixed(2)}
               </span>
@@ -255,14 +243,9 @@ const SuccessPage: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Action Buttons */}
-
         {/* Quick tip */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <p className="text-sm text-blue-800">
-            <strong>Pro tip:</strong> Arrive at the station 15 minutes before
-            departure and keep your ticket ready for inspection.
-          </p>
+          <p className="text-sm text-blue-800">{t("paymentSuccess.proTip")}</p>
         </div>
       </div>
     </div>
