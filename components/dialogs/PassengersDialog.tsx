@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Minus, Plus, ArrowLeft } from "lucide-react";
 import useSearchStore from "@/store";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useTranslation } from "react-i18next";
 
 interface PassengerSelectDialogProps {
   isOpen: boolean;
@@ -22,6 +23,7 @@ const PassengerSelectDialog: React.FC<PassengerSelectDialogProps> = ({
   onClose,
 }) => {
   const { passengers, setPassengers } = useSearchStore();
+  const { t } = useTranslation();
 
   const updatePassengers = (updatedPassengers: typeof passengers) => {
     setPassengers(updatedPassengers);
@@ -60,7 +62,7 @@ const PassengerSelectDialog: React.FC<PassengerSelectDialogProps> = ({
               <ArrowLeft className="h-5 w-5 text-gray-700" />
             </Button>
             <DialogTitle className="text-lg font-medium text-gray-900">
-              Select number of passengers
+              {t("passengerInfo.title")}
             </DialogTitle>
           </div>
         </DialogHeader>
@@ -73,9 +75,11 @@ const PassengerSelectDialog: React.FC<PassengerSelectDialogProps> = ({
               <div className="flex items-center justify-between py-6 border-b border-gray-200">
                 <div>
                   <span className="text-lg font-medium text-gray-900">
-                    Adults
+                    {t("passengerInfo.adult")}
                   </span>
-                  <p className="text-sm text-gray-500 mt-1">Age 13 or above</p>
+                  <p className="text-sm text-gray-500 mt-1">
+                    {t("passengerSelect.aged")}
+                  </p>
                 </div>
                 <div className="flex items-center gap-4">
                   <Button
@@ -106,9 +110,11 @@ const PassengerSelectDialog: React.FC<PassengerSelectDialogProps> = ({
               <div className="flex items-center justify-between py-6 border-b border-gray-200">
                 <div>
                   <span className="text-lg font-medium text-gray-900">
-                    Children
+                    {t("passengerInfo.child")}
                   </span>
-                  <p className="text-sm text-gray-500 mt-1">Age 2-12</p>
+                  <p className="text-sm text-gray-500 mt-1">
+                    {t("passengerSelect.aged")}
+                  </p>
                 </div>
                 <div className="flex items-center gap-4">
                   <Button
@@ -138,9 +144,7 @@ const PassengerSelectDialog: React.FC<PassengerSelectDialogProps> = ({
               {/* Info */}
               <div className="mt-6 p-4 bg-blue-50 rounded-xl">
                 <p className="text-sm text-blue-800">
-                  Your age at the time of travel must meet the requirements for
-                  the selected ticket type. Some bus operators have restrictions
-                  on minors traveling alone.
+                  {t("passengerSelect.description")}
                 </p>
               </div>
             </div>
@@ -153,8 +157,8 @@ const PassengerSelectDialog: React.FC<PassengerSelectDialogProps> = ({
               variant={"primary"}
               className="w-full h-12 text-white rounded-xl"
             >
-              Confirm ({passengers.adults + passengers.children} passenger
-              {passengers.adults + passengers.children !== 1 ? "s" : ""})
+              {t("passengerInfo.title")} (
+              {passengers.adults + passengers.children})
             </Button>
           </div>
         </div>

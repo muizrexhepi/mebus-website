@@ -120,7 +120,7 @@ export default function DatePicker({ updateUrl }: { updateUrl?: boolean }) {
       <>
         <Button
           variant="outline"
-          className="w-full h-12 flex items-center truncate justify-start bg-primary-bg/5 rounded-lg border-none text-base ring-0"
+          className="w-full h-14 flex items-center truncate justify-start bg-primary-bg/5 rounded-lg border-none text-base ring-0"
           onClick={() => setIsDialogOpen(true)}
         >
           <FaCalendarAlt className="size-4 mr-2 text-primary-accent" />

@@ -319,7 +319,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
           <Button
             variant="outline"
             className={cn(
-              "w-full h-12 flex items-center justify-start bg-primary-bg/5 rounded-lg border-2 ring-0 text-base transition-colors",
+              "w-full h-14 flex items-center justify-start bg-primary-bg/5 rounded-lg border-2 ring-0 text-base transition-colors",
               shouldShowError
                 ? "border-red-500 bg-red-50"
                 : "border-transparent hover:border-gray-200"

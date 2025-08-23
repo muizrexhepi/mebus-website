@@ -276,7 +276,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({ updateUrl }) => {
             disabled={!isFormValid}
             onClick={handleSearch}
             className={cn(
-              "p-6 w-full sm:col-span-2 lg:col-span-1 rounded-lg h-12 transition-all duration-200 mt-1 md:mt-0",
+              "p-6 w-full sm:col-span-2 lg:col-span-1 rounded-lg h-14 sm:h-12 transition-all duration-200 mt-1 md:mt-0",
               isFormValid
                 ? "bg-gradient-to-tr from-[#ff6700] to-[#ff007f] hover:shadow-lg hover:scale-[1.02]"
                 : "bg-gray-300 cursor-not-allowed"
