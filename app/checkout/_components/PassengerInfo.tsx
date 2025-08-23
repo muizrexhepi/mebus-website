@@ -429,7 +429,7 @@ const PassengerInfo: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col border border-gray-200 bg-white rounded-xl p-4 gap-2">
+    <div className="flex flex-col bg-white rounded-xl p-4 gap-2">
       <div className="flex items-center gap-4">
         <span className="flex items-center justify-center w-8 h-8 bg-secondary-bg/20 text-primary-bg rounded-full font-semibold">
           1

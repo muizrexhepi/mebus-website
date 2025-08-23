@@ -513,7 +513,7 @@ const PaymentMethod = () => {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div className="bg-white rounded-xl overflow-hidden">
         <div className="p-4">
           <div className="flex items-center gap-4">
             <span className="flex items-center justify-center w-8 h-8 bg-secondary-bg/20 text-primary-bg rounded-full font-semibold">

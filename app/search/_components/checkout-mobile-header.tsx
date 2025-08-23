@@ -14,7 +14,7 @@ export const MobileCheckoutBlock = () => {
   return (
     <div className="w-full py-3 sticky top-0 bg-white z-50 md:hidden paddingX border-b">
       <div className="flex justify-between items-center gap-4">
-        <button onClick={handleBack} className="p-1">
+        <button onClick={handleBack}>
           <ChevronLeft color="black" size={25} />
         </button>
 

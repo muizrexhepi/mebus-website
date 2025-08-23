@@ -205,6 +205,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
       const value = station._id;
       const label = station.city;
       const name = station.name;
+      const country = station.country || "";
 
       setSearchTerm(label);
       setIsTouched(true);
@@ -223,6 +224,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
           _id: value!,
           city: label,
           name: name,
+          country: country,
         }
       );
 
@@ -278,7 +280,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
 
   const updateRecentStations = (
     cookieName: string,
-    newStation: { _id: string; city: string; name: string }
+    newStation: { _id: string; city: string; name: string; country: string }
   ) => {
     const recentStations = JSON.parse(Cookies.get(cookieName) || "[]");
     const updatedRecentStations = [

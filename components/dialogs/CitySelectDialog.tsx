@@ -296,8 +296,8 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
             <div className="pb-6">
               {/* Recent Searches */}
               {showRecent && recentStations.length > 0 && (
-                <div className="px-4 py-6 border-b border-gray-100">
-                  <h3 className="font-semibold text-lg text-gray-900 mb-4">
+                <div className="px-4 py-6">
+                  <h3 className="font-medium text-lg text-gray-900 mb-4">
                     {t("searchForm.recentSearches", "Recent searches")}
                   </h3>
                   <div className="space-y-0">
@@ -309,13 +309,14 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
                           onClick={() => handleStationSelect(station)}
                           type="button"
                         >
-                          <span className="text-lg font-normal text-black capitalize">
-                            {station.city}
-                          </span>{" "}
-                          <span className="text-sm text-gray-500 capitalize">
-                            {station.country}
-                          </span>
-                          <Clock className="w-5 h-5 text-gray-500" />
+                          <div className="flex flex-col items-start">
+                            <span className="text-lg font-normal text-black capitalize">
+                              {station.city}
+                            </span>
+                            <span className="text-sm text-gray-700 font-normal capitalize">
+                              {station.country}
+                            </span>
+                          </div>
                         </Button>
                         <div className="border-b border-gray-200" />
                       </div>
@@ -326,7 +327,7 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
 
               {/* Search Results or Popular Cities */}
               <div className="px-4 py-6">
-                <h3 className="font-semibold text-lg text-gray-900 mb-4">
+                <h3 className="font-medium text-lg text-gray-900 mb-4">
                   {searchTerm
                     ? t("searchForm.searchResult", "Search Results")
                     : t("searchForm.popularCities", "Popular Cities")}
@@ -349,7 +350,7 @@ const CitySelectDialog: React.FC<CitySelectDialogProps> = ({
                                   <span className="text-lg font-normal text-black capitalize">
                                     {station.city}
                                   </span>
-                                  <span className="text-sm text-gray-500 capitalize">
+                                  <span className="text-sm text-gray-700 font-normal capitalize">
                                     {station.country}
                                   </span>
                                 </div>

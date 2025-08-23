@@ -411,7 +411,7 @@ const OrderSummary = ({ className }: { className?: string }) => {
         </h1>
 
         {outboundTicket && (
-          <div className="w-full rounded-lg p-4 bg-white border border-gray-200">
+          <div className="w-full rounded-xl p-4 bg-white ">
             <TicketSummary ticket={outboundTicket} isReturn={false} />
             {returnTicket && (
               <>
@@ -481,12 +481,7 @@ const OrderSummary = ({ className }: { className?: string }) => {
         )}
       </div> */}
 
-      <div
-        className={cn(
-          "bg-white rounded-lg p-4 border border-gray-200 space-y-3",
-          className
-        )}
-      >
+      <div className={cn("bg-white rounded-xl p-4 space-y-3", className)}>
         <div className="flex flex-col gap-1">
           {outboundDetails && (
             <>

@@ -71,17 +71,6 @@ export default async function Image({
         >
           <div
             style={{
-              fontSize: "28px",
-              color: "rgba(255, 255, 255, 0.9)",
-              marginBottom: "20px",
-              fontFamily: "system-ui, -apple-system, sans-serif",
-            }}
-          >
-            Bus Tickets
-          </div>
-
-          <div
-            style={{
               display: "flex",
               alignItems: "center",
               gap: "30px",
@@ -90,7 +79,7 @@ export default async function Image({
           >
             <div
               style={{
-                fontSize: "56px",
+                fontSize: "96px",
                 fontWeight: "bold",
                 color: "white",
                 fontFamily: "system-ui, -apple-system, sans-serif",
@@ -110,7 +99,7 @@ export default async function Image({
 
             <div
               style={{
-                fontSize: "56px",
+                fontSize: "96px",
                 fontWeight: "bold",
                 color: "white",
                 fontFamily: "system-ui, -apple-system, sans-serif",

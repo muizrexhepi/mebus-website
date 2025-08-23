@@ -210,7 +210,7 @@ export default async function SearchPage({ params, searchParams }: any) {
     <div className="min-h-screen bg-primary-bg/5">
       <MobileSearchBlock />
       <SearchSection />
-      <div className="px-4 sm:px-8 max-w-6xl mx-auto py-4 space-y-4 xl:px-0 min-h-screen">
+      <div className="px-4 sm:px-8 max-w-6xl mx-auto space-y-4 xl:px-0 min-h-screen">
         <h1 className="sr-only">
           Bus from {departureCity} to {arrivalCity}
         </h1>

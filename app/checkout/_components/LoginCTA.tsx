@@ -16,7 +16,7 @@ const LoginCTA = () => {
   if (user) return null;
 
   return (
-    <Card className="border-2 border-dashed border-orange-200 bg-orange-50/50">
+    <Card className="border-2 border-dashed border-orange-200 bg-orange-50/50 rounded-xl">
       <CardContent className="p-3 md:p-4">
         {/* Mobile: Single row layout */}
         <div className="md:hidden flex items-center justify-between gap-3">

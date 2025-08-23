@@ -561,7 +561,7 @@ const TicketList: React.FC = () => {
           <NextAvailableDates />
         )
       ) : (
-        <div className="w-full mx-auto space-y-4">
+        <div className="w-full mx-auto space-y-2">
           <h1
             className={cn("mb-2 font-medium text-lg", {
               hidden: tripType === "one-way",
@@ -575,7 +575,7 @@ const TicketList: React.FC = () => {
           {/* Direct Routes Section */}
           {state.filteredDirectTickets.length > 0 && (
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
+              {/* <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="w-full flex items-center justify-between">
                     <p className="font-normal">{totalResults || 0} Results</p>
@@ -591,11 +591,11 @@ const TicketList: React.FC = () => {
                     });
                   }}
                 />
-              </div>
+              </div> */}
 
               <InfiniteScroll
                 dataLength={state.directTickets.length}
-                className="space-y-2 sm:space-y-1"
+                className="space-y-4 sm:space-y-2"
                 next={handleLoadMore}
                 hasMore={state.hasMore}
                 loader={state.loading ? <TicketSkeletonton /> : null}

@@ -2,7 +2,7 @@ import { Skeleton } from "../ui/skeleton";
 
 export default function TicketSkeletonton() {
   return (
-    <div className="p-4 border bg-white rounded-lg space-y-4 h-[175px] sm:h-[152.5px]">
+    <div className="p-4 bg-white rounded-xl space-y-4 h-[175px] sm:h-[152.5px]">
       <div className="flex justify-between items-center w-full">
         <Skeleton className="h-5 rounded w-1/4 sm:w-1/6"></Skeleton>
         <Skeleton className="h-5 rounded w-1/2 sm:w-1/4"></Skeleton>
