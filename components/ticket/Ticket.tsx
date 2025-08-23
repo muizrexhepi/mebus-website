@@ -96,13 +96,13 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
 
               <div className="text-center flex-1 px-2">
                 <div className="relative flex items-center">
-                  <div className="flex-grow border-t border-gray-400"></div>
-                  <span className="flex-shrink mx-2 text-neutral-700 font-medium text-lg sm:text-xl">
+                  <div className="flex-grow border-t"></div>
+                  <span className="flex-shrink text-neutral-700 border px-3 rounded-full font-medium text-base sm:text-xl">
                     {durationFormatted != "NaN:NaN hrs"
                       ? durationFormatted
                       : "00:00"}
                   </span>
-                  <div className="flex-grow border-t border-gray-400"></div>
+                  <div className="flex-grow border-t"></div>
                 </div>
               </div>
 

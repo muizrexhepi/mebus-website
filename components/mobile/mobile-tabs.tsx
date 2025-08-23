@@ -64,39 +64,17 @@ const MobileTabs = () => {
                   <link.icon
                     className={cn(
                       "h-6 w-6 transition-colors duration-200",
-                      isActive ? "text-[#ff007f] " : "text-gray-400"
+                      isActive ? "text-[#ff3340] " : "text-gray-400"
                     )}
-                    style={
-                      isActive
-                        ? {
-                            background:
-                              "linear-gradient(to top right, #ff6700, #ff007f)",
-                            WebkitBackgroundClip: "text",
-                            WebkitTextFillColor: "transparent",
-                            backgroundClip: "text",
-                          }
-                        : {}
-                    }
                   />
                 </div>
                 <span
                   className={cn(
                     "text-[10px] font-medium transition-colors duration-200",
                     isActive
-                      ? "text-transparent bg-gradient-to-tr from-[#ff6700] to-[#ff007f] bg-clip-text font-semibold"
+                      ? "text-transparent button-gradient bg-clip-text font-semibold"
                       : "text-gray-500"
                   )}
-                  style={
-                    isActive
-                      ? {
-                          background:
-                            "linear-gradient(to top right, #ff6700, #ff007f)",
-                          WebkitBackgroundClip: "text",
-                          WebkitTextFillColor: "transparent",
-                          backgroundClip: "text",
-                        }
-                      : {}
-                  }
                 >
                   {t(link.labelKey)}
                 </span>

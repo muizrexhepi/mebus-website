@@ -235,6 +235,9 @@
     "available": "në dispozicion",
     "instructions": "Ju lutemi zgjidhni metodën tuaj të preferuar të pagesës.",
     "processing": "Duke procesuar...",
+    "processingPayment": "Duke përpunuar pagesën...",
+    "confirmingPayment": "Duke konfirmuar pagesën...",
+    "creatingBooking": "Duke krijuar rezervimin...",
     "completePayment": "Përfundo Pagesën"
   },
   "passengerInfo": {
@@ -491,7 +494,8 @@
     "noBookingsYet": "Nuk keni ende asnjë rezervim bilete autobusi.",
     "bookYourFirstTicket": "Rezervo Biletën Tënde të Parë",
     "manageBookings": "Eksploroni dhe menaxhoni rezervimet tuaja më poshtë. Rishikoni udhëtimet tuaja të ardhshme, kontrolloni rezervimet tuaja të kaluara dhe qëndroni të informuar për planet tuaja të udhëtimit.",
-    "myBookings": "Rezervimet e mija"
+    "myBookings": "Rezervimet e mija",
+    "noBookingsDescription": "Ende nuk keni rezervime për biletat e autobusit. Filloni të eksploroni dhe rezervoni udhëtimin tuaj të ardhshëm!"
   },
   "actions": {
     "actions": "Veprime",

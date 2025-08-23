@@ -237,7 +237,10 @@
     "available": "disponibile",
     "instructions": "Seleziona il tuo metodo di pagamento preferito.",
     "processing": "Elaborazione in corso...",
-    "completePayment": "Completa Pagamento"
+    "processingPayment": "Elaborazione del pagamento...",
+    "confirmingPayment": "Conferma del pagamento...",
+    "creatingBooking": "Creazione della prenotazione...",
+    "completePayment": "Completa il Pagamento"
   },
   "passengerInfo": {
     "child": "Bambino",
@@ -531,7 +534,8 @@
     "noBookingsYet": "Non hai ancora prenotazioni di biglietti dell'autobus.",
     "bookYourFirstTicket": "Prenota il Tuo Primo Biglietto",
     "manageBookings": "Esplora e gestisci le tue prenotazioni qui sotto. Rivedi i tuoi prossimi viaggi, controlla le tue prenotazioni passate e rimani informato sui tuoi piani di viaggio.",
-    "myBookings": "Le Mie Prenotazioni"
+    "myBookings": "Le Mie Prenotazioni",
+    "noBookingsDescription": "Non hai ancora prenotazioni di biglietti dell'autobus. Inizia a esplorare e prenota il tuo prossimo viaggio!"
   },
   "actions": {
     "actions": "Акции",

@@ -57,7 +57,7 @@ export function NoBookingsMessage({
         className="mb-8"
       />
       <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
-        {t("bookings.noBookingsFound", "No Bookings Found")}
+        {t("bookings.noBookingsYet", "No Bookings Found")}
       </h2>
       <p className="text-base md:text-lg text-gray-600 mb-8 max-w-md">
         {t(
@@ -66,7 +66,9 @@ export function NoBookingsMessage({
         )}
       </p>
       <Button asChild variant={"primary"}>
-        <Link href="/">{t("bookings.bookNewTicket", "Book a New Ticket")}</Link>
+        <Link href="/">
+          {t("bookings.bookYourFirstTicket", "Book a New Ticket")}
+        </Link>
       </Button>
     </div>
   );

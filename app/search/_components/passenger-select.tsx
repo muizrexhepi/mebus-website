@@ -81,7 +81,7 @@ export default function PassengerSelect({
       <>
         <Button
           variant="outline"
-          className="w-full h-14 flex items-center justify-start bg-primary-bg/5 rounded-lg text-base border-none ring-0"
+          className="w-full h-12 flex items-center justify-start bg-primary-bg/5 rounded-lg text-base border-none ring-0"
           onClick={() => setIsDialogOpen(true)}
         >
           <FaUser className="size-4 mr-2 text-primary-accent" />

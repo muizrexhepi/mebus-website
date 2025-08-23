@@ -34,7 +34,7 @@ const CheckoutClientPage = () => {
       <MobileCheckoutBlock />
       <div className="min-h-screen max-w-6xl paddingX mx-auto py-8 space-y-4">
         <CheckoutForm />
-        <CarrierTerms carrier={carrierInfo} />
+        {/* <CarrierTerms carrier={carrierInfo} /> */}
       </div>
       <SecondaryFooter />
     </div>

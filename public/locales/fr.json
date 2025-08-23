@@ -251,7 +251,10 @@
     "available": "disponible",
     "instructions": "Veuillez sélectionner votre moyen de paiement préféré.",
     "processing": "Traitement en cours...",
-    "completePayment": "Finaliser le paiement"
+    "processingPayment": "Traitement du paiement...",
+    "confirmingPayment": "Confirmation du paiement...",
+    "creatingBooking": "Création de la réservation...",
+    "completePayment": "Finaliser le Paiement"
   },
   "passengerInfo": {
     "child": "Enfant",
@@ -511,7 +514,8 @@
     "noBookingsYet": "Vous n'avez pas encore de réservations de billets de bus.",
     "bookYourFirstTicket": "Réservez Votre Premier Billet",
     "manageBookings": "Explorez et gérez vos réservations ci-dessous. Consultez vos voyages à venir, vérifiez vos réservations passées et restez informé de vos projets de voyage.",
-    "myBookings": "Mes Réservations"
+    "myBookings": "Mes Réservations",
+    "noBookingsDescription": "Vous n'avez pas encore de réservations de billets de bus. Commencez à explorer et réservez votre prochain voyage!"
   },
   "actions": {
     "actions": "Actions",

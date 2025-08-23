@@ -238,6 +238,9 @@
     "available": "available",
     "instructions": "Please select your preferred payment method.",
     "processing": "Processing...",
+    "processingPayment": "Processing payment...",
+    "confirmingPayment": "Confirming payment...",
+    "creatingBooking": "Creating booking...",
     "completePayment": "Complete Payment"
   },
   "passengerSelect": {
@@ -520,7 +523,8 @@
     "noBookingsYet": "You don't have any bus ticket bookings yet.",
     "bookYourFirstTicket": "Book Your First Ticket",
     "manageBookings": "Explore and manage your bookings below. Review your upcoming trips, check your past reservations, and stay informed about your travel plans.",
-    "myBookings": "My Bookings"
+    "myBookings": "My Bookings",
+    "noBookingsDescription": "You don't have any bus ticket bookings yet. Start exploring and book your next trip!"
   },
   "actions": {
     "actions": "Actions",

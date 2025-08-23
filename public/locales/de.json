@@ -247,6 +247,9 @@
     "available": "verfügbar",
     "instructions": "Bitte wählen Sie Ihre bevorzugte Zahlungsmethode.",
     "processing": "Wird verarbeitet...",
+    "processingPayment": "Zahlung wird verarbeitet...",
+    "confirmingPayment": "Zahlung wird bestätigt...",
+    "creatingBooking": "Buchung wird erstellt...",
     "completePayment": "Zahlung abschließen"
   },
   "passengerInfo": {
@@ -508,7 +511,8 @@
     "noBookingsYet": "Sie haben noch keine Busfahrkartenbuchungen.",
     "bookYourFirstTicket": "Buchen Sie Ihr Erstes Ticket",
     "manageBookings": "Erkunden und verwalten Sie Ihre Buchungen unten. Überprüfen Sie Ihre bevorstehenden Reisen, überprüfen Sie Ihre vergangenen Reservierungen und bleiben Sie über Ihre Reisepläne informiert.",
-    "myBookings": "Meine Buchungen"
+    "myBookings": "Meine Buchungen",
+    "noBookingsDescription": "Sie haben noch keine Bus-Ticketbuchungen. Beginnen Sie zu erkunden und buchen Sie Ihre nächste Reise!    "
   },
   "actions": {
     "actions": "Aktionen",

@@ -237,6 +237,9 @@
     "available": "disponible",
     "instructions": "Por favor, selecciona tu método de pago preferido.",
     "processing": "Procesando...",
+    "processingPayment": "Procesando pago...",
+    "confirmingPayment": "Confirmando pago...",
+    "creatingBooking": "Creando reserva...",
     "completePayment": "Completar Pago"
   },
   "passengerInfo": {
@@ -531,7 +534,8 @@
     "noBookingsYet": "Aún no tienes ninguna reserva de billete de autobús.",
     "bookYourFirstTicket": "Reserva Tu Primer Billete",
     "manageBookings": "Explora y gestiona tus reservas a continuación. Revisa tus próximos viajes, verifica tus reservas pasadas y mantente informado sobre tus planes de viaje.",
-    "myBookings": "Mis Reservas"
+    "myBookings": "Mis Reservas",
+    "noBookingsDescription": "Aún no tienes reservas de boletos de autobús. ¡Comienza a explorar y reserva tu próximo viaje!    "
   },
   "actions": {
     "actions": "Acciones",

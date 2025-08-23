@@ -210,13 +210,13 @@ export default function Account() {
                 <button
                   key={link.title}
                   onClick={() => setOpenLogin(true)}
-                  className="w-full flex items-center justify-between py-4 border-b border-gray-200 hover:bg-gray-50 active:bg-gray-100 transition-colors"
+                  className="w-full flex items-center justify-between py-4 border-b  border-gray-200 hover:bg-gray-50 active:bg-gray-100 transition-colors"
                 >
                   <div className="flex items-center space-x-4">
                     <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
                       <link.icon className="w-5 h-5 text-gray-400" />
                     </div>
-                    <h3 className="text-base font-medium text-gray-600">
+                    <h3 className="text-base font-normal text-gray-600">
                       {t(link.title)}
                     </h3>
                   </div>
@@ -238,7 +238,7 @@ export default function Account() {
                   <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
                     <link.icon className="w-5 h-5 text-gray-600" />
                   </div>
-                  <h3 className="text-base font-medium text-gray-900">
+                  <h3 className="text-base font-normal text-gray-900">
                     {t(link.title)}
                   </h3>
                 </div>
