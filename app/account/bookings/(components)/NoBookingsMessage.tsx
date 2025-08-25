@@ -56,7 +56,7 @@ export function NoBookingsMessage({
         height={200}
         className="mb-8"
       />
-      <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+      <h2 className="text-2xl md:text-3xl font-medium text-gray-900 mb-3">
         {t("bookings.noBookingsYet", "No Bookings Found")}
       </h2>
       <p className="text-base md:text-lg text-gray-600 mb-8 max-w-md">

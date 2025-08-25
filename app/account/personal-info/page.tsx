@@ -121,9 +121,7 @@ export default function PersonalInfo() {
   return (
     <div className="container max-w-3xl mx-auto">
       <div className="space-y-8">
-        <h1 className="text-3xl font-semibold mb-4">
-          {t("personalInfo.title")}
-        </h1>
+        <h1 className="text-3xl font-medium mb-4">{t("personalInfo.title")}</h1>
 
         <div className="space-y-6">
           <div className="">

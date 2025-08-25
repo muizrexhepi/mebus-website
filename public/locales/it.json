@@ -226,7 +226,7 @@
   },
   "paymentMethod": {
     "title": "Metodo di Pagamento",
-    "description": "Scegli il tuo metodo di pagamento preferito. Puoi utilizzare il saldo del tuo account per il pagamento parziale o totale, con l'importo rimanente da pagare con carta",
+    "description": "Scegli il tuo metodo di pagamento preferito.",
     "options": {
       "creditCard": "Carta di Credito",
       "paypal": "PayPal",
@@ -616,9 +616,13 @@
   "searchedTickets": {
     "noTicketsAvailable": "Nessun biglietto disponibile",
     "noTicketsAvailableDescription": "Nessun biglietto disponibile per la data selezionata.",
-    "nextAvailable": "Prossimo disponibile",
-    "noTicketsAvailableIllustrationAlt": "Illustrazione dell'uomo",
-    "noTicketsAvailableTryAgain": "Prova a regolare i parametri di ricerca o a selezionare una data diversa."
+    "nextAvailable": "Prossima disponibilità",
+    "noTicketsAvailableIllustrationAlt": "Illustrazione uomo",
+    "noTicketsAvailableTryAgain": "Prova a modificare i parametri di ricerca o a selezionare un'altra data.",
+    "indirectRoutes": "Percorsi indiretti",
+    "endOfResults": "Fine dei risultati",
+    "directOnly": "Solo percorsi diretti",
+    "results": "Risultati"
   },
   "discountCodes": {
     "title": "Codici Sconto",

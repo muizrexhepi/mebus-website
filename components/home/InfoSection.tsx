@@ -50,7 +50,7 @@ const FeaturesSection = () => {
                   loading="lazy"
                 />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4 leading-tight">
+              <h3 className="text-xl font-medium text-gray-900 mb-4 leading-tight">
                 {t(feature.title, feature.defaultTitle)}
               </h3>
               <p className="text-gray-600 leading-relaxed text-base max-w-sm mx-auto">

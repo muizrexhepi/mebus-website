@@ -240,7 +240,7 @@
   },
   "paymentMethod": {
     "title": "Moyen de paiement",
-    "description": "Choisissez votre moyen de paiement préféré. Vous pouvez utiliser votre solde de compte pour un paiement partiel ou total, le montant restant devant être payé par carte",
+    "description": "Choisissez votre moyen de paiement préféré.",
     "options": {
       "creditCard": "Carte de crédit",
       "paypal": "PayPal",
@@ -596,9 +596,13 @@
   "searchedTickets": {
     "noTicketsAvailable": "Aucun billet disponible",
     "noTicketsAvailableDescription": "Aucun billet disponible pour la date sélectionnée.",
-    "nextAvailable": "Prochain disponible",
-    "noTicketsAvailableIllustrationAlt": "Illustration de l'homme",
-    "noTicketsAvailableTryAgain": "Essayez de modifier les paramètres de recherche ou de sélectionner une autre date."
+    "nextAvailable": "Prochaine disponibilité",
+    "noTicketsAvailableIllustrationAlt": "Illustration d’homme",
+    "noTicketsAvailableTryAgain": "Essayez de modifier vos paramètres de recherche ou de choisir une autre date.",
+    "indirectRoutes": "Les trajets indirects",
+    "endOfResults": "Fin des résultats",
+    "directOnly": "Trajets directs uniquement",
+    "results": "Résultats"
   },
   "discountCodes": {
     "title": "Codes de réduction",

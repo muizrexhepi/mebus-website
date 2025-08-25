@@ -54,7 +54,7 @@ export default function NotificationsPage() {
     <div className="w-full">
       <div className="space-y-8">
         <div>
-          <h2 className="text-3xl font-semibold">{t("notifications.title")}</h2>
+          <h2 className="text-3xl font-medium">{t("notifications.title")}</h2>
         </div>
         <div className="space-y-6">
           <div className="grid grid-cols-[1fr_auto] items-center gap-4 border-b pb-6">

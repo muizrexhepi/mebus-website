@@ -1,13 +1,7 @@
-import React, { useState } from "react";
-import {
-  MapPin,
-  Calendar,
-  Clock,
-  Bus,
-  Snowflake,
-  Plug,
-  ArrowRight,
-} from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { MapPin, Clock, Bus, Snowflake, Plug } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import InfoBlock from "../InfoBlock";
 import { Fragment } from "react";
@@ -17,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { IoMdLocate } from "react-icons/io";
 import { HiMapPin } from "react-icons/hi2";
 import { FaCalendarAlt, FaClock } from "react-icons/fa";
-import { ConnectedTicket } from "@/models/connected-ticket";
+import type { ConnectedTicket } from "@/models/connected-ticket";
 import LocationMap from "./location-map";
 
 export default function ConnectedTicketDetails({
@@ -75,7 +69,7 @@ export default function ConnectedTicketDetails({
   return (
     <>
       <div className="space-y-4 overflow-y-auto h-full">
-        <div className="space-y-3 text-sm px-4 pt-4">
+        <div className="space-y-3 text-sm px-3 pt-4">
           <div
             className="flex items-center space-x-3 cursor-pointer rounded-lg transition-colors hover:bg-gray-50"
             onClick={() =>
@@ -208,30 +202,30 @@ export default function ConnectedTicketDetails({
               </div>
 
               {legIndex < ticket.legs.length - 1 && (
-                <div className="w-full my-4 bg-yellow-50 border border-yellow-200 p-3 rounded-lg">
-                  <div className="flex items-center justify-center mb-1">
-                    <Clock className="w-4 h-4 mr-2 text-yellow-600 flex-shrink-0" />
-                    <p className="text-sm text-yellow-800 font-medium text-center">
-                      <span className="block sm:inline">Transfer at </span>
-                      <span className="truncate max-w-[200px] sm:max-w-none inline-block">
-                        {ticket.intermediate_station?.name ||
-                          leg.to_station.name}
-                      </span>
-                    </p>
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <ArrowRight className="w-3 h-3 mr-1 text-yellow-600 flex-shrink-0" />
-                    <p className="text-xs text-yellow-700">
-                      Wait time:{" "}
-                      {(() => {
-                        const totalMinutes = Math.abs(ticket.connection_time);
-                        const hours = Math.floor(totalMinutes / 60);
-                        const minutes = totalMinutes % 60;
-                        return `${hours.toString().padStart(2, "0")}:${minutes
-                          .toString()
-                          .padStart(2, "0")}`;
-                      })()}
-                    </p>
+                <div className="w-full my-6 relative">
+                  <div className="flex items-center justify-center mb-4">
+                    <div className="flex-1 h-px bg-gray-200"></div>
+                    <div className="px-4 py-2 bg-white border border-gray-200 rounded-full shadow-sm">
+                      <div className="flex items-center space-x-2">
+                        <Clock className="w-4 h-4 text-gray-500" />
+                        <span className="text-sm font-medium text-gray-700">
+                          Transfer time :{" "}
+                          {(() => {
+                            const totalMinutes = Math.abs(
+                              ticket.connection_time
+                            );
+                            const hours = Math.floor(totalMinutes / 60);
+                            const minutes = totalMinutes % 60;
+                            return `${hours
+                              .toString()
+                              .padStart(2, "0")} hrs ${minutes
+                              .toString()
+                              .padStart(2, "0")} min`;
+                          })()}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex-1 h-px bg-gray-200"></div>
                   </div>
                 </div>
               )}

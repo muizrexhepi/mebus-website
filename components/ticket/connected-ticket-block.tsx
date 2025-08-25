@@ -77,7 +77,7 @@ const ConnectedTicketBlock: React.FC<ConnectedTicketProps> = ({
   const convertedPrice = convertFromEUR(ticket.total_price);
 
   return (
-    <div className="max-w-5xl mx-auto bg-white border rounded-lg overflow-hidden shrink-0">
+    <div className="max-w-5xl mx-auto bg-white rounded-xl overflow-hidden shrink-0">
       <div className="p-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
           <div className="flex gap-2 items-center mb-2 sm:mb-0 justify-between w-full">
@@ -107,7 +107,7 @@ const ConnectedTicketBlock: React.FC<ConnectedTicketProps> = ({
               <div className="text-center flex-1 px-2">
                 <div className="relative flex items-center">
                   <div className="flex-grow border-t border-gray-400"></div>
-                  <span className="flex-shrink mx-2 text-neutral-700 font-medium text-lg sm:text-xl">
+                  <span className="flex-shrink text-neutral-700 border px-3 rounded-full font-medium text-base">
                     {durationFormatted}
                   </span>
                   <div className="flex-grow border-t border-gray-400"></div>

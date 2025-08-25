@@ -1,7 +1,14 @@
 "use client";
 
 import type React from "react";
-import { Suspense, useEffect, useMemo, useCallback, useReducer } from "react";
+import {
+  Suspense,
+  useEffect,
+  useMemo,
+  useCallback,
+  useReducer,
+  useRef,
+} from "react";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
 import InfiniteScroll from "react-infinite-scroll-component";
 import type { Ticket } from "@/models/ticket";
@@ -17,32 +24,35 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Checkbox } from "@/components/ui/checkbox";
 import TicketDetails from "@/components/ticket/ticket-details";
 import ConnectedTicketDetails from "@/components/ticket/connected-ticket-details";
 import NoTicketsAvailable from "./NoTicketsAvailable";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import ConnectedTicketBlock from "@/components/ticket/connected-ticket-block";
-import SearchFilters from "./search-filters";
 import { addDays, format, parse } from "date-fns";
 import { ArrowRight, Loader2 } from "lucide-react";
 import Image from "next/image";
-import { ConnectedTicket } from "@/models/connected-ticket";
-import ConnectedSearchFilters from "@/components/ticket/connected-search-fitlers";
+import type { ConnectedTicket } from "@/models/connected-ticket";
 import TicketBlock from "@/components/ticket/Ticket";
 
 interface TicketState {
   directTickets: Ticket[];
   connectedTickets: ConnectedTicket[];
-  filteredDirectTickets: Ticket[];
-  filteredConnectedTickets: ConnectedTicket[];
   noData: boolean;
   loading: boolean;
   initialLoading: boolean;
-  page: number;
-  hasMore: boolean;
+  directPage: number;
+  connectedPage: number;
+  hasMoreDirect: boolean;
+  hasMoreConnected: boolean;
   availableDates: string[];
   fetchingAvailableDates: boolean;
+  showDirectOnly: boolean;
+  fetchingDirect: boolean;
+  fetchingConnected: boolean;
 }
 
 type TicketAction =
@@ -50,15 +60,18 @@ type TicketAction =
   | { type: "SET_CONNECTED_TICKETS"; payload: ConnectedTicket[] }
   | { type: "ADD_DIRECT_TICKETS"; payload: Ticket[] }
   | { type: "ADD_CONNECTED_TICKETS"; payload: ConnectedTicket[] }
-  | { type: "SET_FILTERED_DIRECT_TICKETS"; payload: Ticket[] }
-  | { type: "SET_FILTERED_CONNECTED_TICKETS"; payload: ConnectedTicket[] }
   | { type: "SET_LOADING"; payload: boolean }
   | { type: "SET_INITIAL_LOADING"; payload: boolean }
   | { type: "SET_NO_DATA"; payload: boolean }
-  | { type: "SET_PAGE"; payload: number }
-  | { type: "SET_HAS_MORE"; payload: boolean }
+  | { type: "SET_DIRECT_PAGE"; payload: number }
+  | { type: "SET_CONNECTED_PAGE"; payload: number }
+  | { type: "SET_HAS_MORE_DIRECT"; payload: boolean }
+  | { type: "SET_HAS_MORE_CONNECTED"; payload: boolean }
   | { type: "SET_AVAILABLE_DATES"; payload: string[] }
   | { type: "SET_FETCHING_DATES"; payload: boolean }
+  | { type: "SET_SHOW_DIRECT_ONLY"; payload: boolean }
+  | { type: "SET_FETCHING_DIRECT"; payload: boolean }
+  | { type: "SET_FETCHING_CONNECTED"; payload: boolean }
   | { type: "RESET_TICKETS" };
 
 const ticketReducer = (
@@ -67,69 +80,57 @@ const ticketReducer = (
 ): TicketState => {
   switch (action.type) {
     case "SET_DIRECT_TICKETS":
-      return {
-        ...state,
-        directTickets: action.payload,
-        filteredDirectTickets: action.payload,
-      };
+      return { ...state, directTickets: action.payload };
     case "SET_CONNECTED_TICKETS":
-      return {
-        ...state,
-        connectedTickets: action.payload,
-        filteredConnectedTickets: action.payload,
-      };
+      return { ...state, connectedTickets: action.payload };
     case "ADD_DIRECT_TICKETS":
-      const newDirectTickets = [...state.directTickets, ...action.payload];
       return {
         ...state,
-        directTickets: newDirectTickets,
-        filteredDirectTickets: [
-          ...state.filteredDirectTickets,
-          ...action.payload,
-        ],
+        directTickets: [...state.directTickets, ...action.payload],
       };
     case "ADD_CONNECTED_TICKETS":
-      const newConnectedTickets = [
-        ...state.connectedTickets,
-        ...action.payload,
-      ];
       return {
         ...state,
-        connectedTickets: newConnectedTickets,
-        filteredConnectedTickets: [
-          ...state.filteredConnectedTickets,
-          ...action.payload,
-        ],
+        connectedTickets: [...state.connectedTickets, ...action.payload],
       };
-    case "SET_FILTERED_DIRECT_TICKETS":
-      return { ...state, filteredDirectTickets: action.payload };
-    case "SET_FILTERED_CONNECTED_TICKETS":
-      return { ...state, filteredConnectedTickets: action.payload };
     case "SET_LOADING":
       return { ...state, loading: action.payload };
     case "SET_INITIAL_LOADING":
       return { ...state, initialLoading: action.payload };
     case "SET_NO_DATA":
       return { ...state, noData: action.payload };
-    case "SET_PAGE":
-      return { ...state, page: action.payload };
-    case "SET_HAS_MORE":
-      return { ...state, hasMore: action.payload };
+    case "SET_DIRECT_PAGE":
+      return { ...state, directPage: action.payload };
+    case "SET_CONNECTED_PAGE":
+      return { ...state, connectedPage: action.payload };
+    case "SET_HAS_MORE_DIRECT":
+      return { ...state, hasMoreDirect: action.payload };
+    case "SET_HAS_MORE_CONNECTED":
+      return { ...state, hasMoreConnected: action.payload };
     case "SET_AVAILABLE_DATES":
       return { ...state, availableDates: action.payload };
     case "SET_FETCHING_DATES":
       return { ...state, fetchingAvailableDates: action.payload };
+    case "SET_SHOW_DIRECT_ONLY":
+      return { ...state, showDirectOnly: action.payload };
+    case "SET_FETCHING_DIRECT":
+      return { ...state, fetchingDirect: action.payload };
+    case "SET_FETCHING_CONNECTED":
+      return { ...state, fetchingConnected: action.payload };
     case "RESET_TICKETS":
       return {
         ...state,
         directTickets: [],
         connectedTickets: [],
-        filteredDirectTickets: [],
-        filteredConnectedTickets: [],
-        page: 1,
-        hasMore: true,
+        directPage: 1,
+        connectedPage: 1,
+        hasMoreDirect: true,
+        hasMoreConnected: true,
         noData: false,
         initialLoading: true,
+        showDirectOnly: false,
+        fetchingDirect: false,
+        fetchingConnected: false,
       };
     default:
       return state;
@@ -139,15 +140,18 @@ const ticketReducer = (
 const initialState: TicketState = {
   directTickets: [],
   connectedTickets: [],
-  filteredDirectTickets: [],
-  filteredConnectedTickets: [],
   noData: false,
   loading: false,
   initialLoading: true,
-  page: 1,
-  hasMore: true,
+  directPage: 1,
+  connectedPage: 1,
+  hasMoreDirect: true,
+  hasMoreConnected: true,
   availableDates: [],
   fetchingAvailableDates: false,
+  showDirectOnly: true,
+  fetchingDirect: false,
+  fetchingConnected: false,
 };
 
 const TicketList: React.FC = () => {
@@ -176,6 +180,9 @@ const TicketList: React.FC = () => {
   const { t } = useTranslation();
 
   const [state, dispatch] = useReducer(ticketReducer, initialState);
+
+  const fetchingRef = useRef(false);
+  const lastSearchParamsRef = useRef<string>("");
 
   // Memoized search parameters
   const searchParameters = useMemo(
@@ -254,7 +261,14 @@ const TicketList: React.FC = () => {
   }, [router]);
 
   const fetchTickets = useCallback(
-    async (pageNumber: number) => {
+    async (
+      directPageNumber: number,
+      connectedPageNumber: number,
+      isInitial = false
+    ) => {
+      // Prevent duplicate calls
+      if (fetchingRef.current) return;
+
       const {
         departureStation,
         arrivalStation,
@@ -274,11 +288,16 @@ const TicketList: React.FC = () => {
       }
 
       try {
+        fetchingRef.current = true;
         setIsLoading(true);
-        dispatch({ type: "SET_LOADING", payload: true });
 
-        const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/ticket/search`;
-        const searchUrl = new URLSearchParams({
+        if (isInitial) {
+          dispatch({ type: "SET_INITIAL_LOADING", payload: true });
+        } else {
+          dispatch({ type: "SET_LOADING", payload: true });
+        }
+
+        const baseParams = {
           departureStation: isSelectingReturn
             ? arrivalStation
             : departureStation,
@@ -288,73 +307,135 @@ const TicketList: React.FC = () => {
             "",
           adults: adult.toString(),
           children: children.toString(),
-          page: pageNumber.toString(),
-        });
+        };
 
-        // Fetch both direct and connected tickets
-        const [directResponse, connectedResponse] = await Promise.all([
-          fetch(`${apiUrl}?${searchUrl}`),
-          fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/ticket/connected?${searchUrl}`
-          ),
-        ]);
+        const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/ticket`;
 
-        if (!directResponse.ok || !connectedResponse.ok) {
-          throw new Error("Failed to fetch tickets");
+        // Fetch both direct and connected tickets in parallel
+        const fetchPromises = [];
+
+        // Only fetch direct tickets if we need them
+        if (directPageNumber > 0) {
+          dispatch({ type: "SET_FETCHING_DIRECT", payload: true });
+          const directSearchUrl = new URLSearchParams({
+            ...baseParams,
+            page: directPageNumber.toString(),
+          });
+          fetchPromises.push(
+            fetch(`${apiUrl}/search?${directSearchUrl}`)
+              .then((res) =>
+                res.ok
+                  ? res.json()
+                  : Promise.reject(new Error("Direct fetch failed"))
+              )
+              .then((data) => ({ type: "direct", data: data.data || [] }))
+              .catch(() => ({ type: "direct", data: [] }))
+          );
         }
 
-        const [directData, connectedData] = await Promise.all([
-          directResponse.json(),
-          connectedResponse.json(),
-        ]);
+        // Only fetch connected tickets if we need them
+        if (connectedPageNumber > 0) {
+          dispatch({ type: "SET_FETCHING_CONNECTED", payload: true });
+          const connectedSearchUrl = new URLSearchParams({
+            ...baseParams,
+            page: connectedPageNumber.toString(),
+          });
+          fetchPromises.push(
+            fetch(`${apiUrl}/connected?${connectedSearchUrl}`)
+              .then((res) =>
+                res.ok
+                  ? res.json()
+                  : Promise.reject(new Error("Connected fetch failed"))
+              )
+              .then((data) => ({ type: "connected", data: data.data || [] }))
+              .catch(() => ({ type: "connected", data: [] }))
+          );
+        }
 
-        const newDirectTickets: Ticket[] = directData.data || [];
-        const newConnectedTickets: ConnectedTicket[] = connectedData.data || [];
+        const results = await Promise.all(fetchPromises);
 
-        console.log({
-          directTickets: newDirectTickets,
-          connectedTickets: newConnectedTickets,
+        let newDirectTickets: Ticket[] = [];
+        let newConnectedTickets: ConnectedTicket[] = [];
+
+        results.forEach((result) => {
+          if (result.type === "direct") {
+            newDirectTickets = result.data;
+          } else if (result.type === "connected") {
+            newConnectedTickets = result.data;
+          }
         });
 
-        if (newDirectTickets.length === 0 && newConnectedTickets.length === 0) {
-          if (pageNumber === 1) {
+        // Handle results
+        if (isInitial) {
+          dispatch({ type: "SET_DIRECT_TICKETS", payload: newDirectTickets });
+          dispatch({
+            type: "SET_CONNECTED_TICKETS",
+            payload: newConnectedTickets,
+          });
+
+          // Auto-switch to show indirect routes if no direct routes available
+          if (newDirectTickets.length === 0 && newConnectedTickets.length > 0) {
+            dispatch({ type: "SET_SHOW_DIRECT_ONLY", payload: false });
+          }
+
+          // Check if we have any data at all
+          if (
+            newDirectTickets.length === 0 &&
+            newConnectedTickets.length === 0
+          ) {
             dispatch({ type: "SET_NO_DATA", payload: true });
             fetchNextAvailableDates();
-          }
-          dispatch({ type: "SET_HAS_MORE", payload: false });
-        } else {
-          if (pageNumber === 1) {
-            dispatch({ type: "SET_DIRECT_TICKETS", payload: newDirectTickets });
-            dispatch({
-              type: "SET_CONNECTED_TICKETS",
-              payload: newConnectedTickets,
-            });
           } else {
+            dispatch({ type: "SET_NO_DATA", payload: false });
+          }
+        } else {
+          // Append new tickets for pagination
+          if (newDirectTickets.length > 0) {
             dispatch({ type: "ADD_DIRECT_TICKETS", payload: newDirectTickets });
+          }
+          if (newConnectedTickets.length > 0) {
             dispatch({
               type: "ADD_CONNECTED_TICKETS",
               payload: newConnectedTickets,
             });
           }
-          dispatch({ type: "SET_NO_DATA", payload: false });
-          dispatch({ type: "SET_PAGE", payload: pageNumber + 1 });
+        }
+
+        // Update pagination state
+        if (directPageNumber > 0) {
+          dispatch({ type: "SET_DIRECT_PAGE", payload: directPageNumber + 1 });
           dispatch({
-            type: "SET_HAS_MORE",
-            payload:
-              newDirectTickets.length === 6 || newConnectedTickets.length > 0,
+            type: "SET_HAS_MORE_DIRECT",
+            payload: newDirectTickets.length >= 6,
+          });
+        }
+
+        if (connectedPageNumber > 0) {
+          dispatch({
+            type: "SET_CONNECTED_PAGE",
+            payload: connectedPageNumber + 1,
+          });
+          dispatch({
+            type: "SET_HAS_MORE_CONNECTED",
+            payload: newConnectedTickets.length >= 6,
           });
         }
       } catch (err) {
+        console.error("Failed to fetch tickets:", err);
         toast({
           title: "Error",
           description: "Failed to fetch tickets",
           variant: "destructive",
         });
-        dispatch({ type: "SET_HAS_MORE", payload: false });
+        dispatch({ type: "SET_HAS_MORE_DIRECT", payload: false });
+        dispatch({ type: "SET_HAS_MORE_CONNECTED", payload: false });
       } finally {
         dispatch({ type: "SET_LOADING", payload: false });
         dispatch({ type: "SET_INITIAL_LOADING", payload: false });
+        dispatch({ type: "SET_FETCHING_DIRECT", payload: false });
+        dispatch({ type: "SET_FETCHING_CONNECTED", payload: false });
         setIsLoading(false);
+        fetchingRef.current = false;
       }
     },
     [isSelectingReturn, toast, setIsLoading, validateAndUpdateDates]
@@ -404,6 +485,13 @@ const TicketList: React.FC = () => {
   }, [isSelectingReturn, validateAndUpdateDates]);
 
   useEffect(() => {
+    const currentSearchParams = searchParams.toString();
+
+    // Prevent duplicate calls with same parameters
+    if (currentSearchParams === lastSearchParamsRef.current) {
+      return;
+    }
+
     const {
       departureStation,
       arrivalStation,
@@ -414,6 +502,9 @@ const TicketList: React.FC = () => {
     } = searchParameters;
 
     if (departureStation && arrivalStation && adult && children) {
+      lastSearchParamsRef.current = currentSearchParams;
+
+      // Update store state
       setFrom(departureStation);
       setFromCity(fromCity);
       setToCity(toCity);
@@ -425,33 +516,45 @@ const TicketList: React.FC = () => {
       });
       setTo(arrivalStation);
 
+      // Reset and fetch new tickets
       dispatch({ type: "RESET_TICKETS" });
-      fetchTickets(1);
+      fetchTickets(1, 1, true);
     }
-  }, [
-    searchParameters.departureStation,
-    searchParameters.arrivalStation,
-    searchParameters.departureDate,
-    searchParameters.returnDate,
-    searchParameters.adult,
-    searchParameters.children,
-    fromCity,
-    toCity,
-    fetchTickets,
-    setFrom,
-    setFromCity,
-    setToCity,
-    setDepartureDate,
-    setReturnDate,
-    setPassengers,
-    setTo,
-  ]);
+  }, [searchParams.toString()]); // Only depend on search params string
 
   const handleLoadMore = useCallback(() => {
-    if (!state.noData && !state.loading && state.hasMore) {
-      fetchTickets(state.page);
+    if (state.loading || state.fetchingDirect || state.fetchingConnected)
+      return;
+
+    // Determine what to load next based on current filter state
+    if (state.showDirectOnly) {
+      // Only load more direct tickets
+      if (state.hasMoreDirect) {
+        fetchTickets(state.directPage, 0);
+      }
+    } else {
+      // Load both direct and connected tickets
+      const shouldLoadDirect = state.hasMoreDirect;
+      const shouldLoadConnected = state.hasMoreConnected;
+
+      if (shouldLoadDirect || shouldLoadConnected) {
+        fetchTickets(
+          shouldLoadDirect ? state.directPage : 0,
+          shouldLoadConnected ? state.connectedPage : 0
+        );
+      }
     }
-  }, [state.noData, state.loading, state.hasMore, fetchTickets, state.page]);
+  }, [
+    state.loading,
+    state.fetchingDirect,
+    state.fetchingConnected,
+    state.showDirectOnly,
+    state.hasMoreDirect,
+    state.hasMoreConnected,
+    state.directPage,
+    state.connectedPage,
+    fetchTickets,
+  ]);
 
   const handleTicketSelection = useCallback(
     (ticket: Ticket | ConnectedTicket) => {
@@ -524,6 +627,9 @@ const TicketList: React.FC = () => {
           <p className="text-muted-foreground">
             {t("searchedTickets.noTicketsAvailableDescription")}
           </p>
+          <p className="text-sm text-muted-foreground">
+            {t("searchedTickets.noTicketsAvailableTryAgain")}
+          </p>
         </div>
         <Button
           onClick={() => navigateToDate(nextAvailableDate)}
@@ -538,8 +644,41 @@ const TicketList: React.FC = () => {
     );
   };
 
-  const totalResults =
-    state.filteredDirectTickets.length + state.filteredConnectedTickets.length;
+  const totalDirectResults = state.directTickets.length;
+  const totalConnectedResults = state.connectedTickets.length;
+  const totalResults = totalDirectResults + totalConnectedResults;
+
+  // Determine what tickets to show in the infinite scroll
+  const allTicketsToShow = useMemo(() => {
+    const tickets: Array<{
+      type: "direct" | "connected" | "separator";
+      data?: any;
+    }> = [];
+
+    // Add direct tickets first
+    if (state.directTickets.length > 0) {
+      state.directTickets.forEach((ticket) => {
+        tickets.push({ type: "direct", data: ticket });
+      });
+    }
+
+    // Add separator and connected tickets if not showing direct only
+    if (!state.showDirectOnly && state.connectedTickets.length > 0) {
+      if (state.directTickets.length > 0) {
+        tickets.push({ type: "separator" });
+      }
+      state.connectedTickets.forEach((ticket) => {
+        tickets.push({ type: "connected", data: ticket });
+      });
+    }
+
+    return tickets;
+  }, [state.directTickets, state.connectedTickets, state.showDirectOnly]);
+
+  // Calculate if we have more items to load
+  const hasMoreItems = state.showDirectOnly
+    ? state.hasMoreDirect
+    : state.hasMoreDirect || state.hasMoreConnected;
 
   // Show loading skeleton during initial load
   if (state.initialLoading) {
@@ -552,156 +691,149 @@ const TicketList: React.FC = () => {
     );
   }
 
+  // Show no data state
+  if (state.noData && totalResults === 0) {
+    return state.fetchingAvailableDates ? (
+      <div className="flex justify-center py-8">
+        <Loader2 className="animate-spin size-6" />
+      </div>
+    ) : (
+      <NextAvailableDates />
+    );
+  }
+
   return (
-    <div className="flex flex-col gap-8">
-      {state.noData && totalResults === 0 ? (
-        state.fetchingAvailableDates ? (
-          <Loader2 className="animate-spin mx-auto size-6" />
-        ) : (
-          <NextAvailableDates />
-        )
-      ) : (
-        <div className="w-full mx-auto space-y-2">
-          <h1
-            className={cn("mb-2 font-medium text-lg", {
-              hidden: tripType === "one-way",
-            })}
-          >
-            {isSelectingReturn && tripType === "round-trip"
-              ? "Select Return Ticket"
-              : ""}
-          </h1>
+    <div className="flex flex-col gap-6">
+      <div className="w-full mx-auto space-y-4">
+        <h1
+          className={cn("mb-2 font-medium text-lg", {
+            hidden: tripType === "one-way",
+          })}
+        >
+          {isSelectingReturn && tripType === "round-trip"
+            ? t("ticket.selectReturn")
+            : ""}
+        </h1>
 
-          {/* Direct Routes Section */}
-          {state.filteredDirectTickets.length > 0 && (
-            <div className="space-y-4">
-              {/* <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="w-full flex items-center justify-between">
-                    <p className="font-normal">{totalResults || 0} Results</p>
-                  </div>
-                </div>
-                <SearchFilters
-                  tickets={state.directTickets}
-                  totalTrips={state.filteredDirectTickets.length}
-                  onFiltersChange={(filtered) => {
-                    dispatch({
-                      type: "SET_FILTERED_DIRECT_TICKETS",
-                      payload: filtered,
-                    });
-                  }}
-                />
-              </div> */}
+        <div className="flex items-center justify-between">
+          <p className="text-sm text-muted-foreground">
+            {state.showDirectOnly ? totalDirectResults : totalResults}{" "}
+            {t("searchedTickets.results")}
+          </p>
 
-              <InfiniteScroll
-                dataLength={state.directTickets.length}
-                className="space-y-4 sm:space-y-2"
-                next={handleLoadMore}
-                hasMore={state.hasMore}
-                loader={state.loading ? <TicketSkeletonton /> : null}
+          {totalDirectResults > 0 && totalConnectedResults > 0 && (
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="directOnly"
+                checked={state.showDirectOnly}
+                className="size-5 accent-primary-accent appearance-none"
+                onCheckedChange={(checked) =>
+                  dispatch({
+                    type: "SET_SHOW_DIRECT_ONLY",
+                    payload: checked as boolean,
+                  })
+                }
+              />
+              <label
+                htmlFor="directOnly"
+                className="text-sm text-gray-700 cursor-pointer"
               >
-                {state.filteredDirectTickets.map((ticket, index) => (
-                  <Sheet key={`direct-${ticket._id}-${index}`}>
-                    <SheetTrigger className="w-full">
-                      <div
-                        onClick={() => setSelectedTicket(ticket)}
-                        className="cursor-pointer"
-                      >
-                        <TicketBlock
-                          ticket={ticket}
-                          isReturn={isSelectingReturn}
-                        />
-                      </div>
-                    </SheetTrigger>
-                    <SheetContent className="p-0 rounded-tl-xl rounded-bl-xl h-full flex flex-col justify-between">
-                      <div>
-                        <SheetHeader className="border-b p-4 shadow-sm">
-                          <SheetTitle className="font-medium">
-                            {t("ticketDetails.title")}
-                          </SheetTitle>
-                        </SheetHeader>
-                        <TicketDetails ticket={ticket} />
-                      </div>
-                      <SheetFooter className="p-4">
-                        <Button
-                          className="w-full h-12 button-gradient rounded-lg"
-                          onClick={() => handleTicketSelection(ticket)}
-                        >
-                          {isSelectingReturn
-                            ? t("ticket.selectReturn")
-                            : tripType !== "round-trip"
-                            ? t("ticket.continue")
-                            : t("ticket.selectOutbound")}
-                        </Button>
-                      </SheetFooter>
-                    </SheetContent>
-                  </Sheet>
-                ))}
-              </InfiniteScroll>
-            </div>
-          )}
-
-          {state.filteredConnectedTickets.length > 0 && (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="w-full flex items-center justify-between">
-                  <p className="font-medium text-center">Indirect rotues</p>
-                </div>
-                {/* <ConnectedSearchFilters
-                  tickets={state.connectedTickets}
-                  totalTrips={state.filteredConnectedTickets.length}
-                  onFiltersChange={(filtered) => {
-                    dispatch({
-                      type: "SET_FILTERED_CONNECTED_TICKETS",
-                      payload: filtered,
-                    });
-                  }}
-                /> */}
-              </div>
-
-              <div className="space-y-2 sm:space-y-1">
-                {state.filteredConnectedTickets.map((ticket, index) => (
-                  <Sheet key={`connected-${ticket._id}-${index}`}>
-                    <SheetTrigger className="w-full">
-                      <div
-                        onClick={() => setSelectedTicket(ticket as any)}
-                        className="cursor-pointer"
-                      >
-                        <ConnectedTicketBlock
-                          ticket={ticket}
-                          isReturn={isSelectingReturn}
-                        />
-                      </div>
-                    </SheetTrigger>
-                    <SheetContent className="p-0 rounded-tl-xl rounded-bl-xl h-full flex flex-col justify-between overflow-y-auto">
-                      <div>
-                        <SheetHeader className="border-b p-4 shadow-sm">
-                          <SheetTitle className="font-medium">
-                            {t("ticketDetails.title")}
-                          </SheetTitle>
-                        </SheetHeader>
-                        <ConnectedTicketDetails ticket={ticket} />
-                      </div>
-                      <SheetFooter className="p-4">
-                        <Button
-                          className="w-full h-12 button-gradient rounded-lg"
-                          onClick={() => handleTicketSelection(ticket)}
-                        >
-                          {isSelectingReturn
-                            ? t("ticket.selectReturn")
-                            : tripType !== "round-trip"
-                            ? t("ticket.continue")
-                            : t("ticket.selectOutbound")}
-                        </Button>
-                      </SheetFooter>
-                    </SheetContent>
-                  </Sheet>
-                ))}
-              </div>
+                {t("searchedTickets.directOnly")}
+              </label>
             </div>
           )}
         </div>
-      )}
+
+        <InfiniteScroll
+          dataLength={allTicketsToShow.length}
+          className="space-y-4 sm:space-y-2"
+          next={handleLoadMore}
+          hasMore={hasMoreItems}
+          loader={
+            state.loading || state.fetchingDirect || state.fetchingConnected ? (
+              <TicketSkeletonton />
+            ) : null
+          }
+          endMessage={
+            !hasMoreItems && allTicketsToShow.length > 0 ? (
+              <div className="text-center py-4">
+                <p className="text-sm text-muted-foreground">
+                  {t("searchedTickets.endOfResults")}
+                </p>
+              </div>
+            ) : null
+          }
+        >
+          {allTicketsToShow.map((item, index) => {
+            if (item.type === "separator") {
+              return (
+                <div key={`separator-${index}`} className="py-4">
+                  <Separator className="relative">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="bg-background px-4 text-sm text-muted-foreground rounded-xl py-1">
+                        {t("searchedTickets.indirectRoutes")}
+                      </span>
+                    </div>
+                  </Separator>
+                </div>
+              );
+            }
+
+            const ticket = item.data;
+            const isConnected = item.type === "connected";
+            const keyPrefix = isConnected ? "connected" : "direct";
+
+            return (
+              <Sheet key={`${keyPrefix}-${ticket._id}-${index}`}>
+                <SheetTrigger className="w-full">
+                  <div
+                    onClick={() => setSelectedTicket(ticket)}
+                    className="cursor-pointer"
+                  >
+                    {isConnected ? (
+                      <ConnectedTicketBlock
+                        ticket={ticket}
+                        isReturn={isSelectingReturn}
+                      />
+                    ) : (
+                      <TicketBlock
+                        ticket={ticket}
+                        isReturn={isSelectingReturn}
+                      />
+                    )}
+                  </div>
+                </SheetTrigger>
+                <SheetContent className="p-0 rounded-tl-xl rounded-bl-xl h-full flex flex-col justify-between overflow-y-auto">
+                  <div>
+                    <SheetHeader className="border-b p-4 shadow-sm">
+                      <SheetTitle className="font-medium">
+                        {t("ticketDetails.title")}
+                      </SheetTitle>
+                    </SheetHeader>
+                    {isConnected ? (
+                      <ConnectedTicketDetails ticket={ticket} />
+                    ) : (
+                      <TicketDetails ticket={ticket} />
+                    )}
+                  </div>
+                  <SheetFooter className="p-4">
+                    <Button
+                      className="w-full h-12 button-gradient rounded-lg"
+                      onClick={() => handleTicketSelection(ticket)}
+                    >
+                      {isSelectingReturn
+                        ? t("ticket.selectReturn")
+                        : tripType !== "round-trip"
+                        ? t("ticket.continue")
+                        : t("ticket.selectOutbound")}
+                    </Button>
+                  </SheetFooter>
+                </SheetContent>
+              </Sheet>
+            );
+          })}
+        </InfiniteScroll>
+      </div>
     </div>
   );
 };

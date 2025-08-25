@@ -227,7 +227,7 @@
   },
   "paymentMethod": {
     "title": "Payment Method",
-    "description": "Choose your preferred payment method. You can use your account balance for partial or full payment, with any remaining amount to be paid by card",
+    "description": "Choose your preferred payment method.",
     "options": {
       "creditCard": "Credit Card",
       "paypal": "PayPal",
@@ -619,7 +619,11 @@
     "noTicketsAvailableDescription": "No tickets available for the selected date.",
     "nextAvailable": "Next available",
     "noTicketsAvailableIllustrationAlt": "Man Illustration",
-    "noTicketsAvailableTryAgain": "Try adjusting your search parameters or selecting a different date."
+    "noTicketsAvailableTryAgain": "Try adjusting your search parameters or selecting a different date.",
+    "indirectRoutes": "Indirect routes",
+    "endOfResults": "End of results",
+    "directOnly": "Direct routes only",
+    "results": "Results"
   },
   "discountCodes": {
     "title": "Discount Codes",

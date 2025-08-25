@@ -257,18 +257,29 @@ const PaymentMethod = () => {
       }
     };
   }, []);
-
   const validateCardFields = (): boolean => {
     const { cardNumber, cardExpiry, cardCvc } = cardFieldsComplete;
+    const errors: CardValidationErrors = {};
 
-    if (!cardNumber || !cardExpiry || !cardCvc) {
-      const errors: CardValidationErrors = {};
+    if (!cardNumber) errors.cardNumber = "Card number is required";
+    if (!cardExpiry) errors.cardExpiry = "Expiry date is required";
+    if (!cardCvc) errors.cardCvc = "CVC is required";
 
-      if (!cardNumber) errors.cardNumber = "Card number is required";
-      if (!cardExpiry) errors.cardExpiry = "Expiry date is required";
-      if (!cardCvc) errors.cardCvc = "CVC is required";
-
+    if (Object.keys(errors).length > 0) {
       setCardValidationErrors(errors);
+
+      // Scroll to the first error field
+      const firstErrorId = errors.cardNumber
+        ? "card-number-element"
+        : errors.cardExpiry
+        ? "card-expiry-element"
+        : "card-cvc-element";
+
+      const el = document.getElementById(firstErrorId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.focus?.(); // optional if it's focusable
+      }
 
       toast({
         description: "Please fill in all card details",

@@ -236,7 +236,7 @@
   },
   "paymentMethod": {
     "title": "Zahlungsmethode",
-    "description": "Wählen Sie Ihre bevorzugte Zahlungsmethode. Sie können Ihr Kontoguthaben für Teil- oder Vollzahlung verwenden, der Restbetrag wird per Karte bezahlt",
+    "description": "Wählen Sie Ihre bevorzugte Zahlungsmethode.",
     "options": {
       "creditCard": "Kreditkarte",
       "paypal": "PayPal",
@@ -593,9 +593,13 @@
   "searchedTickets": {
     "noTicketsAvailable": "Keine Tickets verfügbar",
     "noTicketsAvailableDescription": "Keine Tickets für das ausgewählte Datum verfügbar.",
-    "nextAvailable": "Nächstes verfügbares Ticket",
-    "noTicketsAvailableIllustrationAlt": "Mann-Illustration",
-    "noTicketsAvailableTryAgain": "Versuchen Sie, die Suchparameter anzupassen oder ein anderes Datum auszuwählen."
+    "nextAvailable": "Nächste Verfügbarkeit",
+    "noTicketsAvailableIllustrationAlt": "Mann Illustration",
+    "noTicketsAvailableTryAgain": "Versuchen Sie, Ihre Suchparameter zu ändern oder ein anderes Datum zu wählen.",
+    "indirectRoutes": "Indirekte Verbindungen",
+    "endOfResults": "Ende der Ergebnisse",
+    "directOnly": "Nur Direktverbindungen",
+    "results": "Ergebnisse"
   },
   "discountCodes": {
     "title": "Rabattcodes",

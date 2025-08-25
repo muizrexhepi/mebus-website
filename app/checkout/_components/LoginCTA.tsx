@@ -8,12 +8,12 @@ import { User, BookmarkCheck, Clock, Shield } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const LoginCTA = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const { setOpenLogin } = useNavbarStore();
   const { t } = useTranslation();
 
   // Don't show if user is already logged in
-  if (user) return null;
+  if (user || loading) return null;
 
   return (
     <Card className="border-2 border-dashed border-orange-200 bg-orange-50/50 rounded-xl">

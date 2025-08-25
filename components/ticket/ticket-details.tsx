@@ -82,7 +82,7 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
     <>
       <div className="space-y-4">
         {/* Location Selection Section */}
-        <div className="space-y-3 text-sm px-4 pt-4">
+        <div className="space-y-3 text-sm px-3 pt-4">
           <div
             className="flex items-center space-x-3 cursor-pointer rounded-lg transition-colors hover:bg-gray-50"
             onClick={() =>

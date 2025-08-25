@@ -222,7 +222,7 @@
   },
   "paymentMethod": {
     "title": "Начин на плаќање",
-    "description": "Изберете го вашиот претпочитан начин на плаќање. Можете да го користите вашиот баланс на сметка за делумно или целосно плаќање, а остатокот со картичка",
+    "description": "Изберете го вашиот претпочитан начин на плаќање.",
     "options": {
       "creditCard": "Кредитна картичка",
       "paypal": "PayPal",
@@ -557,10 +557,14 @@
   },
   "searchedTickets": {
     "noTicketsAvailable": "Нема достапни билети",
-    "noTicketsAvailableDescription": "Нема билети достапни за избраниот датум.",
-    "nextAvailable": "Следно достапно",
+    "noTicketsAvailableDescription": "Нема достапни билети за избраниот датум.",
+    "nextAvailable": "Следна достапност",
     "noTicketsAvailableIllustrationAlt": "Илустрација на маж",
-    "noTicketsAvailableTryAgain": "Обидете се да ги прилагодите параметрите за пребарување или да изберете друг датум."
+    "noTicketsAvailableTryAgain": "Обидете се да ги промените параметрите за пребарување или изберете друг датум.",
+    "indirectRoutes": "Индиректни линии",
+    "endOfResults": "Крај на резултатите",
+    "directOnly": "Само директни линии",
+    "results": "Резултати"
   },
   "discountCodes": {
     "title": "Кодовите за попуст",

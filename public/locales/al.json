@@ -224,7 +224,7 @@
   },
   "paymentMethod": {
     "title": "Metoda e Pagesës",
-    "description": "Zgjidhni metodën tuaj të preferuar të pagesës. Mund të përdorni bilancin e llogarisë tuaj për pagesë të pjesshme ose të plotë, me çdo shumë të mbetur që do të paguhet me kartë",
+    "description": "Zgjidhni metodën tuaj të preferuar të pagesës.",
     "options": {
       "creditCard": "Kartë Krediti",
       "paypal": "PayPal",
@@ -595,12 +595,15 @@
   },
   "searchedTickets": {
     "noTicketsAvailable": "Nuk ka bileta të disponueshme",
-    "noTicketsAvailableDescription": "Nuk ka bileta për datën e zgjedhur.",
-    "nextAvailable": "Në dispozicion të ardhshëm",
-    "noTicketsAvailableIllustrationAlt": "Ilustrimi i burrit",
-    "noTicketsAvailableTryAgain": "Provo të rregullosh parametrat e kërkimit ose të zgjedhësh një datë tjetër."
+    "noTicketsAvailableDescription": "Nuk ka bileta të disponueshme për datën e zgjedhur.",
+    "nextAvailable": "Disponueshmëria tjetër",
+    "noTicketsAvailableIllustrationAlt": "Ilustrim me burrë",
+    "noTicketsAvailableTryAgain": "Provoni të ndryshoni parametrat e kërkimit ose të zgjidhni një datë tjetër.",
+    "indirectRoutes": "Linjat indirekte",
+    "endOfResults": "Fundi i rezultateve",
+    "directOnly": "Vetëm direkte",
+    "results": "Rezultate"
   },
-
   "discountCodes": {
     "title": "Kodin e Zbritjes",
     "subtitle": "Shikoni dhe menaxhoni kodet e disponueshme të zbritjes",

@@ -177,7 +177,7 @@ export default function DataAndSecurity() {
   return (
     <div className="container max-w-3xl mx-auto pb-14">
       <div className="space-y-8">
-        <h1 className="text-3xl font-semibold mb-4">
+        <h1 className="text-3xl font-medium mb-4">
           {t("dataAndSecurity.title")}
         </h1>
 
@@ -205,7 +205,7 @@ export default function DataAndSecurity() {
           </div>
 
           <div className="space-y-6">
-            <div className="flex items-start justify-between py-2">
+            <div className="flex items-start flex-wrap gap-2 justify-between py-2">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <span className="font-medium text-sm text-muted-foreground">
