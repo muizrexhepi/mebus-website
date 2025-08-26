@@ -51,9 +51,7 @@ const UserNavbarMenu = () => {
     try {
       await signOut({ callbackUrl: "/" });
       window.dispatchEvent(new Event("userChange"));
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
+    } catch (error) {}
   };
 
   const sidebarLinks = [

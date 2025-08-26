@@ -47,10 +47,8 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           }&session=${encodeURIComponent(sanitizedSession)}`
         );
 
-        console.log({ user: res.data });
         setUser(res.data.data);
       } catch (error) {
-        console.error("Error fetching user:", error);
       } finally {
         setLoading(false);
       }

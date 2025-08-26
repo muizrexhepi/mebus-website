@@ -34,19 +34,12 @@ export default function CookieSettingsPage() {
       try {
         const savedPreferences = JSON.parse(consentGiven);
         setPreferences(savedPreferences);
-      } catch (error) {
-        console.error("Error parsing cookie preferences:", error);
-      }
+      } catch (error) {}
     }
   }, []);
 
   const handleSavePreferences = () => {
     Cookies.set(COOKIE_NAME, JSON.stringify(preferences), { expires: 365 });
-    // Important: Re-apply the cookie settings
-    // This is where you would call functions to set or block cookies
-    // based on the new 'preferences' state.
-    // E.g., initializeGATracking(preferences.analytics);
-    // initializeMarketingPixels(preferences.marketing);
 
     toast({
       title: "Preferences Saved!",

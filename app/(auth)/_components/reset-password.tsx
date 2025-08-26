@@ -50,7 +50,6 @@ const ResetPasswordPage = () => {
       );
       setSuccess(t("reset.success"));
     } catch (error: any) {
-      console.error(error);
       setError(error.message || t("reset.error"));
     } finally {
       setIsLoading(false);

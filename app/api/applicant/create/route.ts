@@ -37,7 +37,6 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error processing application:", error);
     return NextResponse.json(
       { message: "Error processing application" },
       { status: 500 }

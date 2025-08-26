@@ -67,7 +67,7 @@ const BookingsDashboardClient: React.FC = () => {
         fetchBookings();
       }
     } catch (error: any) {
-      console.error("Cancellation failed:", error);
+      // console.error("Cancellation failed:", error);
       toast({
         description:
           error.response?.data?.message || "Failed to cancel booking.",
@@ -84,7 +84,7 @@ const BookingsDashboardClient: React.FC = () => {
       );
       setBookings(res.data.data);
     } catch (error) {
-      console.error("Failed to fetch bookings:", error);
+      // console.error("Failed to fetch bookings:", error);
     } finally {
       setLoading(false);
     }

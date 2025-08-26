@@ -34,7 +34,7 @@ export default function NotificationsPage() {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       toast({ description: "Notification preferences updated successfully." });
     } catch (error) {
-      console.error("Failed to update notification preferences:", error);
+      // console.error("Failed to update notification preferences:", error);
       toast({
         description: "Failed to update preferences. Please try again.",
         variant: "destructive",

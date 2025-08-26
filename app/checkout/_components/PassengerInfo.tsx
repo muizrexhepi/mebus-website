@@ -20,7 +20,6 @@ import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useAbandonedCheckout } from "@/components/hooks/use-abandoned-checkout";
 
 interface InputFieldProps {
   label: string;
@@ -47,11 +46,7 @@ const InputField: React.FC<InputFieldProps> = ({
   error,
   onBlur,
 }) => {
-  // 🚨 Get resetTimeout from abandoned checkout hook
-  const { resetTimeout } = useAbandonedCheckout();
-
   const handleDateChange = (date: Date | null) => {
-    resetTimeout(); // Reset timer on date change
     if (date) {
       const formattedDate = date?.toISOString()?.split("T")[0];
       onChange(formattedDate);
@@ -61,7 +56,6 @@ const InputField: React.FC<InputFieldProps> = ({
   };
 
   const handleInputChange = (value: string) => {
-    resetTimeout(); // Reset timer on input change
     onChange(value);
   };
 
@@ -204,7 +198,6 @@ const PassengerInfo: React.FC = () => {
     children: passengersAmount.children || 0,
   };
   const { user } = useAuth();
-  const { resetTimeout } = useAbandonedCheckout();
 
   // Track if we've already set user data to avoid infinite loops
   const [userDataSet, setUserDataSet] = useState(false);
@@ -271,17 +264,11 @@ const PassengerInfo: React.FC = () => {
     setUserDataSet(true);
   }, [user, passengers, userDataSet, setPassengers]);
 
-  useEffect(() => {
-    console.log("👥 Passengers updated:", passengers);
-  }, [passengers]);
-
   const updatePassenger = (
     index: number,
     field: keyof PassengerData,
     value: string
   ) => {
-    resetTimeout();
-
     const updatedPassengers = [...passengers];
     updatedPassengers[index] = {
       ...updatedPassengers[index],
@@ -297,10 +284,6 @@ const PassengerInfo: React.FC = () => {
         age--;
       }
       updatedPassengers[index].age = age;
-    }
-
-    if (field === "email" && value && index === 0) {
-      console.log("📧 Email entered, abandoned checkout tracking will start");
     }
 
     setValidationErrors(Array(adults + children).fill({}));
@@ -337,7 +320,6 @@ const PassengerInfo: React.FC = () => {
     const errors = validationErrors[index] || {};
 
     const removePassenger = () => {
-      resetTimeout();
       if (isChild) {
         setPassengersAmount({ adults, children: Math.max(0, children - 1) });
       } else {

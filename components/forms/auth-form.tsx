@@ -72,7 +72,6 @@ export default function AuthForm() {
         setFormState("otp");
       }
     } catch (error) {
-      console.error("Failed to send OTP:", error);
       toast({
         title: "Failed to send verification code",
         description: "Please try again later",
@@ -118,7 +117,6 @@ export default function AuthForm() {
         });
       }
     } catch (error) {
-      console.error("OTP verification failed:", error);
       toast({
         title: "An error occurred",
         description: "Please try again later",

@@ -43,7 +43,7 @@ export default function DownloadableBookingPDF({
 
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error("Error downloading PDF:", error);
+      // console.error("Error downloading PDF:", error);
     } finally {
       setLoading(false);
     }

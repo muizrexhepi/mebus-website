@@ -421,7 +421,6 @@ const TicketList: React.FC = () => {
           });
         }
       } catch (err) {
-        console.error("Failed to fetch tickets:", err);
         toast({
           title: "Error",
           description: "Failed to fetch tickets",
@@ -478,7 +477,6 @@ const TicketList: React.FC = () => {
         payload: data.data.availableDates || [],
       });
     } catch (err) {
-      console.error("Failed to fetch available dates:", err);
     } finally {
       dispatch({ type: "SET_FETCHING_DATES", payload: false });
     }
@@ -767,7 +765,7 @@ const TicketList: React.FC = () => {
           {allTicketsToShow.map((item, index) => {
             if (item.type === "separator") {
               return (
-                <div key={`separator-${index}`} className="py-4">
+                <div key={`separator-${index}`} className="py-4 pb-6">
                   <Separator className="relative">
                     <div className="absolute inset-0 flex items-center justify-center">
                       <span className="bg-background px-4 text-sm text-muted-foreground rounded-xl py-1">

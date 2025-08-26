@@ -52,7 +52,6 @@ function TicketSummary({ ticket }: TripProps) {
     const departureDate = moment.utc(firstLeg.departure_date);
     const arrivalDate = moment.utc(lastLeg.arrival_time);
     const isNextDay = !departureDate.isSame(arrivalDate, "day");
-    console.log({ ticket });
 
     return (
       <div className="space-y-4">

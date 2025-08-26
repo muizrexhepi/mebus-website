@@ -83,7 +83,7 @@ export default function SavedItemsPage() {
       );
       toast({ description: "Item removed successfully." });
     } catch (error) {
-      console.error("Failed to remove item:", error);
+      // console.error("Failed to remove item:", error);
       toast({
         description: "Failed to remove item. Please try again.",
         variant: "destructive",

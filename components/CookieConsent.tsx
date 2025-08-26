@@ -48,7 +48,6 @@ export default function CookieConsent() {
         const savedPreferences = JSON.parse(consentGiven);
         setPreferences(savedPreferences);
       } catch (error) {
-        console.error("Error parsing cookie preferences:", error);
         setShowBanner(true);
       }
     }

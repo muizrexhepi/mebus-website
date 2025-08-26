@@ -96,7 +96,6 @@ export default function OperatorDetailsPage() {
         setOperator(mockOperator);
         setIsLoading(false);
       } catch (error) {
-        console.error("Failed to fetch operator data:", error);
         setIsLoading(false);
       }
     };

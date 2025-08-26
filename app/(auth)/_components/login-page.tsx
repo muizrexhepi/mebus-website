@@ -51,7 +51,6 @@ const LoginPage = () => {
 
       if (!result.success || !result.credentials) {
         setError(result.error || t("login.errors.generic"));
-        console.log("error");
 
         return;
       }
@@ -68,7 +67,6 @@ const LoginPage = () => {
         window.dispatchEvent(new Event("userChange"));
       }
     } catch (error: any) {
-      console.log("catch");
       if (error.type === "user_more_factors_required") {
         const factors = await account.listMfaFactors();
         setMFAFactors(factors);
@@ -78,9 +76,6 @@ const LoginPage = () => {
           setError(t("login.errors.noMfaMethodAvailable"));
         }
       } else {
-        console.log("elsecatch");
-
-        console.error("Login error:", error);
         setError(error.message || t("login.errors.generic"));
       }
     } finally {

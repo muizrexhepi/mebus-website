@@ -346,7 +346,6 @@ const PaymentMethod = () => {
       }
     } catch (error: any) {
       event.complete("fail");
-      console.error("Express payment error:", error);
       toast({
         description: error?.message || "Payment failed",
         variant: "destructive",
@@ -436,7 +435,6 @@ const PaymentMethod = () => {
         throw new Error(`Unexpected payment status: ${paymentIntent.status}`);
       }
     } catch (err: any) {
-      console.error("Payment error:", err);
       toast({
         description:
           err?.response?.data?.message || err?.message || "Payment failed",
@@ -475,13 +473,9 @@ const PaymentMethod = () => {
         throw new Error("Failed to create booking");
       }
 
-      // Clear stored discount
       try {
         clearStoredDiscount();
-      } catch (error) {
-        console.warn("Failed to clear stored discount:", error);
-        // Don't throw here as the booking was successful
-      }
+      } catch (error) {}
 
       // Reset checkout state
       resetCheckout();
@@ -498,7 +492,6 @@ const PaymentMethod = () => {
         router.replace("/checkout/success");
       }, 100);
     } catch (error: any) {
-      console.error("Booking creation error:", error);
       throw new Error(error?.message || "Failed to create booking");
     }
   };

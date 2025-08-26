@@ -38,7 +38,6 @@ export const MFAOptionsForm = () => {
         setMfaType(option);
         setCurrentForm("mfaVerification");
       } catch (error) {
-        console.error("Error creating MFA challenge:", error);
         setError(t("mfa.errors.setupFailed"));
       } finally {
         setIsLoading(false);

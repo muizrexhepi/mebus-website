@@ -65,7 +65,7 @@ export default function Account() {
       await signOut({ callbackUrl: "/" });
       window.dispatchEvent(new Event("userChange"));
     } catch (error) {
-      console.error("Logout failed:", error);
+      // console.error("Logout failed:", error);
     }
   };
 

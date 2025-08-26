@@ -42,7 +42,6 @@ export default function NewsletterCTA() {
         });
       }
     } catch (error) {
-      console.log({ error });
       toast({
         description: t("footer.subscribe.errorMessage.genericError"),
         variant: "destructive",

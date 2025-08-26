@@ -312,7 +312,6 @@ export async function sendAbandonedCheckoutEmail(
 
     return { success: true, data: result };
   } catch (error) {
-    console.error("Error sending abandoned checkout email:", error);
     return { success: false, error };
   }
 }

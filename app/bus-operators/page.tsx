@@ -36,7 +36,6 @@ async function fetchOperators() {
     const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/operator`);
     return res.data?.data ?? [];
   } catch (e) {
-    console.error("Failed to fetch operators", e);
     return [];
   }
 }

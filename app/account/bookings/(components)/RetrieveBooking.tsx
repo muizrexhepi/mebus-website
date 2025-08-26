@@ -45,7 +45,7 @@ export function RetrieveBooking() {
       );
       setRetrievedBooking(response.data.data);
     } catch (error: any) {
-      console.error({ error });
+      // console.error({ error });
       setError(
         error.response?.data?.message ||
           "Failed to retrieve booking. Please try again."

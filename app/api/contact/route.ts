@@ -60,12 +60,7 @@ export async function POST(request: NextRequest) {
           subject: subjectText,
         }),
       });
-
-      console.log("User email sent:", userEmailResponse);
-    } catch (emailError) {
-      console.error("Error sending user email:", emailError);
-      // Continue with internal notification even if user email fails
-    }
+    } catch (emailError) {}
 
     try {
       // Send notification to internal team
@@ -99,10 +94,7 @@ export async function POST(request: NextRequest) {
           </div>
         `,
       });
-
-      console.log("Internal notification sent:", supportNotification);
     } catch (notificationError) {
-      console.error("Error sending internal notification:", notificationError);
       // Don't fail the request if internal notification fails
     }
 
@@ -115,7 +107,6 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Contact form submission error:", error);
     return NextResponse.json(
       {
         error:

@@ -19,7 +19,6 @@ async function getRoutes() {
     );
     return res.data.data || [];
   } catch (error) {
-    console.error("Failed to fetch routes", error);
     return [];
   }
 }

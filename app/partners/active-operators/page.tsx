@@ -13,7 +13,6 @@ export const metadata: Metadata = {
 const ActiveOperatorsPage: React.FC = async () => {
   const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/operator`);
   const operators: Operator[] = res.data.data;
-  console.log({ operators });
 
   return (
     <div className="bg-[#f9fafb]">

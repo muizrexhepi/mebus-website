@@ -104,7 +104,7 @@ export default function DataAndSecurity() {
         description: t("dataAndSecurity.exportSuccess"),
       });
     } catch (error: any) {
-      console.error("Data export error:", error);
+      // console.error("Data export error:", error);
       toast({
         description: error.message || t("dataAndSecurity.exportError"),
         variant: "destructive",

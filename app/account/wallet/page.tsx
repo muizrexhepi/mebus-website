@@ -97,24 +97,6 @@ function WalletPageContent() {
     fetchPaymentMethods();
   }, [user]);
 
-  const handleAddNewMethod = async () => {
-    try {
-      // Implement actual API call to add payment method
-      console.log("Adding new payment method:", newCardDetails);
-
-      // Reset dialog and form
-      setNewMethodDialogOpen(false);
-      setNewCardDetails({
-        cardNumber: "",
-        expiry: "",
-        cvc: "",
-      });
-    } catch (error) {
-      console.error("Failed to add payment method", error);
-      setError("Failed to add payment method");
-    }
-  };
-
   const removePaymentMethod = async (pm_id: string) => {
     try {
       await axios.post(
@@ -125,7 +107,7 @@ function WalletPageContent() {
         prevMethods.filter((method) => method.id !== pm_id)
       );
     } catch (error) {
-      console.error("Failed to remove payment method", error);
+      // console.error("Failed to remove payment method", error);
       setError("Failed to remove payment method");
     }
   };

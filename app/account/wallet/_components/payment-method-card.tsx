@@ -176,7 +176,6 @@ const PaymentMethodCard: React.FC<PaymentMethodCardProps> = ({
 }) => {
   const { t } = useTranslation();
   const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
-  console.log({ method });
 
   const normalizedBrand = method?.card?.brand.toLowerCase() as CardNetwork;
 

@@ -29,17 +29,11 @@ export async function POST(request: NextRequest) {
         react: WelcomeEmail(),
       });
 
-      console.log(
-        "Newsletter subscription email sent successfully with ID:",
-        emailResult.id
-      );
-
       return NextResponse.json(
         { message: "Subscribed successfully", emailId: emailResult.id },
         { status: 200 }
       );
     } catch (emailError: any) {
-      console.error("Newsletter email sending error:", emailError);
       return NextResponse.json(
         {
           error: "Error sending welcome email",
@@ -49,7 +43,6 @@ export async function POST(request: NextRequest) {
       );
     }
   } catch (error: any) {
-    console.error("Newsletter subscription request parsing error:", error);
     return NextResponse.json(
       {
         error: "Invalid subscription request",

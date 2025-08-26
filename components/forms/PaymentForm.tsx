@@ -91,7 +91,6 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
         }
       );
     } catch (error) {
-      console.error("Failed to update booking:", error);
       throw error;
     }
   };

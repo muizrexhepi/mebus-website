@@ -26,9 +26,7 @@ export default async function RoutesAndStopsPage() {
   try {
     const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/route`);
     routes = res.data.data || [];
-  } catch (error) {
-    console.error("Failed to fetch routes", error);
-  }
+  } catch (error) {}
 
   return (
     <div className="min-h-screen flex flex-col">

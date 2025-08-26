@@ -19,9 +19,7 @@ export default function AffiliateTracker() {
           origin,
         }
       );
-    } catch (error) {
-      console.error("Failed to increment affiliate views:", error);
-    }
+    } catch (error) {}
   }, [affiliateCode, origin]);
 
   useEffect(() => {

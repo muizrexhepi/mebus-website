@@ -56,28 +56,23 @@ const LoginForm = () => {
 
       if (!result.success || !result.credentials) {
         setError(result.error || t("login.errors.generic"));
-        console.log("error");
 
         return;
       }
-      console.log({ result });
       await account.createEmailPasswordSession(
         result.credentials.email,
         result.credentials.password
       );
 
       const user = await account.get();
-      console.log({ user });
       if (user) {
         setOpenLogin(false);
         setError("");
         window.dispatchEvent(new Event("userChange"));
       }
     } catch (error: any) {
-      console.log("catch");
       if (error.type === "user_more_factors_required") {
         const factors = await account.listMfaFactors();
-        console.log({ factors });
         setMFAFactors(factors);
         if (factors) {
           setCurrentForm("mfaOptions");
@@ -85,9 +80,6 @@ const LoginForm = () => {
           setError(t("login.errors.noMfaMethodAvailable"));
         }
       } else {
-        console.log("elsecatch");
-
-        console.error("Login error:", error);
         setError(error.message || t("login.errors.generic"));
       }
     } finally {

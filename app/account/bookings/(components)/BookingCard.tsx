@@ -69,7 +69,8 @@ export const BookingCard: React.FC<BookingCardProps> = ({
   const router = useRouter();
   const isNoFlex = booking.metadata.travel_flex === "no_flex";
   const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
-  const [isExtraPaymentNeeded, setIsExtraPaymentNeeded] = useState<boolean>(false);
+  const [isExtraPaymentNeeded, setIsExtraPaymentNeeded] =
+    useState<boolean>(false);
   const [availableDates, setAvailableDates] = useState<any>([]);
   const [selectedDate, setSelectedDate] = useState<any>(null);
   const [newDepartureDate, setNewDepartureDate] = useState<AvailableDate>();
@@ -86,13 +87,18 @@ export const BookingCard: React.FC<BookingCardProps> = ({
     platform: null,
   });
 
-  const adults = booking.passengers?.filter((passenger) => passenger?.age >= 10)?.length || 0;
-  const children = booking.passengers?.filter((passenger) => passenger?.age < 10)?.length || 0;
+  const adults =
+    booking.passengers?.filter((passenger) => passenger?.age >= 10)?.length ||
+    0;
+  const children =
+    booking.passengers?.filter((passenger) => passenger?.age < 10)?.length || 0;
 
   useEffect(() => {
     const userAgent = navigator.userAgent;
-    const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream;
-    const isChrome = /Chrome/.test(userAgent) && /Google Inc/.test(navigator.vendor);
+    const isIOS =
+      /iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream;
+    const isChrome =
+      /Chrome/.test(userAgent) && /Google Inc/.test(navigator.vendor);
 
     if (isIOS) {
       setWalletSupport({ supported: true, platform: "ios" });
@@ -130,7 +136,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({
         description: "PDF downloaded successfully!",
       });
     } catch (error) {
-      console.error("Error downloading PDF:", error);
+      // console.error("Error downloading PDF:", error);
       toast({
         title: "Error",
         description: "Failed to download PDF.",
@@ -153,24 +159,26 @@ export const BookingCard: React.FC<BookingCardProps> = ({
         },
       });
 
-      const blob = new Blob([response.data], { type: "application/vnd.apple.pkpass" });
+      const blob = new Blob([response.data], {
+        type: "application/vnd.apple.pkpass",
+      });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
       link.download = `gobusly-ticket-${booking._id}.pkpass`;
       link.style.display = "none";
-      
+
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
-      
+
       toast({
         title: "Success",
         description: "Pass downloaded! Open the file to add to Apple Wallet.",
       });
     } catch (error) {
-      console.error("Error adding to Apple Wallet:", error);
+      // console.error("Error adding to Apple Wallet:", error);
       toast({
         title: "Error",
         description: "Failed to add ticket to Apple Wallet.",
@@ -198,7 +206,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({
         throw new Error("Failed to generate Google Pay pass");
       }
     } catch (error) {
-      console.error("Error adding to Google Pay:", error);
+      // console.error("Error adding to Google Pay:", error);
       toast({
         title: "Error",
         description: "Failed to add ticket to Google Pay.",
@@ -249,7 +257,9 @@ export const BookingCard: React.FC<BookingCardProps> = ({
   const fetchAvailableDates = async () => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/ticket/search/available-dates?departureStation=${
+        `${
+          process.env.NEXT_PUBLIC_API_URL
+        }/ticket/search/available-dates?departureStation=${
           booking.destinations?.departure_station
         }&arrivalStation=${
           booking.destinations?.arrival_station
@@ -259,7 +269,7 @@ export const BookingCard: React.FC<BookingCardProps> = ({
       );
       setAvailableDates(response.data.data);
     } catch (error) {
-      console.error("Error fetching ticket search results", error);
+      // console.error("Error fetching ticket search results", error);
     }
   };
 

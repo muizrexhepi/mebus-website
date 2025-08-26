@@ -86,7 +86,6 @@ export function AffiliateApplicationForm() {
     setError(null);
 
     try {
-      console.log({ ...values, name: values.fullName });
       const response = await fetch("/api/affiliate-application", {
         method: "POST",
         headers: {
@@ -110,7 +109,6 @@ export function AffiliateApplicationForm() {
       setError(
         err instanceof Error ? err.message : t("affiliateForm.errorUnexpected")
       );
-      console.error("Error submitting form:", err);
     } finally {
       setIsSubmitting(false);
     }

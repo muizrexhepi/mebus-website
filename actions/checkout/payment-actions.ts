@@ -351,7 +351,7 @@ export async function createBooking(params: CreateBookingParams) {
 
     return newBooking;
   } catch (error) {
-    console.error("Booking creation failed:", error);
+    // console.error("Booking creation failed:", error);
     setIsPaymentSuccess(false);
     setBookingDetails(null);
     throw error;

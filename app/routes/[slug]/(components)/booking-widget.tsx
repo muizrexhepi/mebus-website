@@ -35,14 +35,6 @@ export default function BookingWidget({
 
   const handleSearch = () => {
     // Handle search logic
-    console.log("Searching for buses...", {
-      from: fromCity,
-      to: toCity,
-      date: selectedDate,
-      passengers,
-      tripType,
-      returnDate,
-    });
   };
 
   if (compact) {

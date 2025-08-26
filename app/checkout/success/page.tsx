@@ -81,9 +81,7 @@ const SuccessPage: React.FC = () => {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Error downloading PDF:", error);
-    }
+    } catch (error) {}
   };
 
   const addToWallet = async () => {
@@ -95,9 +93,7 @@ const SuccessPage: React.FC = () => {
 
       const response = await axios.post(endpoint);
       if (response.data?.saveUrl) window.open(response.data.saveUrl, "_blank");
-    } catch (error) {
-      console.error("Error adding to wallet:", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {

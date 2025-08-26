@@ -27,18 +27,17 @@ const createUserInDB = async (userData: {
   profile_picture: string | null;
 }) => {
   try {
-    console.log(userData);
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/user/create/db?oauth=true`,
       userData
     );
-    console.log("User creation response:", response.data);
+    // console.log("User creation response:", response.data);
     return true;
   } catch (error: any) {
-    console.error(
-      "Error creating user:",
-      error.response?.data || error.message
-    );
+    // console.error(
+    //   "Error creating user:",
+    //   error.response?.data || error.message
+    // );
 
     if (error.response?.data?.message === "User exists") {
       return true;
@@ -78,9 +77,6 @@ export const authOptions: NextAuthOptions = {
           if (!response.ok) return null;
 
           const userData = await response.json();
-          console.log({ userData });
-          // Ensure we have a properly structured user object
-          // This is what will be available in the signIn callback
           return {
             id: userData.id || userData._id,
             name: userData.name,
@@ -88,7 +84,7 @@ export const authOptions: NextAuthOptions = {
             image: userData.profile_picture || null,
           };
         } catch (error) {
-          console.error("Error in OTP verification:", error);
+          // console.error("Error in OTP verification:", error);
           return null;
         }
       },
@@ -113,7 +109,7 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user, account }) {
-      console.log({ user, account });
+      // console.log({ user, account });
       if (account?.provider === "email-otp") {
         return true;
       }
@@ -133,7 +129,7 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session }) {
-      console.log("Session callback:", session);
+      // console.log("Session callback:", session);
       return session;
     },
   },

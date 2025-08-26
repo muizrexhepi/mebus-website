@@ -10,7 +10,7 @@ export async function handleGoogleLogin() {
       redirect: true,
     });
   } catch (error) {
-    console.error("Google login error:", error);
+    // console.error("Google login error:", error);
     throw error;
   }
 }
@@ -22,7 +22,7 @@ export async function handleFacebookLogin() {
       redirect: true,
     });
   } catch (error) {
-    console.error("Facebook login error:", error);
+    // console.error("Facebook login error:", error);
     throw error;
   }
 }
@@ -38,13 +38,13 @@ export async function handleEmailLogin(email: string) {
     });
 
     if (result?.error) {
-      console.error("NextAuth sign-in error:", result.error);
+      // console.error("NextAuth sign-in error:", result.error);
       return { success: false, message: result.error };
     }
 
     return { success: true, message: "Check your email for the magic link" };
   } catch (error) {
-    console.error("Email login error:", error);
+    // console.error("Email login error:", error);
     return {
       success: false,
       message: "Something went wrong. Please try again.",

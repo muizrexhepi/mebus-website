@@ -86,7 +86,7 @@ const DepositForm = () => {
         });
       }
     } catch (err) {
-      console.error({ err });
+      // console.error({ err });
       toast({
         description: "Something went wrong. Please fill the inputs.",
         variant: "destructive",

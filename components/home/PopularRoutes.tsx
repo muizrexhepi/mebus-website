@@ -36,7 +36,6 @@ export default function PopularBusRoutes() {
   }, []);
 
   const handleClick = (route: Route) => {
-    console.log({ stations: route.destination });
     setFromCity(route.destination.from);
     setToCity(route.destination.to);
     router.push(

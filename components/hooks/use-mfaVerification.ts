@@ -7,8 +7,8 @@ import { account } from "@/appwrite.config";
 
 export const useMfaVerification = () => {
   const { t } = useTranslation();
-  const { mfaChallenge, setError,setCurrentForm } = useMFAStore();
-  const { setOpenLogin } = useNavbarStore()
+  const { mfaChallenge, setError, setCurrentForm } = useMFAStore();
+  const { setOpenLogin } = useNavbarStore();
   const [isLoading, setIsLoading] = useState(false);
 
   const onMFAVerify = async (values: z.infer<typeof MFAVerificationSchema>) => {
@@ -16,15 +16,11 @@ export const useMfaVerification = () => {
 
     setIsLoading(true);
     try {
-        await account.updateMfaChallenge(
-          mfaChallenge.$id,
-          values.mfaCode
-        );
-        window.dispatchEvent(new Event("userChange"));
-        setOpenLogin(false)
-        setCurrentForm('login')
+      await account.updateMfaChallenge(mfaChallenge.$id, values.mfaCode);
+      window.dispatchEvent(new Event("userChange"));
+      setOpenLogin(false);
+      setCurrentForm("login");
     } catch (error: any) {
-      console.error("MFA verification failed:", error);
       setError(error.message || t("login.errors.mfaVerificationFailed"));
     } finally {
       setIsLoading(false);
