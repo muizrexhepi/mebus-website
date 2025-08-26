@@ -3,7 +3,6 @@
 import { Route } from "@/models/route";
 import useSearchStore from "@/store";
 import axios from "axios";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";

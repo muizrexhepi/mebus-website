@@ -747,6 +747,7 @@
     "promotions": "Promotions and Offers",
     "promotionsDesc": "Receive updates about special deals and discounts",
     "accountUpdates": "Get notified about important account-related changes",
+    "accountUpdatesDesc": "Get notified about changes to your account settings, security, and personal details",
     "savePreferences": "Save Preferences",
     "enabled": "Notifications are enabled",
     "disabled": "All notifications are disabled"

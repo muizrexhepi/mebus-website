@@ -29,6 +29,7 @@ export interface CreateBookingParams {
   selectedFlex: string;
   flexPrice: number;
   userId?: string;
+  abandonedCheckoutId?: string;
 }
 
 export interface CreateBookingsParams {
@@ -43,6 +44,8 @@ export interface CreateBookingsParams {
   selectedFlex: string;
   flexPrice: number;
   userId?: string;
+  // ADD THIS LINE
+  abandonedCheckoutId?: string;
 }
 
 export interface SaveCardInfoParams {
@@ -96,6 +99,7 @@ export async function createBookings(params: CreateBookingsParams) {
     selectedFlex,
     flexPrice,
     userId,
+    abandonedCheckoutId,
   } = params;
 
   const bookings = [];
@@ -151,6 +155,7 @@ export async function createBookings(params: CreateBookingsParams) {
           selectedFlex,
           flexPrice,
           userId,
+          abandonedCheckoutId: i === 0 ? abandonedCheckoutId : undefined,
         });
 
         bookings.push(legBooking);
@@ -179,6 +184,7 @@ export async function createBookings(params: CreateBookingsParams) {
         selectedFlex,
         flexPrice,
         userId,
+        abandonedCheckoutId,
       });
 
       bookings.push(outboundBooking);
@@ -269,6 +275,7 @@ export async function createBooking(params: CreateBookingParams) {
     selectedFlex,
     flexPrice,
     userId,
+    abandonedCheckoutId,
   } = params;
 
   // Get affiliate code
@@ -338,7 +345,23 @@ export async function createBooking(params: CreateBookingParams) {
     const departureStationLabel = ticket.stops[0].from.name;
     const arrivalStationLabel = ticket.stops[0].to.name;
     const operatorName = ticket.metadata?.operator_name || "Unknown";
-
+    if (abandonedCheckoutId) {
+      try {
+        await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/abandoned-checkout/${abandonedCheckoutId}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log("Abandoned checkout deleted after successful booking");
+      } catch (error) {
+        console.error("Failed to delete abandoned checkout:", error);
+        // Don't throw - booking was successful, this is just cleanup
+      }
+    }
     setBookingDetails({
       bookingId: newBooking._id,
       transactionId: newBooking.metadata.payment_intent_id,

@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 import { useCheckoutStore } from "@/store";
 import { Check } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useAbandonedCheckout } from "@/components/hooks/use-abandoned-checkout";
 
 const flexFeatures: FlexFeature[] = [
   {
@@ -118,11 +117,7 @@ const TravelFlex: React.FC = () => {
   const { selectedFlex, setSelectedFlex, setFlexPrice } = useCheckoutStore();
   const { convertFromEUR } = useCurrency();
 
-  // 🚨 Get resetTimeout from abandoned checkout hook
-  const { resetTimeout } = useAbandonedCheckout();
-
   const handleFlexSelection = (flex: FlexFeature) => {
-    resetTimeout(); // Reset timer on flex selection
     setSelectedFlex(flex.value);
     setFlexPrice(convertFromEUR(flex.price));
   };

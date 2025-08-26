@@ -24,6 +24,7 @@ import {
   calculateDiscountedAmount,
   clearStoredDiscount,
 } from "@/actions/checkout/discount-utilies";
+import { useAbandonedCheckout } from "@/components/hooks/use-abandoned-checkout";
 
 interface CardValidationErrors {
   cardNumber?: string;
@@ -51,7 +52,8 @@ const PaymentMethod = () => {
   const { t } = useTranslation();
   const [showStickyButton, setShowStickyButton] = useState(true);
   const buttonRef = useRef<HTMLDivElement>(null);
-
+  const { checkoutId, setBookingInProgress, onBookingSuccess } =
+    useAbandonedCheckout();
   const [cardValidationErrors, setCardValidationErrors] =
     useState<CardValidationErrors>({});
   const [cardFieldsComplete, setCardFieldsComplete] = useState({
@@ -377,6 +379,8 @@ const PaymentMethod = () => {
     }
 
     try {
+      setBookingInProgress(true);
+
       setLoading("payment-intent");
 
       const discountResult = calculateDiscountedAmount(totalPrice);
@@ -435,6 +439,8 @@ const PaymentMethod = () => {
         throw new Error(`Unexpected payment status: ${paymentIntent.status}`);
       }
     } catch (err: any) {
+      setBookingInProgress(false);
+
       toast({
         description:
           err?.response?.data?.message || err?.message || "Payment failed",
@@ -464,6 +470,7 @@ const PaymentMethod = () => {
         selectedFlex: selectedFlex || "",
         flexPrice,
         userId: user?._id,
+        abandonedCheckoutId: checkoutId,
       };
 
       const result = await createBookings(bookingParams);
@@ -472,6 +479,7 @@ const PaymentMethod = () => {
       if (!result) {
         throw new Error("Failed to create booking");
       }
+      onBookingSuccess();
 
       try {
         clearStoredDiscount();
@@ -492,6 +500,8 @@ const PaymentMethod = () => {
         router.replace("/checkout/success");
       }, 100);
     } catch (error: any) {
+      setBookingInProgress(false);
+
       throw new Error(error?.message || "Failed to create booking");
     }
   };
