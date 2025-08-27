@@ -1,5 +1,5 @@
 import React from "react";
-import PrivacyPolicyClient from "./privacy-policy-client";
+import PassengerRightsPage from "./passenger-rights-client";
 
 export const metadata = {
   title: "GoBusly - Privacy Policy",
@@ -26,6 +26,6 @@ export const metadata = {
   },
 };
 
-export default function PrivacyPolicy() {
-  return <PrivacyPolicyClient />;
+export default function PassengerRights() {
+  return <PassengerRightsPage />;
 }

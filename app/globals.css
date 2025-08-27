@@ -61,11 +61,11 @@
 }
 
 .react-select {
-  @apply bg-background text-foreground; /* Default styles for the control */
+  @apply bg-background text-foreground;
 }
 
 .react-select:hover {
-  @apply bg-[var(--accent)]; /* Use the accent variable on hover */
+  @apply bg-[var(--accent)];
 }
 
 .PhoneInputInput {

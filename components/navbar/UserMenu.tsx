@@ -68,18 +68,18 @@ const UserNavbarMenu = () => {
     {
       href: "/account/data-security",
       icon: FaKey,
-      label: t("dataAndSecurity.title"), // Updated for translation
+      label: t("dataAndSecurity.title"),
     },
     // {
     //   label: "Discount codes",
     //   href: "/account/discount-codes",
     //   icon: FaTicketAlt,
     // },
-    // {
-    //   label: "Notifications",
-    //   href: "/account/notifications",
-    //   icon: FaBell,
-    // },
+    {
+      label: "Notifications",
+      href: "/account/notifications",
+      icon: FaBell,
+    },
     {
       label: t("footer.links.customersupport"),
       href: "https://support.gobusly.com",
