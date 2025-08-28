@@ -64,15 +64,18 @@
       "name": "Service Prioritaire",
       "fullRefund": "Remboursement partiel en cas d'annulation jusqu'à 48 heures avant le départ",
       "dateChange": "Modifiez les détails de votre voyage jusqu'à 24 heures avant le départ",
-      "support": "Support prioritaire pour les modifications de réservation"
+      "support": "Support prioritaire pour les modifications de réservation",
+      "reminders": "Rappels par e-mail + SMS + WhatsApp avant le départ"
     },
     "standard": {
       "name": "Service Standard",
       "partialRefund": "Remboursement partiel en cas d'annulation jusqu'à 5 jours avant le départ",
-      "dateChange": "Modifiez les détails de votre voyage jusqu'à 3 jours avant le départ"
+      "dateChange": "Modifiez les détails de votre voyage jusqu'à 3 jours avant le départ",
+      "reminders": "Rappels par e-mail + SMS + WhatsApp avant le départ"
     },
     "basic": {
-      "name": "Service Basique"
+      "name": "Service de Base",
+      "reminders": "Rappels par e-mail avant le départ"
     }
   },
   "popularBusRoutes": {

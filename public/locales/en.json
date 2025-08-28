@@ -287,15 +287,18 @@
       "name": "Priority Service",
       "fullRefund": "Partial refund when cancelling up to 48 hours before departure",
       "dateChange": "Modify your trip details up to 24 hours before departure",
-      "support": "Priority support for booking changes"
+      "support": "Priority support for booking changes",
+      "reminders": "Email + SMS reminders before departure"
     },
     "standard": {
       "name": "Standard Service",
       "partialRefund": "Partial refund when cancelling up to 5 days before departure",
-      "dateChange": "Modify your trip details up to 3 days before departure"
+      "dateChange": "Modify your trip details up to 3 days before departure",
+      "reminders": "Email + SMS reminders before departure"
     },
     "basic": {
-      "name": "Basic Service"
+      "name": "Basic Service",
+      "reminders": "Email reminders before departure"
     }
   },
   "hero": {

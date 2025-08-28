@@ -18,22 +18,26 @@ const flexFeatures: FlexFeature[] = [
       "services.priority.fullRefund",
       "services.priority.dateChange",
       "services.priority.support",
+      "services.priority.reminders", // added
     ],
   },
   {
     name: "services.standard.name",
-    value: "basic",
+    value: "standard",
     price: 2,
     features: [
       "services.standard.partialRefund",
       "services.standard.dateChange",
+      "services.standard.reminders", // added
     ],
   },
   {
     name: "services.basic.name",
     value: "no_flex",
     price: 0,
-    features: [],
+    features: [
+      "services.basic.reminders", // email only
+    ],
   },
 ];
 
@@ -121,7 +125,7 @@ const TravelFlex: React.FC = () => {
     setSelectedFlex(flex.value);
     setFlexPrice(convertFromEUR(flex.price));
   };
-
+  22;
   return (
     <div className="grid gap-4">
       {flexFeatures.map((flex) => (

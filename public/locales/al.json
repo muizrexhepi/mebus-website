@@ -295,20 +295,23 @@
   },
   "services": {
     "title": "Shërbimet e Udhëtimit",
-    "description": "Zgjidhni nivelin e shërbimit të preferuar për udhëtimin tuaj",
+    "description": "Zgjidhni nivelin tuaj të preferuar të shërbimit për udhëtimin tuaj",
     "priority": {
       "name": "Shërbimi Prioritar",
-      "fullRefund": "Rimbursim i pjesshëm kur anuloni deri në 48 orë para nisjes",
+      "fullRefund": "Kthim i pjesshëm kur anuloni deri në 48 orë para nisjes",
       "dateChange": "Ndryshoni detajet e udhëtimit deri në 24 orë para nisjes",
-      "support": "Mbështetje prioritare për ndryshimet në rezervim"
+      "support": "Mbështetje prioritarë për ndryshimet e rezervimit",
+      "reminders": "Kujtesa me email + SMS + WhatsApp para nisjes"
     },
     "standard": {
       "name": "Shërbimi Standard",
-      "partialRefund": "Rimbursim i pjesshëm kur anuloni deri në 5 ditë para nisjes",
-      "dateChange": "Ndryshoni detajet e udhëtimit deri në 3 ditë para nisjes"
+      "partialRefund": "Kthim i pjesshëm kur anuloni deri në 5 ditë para nisjes",
+      "dateChange": "Ndryshoni detajet e udhëtimit deri në 3 ditë para nisjes",
+      "reminders": "Kujtesa me email + SMS + WhatsApp para nisjes"
     },
     "basic": {
-      "name": "Shërbimi Bazë"
+      "name": "Shërbimi Bazë",
+      "reminders": "Kujtesa me email para nisjes"
     }
   },
   "ticketDetails": {

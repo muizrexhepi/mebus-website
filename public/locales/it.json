@@ -59,20 +59,23 @@
   },
   "services": {
     "title": "Servizi di Viaggio",
-    "description": "Scegli il livello di servizio preferito per il tuo viaggio",
+    "description": "Scegli il tuo livello di servizio preferito per il tuo viaggio",
     "priority": {
       "name": "Servizio Prioritario",
-      "fullRefund": "Rimborso parziale per cancellazioni fino a 48 ore prima della partenza",
-      "dateChange": "Modifica i dettagli del viaggio fino a 24 ore prima della partenza",
-      "support": "Supporto prioritario per modifiche alla prenotazione"
+      "fullRefund": "Rimborso parziale in caso di cancellazione fino a 48 ore prima della partenza",
+      "dateChange": "Modifica i dettagli del tuo viaggio fino a 24 ore prima della partenza",
+      "support": "Supporto prioritario per modifiche alla prenotazione",
+      "reminders": "Promemoria via email + SMS + WhatsApp prima della partenza"
     },
     "standard": {
       "name": "Servizio Standard",
-      "partialRefund": "Rimborso parziale per cancellazioni fino a 5 giorni prima della partenza",
-      "dateChange": "Modifica i dettagli del viaggio fino a 3 giorni prima della partenza"
+      "partialRefund": "Rimborso parziale in caso di cancellazione fino a 5 giorni prima della partenza",
+      "dateChange": "Modifica i dettagli del tuo viaggio fino a 3 giorni prima della partenza",
+      "reminders": "Promemoria via email + SMS + WhatsApp prima della partenza"
     },
     "basic": {
-      "name": "Servizio Base"
+      "name": "Servizio Base",
+      "reminders": "Promemoria via email prima della partenza"
     }
   },
   "popularBusRoutes": {

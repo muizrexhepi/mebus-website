@@ -62,21 +62,24 @@
     "heading": "Beliebte Busverbindungen"
   },
   "services": {
-    "title": "Reiseservices",
-    "description": "Wählen Sie Ihre bevorzugte Serviceklasse für Ihre Reise",
+    "title": "Reisedienste",
+    "description": "Wählen Sie Ihr bevorzugtes Serviceniveau für Ihre Reise",
     "priority": {
       "name": "Prioritätsservice",
-      "fullRefund": "Teilweise Rückerstattung bei Stornierung bis zu 48 Stunden vor Abreise",
-      "dateChange": "Ändern Sie Ihre Reisedetails bis zu 24 Stunden vor Abreise",
-      "support": "Priorisierter Support für Buchungsänderungen"
+      "fullRefund": "Teilweise Rückerstattung bei Stornierung bis zu 48 Stunden vor Abfahrt",
+      "dateChange": "Ändern Sie Ihre Reisedaten bis zu 24 Stunden vor Abfahrt",
+      "support": "Priorisierte Unterstützung bei Buchungsänderungen",
+      "reminders": "Erinnerungen per E-Mail + SMS + WhatsApp vor Abfahrt"
     },
     "standard": {
       "name": "Standardservice",
-      "partialRefund": "Teilweise Rückerstattung bei Stornierung bis zu 5 Tage vor Abreise",
-      "dateChange": "Ändern Sie Ihre Reisedetails bis zu 3 Tage vor Abreise"
+      "partialRefund": "Teilweise Rückerstattung bei Stornierung bis zu 5 Tage vor Abfahrt",
+      "dateChange": "Ändern Sie Ihre Reisedaten bis zu 3 Tage vor Abfahrt",
+      "reminders": "Erinnerungen per E-Mail + SMS + WhatsApp vor Abfahrt"
     },
     "basic": {
-      "name": "Basisservice"
+      "name": "Basissservice",
+      "reminders": "Erinnerungen per E-Mail vor Abfahrt"
     }
   },
   "languageDialog": {

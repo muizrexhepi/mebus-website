@@ -713,7 +713,7 @@ const PaymentMethod = () => {
       <div ref={buttonRef} className="flex items-center justify-end gap-2">
         <Button
           onClick={handlePayment}
-          className="px-6 py-3.5 button-gradient text-white hover:bg-primary-bg/95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-bg h-12 rounded-lg w-full sm:w-40"
+          className="px-6 py-3.5 button-gradient text-white hover:bg-primary-bg/95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-bg h-12 rounded-lg w-full sm:w-fit"
           disabled={!stripe || isLoading}
         >
           {isLoading ? (
