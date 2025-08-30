@@ -656,7 +656,7 @@
     "contactSupport": "Por favor, contacta con el Servicio de Atención al Cliente para eliminar tu cuenta.",
     "visitContactPage": "Visita nuestra página de contacto:",
     "notProvided": "No proporcionado",
-    "makeChanges": "Realiza cambios en tu {field}",
+    "makeChanges": "Realiza cambios en tu {{field}}",
     "cancel": "Cancelar",
     "saveChanges": "Guardar Cambios",
     "emailTooltip": "El correo electrónico no se puede cambiar, pero puedes elegir otro correo para recibir la reserva durante el proceso de pago.",

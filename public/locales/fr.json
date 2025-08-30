@@ -637,7 +637,7 @@
     "visitContactPage": "Visitez notre page de contact :",
     "notProvided": "Non fourni",
     "addPhonePrompt": "Ajoutez un numéro afin que les opérateurs puissent vous contacter.",
-    "makeChanges": "Apportez des modifications à votre {field}",
+    "makeChanges": "Apportez des modifications à votre {{field}}",
     "cancel": "Annuler",
     "saveChanges": "Enregistrer les Modifications",
     "emailTooltip": "L'email ne peut pas être modifié, mais vous pouvez choisir un autre email pour recevoir la réservation lors du paiement.",

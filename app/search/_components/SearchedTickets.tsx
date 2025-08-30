@@ -765,7 +765,7 @@ const TicketList: React.FC = () => {
           {allTicketsToShow.map((item, index) => {
             if (item.type === "separator") {
               return (
-                <div key={`separator-${index}`} className="py-4 pb-6">
+                <div key={`separator-${index}`} className="py-4 pb-5">
                   <Separator className="relative">
                     <div className="absolute inset-0 flex items-center justify-center">
                       <span className="bg-background px-4 text-sm text-muted-foreground rounded-xl py-1">

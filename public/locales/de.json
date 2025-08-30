@@ -634,7 +634,7 @@
     "visitContactPage": "Besuchen Sie unsere Kontaktseite:",
     "notProvided": "Nicht angegeben",
     "addPhonePrompt": "Fügen Sie eine Nummer hinzu, damit die Betreiber Sie kontaktieren können.",
-    "makeChanges": "Ändern Sie Ihre {field}",
+    "makeChanges": "Ändern Sie Ihre {{field}}",
     "cancel": "Abbrechen",
     "saveChanges": "Änderungen speichern",
     "emailTooltip": "Die E-Mail kann nicht geändert werden, aber Sie können beim Checkout eine andere E-Mail-Adresse für die Buchung wählen.",

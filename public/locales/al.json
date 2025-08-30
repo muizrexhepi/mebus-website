@@ -645,7 +645,7 @@
     "visitContactPage": "Vizitoni faqen tonë të kontaktit:",
     "notProvided": "Nuk është dhënë",
     "addPhonePrompt": "Shtoni një numër në mënyrë që operatorët të mund të kontaktojnë.",
-    "makeChanges": "Bëni ndryshime në {field}",
+    "makeChanges": "Bëni ndryshime në {{field}}",
     "cancel": "Anulo",
     "saveChanges": "Ruaj Ndryshimet",
     "emailTooltip": "Email-i nuk mund të ndryshohet, por mund të zgjidhni një email tjetër për të marrë rezervimin gjatë blerjes.",

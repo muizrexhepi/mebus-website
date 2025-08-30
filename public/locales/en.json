@@ -658,7 +658,7 @@
     "visitContactPage": "Visit our contact page:",
     "notProvided": "Not provided",
     "addPhonePrompt": "Add a number so the operators can get in touch.",
-    "makeChanges": "Make changes to {field}",
+    "makeChanges": "Make changes to {{field}}",
     "cancel": "Cancel",
     "saveChanges": "Save Changes",
     "emailTooltip": "Email cannot be changed, but you can choose a different email for receiving the booking during checkout.",

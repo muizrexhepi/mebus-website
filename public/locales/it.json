@@ -657,7 +657,7 @@
     "deleteAccount": "Elimina Account",
     "contactSupport": "Si prega di contattare il Servizio Clienti per eliminare il tuo account.",
     "visitContactPage": "Visita la nostra pagina di contatto:",
-    "makeChanges": "Apporta modifiche al tuo {field}",
+    "makeChanges": "Apporta modifiche al tuo {{field}}",
     "cancel": "Annulla",
     "saveChanges": "Salva Modifiche",
     "emailTooltip": "L'email non può essere modificata, ma puoi scegliere un'altra email per ricevere la prenotazione durante il checkout.",

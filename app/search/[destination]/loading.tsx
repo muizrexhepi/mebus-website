@@ -1,3 +1,4 @@
+import TicketSkeletonton from "@/components/ticket/ticket-skeleton";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const Loading = () => {
@@ -61,67 +62,18 @@ const Loading = () => {
         </div>
 
         {/* Date selection block skeleton */}
-        <div className="max-w-4xl mx-auto paddingX pt-4">
+        <div className="max-w-2xl mx-auto paddingX pt-4">
           <div className="flex justify-center gap-1">
             <Skeleton className="h-10 w-24 rounded-t-lg" />
-            <Skeleton className="h-10 w-24 rounded-t-lg bg-red-100" />
+            <Skeleton className="h-10 w-24 rounded-t-lg border-b border-solid border-b-red-100" />
             <Skeleton className="h-10 w-24 rounded-t-lg" />
           </div>
         </div>
       </div>
 
       {/* Main Content Skeleton */}
-      <div className="px-4 sm:px-8 max-w-4xl mx-auto py-4 space-y-4 xl:px-0">
-        {/* Header skeleton */}
-        <div className="flex items-center justify-between mb-4">
-          <Skeleton className="h-6 w-32" />
-          <Skeleton className="h-8 w-24" />
-        </div>
-
-        {/* Ticket skeletons */}
-        <div className="space-y-4">
-          {[...Array(6)].map((_, index) => (
-            <div key={index} className="bg-white border rounded-lg p-4">
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
-                <div className="flex gap-2 items-center mb-2 sm:mb-0 justify-between w-full">
-                  <Skeleton className="h-6 w-32" />
-                  <div className="flex items-center gap-2">
-                    <Skeleton className="h-4 w-4" />
-                    <Skeleton className="h-4 w-32" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-col md:flex-row justify-between items-end relative gap-3">
-                <div className="w-full md:w-2/3">
-                  <div className="flex justify-between items-center mb-4">
-                    <Skeleton className="h-8 w-16" />
-                    <div className="text-center flex-1 px-2">
-                      <Skeleton className="h-6 w-20 mx-auto" />
-                    </div>
-                    <Skeleton className="h-8 w-16" />
-                  </div>
-
-                  <div className="flex justify-between items-center">
-                    <div className="flex flex-col items-start">
-                      <Skeleton className="h-5 w-24 mb-1" />
-                      <Skeleton className="h-3 w-32" />
-                    </div>
-                    <div className="flex flex-col items-end">
-                      <Skeleton className="h-5 w-24 mb-1" />
-                      <Skeleton className="h-3 w-32" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex justify-between items-center gap-4 w-full md:flex-col md:justify-end md:items-end md:w-fit">
-                  <Skeleton className="h-8 w-20" />
-                  <Skeleton className="h-10 w-24" />
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+      <div className="max-w-3xl paddingX mx-auto py-6 md:py-10">
+        <TicketSkeletonton />
       </div>
     </div>
   );
