@@ -1,6 +1,9 @@
+"use client";
+
 import dynamic from "next/dynamic";
 import Footer from "@/components/Footer";
 import HeroWrapper from "@/components/hero-wrapper";
+import useIsMobile from "@/components/hooks/use-mobile";
 
 const AffiliateTracker = dynamic(
   () => import("@/components/affiliate-tracker"),
@@ -19,15 +22,19 @@ const FeaturesSection = dynamic(() => import("@/components/home/InfoSection"), {
 });
 
 export default function Home() {
+  const isMobile = useIsMobile();
+
   return (
     <>
       <AffiliateTracker />
       <HeroWrapper />
-      <div className="hidden md:block">
-        <FeaturesSection />
-        <PopularBusRoutes />
-        <Footer />
-      </div>
+      {!isMobile && (
+        <>
+          <FeaturesSection />
+          <PopularBusRoutes />
+          <Footer />
+        </>
+      )}
     </>
   );
 }

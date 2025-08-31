@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ArrowLeft, Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import Cookies from "js-cookie";
 import { countries, Country, searchCountries } from "@/constants/country";
 
 interface CountrySelectDialogProps {
@@ -27,13 +26,10 @@ const CountrySelectDialog: React.FC<CountrySelectDialogProps> = ({
   onSelect,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [showRecent, setShowRecent] = useState(true);
   const [filteredCountries, setFilteredCountries] =
     useState<Country[]>(countries);
   const inputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
-
-  const recentCountries = JSON.parse(Cookies.get("recentCountries") || "[]");
 
   // Autofocus when dialog opens
   useEffect(() => {
@@ -49,26 +45,14 @@ const CountrySelectDialog: React.FC<CountrySelectDialogProps> = ({
   useEffect(() => {
     if (!searchTerm.trim()) {
       setFilteredCountries(countries);
-      setShowRecent(true);
       return;
     }
 
-    setShowRecent(false);
     const filtered = searchCountries(searchTerm);
     setFilteredCountries(filtered);
   }, [searchTerm]);
 
   const handleCountrySelect = (country: Country) => {
-    // Update recent countries
-    const updatedRecentCountries = [
-      country,
-      ...recentCountries.filter((c: Country) => c.code !== country.code),
-    ].slice(0, 5);
-
-    Cookies.set("recentCountries", JSON.stringify(updatedRecentCountries), {
-      expires: 30,
-    });
-
     onSelect(country);
     setSearchTerm("");
   };
@@ -77,13 +61,6 @@ const CountrySelectDialog: React.FC<CountrySelectDialogProps> = ({
     setSearchTerm("");
     onClose();
   };
-
-  // Group popular countries
-  const popularCountries = countries.filter((country) =>
-    ["US", "GB", "DE", "FR", "IT", "ES", "NL", "MK", "BG", "TR"].includes(
-      country.code
-    )
-  );
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
@@ -132,100 +109,14 @@ const CountrySelectDialog: React.FC<CountrySelectDialogProps> = ({
         <div className="flex-1 overflow-hidden">
           <ScrollArea className="h-full">
             <div className="pb-6">
-              {/* Recent Countries */}
-              {showRecent && recentCountries.length > 0 && (
-                <div className="px-4 py-6">
-                  <h3 className="font-medium text-lg text-gray-900 mb-4">
-                    {t("countrySelect.recentCountries", "Recent countries")}
-                  </h3>
-                  <div className="space-y-0">
-                    {recentCountries.map((country: Country, index: number) => (
-                      <div key={country.code || index}>
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-between items-center text-left p-0 h-auto py-4 hover:bg-gray-50 rounded-none"
-                          onClick={() => handleCountrySelect(country)}
-                          type="button"
-                        >
-                          <div className="flex items-center gap-3">
-                            <span className="text-2xl">{country.flag}</span>
-                            <div className="flex flex-col items-start">
-                              <span className="text-lg font-normal text-black">
-                                {country.name}
-                              </span>
-                              <span className="text-sm text-gray-700 font-normal">
-                                {country.dialCode}
-                              </span>
-                            </div>
-                          </div>
-                        </Button>
-                        <div className="border-b border-gray-200" />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Search Results or Popular Countries */}
               <div className="px-4 py-6">
                 <h3 className="font-medium text-lg text-gray-900 mb-4">
-                  {searchTerm
-                    ? t("countrySelect.searchResults", "Search Results")
-                    : t("countrySelect.popularCountries", "Popular Countries")}
+                  {t("countrySelect.searchResults", "Search Results")}
                 </h3>
 
                 <div className="space-y-0">
-                  {(searchTerm ? filteredCountries : popularCountries).length >
-                  0 ? (
-                    (searchTerm ? filteredCountries : popularCountries).map(
-                      (country) => (
-                        <div key={country.code}>
-                          <Button
-                            variant="ghost"
-                            className="w-full justify-start text-left p-0 h-auto py-4 hover:bg-gray-50 rounded-none"
-                            onClick={() => handleCountrySelect(country)}
-                            type="button"
-                          >
-                            <div className="flex items-center gap-3">
-                              <span className="text-2xl">{country.flag}</span>
-                              <div className="flex flex-col items-start">
-                                <span className="text-lg font-normal text-black">
-                                  {country.name}
-                                </span>
-                                <span className="text-sm text-gray-700 font-normal">
-                                  {country.dialCode}
-                                </span>
-                              </div>
-                            </div>
-                          </Button>
-                          <div className="border-b border-gray-200" />
-                        </div>
-                      )
-                    )
-                  ) : searchTerm !== "" ? (
-                    <div className="py-12 text-center">
-                      <p className="text-gray-500 text-base">
-                        {t("countrySelect.noResults", "No results found")}
-                      </p>
-                      <p className="text-sm text-gray-400 mt-1">
-                        {t(
-                          "countrySelect.tryDifferentKeywords",
-                          "Try searching with different keywords"
-                        )}
-                      </p>
-                    </div>
-                  ) : null}
-                </div>
-              </div>
-
-              {/* All Countries (when not searching) */}
-              {showRecent && (
-                <div className="px-4 py-6">
-                  <h3 className="font-medium text-lg text-gray-900 mb-4">
-                    {t("countrySelect.allCountries", "All Countries")}
-                  </h3>
-                  <div className="space-y-0">
-                    {countries.map((country) => (
+                  {filteredCountries.length > 0 ? (
+                    filteredCountries.map((country) => (
                       <div key={country.code}>
                         <Button
                           variant="ghost"
@@ -247,10 +138,22 @@ const CountrySelectDialog: React.FC<CountrySelectDialogProps> = ({
                         </Button>
                         <div className="border-b border-gray-200" />
                       </div>
-                    ))}
-                  </div>
+                    ))
+                  ) : searchTerm !== "" ? (
+                    <div className="py-12 text-center">
+                      <p className="text-gray-500 text-base">
+                        {t("countrySelect.noResults", "No results found")}
+                      </p>
+                      <p className="text-sm text-gray-400 mt-1">
+                        {t(
+                          "countrySelect.tryDifferentKeywords",
+                          "Try searching with different keywords"
+                        )}
+                      </p>
+                    </div>
+                  ) : null}
                 </div>
-              )}
+              </div>
             </div>
           </ScrollArea>
         </div>

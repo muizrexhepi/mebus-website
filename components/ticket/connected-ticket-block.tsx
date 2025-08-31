@@ -7,7 +7,6 @@ import useSearchStore, { useCheckoutStore, useLoadingStore } from "@/store";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useCurrency } from "../providers/currency-provider";
 import { FaCalendarAlt } from "react-icons/fa";
 import { ConnectedTicket } from "@/models/connected-ticket";
 
@@ -31,30 +30,25 @@ const ConnectedTicketBlock: React.FC<ConnectedTicketProps> = ({
   const { tripType } = useSearchStore();
   const router = useRouter();
   const { t } = useTranslation();
-  const { currency, convertFromEUR } = useCurrency();
   const { setIsLoading, isLoading } = useLoadingStore();
 
   const handleTicketSelection = (e: React.MouseEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+
     if (isSelectingReturn) {
       if (ticket._id !== returnTicket?._id) {
-        setIsLoading(true);
         setReturnTicket(ticket);
       }
       router.push(`/checkout`);
-      setIsLoading(false);
     } else {
       if (ticket._id !== outboundTicket?._id) {
         setOutboundTicket(ticket);
-        setIsLoading(true);
       }
-      setIsLoading(true);
       if (tripType === "round-trip") {
         setIsSelectingReturn(true);
-        setIsLoading(false);
       } else {
         router.push(`/checkout`);
-        setIsLoading(false);
       }
     }
   };
@@ -73,8 +67,6 @@ const ConnectedTicketBlock: React.FC<ConnectedTicketProps> = ({
   const durationFormatted = `${totalHours.toString().padStart(2, "0")}:${minutes
     .toString()
     .padStart(2, "0")} hrs`;
-
-  const convertedPrice = convertFromEUR(ticket.total_price);
 
   return (
     <div className="max-w-5xl mx-auto bg-white rounded-xl overflow-hidden shrink-0">
@@ -101,7 +93,6 @@ const ConnectedTicketBlock: React.FC<ConnectedTicketProps> = ({
           <div className="w-full md:w-2/3">
             <div className="flex justify-between items-center">
               <div className="text-base sm:text-lg md:text-xl">
-                {/* {departureDateTime.format("HH:mm")} */}
                 {firstLeg.time}
               </div>
               <div className="text-center flex-1 px-2">
@@ -142,8 +133,7 @@ const ConnectedTicketBlock: React.FC<ConnectedTicketProps> = ({
 
           <div className="flex justify-between items-center gap-4 w-full md:flex-col md:justify-end md:items-end md:w-fit">
             <div className="text-xl sm:text-2xl font-semibold w-full md:w-1/3 flex md:flex-col justify-between items-end">
-              {currency.symbol}
-              {convertedPrice.toFixed(2)}
+              {/* Hardcoded currency symbol */}€{ticket.total_price.toFixed(2)}
             </div>
             <Button
               className="w-fit text-sm button-gradient"

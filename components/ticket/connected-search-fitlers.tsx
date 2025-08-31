@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import {
   Sheet,
   SheetContent,
@@ -17,7 +17,6 @@ import { Separator } from "@/components/ui/separator";
 import { useTranslation } from "react-i18next";
 import { SlidersHorizontal } from "lucide-react";
 import moment from "moment-timezone";
-import { useCurrency } from "../providers/currency-provider";
 import { ConnectedTicket } from "@/models/connected-ticket";
 
 interface ConnectedSearchFiltersProps {
@@ -32,7 +31,6 @@ export default function ConnectedSearchFilters({
   totalTrips,
 }: ConnectedSearchFiltersProps) {
   const { t } = useTranslation();
-  const { convertFromEUR } = useCurrency();
 
   const [sortBy, setSortBy] = useState("departure");
   const [transfers, setTransfers] = useState<string[]>([]);
@@ -41,21 +39,22 @@ export default function ConnectedSearchFilters({
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [selectedOperators, setSelectedOperators] = useState<string[]>([]);
 
-  const ticketPriceRange = useState(() => {
-    if (tickets.length === 0) return [0, 1000];
-    const prices = tickets.map((ticket) => convertFromEUR(ticket.total_price));
-    return [Math.floor(Math.min(...prices)), Math.ceil(Math.max(...prices))];
-  })[0];
+  // Calculate price range and operators from tickets without conversion
+  const [ticketPriceRange, operators] = useMemo(() => {
+    if (tickets.length === 0) return [[0, 1000], []];
 
-  const operators = useState(() => {
+    const prices = tickets.map((ticket) => ticket.total_price);
+    const minPrice = Math.floor(Math.min(...prices));
+    const maxPrice = Math.ceil(Math.max(...prices));
     const operatorSet = new Set<string>();
     tickets.forEach((ticket) => {
       ticket.legs.forEach((leg) => {
         operatorSet.add(leg.operator.name);
       });
     });
-    return Array.from(operatorSet);
-  })[0];
+
+    return [[minPrice, maxPrice], Array.from(operatorSet)];
+  }, [tickets]);
 
   useEffect(() => {
     setPriceRange(ticketPriceRange as [number, number]);
@@ -102,8 +101,9 @@ export default function ConnectedSearchFilters({
       });
     }
 
+    // Price filtering now uses ticket.total_price directly (assumed EUR)
     filteredTickets = filteredTickets.filter((ticket) => {
-      const price = convertFromEUR(ticket.total_price);
+      const price = ticket.total_price;
       return price >= priceRange[0] && price <= priceRange[1];
     });
 
@@ -123,8 +123,8 @@ export default function ConnectedSearchFilters({
           return aDeparture.valueOf() - bDeparture.valueOf();
         }
         case "price": {
-          const aPrice = convertFromEUR(a.total_price);
-          const bPrice = convertFromEUR(b.total_price);
+          const aPrice = a.total_price;
+          const bPrice = b.total_price;
           return aPrice - bPrice;
         }
         case "duration": {
@@ -256,8 +256,8 @@ export default function ConnectedSearchFilters({
                   onValueChange={setPriceRange}
                 />
                 <div className="flex justify-between text-sm text-muted-foreground">
-                  <span>${priceRange[0]}</span>
-                  <span>${priceRange[1]}</span>
+                  <span>€{priceRange[0]}</span>
+                  <span>€{priceRange[1]}</span>
                 </div>
               </div>
             </div>

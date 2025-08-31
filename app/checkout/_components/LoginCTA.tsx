@@ -4,7 +4,7 @@ import { useAuth } from "@/components/providers/auth-provider";
 import { useNavbarStore } from "@/store";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { User, BookmarkCheck, Clock, Shield } from "lucide-react";
+import { User } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const LoginCTA = () => {
@@ -12,7 +12,6 @@ const LoginCTA = () => {
   const { setOpenLogin } = useNavbarStore();
   const { t } = useTranslation();
 
-  // Don't show if user is already logged in
   if (user || loading) return null;
 
   return (
@@ -43,7 +42,6 @@ const LoginCTA = () => {
           </Button>
         </div>
 
-        {/* Desktop: Full layout */}
         <div className="hidden md:block">
           <div className="flex items-start gap-3">
             <div className="flex-shrink-0">
@@ -62,26 +60,6 @@ const LoginCTA = () => {
                   "Login to save your booking history, track your trips, and get faster checkout next time."
                 )}
               </p>
-
-              {/* Benefits list */}
-              {/* <div className="space-y-2 mb-4">
-                <div className="flex items-center gap-2 text-xs text-gray-600">
-                  <BookmarkCheck className="w-3 h-3 text-green-600" />
-                  <span>{t("loginCTA.benefit1", "Save booking history")}</span>
-                </div>
-                <div className="flex items-center gap-2 text-xs text-gray-600">
-                  <Clock className="w-3 h-3 text-green-600" />
-                  <span>
-                    {t("loginCTA.benefit2", "Faster future checkouts")}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-xs text-gray-600">
-                  <Shield className="w-3 h-3 text-green-600" />
-                  <span>
-                    {t("loginCTA.benefit3", "Secure payment methods")}
-                  </span>
-                </div>
-              </div> */}
             </div>
           </div>
 

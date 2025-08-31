@@ -8,7 +8,6 @@ import useSearchStore, { useCheckoutStore, useLoadingStore } from "@/store";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useCurrency } from "../providers/currency-provider";
 import { FaCalendarAlt } from "react-icons/fa";
 
 export interface TicketProps {
@@ -28,30 +27,25 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
   const { tripType } = useSearchStore();
   const router = useRouter();
   const { t } = useTranslation();
-  const { currency, convertFromEUR } = useCurrency();
   const { setIsLoading, isLoading } = useLoadingStore();
 
   const handleTicketSelection = (e: React.MouseEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+
     if (isSelectingReturn) {
       if (ticket._id !== returnTicket?._id) {
-        setIsLoading(true);
         setReturnTicket(ticket);
       }
       router.push(`/checkout`);
-      setIsLoading(false);
     } else {
       if (ticket._id !== outboundTicket?._id) {
         setOutboundTicket(ticket);
-        setIsLoading(true);
       }
-      setIsLoading(true);
       if (tripType === "round-trip") {
         setIsSelectingReturn(true);
-        setIsLoading(false);
       } else {
         router.push(`/checkout`);
-        setIsLoading(false);
       }
     }
   };
@@ -62,14 +56,12 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
   );
 
   const duration = moment.duration(arrivalTime.diff(departureDate));
-  const totalHours = duration.hours() + duration.days() * 24;
+  const totalHours = Math.floor(duration.asHours());
   const minutes = duration.minutes();
 
   const durationFormatted = `${totalHours.toString().padStart(2, "0")}:${minutes
     .toString()
     .padStart(2, "0")} hrs`;
-
-  const convertedPrice = convertFromEUR(ticket.stops[0].other_prices.our_price);
 
   return (
     <div className="max-w-5xl mx-auto bg-white rounded-xl overflow-hidden shrink-0">
@@ -79,7 +71,6 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
             <p className="button-gradient bg-clip-text text-transparent">
               {ticket.operatorInfo?.name}
             </p>
-
             <div className="flex items-center text-sm text-black">
               <FaCalendarAlt className="w-4 h-4 mr-2" />
               {departureDate.format("ddd, MMMM D, YYYY")}
@@ -93,21 +84,19 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
               <div className="text-base sm:text-lg md:text-xl">
                 {departureDate.format("HH:mm")}
               </div>
-
               <div className="text-center flex-1 px-2">
                 <div className="relative flex items-center">
                   <div className="flex-grow border-t"></div>
                   <span className="flex-shrink text-neutral-700 border px-3 rounded-full font-medium text-base">
-                    {durationFormatted != "NaN:NaN hrs"
+                    {durationFormatted !== "NaN:NaN hrs"
                       ? durationFormatted
                       : "00:00"}
                   </span>
                   <div className="flex-grow border-t"></div>
                 </div>
               </div>
-
               <div className="text-base sm:text-lg md:text-xl">
-                {arrivalTime.format("HH:mm") != "Invalid date"
+                {arrivalTime.format("HH:mm") !== "Invalid date"
                   ? arrivalTime.format("HH:mm")
                   : "00:00"}
               </div>
@@ -122,13 +111,12 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
                   {ticket.stops[0].from.name}
                 </span>
               </div>
-
               <div className="flex flex-col items-end">
                 <h1 className="font-medium text-base sm:text-lg capitalize">
-                  {ticket.stops[ticket.stops.length - 1].to.city}{" "}
+                  {ticket.stops[ticket.stops.length - 1].to.city}
                 </h1>
                 <span className="truncate text-black/50 line-clamp-1 hidden sm:block">
-                  {ticket.stops[ticket.stops.length - 1].to.name}{" "}
+                  {ticket.stops[ticket.stops.length - 1].to.name}
                 </span>
               </div>
             </div>
@@ -145,8 +133,7 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
 
           <div className="flex justify-between items-center gap-4 w-full md:flex-col md:justify-end md:items-end md:w-fit">
             <div className="text-xl sm:text-2xl font-semibold w-full md:w-1/3 flex md:flex-col justify-between items-end ">
-              {currency.symbol}
-              {convertedPrice.toFixed(2)}
+              €{ticket.stops[0].other_prices.our_price.toFixed(2)}
             </div>
 
             <Button

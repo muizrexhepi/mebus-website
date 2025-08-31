@@ -62,11 +62,11 @@ const Loading = () => {
         </div>
 
         {/* Date selection block skeleton */}
-        <div className="max-w-2xl mx-auto paddingX pt-4">
+        <div className="max-w-3xl mx-auto paddingX pt-4">
           <div className="flex justify-center gap-1">
-            <Skeleton className="h-10 w-24 rounded-t-lg" />
-            <Skeleton className="h-10 w-24 rounded-t-lg border-b border-solid border-b-red-100" />
-            <Skeleton className="h-10 w-24 rounded-t-lg" />
+            <Skeleton className="h-10 flex-1 rounded-t-lg bg-white/90" />
+            <Skeleton className="h-10 flex-1 rounded-t-lg bg-white/90 border-b border-solid border-b-red-100" />
+            <Skeleton className="h-10 flex-1 rounded-t-lg bg-white/90" />
           </div>
         </div>
       </div>

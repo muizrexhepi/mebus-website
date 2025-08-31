@@ -13,14 +13,13 @@ import {
 } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import useSearchStore, { useDepositStore, useCheckoutStore } from "@/store";
-import { useCurrency } from "@/components/providers/currency-provider";
 import { ConnectedTicket } from "@/models/connected-ticket";
+
 interface PriceSummaryItemProps {
   label: string;
   amount: number;
   quantity?: number;
   className?: string;
-  currencySymbol: string;
 }
 
 const PriceSummaryItem: React.FC<PriceSummaryItemProps> = ({
@@ -28,13 +27,11 @@ const PriceSummaryItem: React.FC<PriceSummaryItemProps> = ({
   amount,
   quantity,
   className,
-  currencySymbol,
 }) => (
   <div className={cn("flex items-center justify-between text-sm", className)}>
     <p className="text-black">{quantity ? `${quantity} x ${label}` : label}</p>
     <p className="text-black">
-      {currencySymbol}
-      {amount.toFixed(2)}
+      {/* Hardcoded currency symbol to Euro */}€{amount.toFixed(2)}
     </p>
   </div>
 );
@@ -226,13 +223,15 @@ const OrderSummary = ({ className }: { className?: string }) => {
   const { useDeposit, depositAmount } = useDepositStore();
   const { passengers: passengerAmount } = useSearchStore();
   const { outboundTicket, returnTicket, selectedFlex } = useCheckoutStore();
-  const { currency, convertFromEUR } = useCurrency();
+
+  // No more `useCurrency` hook
 
   useEffect(() => {
     const handleUseBalanceChange = (event: CustomEvent) => {
       setUseBalance(event.detail.useBalance);
       setBalanceAmount(event.detail.balanceAmount);
-      setRemainingAmount(convertFromEUR(event.detail.remainingAmount));
+      // The amount is already in EUR, so no need to convert.
+      setRemainingAmount(event.detail.remainingAmount);
     };
 
     window.addEventListener(
@@ -246,17 +245,15 @@ const OrderSummary = ({ className }: { className?: string }) => {
         handleUseBalanceChange as EventListener
       );
     };
-  }, [convertFromEUR]);
+  }, []);
 
   const flexPrice = useMemo(() => {
-    return convertFromEUR(
-      selectedFlex === "premium" ? 4 : selectedFlex === "standard" ? 2 : 0
-    );
-  }, [selectedFlex, convertFromEUR]);
+    return selectedFlex === "premium" ? 4 : selectedFlex === "standard" ? 2 : 0;
+  }, [selectedFlex]);
 
   const calculateTicketTotal = (ticket: Ticket | ConnectedTicket) => {
-    const adultPrice = convertFromEUR(getTicketPrice(ticket));
-    const childPrice = convertFromEUR(getChildrenPrice(ticket));
+    const adultPrice = getTicketPrice(ticket);
+    const childPrice = getChildrenPrice(ticket);
 
     return {
       adultTotal: adultPrice * (passengerAmount.adults || 1),
@@ -291,26 +288,20 @@ const OrderSummary = ({ className }: { className?: string }) => {
 
   const finalPrice = useMemo(() => {
     if (useBalance) {
-      const appliedBalanceAmount = Math.min(
-        convertFromEUR(balanceAmount / 100),
-        totalPrice
-      );
+      const appliedBalanceAmount = Math.min(balanceAmount, totalPrice);
       return Math.max(totalPrice - appliedBalanceAmount, 0);
     }
     return totalPrice;
-  }, [useBalance, balanceAmount, totalPrice, convertFromEUR]);
+  }, [useBalance, balanceAmount, totalPrice]);
 
   useEffect(() => {
     if (useBalance) {
-      const appliedBalanceAmount = Math.min(
-        convertFromEUR(balanceAmount / 100),
-        totalPrice
-      );
+      const appliedBalanceAmount = Math.min(balanceAmount, totalPrice);
       setRemainingAmount(Math.max(totalPrice - appliedBalanceAmount, 0));
     } else {
-      setRemainingAmount(totalPrice - (convertFromEUR(depositAmount) || 0));
+      setRemainingAmount(totalPrice - (depositAmount || 0));
     }
-  }, [useBalance, balanceAmount, totalPrice, depositAmount, convertFromEUR]);
+  }, [useBalance, balanceAmount, totalPrice, depositAmount]);
 
   return (
     <>
@@ -343,14 +334,12 @@ const OrderSummary = ({ className }: { className?: string }) => {
                 label={t("orderSummary.adults")}
                 amount={outboundDetails.adultPrice}
                 quantity={outboundDetails.adultCount}
-                currencySymbol={currency.symbol}
               />
               <PriceSummaryItem
                 label={t("orderSummary.children")}
                 className={`${passengerAmount.children < 1 && "hidden"}`}
                 amount={outboundDetails.childPrice}
                 quantity={outboundDetails.childCount}
-                currencySymbol={currency.symbol}
               />
             </>
           )}
@@ -364,14 +353,12 @@ const OrderSummary = ({ className }: { className?: string }) => {
                 label={t("orderSummary.adults")}
                 amount={returnDetails.adultPrice}
                 quantity={returnDetails.adultCount}
-                currencySymbol={currency.symbol}
               />
               <PriceSummaryItem
                 label={t("orderSummary.children")}
                 className={`${passengerAmount.children < 1 && "hidden"}`}
                 amount={returnDetails.childPrice}
                 quantity={returnDetails.childCount}
-                currencySymbol={currency.symbol}
               />
             </>
           )}
@@ -384,7 +371,6 @@ const OrderSummary = ({ className }: { className?: string }) => {
                   : t("services.standard.name")
               }
               amount={flexPrice}
-              currencySymbol={currency.symbol}
             />
           )}
 
@@ -394,15 +380,13 @@ const OrderSummary = ({ className }: { className?: string }) => {
             <>
               <PriceSummaryItem
                 label={t("orderSummary.subtotal")}
-                amount={finalPrice}
+                amount={totalPrice}
                 className="font-medium"
-                currencySymbol={currency.symbol}
               />
               <PriceSummaryItem
                 label={t("orderSummary.amountUsedFromDeposit")}
-                amount={-convertFromEUR(depositAmount) || 0}
+                amount={-depositAmount || 0}
                 className="text-green-600"
-                currencySymbol={currency.symbol}
               />
             </>
           )}
@@ -411,7 +395,6 @@ const OrderSummary = ({ className }: { className?: string }) => {
             label={t("orderSummary.total")}
             amount={remainingAmount}
             className="font-medium text-lg"
-            currencySymbol={currency.symbol}
           />
         </div>
       </div>

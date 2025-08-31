@@ -90,7 +90,7 @@ const DateButton: React.FC<DateButtonProps> = ({
 export function DateSelectBlock() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const {
     departureDate,
     setDepartureDate,
@@ -187,8 +187,10 @@ export function DateSelectBlock() {
             Array.from({ length: 3 }).map((_, index) => (
               <Skeleton
                 key={index}
-                className="flex-1 h-12 rounded-lg bg-gray-100"
-              />
+                className="flex-1 h-12 rounded-lg border bg-white border-gray-100 flex items-center justify-center"
+              >
+                <Skeleton className="h-4 w-24" />
+              </Skeleton>
             ))
           : // Date buttons
             dates.map((date) => (

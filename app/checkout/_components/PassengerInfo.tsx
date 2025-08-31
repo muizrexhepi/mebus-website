@@ -234,8 +234,6 @@ const PassengerInfo: React.FC = () => {
   const { passengers: passengersAmount, setPassengers: setPassengersAmount } =
     useSearchStore();
   const { user } = useAuth();
-  console.log({ passengers });
-  // Memoize passenger counts to prevent unnecessary re-renders
   const { adults, children, totalPassengers } = useMemo(() => {
     const adults = Math.max(1, passengersAmount.adults || 1);
     const children = Math.max(0, passengersAmount.children || 0);
@@ -246,14 +244,11 @@ const PassengerInfo: React.FC = () => {
     };
   }, [passengersAmount.adults, passengersAmount.children]);
 
-  // Initialize passengers array with proper structure
   const initializePassengers = useCallback(
     (count: number): PassengerData[] => {
       return Array.from({ length: count }, (_, i) => {
-        // Preserve existing passenger data if available
         const existingPassenger = passengers[i];
 
-        // Create base passenger object
         const basePassenger: PassengerData = {
           first_name: "",
           last_name: "",
@@ -265,17 +260,14 @@ const PassengerInfo: React.FC = () => {
           price: 0,
         };
 
-        // If we have existing data, merge it
         if (existingPassenger) {
           return {
             ...basePassenger,
             ...existingPassenger,
-            // Ensure countryCode exists
             countryCode: existingPassenger.countryCode || "+389",
           };
         }
 
-        // For the first passenger, populate with user data only if useUserInfo is true
         if (i === 0 && user && useUserInfo) {
           const [firstName = "", lastName = ""] = user.name?.split(" ") || [];
           return {

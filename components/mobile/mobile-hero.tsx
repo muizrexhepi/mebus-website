@@ -1,6 +1,9 @@
 import Image from "next/image";
 import { SearchForm } from "../forms/SearchForm";
-import LanguageSelector from "../dialogs/LanguageDialog";
+const LanguageSelector = dynamic(() => import("../dialogs/LanguageDialog"), {
+  ssr: false,
+});
+import dynamic from "next/dynamic";
 
 const MobileHero = () => {
   return (
@@ -9,7 +12,7 @@ const MobileHero = () => {
         <div className="relative z-20 w-full">
           <div className="w-full relative aspect-[4/3] h-52">
             <Image
-              src="/assets/images/mobileBG.png"
+              src="/assets/images/mobileBG.webp"
               alt="Bus and Train Illustration"
               fill
               priority

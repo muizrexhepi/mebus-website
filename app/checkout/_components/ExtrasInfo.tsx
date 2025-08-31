@@ -1,14 +1,13 @@
 "use client";
 
 import type React from "react";
-
-import { useCurrency } from "@/components/providers/currency-provider";
 import type { FlexFeature } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { useCheckoutStore } from "@/store";
 import { Check } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
+// Data remains the same as it's defined in Euros
 const flexFeatures: FlexFeature[] = [
   {
     name: "services.priority.name",
@@ -18,7 +17,7 @@ const flexFeatures: FlexFeature[] = [
       "services.priority.fullRefund",
       "services.priority.dateChange",
       "services.priority.support",
-      "services.priority.reminders", // added
+      "services.priority.reminders",
     ],
   },
   {
@@ -28,16 +27,14 @@ const flexFeatures: FlexFeature[] = [
     features: [
       "services.standard.partialRefund",
       "services.standard.dateChange",
-      "services.standard.reminders", // added
+      "services.standard.reminders",
     ],
   },
   {
     name: "services.basic.name",
     value: "no_flex",
     price: 0,
-    features: [
-      "services.basic.reminders", // email only
-    ],
+    features: ["services.basic.reminders"],
   },
 ];
 
@@ -47,7 +44,8 @@ const FlexOption: React.FC<{
   onSelect: () => void;
 }> = ({ flex, isSelected, onSelect }) => {
   const { t } = useTranslation();
-  const { currency, convertFromEUR } = useCurrency();
+
+  // NO MORE useCurrency hook
 
   return (
     <div
@@ -82,8 +80,9 @@ const FlexOption: React.FC<{
                 : "text-primary-bg group-hover:text-primary-bg/80"
             )}
           >
+            {/* Directly display the price in EUR with the Euro symbol */}
             {flex.price > 0
-              ? `+ ${currency.symbol}${convertFromEUR(flex.price).toFixed(2)}`
+              ? `+ €${flex.price.toFixed(2)}`
               : t("extrasInfo.free")}
           </p>
         </div>
@@ -119,13 +118,13 @@ const FlexOption: React.FC<{
 
 const TravelFlex: React.FC = () => {
   const { selectedFlex, setSelectedFlex, setFlexPrice } = useCheckoutStore();
-  const { convertFromEUR } = useCurrency();
 
   const handleFlexSelection = (flex: FlexFeature) => {
     setSelectedFlex(flex.value);
-    setFlexPrice(convertFromEUR(flex.price));
+    // Set the price directly without currency conversion
+    setFlexPrice(flex.price);
   };
-  22;
+
   return (
     <div className="grid gap-4">
       {flexFeatures.map((flex) => (
@@ -144,7 +143,7 @@ const Extras: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="flex flex-col rounded-xl  bg-white p-4 gap-4">
+    <div className="flex flex-col rounded-xl bg-white p-4 gap-4">
       <div className="flex items-center gap-4">
         <span className="flex items-center justify-center w-8 h-8 bg-secondary-bg/20 text-primary-bg rounded-full font-semibold">
           2
