@@ -157,7 +157,12 @@ const StationSelect: React.FC<CustomSelectProps> = ({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [filteredStations, setFilteredStations] = useState<Station[]>([]);
   const [isTouched, setIsTouched] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const [displayOptions, setDisplayOptions] = useState<Station[]>([]);
+
   const inputRef = useRef<HTMLInputElement>(null);
+  const optionRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -200,6 +205,59 @@ const StationSelect: React.FC<CustomSelectProps> = ({
     setFilteredStations(stationsWithScores);
   }, [searchTerm, stations]);
 
+  // Prepare display options (recent + filtered or grouped stations)
+  useEffect(() => {
+    const recentStations = JSON.parse(
+      Cookies.get(
+        departure === "from" ? "recentFromStations" : "recentToStations"
+      ) || "[]"
+    );
+
+    if (searchTerm === "") {
+      const groupedOptions: Station[] = [];
+
+      // Add recent stations first
+      if (recentStations.length > 0) {
+        groupedOptions.push(...recentStations);
+      }
+
+      // Add all other stations grouped by country
+      const stationsByCountry = stations.reduce(
+        (acc: Record<string, Station[]>, station: Station) => {
+          const country = station.country || "Other";
+          if (!acc[country]) {
+            acc[country] = [];
+          }
+          acc[country].push(station);
+          return acc;
+        },
+        {}
+      );
+
+      const sortedCountries = Object.keys(stationsByCountry).sort();
+      sortedCountries.forEach((country) => {
+        groupedOptions.push(...stationsByCountry[country]);
+      });
+
+      setDisplayOptions(groupedOptions);
+    } else {
+      setDisplayOptions(filteredStations);
+    }
+
+    // Reset highlight when options change
+    setHighlightedIndex(-1);
+  }, [searchTerm, filteredStations, stations, departure]);
+
+  // Scroll highlighted option into view
+  useEffect(() => {
+    if (highlightedIndex >= 0 && optionRefs.current[highlightedIndex]) {
+      optionRefs.current[highlightedIndex]?.scrollIntoView({
+        block: "nearest",
+        behavior: "smooth",
+      });
+    }
+  }, [highlightedIndex]);
+
   const handleSelect = useCallback(
     (station: Station) => {
       const value = station._id;
@@ -229,6 +287,10 @@ const StationSelect: React.FC<CustomSelectProps> = ({
       );
 
       setOpenOptions(false);
+      setHighlightedIndex(-1);
+
+      // Return focus to input
+      inputRef.current?.focus();
 
       if (updateUrl) {
         const currentParams = new URLSearchParams(searchParams.toString());
@@ -262,20 +324,58 @@ const StationSelect: React.FC<CustomSelectProps> = ({
     ]
   );
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!openOptions) return;
+
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault();
+        setHighlightedIndex((prev) =>
+          prev < displayOptions.length - 1 ? prev + 1 : 0
+        );
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        setHighlightedIndex((prev) =>
+          prev > 0 ? prev - 1 : displayOptions.length - 1
+        );
+        break;
+      case "Enter":
+        e.preventDefault();
+        if (highlightedIndex >= 0 && displayOptions[highlightedIndex]) {
+          handleSelect(displayOptions[highlightedIndex]);
+        }
+        break;
+      case "Escape":
+        e.preventDefault();
+        setOpenOptions(false);
+        setHighlightedIndex(-1);
+        inputRef.current?.blur();
+        break;
+      case "Tab":
+        setOpenOptions(false);
+        setHighlightedIndex(-1);
+        break;
+    }
+  };
+
   const handleFocus = () => {
     setOpenOptions(true);
     setIsTouched(true);
   };
 
   const handleBlur = () => {
+    // Delay closing to allow for option clicks
     setTimeout(() => {
       setOpenOptions(false);
+      setHighlightedIndex(-1);
     }, 200);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     setIsTouched(true);
+    setHighlightedIndex(-1); // Reset highlight on new input
   };
 
   const updateRecentStations = (
@@ -363,9 +463,11 @@ const StationSelect: React.FC<CustomSelectProps> = ({
     <div className="relative">
       <div
         className={cn(
-          "flex items-center h-12 rounded-lg bg-primary-bg/5 px-4 border-2 transition-colors",
+          "flex items-center h-12 rounded-lg bg-primary-bg/5 px-4 border-2 transition-all duration-200",
           shouldShowError
-            ? "border-red-500 bg-red-50"
+            ? "border-red-500 bg-red-50 shadow-sm shadow-red-100"
+            : openOptions
+            ? "border-primary-accent shadow-sm shadow-primary-accent/20"
             : "border-transparent hover:border-gray-200 focus-within:border-primary-accent"
         )}
       >
@@ -382,29 +484,62 @@ const StationSelect: React.FC<CustomSelectProps> = ({
           onFocus={handleFocus}
           onBlur={handleBlur}
           onChange={handleInputChange}
-          className="flex-1 rounded-lg h-12 border-none ring-0 bg-transparent text-base capitalize px-0 placeholder:text-muted-foreground"
+          onKeyDown={handleKeyDown}
+          autoComplete="off"
+          role="combobox"
+          aria-expanded={openOptions}
+          aria-haspopup="listbox"
+          aria-owns={`${departure}-options`}
+          aria-activedescendant={
+            highlightedIndex >= 0
+              ? `${departure}-option-${highlightedIndex}`
+              : undefined
+          }
+          className="flex-1 rounded-lg h-12 border-none ring-0 bg-transparent text-base capitalize px-0 placeholder:text-muted-foreground focus:outline-none"
         />
       </div>
 
+      {shouldShowError && showError && (
+        <p className="text-red-500 text-xs mt-1 animate-in slide-in-from-top-1">
+          {departure === "from"
+            ? t("validation.fromRequired", "Please select departure city")
+            : t("validation.toRequired", "Please select arrival city")}
+        </p>
+      )}
+
       {openOptions && (
-        <div className="absolute top-14 w-[130%] bg-background shadow-lg z-20 left-0 mt-2 rounded-lg border border-border animate-in fade-in-0 zoom-in-95">
+        <div
+          ref={dropdownRef}
+          className="absolute top-14 w-[130%] bg-background shadow-xl z-50 left-0 mt-2 rounded-lg border border-border animate-in fade-in-0 zoom-in-95 duration-200"
+          role="listbox"
+          id={`${departure}-options`}
+        >
           <div className="max-h-80 overflow-y-auto overscroll-contain">
             {searchTerm === "" ? (
               <>
                 {recentStations.length > 0 && (
                   <>
-                    <div className="bg-muted px-4 py-2 border-b border-border">
+                    <div className="bg-muted/50 px-4 py-2 border-b border-border/50">
                       <h3 className="font-medium text-sm text-foreground/70">
                         {t("searchForm.recentSearches")}
                       </h3>
                     </div>
-                    {recentStations.map((station: Station) => (
+                    {recentStations.map((station: Station, index: number) => (
                       <Button
                         key={station._id}
+                        ref={(el: any) => (optionRefs.current[index] = el)}
                         variant="ghost"
-                        className="w-full justify-start text-left h-15 px-4 hover:bg-accent hover:text-accent-foreground rounded-none"
+                        className={cn(
+                          "w-full justify-start text-left h-15 px-4 rounded-none transition-colors duration-150",
+                          index === highlightedIndex
+                            ? "bg-primary-accent/10 text-primary-accent border-l-2 border-primary-accent"
+                            : "hover:bg-accent hover:text-accent-foreground"
+                        )}
                         onClick={() => handleSelect(station)}
                         type="button"
+                        role="option"
+                        aria-selected={index === highlightedIndex}
+                        id={`${departure}-option-${index}`}
                       >
                         {departure === "from" ? (
                           <IoMdLocate className="size-4 mr-2 shrink-0 text-primary-accent" />
@@ -421,7 +556,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
                         </div>
                       </Button>
                     ))}
-                    <div className="border-t border-border" />
+                    <div className="border-t border-border/50" />
                   </>
                 )}
 
@@ -439,56 +574,80 @@ const StationSelect: React.FC<CustomSelectProps> = ({
                   );
 
                   const sortedCountries = Object.keys(stationsByCountry).sort();
+                  let optionIndex = recentStations.length;
 
                   return sortedCountries.map((country) => (
                     <React.Fragment key={country}>
-                      <div className="bg-muted px-4 py-2 border-b border-border">
+                      <div className="bg-muted/30 px-4 py-2 border-b border-border/30">
                         <h3 className="font-medium text-sm text-foreground/70 capitalize">
                           {country}
                         </h3>
                       </div>
-                      {stationsByCountry[country].map((station: Station) => (
-                        <Button
-                          key={station._id}
-                          variant="ghost"
-                          className="w-full justify-start text-left h-15 px-4 hover:bg-accent hover:text-accent-foreground rounded-none"
-                          onClick={() => handleSelect(station)}
-                          type="button"
-                        >
-                          {departure === "from" ? (
-                            <IoMdLocate className="size-4 mr-2 shrink-0 text-primary-accent" />
-                          ) : (
-                            <HiMapPin className="size-4 mr-2 shrink-0 text-primary-accent" />
-                          )}
-                          <div className="flex flex-col items-start gap-0.5">
-                            <span className="capitalize font-medium text-sm">
-                              {station.city}
-                            </span>
-                            <span className="text-muted-foreground text-xs">
-                              {station.name}
-                            </span>
-                          </div>
-                        </Button>
-                      ))}
+                      {stationsByCountry[country].map((station: Station) => {
+                        const currentIndex = optionIndex++;
+                        return (
+                          <Button
+                            key={station._id}
+                            ref={(el: any) =>
+                              (optionRefs.current[currentIndex] = el)
+                            }
+                            variant="ghost"
+                            className={cn(
+                              "w-full justify-start text-left h-15 px-4 rounded-none transition-colors duration-150",
+                              currentIndex === highlightedIndex
+                                ? "bg-primary-accent/10 text-primary-accent border-l-2 border-primary-accent"
+                                : "hover:bg-accent hover:text-accent-foreground"
+                            )}
+                            onClick={() => handleSelect(station)}
+                            type="button"
+                            role="option"
+                            aria-selected={currentIndex === highlightedIndex}
+                            id={`${departure}-option-${currentIndex}`}
+                          >
+                            {departure === "from" ? (
+                              <IoMdLocate className="size-4 mr-2 shrink-0 text-primary-accent" />
+                            ) : (
+                              <HiMapPin className="size-4 mr-2 shrink-0 text-primary-accent" />
+                            )}
+                            <div className="flex flex-col items-start gap-0.5">
+                              <span className="capitalize font-medium text-sm">
+                                {station.city}
+                              </span>
+                              <span className="text-muted-foreground text-xs">
+                                {station.name}
+                              </span>
+                            </div>
+                          </Button>
+                        );
+                      })}
                     </React.Fragment>
                   ));
                 })()}
               </>
             ) : (
               <>
-                <div className="bg-muted px-4 py-2 border-b border-border">
+                <div className="bg-muted/50 px-4 py-2 border-b border-border/50">
                   <h3 className="font-medium text-sm text-foreground/70">
-                    {t("searchForm.searchResult")}
+                    {t("searchForm.searchResult")} ({filteredStations.length})
                   </h3>
                 </div>
                 {filteredStations.length > 0 ? (
-                  filteredStations.map((station: Station) => (
+                  filteredStations.map((station: Station, index: number) => (
                     <Button
                       key={station._id}
+                      ref={(el: any) => (optionRefs.current[index] = el)}
                       variant="ghost"
-                      className="w-full justify-start text-left h-15 px-4 hover:bg-accent hover:text-accent-foreground rounded-none"
+                      className={cn(
+                        "w-full justify-start text-left h-15 px-4 rounded-none transition-colors duration-150",
+                        index === highlightedIndex
+                          ? "bg-primary-accent/10 text-primary-accent border-l-2 border-primary-accent"
+                          : "hover:bg-accent hover:text-accent-foreground"
+                      )}
                       onClick={() => handleSelect(station)}
                       type="button"
+                      role="option"
+                      aria-selected={index === highlightedIndex}
+                      id={`${departure}-option-${index}`}
                     >
                       {departure === "from" ? (
                         <IoMdLocate className="size-4 mr-2 shrink-0 text-primary-accent" />
