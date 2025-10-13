@@ -137,7 +137,8 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
             </div>
 
             <Button
-              className="w-fit text-sm button-gradient"
+              variant={"primary"}
+              className="w-fit text-sm"
               onClick={handleTicketSelection}
             >
               {isLoading ? (

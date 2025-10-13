@@ -97,7 +97,7 @@ export default function CookieConsent() {
           <div className="flex-1 flex items-center gap-2">
             <div className="flex-shrink-0 p-2 bg-white rounded-full">
               {/* Added gradient to the cookie icon and its parent div */}
-              <Cookie className="h-5 w-5 bg-clip-text text-transparent bg-gradient-to-tr from-[#ff6700] to-[#ff007f]" />
+              <Cookie className="h-5 w-5 text-primary-accent" />
             </div>
             <p className="text-sm text-gray-700">
               We use cookies to improve your experience. By continuing to use
@@ -105,13 +105,13 @@ export default function CookieConsent() {
               {/* Added gradient to the link */}
               <Link
                 href="/legal/cookie-policy"
-                className="font-bold bg-clip-text text-transparent bg-gradient-to-tr from-[#ff6700] to-[#ff007f] hover:from-[#ff007f] hover:to-[#ff6700] ml-1"
+                className="font-bold bg-clip-text text-transparent bg-primary-accent hover:from-[#ff007f] hover:to-[#ff6700] ml-1"
               >
                 Cookie Policy.
               </Link>
             </p>
           </div>
-          <div className="flex gap-2 flex-shrink-0">
+          <div className="flex gap-1 flex-wrap flex-shrink-0">
             <Button
               onClick={handleRejectAll}
               variant="outline"
@@ -129,7 +129,7 @@ export default function CookieConsent() {
             <Button
               onClick={handleAcceptAll}
               // Added gradient to the Accept All button
-              className="rounded-full bg-gradient-to-tr from-[#ff6700] to-[#ff007f] text-white hover:from-[#ff007f] hover:to-[#ff6700] transition-colors shadow-md"
+              className="rounded-full bg-primary-accent text-white hover:from-[#ff007f] hover:to-[#ff6700] transition-colors shadow-md"
             >
               Accept All
             </Button>
@@ -168,7 +168,7 @@ export default function CookieConsent() {
                     Essential Cookies
                   </Label>
                   {/* Added gradient to the Always Active span */}
-                  <span className="ml-2 text-xs font-medium bg-clip-text text-transparent bg-gradient-to-tr from-[#ff6700] to-[#ff007f] px-2 py-0.5 rounded-full bg-blue-50">
+                  <span className="ml-2 text-xs font-medium bg-clip-text text-transparent bg-primary-accent px-2 py-0.5 rounded-full bg-blue-50">
                     Always Active
                   </span>
                 </div>
@@ -254,7 +254,7 @@ export default function CookieConsent() {
           <DialogFooter className="flex-col sm:flex-row-reverse sm:justify-start gap-2">
             <Button
               onClick={handleSavePreferences}
-              className="w-full sm:w-auto rounded-full bg-gradient-to-tr from-[#ff6700] to-[#ff007f] text-white hover:from-[#ff007f] hover:to-[#ff6700] transition-colors"
+              className="w-full sm:w-auto rounded-full bg-primary-accent text-white hover:from-[#ff007f] hover:to-[#ff6700] transition-colors"
             >
               Save Preferences
             </Button>

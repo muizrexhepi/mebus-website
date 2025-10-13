@@ -220,7 +220,7 @@ export const MobileSearchForm: React.FC<MobileSearchFormProps> = ({
             className={cn(
               "p-6 w-full rounded-lg h-12 transition-all duration-200 mt-1",
               isFormValid
-                ? "bg-gradient-to-tr from-[#ff6700] to-[#ff007f] hover:shadow-lg hover:scale-[1.02]"
+                ? "bg-primary-accent hover:shadow-lg hover:scale-[1.02]"
                 : "bg-gray-300 cursor-not-allowed"
             )}
           >

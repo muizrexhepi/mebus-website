@@ -96,7 +96,7 @@ export default function BusRoutesClient({
               <CardContent className="p-4">
                 <div className="flex flex-col space-y-2">
                   <div className="flex justify-between items-center">
-                    <h3 className="font-semibold text-lg truncate">
+                    <h3 className="font-semibold text-lg truncate capitalize">
                       {route.destination.from} to {route.destination.to}
                     </h3>
                     <Bus className="h-5 w-5 text-primary shrink-0" />

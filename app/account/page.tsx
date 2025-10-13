@@ -168,7 +168,7 @@ export default function Account() {
         <div className=" pt-6 pb-4 border-b border-gray-200">
           {user ? (
             <div className="flex items-center space-x-4">
-              <div className="w-16 h-16 bg-gradient-to-tr from-[#ff6700] to-[#ff007f] rounded-full flex items-center justify-center flex-shrink-0">
+              <div className="w-16 h-16 bg-primary-accent rounded-full flex items-center justify-center flex-shrink-0">
                 <span className="text-white text-2xl font-semibold">
                   {user.name?.charAt(0).toUpperCase()}
                 </span>

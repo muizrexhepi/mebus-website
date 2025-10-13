@@ -38,10 +38,10 @@ export const NAV_LINKS = [
     name: "Routes",
     url: "/routes",
   },
-  {
-    name: "Blogs",
-    url: "/blogs",
-  },
+  // {
+  //   name: "Blogs",
+  //   url: "/blogs",
+  // },
 ];
 
 export const LOCALE_MAP = {

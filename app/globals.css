@@ -162,7 +162,7 @@ input[type="radio"]:checked {
   @apply flex flex-col sm:flex-row gap-4 justify-center mt-6;
 }
 .button-gradient {
-  @apply bg-gradient-to-tr from-[#ff6700] to-[#ff007f];
+  @apply bg-primary-accent hover:bg-primary-accent/95;
 }
 
 @media print {

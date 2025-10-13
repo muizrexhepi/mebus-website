@@ -20,7 +20,7 @@ const LoginCTA = () => {
         {/* Mobile: Single row layout */}
         <div className="md:hidden flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-tr from-[#ff6700] to-[#ff007f] bg-opacity-10 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 bg-primary-accent bg-opacity-10 rounded-full flex items-center justify-center">
               <User className="w-4 h-4 text-[#fff]" />
             </div>
             <div>
@@ -45,7 +45,7 @@ const LoginCTA = () => {
         <div className="hidden md:block">
           <div className="flex items-start gap-3">
             <div className="flex-shrink-0">
-              <div className="w-10 h-10 bg-gradient-to-tr from-[#ff6700] to-[#ff007f] bg-opacity-10 rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 bg-primary-accent bg-opacity-10 rounded-full flex items-center justify-center">
                 <User className="w-5 h-5 text-[#fff]" />
               </div>
             </div>

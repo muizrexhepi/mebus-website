@@ -34,7 +34,7 @@ const config: Config = {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
           bg: "#15203e",
-          accent: "#ff284d",
+          accent: "#f43f5e",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",

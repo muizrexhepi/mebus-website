@@ -94,7 +94,6 @@ export async function generateMetadata({
   };
 }
 
-// Optimized structured data generation
 const generateStructuredData = (
   departureCity: string,
   arrivalCity: string,
