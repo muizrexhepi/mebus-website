@@ -34,7 +34,7 @@ const SecondaryFooter = ({ className }: { className?: string }) => {
               {t("footer.links.cookiepolicy")}
             </Link>
             <Link
-              href="https://support.gobusly.com"
+              href="/help"
               target="_blank"
               className="text-sm text-black/70 hover:text-black transition-colors"
             >

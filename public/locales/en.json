@@ -3,6 +3,7 @@
   "nav": {
     "routes": "Routes",
     "bookings": "Bookings",
+    "bus": "Bus Destinations",
     "help": "Help",
     "about": "About",
     "contact": "Contact",
@@ -102,7 +103,7 @@
   },
   "helpPage": {
     "title": "Help Center",
-    "description": "Welcome to our Help Center. Find answers to common questions, learn how to use our services, and get the support you need for a smooth bus booking experience.",
+    "description": "All the support you need for a smooth bus booking experience.",
     "howCanWeHelp": "How can we help you today?",
     "searchOrBrowse": "Search our knowledge base or browse topics below",
     "quickLinksTitle": "Quick Links",

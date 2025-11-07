@@ -18,9 +18,9 @@ const FOOTER_LINKS = [
     title: "Company",
     links: [
       // { name: "About Us", link: "/about" },
-      { name: "Contact", link: "https://support.gobusly.com/contact" },
-      { name: "FAQ", link: "https://support.gobusly.com/faq" },
-      { name: "Help", link: "https://support.gobusly.com" },
+      { name: "Contact", link: "/help/contact" },
+      { name: "FAQ", link: "/help/faq" },
+      { name: "Help", link: "/help" },
     ],
   },
   {

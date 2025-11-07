@@ -377,7 +377,7 @@ export default function DataAndSecurity() {
             <p className="text-sm">
               {t("dataAndSecurity.contactSupport")}{" "}
               <a
-                href="https://support.gobusly.com"
+                href="/help"
                 className="text-transparent bg-clip-text text-sm button-gradient hover:underline"
               >
                 support.gobusly.com

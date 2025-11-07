@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import HelpPageClient from "@/app/help/_components/HelpPageClient";
 
 export const metadata: Metadata = {
-  title: "Help Center | GoBusly",
+  title: "Help Center",
   description:
     "Find answers to your questions and get support for your bus bookings with GoBusly. Access our knowledge base, learn how to use our services, and reach out for assistance.",
   keywords:

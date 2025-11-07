@@ -201,7 +201,7 @@ export default function PersonalInfo() {
             <p className="text-sm">
               {t("personalInfo.visitContactPage")}{" "}
               <a
-                href="https://support.gobusly.com"
+                href="/help"
                 className="text-transparent bg-clip-text text-sm button-gradient hover:underline"
               >
                 support.gobusly.com

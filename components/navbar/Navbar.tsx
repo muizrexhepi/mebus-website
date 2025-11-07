@@ -39,7 +39,7 @@ const Navbar = ({ className }: { className?: string }) => {
             <Link
               href={link.url}
               key={index}
-              className="text-gray-700 text-base hover:text-gray-900 transition-colors"
+              className="text-gray-700 text-base font-medium hover:text-gray-900 transition-colors"
             >
               {t(`nav.${link.name.toLowerCase()}`)}
             </Link>

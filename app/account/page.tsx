@@ -11,7 +11,7 @@ import { useNavbarStore } from "@/store";
 import { Button } from "@/components/ui/button";
 import { signOut } from "next-auth/react";
 import { Card, CardContent } from "@/components/ui/card";
-import { FaBookmark, FaHeadphones, FaKey, FaUser } from "react-icons/fa";
+import { FaBookmark, FaBus, FaHeadphones, FaKey, FaUser } from "react-icons/fa";
 import { BiHelpCircle } from "react-icons/bi";
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
@@ -38,6 +38,11 @@ const ACCOUNT_SETTINGS: AccountSetting[] = [
     icon: FaKey,
     title: "dataAndSecurity.title", // Updated for translation
   },
+  {
+    href: "/bus",
+    icon: FaBus,
+    title: "nav.bus",
+  },
   // {
   //   href: "/account/discount-codes",
   //   icon: Ticket,
@@ -49,7 +54,7 @@ const ACCOUNT_SETTINGS: AccountSetting[] = [
   //   title: "sidebar.notifications",
   // },
   {
-    href: "https://support.gobusly.com/contact",
+    href: "/help/contact",
     icon: FaHeadphones,
     title: "helpPage.quickLinks.contactSupport",
   },
@@ -108,8 +113,7 @@ export default function Account() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {ACCOUNT_SETTINGS.map((link) => {
             const isExternal = link.href.startsWith("http");
-            const isSupportLink =
-              link.href === "https://support.gobusly.com/contact";
+            const isSupportLink = link.href === "/help/contact";
 
             if (!isAuthenticated && !isSupportLink) {
               return (
@@ -202,8 +206,7 @@ export default function Account() {
         <div className=" mt-4">
           {ACCOUNT_SETTINGS.map((link) => {
             const isExternal = link.href.startsWith("http");
-            const isSupportLink =
-              link.href === "https://support.gobusly.com/contact";
+            const isSupportLink = link.href === "/help/contact";
 
             if (!isAuthenticated && !isSupportLink) {
               return (

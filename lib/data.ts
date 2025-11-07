@@ -28,7 +28,7 @@ import { enUS, fr, es, de, mk, it, sq } from "date-fns/locale";
 export const NAV_LINKS = [
   {
     name: "Help",
-    url: "https://support.gobusly.com",
+    url: "/help",
   },
   // {
   //   name: "Contact",
@@ -38,10 +38,10 @@ export const NAV_LINKS = [
     name: "Routes",
     url: "/routes",
   },
-  // {
-  //   name: "Blogs",
-  //   url: "/blogs",
-  // },
+  {
+    name: "Bus",
+    url: "/bus",
+  },
 ];
 
 export const LOCALE_MAP = {

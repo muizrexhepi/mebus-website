@@ -10,6 +10,7 @@ import { Bookmark, LogOut, Menu, User } from "lucide-react";
 import {
   FaBell,
   FaBookmark,
+  FaBus,
   FaCreditCard,
   FaHeadphones,
   FaKey,
@@ -70,6 +71,11 @@ const UserNavbarMenu = () => {
       icon: FaKey,
       label: t("dataAndSecurity.title"),
     },
+    {
+      href: "/bus",
+      icon: FaBus,
+      label: t("nav.bus"),
+    },
     // {
     //   label: "Discount codes",
     //   href: "/account/discount-codes",
@@ -82,12 +88,12 @@ const UserNavbarMenu = () => {
     },
     {
       label: t("footer.links.customersupport"),
-      href: "https://support.gobusly.com",
+      href: "/help",
       icon: FaHeadphones,
     },
     {
       label: t("nav.contact"),
-      href: "https://support.gobusly.com/contact",
+      href: "/help/contact",
       icon: IoMdContact,
     },
   ];

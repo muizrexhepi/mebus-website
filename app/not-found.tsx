@@ -35,7 +35,7 @@ export default function NotFound() {
             </Button>
             <Button asChild variant="outline">
               <Link
-                href="https://support.gobusly.com"
+                href="/help"
                 target="_blank"
                 className="inline-flex items-center"
               >

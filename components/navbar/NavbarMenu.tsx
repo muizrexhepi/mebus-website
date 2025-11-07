@@ -18,7 +18,7 @@ import {
 import { useNavbarStore } from "@/store";
 
 // Icons
-import { FaRoute } from "react-icons/fa";
+import { FaRoute, FaBus } from "react-icons/fa"; // <-- ADDED FaBus
 import { BiSupport } from "react-icons/bi";
 import { IoMdContact } from "react-icons/io";
 import useIsMobile from "../hooks/use-mobile";
@@ -40,6 +40,11 @@ const NavbarMenu = () => {
   };
 
   const navigationLinks = [
+    {
+      label: t("nav.bus"), // <-- ADDED "BUS" LINK
+      href: "/bus",
+      icon: FaBus,
+    },
     {
       label: t("nav.routes"),
       href: "/routes",
@@ -154,26 +159,11 @@ const NavbarMenu = () => {
     </div>
   );
 
+  // <-- REFACTORED DESKTOP MENU -->
   const DesktopMenuContent = (
     <div className="py-2">
-      {/* Navigation Links */}
-      {navigationLinks.map((link) => (
-        <DropdownMenuItem
-          key={link.href}
-          asChild
-          className="py-3 px-4 cursor-pointer font-medium"
-        >
-          <Link href={link.href} className="flex items-center gap-3">
-            <link.icon className="h-4 w-4 text-gray-500" />
-            <span className="text-gray-700">{link.label}</span>
-          </Link>
-        </DropdownMenuItem>
-      ))}
-
-      <DropdownMenuSeparator className="my-2" />
-
-      {/* Auth Buttons */}
-      <div className="p-3 space-y-2">
+      {/* Auth Buttons (Moved to top) */}
+      <div className="px-3 pt-1 pb-3 space-y-2">
         <Button
           className="w-full h-10 rounded-lg font-medium border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50"
           variant="outline"
@@ -188,8 +178,28 @@ const NavbarMenu = () => {
           {t("auth.signUp")}
         </Button>
       </div>
+
+      <DropdownMenuSeparator className="my-1" />
+
+      {/* Navigation Links */}
+      <div className="py-2">
+        {navigationLinks.map((link) => (
+          <DropdownMenuItem
+            key={link.href}
+            asChild
+            // Standardized styling to match UserNavbarMenu
+            className="py-2.5 px-3 rounded-md cursor-pointer"
+          >
+            <Link href={link.href} className="flex items-center gap-3">
+              <link.icon className="h-4 w-4 text-gray-600" />
+              <span className="text-gray-700">{link.label}</span>
+            </Link>
+          </DropdownMenuItem>
+        ))}
+      </div>
     </div>
   );
+  // <-- END REFACTORED SECTION -->
 
   if (isMobile) {
     return (
@@ -210,7 +220,7 @@ const NavbarMenu = () => {
       <DropdownMenuTrigger asChild>{MenuTrigger}</DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="w-72 rounded-xl mt-2 p-0 shadow-xl border border-gray-100"
+        className="w-72 rounded-xl mt-2 p-0 shadow-xl border border-gray-100" // Kept w-72 for slightly more space
       >
         {DesktopMenuContent}
       </DropdownMenuContent>
