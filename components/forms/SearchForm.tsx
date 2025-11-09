@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import DatePicker from "@/app/search/_components/date-picker";
 import ReturnDatePicker from "@/app/search/_components/return-date-picker";
 import useSearchStore, { useCheckoutStore } from "@/store";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useStations } from "../providers/station-provider";
 import { FormField } from "@/components/ui/form-field";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -24,6 +24,7 @@ interface SearchFormProps {
 
 export const SearchForm: React.FC<SearchFormProps> = ({ updateUrl }) => {
   const { t } = useTranslation();
+  const searchParams = useSearchParams();
   const {
     returnDate,
     departureDate,
@@ -36,6 +37,10 @@ export const SearchForm: React.FC<SearchFormProps> = ({ updateUrl }) => {
     setReturnDate,
     setTripType,
     resetSearch,
+    setFrom,
+    setTo,
+    setDepartureDate,
+    setPassengers,
   } = useSearchStore();
 
   const router = useRouter();
@@ -52,6 +57,48 @@ export const SearchForm: React.FC<SearchFormProps> = ({ updateUrl }) => {
   const hasToError = !to && attemptedSubmit;
   const hasDateError = !departureDate && attemptedSubmit;
   const hasSameCityError = from && to && from === to && attemptedSubmit;
+
+  // Sync form with URL parameters (for when updateUrl=true)
+  useEffect(() => {
+    if (!updateUrl) return;
+
+    const departureStation = searchParams.get("departureStation");
+    const arrivalStation = searchParams.get("arrivalStation");
+    const departureDateParam = searchParams.get("departureDate");
+    const returnDateParam = searchParams.get("returnDate");
+    const adult = searchParams.get("adult");
+    const children = searchParams.get("children");
+
+    if (departureStation && from !== departureStation) {
+      setFrom(departureStation);
+    }
+
+    if (arrivalStation && to !== arrivalStation) {
+      setTo(arrivalStation);
+    }
+
+    if (departureDateParam && departureDate !== departureDateParam) {
+      setDepartureDate(departureDateParam);
+    }
+
+    if (returnDateParam && returnDate !== returnDateParam) {
+      setReturnDate(returnDateParam);
+    }
+
+    if (adult || children) {
+      const newPassengers = {
+        adults: adult ? parseInt(adult) : 1,
+        children: children ? parseInt(children) : 0,
+      };
+
+      if (
+        passengers.adults !== newPassengers.adults ||
+        passengers.children !== newPassengers.children
+      ) {
+        setPassengers(newPassengers);
+      }
+    }
+  }, [searchParams, updateUrl]);
 
   const handleTripTypeChange = useCallback(
     (type: "one-way" | "round-trip") => {
@@ -86,13 +133,10 @@ export const SearchForm: React.FC<SearchFormProps> = ({ updateUrl }) => {
     ]
   );
 
-  // Optimized search handler - remove async/await to eliminate delay
   const handleSearch = useCallback(() => {
     setAttemptedSubmit(true);
 
-    // Check for validation errors
     if (!from || !to || !departureDate || (from && to && from === to)) {
-      // Scroll to first error field
       setTimeout(() => {
         const firstErrorElement = document.querySelector('[data-error="true"]');
         firstErrorElement?.scrollIntoView({
@@ -103,7 +147,6 @@ export const SearchForm: React.FC<SearchFormProps> = ({ updateUrl }) => {
       return;
     }
 
-    // Use startTransition for immediate navigation without blocking
     startTransition(() => {
       const searchParams = new URLSearchParams({
         departureStation: from,
@@ -119,7 +162,6 @@ export const SearchForm: React.FC<SearchFormProps> = ({ updateUrl }) => {
 
       const searchUrl = `/search/${fromCity.toLowerCase()}-${toCity.toLowerCase()}?${searchParams.toString()}`;
 
-      // Immediate navigation without await
       router.push(searchUrl);
     });
   }, [
@@ -292,7 +334,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({ updateUrl }) => {
         )}
       </div>
 
-      {/* Form Status - only show after attempted submit */}
+      {/* Form Status */}
       {attemptedSubmit && !isFormValid && !isPending && (
         <div className="text-sm text-muted-foreground text-center">
           {t(

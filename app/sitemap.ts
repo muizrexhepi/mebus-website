@@ -21,7 +21,7 @@ interface Station {
 
 type Country = {
   country: string;
-  slug: string; // Ensure slug is always present after getCountries
+  slug: string;
   stationCount: number;
 };
 
@@ -49,40 +49,32 @@ const capitalizeCity = (name: string) => {
     .join(" ");
 };
 
-const generateCrossCountryCityPairs = (stations: Station[]) => {
-  const pairs = [];
-  const formatDate = (date: Date) => {
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
-  };
-  const today = formatDate(new Date());
+// FIXED: Generate CLEAN route URLs without any parameters
+const generateCleanSearchRoutes = (stations: Station[]) => {
+  const routes = new Set<string>(); // Use Set to prevent duplicates
 
   for (let i = 0; i < stations.length; i++) {
     for (let j = 0; j < stations.length; j++) {
+      // Only cross-country routes
       if (i !== j && stations[i].country !== stations[j].country) {
-        const fromCity = stations[i].city.toLowerCase();
-        const toCity = stations[j].city.toLowerCase();
-        const departureStationId = stations[i]._id;
-        const arrivalStationId = stations[j]._id;
-        const queryString =
-          `departureStation=${departureStationId}` +
-          `&amp;arrivalStation=${arrivalStationId}` +
-          `&amp;departureDate=${today}` +
-          `&amp;adult=1` +
-          `&amp;children=0`;
-        pairs.push(`${fromCity}-${toCity}?${queryString}`);
+        const fromSlug = cityToSlug(stations[i].city);
+        const toSlug = cityToSlug(stations[j].city);
+
+        // Create clean route URL: /search/pristina-munich
+        routes.add(`${fromSlug}-${toSlug}`);
       }
     }
   }
-  return pairs;
+
+  return Array.from(routes);
 };
 
 const extractLinksFromArray = (linksArray: any[]) => {
   return linksArray.map((item) => ({
     url: `${BASE_URL}${item.url || item.link}`,
     lastModified: new Date().toISOString(),
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
   }));
 };
 
@@ -90,10 +82,12 @@ const extractQuickLinks = (quickLinks: any[]) => {
   return quickLinks.map((item) => ({
     url: `${BASE_URL}/help/${item.name}`,
     lastModified: new Date().toISOString(),
+    changeFrequency: "monthly" as const,
+    priority: 0.5,
   }));
 };
 
-const removeDuplicateUrls = (urls: { url: string; lastModified: string }[]) => {
+const removeDuplicateUrls = (urls: any[]) => {
   const uniqueUrls = new Map();
   urls.forEach((urlObject) => {
     uniqueUrls.set(urlObject.url, urlObject);
@@ -129,7 +123,6 @@ async function getCities(countrySlug: string): Promise<City[]> {
     process.env.NEXT_PUBLIC_BASE_URL ??
     "https://www.gobusly.com";
 
-  // Use the slug (which is what the original function's encodeURIComponent(countryName) likely achieves)
   const url = `${apiBase}/seo/country/${countrySlug}`;
   try {
     const res = await fetch(url, { next: { revalidate } });
@@ -141,7 +134,7 @@ async function getCities(countrySlug: string): Promise<City[]> {
 
     return rawCities.map((rawName: string) => ({
       name: capitalizeCity(rawName),
-      country: countrySlug, // We'll use the country's slug for the URL
+      country: countrySlug,
       slug: cityToSlug(rawName),
     }));
   } catch (error) {
@@ -163,53 +156,83 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 2. Fetch all cities for all countries in parallel
   const allCityPromises = countries.map((country) => getCities(country.slug));
   const allCitiesNested = await Promise.all(allCityPromises);
-  const allCities = allCitiesNested.flat(); // Flatten the [[]] into []
+  const allCities = allCitiesNested.flat();
 
-  // 3. Generate city pair search URLs
-  const cityPairs = generateCrossCountryCityPairs(stations);
+  // 3. Generate CLEAN search route URLs (NO parameters!)
+  const cleanSearchRoutes = generateCleanSearchRoutes(stations);
 
-  // 4. Generate all URL lists
-  const staticUrls = ["/", "/bus", "/account/bookings"].map((path) => ({
-    url: `${BASE_URL}${path}`,
-    lastModified: new Date().toISOString(),
-  }));
+  // 4. Static pages with priorities
+  const staticUrls = [
+    {
+      url: `${BASE_URL}/`,
+      lastModified: new Date().toISOString(),
+      changeFrequency: "daily" as const,
+      priority: 1.0,
+    },
+    {
+      url: `${BASE_URL}/bus`,
+      lastModified: new Date().toISOString(),
+      changeFrequency: "weekly" as const,
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/account/bookings`,
+      lastModified: new Date().toISOString(),
+      changeFrequency: "weekly" as const,
+      priority: 0.3,
+    },
+  ];
 
-  // Generate /bus/[country] URLs
+  // 5. Country hub pages
   const countryUrls = countries.map((country) => ({
     url: `${BASE_URL}/bus/${country.slug}`,
     lastModified: new Date().toISOString(),
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
   }));
 
-  // Generate /bus/[country]/[city] URLs
+  // 6. City landing pages
   const cityUrls = allCities.map((city) => ({
-    url: `${BASE_URL}/bus/${city.country}/${city.slug}`, // city.country is already the slug
+    url: `${BASE_URL}/bus/${city.country}/${city.slug}`,
     lastModified: new Date().toISOString(),
+    changeFrequency: "weekly" as const,
+    priority: 0.7,
   }));
 
-  // Generate /search/[from]-[to]?... URLs
-  const dynamicUrls = cityPairs.map((pair) => ({
-    url: `${BASE_URL}/search/${pair}`,
+  // 7. ADDED: Clean search route URLs (your money pages!)
+  const searchRouteUrls = cleanSearchRoutes.map((route) => ({
+    url: `${BASE_URL}/search/${route}`,
     lastModified: new Date().toISOString(),
+    changeFrequency: "daily" as const,
+    priority: 0.9, // High priority - these drive conversions
   }));
 
+  // 8. Extract navigation and footer links
   const navUrls = extractLinksFromArray(NAV_LINKS);
   const footerUrls = FOOTER_LINKS.flatMap((section) =>
     extractLinksFromArray(section.links)
   );
   const quickLinks = extractQuickLinks(QUICK_LINKS);
 
-  // 5. Combine and deduplicate
+  // 9. Combine all URLs
   const allUrls = [
     ...staticUrls,
     ...countryUrls,
-    ...cityUrls, // <-- Added city URLs
+    ...cityUrls,
+    ...searchRouteUrls, // ✅ ADDED: Clean search routes
     ...navUrls,
     ...footerUrls,
     ...quickLinks,
-    ...dynamicUrls,
   ];
 
+  // 10. Remove duplicates
   const uniqueUrls = removeDuplicateUrls(allUrls);
+
+  // Log for debugging (remove in production)
+  console.log(`📊 Sitemap generated with ${uniqueUrls.length} unique URLs`);
+  console.log(`   - ${searchRouteUrls.length} search routes`);
+  console.log(`   - ${countryUrls.length} countries`);
+  console.log(`   - ${cityUrls.length} cities`);
 
   return uniqueUrls;
 }

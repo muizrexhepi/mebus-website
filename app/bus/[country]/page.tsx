@@ -1,7 +1,14 @@
 // app/bus/[country]/page.tsx
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Bus, MapPin, CheckCircle2, Clock, Shield } from "lucide-react";
+import {
+  Bus,
+  MapPin,
+  CheckCircle2,
+  Clock,
+  Shield,
+  ArrowRight,
+} from "lucide-react";
 import Footer from "@/components/Footer";
 
 // =====================
@@ -343,31 +350,21 @@ export default async function CountryPage({ params }: PageProps) {
                     key={`${c.name}-${c.country}`}
                     prefetch
                     href={`/bus/${countrySlug}/${citySlugged}`}
-                    className="group relative bg-white rounded-xl border border-gray-200 p-5 hover:border-[#ff284d] hover:shadow-lg transition-all duration-300"
+                    className="group bg-white rounded-lg shadow-sm p-4 hover:shadow transition-all duration-200"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="p-2.5 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg group-hover:from-[#ff284d]/10 group-hover:to-orange-100/30 transition-all">
-                        <MapPin className="w-5 h-5 text-gray-600 group-hover:text-[#ff284d] transition-colors" />
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3 flex-1 min-w-0">
+                        <MapPin className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-medium text-gray-900 truncate capitalize">
+                            {c.name}
+                          </h4>
+                          <p className="text-sm text-gray-500">
+                            <p className="text-sm text-gray-500">View routes</p>
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-gray-900 group-hover:text-[#ff284d] transition-colors">
-                          {c.name}
-                        </h3>
-                        <p className="text-sm text-gray-500">View routes</p>
-                      </div>
-                      <svg
-                        className="w-5 h-5 text-gray-400 group-hover:text-[#ff284d] group-hover:translate-x-1 transition-all"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
+                      <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-primary-accent group-hover:translate-x-0.5 transition-all flex-shrink-0" />
                     </div>
                   </Link>
                 );
@@ -377,18 +374,18 @@ export default async function CountryPage({ params }: PageProps) {
         </section>
 
         {/* CTA Section */}
-        <section className="bg-gradient-to-r from-[#ff284d] to-orange-500 rounded-2xl p-8 sm:p-12 text-white shadow-xl">
+        <section className="bg-white rounded-2xl p-8 sm:p-12 text-black shadow-xl">
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <h2 className="text-3xl sm:text-4xl font-bold">
               Ready to Book Your Journey?
             </h2>
-            <p className="text-lg text-white/90">
+            <p className="text-lg text-black/90">
               Find the best bus routes, compare prices, and book your tickets in
               seconds. Travel across {countryName} with confidence.
             </p>
             <Link
               href="/"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#ff284d] rounded-xl font-semibold hover:shadow-2xl hover:scale-105 transition-all"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-primary-accent text-white rounded-xl font-semibold hover:shadow-2xl hover:scale-105 transition-all"
             >
               Search Routes
               <svg

@@ -384,26 +384,26 @@ export default async function CityPage({ params }: PageProps) {
                       <Link
                         key={rel._id}
                         href={searchUrl}
-                        className="group bg-white rounded-xl border border-gray-200 p-5 hover:border-[#ff284d] hover:shadow-lg transition-all duration-300"
+                        className="group bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition-all duration-300" // Use p-4 for a tighter look
                       >
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-4 flex-1">
-                            <div className="flex items-center gap-2">
-                              <MapPin className="w-5 h-5 text-gray-400" />
-                              <span className="font-semibold text-gray-900">
+                          <div className="flex items-center gap-3 flex-1">
+                            <MapPin className="w-5 h-5 text-gray-400 flex-shrink-0" />{" "}
+                            <div className="flex items-baseline gap-2 flex-wrap">
+                              <span className="font-semibold text-gray-900 capitalize">
                                 {cityData.city.name}
                               </span>
-                            </div>
-                            <ArrowRight className="w-5 h-5 text-[#ff284d]" />
-                            <div className="flex items-center gap-2">
-                              <MapPin className="w-5 h-5 text-gray-400" />
+                              <span className="text-sm text-gray-400">
+                                &rarr;
+                              </span>{" "}
                               <span className="font-semibold text-gray-900">
                                 {capitalizeCity(relName)}
                               </span>
                             </div>
                           </div>
+
                           <svg
-                            className="w-5 h-5 text-gray-400 group-hover:text-[#ff284d] group-hover:translate-x-1 transition-all flex-shrink-0"
+                            className="w-5 h-5 text-gray-400 group-hover:text-primary-accent group-hover:translate-x-1 transition-all flex-shrink-0"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -453,24 +453,25 @@ export default async function CityPage({ params }: PageProps) {
                         <Link
                           key={rel._id}
                           href={searchUrl}
-                          className="group bg-white rounded-xl shadow-sm p-5 hover:border-blue-500 hover:shadow-lg transition-all duration-300"
+                          className="group bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition-all duration-300" // Use p-4 for a tighter look
                         >
                           <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-4 flex-1">
-                              <div className="flex items-center gap-2">
-                                <MapPin className="w-5 h-5 text-gray-400" />
+                            <div className="flex items-center gap-3 flex-1">
+                              <MapPin className="w-5 h-5 text-gray-400 flex-shrink-0" />{" "}
+                              <div className="flex items-baseline gap-2 flex-wrap">
                                 <span className="font-semibold text-gray-900 capitalize">
                                   {cityData.city.name}
                                 </span>
-                              </div>
-                              <ArrowRight className="w-5 h-5 text-primary-accent" />
-                              <div className="flex items-center gap-2">
-                                <MapPin className="w-5 h-5 text-gray-400" />
+                                <span className="text-sm text-gray-400">
+                                  &rarr;
+                                </span>{" "}
                                 <span className="font-semibold text-gray-900">
                                   {capitalizeCity(relName)}
                                 </span>
                               </div>
                             </div>
+
+                            {/* This chevron is all you need for "click action" */}
                             <svg
                               className="w-5 h-5 text-gray-400 group-hover:text-primary-accent group-hover:translate-x-1 transition-all flex-shrink-0"
                               fill="none"

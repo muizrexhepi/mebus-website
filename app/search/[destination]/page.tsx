@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import SecondaryFooter from "@/components/SecondaryFooter";
 import SearchSection from "../_components/SearchSection";
 import SearchedTickets from "../_components/SearchedTickets";
 import { MobileSearchBlock } from "../_components/MobileSearchBlock";
 import { generateSEOKeywords } from "@/lib/keywords";
+import axios from "axios";
 
 type GenerateMetadataProps = {
   params: { destination: string };
   searchParams: { [key: string]: string | undefined };
 };
 
-// Optimized metadata generation with memoization
 const formatCityName = (cityEncoded: string) => {
   return decodeURIComponent(cityEncoded)
     .split(" ")
@@ -18,10 +19,25 @@ const formatCityName = (cityEncoded: string) => {
     .join(" ");
 };
 
-const formatDateForParams = (dateString: string) => {
-  const [day, month, year] = dateString.split("-");
-  return `${day}-${month}-${year}`;
-};
+// Validate route exists (add your actual route validation logic)
+async function validateRoute(
+  departureStationId: string,
+  arrivalStationId: string
+): Promise<boolean> {
+  try {
+    const apiBase =
+      process.env.NEXT_PUBLIC_API_URL ?? process.env.NEXT_PUBLIC_BASE_URL;
+    const { data } = await axios.get(`${apiBase}/seo/validate-route`, {
+      params: {
+        departureStation: departureStationId.toLowerCase(),
+        arrivalStation: arrivalStationId.toLowerCase(),
+      },
+    });
+    return data?.data?.exists === true;
+  } catch (err) {
+    return false;
+  }
+}
 
 export async function generateMetadata({
   params,
@@ -32,6 +48,15 @@ export async function generateMetadata({
   const departureCity = formatCityName(departureCityEncoded);
   const arrivalCity = formatCityName(arrivalCityEncoded);
 
+  // Validate route
+  const routeExists = await validateRoute(departureCity, arrivalCity);
+  if (!routeExists) {
+    return {
+      title: "Route Not Found",
+      robots: "noindex, nofollow",
+    };
+  }
+
   const title = `Bus from ${departureCity} to ${arrivalCity} | GoBusly`;
   const description = `Compare and book bus tickets from ${departureCity} to ${arrivalCity} at the best prices. Daily departures, comfortable buses with WiFi, and luggage included. Secure your seat online with GoBusly.`;
 
@@ -40,32 +65,24 @@ export async function generateMetadata({
     toCity: arrivalCity,
   });
 
-  // Optimize search params formatting
-  const formattedSearchParams: Record<string, string> = {};
-  for (const [key, value] of Object.entries(searchParams)) {
-    if (value) {
-      if (key === "departureDate") {
-        formattedSearchParams[key] = formatDateForParams(value);
-      } else {
-        formattedSearchParams[key] = value;
-      }
-    }
-  }
+  // CRITICAL: Canonical always points to clean URL (no parameters)
+  // This tells Google "this is the main version, ignore parameter variations"
+  const canonicalUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/search/${destination}`;
 
-  const canonicalUrl = `${
-    process.env.NEXT_PUBLIC_BASE_URL
-  }/search/${destination}?${new URLSearchParams(
-    formattedSearchParams
-  ).toString()}`;
+  // CRITICAL: If URL has parameters, tell Google not to index this specific variation
+  const hasParameters = Object.keys(searchParams).length > 0;
+  const robotsDirective = hasParameters
+    ? "noindex, follow" // Don't index parameterized URLs, but follow links
+    : "index, follow"; // Index only the clean URL
 
   return {
     title,
     description,
     keywords,
     alternates: {
-      canonical: canonicalUrl,
+      canonical: canonicalUrl, // Always canonical to clean URL
     },
-    robots: "index, follow",
+    robots: robotsDirective, // Dynamic based on parameters
     openGraph: {
       title: `Bus from ${departureCity} to ${arrivalCity} | Book Cheap Tickets`,
       description: `Compare bus fares from ${departureCity} to ${arrivalCity} and travel comfortably. Book online with GoBusly for the best prices and reliable service.`,
@@ -97,19 +114,8 @@ export async function generateMetadata({
 const generateStructuredData = (
   departureCity: string,
   arrivalCity: string,
-  destination: string,
-  departureDate?: string
+  destination: string
 ) => {
-  const formatDateForSchema = (dateString?: string) => {
-    if (!dateString) return new Date().toISOString().split("T")[0];
-    try {
-      const [day, month, year] = dateString.split("-");
-      return `${year}-${month}-${day}`;
-    } catch {
-      return new Date().toISOString().split("T")[0];
-    }
-  };
-
   const currentUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/search/${destination}`;
 
   return [
@@ -151,7 +157,6 @@ const generateStructuredData = (
           name: "GoBusly",
         },
       },
-      departureTime: formatDateForSchema(departureDate),
     },
     {
       "@context": "https://schema.org",
@@ -176,13 +181,9 @@ const generateStructuredData = (
         "@type": "SearchAction",
         target: {
           "@type": "EntryPoint",
-          urlTemplate: `${process.env.NEXT_PUBLIC_BASE_URL}/search/{from}-{to}?departureDate={departure_date}`,
+          urlTemplate: `${process.env.NEXT_PUBLIC_BASE_URL}/search/{from}-{to}`,
         },
-        "query-input": [
-          "required name=from",
-          "required name=to",
-          "required name=departure_date",
-        ],
+        "query-input": ["required name=from", "required name=to"],
       },
     },
   ];
@@ -191,22 +192,28 @@ const generateStructuredData = (
 export default async function SearchPage({ params, searchParams }: any) {
   const { destination } = params;
 
-  // Optimized city name extraction
   const [departureCityEncoded, arrivalCityEncoded] = destination.split("-");
   const departureCity = formatCityName(departureCityEncoded);
   const arrivalCity = formatCityName(arrivalCityEncoded);
 
-  const departureDate = searchParams?.departureDate;
+  // Validate route exists
 
   const structuredData = generateStructuredData(
     departureCity,
     arrivalCity,
-    destination,
-    departureDate
+    destination
+  );
+
+  // Import SearchInitializer dynamically (client component)
+  const { SearchInitializer } = await import(
+    "@/app/search/_components/search-initializer"
   );
 
   return (
     <div className="min-h-screen bg-primary-bg/5">
+      {/* Initialize search from URL if parameters are missing */}
+      <SearchInitializer />
+
       <MobileSearchBlock />
       <SearchSection />
       <div className="px-4 sm:px-8 max-w-6xl mx-auto space-y-4 xl:px-0 min-h-screen">
@@ -214,12 +221,12 @@ export default async function SearchPage({ params, searchParams }: any) {
           Bus from {departureCity} to {arrivalCity}
         </h1>
         <div className="w-full max-w-2xl mx-auto">
+          {/* SearchedTickets will use searchParams to fetch tickets */}
           <SearchedTickets />
         </div>
       </div>
       <SecondaryFooter />
 
-      {/* Optimized structured data injection */}
       {structuredData.map((data, index) => (
         <script
           key={index}

@@ -262,7 +262,7 @@ export default async function BusPage() {
                               <div className="flex items-center gap-3 flex-1 min-w-0">
                                 <Globe className="w-5 h-5 text-gray-400 flex-shrink-0" />
                                 <div className="flex-1 min-w-0">
-                                  <h4 className="font-medium text-gray-900 truncate">
+                                  <h4 className="font-medium text-gray-900 truncate capitalize">
                                     {country.country}
                                   </h4>
                                   <p className="text-sm text-gray-500">
@@ -273,7 +273,7 @@ export default async function BusPage() {
                                   </p>
                                 </div>
                               </div>
-                              <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-gray-600 group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+                              <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-primary-accent group-hover:translate-x-0.5 transition-all flex-shrink-0" />
                             </div>
                           </Link>
                         ))}
@@ -290,8 +290,8 @@ export default async function BusPage() {
       {/* <-- ADDED DYNAMIC POPULAR ROUTES SECTION --> */}
 
       {/* <-- REFACTORED SEO CONTENT SECTION --> */}
-      <section className="max-w-6xl mx-auto paddingX py-16">
-        <div className="space-y-12">
+      <section className="max-w-6xl mx-auto paddingX">
+        <div className="space-y-16">
           {/* --- Why Book With Us? --- */}
           <div className="bg-white rounded-lg shadow-sm hover:shadow p-6">
             <h2 className="text-2xl font-medium text-gray-900 mb-6 mt-0">
