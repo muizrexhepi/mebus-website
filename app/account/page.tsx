@@ -54,7 +54,7 @@ const ACCOUNT_SETTINGS: AccountSetting[] = [
   //   title: "sidebar.notifications",
   // },
   {
-    href: "/help/contact",
+    href: "/help/contact-support",
     icon: FaHeadphones,
     title: "helpPage.quickLinks.contactSupport",
   },
@@ -113,7 +113,7 @@ export default function Account() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {ACCOUNT_SETTINGS.map((link) => {
             const isExternal = link.href.startsWith("http");
-            const isSupportLink = link.href === "/help/contact";
+            const isSupportLink = link.href === "/help/contact-support";
 
             if (!isAuthenticated && !isSupportLink) {
               return (
@@ -206,7 +206,7 @@ export default function Account() {
         <div className=" mt-4">
           {ACCOUNT_SETTINGS.map((link) => {
             const isExternal = link.href.startsWith("http");
-            const isSupportLink = link.href === "/help/contact";
+            const isSupportLink = link.href === "/help/contact-support";
 
             if (!isAuthenticated && !isSupportLink) {
               return (

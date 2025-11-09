@@ -18,7 +18,7 @@ const FOOTER_LINKS = [
     title: "Company",
     links: [
       // { name: "About Us", link: "/about" },
-      { name: "Contact", link: "/help/contact" },
+      { name: "Contact", link: "/help/contact-support" },
       { name: "FAQ", link: "/help/faq" },
       { name: "Help", link: "/help" },
     ],

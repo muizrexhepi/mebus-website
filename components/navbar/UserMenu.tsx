@@ -93,7 +93,7 @@ const UserNavbarMenu = () => {
     },
     {
       label: t("nav.contact"),
-      href: "/help/contact",
+      href: "/help/contact-support",
       icon: IoMdContact,
     },
   ];
