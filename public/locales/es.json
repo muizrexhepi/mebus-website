@@ -17,6 +17,29 @@
     "quickLogin": "Toma menos de 30 segundos",
     "loginButton": "Iniciar sesión / Registrarse"
   },
+  "mobileAppSection": {
+    "title": "Viaja sin complicaciones",
+    "description": "Reserva en segundos, aborda con confianza. Todo tu viaje en tu bolsillo.",
+    "banner": {
+      "title": "Descarga la app GoBusly",
+      "description": "Reservas más rápidas, boletos instantáneos",
+      "downloadButton": "Descargar ahora"
+    },
+    "features": {
+      "instantBooking": {
+        "title": "Reserva instantánea",
+        "description": "Asegura tu asiento en menos de 30 segundos"
+      },
+      "smartNotifications": {
+        "title": "Alertas inteligentes",
+        "description": "Sabe exactamente cuándo salir al autobús"
+      },
+      "securePayments": {
+        "title": "Pagos seguros",
+        "description": "Pago seguro con tarjeta o billetera digital"
+      }
+    }
+  },
   "filters": {
     "title": "Filtros",
     "sortBy": "Ordenar por",
@@ -313,46 +336,53 @@
     }
   },
   "footer": {
-    "missionStatement": "Descubre rutas de autobús, compra billetes fácilmente y consulta horarios al instante.",
-    "getUpdates": "Recibe Actualizaciones",
-    "emailAddress": "Dirección de email",
+    "missionStatement": "Encuentra rutas de autobús, compra boletos fácilmente y consulta horarios al instante.",
+    "downloadApp": "Descarga nuestra app",
+    "paymentMethods": "Aceptamos",
+    "getUpdates": "Recibir actualizaciones",
+    "contact": "Contacto",
+    "emailAddress": "Dirección de correo electrónico",
     "subscribe": {
-      "title": "Mantente Actualizado con Ofertas de Viaje",
-      "description": "Suscríbete a nuestro boletín para recibir los horarios más recientes de autobuses, descuentos exclusivos y consejos de viaje directamente en tu bandeja de entrada.",
-      "emailPlaceholder": "Introduce tu email",
+      "title": "Mantente actualizado con ofertas de viaje",
+      "description": "Suscríbete a nuestro boletín para recibir los últimos horarios de autobuses, descuentos exclusivos y consejos de viaje directamente en tu bandeja de entrada.",
+      "emailPlaceholder": "Ingresa tu correo electrónico",
       "subscribeButton": "Suscribirse",
       "subscribing": "Suscribiendo...",
-      "successMessage": "Gracias por suscribirte. Por favor, revisa tu email para la confirmación.",
+      "successMessage": "Gracias por suscribirte. Por favor revisa tu correo electrónico para confirmar.",
       "errorMessage": {
-        "alreadySubscribed": "¡Email ya suscrito!",
-        "genericError": "Ha ocurrido un error. Por favor, inténtalo de nuevo."
+        "alreadySubscribed": "¡El correo electrónico ya está suscrito!",
+        "genericError": "Ocurrió un error. Por favor intenta de nuevo."
       }
     },
     "sections": {
       "services": "Servicios",
-      "partners": "Colaboradores",
+      "company": "Empresa",
+      "partners": "Socios",
       "legal": "Legal"
     },
     "links": {
-      "busroutes": "Rutas de Autobús",
-      "affiliateprogram": "Programa de Afiliados",
-      "datapolicy": "Política de Datos",
-      "travelflexoptions": "Opciones Flex de Viaje",
-      "customersupport": "Atención al Cliente",
-      "luggagepolicy": "Política de Equipaje",
-      "discountoffers": "Ofertas y Descuentos",
+      "busroutes": "Rutas de autobús",
+      "affiliateprogram": "Programa de afiliados",
+      "aboutus": "Sobre nosotros",
+      "contact": "Contacto",
+      "faq": "Preguntas frecuentes",
+      "travelflexoptions": "Servicios de viaje",
+      "customersupport": "Atención al cliente",
+      "luggagepolicy": "Política de equipaje",
+      "discountoffers": "Ofertas con descuento",
       "help": "Ayuda",
-      "partnerapplication": "Solicitud de Colaboración",
-      "becomeapartner": "Conviértete en Colaborador",
-      "activeoperators": "Operadores Activos",
-      "privacypolicy": "Política de Privacidad",
-      "termsofservice": "Términos de Servicio",
-      "cookiepolicy": "Política de Cookies"
+      "partnerapplication": "Solicitud de socio",
+      "becomeapartner": "Conviértete en socio",
+      "activeoperators": "Operadores activos",
+      "privacypolicy": "Política de privacidad",
+      "datapolicy": "Política de datos",
+      "termsofservice": "Términos de servicio",
+      "cookiepolicy": "Política de cookies"
     },
     "copyright": "© 2025 GoBusly. Todos los derechos reservados.",
-    "customerSupport": "Atención al Cliente 24/7",
-    "securePayment": "Pago Seguro",
-    "helpFAQ": "Ayuda y Preguntas Frecuentes"
+    "customerSupport": "Atención al cliente 24/7",
+    "securePayment": "Pago seguro",
+    "helpFAQ": "Ayuda y preguntas frecuentes"
   },
   "aboutSection": {
     "title": "¿Por qué Viajar con GoBusly?",

@@ -11,6 +11,29 @@
     "account": "Account",
     "home": "Search"
   },
+  "mobileAppSection": {
+    "title": "Travel without the hassle",
+    "description": "Book in seconds, board with confidence. Your entire trip in your pocket.",
+    "banner": {
+      "title": "Get the GoBusly app",
+      "description": "Faster bookings, instant tickets",
+      "downloadButton": "Download now"
+    },
+    "features": {
+      "instantBooking": {
+        "title": "Instant booking",
+        "description": "Reserve your seat in under 30 seconds"
+      },
+      "smartNotifications": {
+        "title": "Smart alerts",
+        "description": "Know exactly when to leave for the bus"
+      },
+      "securePayments": {
+        "title": "Secure payments",
+        "description": "Safe checkout with card or digital wallet"
+      }
+    }
+  },
   "loginCTA": {
     "saveBookingTitle": "Save your booking details",
     "saveBookingDescription": "Login to save your booking history, track your trips, and get faster checkout next time.",
@@ -343,6 +366,8 @@
   },
   "footer": {
     "missionStatement": "Find bus routes, buy tickets easily, and check schedules instantly.",
+    "downloadApp": "Download our app",
+    "paymentMethods": "We accept",
     "getUpdates": "Get Updates",
     "contact": "Contact",
     "emailAddress": "Email address",

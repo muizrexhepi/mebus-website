@@ -15,9 +15,9 @@ const MobileHero = () => {
     <>
       <div className="relative flex flex-col justify-between md:pb-20 bg-primary-bg/5 h-screen md:hidden">
         <div className="relative z-20 w-full">
-          <div className="w-full relative aspect-[4/3] h-64">
+          <div className="w-full relative aspect-[4/3] h-48">
             <Image
-              src="/assets/images/bg.webp"
+              src="/assets/images/bgmobile.webp"
               alt="Bus and Train Illustration"
               fill
               priority
@@ -25,20 +25,14 @@ const MobileHero = () => {
               className="object-cover object-bottom brightness-75"
             />
           </div>
-          <div className="absolute top-24 left-4 z-30">
+          <div className="absolute top-36 left-4 z-30">
             <div>
               <h1
                 className="text-white text-2xl leading-[1.1em] font-semibold drop-shadow-lg"
-                style={{ textShadow: "2px 2px 8px rgba(0,0,0,0.8)" }}
+                // style={{ textShadow: "2px 2px 8px rgba(0,0,0,0.8)" }}
               >
                 {t("hero.title")}
               </h1>
-              <p
-                className="text-white/95 text-base drop-shadow-md"
-                style={{ textShadow: "1px 1px 4px rgba(0,0,0,0.7)" }}
-              >
-                {t("hero.desc")}
-              </p>
             </div>
           </div>
 
@@ -46,7 +40,7 @@ const MobileHero = () => {
             <LanguageSelector />
           </div>
 
-          <div className="p-5 rounded-xl relative -top-20 z-10 bg-white m-4 shadow">
+          <div className="p-4">
             <SearchForm />
           </div>
         </div>

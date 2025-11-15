@@ -4,20 +4,12 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  Facebook,
-  Twitter,
-  Instagram,
-  Linkedin,
-  Mail,
-  Phone,
-} from "lucide-react";
+import { Facebook, Instagram } from "lucide-react";
 
 const FOOTER_LINKS = [
   {
     title: "Company",
     links: [
-      // { name: "About Us", link: "/about" },
       { name: "Contact", link: "/help/contact-support" },
       { name: "FAQ", link: "/help/faq" },
       { name: "Help", link: "/help" },
@@ -50,9 +42,7 @@ const CONTACT_INFO = {
 
 const SOCIAL_LINKS = [
   { icon: Facebook, link: "https://facebook.com", name: "Facebook" },
-  // { icon: Twitter, link: "https://twitter.com", name: "Twitter" },
   { icon: Instagram, link: "https://instagram.com/gobusly", name: "Instagram" },
-  // { icon: Linkedin, link: "https://linkedin.com/gobusly", name: "LinkedIn" },
 ];
 
 const PAYMENT_METHODS = [
@@ -65,44 +55,89 @@ const Footer = () => {
   const { t } = useTranslation();
 
   return (
-    <footer className="w-full bg-gray-50 text-gray-600">
-      <div className="mx-auto max-w-[1440px] pt-12 pb-8 paddingX">
-        <div className="xl:grid xl:grid-cols-3 xl:gap-8">
-          <div className="space-y-6 xl:col-span-1">
-            <Link href="/" className="inline-block">
-              <Image
-                src="/assets/icons/dark-logo.svg"
-                alt="GoBusly Logo"
-                width={120}
-                height={50}
-                className="h-8 w-auto"
-                priority
-              />
-            </Link>
-            <p className="text-base leading-6 max-w-80">
-              {t("footer.missionStatement")}
-            </p>
-            <div className="flex items-center space-x-4">
-              {PAYMENT_METHODS.map((method) => (
+    <footer className="w-full bg-[#f9fafb]">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Main Footer Content */}
+        <div className="py-16 lg:py-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
+            {/* Brand Section */}
+            <div className="lg:col-span-4 space-y-6">
+              <Link href="/" className="inline-block">
                 <Image
-                  key={method.name}
-                  src={method.path}
-                  alt={`${method.name} Logo`}
-                  width={method.name === "Stripe" ? 50 : 40}
-                  height={method.name === "Stripe" ? 50 : 40}
-                  className="object-contain"
+                  src="/assets/icons/dark-logo.svg"
+                  alt="GoBusly Logo"
+                  width={140}
+                  height={40}
+                  className="h-9 w-auto"
+                  priority
                 />
-              ))}
+              </Link>
+              <p className="text-base text-gray-600 leading-relaxed max-w-xs">
+                {t("footer.missionStatement")}
+              </p>
+
+              {/* App Store Buttons */}
+              <div className="space-y-3">
+                <p className="text-sm font-medium text-gray-900">
+                  {t("footer.downloadApp")}
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <a
+                    href="https://apps.apple.com/za/app/gobusly/id6753230552"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block transition-transform hover:scale-105"
+                  >
+                    <img
+                      src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1234567890"
+                      alt="Download on the App Store"
+                      className="h-11"
+                    />
+                  </a>
+                  {/* <a
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block transition-transform hover:scale-105 opacity-50 pointer-events-none"
+                  >
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+                      alt="Get it on Google Play"
+                      className="h-11"
+                    />
+                  </a> */}
+                </div>
+              </div>
+
+              {/* Payment Methods */}
+              <div className="pt-4">
+                <p className="text-sm font-medium text-gray-900 mb-3">
+                  {t("footer.paymentMethods")}
+                </p>
+                <div className="flex items-center gap-3">
+                  {PAYMENT_METHODS.map((method) => (
+                    <div key={method.name} className="grayscale opacity-60">
+                      <Image
+                        src={method.path}
+                        alt={`${method.name} Logo`}
+                        width={method.name === "Stripe" ? 50 : 40}
+                        height={method.name === "Stripe" ? 50 : 40}
+                        className="object-contain"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="mt-12 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-            <div className="grid md:grid-cols-2 gap-8">
-              {FOOTER_LINKS.slice(0, 2).map((section) => (
+
+            {/* Links Sections */}
+            <div className="lg:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-8">
+              {FOOTER_LINKS.map((section) => (
                 <div key={section.title}>
-                  <h3 className="text-sm font-semibold text-gray-900 tracking-wider uppercase">
+                  <h3 className="text-sm font-semibold text-gray-900 mb-4">
                     {t(`footer.sections.${section.title.toLowerCase()}`)}
                   </h3>
-                  <ul className="mt-4 space-y-4">
+                  <ul className="space-y-3">
                     {section.links.map((link) => (
                       <li key={link.name}>
                         <Link
@@ -112,7 +147,7 @@ const Footer = () => {
                               ? "_blank"
                               : undefined
                           }
-                          className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+                          className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
                         >
                           {t(
                             `footer.links.${link.name
@@ -125,56 +160,35 @@ const Footer = () => {
                   </ul>
                 </div>
               ))}
-            </div>
-            <div className="md:grid md:grid-cols-2 md:gap-8">
+
+              {/* Contact Section */}
               <div>
-                <h3 className="text-sm font-semibold text-gray-900 tracking-wider uppercase">
-                  {t(`footer.sections.${FOOTER_LINKS[2].title.toLowerCase()}`)}
-                </h3>
-                <ul className="mt-4 space-y-4">
-                  {FOOTER_LINKS[2].links.map((link) => (
-                    <li key={link.name}>
-                      <Link
-                        href={link.link}
-                        className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
-                      >
-                        {t(
-                          `footer.links.${link.name
-                            .toLowerCase()
-                            .replace(/\s+/g, "")}`
-                        )}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="mt-8 md:mt-0">
-                <h3 className="text-sm font-semibold text-gray-900 tracking-wider uppercase">
+                <h3 className="text-sm font-semibold text-gray-900 mb-4">
                   {t("footer.contact")}
                 </h3>
-                <ul className="mt-4 space-y-4">
+                <ul className="space-y-3">
                   <li>
                     <a
                       href={`mailto:${CONTACT_INFO.email}`}
-                      className="flex items-center text-sm text-gray-500 hover:text-gray-900 transition-colors"
+                      className="text-sm text-gray-600 hover:text-gray-900 transition-colors block"
                     >
-                      <span>{CONTACT_INFO.email}</span>
+                      {CONTACT_INFO.email}
                     </a>
                   </li>
                   <li>
                     <a
                       href={`tel:${CONTACT_INFO.phone1}`}
-                      className="flex items-center text-sm text-gray-500 hover:text-gray-900 transition-colors"
+                      className="text-sm text-gray-600 hover:text-gray-900 transition-colors block"
                     >
-                      <span>{CONTACT_INFO.phone1}</span>
+                      {CONTACT_INFO.phone1}
                     </a>
                   </li>
                   <li>
                     <a
                       href={`tel:${CONTACT_INFO.phone2}`}
-                      className="flex items-center text-sm text-gray-500 hover:text-gray-900 transition-colors"
+                      className="text-sm text-gray-600 hover:text-gray-900 transition-colors block"
                     >
-                      <span>{CONTACT_INFO.phone2}</span>
+                      {CONTACT_INFO.phone2}
                     </a>
                   </li>
                 </ul>
@@ -182,10 +196,12 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="mt-12 border-t border-gray-200 pt-8">
-          <div className="flex flex-col justify-between items-center gap-4 sm:flex-row sm:gap-0">
+
+        {/* Bottom Bar */}
+        <div className="border-t border-gray-200 py-8">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-sm text-gray-600">{t("footer.copyright")}</p>
-            <div className="flex space-x-3">
+            <div className="flex items-center gap-4">
               {SOCIAL_LINKS.map((social) => {
                 const Icon = social.icon;
                 return (
@@ -194,10 +210,10 @@ const Footer = () => {
                     href={social.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-500 hover:text-gray-600 transition-colors border rounded-xl size-10 flex items-center justify-center"
+                    className="text-gray-400 hover:text-gray-600 transition-colors"
+                    aria-label={social.name}
                   >
-                    <span className="sr-only">{social.name}</span>
-                    <Icon className="size-5" />
+                    <Icon className="w-5 h-5" />
                   </a>
                 );
               })}

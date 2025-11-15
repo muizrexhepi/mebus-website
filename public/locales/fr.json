@@ -17,6 +17,29 @@
     "quickLogin": "Prend moins de 30 secondes",
     "loginButton": "Se connecter / S'inscrire"
   },
+  "mobileAppSection": {
+    "title": "Voyagez sans tracas",
+    "description": "Réservez en quelques secondes, montez en toute confiance. Tout votre voyage dans votre poche.",
+    "banner": {
+      "title": "Obtenez l'application GoBusly",
+      "description": "Réservations plus rapides, billets instantanés",
+      "downloadButton": "Télécharger maintenant"
+    },
+    "features": {
+      "instantBooking": {
+        "title": "Réservation instantanée",
+        "description": "Sécurisez votre place en moins de 30 secondes"
+      },
+      "smartNotifications": {
+        "title": "Alertes intelligentes",
+        "description": "Sachez exactement quand partir pour le bus"
+      },
+      "securePayments": {
+        "title": "Paiements sécurisés",
+        "description": "Paiement sécurisé par carte ou portefeuille numérique"
+      }
+    }
+  },
   "filters": {
     "title": "Filtres",
     "sortBy": "Trier par",
@@ -327,46 +350,53 @@
     }
   },
   "footer": {
-    "missionStatement": "Trouvez des lignes de bus, achetez vos billets facilement et consultez les horaires en un instant.",
-    "getUpdates": "Recevoir les actualités",
-    "emailAddress": "Adresse email",
+    "missionStatement": "Trouvez des itinéraires de bus, achetez des billets facilement et consultez les horaires instantanément.",
+    "downloadApp": "Téléchargez notre application",
+    "paymentMethods": "Nous acceptons",
+    "getUpdates": "Recevoir les mises à jour",
+    "contact": "Contact",
+    "emailAddress": "Adresse e-mail",
     "subscribe": {
-      "title": "Restez Informé des Offres de Voyage",
+      "title": "Restez informé des offres de voyage",
       "description": "Abonnez-vous à notre newsletter pour recevoir les derniers horaires de bus, des réductions exclusives et des conseils de voyage directement dans votre boîte de réception.",
-      "emailPlaceholder": "Entrez votre email",
+      "emailPlaceholder": "Entrez votre e-mail",
       "subscribeButton": "S'abonner",
       "subscribing": "Abonnement en cours...",
-      "successMessage": "Merci pour votre abonnement. Veuillez vérifier votre email pour confirmation.",
+      "successMessage": "Merci de vous être abonné. Veuillez vérifier votre e-mail pour confirmation.",
       "errorMessage": {
-        "alreadySubscribed": "Email déjà abonné !",
+        "alreadySubscribed": "L'e-mail est déjà abonné !",
         "genericError": "Une erreur s'est produite. Veuillez réessayer."
       }
     },
     "sections": {
       "services": "Services",
+      "company": "Entreprise",
       "partners": "Partenaires",
-      "legal": "Mentions légales"
+      "legal": "Légal"
     },
     "links": {
       "busroutes": "Itinéraires de bus",
-      "affiliateprogram": "Programme d'Affiliation",
-      "datapolicy": "Politique de Données",
-      "travelflexoptions": "Options Flex Voyage",
-      "customersupport": "Service client",
-      "luggagepolicy": "Politique bagages",
-      "discountoffers": "Offres promotionnelles",
+      "affiliateprogram": "Programme d'affiliation",
+      "aboutus": "À propos",
+      "contact": "Contact",
+      "faq": "FAQ",
+      "travelflexoptions": "Services de voyage",
+      "customersupport": "Support client",
+      "luggagepolicy": "Politique de bagages",
+      "discountoffers": "Offres de réduction",
       "help": "Aide",
-      "partnerapplication": "Candidature partenaire",
+      "partnerapplication": "Demande de partenariat",
       "becomeapartner": "Devenir partenaire",
       "activeoperators": "Opérateurs actifs",
       "privacypolicy": "Politique de confidentialité",
+      "datapolicy": "Politique de données",
       "termsofservice": "Conditions d'utilisation",
-      "cookiepolicy": "Politique des cookies"
+      "cookiepolicy": "Politique de cookies"
     },
     "copyright": "© 2025 GoBusly. Tous droits réservés.",
-    "customerSupport": "Service client 24/7",
+    "customerSupport": "Support client 24/7",
     "securePayment": "Paiement sécurisé",
-    "helpFAQ": "Aide & FAQ"
+    "helpFAQ": "Aide et FAQ"
   },
   "searchBlock": {
     "tripType": {

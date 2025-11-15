@@ -17,6 +17,29 @@
     "quickLogin": "Dauert weniger als 30 Sekunden",
     "loginButton": "Anmelden / Registrieren"
   },
+  "mobileAppSection": {
+    "title": "Reisen ohne Stress",
+    "description": "In Sekunden buchen, mit Sicherheit einsteigen. Ihre gesamte Reise in der Tasche.",
+    "banner": {
+      "title": "Holen Sie sich die GoBusly App",
+      "description": "Schnellere Buchungen, sofortige Tickets",
+      "downloadButton": "Jetzt herunterladen"
+    },
+    "features": {
+      "instantBooking": {
+        "title": "Sofortbuchung",
+        "description": "Sichern Sie Ihren Platz in unter 30 Sekunden"
+      },
+      "smartNotifications": {
+        "title": "Intelligente Benachrichtigungen",
+        "description": "Wissen Sie genau, wann Sie zum Bus müssen"
+      },
+      "securePayments": {
+        "title": "Sichere Zahlungen",
+        "description": "Sicherer Checkout mit Karte oder digitalem Wallet"
+      }
+    }
+  },
   "filters": {
     "title": "Filter",
     "sortBy": "Sortieren nach",
@@ -345,44 +368,51 @@
     "buttonText": "Updates erhalten"
   },
   "footer": {
-    "missionStatement": "Finde Buslinien, kaufe Tickets einfach und überprüfe Fahrpläne sofort.",
+    "missionStatement": "Finden Sie Busrouten, kaufen Sie Tickets einfach und prüfen Sie Fahrpläne sofort.",
+    "downloadApp": "Laden Sie unsere App herunter",
+    "paymentMethods": "Wir akzeptieren",
     "getUpdates": "Updates erhalten",
+    "contact": "Kontakt",
     "emailAddress": "E-Mail-Adresse",
     "subscribe": {
-      "title": "Bleiben Sie mit Reiseangeboten auf dem Laufenden",
-      "description": "Abonnieren Sie unseren Newsletter, um die neuesten Busfahrpläne, exklusive Rabatte und Reisetipps direkt in Ihrem Posteingang zu erhalten.",
+      "title": "Bleiben Sie über Reiseangebote informiert",
+      "description": "Abonnieren Sie unseren Newsletter für die neuesten Busfahrpläne, exklusive Rabatte und Reisetipps direkt in Ihrem Posteingang.",
       "emailPlaceholder": "E-Mail eingeben",
       "subscribeButton": "Abonnieren",
       "subscribing": "Wird abonniert...",
-      "successMessage": "Vielen Dank für Ihr Abonnement. Bitte prüfen Sie Ihre E-Mail für die Bestätigung.",
+      "successMessage": "Vielen Dank für Ihr Abonnement. Bitte überprüfen Sie Ihre E-Mail zur Bestätigung.",
       "errorMessage": {
         "alreadySubscribed": "E-Mail ist bereits abonniert!",
         "genericError": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
       }
     },
     "sections": {
-      "services": "Dienstleistungen",
+      "services": "Dienste",
+      "company": "Unternehmen",
       "partners": "Partner",
       "legal": "Rechtliches"
     },
     "links": {
       "busroutes": "Busrouten",
       "affiliateprogram": "Partnerprogramm",
-      "datapolicy": "Datenrichtlinie",
-      "travelflexoptions": "Reise-Flex-Optionen",
-      "customersupport": "Kundenservice",
+      "aboutus": "Über uns",
+      "contact": "Kontakt",
+      "faq": "FAQ",
+      "travelflexoptions": "Reisedienstleistungen",
+      "customersupport": "Kundensupport",
       "luggagepolicy": "Gepäckrichtlinien",
       "discountoffers": "Rabattangebote",
       "help": "Hilfe",
       "partnerapplication": "Partnerantrag",
       "becomeapartner": "Partner werden",
       "activeoperators": "Aktive Betreiber",
-      "privacypolicy": "Datenschutzerklärung",
+      "privacypolicy": "Datenschutzrichtlinie",
+      "datapolicy": "Datenrichtlinie",
       "termsofservice": "Nutzungsbedingungen",
       "cookiepolicy": "Cookie-Richtlinie"
     },
     "copyright": "© 2025 GoBusly. Alle Rechte vorbehalten.",
-    "customerSupport": "24/7 Kundenservice",
+    "customerSupport": "24/7 Kundensupport",
     "securePayment": "Sichere Zahlung",
     "helpFAQ": "Hilfe & FAQ"
   },

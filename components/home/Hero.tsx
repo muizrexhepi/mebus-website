@@ -20,7 +20,7 @@ const Hero = () => {
         <div className="max-w-6xl mx-auto paddingX">
           <div className="space-y-8 pt-8 sm:pt-16 md:pt-20">
             <div className="max-w-4xl space-y-2">
-              <h1 className="text-left text-3xl sm:text-4xl text-transparent font-normal button-gradient bg-clip-text">
+              <h1 className="text-left text-3xl sm:text-4xl text-primary-accent font-normal">
                 {t("hero.title")}
               </h1>
               <p className="text-left text-base sm:text-lg text-black/60 max-w-2xl">

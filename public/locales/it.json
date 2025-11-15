@@ -17,6 +17,29 @@
     "quickLogin": "Richiede meno di 30 secondi",
     "loginButton": "Accedi / Registrati"
   },
+  "mobileAppSection": {
+    "title": "Viaggia senza stress",
+    "description": "Prenota in pochi secondi, sali con fiducia. L'intero viaggio in tasca.",
+    "banner": {
+      "title": "Scarica l'app GoBusly",
+      "description": "Prenotazioni più veloci, biglietti istantanei",
+      "downloadButton": "Scarica ora"
+    },
+    "features": {
+      "instantBooking": {
+        "title": "Prenotazione istantanea",
+        "description": "Prenota il tuo posto in meno di 30 secondi"
+      },
+      "smartNotifications": {
+        "title": "Avvisi intelligenti",
+        "description": "Sappi esattamente quando partire per il bus"
+      },
+      "securePayments": {
+        "title": "Pagamenti sicuri",
+        "description": "Checkout sicuro con carta o wallet digitale"
+      }
+    }
+  },
   "filters": {
     "title": "Filtri",
     "sortBy": "Ordina per",
@@ -313,46 +336,53 @@
     }
   },
   "footer": {
-    "missionStatement": "Scopri le linee degli autobus, acquista i biglietti facilmente e controlla gli orari all’istante.",
-    "getUpdates": "Ricevi Aggiornamenti",
+    "missionStatement": "Trova percorsi di autobus, acquista biglietti facilmente e controlla gli orari all'istante.",
+    "downloadApp": "Scarica la nostra app",
+    "paymentMethods": "Accettiamo",
+    "getUpdates": "Ricevi aggiornamenti",
+    "contact": "Contatto",
     "emailAddress": "Indirizzo email",
     "subscribe": {
-      "title": "Rimani Aggiornato con le Offerte di Viaggio",
+      "title": "Rimani aggiornato sulle offerte di viaggio",
       "description": "Iscriviti alla nostra newsletter per ricevere gli ultimi orari degli autobus, sconti esclusivi e consigli di viaggio direttamente nella tua casella di posta.",
       "emailPlaceholder": "Inserisci la tua email",
       "subscribeButton": "Iscriviti",
       "subscribing": "Iscrizione in corso...",
-      "successMessage": "Grazie per l'iscrizione. Controlla la tua email per la conferma.",
+      "successMessage": "Grazie per esserti iscritto. Controlla la tua email per la conferma.",
       "errorMessage": {
-        "alreadySubscribed": "Email già iscritta!",
-        "genericError": "Si è verificato un errore. Riprova."
+        "alreadySubscribed": "L'email è già iscritta!",
+        "genericError": "Si è verificato un errore. Riprova per favore."
       }
     },
     "sections": {
       "services": "Servizi",
+      "company": "Azienda",
       "partners": "Partner",
       "legal": "Legale"
     },
     "links": {
-      "busroutes": "Percorsi Bus",
-      "affiliateprogram": "Programma di Affiliazione",
-      "datapolicy": "Politica sui Dati",
-      "travelflexoptions": "Opzioni Flex Viaggio",
-      "customersupport": "Assistenza Clienti",
-      "luggagepolicy": "Politica Bagagli",
-      "discountoffers": "Offerte Sconto",
+      "busroutes": "Percorsi autobus",
+      "affiliateprogram": "Programma di affiliazione",
+      "aboutus": "Chi siamo",
+      "contact": "Contatto",
+      "faq": "FAQ",
+      "travelflexoptions": "Servizi di viaggio",
+      "customersupport": "Assistenza clienti",
+      "luggagepolicy": "Politica bagagli",
+      "discountoffers": "Offerte scontate",
       "help": "Aiuto",
-      "partnerapplication": "Richiesta Partnership",
-      "becomeapartner": "Diventa Partner",
-      "activeoperators": "Operatori Attivi",
-      "privacypolicy": "Informativa sulla Privacy",
-      "termsofservice": "Termini di Servizio",
-      "cookiepolicy": "Politica sui Cookie"
+      "partnerapplication": "Richiesta partner",
+      "becomeapartner": "Diventa partner",
+      "activeoperators": "Operatori attivi",
+      "privacypolicy": "Informativa sulla privacy",
+      "datapolicy": "Politica dei dati",
+      "termsofservice": "Termini di servizio",
+      "cookiepolicy": "Politica sui cookie"
     },
     "copyright": "© 2025 GoBusly. Tutti i diritti riservati.",
-    "customerSupport": "Assistenza Clienti 24/7",
-    "securePayment": "Pagamento Sicuro",
-    "helpFAQ": "Aiuto & FAQ"
+    "customerSupport": "Assistenza clienti 24/7",
+    "securePayment": "Pagamento sicuro",
+    "helpFAQ": "Aiuto e FAQ"
   },
   "aboutSection": {
     "title": "Perché Viaggiare con GoBusly?",

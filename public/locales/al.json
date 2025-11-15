@@ -18,6 +18,29 @@
     "quickLogin": "Merr më pak se 30 sekonda",
     "loginButton": "Identifikohu / Regjistrohu"
   },
+  "mobileAppSection": {
+    "title": "Udhëtoni pa komplikime",
+    "description": "Rezervoni në sekonda, hipni me besim. I gjithë udhëtimi në xhepin tuaj.",
+    "banner": {
+      "title": "Merrni aplikacionin GoBusly",
+      "description": "Rezervime më të shpejta, bileta të menjëhershme",
+      "downloadButton": "Shkarkoni tani"
+    },
+    "features": {
+      "instantBooking": {
+        "title": "Rezervim i menjëhershëm",
+        "description": "Siguroni vendin tuaj në më pak se 30 sekonda"
+      },
+      "smartNotifications": {
+        "title": "Njoftime inteligjente",
+        "description": "Dini saktësisht kur të niseni për autobus"
+      },
+      "securePayments": {
+        "title": "Pagesa të sigurta",
+        "description": "Pagesë e sigurt me kartë ose portofol digjital"
+      }
+    }
+  },
   "filters": {
     "title": "Filtrat",
     "sortBy": "Rendit sipas",
@@ -329,46 +352,53 @@
     }
   },
   "footer": {
-    "missionStatement": "Zbulo linjat e autobusit, blini bileta lehtësisht dhe shikoni oraret në çast.",
-    "getUpdates": "Merrni Përditësime",
+    "missionStatement": "Gjeni rrugë autobusi, blini bileta lehtë dhe kontrolloni oraret menjëherë.",
+    "downloadApp": "Shkarkoni aplikacionin tonë",
+    "paymentMethods": "Ne pranojmë",
+    "getUpdates": "Merrni përditësime",
+    "contact": "Kontakt",
     "emailAddress": "Adresa e emailit",
     "subscribe": {
-      "title": "Qëndroni të Pashitur me Oferatat e Udhëtimit",
-      "description": "Abonohuni në newsletter-in tonë për oraret më të fundit të autobusëve, ulje ekskluzive dhe këshilla udhëtimi të dërguara drejtpërdrejt në kutinë tuaj të postës.",
-      "emailPlaceholder": "Vendosni emailin tuaj",
-      "subscribeButton": "Abonohu",
-      "subscribing": "Duke u abonuar...",
-      "successMessage": "Faleminderit për abonimin. Ju lutemi kontrolloni emailin tuaj për konfirmim.",
+      "title": "Qëndroni të përditësuar me ofertat e udhëtimit",
+      "description": "Regjistrohuni në newsletter-in tonë për oraret më të fundit të autobusëve, zbritje ekskluzive dhe këshilla udhëtimi drejtpërdrejt në email-in tuaj.",
+      "emailPlaceholder": "Vendosni email-in tuaj",
+      "subscribeButton": "Regjistrohuni",
+      "subscribing": "Duke u regjistruar...",
+      "successMessage": "Faleminderit që u regjistruat. Ju lutemi kontrolloni emailin tuaj për konfirmim.",
       "errorMessage": {
-        "alreadySubscribed": "Emaili është tashmë i abonuar!",
+        "alreadySubscribed": "Email-i është tashmë i regjistruar!",
         "genericError": "Ndodhi një gabim. Ju lutemi provoni përsëri."
       }
     },
     "sections": {
-      "services": "Shërbimet",
-      "partners": "Partnerët",
+      "services": "Shërbime",
+      "company": "Kompania",
+      "partners": "Partnerë",
       "legal": "Ligjore"
     },
     "links": {
-      "busroutes": "Rrugët e Autobusit",
+      "busroutes": "Rrugët e autobusëve",
       "affiliateprogram": "Programi i Partneritetit",
-      "datapolicy": "Politika e të Dhënave",
-      "travelflexoptions": "Opsionet e Fleksibilitetit të Udhëtimit",
-      "customersupport": "Mbështetja e Klientit",
-      "luggagepolicy": "Politika e Bagazheve",
-      "discountoffers": "Ofertat me Zbritje",
+      "aboutus": "Rreth nesh",
+      "contact": "Kontakt",
+      "faq": "Pyetje të shpeshta",
+      "travelflexoptions": "Shërbime udhëtimi",
+      "customersupport": "Mbështetje për klientët",
+      "luggagepolicy": "Politika e bagazhit",
+      "discountoffers": "Ofertat me zbritje",
       "help": "Ndihmë",
-      "partnerapplication": "Aplikimi për Partner",
-      "becomeapartner": "Bëhu Partner",
-      "activeoperators": "Operatorët Aktivë",
-      "privacypolicy": "Politika e Privatësisë",
-      "termsofservice": "Kushtet e Shërbimit",
-      "cookiepolicy": "Politika e Cookies"
+      "partnerapplication": "Aplikim për partner",
+      "becomeapartner": "Bëhuni partner",
+      "activeoperators": "Operatorë aktivë",
+      "privacypolicy": "Politika e privatësisë",
+      "datapolicy": "Politika e të dhënave",
+      "termsofservice": "Kushtet e shërbimit",
+      "cookiepolicy": "Politika e cookies"
     },
     "copyright": "© 2025 GoBusly. Të gjitha të drejtat e rezervuara.",
-    "customerSupport": "Mbështetje 24/7 për Klientët",
-    "securePayment": "Pagesë e Sigurt",
-    "helpFAQ": "Ndihmë & FAQ"
+    "customerSupport": "Mbështetje 24/7 për klientët",
+    "securePayment": "Pagesë e sigurt",
+    "helpFAQ": "Ndihmë & Pyetje të shpeshta"
   },
   "searchBlock": {
     "tripType": {
