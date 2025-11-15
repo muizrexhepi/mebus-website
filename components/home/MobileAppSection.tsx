@@ -1,6 +1,6 @@
 "use client";
 
-import { Smartphone, Bell, CreditCard, MapPin } from "lucide-react";
+import { Smartphone, Bell, CreditCard } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const MobileAppSection = () => {
@@ -27,25 +27,25 @@ const MobileAppSection = () => {
   ];
 
   return (
-    <div className="bg-[#f9fafb] py-16 sm:py-20">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="bg-[#f9fafb] py-16 sm:py-20 relative overflow-hidden">
+      <div className="relative max-w-6xl mx-auto paddingX">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left side - Illustration with QR */}
-          <div className="relative flex justify-center lg:justify-start">
+          {/* Left side - Content */}
+
+          {/* Right side - Image */}
+          <div className="relative lg:order-2 flex justify-center lg:justify-start">
             <div className="relative">
-              {/* Custom Illustration */}
-              <div className="relative z-10 w-full max-w-xl">
+              <div className="absolute inset-0 bg-gradient-to-tr from-red-200 to-orange-200 rounded-3xl blur-2xl opacity-40"></div>
+              <div className="relative w-full max-w-xl">
                 <img
                   src="/assets/images/mobileapp.webp"
                   alt="GoBusly Mobile App"
-                  className="w-full h-auto"
+                  className="w-full h-auto drop-shadow-2xl"
                 />
               </div>
             </div>
           </div>
-
-          {/* Right side - Content */}
-          <div className="space-y-8">
+          <div className="space-y-8 lg:order-1">
             <div className="max-w-4xl space-y-2">
               <h1 className="text-left text-3xl font-normal text-primary">
                 {t("mobileAppSection.title")}
@@ -55,14 +55,17 @@ const MobileAppSection = () => {
               </p>
             </div>
 
-            {/* Features Grid */}
-            <div className="grid grid-cols-1 gap-6 max-w-md">
+            {/* Features */}
+            <div className="space-y-3">
               {features.map((feature, index) => (
-                <div key={index} className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center text-red-600">
+                <div
+                  key={index}
+                  className="flex items-start gap-5 p-5 bg-white rounded-2xl transition-shadow shadow-sm"
+                >
+                  <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center text-white shadow-lg">
                     {feature.icon}
                   </div>
-                  <div>
+                  <div className="flex-1 pt-1">
                     <h3 className="font-normal text-gray-900 mb-1">
                       {feature.title}
                     </h3>
@@ -75,12 +78,12 @@ const MobileAppSection = () => {
             </div>
 
             {/* App Store Buttons */}
-            <div className="flex flex-wrap gap-4 pt-4">
+            <div className="flex flex-wrap gap-4">
               <a
                 href="https://apps.apple.com/za/app/gobusly/id6753230552"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block transition-transform hover:scale-105"
+                className="inline-block transition-all hover:scale-105 hover:-translate-y-1 duration-200"
               >
                 <img
                   src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1234567890"
@@ -88,18 +91,6 @@ const MobileAppSection = () => {
                   className="h-12"
                 />
               </a>
-              {/* <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block transition-transform hover:scale-105"
-              >
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
-                  alt="Get it on Google Play"
-                  className="h-12"
-                />
-              </a> */}
             </div>
           </div>
         </div>

@@ -55,30 +55,30 @@ const Footer = () => {
   const { t } = useTranslation();
 
   return (
-    <footer className="w-full bg-[#f9fafb]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <footer className="w-full bg-white border-t border-gray-200">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
-        <div className="py-16 lg:py-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
+        <div className="py-16 sm:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             {/* Brand Section */}
-            <div className="lg:col-span-4 space-y-6">
+            <div className="lg:col-span-5 space-y-6">
               <Link href="/" className="inline-block">
                 <Image
                   src="/assets/icons/dark-logo.svg"
                   alt="GoBusly Logo"
                   width={140}
                   height={40}
-                  className="h-9 w-auto"
+                  className="h-8 w-auto"
                   priority
                 />
               </Link>
-              <p className="text-base text-gray-600 leading-relaxed max-w-xs">
+              <p className="text-sm text-gray-600 leading-relaxed max-w-sm">
                 {t("footer.missionStatement")}
               </p>
 
               {/* App Store Buttons */}
-              <div className="space-y-3">
-                <p className="text-sm font-medium text-gray-900">
+              <div className="space-y-4 pt-2">
+                <p className="text-xs font-medium text-gray-900 uppercase tracking-wide">
                   {t("footer.downloadApp")}
                 </p>
                 <div className="flex flex-wrap gap-3">
@@ -86,42 +86,33 @@ const Footer = () => {
                     href="https://apps.apple.com/za/app/gobusly/id6753230552"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block transition-transform hover:scale-105"
+                    className="inline-block transition-opacity hover:opacity-70"
                   >
                     <img
                       src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1234567890"
                       alt="Download on the App Store"
-                      className="h-11"
+                      className="h-10"
                     />
                   </a>
-                  {/* <a
-                    href="#"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block transition-transform hover:scale-105 opacity-50 pointer-events-none"
-                  >
-                    <img
-                      src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
-                      alt="Get it on Google Play"
-                      className="h-11"
-                    />
-                  </a> */}
                 </div>
               </div>
 
               {/* Payment Methods */}
               <div className="pt-4">
-                <p className="text-sm font-medium text-gray-900 mb-3">
+                <p className="text-xs font-medium text-gray-900 mb-3 uppercase tracking-wide">
                   {t("footer.paymentMethods")}
                 </p>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                   {PAYMENT_METHODS.map((method) => (
-                    <div key={method.name} className="grayscale opacity-60">
+                    <div
+                      key={method.name}
+                      className="grayscale opacity-50 hover:opacity-75 transition-opacity"
+                    >
                       <Image
                         src={method.path}
                         alt={`${method.name} Logo`}
-                        width={method.name === "Stripe" ? 50 : 40}
-                        height={method.name === "Stripe" ? 50 : 40}
+                        width={method.name === "Stripe" ? 45 : 36}
+                        height={method.name === "Stripe" ? 45 : 36}
                         className="object-contain"
                       />
                     </div>
@@ -131,10 +122,10 @@ const Footer = () => {
             </div>
 
             {/* Links Sections */}
-            <div className="lg:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-8">
+            <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-8 lg:gap-12">
               {FOOTER_LINKS.map((section) => (
                 <div key={section.title}>
-                  <h3 className="text-sm font-semibold text-gray-900 mb-4">
+                  <h3 className="text-xs font-semibold text-gray-900 mb-4 uppercase tracking-wide">
                     {t(`footer.sections.${section.title.toLowerCase()}`)}
                   </h3>
                   <ul className="space-y-3">
@@ -163,7 +154,7 @@ const Footer = () => {
 
               {/* Contact Section */}
               <div>
-                <h3 className="text-sm font-semibold text-gray-900 mb-4">
+                <h3 className="text-xs font-semibold text-gray-900 mb-4 uppercase tracking-wide">
                   {t("footer.contact")}
                 </h3>
                 <ul className="space-y-3">
@@ -198,10 +189,10 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-200 py-8">
+        <div className="border-t border-gray-200 py-6">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-gray-600">{t("footer.copyright")}</p>
-            <div className="flex items-center gap-4">
+            <p className="text-xs text-gray-500">{t("footer.copyright")}</p>
+            <div className="flex items-center gap-5">
               {SOCIAL_LINKS.map((social) => {
                 const Icon = social.icon;
                 return (

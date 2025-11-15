@@ -54,7 +54,7 @@ export default function PopularBusRoutes() {
 
   const { t } = useTranslation();
   return (
-    <section className="w-full py-20">
+    <section className="w-full py-20 bg-[#f9fafb]">
       <div className="max-w-6xl mx-auto paddingX">
         {/* <div className="inline-flex px-4 py-1 bg-primary/5 rounded-full mb-6">
           <span className="text-sm font-medium text-primary">

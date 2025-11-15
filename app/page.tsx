@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import Footer from "@/components/Footer";
 import HeroWrapper from "@/components/hero-wrapper";
 import useIsMobile from "@/components/hooks/use-mobile";
-import PartnersSection from "@/components/home/PartnersSection";
 
 const AffiliateTracker = dynamic(
   () => import("@/components/affiliate-tracker"),
@@ -41,7 +40,6 @@ export default function Home() {
       {!isMobile && (
         <>
           <MobileAppSection />
-          <PartnersSection />
           <FeaturesSection />
           <PopularBusRoutes />
           <Footer />
