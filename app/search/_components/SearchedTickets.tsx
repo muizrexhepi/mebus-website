@@ -556,6 +556,21 @@ const TicketList: React.FC = () => {
 
   const handleTicketSelection = useCallback(
     (ticket: Ticket | ConnectedTicket) => {
+      // Check if ticket is bookable
+      const isBookable = ticket?.route?.metadata?.bookable !== false;
+      console.log({ isBookable });
+      if (!isBookable) {
+        toast({
+          title: t("ticket.notBookable", "Not Available"),
+          description: t(
+            "ticket.notBookableDescription",
+            "This route is currently not available for online booking."
+          ),
+          variant: "destructive",
+        });
+        return;
+      }
+
       setIsLoading(true);
       if (isSelectingReturn) {
         setReturnTicket(ticket as any);
@@ -580,6 +595,8 @@ const TicketList: React.FC = () => {
       searchParameters.returnDate,
       setIsLoading,
       setIsSelectingReturn,
+      toast,
+      t,
     ]
   );
 
@@ -780,6 +797,7 @@ const TicketList: React.FC = () => {
             const ticket = item.data;
             const isConnected = item.type === "connected";
             const keyPrefix = isConnected ? "connected" : "direct";
+            const isBookable = ticket.routeInfo?.metadata?.bookable !== false;
 
             return (
               <Sheet key={`${keyPrefix}-${ticket._id}-${index}`}>
@@ -814,18 +832,21 @@ const TicketList: React.FC = () => {
                       <TicketDetails ticket={ticket} />
                     )}
                   </div>
-                  <SheetFooter className="p-4">
-                    <Button
-                      className="w-full h-12 button-gradient rounded-lg"
-                      onClick={() => handleTicketSelection(ticket)}
-                    >
-                      {isSelectingReturn
-                        ? t("ticket.selectReturn")
-                        : tripType !== "round-trip"
-                        ? t("ticket.continue")
-                        : t("ticket.selectOutbound")}
-                    </Button>
-                  </SheetFooter>
+                  {isBookable && (
+                    <SheetFooter className="p-4">
+                      <Button
+                        variant={"primary"}
+                        className="w-full h-12 rounded-lg"
+                        onClick={() => handleTicketSelection(ticket)}
+                      >
+                        {isSelectingReturn
+                          ? t("ticket.selectReturn")
+                          : tripType !== "round-trip"
+                          ? t("ticket.continue")
+                          : t("ticket.selectOutbound")}
+                      </Button>
+                    </SheetFooter>
+                  )}
                 </SheetContent>
               </Sheet>
             );

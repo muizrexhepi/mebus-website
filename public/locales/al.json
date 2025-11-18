@@ -315,7 +315,9 @@
     "selectReturn": "Zgjidh kthimin",
     "continue": "Vazhdo",
     "selectOutbound": "Zgjidh udhëtimin e shkuar",
-    "seatsLeft": "Vende të mbetura"
+    "seatsLeft": "Vende të mbetura",
+    "notBookable": "Nuk është i disponueshëm për rezervim",
+    "notBookableDescription": "Ky itinerar aktualisht nuk është i disponueshëm për rezervim online."
   },
   "services": {
     "title": "Shërbimet e Udhëtimit",

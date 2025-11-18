@@ -313,7 +313,9 @@
     "selectReturn": "Избери повратен билет",
     "continue": "Продолжи",
     "selectOutbound": "Избери поаѓање",
-    "seatsLeft": "Остаток места"
+    "seatsLeft": "Остаток места",
+    "notBookable": "Не е достапно за резервација",
+    "notBookableDescription": "Оваа рута моментално не е достапна за онлајн резервација."
   },
   "ticketDetails": {
     "title": "Детали за билет",

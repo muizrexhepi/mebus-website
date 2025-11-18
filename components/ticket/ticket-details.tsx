@@ -8,6 +8,7 @@ import {
   ChevronDown,
   ChevronUp,
   Plug,
+  AlertCircle,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import InfoBlock from "../InfoBlock";
@@ -33,6 +34,9 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
     city: string;
     address: string;
   } | null>(null);
+
+  // Check if route is bookable
+  const isBookable = ticket.route?.metadata?.bookable !== false;
 
   const formatDate = (date: Date) => {
     return new Date(date).toLocaleDateString("en-US", {
@@ -81,6 +85,27 @@ export default function TicketDetails({ ticket }: { ticket: Ticket }) {
   return (
     <>
       <div className="space-y-4">
+        {/* Bookable Status Warning */}
+        {!isBookable && (
+          <>
+            <div className="mx-4 mt-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-sm font-medium text-red-800">
+                  {t("ticket.notBookable", "Not Available for Booking")}
+                </p>
+                <p className="text-xs text-red-600 mt-1">
+                  {t(
+                    "ticket.notBookableDescription",
+                    "This route is currently not available for online booking."
+                  )}
+                </p>
+              </div>
+            </div>
+            <Separator />
+          </>
+        )}
+
         {/* Location Selection Section */}
         <div className="space-y-3 text-sm px-3 pt-4">
           <div

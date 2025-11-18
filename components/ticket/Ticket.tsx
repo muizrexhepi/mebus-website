@@ -28,9 +28,16 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
   const router = useRouter();
   const { t } = useTranslation();
   const { setIsLoading, isLoading } = useLoadingStore();
+  // Check if route is bookable
+  const isBookable = ticket.route?.metadata?.bookable !== false;
 
   const handleTicketSelection = (e: React.MouseEvent) => {
     e.preventDefault();
+
+    if (!isBookable) {
+      return; // Don't proceed if not bookable
+    }
+
     setIsLoading(true);
 
     if (isSelectingReturn) {
@@ -121,11 +128,19 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
               </div>
             </div>
 
-            {ticket.number_of_tickets <= 3 && (
+            {ticket.number_of_tickets <= 3 && isBookable && (
               <div className="text-left mt-2">
                 <span className="text-sm text-transparent button-gradient bg-clip-text font-medium">
                   {ticket.number_of_tickets}{" "}
                   {t("ticket.seatsLeft", "Seats Left")}
+                </span>
+              </div>
+            )}
+
+            {!isBookable && (
+              <div className="text-left mt-2">
+                <span className="text-sm text-red-600 font-medium">
+                  {t("ticket.notBookable", "Not Available for Booking")}
                 </span>
               </div>
             )}
@@ -137,12 +152,15 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
             </div>
 
             <Button
-              variant={"primary"}
+              variant={isBookable ? "primary" : "secondary"}
               className="w-fit text-sm"
               onClick={handleTicketSelection}
+              disabled={!isBookable}
             >
-              {isLoading ? (
+              {isLoading && isBookable ? (
                 <Loader2 className="size-5 animate-spin text-white mx-auto" />
+              ) : !isBookable ? (
+                t("actions.viewDetails", "Not Available")
               ) : isReturn && outboundTicket ? (
                 t("ticket.selectReturn")
               ) : tripType !== "round-trip" ? (

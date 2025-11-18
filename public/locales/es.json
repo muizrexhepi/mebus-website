@@ -320,7 +320,9 @@
     "selectReturn": "Seleccionar regreso",
     "continue": "Continuar",
     "selectOutbound": "Seleccionar ida",
-    "seatsLeft": "Asientos disponibles"
+    "seatsLeft": "Asientos disponibles",
+    "notBookable": "No disponible para reservar",
+    "notBookableDescription": "Esta ruta no está disponible actualmente para reserva en línea."
   },
   "ticketDetails": {
     "title": "Detalles del Billete",

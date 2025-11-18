@@ -19,6 +19,7 @@ export interface Ticket {
   time: string;
   type: TicketTypes;
   number_of_tickets: number;
+  route?: Route;
   stop_sequence: StopSequenceItem[];
   is_active: boolean;
   location: {

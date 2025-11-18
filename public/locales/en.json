@@ -343,7 +343,9 @@
     "selectReturn": "Select Return",
     "continue": "Continue",
     "selectOutbound": "Select Outbound",
-    "seatsLeft": "Seats Left"
+    "seatsLeft": "Seats Left",
+    "notBookable": "Not Available for Booking",
+    "notBookableDescription": "This route is currently not available for online booking."
   },
   "ticketDetails": {
     "title": "Ticket Details",

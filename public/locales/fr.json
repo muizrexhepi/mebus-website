@@ -334,7 +334,9 @@
     "selectReturn": "Sélectionner le retour",
     "continue": "Continuer",
     "selectOutbound": "Sélectionner l'aller",
-    "seatsLeft": "Places restantes"
+    "seatsLeft": "Places restantes",
+    "notBookable": "Non disponible à la réservation",
+    "notBookableDescription": "Cet itinéraire n'est actuellement pas disponible pour une réservation en ligne."
   },
   "ticketDetails": {
     "title": "Détails du billet",

@@ -320,7 +320,9 @@
     "selectReturn": "Seleziona ritorno",
     "continue": "Continua",
     "selectOutbound": "Seleziona andata",
-    "seatsLeft": "Posti rimasti"
+    "seatsLeft": "Posti rimasti",
+    "notBookable": "Non disponibile per la prenotazione",
+    "notBookableDescription": "Questo percorso non è attualmente disponibile per la prenotazione online."
   },
   "ticketDetails": {
     "title": "Dettagli del Biglietto",

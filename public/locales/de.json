@@ -328,6 +328,8 @@
   },
   "ticket": {
     "selectReturn": "Rückfahrt auswählen",
+    "notBookable": "Nicht zur Buchung verfügbar",
+    "notBookableDescription": "Diese Strecke ist derzeit nicht für die Online-Buchung verfügbar.",
     "continue": "Weiter",
     "selectOutbound": "Hinfahrt auswählen",
     "seatsLeft": "Verbleibende Plätze"
