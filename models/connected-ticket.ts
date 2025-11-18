@@ -61,6 +61,13 @@ export interface ConnectedTicket {
     is_single_ticket: boolean;
   };
   operatorInfo?: any;
+
+  // 🔥 Add this
+  route?: {
+    metadata?: {
+      bookable?: boolean;
+    };
+  };
 }
 
 // Union type for all ticket types
