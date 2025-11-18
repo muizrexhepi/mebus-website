@@ -27,16 +27,16 @@ const MobileAppSection = () => {
   ];
 
   return (
-    <div className="bg-[#f9fafb] py-16 sm:py-20 relative overflow-hidden">
+    <div className="bg-[#f9fafb] py-12 sm:py-20 relative overflow-hidden">
       <div className="relative max-w-6xl mx-auto paddingX">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-2 lg:gap-16 items-center">
           {/* Left side - Content */}
 
           {/* Right side - Image */}
           <div className="relative lg:order-2 flex justify-center lg:justify-start">
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-tr from-red-200 to-orange-200 rounded-3xl blur-2xl opacity-40"></div>
-              <div className="relative w-full max-w-xl">
+              <div className="relative w-full max-w-xl hidden lg:block">
                 <img
                   src="/assets/images/mobileapp.webp"
                   alt="GoBusly Mobile App"
@@ -62,7 +62,7 @@ const MobileAppSection = () => {
                   key={index}
                   className="flex items-start gap-5 p-5 bg-white rounded-2xl transition-shadow shadow-sm"
                 >
-                  <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center text-white shadow-lg">
+                  <div className="flex-shrink-0 w-12 h-12 bg-primary-accent rounded-xl flex items-center justify-center text-white shadow-lg">
                     {feature.icon}
                   </div>
                   <div className="flex-1 pt-1">

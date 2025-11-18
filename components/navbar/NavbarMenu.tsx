@@ -1,13 +1,19 @@
 "use client";
 
-import { Menu, UserCircle, ChevronRight } from "lucide-react";
+import { Menu, UserCircle, ChevronRight, LogIn, UserPlus } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,13 +22,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useNavbarStore } from "@/store";
+import { cn } from "@/lib/utils";
 
 // Icons
-import { FaRoute, FaBus } from "react-icons/fa"; // <-- ADDED FaBus
+import { FaRoute, FaBus } from "react-icons/fa";
 import { BiSupport } from "react-icons/bi";
 import { IoMdContact } from "react-icons/io";
 import useIsMobile from "../hooks/use-mobile";
 
+// Removed the isScrolled prop from the signature
 const NavbarMenu = () => {
   const { t } = useTranslation();
   const { setOpenLogin } = useNavbarStore();
@@ -41,7 +49,7 @@ const NavbarMenu = () => {
 
   const navigationLinks = [
     {
-      label: t("nav.bus"), // <-- ADDED "BUS" LINK
+      label: t("nav.bus"),
       href: "/bus",
       icon: FaBus,
     },
@@ -62,153 +70,177 @@ const NavbarMenu = () => {
     },
   ];
 
+  // Reverted to a fixed, clean button style
   const MenuTrigger = (
     <Button
       aria-haspopup="true"
       aria-expanded="false"
       aria-label={t("nav.menu")}
-      className="flex items-center gap-2 px-3 py-2 rounded-full border border-gray-300 bg-white hover:shadow-md transition-all duration-200 hover:border-gray-400"
+      className="flex items-center gap-2 px-3 py-2 rounded-full border border-gray-200 bg-white hover:shadow-md transition-shadow"
       variant="ghost"
     >
-      <Menu className="text-gray-600" size={16} />
-      <UserCircle className="text-gray-600" size={20} />
+      <Menu className="text-gray-700" size={16} />
+      <UserCircle className="text-gray-700" size={20} />
     </Button>
   );
 
   const MobileMenuContent = (
-    <div className="flex flex-col h-full">
-      {/* Header */}
-      <div className="p-6 border-b border-gray-100">
-        <Image
-          src="/assets/icons/dark-logo.svg"
-          alt="GoBusly"
-          width={120}
-          height={40}
-          className="object-contain"
-          priority
-        />
+    <div className="flex flex-col h-full bg-white">
+      {/* Auth Section - Now using standard button variants */}
+      <div className="p-4 border-b bg-gray-50/50">
+        <div className="grid grid-cols-2 gap-3">
+          <Button
+            onClick={handleLogin}
+            // Use variant="outline"
+            variant="outline"
+            className="w-full justify-center gap-2 bg-white border-gray-200 text-gray-700"
+          >
+            <LogIn size={16} />
+            {t("auth.login")}
+          </Button>
+          <Button
+            onClick={handleSignUp}
+            variant="primary"
+            className="w-full justify-center gap-2"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, var(--color-rose-500), var(--color-orange-500))",
+            }}
+          >
+            <UserPlus size={16} />
+            {t("auth.signUp")}
+          </Button>
+        </div>
       </div>
 
-      {/* Main CTA */}
-      <div className="p-6">
-        <Button
-          className="w-full h-12 rounded-xl font-semibold bg-gradient-to-r from-rose-500 to-orange-500 hover:from-rose-600 hover:to-orange-600 text-white border-0 shadow-lg"
-          onClick={handleSignUp}
-        >
-          {t("auth.signUp")}
-        </Button>
-      </div>
-
-      {/* Quick Actions */}
-      <div className="px-6 pb-6 space-y-3">
-        <Button
-          className="w-full h-11 rounded-xl font-medium border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50"
-          variant="outline"
-          onClick={handleLogin}
-        >
-          {t("auth.login")}
-        </Button>
-      </div>
-
-      {/* Navigation Links */}
-      <div className="flex-1 px-6 space-y-1">
+      {/* Navigation Links - Cleaned up to match UserNavbarMenu padding/style */}
+      <div className="flex-1 overflow-y-auto py-2">
         {navigationLinks.map((link) => (
           <Link
             key={link.href}
             href={link.href}
-            className="flex items-center justify-between py-4 px-2 rounded-lg hover:bg-gray-50 transition-colors group"
             onClick={() => setIsOpen(false)}
+            className={cn(
+              "flex items-center justify-between px-4 py-3 transition-colors",
+              "hover:bg-gray-100 active:bg-gray-200"
+            )}
           >
-            <div className="flex items-center gap-4">
-              <link.icon className="h-5 w-5 text-gray-500 group-hover:text-gray-700" />
-              <span className="font-medium text-gray-700 group-hover:text-gray-900">
-                {link.label}
-              </span>
+            <div className="flex items-center gap-3">
+              <link.icon className="h-4 w-4 text-gray-600" />
+              <span className="text-gray-700 font-medium">{link.label}</span>
             </div>
-            <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600" />
+            <ChevronRight className="h-4 w-4 text-gray-300" />
           </Link>
         ))}
       </div>
 
-      {/* Footer Links */}
-      <div className="p-6 border-t border-gray-100 space-y-3">
-        <div className="grid grid-cols-2 gap-3 text-sm">
+      {/* Footer (Legal & Info) */}
+      <div className="p-4 border-t bg-gray-50 pb-20">
+        <div className="grid grid-cols-2 gap-y-2 gap-x-4">
           <Link
             href="/about"
-            className="text-gray-600 hover:text-gray-900 py-2"
+            className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+            onClick={() => setIsOpen(false)}
           >
             {t("nav.about")}
           </Link>
           <Link
             href="/privacy"
-            className="text-gray-600 hover:text-gray-900 py-2"
+            className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+            onClick={() => setIsOpen(false)}
           >
             {t("footer.links.privacypolicy")}
           </Link>
           <Link
             href="/terms"
-            className="text-gray-600 hover:text-gray-900 py-2"
+            className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+            onClick={() => setIsOpen(false)}
           >
             {t("footer.links.termsofservice")}
           </Link>
-          <Link href="/faq" className="text-gray-600 hover:text-gray-900 py-2">
+          <Link
+            href="/help"
+            className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+            onClick={() => setIsOpen(false)}
+          >
             {t("footer.links.faq")}
           </Link>
+        </div>
+        <div className="mt-4 pt-4 border-t border-gray-200 text-center">
+          <p className="text-xs text-gray-400">© 2025 GoBusly</p>
         </div>
       </div>
     </div>
   );
 
-  // <-- REFACTORED DESKTOP MENU -->
+  // --- Desktop Content ---
   const DesktopMenuContent = (
     <div className="py-2">
-      {/* Auth Buttons (Moved to top) */}
+      {/* Auth Buttons - Using standard button variants */}
       <div className="px-3 pt-1 pb-3 space-y-2">
         <Button
-          className="w-full h-10 rounded-lg font-medium border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+          // Use variant="outline"
           variant="outline"
+          className="w-full h-9 rounded-lg font-medium border border-gray-200 hover:bg-gray-50 text-gray-700"
           onClick={handleLogin}
         >
           {t("auth.login")}
         </Button>
         <Button
-          className="w-full h-10 rounded-lg font-semibold bg-gradient-to-r from-rose-500 to-orange-500 hover:from-rose-600 hover:to-orange-600 text-white border-0"
+          // Use standard primary (default) variant
+          variant="default"
+          className="w-full h-9 rounded-lg font-semibold"
+          // Keeping gradient style for primary CTA
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, var(--color-rose-500), var(--color-orange-500))",
+          }}
           onClick={handleSignUp}
         >
           {t("auth.signUp")}
         </Button>
       </div>
 
-      <DropdownMenuSeparator className="my-1" />
+      <DropdownMenuSeparator />
 
-      {/* Navigation Links */}
       <div className="py-2">
         {navigationLinks.map((link) => (
           <DropdownMenuItem
             key={link.href}
             asChild
-            // Standardized styling to match UserNavbarMenu
-            className="py-2.5 px-3 rounded-md cursor-pointer"
+            className="py-2.5 px-3 rounded-md cursor-pointer focus:bg-gray-100"
           >
             <Link href={link.href} className="flex items-center gap-3">
-              <link.icon className="h-4 w-4 text-gray-600" />
-              <span className="text-gray-700">{link.label}</span>
+              <link.icon className="h-4 w-4 text-gray-500" />
+              <span className="text-gray-700 font-medium">{link.label}</span>
             </Link>
           </DropdownMenuItem>
         ))}
       </div>
     </div>
   );
-  // <-- END REFACTORED SECTION -->
 
+  // --- Render ---
   if (isMobile) {
     return (
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>{MenuTrigger}</SheetTrigger>
         <SheetContent
           side="right"
-          className="w-full sm:w-[380px] p-0 border-l shadow-xl"
+          className="w-full sm:w-[360px] p-0 border-l shadow-xl bg-white"
         >
+          <SheetHeader className="p-4 text-left border-b flex flex-row justify-between items-center space-y-0">
+            <SheetTitle>
+              <Image
+                src="/assets/icons/dark-logo.svg"
+                alt="GoBusly"
+                width={120}
+                height={32}
+                className="object-contain"
+                priority
+              />
+            </SheetTitle>
+          </SheetHeader>
           {MobileMenuContent}
         </SheetContent>
       </Sheet>
@@ -220,7 +252,7 @@ const NavbarMenu = () => {
       <DropdownMenuTrigger asChild>{MenuTrigger}</DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="w-72 rounded-xl mt-2 p-0 shadow-xl border border-gray-100" // Kept w-72 for slightly more space
+        className="w-64 rounded-xl mt-2 p-0 shadow-lg border border-gray-100 bg-white"
       >
         {DesktopMenuContent}
       </DropdownMenuContent>

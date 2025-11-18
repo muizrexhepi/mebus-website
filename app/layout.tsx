@@ -155,9 +155,9 @@ export default function RootLayout({
         <Toaster />
         <TranslationProvider>
           <ClientProviders>
-            <Navbar className="paddingX max-w-6xl py-4 mx-auto hidden md:flex" />
+            <Navbar className="paddingX max-w-6xl py-4 mx-auto" />
             {children}
-            <MobileTabs />
+            {/* <MobileTabs /> */}
             <CookieConsent />
             <Analytics />
           </ClientProviders>

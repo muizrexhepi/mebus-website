@@ -2,10 +2,6 @@
 
 import Image from "next/image";
 import { SearchForm } from "../forms/SearchForm";
-const LanguageSelector = dynamic(() => import("../dialogs/LanguageDialog"), {
-  ssr: false,
-});
-import dynamic from "next/dynamic";
 import { useTranslation } from "react-i18next";
 
 const MobileHero = () => {
@@ -13,7 +9,7 @@ const MobileHero = () => {
 
   return (
     <>
-      <div className="relative flex flex-col justify-between md:pb-20 bg-primary-bg/5 h-screen md:hidden">
+      <div className="relative flex flex-col justify-between md:pb-20 bg-[#f9fafb] md:hidden">
         <div className="relative z-20 w-full">
           <div className="w-full relative aspect-[4/3] h-48">
             <Image
@@ -36,9 +32,9 @@ const MobileHero = () => {
             </div>
           </div>
 
-          <div className="absolute top-4 right-4 bg-white/70 pt-2 px-2 border-black/10 border rounded-xl">
+          {/* <div className="absolute top-4 right-4 bg-white/70 pt-2 px-2 border-black/10 border rounded-xl">
             <LanguageSelector />
-          </div>
+          </div> */}
 
           <div className="p-4">
             <SearchForm />

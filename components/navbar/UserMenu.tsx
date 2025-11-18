@@ -8,6 +8,7 @@ import { signOut } from "next-auth/react";
 import { useTranslation } from "react-i18next";
 import { Bookmark, LogOut, Menu, User } from "lucide-react";
 import {
+  FaAlignCenter,
   FaBell,
   FaBookmark,
   FaBus,
@@ -72,20 +73,26 @@ const UserNavbarMenu = () => {
       label: t("dataAndSecurity.title"),
     },
     {
+      label: "Notifications",
+      href: "/account/notifications",
+      icon: FaBell,
+    },
+    {
       href: "/bus",
       icon: FaBus,
-      label: t("nav.bus"),
+      label: t("nav.busdestinations"),
+    },
+    {
+      href: "/bus-operators",
+      icon: FaAlignCenter,
+      label: t("nav.busoperators"),
     },
     // {
     //   label: "Discount codes",
     //   href: "/account/discount-codes",
     //   icon: FaTicketAlt,
     // },
-    {
-      label: "Notifications",
-      href: "/account/notifications",
-      icon: FaBell,
-    },
+
     {
       label: t("footer.links.customersupport"),
       href: "/help",
@@ -155,10 +162,10 @@ const UserNavbarMenu = () => {
         </div>
       )}
 
-      <div className="mt-auto p-4">
+      <div className="mt-auto p-4 border-t">
         <Button
           variant="ghost"
-          className="w-full justify-start text-red-700 hover:bg-gray-100 hover:text-gray-900 font-normal h-10 px-1"
+          className="w-full justify-start text-red-700 hover:bg-gray-100 hover:text-gray-900 font-normal h-10 px-1 text-base"
           onClick={handleLogout}
         >
           <LogOut className="mr-2 h-4 w-4" />

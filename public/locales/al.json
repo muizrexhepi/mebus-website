@@ -1,13 +1,18 @@
 {
   "nav": {
-    "routes": "Rrugët",
+    "routes": "Itineraret",
     "bookings": "Rezervimet",
+    "bus": "Autobus",
+    "busdestinations": "Destinacionet e Autobusëve",
+    "busdestinations_description": "Zbuloni qytetet popullore dhe lidhjet kryesore",
+    "busoperators": "Operatorët e Autobusëve",
+    "busoperators_description": "Shfletoni rrjetin tonë të transportuesve të besuar",
     "help": "Ndihmë",
     "about": "Rreth nesh",
     "contact": "Kontakt",
-    "account": "Akaunti",
-    "al": "Kërko",
-    "bus": "Destinacionet e Autobusit"
+    "blogs": "Blogje",
+    "account": "Llogaria",
+    "home": "Kërko"
   },
   "loginCTA": {
     "saveBookingTitle": "Ruaj detajet e rezervimit tënd",

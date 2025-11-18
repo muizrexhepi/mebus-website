@@ -72,7 +72,7 @@ const DateButton: React.FC<DateButtonProps> = ({
       className={cn(
         "flex-1 h-12 rounded-lg bg-white hover:bg-gray-50 transition-all duration-200 text-gray-700",
         {
-          "border-b-2 border-b-primary-accent": isSelected,
+          "border-b-2 border-b-primary-accent pointer-events-none": isSelected,
           "border-gray-200": !isSelected && !isDisabled,
           "opacity-50 cursor-not-allowed hover:bg-white": isDisabled,
         }

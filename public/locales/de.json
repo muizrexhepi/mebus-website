@@ -2,11 +2,17 @@
   "nav": {
     "routes": "Routen",
     "bookings": "Buchungen",
+    "bus": "Bus",
+    "busdestinations": "Busziele",
+    "busdestinations_description": "Entdecken Sie beliebte Städte und Top-Verbindungen",
+    "busoperators": "Busunternehmen",
+    "busoperators_description": "Durchsuchen Sie unser Netzwerk vertrauenswürdiger Anbieter",
     "help": "Hilfe",
     "about": "Über uns",
-    "de": "Suche",
     "contact": "Kontakt",
-    "bus": "Busziele"
+    "blogs": "Blogs",
+    "account": "Konto",
+    "home": "Suche"
   },
   "loginCTA": {
     "saveBookingTitle": "Speichern Sie Ihre Buchungsdetails",

@@ -2,11 +2,17 @@
   "nav": {
     "routes": "Itinéraires",
     "bookings": "Réservations",
+    "bus": "Bus",
+    "busdestinations": "Destinations de bus",
+    "busdestinations_description": "Découvrez les villes populaires et les meilleures liaisons",
+    "busoperators": "Compagnies de bus",
+    "busoperators_description": "Parcourez notre réseau de transporteurs de confiance",
     "help": "Aide",
-    "fr": "Recherche",
     "about": "À propos",
-    "bus": "Destinations de Bus",
-    "contact": "Contact"
+    "contact": "Contact",
+    "blogs": "Blogs",
+    "account": "Compte",
+    "home": "Rechercher"
   },
   "loginCTA": {
     "saveBookingTitle": "Sauvegardez vos détails de réservation",

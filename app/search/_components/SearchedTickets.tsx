@@ -38,6 +38,50 @@ import Image from "next/image";
 import type { ConnectedTicket } from "@/models/connected-ticket";
 import TicketBlock from "@/components/ticket/Ticket";
 
+/**
+ * Converts time string (HH:MM or HH:MM:SS) to minutes for easy comparison
+ */
+const timeToMinutes = (timeString: string): number => {
+  if (!timeString) return 0;
+  const parts = timeString.split(":");
+  const hours = parseInt(parts[0], 10) || 0;
+  const minutes = parseInt(parts[1], 10) || 0;
+  return hours * 60 + minutes;
+};
+
+/**
+ * Gets the departure time from a ticket (handles both direct and connected tickets)
+ */
+const getTicketDepartureTime = (ticket: Ticket | ConnectedTicket): string => {
+  // For direct tickets
+  if ("time" in ticket && typeof ticket.time === "string") {
+    return ticket.time;
+  }
+  // For connected tickets, use the first leg's departure time
+  if (
+    "legs" in ticket &&
+    Array.isArray(ticket.legs) &&
+    ticket.legs.length > 0
+  ) {
+    return ticket.legs[0].time || "";
+  }
+  return "";
+};
+
+/**
+ * Sorts tickets by departure time in ascending order
+ * Works for both direct tickets and connected tickets
+ */
+const sortTicketsByTime = <T extends Ticket | ConnectedTicket>(
+  tickets: T[]
+): T[] => {
+  return [...tickets].sort((a, b) => {
+    const timeA = timeToMinutes(getTicketDepartureTime(a));
+    const timeB = timeToMinutes(getTicketDepartureTime(b));
+    return timeA - timeB;
+  });
+};
+
 interface TicketState {
   directTickets: Ticket[];
   connectedTickets: ConnectedTicket[];
@@ -80,18 +124,24 @@ const ticketReducer = (
 ): TicketState => {
   switch (action.type) {
     case "SET_DIRECT_TICKETS":
-      return { ...state, directTickets: action.payload };
+      return { ...state, directTickets: sortTicketsByTime(action.payload) };
     case "SET_CONNECTED_TICKETS":
-      return { ...state, connectedTickets: action.payload };
+      return { ...state, connectedTickets: sortTicketsByTime(action.payload) };
     case "ADD_DIRECT_TICKETS":
       return {
         ...state,
-        directTickets: [...state.directTickets, ...action.payload],
+        directTickets: sortTicketsByTime([
+          ...state.directTickets,
+          ...action.payload,
+        ]),
       };
     case "ADD_CONNECTED_TICKETS":
       return {
         ...state,
-        connectedTickets: [...state.connectedTickets, ...action.payload],
+        connectedTickets: sortTicketsByTime([
+          ...state.connectedTickets,
+          ...action.payload,
+        ]),
       };
     case "SET_LOADING":
       return { ...state, loading: action.payload };

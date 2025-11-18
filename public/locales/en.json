@@ -3,7 +3,11 @@
   "nav": {
     "routes": "Routes",
     "bookings": "Bookings",
-    "bus": "Bus Destinations",
+    "bus": "Bus",
+    "busdestinations": "Bus Destinations",
+    "busdestinations_description": "Discover popular cities and top connections",
+    "busoperators": "Bus Operators",
+    "busoperators_description": "Browse our network of trusted bus carriers",
     "help": "Help",
     "about": "About",
     "contact": "Contact",

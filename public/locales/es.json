@@ -2,11 +2,17 @@
   "nav": {
     "routes": "Rutas",
     "bookings": "Reservas",
+    "bus": "Autobús",
+    "busdestinations": "Destinos de autobús",
+    "busdestinations_description": "Descubre ciudades populares y las mejores conexiones",
+    "busoperators": "Operadores de autobús",
+    "busoperators_description": "Explora nuestra red de transportistas de confianza",
     "help": "Ayuda",
-    "about": "Sobre nosotros",
-    "es": "Buscar",
-    "bus": "Destinos de Autobús",
-    "contact": "Contacto"
+    "about": "Nosotros",
+    "contact": "Contacto",
+    "blogs": "Blogs",
+    "account": "Cuenta",
+    "home": "Buscar"
   },
   "loginCTA": {
     "saveBookingTitle": "Guarda los detalles de tu reserva",

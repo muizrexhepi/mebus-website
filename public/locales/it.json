@@ -1,12 +1,18 @@
 {
   "nav": {
-    "routes": "Percorsi",
+    "routes": "Rotte",
     "bookings": "Prenotazioni",
+    "bus": "Autobus",
+    "busdestinations": "Destinazioni autobus",
+    "busdestinations_description": "Scopri le città popolari e i migliori collegamenti",
+    "busoperators": "Compagnie di autobus",
+    "busoperators_description": "Sfoglia la nostra rete di vettori affidabili",
     "help": "Aiuto",
     "about": "Chi siamo",
-    "it": "Cerca",
-    "bus": "Destinazioni Autobus",
-    "contact": "Contatti"
+    "contact": "Contatti",
+    "blogs": "Blog",
+    "account": "Account",
+    "home": "Cerca"
   },
   "loginCTA": {
     "saveBookingTitle": "Salva i dettagli della prenotazione",
