@@ -4,14 +4,17 @@ import type { Ticket } from "@/models/ticket";
 export interface ConnectedTicketLeg {
   leg_number: number;
   ticket: string;
+
   operator: {
     _id: string;
     name: string;
     company_name: string;
   };
+
   route: {
-metadata?:{
-bookable?:boolean;},;
+    metadata?: {
+      bookable?: boolean;
+    };
     _id: string;
     code: string;
     destination: {
@@ -23,14 +26,17 @@ bookable?:boolean;},;
       email: string;
     };
   };
+
   from_station: Station;
   to_station: Station;
   departure_date: string;
   arrival_time: string;
   time: string;
+
   price: number;
   children_price: number;
   number_of_tickets: number;
+
   metadata: {
     operator_name: string;
     operator_company_name: string;
@@ -48,21 +54,25 @@ export interface ConnectedTicket {
   total_price: number;
   stops: any;
   total_duration: number;
+
   operator: {
     _id: string;
     name: string;
     company_name: string;
   };
+
   total_children_price: number;
+
   metadata: {
     operator_name: string;
     operator_company_name: string;
     features: string[];
     is_single_ticket: boolean;
   };
+
   operatorInfo?: any;
 
-  // 🔥 Add this
+  // optional route metadata for bookability
   route?: {
     metadata?: {
       bookable?: boolean;
@@ -73,13 +83,14 @@ export interface ConnectedTicket {
 // Union type for all ticket types
 export type AnyTicket = Ticket | ConnectedTicket;
 
-// Type guard functions
+// Type guard: connected
 export function isConnectedTicket(
   ticket: AnyTicket
 ): ticket is ConnectedTicket {
   return ticket.type === "connected";
 }
 
+// Type guard: direct
 export function isDirectTicket(ticket: AnyTicket): ticket is Ticket {
   return !ticket.type || ticket.type !== "connected";
 }
