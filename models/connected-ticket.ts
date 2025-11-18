@@ -10,6 +10,8 @@ export interface ConnectedTicketLeg {
     company_name: string;
   };
   route: {
+metadata?:{
+bookable?:boolean;},;
     _id: string;
     code: string;
     destination: {
