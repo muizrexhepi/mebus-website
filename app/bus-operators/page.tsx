@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "Explore active bus operators on GoBusly. Compare routes, amenities, reviews, and book affordable bus tickets across Europe and the Balkans.",
   openGraph: {
-    title: "Bus Operators | GoBusly",
+    title: "Bus Operators",
     description:
       "Find trusted bus companies, browse routes, and book tickets with confidence on GoBusly.",
     url: `${SITE_URL}/bus-operators`,
@@ -53,12 +53,12 @@ export default async function BusOperatorsPage() {
   };
 
   return (
-    <main className="bg-neutral-50 min-h-screen">
+    <main className="bg-[#f9fafb] min-h-screen">
       <Script id="bus-operators-schema" type="application/ld+json">
         {JSON.stringify(jsonLd)}
       </Script>
 
-      <div className="max-w-6xl mx-auto paddingX py-12 space-y-6">
+      <div className="max-w-6xl mx-auto paddingX py-6 md:py-12 space-y-6">
         <header className="space-y-3 sr-only">
           <h1 className="text-3xl md:text-4xl font-bold">
             Bus Operators — Compare Companies & Book Tickets

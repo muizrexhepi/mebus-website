@@ -1002,5 +1002,30 @@
     "submissionSuccess": "Demande envoyée !",
     "submissionDescription": "Merci d'avoir postulé au programme d'affiliation GoBusly. Un e-mail de confirmation vous a été envoyé, et nous examinerons votre candidature sous 24 à 48 heures.",
     "returnToTop": "Retour en haut"
+  },
+  "operatorDetails": {
+    "overview": "Aperçu",
+    "verified": "Opérateur Vérifié",
+    "since": "Membre depuis",
+    "routes": "Routes Actives",
+    "country": "Code du Pays",
+    "trustedPartner": "Partenaire de Confiance",
+    "trustDescription": "{name} est un opérateur vérifié sur GoBusly. Tous les voyages incluent des options d'annulation gratuite.",
+    "availableRoutes": "Routes Disponibles",
+    "exploreRoutes": "Explorez les liaisons populaires par {name}",
+    "routesFound": "itinéraires trouvés",
+    "route": "Route",
+    "unavailable": "Indisponible",
+    "mainStation": "Gare Principale",
+    "direct": "Direct",
+    "ticketPrice": "Prix du Billet",
+    "check": "Vérifier",
+    "bookNow": "Réserver Maintenant",
+    "noRoutesTitle": "Aucune route active actuellement",
+    "noRoutesDescription": "Cet opérateur n'a aucun horaire actif publié pour le moment. Veuillez revenir plus tard.",
+    "browseOthers": "Parcourir d'autres opérateurs",
+    "backToOperators": "Retour à tous les opérateurs",
+    "checkPrice": "Vérifier le Prix",
+    "startingFrom": "À partir de"
   }
 }

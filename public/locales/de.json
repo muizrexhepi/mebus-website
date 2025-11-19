@@ -983,5 +983,30 @@
     "websiteTypeEmail": "E-Mail-Marketing",
     "websiteTypeOther": "Andere",
     "submit": "Bewerbung absenden"
+  },
+  "operatorDetails": {
+    "overview": "Übersicht",
+    "verified": "Verifizierter Betreiber",
+    "since": "Mitglied seit",
+    "routes": "Aktive Routen",
+    "country": "Ländercode",
+    "trustedPartner": "Vertrauenswürdiger Partner",
+    "trustDescription": "{name} ist ein verifizierter Betreiber bei GoBusly. Alle Fahrten beinhalten kostenlose Stornierungsmöglichkeiten.",
+    "availableRoutes": "Verfügbare Routen",
+    "exploreRoutes": "Entdecken Sie beliebte Verbindungen von {name}",
+    "routesFound": "Routen gefunden",
+    "route": "Route",
+    "unavailable": "Nicht verfügbar",
+    "mainStation": "Hauptbahnhof",
+    "direct": "Direkt",
+    "ticketPrice": "Ticketpreis",
+    "check": "Prüfen",
+    "bookNow": "Jetzt buchen",
+    "noRoutesTitle": "Derzeit keine aktiven Routen",
+    "noRoutesDescription": "Dieser Betreiber hat derzeit keine aktiven Fahrpläne veröffentlicht. Bitte versuchen Sie es später erneut.",
+    "browseOthers": "Andere Betreiber durchsuchen",
+    "backToOperators": "Zurück zu allen Betreibern",
+    "checkPrice": "Preis prüfen",
+    "startingFrom": "Ab"
   }
 }

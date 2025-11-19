@@ -1012,5 +1012,30 @@
     "submissionSuccess": "Aplikimi u dërgua!",
     "submissionDescription": "Faleminderit që aplikuat për Programin e Afiliatëve GoBusly. Kemi dërguar një email konfirmimi në kutinë tuaj të postës dhe do të shqyrtojmë aplikimin tuaj brenda 24-48 orëve.",
     "returnToTop": "Kthehu në krye"
+  },
+  "operatorDetails": {
+    "overview": "Përmbledhje",
+    "verified": "Operator i Verifikuar",
+    "since": "Anëtar Që Nga",
+    "routes": "Linja Aktive",
+    "country": "Kodi i Vendit",
+    "trustedPartner": "Partner i Besuar",
+    "trustDescription": "{name} është një operator i verifikuar në GoBusly. Të gjitha udhëtimet përfshijnë opsione anulimi falas.",
+    "availableRoutes": "Linja në Dispozicion",
+    "exploreRoutes": "Eksploro lidhjet popullore nga {name}",
+    "routesFound": "linja të gjetura",
+    "route": "Linja",
+    "unavailable": "Padisponueshëm",
+    "mainStation": "Stacioni Kryesor",
+    "direct": "I Drejtpërdrejtë",
+    "ticketPrice": "Çmimi i Biletës",
+    "check": "Kontrollo",
+    "bookNow": "Rezervo Tani",
+    "noRoutesTitle": "Asnjë linjë aktive aktualisht",
+    "noRoutesDescription": "Ky operator nuk ka asnjë orar aktiv të publikuar tani. Ju lutemi provoni përsëri më vonë.",
+    "browseOthers": "Shfleto operatorët e tjerë",
+    "backToOperators": "Kthehu te të gjithë operatorët",
+    "checkPrice": "Kontrollo Çmimin",
+    "startingFrom": "Duke filluar nga"
   }
 }

@@ -1016,5 +1016,30 @@
     "submissionSuccess": "Application Submitted!",
     "submissionDescription": "Thank you for applying to the GoBusly Affiliate Program. We've sent a confirmation email to your inbox and will review your application within 24-48 hours.",
     "returnToTop": "Return to Top"
+  },
+  "operatorDetails": {
+    "overview": "Overview",
+    "verified": "Verified Operator",
+    "since": "Member Since",
+    "routes": "Active Routes",
+    "country": "Country Code",
+    "trustedPartner": "Trusted Partner",
+    "trustDescription": "{name} is a verified operator on GoBusly. All trips include free cancellation options.",
+    "availableRoutes": "Available Routes",
+    "exploreRoutes": "Explore popular connections by {name}",
+    "routesFound": "routes found",
+    "route": "Route",
+    "unavailable": "Unavailable",
+    "mainStation": "Main Station",
+    "direct": "Direct",
+    "ticketPrice": "Ticket Price",
+    "check": "Check",
+    "bookNow": "Book Now",
+    "noRoutesTitle": "No routes currently active",
+    "noRoutesDescription": "This operator doesn't have any active schedules published right now. Please check back later.",
+    "browseOthers": "Browse other operators",
+    "backToOperators": "Back to all operators",
+    "checkPrice": "Check Price",
+    "startingFrom": "Starting from"
   }
 }

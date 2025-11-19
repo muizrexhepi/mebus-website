@@ -1022,5 +1022,30 @@
     "submissionSuccess": "Domanda inviata!",
     "submissionDescription": "Grazie per aver fatto domanda per il programma di affiliazione GoBusly. Ti abbiamo inviato un'e-mail di conferma e valuteremo la tua richiesta entro 24-48 ore.",
     "returnToTop": "Torna in cima"
+  },
+  "operatorDetails": {
+    "overview": "Panoramica",
+    "verified": "Operatore Verificato",
+    "since": "Membro Dal",
+    "routes": "Percorsi Attivi",
+    "country": "Codice Paese",
+    "trustedPartner": "Partner Affidabile",
+    "trustDescription": "{name} è un operatore verificato su GoBusly. Tutti i viaggi includono opzioni di cancellazione gratuita.",
+    "availableRoutes": "Percorsi Disponibili",
+    "exploreRoutes": "Esplora le connessioni popolari di {name}",
+    "routesFound": "percorsi trovati",
+    "route": "Percorso",
+    "unavailable": "Non Disponibile",
+    "mainStation": "Stazione Principale",
+    "direct": "Diretto",
+    "ticketPrice": "Prezzo del Biglietto",
+    "check": "Verifica",
+    "bookNow": "Prenota Ora",
+    "noRoutesTitle": "Nessun percorso attivo al momento",
+    "noRoutesDescription": "Questo operatore non ha orari attivi pubblicati in questo momento. Si prega di ricontrollare più tardi.",
+    "browseOthers": "Sfoglia altri operatori",
+    "backToOperators": "Torna a tutti gli operatori",
+    "checkPrice": "Verifica Prezzo",
+    "startingFrom": "A partire da"
   }
 }
