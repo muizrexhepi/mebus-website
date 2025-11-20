@@ -39,7 +39,16 @@ const capitalizeCity = (s: string) =>
     .join(" ");
 
 type PageProps = { params: { country: string } };
-type City = { name: string; country: string };
+
+// Updated City type to include station info
+type CityWithStations = {
+  cityName: string;
+  country: string;
+  stations: {
+    id: string;
+    name: string;
+  }[];
+};
 
 // =====================
 // Dynamic Metadata (RSC)
@@ -93,7 +102,7 @@ export async function generateMetadata({
 // =========================
 // Data fetch (API shape fix)
 // =========================
-async function getCities(countryName: string): Promise<City[]> {
+async function getCities(countryName: string): Promise<CityWithStations[]> {
   const apiBase =
     process.env.NEXT_PUBLIC_API_URL ??
     process.env.NEXT_PUBLIC_BASE_URL ??
@@ -104,13 +113,35 @@ async function getCities(countryName: string): Promise<City[]> {
   if (!res.ok) return [];
 
   const data = await res.json();
+  console.log({ qytetet: data.data.cities });
+
   const rawCities = data?.data?.cities;
   if (!rawCities || !Array.isArray(rawCities)) return [];
 
-  return rawCities.map((rawName: string) => ({
-    name: capitalizeCity(rawName),
-    country: countryName,
-  }));
+  // Group stations by city
+  const cityMap = new Map<string, CityWithStations>();
+
+  rawCities.forEach((station: any) => {
+    const cityName = capitalizeCity(station.city);
+    const stationName = capitalizeCity(station.name);
+
+    if (!cityMap.has(cityName)) {
+      cityMap.set(cityName, {
+        cityName,
+        country: countryName,
+        stations: [],
+      });
+    }
+
+    cityMap.get(cityName)!.stations.push({
+      id: station._id,
+      name: stationName,
+    });
+  });
+
+  return Array.from(cityMap.values()).sort((a, b) =>
+    a.cityName.localeCompare(b.cityName)
+  );
 }
 
 // ======================
@@ -214,15 +245,14 @@ export default async function CountryPage({ params }: PageProps) {
   const countryName = toTitleCaseFromSlug(countrySlug);
 
   const cities = await getCities(countryName);
-  const featured = cities
-    .slice()
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .slice(0, 24);
+  const featured = cities.slice(0, 24);
 
   // JSON-LD payloads
   const breadcrumbLD = breadcrumbJsonLd(base, countrySlug, countryName);
   const countryLD = countryJsonLd(base, countryName);
   const faqLD = faqJsonLd(countryName);
+
+  console.log({ cities });
 
   return (
     <div className="min-h-screen bg-[#f9fafb] pb-20 md:pb-0">
@@ -296,27 +326,6 @@ export default async function CountryPage({ params }: PageProps) {
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto paddingX py-12 space-y-12">
-        {/* Info Section */}
-        {/* <section className="bg-white rounded-2xl0 p-8 sm:p-10 shadow-sm hover:shadow transition-shadow">
-          <div className="flex items-start gap-4">
-            <div className="p-3 bg-gradient-to-br from-[#ff284d]/10 to-orange-100/30 rounded-xl">
-              <Bus className="w-6 h-6 text-[#ff284d]" />
-            </div>
-            <div className="flex-1 space-y-3">
-              <h2 className="text-2xl font-bold text-gray-900">
-                Travel by Bus in {countryName}
-              </h2>
-              <p className="text-gray-600 leading-relaxed">
-                Find intercity and cross-border routes, check today's departures
-                and book tickets online. Start by choosing a city below to see
-                domestic and international connections. Whether you're traveling
-                for business or leisure, we make bus travel simple and
-                affordable.
-              </p>
-            </div>
-          </div>
-        </section> */}
-
         {/* Cities Grid Section */}
         <section className="space-y-6">
           <div className="flex items-center justify-between">
@@ -337,34 +346,48 @@ export default async function CountryPage({ params }: PageProps) {
           </div>
 
           {featured.length === 0 ? (
-            <div className="bg-white rounded-2xl border border-gray-200 p-12 text-center">
+            <div className="bg-white rounded-lg border border-gray-200 p-12 text-center shadow-sm">
               <Bus className="w-16 h-16 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500">No cities available yet.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {featured.map((c) => {
-                const citySlugged = cityToSlug(c.name);
+              {featured.map((city) => {
+                const citySlugged = cityToSlug(city.cityName);
                 return (
                   <Link
-                    key={`${c.name}-${c.country}`}
+                    key={`${city.cityName}-${city.country}`}
                     prefetch
                     href={`/bus/${countrySlug}/${citySlugged}`}
-                    className="group bg-white rounded-lg shadow-sm p-4 hover:shadow transition-all duration-200"
+                    className="group bg-white rounded-lg border border-gray-100 shadow-sm p-4 hover:shadow-md hover:border-gray-200 transition-all duration-200"
                   >
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="flex items-center gap-3 flex-1 min-w-0">
-                        <MapPin className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex items-start gap-3 flex-1 min-w-0">
+                        <div className="p-2 bg-gray-50 rounded-lg mt-0.5">
+                          <MapPin className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                        </div>
                         <div className="flex-1 min-w-0">
-                          <h4 className="font-medium text-gray-900 truncate capitalize">
-                            {c.name}
+                          <h4 className="font-semibold text-gray-900 mb-1 capitalize">
+                            {city.cityName}
                           </h4>
-                          <p className="text-sm text-gray-500">
-                            <p className="text-sm text-gray-500">View routes</p>
-                          </p>
+                          <div className="space-y-0.5">
+                            {city.stations.slice(0, 2).map((station) => (
+                              <p
+                                key={station.id}
+                                className="text-xs text-gray-500 truncate capitalize"
+                              >
+                                {station.name}
+                              </p>
+                            ))}
+                            {city.stations.length > 2 && (
+                              <p className="text-xs text-gray-400">
+                                +{city.stations.length - 2} more
+                              </p>
+                            )}
+                          </div>
                         </div>
                       </div>
-                      <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-primary-accent group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+                      <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-primary-accent group-hover:translate-x-0.5 transition-all flex-shrink-0 mt-1" />
                     </div>
                   </Link>
                 );
@@ -374,33 +397,21 @@ export default async function CountryPage({ params }: PageProps) {
         </section>
 
         {/* CTA Section */}
-        <section className="bg-white rounded-2xl p-8 sm:p-12 text-black shadow-xl">
+        <section className="bg-gradient-to-br from-primary-accent to-orange-500 rounded-2xl p-8 sm:p-12 text-white shadow-lg">
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <h2 className="text-3xl sm:text-4xl font-bold">
               Ready to Book Your Journey?
             </h2>
-            <p className="text-lg text-black/90">
+            <p className="text-lg text-white/90">
               Find the best bus routes, compare prices, and book your tickets in
               seconds. Travel across {countryName} with confidence.
             </p>
             <Link
               href="/"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-primary-accent text-white rounded-xl font-semibold hover:shadow-2xl hover:scale-105 transition-all"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary-accent rounded-lg font-semibold hover:shadow-xl hover:scale-105 transition-all"
             >
               Search Routes
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 7l5 5m0 0l-5 5m5-5H6"
-                />
-              </svg>
+              <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
         </section>

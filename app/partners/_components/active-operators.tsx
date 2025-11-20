@@ -34,7 +34,7 @@ const OperatorCard: React.FC<{ operator: Operator }> = ({ operator }) => (
     <Card
       className="h-full border-none bg-white rounded-xl shadow-sm 
                      transition-all duration-200 ease-in-out
-                     hover:shadow-md hover:border-primary/40 focus-visible:ring-2 focus-visible:ring-primary/50 flex flex-col"
+                      flex flex-col"
     >
       <CardContent className="p-6 flex flex-col items-center text-center flex-1">
         {/* Logo/Avatar */}
@@ -62,11 +62,11 @@ const OperatorCard: React.FC<{ operator: Operator }> = ({ operator }) => (
               {operator.company_metadata?.country || "Worldwide"}
             </span>
           </div>
-          <span className="text-gray-300">•</span>
+          {/* <span className="text-gray-300">•</span>
           <div className="flex items-center text-amber-500">
             <Star className="w-3.5 h-3.5 mr-1 fill-amber-400 stroke-amber-500" />
-            <span>4.8</span> {/* Static rating for now */}
-          </div>
+            <span>4.8</span>
+          </div> */}
         </div>
 
         {/* Verified Badge */}
@@ -83,24 +83,22 @@ const OperatorCard: React.FC<{ operator: Operator }> = ({ operator }) => (
       {/* Subtle "See More" Call to Action */}
       <div
         className="w-full text-center py-3 border-t border-gray-100 text-sm font-medium text-primary-light 
-                      group-hover:bg-primary/5 group-hover:text-primary transition-colors duration-200 flex items-center justify-center"
+                      transition-colors duration-200 flex items-center justify-center"
       >
         See Details{" "}
-        <ArrowRight className="w-3.5 h-3.5 ml-2 transition-transform group-hover:translate-x-1" />
+        <ArrowRight className="w-3.5 h-3.5 ml-2 transition-transform group-hover:translate-x-1 group-hover:text-primary-accent" />
       </div>
     </Card>
   </Link>
 );
 
-// --- Active Operators Directory Component ---
 const ActiveOperators: React.FC<{ operators: Operator[] }> = ({
   operators,
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("all");
-  const [isLoading, setIsLoading] = useState(false); // Simulate loading for better UX
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Extract and sort unique countries
   const countries = useMemo(() => {
     return Array.from(
       new Set(operators.map((op) => op.company_metadata?.country))
