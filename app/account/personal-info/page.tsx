@@ -25,15 +25,20 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import axios from "axios";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function PersonalInfo() {
   const { user, loading, updateUserInfo } = useAuth();
   const [editingInfo, setEditingInfo] = useState<any>(null);
   const [editedValue, setEditedValue] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | undefined>();
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const { toast } = useToast();
   const { t } = useTranslation();
+  const router = useRouter();
 
   const PERSONAL_INFO = [
     {
@@ -102,6 +107,8 @@ export default function PersonalInfo() {
     },
   ];
 
+
+
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEditedValue(e.target.value);
   };
@@ -118,98 +125,127 @@ export default function PersonalInfo() {
     }
   };
 
-  return (
-    <div className="container max-w-3xl mx-auto">
-      <div className="space-y-8">
-        <h1 className="text-3xl font-medium mb-4">{t("personalInfo.title")}</h1>
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    console.log({ user });
 
-        <div className="space-y-6">
-          <div className="">
-            <h2 className="text-xl font-medium">
-              {t("personalInfo.mainPassenger")}
-            </h2>
-            <p className="text-sm text-muted-foreground mt-1">
-              {t("personalInfo.addDetails")}
-            </p>
-          </div>
-          <div className="bg-blue-50 text-blue-800/80 flex items-center gap-2 rounded-lg p-3 border border-blue-800">
-            <Info className="size-5" color="#1e40af" />
-            <p className="text-sm font-medium">{t("personalInfo.matchID")}</p>
-          </div>
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/delete/${user?._id}`);
+
+      if (response.data.message !== "User account deleted successfully.") {
+        return;
+      }
+      await signOut({ redirect: false });
+      router.push("/");
+    } catch (error: any) {
+      console.log({ error });
+      toast({
+        description: error?.response.data.message || t("personalInfo.deleteError"),
+        variant: "destructive"
+      });
+    } finally {
+      setIsDeleting(false);
+      setShowDeleteDialog(false);
+    }
+  };
+
+  return (
+    <>
+      <div className="container max-w-3xl mx-auto">
+        <div className="space-y-8">
+          <h1 className="text-3xl font-medium mb-4">{t("personalInfo.title")}</h1>
 
           <div className="space-y-6">
-            {PERSONAL_INFO?.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-start justify-between py-2"
-              >
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium text-sm text-muted-foreground">
-                      {item.label}
-                    </span>
-                    {item.tooltip && (
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger>
-                            <Info className="h-4 w-4 text-muted-foreground" />
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>{item.tooltip}</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    )}
-                  </div>
-                  <div className="text-base">
-                    {loading ? <Skeleton className="w-24 h-5" /> : item.value}
-                  </div>
-                </div>
-                {item.editable ? (
-                  <button
-                    className="text-transparent bg-clip-text text-sm button-gradient"
-                    onClick={() => {
-                      setEditingInfo(item);
-                      setEditedValue(item.value);
-                    }}
-                  >
-                    {item.action}
-                  </button>
-                ) : (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-muted-foreground"
-                    disabled
-                  >
-                    {item.action}
-                  </Button>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
+            <div className="">
+              <h2 className="text-xl font-medium">
+                {t("personalInfo.mainPassenger")}
+              </h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                {t("personalInfo.addDetails")}
+              </p>
+            </div>
+            <div className="bg-blue-50 text-blue-800/80 flex items-center gap-2 rounded-lg p-3 border border-blue-800">
+              <Info className="size-5" color="#1e40af" />
+              <p className="text-sm font-medium">{t("personalInfo.matchID")}</p>
+            </div>
 
-        <div className="space-y-4 pt-8">
-          <h2 className="text-xl font-medium">
-            {t("personalInfo.deleteAccount")}
-          </h2>
-          <div className="space-y-2">
-            <p className="text-sm text-muted-foreground">
-              {t("personalInfo.contactSupport")}
-            </p>
-            <p className="text-sm">
-              {t("personalInfo.visitContactPage")}{" "}
-              <a
-                href="/help"
-                className="text-transparent bg-clip-text text-sm button-gradient hover:underline"
-              >
-                support.gobusly.com
-              </a>
-            </p>
+            <div className="space-y-6">
+              {PERSONAL_INFO?.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex items-start justify-between py-2"
+                >
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-sm text-muted-foreground">
+                        {item.label}
+                      </span>
+                      {item.tooltip && (
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <Info className="h-4 w-4 text-muted-foreground" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>{item.tooltip}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      )}
+                    </div>
+                    <div className="text-base">
+                      {loading ? <Skeleton className="w-24 h-5" /> : item.value}
+                    </div>
+                  </div>
+                  {item.editable ? (
+                    <button
+                      className="text-transparent bg-clip-text text-sm button-gradient"
+                      onClick={() => {
+                        setEditingInfo(item);
+                        setEditedValue(item.value);
+                      }}
+                    >
+                      {item.action}
+                    </button>
+                  ) : (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-muted-foreground"
+                      disabled
+                    >
+                      {item.action}
+                    </Button>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-4 pt-8">
+            <h2 className="text-xl font-medium">
+              {t("personalInfo.deleteAccount")}
+            </h2>
+            <Button variant={"primary"} onClick={() => setShowDeleteDialog(true)}>
+              {t("personalInfo.deleteAccount")}
+            </Button>
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground">
+                {t("personalInfo.contactSupport")}
+              </p>
+              <p className="text-sm">
+                {t("personalInfo.visitContactPage")}{" "}
+                <a
+                  href="/help"
+                  className="text-transparent bg-clip-text text-sm button-gradient hover:underline"
+                >
+                  support.gobusly.com
+                </a>
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      </div >
 
       <Dialog
         open={editingInfo !== null}
@@ -251,6 +287,25 @@ export default function PersonalInfo() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+
+      <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("personalInfo.deleteAccount")}</DialogTitle>
+            <DialogDescription>
+              {t("personalInfo.deleteConfirmation") || "Are you sure you want to delete your account? This action cannot be undone."}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setShowDeleteDialog(false)} disabled={isDeleting}>
+              {t("personalInfo.cancel")}
+            </Button>
+            <Button variant="destructive" onClick={handleDelete} disabled={isDeleting}>
+              {isDeleting ? t("personalInfo.deleting") || "Deleting..." : t("personalInfo.deleteAccount")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
