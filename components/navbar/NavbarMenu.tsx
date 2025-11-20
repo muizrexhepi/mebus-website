@@ -173,13 +173,10 @@ const NavbarMenu = () => {
     </div>
   );
 
-  // --- Desktop Content ---
   const DesktopMenuContent = (
     <div className="py-2">
-      {/* Auth Buttons - Using standard button variants */}
       <div className="px-3 pt-1 pb-3 space-y-2">
         <Button
-          // Use variant="outline"
           variant="outline"
           className="w-full h-9 rounded-lg font-medium border border-gray-200 hover:bg-gray-50 text-gray-700"
           onClick={handleLogin}
@@ -187,14 +184,8 @@ const NavbarMenu = () => {
           {t("auth.login")}
         </Button>
         <Button
-          // Use standard primary (default) variant
-          variant="default"
+          variant="primary"
           className="w-full h-9 rounded-lg font-semibold"
-          // Keeping gradient style for primary CTA
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, var(--color-rose-500), var(--color-orange-500))",
-          }}
           onClick={handleSignUp}
         >
           {t("auth.signUp")}

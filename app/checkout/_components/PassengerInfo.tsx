@@ -19,8 +19,6 @@ import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import PhoneInput from "./PhoneInput";
-import { Country } from "@/constants/country";
 
 interface InputFieldProps {
   label: string;
@@ -31,18 +29,8 @@ interface InputFieldProps {
   required: boolean;
   error?: string;
   onBlur: () => void;
-}
-
-interface PhoneFieldProps {
-  label: string;
-  placeholder: string;
-  value: string;
-  countryCode: string;
-  onChange: (value: string) => void;
-  onCountryChange: (country: Country) => void;
-  required: boolean;
-  error?: string;
-  onBlur: () => void;
+  // Added inputMode to force numeric keyboard on mobile
+  inputMode?: "text" | "numeric" | "tel" | "search" | "email" | "url";
 }
 
 type ValidationErrors = {
@@ -58,6 +46,7 @@ const InputField: React.FC<InputFieldProps> = ({
   required,
   error,
   onBlur,
+  inputMode,
 }) => {
   const handleDateChange = (date: Date | null) => {
     if (date) {
@@ -68,8 +57,8 @@ const InputField: React.FC<InputFieldProps> = ({
     }
   };
 
-  const handleInputChange = (value: string) => {
-    onChange(value);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.value);
   };
 
   return (
@@ -95,70 +84,21 @@ const InputField: React.FC<InputFieldProps> = ({
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
+            {/* Datepicker styles omitted for brevity, same as before */}
             <style>
               {`
-                .react-datepicker {
-                  font-family: inherit;
-                  border: none;
-                  border-radius: 0.5rem;
-                  overflow: hidden;
-                }
-                .react-datepicker__header {
-                  background-color: white;
-                  border-bottom: 1px solid #e2e8f0;
-                  padding-top: 1rem;
-                  display: flex;
-                  flex-direction: column;
-                  align-items: center;
-                  gap: 0.5rem;
-                }
-                .react-datepicker__current-month {
-                  font-weight: 600;
-                  font-size: 1rem;
-                  margin-bottom: 0.5rem;
-                }
-                .react-datepicker__day-name {
-                  color: #64748b;
-                  font-weight: 500;
-                  width: 2.5rem;
-                  margin: 0.2rem;
-                }
-                .react-datepicker__day {
-                  width: 2.5rem;
-                  height: 2.5rem;
-                  line-height: 2.5rem;
-                  margin: 0.2rem;
-                  border-radius: 0.375rem;
-                  color: #1e293b;
-                }
-                .react-datepicker__day:hover {
-                  background-color: #f1f5f9;
-                }
-                .react-datepicker__day--selected {
-                  background-color: hsl(var(--primary)) !important;
-                  color: white !important;
-                }
-                .react-datepicker__day--keyboard-selected {
-                  background-color: hsl(var(--primary)) !important;
-                  color: white !important;
-                }
-                .react-datepicker__navigation {
-                  top: 1rem;
-                }
-                .react-datepicker__navigation-icon::before {
-                  border-color: #64748b;
-                }
-                .react-datepicker__year-dropdown-container,
-                .react-datepicker__month-dropdown-container {
-                  margin: 0 0.5rem;
-                }
-                .react-datepicker__month-select,
-                .react-datepicker__year-select {
-                  padding: 0.25rem;
-                  border-radius: 0.375rem;
-                  border: 1px solid #e2e8f0;
-                  background-color: white;
-                }
+                .react-datepicker { font-family: inherit; border: none; border-radius: 0.5rem; overflow: hidden; }
+                .react-datepicker__header { background-color: white; border-bottom: 1px solid #e2e8f0; padding-top: 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+                .react-datepicker__current-month { font-weight: 600; font-size: 1rem; margin-bottom: 0.5rem; }
+                .react-datepicker__day-name { color: #64748b; font-weight: 500; width: 2.5rem; margin: 0.2rem; }
+                .react-datepicker__day { width: 2.5rem; height: 2.5rem; line-height: 2.5rem; margin: 0.2rem; border-radius: 0.375rem; color: #1e293b; }
+                .react-datepicker__day:hover { background-color: #f1f5f9; }
+                .react-datepicker__day--selected { background-color: hsl(var(--primary)) !important; color: white !important; }
+                .react-datepicker__day--keyboard-selected { background-color: hsl(var(--primary)) !important; color: white !important; }
+                .react-datepicker__navigation { top: 1rem; }
+                .react-datepicker__navigation-icon::before { border-color: #64748b; }
+                .react-datepicker__year-dropdown-container, .react-datepicker__month-dropdown-container { margin: 0 0.5rem; }
+                .react-datepicker__month-select, .react-datepicker__year-select { padding: 0.25rem; border-radius: 0.375rem; border: 1px solid #e2e8f0; background-color: white; }
               `}
             </style>
             <DatePicker
@@ -180,44 +120,19 @@ const InputField: React.FC<InputFieldProps> = ({
       ) : (
         <Input
           type={type}
+          inputMode={inputMode} // Pass inputMode to the input
           className={`font-normal text-black rounded-lg h-12 bg-primary-bg/5 p-2 ${
             error ? "border-none bg-red-500/10" : "border-none"
           }`}
           placeholder={placeholder}
           value={value as string}
           onBlur={onBlur}
-          onChange={(e) => handleInputChange(e.target.value)}
+          onChange={handleInputChange}
           required={required}
         />
       )}
       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
     </div>
-  );
-};
-
-const PhoneField: React.FC<PhoneFieldProps> = ({
-  label,
-  placeholder,
-  value,
-  countryCode,
-  onChange,
-  onCountryChange,
-  required,
-  error,
-  onBlur,
-}) => {
-  return (
-    <PhoneInput
-      label={label}
-      placeholder={placeholder}
-      value={value}
-      countryCode={countryCode}
-      onChange={onChange}
-      onCountryChange={onCountryChange}
-      required={required}
-      error={error}
-      onBlur={onBlur}
-    />
   );
 };
 
@@ -253,8 +168,9 @@ const PassengerInfo: React.FC = () => {
           first_name: "",
           last_name: "",
           email: "",
-          phone: "",
-          countryCode: "+389", // Default to North Macedonia
+          // 1. Default to "+"
+          phone: "+",
+          countryCode: "",
           birthdate: "",
           age: i < adults ? 33 : 0,
           price: 0,
@@ -264,7 +180,8 @@ const PassengerInfo: React.FC = () => {
           return {
             ...basePassenger,
             ...existingPassenger,
-            countryCode: existingPassenger.countryCode || "+389",
+            // Ensure existing passengers have at least a +
+            phone: existingPassenger.phone || "+",
           };
         }
 
@@ -275,8 +192,8 @@ const PassengerInfo: React.FC = () => {
             first_name: firstName,
             last_name: lastName,
             email: user.email || "",
-            phone: user.phone || "",
-            countryCode: user.countryCode || "+389",
+            phone: user.phone || "+",
+            countryCode: user.countryCode || "",
           };
         }
 
@@ -286,21 +203,15 @@ const PassengerInfo: React.FC = () => {
     [adults, passengers, user, useUserInfo]
   );
 
-  // Handle passenger count changes - fix for race condition
   useEffect(() => {
     const newPassengerCount = totalPassengers;
-
-    // Only update if the count actually changed or if passengers array is empty
     if (passengers.length !== newPassengerCount) {
       const newPassengers = initializePassengers(newPassengerCount);
       setPassengers(newPassengers);
-
-      // Reset validation errors for new passenger count
       setValidationErrors(Array(newPassengerCount).fill({}));
     }
   }, [totalPassengers, initializePassengers, setPassengers, passengers.length]);
 
-  // Handle user info toggle for main passenger
   useEffect(() => {
     if (!user || passengers.length === 0) return;
 
@@ -308,26 +219,23 @@ const PassengerInfo: React.FC = () => {
     const firstPassenger = updatedPassengers[0];
 
     if (useUserInfo) {
-      // Fill with user data
       const [firstName = "", lastName = ""] = user.name?.split(" ") || [];
       updatedPassengers[0] = {
         ...firstPassenger,
         first_name: firstName,
         last_name: lastName,
         email: user.email || firstPassenger.email,
-        phone: user.phone || firstPassenger.phone,
-        countryCode: user.countryCode || firstPassenger.countryCode || "+389",
+        phone: user.phone || firstPassenger.phone || "+",
       };
     } else {
-      // Clear user-specific data but keep manually entered data
       if (firstPassenger.first_name === user.name?.split(" ")[0]) {
         updatedPassengers[0] = {
           ...firstPassenger,
           first_name: "",
           last_name: "",
           email: "",
-          phone: "",
-          countryCode: "+389",
+          phone: "+",
+          countryCode: "",
         };
       }
     }
@@ -336,17 +244,10 @@ const PassengerInfo: React.FC = () => {
   }, [useUserInfo, user, setPassengers]);
 
   const updatePassenger = useCallback(
-    (index: number, field: keyof PassengerData, value: string | Country) => {
+    (index: number, field: keyof PassengerData, value: string) => {
       const updatedPassengers = [...passengers];
 
-      if (field === "countryCode" && typeof value === "object") {
-        // Handle country selection from Country object
-        updatedPassengers[index] = {
-          ...updatedPassengers[index],
-          countryCode: value.dialCode,
-        };
-      } else if (field === "birthdate" && typeof value === "string") {
-        // Handle birthdate and calculate age
+      if (field === "birthdate" && typeof value === "string") {
         const birthDate = new Date(value);
         const today = new Date();
         let age = today.getFullYear() - birthDate.getFullYear();
@@ -362,7 +263,7 @@ const PassengerInfo: React.FC = () => {
           birthdate: value,
           age: age,
         };
-      } else if (typeof value === "string") {
+      } else {
         updatedPassengers[index] = {
           ...updatedPassengers[index],
           [field]: value,
@@ -389,7 +290,6 @@ const PassengerInfo: React.FC = () => {
 
       let errorMessage = "";
 
-      // Basic validation rules
       switch (field) {
         case "first_name":
         case "last_name":
@@ -410,7 +310,9 @@ const PassengerInfo: React.FC = () => {
           }
           break;
         case "phone":
-          if (!passengerData[field] || passengerData[field].trim().length < 8) {
+          // Only check if length is less than 8 (considering the + takes 1 char)
+          // So essentially roughly 7 digits
+          if (!passengerData[field] || passengerData[field].length < 8) {
             errorMessage = t(
               "validation.phoneInvalid",
               "Please enter a valid phone number"
@@ -460,6 +362,28 @@ const PassengerInfo: React.FC = () => {
     },
     [adults, children, setPassengersAmount]
   );
+
+  // 2. Strict filter to allow only numbers and ensure '+' stays at start
+  const handlePhoneChange = (index: number, value: string) => {
+    // Remove any character that is NOT a digit or a +
+    let cleaned = value.replace(/[^0-9+]/g, "");
+
+    // If the user somehow deleted the +, put it back at the start
+    if (!cleaned.startsWith("+")) {
+      // If they typed "389...", convert to "+389..."
+      cleaned = "+" + cleaned.replace(/\+/g, "");
+    } else {
+      // Keep the first +, remove any others that might have been pasted in middle
+      cleaned = "+" + cleaned.slice(1).replace(/\+/g, "");
+    }
+
+    // If somehow it becomes empty (e.g. select all + delete), reset to "+"
+    if (cleaned === "") {
+      cleaned = "+";
+    }
+
+    updatePassenger(index, "phone", cleaned);
+  };
 
   const renderPassengerInputs = (index: number, isChild: boolean) => {
     const passenger = passengers[index];
@@ -538,16 +462,14 @@ const PassengerInfo: React.FC = () => {
                 required
               />
 
-              <PhoneField
+              <InputField
                 label={t("passengerInfo.phoneNumber")}
-                placeholder={t("passengerInfo.phoneNumberPlaceholder")}
+                placeholder="+389 70 123 456"
+                type="tel"
+                inputMode="numeric" // 3. Show numeric keypad on mobile
                 value={passenger.phone}
-                countryCode={passenger.countryCode || "+389"}
-                onChange={(value) => updatePassenger(index, "phone", value)}
-                onCountryChange={(country) =>
-                  updatePassenger(index, "countryCode", country)
-                }
                 onBlur={() => validatePassenger(index, "phone")}
+                onChange={(value) => handlePhoneChange(index, value)}
                 error={errors.phone}
                 required
               />
@@ -571,8 +493,8 @@ const PassengerInfo: React.FC = () => {
     );
   };
 
-  // Render loading state while passengers are being initialized
   if (passengers.length !== totalPassengers) {
+    // ... (Loading skeleton code same as before)
     return (
       <div className="flex flex-col bg-white rounded-xl p-4 gap-2">
         <div className="flex items-center gap-4">
@@ -603,6 +525,7 @@ const PassengerInfo: React.FC = () => {
 
   return (
     <div className="flex flex-col bg-white rounded-xl p-4 gap-4">
+      {/* ... Header ... */}
       <div className="flex items-center gap-4">
         <span className="flex items-center justify-center w-8 h-8 bg-secondary-bg/20 text-primary-bg rounded-full font-semibold">
           1

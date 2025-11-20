@@ -50,6 +50,8 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
         setOutboundTicket(ticket);
       }
       if (tripType === "round-trip") {
+        // IMPORTANT: Reset loading state before switching to return selection
+        setIsLoading(false);
         setIsSelectingReturn(true);
       } else {
         router.push(`/checkout`);

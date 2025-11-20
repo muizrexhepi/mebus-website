@@ -12,7 +12,7 @@ export const LoginDialog = () => {
   const { setOpenLogin, openLogin } = useNavbarStore();
 
   return (
-    <Dialog open={openLogin} onOpenChange={() => setOpenLogin(false)}>
+    <Dialog open={openLogin} onOpenChange={setOpenLogin}>
       <DialogContent className="md:max-w-[700px] p-0 h-screen md:h-fit">
         <DialogTitle aria-readonly className="hidden">
           Login Dialog

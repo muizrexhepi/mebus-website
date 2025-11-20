@@ -628,10 +628,10 @@ const TicketList: React.FC = () => {
       } else {
         setOutboundTicket(ticket as any);
         if (tripType === "round-trip" && searchParameters.returnDate) {
+          // IMPORTANT: Reset loading state before switching to return selection
           setIsLoading(false);
           setIsSelectingReturn(true);
         } else {
-          setIsLoading(false);
           router.push("/checkout");
         }
       }

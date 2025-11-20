@@ -1,11 +1,9 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
-import RegisterForm from "../forms/RegisterForm";
-import ResetPasswordForm from "../forms/ResetForm";
-import { LoginDialog } from "../dialogs/login-dialog";
 import axios from "axios";
 
+// ... (Keep Interface and useAuth same as before) ...
 interface AuthContextProps {
   user: any;
   isAuthenticated: boolean;
@@ -68,6 +66,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       ...updatedInfo,
     }));
   };
+
   return (
     <AuthContext.Provider
       value={{
@@ -78,9 +77,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         updateUserInfo,
       }}
     >
-      <LoginDialog />
-      <RegisterForm />
-      <ResetPasswordForm />
+      {/* REMOVED DIALOGS FROM HERE */}
       {children}
     </AuthContext.Provider>
   );

@@ -171,9 +171,9 @@ const StationSelect: React.FC<CustomSelectProps> = ({
 
   useEffect(() => {
     if (departure === "from" && fromCity) {
-      setSearchTerm(fromCity);
+      setSearchTerm(decodeURIComponent(fromCity));
     } else if (departure === "to" && toCity) {
-      setSearchTerm(toCity);
+      setSearchTerm(decodeURIComponent(toCity));
     }
   }, [departure, fromCity, toCity]);
 

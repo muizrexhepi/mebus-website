@@ -6,6 +6,11 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { StationProvider } from "./station-provider";
 import { SessionProvider } from "next-auth/react";
 
+// Import your dialogs here
+import RegisterForm from "../forms/RegisterForm";
+import ResetPasswordForm from "../forms/ResetForm";
+import { LoginDialog } from "../dialogs/login-dialog";
+
 const AuthProvider = dynamic(() => import("./auth-provider"), { ssr: false });
 
 interface ClientProvidersProps {
@@ -23,6 +28,11 @@ export default function ClientProviders({ children }: ClientProvidersProps) {
             enableSystem
             disableTransitionOnChange
           >
+            {/* Place Dialogs Here - Global Level */}
+            <LoginDialog />
+            <RegisterForm />
+            <ResetPasswordForm />
+
             {children}
           </ThemeProvider>
         </StationProvider>
