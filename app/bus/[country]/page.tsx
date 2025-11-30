@@ -11,36 +11,32 @@ import {
 } from "lucide-react";
 import Footer from "@/components/Footer";
 
-// =====================
-// Config (Next.js 15.15)
-// =====================
-export const revalidate = 60 * 60 * 12; // ISR: 12h
+export const revalidate = 60 * 60 * 12; // 12h
 
-// ============
-// Util helpers
-// ============
-const toTitleCaseFromSlug = (s: string) =>
+// ----------------------
+// Util Helpers
+// ----------------------
+const toTitleCaseFromSlug = (s: string = "") =>
   s
     .split("-")
-    .map((w) => (w ? w[0].toUpperCase() + w.slice(1) : w))
+    .map((w) => (w ? w[0].toUpperCase() + w.slice(1) : ""))
     .join(" ");
 
-const cityToSlug = (name: string) =>
+const cityToSlug = (name: string = "") =>
   name
     .trim()
     .toLowerCase()
     .replace(/\s+/g, "-")
     .replace(/[^a-z0-9-]/g, "");
 
-const capitalizeCity = (s: string) =>
-  s
+const capitalizeCity = (s?: string) =>
+  (s ?? "")
     .split(/-| /g)
-    .map((w) => (w ? w[0].toUpperCase() + w.slice(1) : w))
+    .map((w) => (w ? w[0].toUpperCase() + w.slice(1) : ""))
     .join(" ");
 
 type PageProps = { params: { country: string } };
 
-// Updated City type to include station info
 type CityWithStations = {
   cityName: string;
   country: string;
@@ -50,21 +46,62 @@ type CityWithStations = {
   }[];
 };
 
-// =====================
-// Dynamic Metadata (RSC)
-// =====================
+// ----------------------
+// Fetch Cities (SAFE)
+// ----------------------
+async function getCities(countryName: string): Promise<CityWithStations[]> {
+  const apiBase = process.env.NEXT_PUBLIC_API_URL || "https://www.gobusly.com"; // much safer fallback
+
+  const url = `${apiBase}/seo/country/${encodeURIComponent(countryName)}`;
+
+  const res = await fetch(url, { next: { revalidate } });
+  if (!res.ok) return [];
+
+  const data = await res.json();
+  const rawCities = data?.data?.cities;
+
+  if (!rawCities || !Array.isArray(rawCities)) return [];
+
+  const cityMap = new Map<string, CityWithStations>();
+
+  rawCities.forEach((station: any) => {
+    const cityName = capitalizeCity(station?.city ?? "");
+    const stationName = capitalizeCity(station?.station_name ?? "");
+
+    if (!cityName) return; // ignore broken API entries
+
+    if (!cityMap.has(cityName)) {
+      cityMap.set(cityName, {
+        cityName,
+        country: countryName,
+        stations: [],
+      });
+    }
+
+    if (stationName) {
+      cityMap.get(cityName)!.stations.push({
+        id: station?._id ?? "",
+        name: stationName,
+      });
+    }
+  });
+
+  return Array.from(cityMap.values()).filter((c) => c.cityName.trim() !== "");
+}
+
+// ----------------------
+// Metadata
+// ----------------------
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const countryName = toTitleCaseFromSlug(params.country);
+
   const base = process.env.NEXT_PUBLIC_BASE_URL ?? "https://www.gobusly.com";
   const canonical = `${base}/bus/${params.country}`;
 
   const title = `Bus Tickets in ${countryName} – Routes, Cities & Booking`;
-  const description =
-    `GoBusly is a Balkan intercity bus search & booking platform. ` +
-    `Compare schedules, operators and prices across ${countryName}. ` +
-    `Find popular routes, city connections and book securely online.`;
+  const description = `GoBusly helps you compare schedules, operators and prices across ${countryName}.`;
 
   return {
     title,
@@ -92,61 +129,12 @@ export async function generateMetadata({
       description,
       images: [`${base}/og-image.png`],
     },
-    other: {
-      "mobile-web-app-capable": "yes",
-      "apple-mobile-web-app-capable": "yes",
-    },
   };
 }
 
-// =========================
-// Data fetch (API shape fix)
-// =========================
-async function getCities(countryName: string): Promise<CityWithStations[]> {
-  const apiBase =
-    process.env.NEXT_PUBLIC_API_URL ??
-    process.env.NEXT_PUBLIC_BASE_URL ??
-    "https://www.gobusly.com";
-
-  const url = `${apiBase}/seo/country/${encodeURIComponent(countryName)}`;
-  const res = await fetch(url, { next: { revalidate } });
-  if (!res.ok) return [];
-
-  const data = await res.json();
-  console.log({ qytetet: data.data.cities });
-
-  const rawCities = data?.data?.cities;
-  if (!rawCities || !Array.isArray(rawCities)) return [];
-
-  // Group stations by city
-  const cityMap = new Map<string, CityWithStations>();
-
-  rawCities.forEach((station: any) => {
-    const cityName = capitalizeCity(station.city);
-    const stationName = capitalizeCity(station.name);
-
-    if (!cityMap.has(cityName)) {
-      cityMap.set(cityName, {
-        cityName,
-        country: countryName,
-        stations: [],
-      });
-    }
-
-    cityMap.get(cityName)!.stations.push({
-      id: station._id,
-      name: stationName,
-    });
-  });
-
-  return Array.from(cityMap.values()).sort((a, b) =>
-    a.cityName.localeCompare(b.cityName)
-  );
-}
-
-// ======================
-// Schema JSON-LD helpers
-// ======================
+// ----------------------
+// JSON-LD Helpers
+// ----------------------
 function breadcrumbJsonLd(
   base: string,
   countrySlug: string,
@@ -177,28 +165,11 @@ function countryJsonLd(base: string, countryName: string) {
     "@context": "https://schema.org",
     "@type": "TouristDestination",
     name: countryName,
-    description: `Intercity bus travel in ${countryName}: routes, schedules and booking via GoBusly.`,
-    touristType: "Bus travel",
-    url: base,
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `${base}/bus/${countryName.toLowerCase().replace(/\s+/g, "-")}`,
-    },
+    description: `Intercity bus travel in ${countryName}.`,
     provider: {
       "@type": "TravelAgency",
       name: "GoBusly",
       url: base,
-      alternateName: ["Go Busly", "GoBusly.com"],
-      serviceType: "Bus Transportation Booking",
-      areaServed: [{ "@type": "Country", name: countryName }],
-      description:
-        "GoBusly is a Balkan intercity bus search & booking platform. Compare schedules, operators and prices across Europe and the Balkans.",
-      logo: {
-        "@type": "ImageObject",
-        url: `${base}/assets/images/logo.png`,
-        width: 400,
-        height: 400,
-      },
     },
   };
 }
@@ -213,50 +184,33 @@ function faqJsonLd(countryName: string) {
         name: `Where can I book bus tickets in ${countryName}?`,
         acceptedAnswer: {
           "@type": "Answer",
-          text: `You can compare schedules, operators and prices and book securely on GoBusly.`,
-        },
-      },
-      {
-        "@type": "Question",
-        name: `What are the most popular bus routes in ${countryName}?`,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: `Popular routes vary by season. Browse the city list on this page and open any city to see domestic and international connections.`,
-        },
-      },
-      {
-        "@type": "Question",
-        name: `Does GoBusly cover international routes from ${countryName}?`,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: `Yes—GoBusly covers cross-border routes across Europe and the Balkans when available.`,
+          text: `You can compare schedules and book securely on GoBusly.`,
         },
       },
     ],
   };
 }
 
-// ===============
-// Page (RSC)
-// ===============
+// ----------------------
+// Page Component
+// ----------------------
 export default async function CountryPage({ params }: PageProps) {
   const base = process.env.NEXT_PUBLIC_BASE_URL ?? "https://www.gobusly.com";
   const countrySlug = params.country;
   const countryName = toTitleCaseFromSlug(countrySlug);
 
   const cities = await getCities(countryName);
-  const featured = cities.slice(0, 24);
 
-  // JSON-LD payloads
+  // avoid hydration mismatch: only use valid cities
+  const featured = cities.filter((c) => c.cityName.trim() !== "");
+
   const breadcrumbLD = breadcrumbJsonLd(base, countrySlug, countryName);
   const countryLD = countryJsonLd(base, countryName);
   const faqLD = faqJsonLd(countryName);
 
-  console.log({ cities });
-
   return (
     <div className="min-h-screen bg-[#f9fafb] pb-20 md:pb-0">
-      {/* Hero Section with Gradient Background */}
+      {/* HERO */}
       <div className="relative bg-gradient-to-br from-[#ff284d]/5 via-white to-orange-50/30 overflow-hidden">
         {/* Decorative Elements */}
         <div className="absolute inset-0 pointer-events-none">
@@ -324,21 +278,19 @@ export default async function CountryPage({ params }: PageProps) {
         </div>
       </div>
 
-      {/* Main Content */}
+      {/* MAIN CONTENT */}
       <div className="max-w-6xl mx-auto paddingX py-12 space-y-12">
-        {/* Cities Grid Section */}
         <section className="space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-3xl font-normal text-gray-900">
+              <h2 className="text-3xl text-gray-900">
                 Cities in {countryName}
               </h2>
-              <p className="text-gray-600 mt-2">
-                Select a city to view available routes and book your journey
-              </p>
+              <p className="text-gray-600 mt-2">Choose a city to view routes</p>
             </div>
-            <div className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg">
-              <span className="text-2xl font-bold text-[#ff284d]">
+
+            <div className="hidden sm:flex items-center gap-2 bg-gray-100 px-4 py-2 rounded-lg">
+              <span className="text-2xl font-bold text-primary-accent">
                 {featured.length}
               </span>
               <span className="text-sm text-gray-600">Cities</span>
@@ -346,7 +298,7 @@ export default async function CountryPage({ params }: PageProps) {
           </div>
 
           {featured.length === 0 ? (
-            <div className="bg-white rounded-lg border border-gray-200 p-12 text-center shadow-sm">
+            <div className="bg-white border border-gray-200 rounded-lg p-12 text-center shadow-sm">
               <Bus className="w-16 h-16 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500">No cities available yet.</p>
             </div>
@@ -354,66 +306,48 @@ export default async function CountryPage({ params }: PageProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {featured.map((city) => {
                 const citySlugged = cityToSlug(city.cityName);
+
                 return (
                   <Link
                     key={`${city.cityName}-${city.country}`}
                     prefetch
                     href={`/bus/${countrySlug}/${citySlugged}`}
-                    className="group bg-white rounded-lg border border-gray-100 shadow-sm p-4 hover:shadow-md hover:border-gray-200 transition-all duration-200"
+                    className="group bg-white rounded-lg border border-gray-100 shadow-sm p-4 hover:shadow-md transition-all"
                   >
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex items-start gap-3 flex-1 min-w-0">
-                        <div className="p-2 bg-gray-50 rounded-lg mt-0.5">
-                          <MapPin className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                    <div className="flex justify-between">
+                      <div className="flex gap-3">
+                        <div className="p-2 bg-gray-50 rounded-lg">
+                          <MapPin className="w-4 h-4 text-gray-500" />
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <h4 className="font-semibold text-gray-900 mb-1 capitalize">
+
+                        <div>
+                          <h4 className="font-semibold capitalize">
                             {city.cityName}
                           </h4>
-                          <div className="space-y-0.5">
-                            {city.stations.slice(0, 2).map((station) => (
-                              <p
-                                key={station.id}
-                                className="text-xs text-gray-500 truncate capitalize"
-                              >
-                                {station.name}
-                              </p>
-                            ))}
-                            {city.stations.length > 2 && (
-                              <p className="text-xs text-gray-400">
-                                +{city.stations.length - 2} more
-                              </p>
-                            )}
-                          </div>
+
+                          {/* Show ONLY first station */}
+                          {city.stations[0] && (
+                            <p className="text-xs text-gray-500 capitalize">
+                              {city.stations[0].name}
+                            </p>
+                          )}
+
+                          {/* Show +X more */}
+                          {city.stations.length > 1 && (
+                            <p className="text-xs text-gray-400">
+                              +{city.stations.length - 1} more
+                            </p>
+                          )}
                         </div>
                       </div>
-                      <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-primary-accent group-hover:translate-x-0.5 transition-all flex-shrink-0 mt-1" />
+
+                      <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-primary-accent transition" />
                     </div>
                   </Link>
                 );
               })}
             </div>
           )}
-        </section>
-
-        {/* CTA Section */}
-        <section className="bg-gradient-to-br from-primary-accent to-orange-500 rounded-2xl p-8 sm:p-12 text-white shadow-lg">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h2 className="text-3xl sm:text-4xl font-bold">
-              Ready to Book Your Journey?
-            </h2>
-            <p className="text-lg text-white/90">
-              Find the best bus routes, compare prices, and book your tickets in
-              seconds. Travel across {countryName} with confidence.
-            </p>
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary-accent rounded-lg font-semibold hover:shadow-xl hover:scale-105 transition-all"
-            >
-              Search Routes
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-          </div>
         </section>
       </div>
 
@@ -430,9 +364,8 @@ export default async function CountryPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLD) }}
       />
-      <div className="hidden md:block">
-        <Footer />
-      </div>
+
+      <Footer />
     </div>
   );
 }

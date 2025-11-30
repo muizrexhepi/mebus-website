@@ -35,8 +35,8 @@ const cityToSlug = (name: string | undefined) => {
     .replace(/[^a-z0-9-]/g, "");
 };
 
-const capitalizeCity = (s: string) =>
-  s
+const capitalizeCity = (s?: string) =>
+  (s ?? "")
     .split(/-| /g)
     .map((w) => (w ? w[0].toUpperCase() + w.slice(1) : w))
     .join(" ");

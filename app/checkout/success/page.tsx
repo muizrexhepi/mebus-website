@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import {
   CheckCircle,
-  Download,
   FileText,
   Wallet,
   MapPin,
@@ -18,6 +17,7 @@ import { usePaymentSuccessStore } from "@/store";
 import axios from "axios";
 import moment from "moment-timezone";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/components/providers/auth-provider";
 
 const SuccessPage: React.FC = () => {
   const { t } = useTranslation();
@@ -26,7 +26,7 @@ const SuccessPage: React.FC = () => {
     supported: boolean;
     platform: "ios" | "google" | null;
   }>({ supported: false, platform: null });
-
+  const { user } = useAuth();
   // Detect wallet support based on platform
   useEffect(() => {
     const userAgent = navigator.userAgent;
@@ -81,7 +81,9 @@ const SuccessPage: React.FC = () => {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
-    } catch (error) {}
+    } catch (error) {
+      // optionally handle error
+    }
   };
 
   const addToWallet = async () => {
@@ -93,12 +95,25 @@ const SuccessPage: React.FC = () => {
 
       const response = await axios.post(endpoint);
       if (response.data?.saveUrl) window.open(response.data.saveUrl, "_blank");
-    } catch (error) {}
+    } catch (error) {
+      // optionally handle error
+    }
   };
 
+  // 🔹 Auto-download only once per booking (per browser session)
   useEffect(() => {
-    downloadPdf();
-  }, []);
+    if (!bookingDetails) return;
+
+    const storageKey = `ticket-downloaded-${bookingDetails.bookingId}`;
+    const alreadyDownloaded =
+      typeof window !== "undefined" ? sessionStorage.getItem(storageKey) : null;
+
+    if (!alreadyDownloaded) {
+      downloadPdf().then(() => {
+        sessionStorage.setItem(storageKey, "true");
+      });
+    }
+  }, [bookingDetails]);
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 pb-24">
@@ -186,15 +201,22 @@ const SuccessPage: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Transaction Details */}
+        {/* Transaction / Actions */}
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
-            <Button asChild variant="outline" className="h-12">
-              <Link href="/account/bookings">
+            {user ? (
+              <Button asChild variant="outline" className="h-12">
+                <Link href="/account/bookings">
+                  <FileText className="w-4 h-4 mr-2" />
+                  {t("paymentSuccess.myBookings")}
+                </Link>
+              </Button>
+            ) : (
+              <Button onClick={downloadPdf} variant="outline" className="h-12">
                 <FileText className="w-4 h-4 mr-2" />
-                {t("paymentSuccess.myBookings")}
-              </Link>
-            </Button>
+                {t("actions.downloadBooking")}
+              </Button>
+            )}
 
             {walletSupport.supported && (
               <Button onClick={addToWallet} variant="primary" className="h-12">

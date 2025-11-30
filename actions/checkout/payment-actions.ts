@@ -307,7 +307,7 @@ export async function createBooking(params: CreateBookingParams) {
         passengers: passengersWithPrices,
         travel_flex: selectedFlex,
         payment_intent_id: paymentIntentId,
-        platform: "web",
+        platform: "WEB",
         flex_price: isReturn ? 0 : flexPrice,
         total_price: ticketTotalDiscounted + (isReturn ? 0 : flexPrice),
         original_price: ticketTotal + (isReturn ? 0 : flexPrice),

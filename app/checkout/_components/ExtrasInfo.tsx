@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 const flexFeatures: FlexFeature[] = [
   {
     name: "services.priority.name",
-    value: "premium",
+    value: "PREMIUM",
     price: 4,
     features: [
       "services.priority.fullRefund",
@@ -22,7 +22,7 @@ const flexFeatures: FlexFeature[] = [
   },
   {
     name: "services.standard.name",
-    value: "standard",
+    value: "STANDARD",
     price: 2,
     features: [
       "services.standard.partialRefund",
@@ -32,7 +32,7 @@ const flexFeatures: FlexFeature[] = [
   },
   {
     name: "services.basic.name",
-    value: "no_flex",
+    value: "NO_FLEX",
     price: 0,
     features: ["services.basic.reminders"],
   },
