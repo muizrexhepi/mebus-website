@@ -170,6 +170,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1.0,
     },
     {
+      url: `${BASE_URL}/buses/hamburg-skopje`,
+      lastModified: new Date().toISOString(),
+      changeFrequency: "daily" as const,
+      priority: 1.0,
+    },
+    {
       url: `${BASE_URL}/bus`,
       lastModified: new Date().toISOString(),
       changeFrequency: "weekly" as const,

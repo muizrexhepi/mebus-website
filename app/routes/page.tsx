@@ -1,8 +1,6 @@
 import { Metadata } from "next";
 import axios from "axios";
 import { Route } from "@/models/route";
-import Navbar from "@/components/navbar/Navbar";
-import Footer from "@/components/Footer";
 import BusRoutesClient from "./_components/BusRoutesClient";
 
 export const metadata: Metadata = {
@@ -31,9 +29,6 @@ export default async function BusRoutes() {
       <main className="flex-grow w-full mx-auto">
         <BusRoutesClient initialRoutes={routes} />
       </main>
-      <div className="mt-12">
-        <Footer />
-      </div>
     </div>
   );
 }
