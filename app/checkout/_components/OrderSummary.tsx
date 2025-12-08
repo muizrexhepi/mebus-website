@@ -248,8 +248,15 @@ const OrderSummary = ({ className }: { className?: string }) => {
   }, []);
 
   const flexPrice = useMemo(() => {
-    return selectedFlex === "premium" ? 4 : selectedFlex === "standard" ? 2 : 0;
-  }, [selectedFlex]);
+    const pricePerPerson =
+      selectedFlex === "PREMIUM" ? 4 : selectedFlex === "STANDARD" ? 2 : 0;
+
+    // Multiply by total number of passengers
+    const totalPassengers =
+      (passengerAmount.adults || 1) + (passengerAmount.children || 0);
+
+    return pricePerPerson * totalPassengers;
+  }, [selectedFlex, passengerAmount]);
 
   const calculateTicketTotal = (ticket: Ticket | ConnectedTicket) => {
     const adultPrice = getTicketPrice(ticket);

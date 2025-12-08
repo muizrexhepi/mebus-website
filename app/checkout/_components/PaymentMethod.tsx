@@ -111,7 +111,7 @@ const PaymentMethod = () => {
 
   useEffect(() => {
     if (!selectedFlex) {
-      setSelectedFlex("no_flex");
+      setSelectedFlex("NO_FLEX");
     }
   }, [selectedFlex, setSelectedFlex]);
 

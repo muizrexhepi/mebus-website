@@ -45,8 +45,6 @@ const FlexOption: React.FC<{
 }> = ({ flex, isSelected, onSelect }) => {
   const { t } = useTranslation();
 
-  // NO MORE useCurrency hook
-
   return (
     <div
       className={cn(
@@ -121,7 +119,6 @@ const TravelFlex: React.FC = () => {
 
   const handleFlexSelection = (flex: FlexFeature) => {
     setSelectedFlex(flex.value);
-    // Set the price directly without currency conversion
     setFlexPrice(flex.price);
   };
 

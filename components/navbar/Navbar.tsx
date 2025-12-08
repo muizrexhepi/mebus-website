@@ -29,8 +29,7 @@ const Navbar = ({ className }: { className?: string }) => {
         "w-full flex justify-between items-center py-4 px-6 bg-white",
         className,
         {
-          "hidden md:flex":
-            path.includes("/search") || path.includes("/checkout"),
+          "hidden md:flex": path.includes("/search") || path == "/checkout",
         }
       )}
     >
