@@ -81,6 +81,17 @@ const PaymentMethod = () => {
     resetCheckout,
   } = useCheckoutStore();
 
+  // Transform passengers to include full_name
+  const transformPassengersForBackend = (passengers: any[]) => {
+    return passengers.map((passenger) => ({
+      ...passenger,
+      full_name: [passenger.first_name, passenger.last_name]
+        .filter(Boolean)
+        .join(" ")
+        .trim(),
+    }));
+  };
+
   // Loading helper functions
   const isLoading = loading !== "idle";
   const getLoadingText = () => {
@@ -259,6 +270,7 @@ const PaymentMethod = () => {
       }
     };
   }, []);
+
   const validateCardFields = (): boolean => {
     const { cardNumber, cardExpiry, cardCvc } = cardFieldsComplete;
     const errors: CardValidationErrors = {};
@@ -270,7 +282,6 @@ const PaymentMethod = () => {
     if (Object.keys(errors).length > 0) {
       setCardValidationErrors(errors);
 
-      // Scroll to the first error field
       const firstErrorId = errors.cardNumber
         ? "card-number-element"
         : errors.cardExpiry
@@ -280,7 +291,7 @@ const PaymentMethod = () => {
       const el = document.getElementById(firstErrorId);
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "center" });
-        el.focus?.(); // optional if it's focusable
+        el.focus?.();
       }
 
       toast({
@@ -311,8 +322,11 @@ const PaymentMethod = () => {
       const discountResult = calculateDiscountedAmount(totalPrice);
       const finalAmount = discountResult?.finalAmount ?? totalPrice;
 
+      // Transform passengers before sending
+      const transformedPassengers = transformPassengersForBackend(passengers);
+
       const paymentIntentParams: CreatePaymentIntentParams = {
-        passengers,
+        passengers: transformedPassengers,
         finalAmount,
         appliedDiscountAmount: discountResult?.amount ?? 0,
         discountCode: discountResult?.code ?? null,
@@ -388,8 +402,11 @@ const PaymentMethod = () => {
       const appliedDiscountAmount = discountResult?.amount ?? 0;
       const discountCode = discountResult?.code ?? null;
 
+      // Transform passengers before sending
+      const transformedPassengers = transformPassengersForBackend(passengers);
+
       const paymentIntentParams: CreatePaymentIntentParams = {
-        passengers,
+        passengers: transformedPassengers,
         finalAmount,
         appliedDiscountAmount,
         discountCode,
@@ -458,6 +475,9 @@ const PaymentMethod = () => {
     discountCode: string | null = null
   ) => {
     try {
+      // Transform passengers before sending to booking
+      const transformedPassengers = transformPassengersForBackend(passengers);
+
       const bookingParams: CreateBookingsParams = {
         outboundTicket,
         returnTicket,
@@ -466,7 +486,7 @@ const PaymentMethod = () => {
         discountAmount,
         discountCode,
         passengerAmount,
-        passengers,
+        passengers: transformedPassengers,
         selectedFlex: selectedFlex || "",
         flexPrice,
         userId: user?._id,
@@ -475,7 +495,6 @@ const PaymentMethod = () => {
 
       const result = await createBookings(bookingParams);
 
-      // Check if booking creation was successful
       if (!result) {
         throw new Error("Failed to create booking");
       }
@@ -485,17 +504,14 @@ const PaymentMethod = () => {
         clearStoredDiscount();
       } catch (error) {}
 
-      // Reset checkout state
       resetCheckout();
 
-      // Show success message
       toast({
         title: "Payment Successful!",
         description:
           "Your booking has been confirmed. Redirecting to confirmation page...",
       });
 
-      // Use replace instead of push and add a small delay to ensure state is cleared
       setTimeout(() => {
         router.replace("/checkout/success");
       }, 100);
