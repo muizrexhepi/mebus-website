@@ -1,8 +1,17 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
-import { SearchForm } from "../forms/SearchForm";
 import { useTranslation } from "react-i18next";
+import { SearchFormSkeleton } from "./search-form-skeleton";
+
+const SearchForm = dynamic(
+  () => import("../forms/SearchForm").then((mod) => mod.SearchForm),
+  {
+    ssr: false,
+    loading: () => <SearchFormSkeleton />,
+  }
+);
 
 const MobileHero = () => {
   const { t } = useTranslation();
@@ -14,27 +23,21 @@ const MobileHero = () => {
           <div className="w-full relative aspect-[4/3] h-48">
             <Image
               src="/assets/images/bgmobile.webp"
-              alt="Bus and Train Illustration"
               fill
+              alt="Mobile Hero Background"
               priority
-              sizes="100vw"
-              className="object-cover object-bottom brightness-75"
+              sizes="(max-width: 768px) 100vw"
+              quality={70}
+              className="object-cover object-bottom"
             />
           </div>
           <div className="absolute top-36 left-4 z-30">
             <div>
-              <h1
-                className="text-white text-2xl leading-[1.1em] font-semibold drop-shadow-lg"
-                // style={{ textShadow: "2px 2px 8px rgba(0,0,0,0.8)" }}
-              >
+              <h1 className="text-white text-2xl leading-[1.1em] font-semibold drop-shadow-lg">
                 {t("hero.title")}
               </h1>
             </div>
           </div>
-
-          {/* <div className="absolute top-4 right-4 bg-white/70 pt-2 px-2 border-black/10 border rounded-xl">
-            <LanguageSelector />
-          </div> */}
 
           <div className="p-4">
             <SearchForm />

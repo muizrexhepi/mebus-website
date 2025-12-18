@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import dynamic from "next/dynamic";
@@ -6,91 +6,96 @@ import { Toaster } from "@/components/ui/toaster";
 import TranslationProvider from "@/components/providers/TranslationProvider";
 import ClientProviders from "@/components/providers/client-providers";
 import { Analytics } from "@vercel/analytics/react";
-import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
+
+// CRITICAL: Import Navbar normally. ssr:false was killing your SEO and causing CLS.
+import Navbar from "@/components/navbar/Navbar";
 
 const roboto = Roboto({
   weight: ["400", "500", "700"],
   subsets: ["latin-ext"],
   display: "swap",
+  variable: "--font-roboto",
 });
 
-const Navbar = dynamic(() => import("@/components/navbar/Navbar"), {
-  ssr: false,
-});
+// Keep these dynamic as they are non-critical for FCP
 const CookieConsent = dynamic(() => import("@/components/CookieConsent"), {
   ssr: false,
 });
-const MobileTabs = dynamic(() => import("@/components/mobile/mobile-tabs"), {
-  ssr: false,
-});
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#ffffff",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.gobusly.com"),
+  alternates: {
+    canonical: "https://www.gobusly.com",
+  },
   title: {
-    default: "GoBusly - Book Affordable Bus Tickets in Europe & the Balkans",
-    template: "%s | GoBusly - Bus Tickets Europe & Balkans",
+    default: "GoBusly - Book Affordable Bus Tickets | Europe to Balkans",
+    template: "%s | GoBusly",
   },
   description:
-    "Book cheap bus tickets across Europe and the Balkans with GoBusly. Find reliable routes, compare fares, and travel comfortably to your destination.",
+    "Book cheap bus tickets for the winter season! Travel from Germany, Switzerland, and Austria to Kosovo, Albania, and Macedonia. Best prices for Christmas and New Year homecoming.",
   keywords: [
-    "bus tickets Europe",
-    "cheap bus tickets Balkans",
-    "GoBusly bus booking",
-    "FlixBus alternative",
-    "online bus booking platform",
+    "bus tickets to Balkans",
+    "cheap bus Germany to Kosovo",
+    "bus Switzerland to Macedonia",
+    "bus Austria to Serbia",
+    "Munich to Pristina bus",
+    "Zurich to Skopje bus",
+    "Vienna to Tirana tickets",
+    "Christmas bus travel Europe",
+    "winter bus schedules Balkans",
+    "homecoming bus travel",
+    "Flixbus alternative Balkans",
+    "GoBusly booking",
+    "bus lines Europe to Kosovo",
   ],
   authors: [{ name: "GoBusly Team" }],
   creator: "GoBusly",
   publisher: "GoBusly",
-  formatDetection: { email: false, address: false, telephone: false },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+    },
+  },
   openGraph: {
     type: "website",
     url: "https://www.gobusly.com",
     siteName: "GoBusly",
-    title: "GoBusly - Book Affordable Bus Tickets in Europe & the Balkans",
+    title: "GoBusly - Winter Bus Travel Europe to Balkans",
     description:
-      "Compare and book bus tickets across Europe and the Balkans. Best prices, comfortable buses, reliable service.",
-    images: [
-      {
-        url: "https://www.gobusly.com/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "GoBusly - Bus Booking Platform",
-        type: "image/jpeg",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@GoBusly",
-    creator: "@GoBusly",
-    title: "GoBusly - Book Affordable Bus Tickets in Europe & the Balkans",
-    description:
-      "Book cheap bus tickets online with GoBusly. Travel conveniently across Europe and the Balkans.",
-    images: ["https://www.gobusly.com/og-image.png"],
+      "Save on your trip home this winter. Reliable bus connections from across Europe to the Balkans.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
 };
-
-const GA_MEASUREMENT_ID = "G-RLCE6W4KDQ";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const GA_MEASUREMENT_ID = "G-RLCE6W4KDQ";
+
   return (
-    <html lang="en">
-      <body className={roboto.className}>
-        {/* Use @next/third-parties/google for optimized script loading */}
+    <html lang="en" className="scroll-smooth">
+      <body className={`${roboto.className} antialiased`}>
+        {/* Optimized Google Analytics */}
         <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
 
-        {/* Combined JSON-LD schema (keep as-is, it's fine) */}
-        <Script
-          id="combined-schema"
+        {/* JSON-LD Schema - Moved to a cleaner location */}
+        <script
           type="application/ld+json"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
@@ -100,52 +105,23 @@ export default function RootLayout({
                   "@id": "https://www.gobusly.com#organization",
                   name: "GoBusly",
                   url: "https://www.gobusly.com",
-                  logo: {
-                    "@type": "ImageObject",
-                    url: "https://www.gobusly.com/assets/images/logo.png",
-                    width: 400,
-                    height: 400,
+                  image: "https://www.gobusly.com/assets/images/logo.png",
+                  address: {
+                    "@type": "PostalAddress",
+                    addressCountry: "MK",
                   },
-                  description:
-                    "Leading bus ticket booking platform for comfortable and affordable travel across Europe and the Balkans.",
-                  areaServed: [
-                    { "@type": "Country", name: "North Macedonia" },
-                    { "@type": "Country", name: "Serbia" },
-                    { "@type": "Country", name: "Kosovo" },
-                    { "@type": "Country", name: "Albania" },
-                    { "@type": "Country", name: "Italy" },
-                    { "@type": "Country", name: "Germany" },
-                    { "@type": "Country", name: "Switzerland" },
-                    { "@type": "Country", name: "Austria" },
-                    { "@type": "Country", name: "Croatia" },
-                    { "@type": "Country", name: "Slovenia" },
-                    { "@type": "Country", name: "Slovakia" },
-                    { "@type": "Country", name: "Hungary" },
-                    { "@type": "Country", name: "Czech Republic" },
-                  ],
-                  serviceType: "Bus Transportation Booking",
-                  priceRange: "€5-€120",
-                  telephone: "+389-70-250-259",
-                  openingHours: "Mo-Su 00:00-23:59",
                 },
                 {
                   "@type": "WebSite",
                   "@id": "https://www.gobusly.com#website",
-                  name: "GoBusly",
                   url: "https://www.gobusly.com",
+                  name: "GoBusly",
                   potentialAction: {
                     "@type": "SearchAction",
                     target:
-                      "https://www.gobusly.com/search?from={departure_city}&to={arrival_city}&date={departure_date}&adults={adults}",
-                    "query-input":
-                      "required name=departure_city, required name=arrival_city, required name=departure_date, required name=adults",
+                      "https://www.gobusly.com/search?from={departure_city}&to={arrival_city}",
+                    "query-input": "required name=departure_city",
                   },
-                },
-                {
-                  "@type": "Service",
-                  "@id": "https://www.gobusly.com#service",
-                  name: "Online Bus Ticket Booking",
-                  serviceType: "Transportation Booking Service",
                 },
               ],
             }),
@@ -155,9 +131,12 @@ export default function RootLayout({
         <Toaster />
         <TranslationProvider>
           <ClientProviders>
+            {/* Navbar is now Server-Side Rendered for instant visibility */}
             <Navbar className="paddingX max-w-6xl py-4 mx-auto" />
-            {children}
-            {/* <MobileTabs /> */}
+
+            {/* Added min-h to prevent footer from jumping up during load */}
+            <main className="min-h-[80vh] flex flex-col">{children}</main>
+
             <CookieConsent />
             <Analytics />
           </ClientProviders>
