@@ -21,20 +21,31 @@ export async function generateMetadata({
     };
   }
 
-  const { fromCity, toCity, fromStation, toStation } = routeData;
+  const { fromCity, toCity, minPrice } = routeData;
+  const base = process.env.NEXT_PUBLIC_BASE_URL ?? "https://www.gobusly.com";
+  const canonical = `${base}/routes/${params.slug}`;
+
+  // ✅ SEO-OPTIMIZED: 60 char max title
+  const title = `Bus from ${fromCity} to ${toCity} | Prices & Tickets – GoBusly`;
+
+  // ✅ SEO-OPTIMIZED: 140-160 chars, includes key elements
+  const description = `Book a bus from ${fromCity} to ${toCity}. Compare prices, schedules, travel time and reserve tickets online with GoBusly from €${minPrice}.`;
 
   return {
-    title: `Bus Tickets from ${fromCity} to ${toCity} – Affordable & Fast Booking | GoBusly`,
-    description: `Book bus tickets from ${fromCity} to ${toCity}. Compare prices, schedules, and operators. Easy online booking with instant confirmation. Starting from €${routeData.minPrice}.`,
-    keywords: `bus tickets ${fromCity} ${toCity}, ${fromCity} to ${toCity} bus, book bus ${fromCity} ${toCity}, cheap bus tickets ${fromCity} ${toCity}`,
+    title,
+    description,
+    // ✅ CRITICAL: Canonical URL (fixes duplicate content)
+    alternates: { canonical },
+    robots: "index, follow",
     openGraph: {
-      title: `Bus Tickets from ${fromCity} to ${toCity} | GoBusly`,
-      description: `Book your bus journey from ${fromCity} to ${toCity}. Compare operators and find the best deals.`,
       type: "website",
-      url: `https://gobusly.com/route/${params.slug}`,
+      url: canonical,
+      siteName: "GoBusly",
+      title: `Bus from ${fromCity} to ${toCity} | GoBusly`,
+      description,
       images: [
         {
-          url: "/og-route-image.jpg",
+          url: `${base}/og-image.png`,
           width: 1200,
           height: 630,
           alt: `Bus route from ${fromCity} to ${toCity}`,
@@ -43,8 +54,9 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `Bus Tickets from ${fromCity} to ${toCity} | GoBusly`,
-      description: `Book your bus journey from ${fromCity} to ${toCity}. Compare operators and find the best deals.`,
+      title: `Bus from ${fromCity} to ${toCity} | GoBusly`,
+      description,
+      images: [`${base}/og-image.png`],
     },
   };
 }
