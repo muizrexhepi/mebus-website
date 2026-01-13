@@ -41,45 +41,63 @@ import TicketBlock from "@/components/ticket/Ticket";
 /**
  * Converts time string (HH:MM or HH:MM:SS) to minutes for easy comparison
  */
-const timeToMinutes = (timeString: string): number => {
-  if (!timeString) return 0;
-  const parts = timeString.split(":");
-  const hours = parseInt(parts[0], 10) || 0;
-  const minutes = parseInt(parts[1], 10) || 0;
-  return hours * 60 + minutes;
-};
-
 /**
- * Gets the departure time from a ticket (handles both direct and connected tickets)
+ * Converts a date to timestamp for comparison
  */
-const getTicketDepartureTime = (ticket: Ticket | ConnectedTicket): string => {
-  // For direct tickets
-  if ("time" in ticket && typeof ticket.time === "string") {
-    return ticket.time;
-  }
-  // For connected tickets, use the first leg's departure time
-  if (
-    "legs" in ticket &&
-    Array.isArray(ticket.legs) &&
-    ticket.legs.length > 0
-  ) {
-    return ticket.legs[0].time || "";
-  }
-  return "";
+const dateToTimestamp = (date: Date | string): number => {
+  if (!date) return 0;
+  return new Date(date).getTime();
 };
 
 /**
- * Sorts tickets by departure time in ascending order
+ * Gets the departure date from a ticket (handles both direct and connected tickets)
+ */
+const getTicketDepartureDate = (ticket: Ticket | ConnectedTicket): Date => {
+  // For direct tickets, use the first stop's departure_date
+  if (ticket.stops && ticket.stops.length > 0) {
+    return ticket.stops[0].departure_date;
+  }
+
+  // Fallback to ticket's departure_date if available
+  if ("departure_date" in ticket) {
+    return ticket.departure_date;
+  }
+
+  return new Date(0); // Return epoch if no date found
+};
+
+/**
+ * Sorts tickets by departure date and time in ascending order
  * Works for both direct tickets and connected tickets
  */
 const sortTicketsByTime = <T extends Ticket | ConnectedTicket>(
   tickets: T[]
 ): T[] => {
   return [...tickets].sort((a, b) => {
-    const timeA = timeToMinutes(getTicketDepartureTime(a));
-    const timeB = timeToMinutes(getTicketDepartureTime(b));
+    const dateA = dateToTimestamp(getTicketDepartureDate(a));
+    const dateB = dateToTimestamp(getTicketDepartureDate(b));
+
+    // If dates are different, sort by date
+    if (dateA !== dateB) {
+      return dateA - dateB;
+    }
+
+    // If dates are the same, sort by departure time
+    const timeA = timeToMinutes(a.stops[0]?.time || "");
+    const timeB = timeToMinutes(b.stops[0]?.time || "");
     return timeA - timeB;
   });
+};
+
+/**
+ * Converts time string (HH:MM or HH:MM:SS) to minutes for easy comparison
+ */
+const timeToMinutes = (timeString: string): number => {
+  if (!timeString) return 0;
+  const parts = timeString.split(":");
+  const hours = parseInt(parts[0], 10) || 0;
+  const minutes = parseInt(parts[1], 10) || 0;
+  return hours * 60 + minutes;
 };
 
 interface TicketState {
@@ -347,11 +365,17 @@ const TicketList: React.FC = () => {
           dispatch({ type: "SET_LOADING", payload: true });
         }
 
+        // Determine if we're using multiple stations (All Stops)
+        const departureStationArray = departureStation
+          .split(",")
+          .filter((id) => id.trim());
+        const arrivalStationArray = arrivalStation
+          .split(",")
+          .filter((id) => id.trim());
+        const isMultipleStations =
+          departureStationArray.length > 1 || arrivalStationArray.length > 1;
+
         const baseParams = {
-          departureStation: isSelectingReturn
-            ? arrivalStation
-            : departureStation,
-          arrivalStation: isSelectingReturn ? departureStation : arrivalStation,
           departureDate:
             (isSelectingReturn ? returnDate || departureDate : departureDate) ||
             "",
@@ -367,12 +391,38 @@ const TicketList: React.FC = () => {
         // Only fetch direct tickets if we need them
         if (directPageNumber > 0) {
           dispatch({ type: "SET_FETCHING_DIRECT", payload: true });
-          const directSearchUrl = new URLSearchParams({
+
+          // Choose endpoint based on whether we have multiple stations
+          const directEndpoint = isMultipleStations
+            ? "/search/multiple"
+            : "/search";
+
+          // Build params based on single or multiple stations
+          const directParams: Record<string, string> = {
             ...baseParams,
             page: directPageNumber.toString(),
-          });
+          };
+
+          if (isMultipleStations) {
+            directParams.departureStations = isSelectingReturn
+              ? arrivalStation
+              : departureStation;
+            directParams.arrivalStations = isSelectingReturn
+              ? departureStation
+              : arrivalStation;
+          } else {
+            directParams.departureStation = isSelectingReturn
+              ? arrivalStation
+              : departureStation;
+            directParams.arrivalStation = isSelectingReturn
+              ? departureStation
+              : arrivalStation;
+          }
+
+          const directSearchUrl = new URLSearchParams(directParams);
+
           fetchPromises.push(
-            fetch(`${apiUrl}/search?${directSearchUrl}`)
+            fetch(`${apiUrl}${directEndpoint}?${directSearchUrl}`)
               .then((res) =>
                 res.ok
                   ? res.json()
@@ -386,10 +436,21 @@ const TicketList: React.FC = () => {
         // Only fetch connected tickets if we need them
         if (connectedPageNumber > 0) {
           dispatch({ type: "SET_FETCHING_CONNECTED", payload: true });
-          const connectedSearchUrl = new URLSearchParams({
+
+          // For now, connected tickets use the regular endpoint with first station
+          const connectedParams: Record<string, string> = {
             ...baseParams,
+            departureStation: isSelectingReturn
+              ? arrivalStation.split(",")[0]
+              : departureStation.split(",")[0],
+            arrivalStation: isSelectingReturn
+              ? departureStation.split(",")[0]
+              : arrivalStation.split(",")[0],
             page: connectedPageNumber.toString(),
-          });
+          };
+
+          const connectedSearchUrl = new URLSearchParams(connectedParams);
+
           fetchPromises.push(
             fetch(`${apiUrl}/connected?${connectedSearchUrl}`)
               .then((res) =>

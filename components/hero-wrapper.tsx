@@ -1,20 +1,12 @@
+"use client";
 import Hero from "@/components/home/Hero";
 import MobileHero from "@/components/mobile/mobile-hero";
+import useIsMobile from "./hooks/use-mobile";
 
 const HeroWrapper = () => {
-  return (
-    <>
-      {/* Show on Mobile only (hidden on md and up) */}
-      <div className="block md:hidden">
-        <MobileHero />
-      </div>
+  const isMobile = useIsMobile();
 
-      {/* Show on Desktop only (hidden on small screens) */}
-      <div className="hidden md:block">
-        <Hero />
-      </div>
-    </>
-  );
+  return <>{isMobile ? <MobileHero /> : <Hero />}</>;
 };
 
 export default HeroWrapper;

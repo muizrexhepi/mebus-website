@@ -116,7 +116,7 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
                 <h1 className="font-medium text-base sm:text-lg capitalize">
                   {ticket.stops[0].from.city}
                 </h1>
-                <span className="truncate text-black/50 line-clamp-1 hidden sm:block">
+                <span className="truncate max-w-56 text-black/50 line-clamp-1 hidden sm:block">
                   {ticket.stops[0].from.name}
                 </span>
               </div>
@@ -124,7 +124,7 @@ const TicketBlock: React.FC<TicketProps> = ({ ticket, isReturn }) => {
                 <h1 className="font-medium text-base sm:text-lg capitalize">
                   {ticket.stops[ticket.stops.length - 1].to.city}
                 </h1>
-                <span className="truncate text-black/50 line-clamp-1 hidden sm:block">
+                <span className="truncate max-w-56 text-black/50 line-clamp-1 hidden sm:block">
                   {ticket.stops[ticket.stops.length - 1].to.name}
                 </span>
               </div>

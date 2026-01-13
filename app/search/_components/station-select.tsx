@@ -35,9 +35,9 @@ const levenshteinDistance = (a: string, b: string): number => {
     for (let i = 1; i <= a.length; i += 1) {
       const indicator = a[i - 1] === b[j - 1] ? 0 : 1;
       matrix[j][i] = Math.min(
-        matrix[j][i - 1] + 1, // deletion
-        matrix[j - 1][i] + 1, // insertion
-        matrix[j - 1][i - 1] + indicator // substitution
+        matrix[j][i - 1] + 1,
+        matrix[j - 1][i] + 1,
+        matrix[j - 1][i - 1] + indicator
       );
     }
   }
@@ -45,33 +45,34 @@ const levenshteinDistance = (a: string, b: string): number => {
   return matrix[b.length][a.length];
 };
 
-// Improved search algorithm with multiple scoring strategies
+// Improved search algorithm
 const calculateSearchScore = (station: Station, searchTerm: string): number => {
   const searchLower = searchTerm.toLowerCase().trim();
   const cityLower = station.city.toLowerCase();
   const countryLower = station.country?.toLowerCase() || "";
+  const nameLower = station.name.toLowerCase();
 
   if (!searchLower) return 0;
 
-  // Helper function to normalize strings (remove diacritics, etc.)
   const normalize = (str: string) => {
     return str
       .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "") // Remove diacritics
-      .replace(/[^a-z0-9\s]/g, "") // Remove special characters
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9\s]/g, "")
       .trim();
   };
 
   const normalizedSearch = normalize(searchLower);
   const normalizedCity = normalize(cityLower);
   const normalizedCountry = normalize(countryLower);
+  const normalizedName = normalize(nameLower);
 
   let bestScore = 0;
 
-  // Check both city and country for all scoring methods
   const candidates = [
-    { text: cityLower, normalized: normalizedCity, isCity: true },
-    { text: countryLower, normalized: normalizedCountry, isCity: false },
+    { text: cityLower, normalized: normalizedCity, weight: 1.2 },
+    { text: nameLower, normalized: normalizedName, weight: 1.0 },
+    { text: countryLower, normalized: normalizedCountry, weight: 0.8 },
   ];
 
   for (const candidate of candidates) {
@@ -79,36 +80,27 @@ const calculateSearchScore = (station: Station, searchTerm: string): number => {
 
     let score = 0;
 
-    // 1. Exact match (highest priority)
     if (
       candidate.text === searchLower ||
       candidate.normalized === normalizedSearch
     ) {
       score = 1000;
-    }
-    // 2. Starts with match (very high priority)
-    else if (
+    } else if (
       candidate.text.startsWith(searchLower) ||
       candidate.normalized.startsWith(normalizedSearch)
     ) {
-      score = 900 - searchLower.length; // Prefer longer matches
-    }
-    // 3. Word boundary match (high priority)
-    else if (
+      score = 900 - searchLower.length;
+    } else if (
       candidate.text.includes(" " + searchLower) ||
       candidate.normalized.includes(" " + normalizedSearch)
     ) {
       score = 800;
-    }
-    // 4. Contains match (medium-high priority)
-    else if (
+    } else if (
       candidate.text.includes(searchLower) ||
       candidate.normalized.includes(normalizedSearch)
     ) {
-      score = 700 - candidate.text.indexOf(searchLower); // Prefer matches closer to start
-    }
-    // 5. Fuzzy match using Levenshtein distance
-    else {
+      score = 700 - candidate.text.indexOf(searchLower);
+    } else {
       const distance1 = levenshteinDistance(searchLower, candidate.text);
       const distance2 = levenshteinDistance(
         normalizedSearch,
@@ -117,23 +109,24 @@ const calculateSearchScore = (station: Station, searchTerm: string): number => {
       const minDistance = Math.min(distance1, distance2);
       const maxLength = Math.max(searchLower.length, candidate.text.length);
 
-      // Only consider if similarity is reasonable
       if (minDistance <= Math.max(2, Math.floor(maxLength * 0.4))) {
         const similarity = 1 - minDistance / maxLength;
-        score = Math.floor(similarity * 600); // Max 600 for fuzzy matches
+        score = Math.floor(similarity * 600);
       }
     }
 
-    // Boost city matches slightly over country matches
-    if (candidate.isCity && score > 0) {
-      score += 10;
-    }
-
+    score = score * candidate.weight;
     bestScore = Math.max(bestScore, score);
   }
 
   return bestScore;
 };
+
+interface GroupedStations {
+  city: string;
+  country: string;
+  stations: Station[];
+}
 
 interface CustomSelectProps {
   stations?: Station[];
@@ -159,6 +152,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
   const [isTouched, setIsTouched] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [displayOptions, setDisplayOptions] = useState<Station[]>([]);
+  const [groupedStations, setGroupedStations] = useState<GroupedStations[]>([]);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const optionRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -177,14 +171,13 @@ const StationSelect: React.FC<CustomSelectProps> = ({
     }
   }, [departure, fromCity, toCity]);
 
-  // Filter stations using improved search algorithm
+  // Filter stations
   useEffect(() => {
     if (!searchTerm.trim()) {
       setFilteredStations(stations);
       return;
     }
 
-    // Calculate scores for all stations
     const stationsWithScores = stations
       .map((station) => ({
         station,
@@ -192,20 +185,49 @@ const StationSelect: React.FC<CustomSelectProps> = ({
       }))
       .filter((item) => item.score > 0)
       .sort((a, b) => {
-        // Sort by score (descending), then by city name length (ascending), then alphabetically
         if (b.score !== a.score) return b.score - a.score;
         if (a.station.city.length !== b.station.city.length) {
           return a.station.city.length - b.station.city.length;
         }
         return a.station.city.localeCompare(b.station.city);
       })
-      .slice(0, 30) // Limit results for performance
+      .slice(0, 50)
       .map((item) => item.station);
 
     setFilteredStations(stationsWithScores);
   }, [searchTerm, stations]);
 
-  // Prepare display options (recent + filtered or grouped stations)
+  // Group stations by city when searching
+  useEffect(() => {
+    if (searchTerm.trim()) {
+      const grouped = filteredStations.reduce(
+        (acc: GroupedStations[], station) => {
+          const existingGroup = acc.find(
+            (g) => g.city.toLowerCase() === station.city.toLowerCase()
+          );
+
+          if (existingGroup) {
+            existingGroup.stations.push(station);
+          } else {
+            acc.push({
+              city: station.city,
+              country: station.country || "",
+              stations: [station],
+            });
+          }
+
+          return acc;
+        },
+        []
+      );
+
+      setGroupedStations(grouped);
+    } else {
+      setGroupedStations([]);
+    }
+  }, [filteredStations, searchTerm]);
+
+  // Prepare display options
   useEffect(() => {
     const recentStations = JSON.parse(
       Cookies.get(
@@ -216,12 +238,10 @@ const StationSelect: React.FC<CustomSelectProps> = ({
     if (searchTerm === "") {
       const groupedOptions: Station[] = [];
 
-      // Add recent stations first
       if (recentStations.length > 0) {
         groupedOptions.push(...recentStations);
       }
 
-      // Add all other stations grouped by country
       const stationsByCountry = stations.reduce(
         (acc: Record<string, Station[]>, station: Station) => {
           const country = station.country || "Other";
@@ -241,14 +261,20 @@ const StationSelect: React.FC<CustomSelectProps> = ({
 
       setDisplayOptions(groupedOptions);
     } else {
-      setDisplayOptions(filteredStations);
+      // Flatten grouped stations for keyboard navigation
+      const flatOptions: Station[] = [];
+      groupedStations.forEach((group) => {
+        // Add first station as representative for "All Stops"
+        flatOptions.push(group.stations[0]);
+        // Add all individual stations
+        flatOptions.push(...group.stations);
+      });
+      setDisplayOptions(flatOptions);
     }
 
-    // Reset highlight when options change
     setHighlightedIndex(-1);
-  }, [searchTerm, filteredStations, stations, departure]);
+  }, [searchTerm, filteredStations, stations, departure, groupedStations]);
 
-  // Scroll highlighted option into view
   useEffect(() => {
     if (highlightedIndex >= 0 && optionRefs.current[highlightedIndex]) {
       optionRefs.current[highlightedIndex]?.scrollIntoView({
@@ -258,28 +284,54 @@ const StationSelect: React.FC<CustomSelectProps> = ({
     }
   }, [highlightedIndex]);
 
+  // Helper function to get all station IDs for a city
+  const getAllStationIdsForCity = useCallback(
+    (city: string): string => {
+      const cityStations = stations.filter(
+        (s) => s.city.toLowerCase() === city.toLowerCase()
+      );
+      const ids = cityStations.map((s) => s._id).join(",");
+      console.log("getAllStationIdsForCity for", city, ":", ids);
+      return ids;
+    },
+    [stations]
+  );
+
   const handleSelect = useCallback(
-    (station: Station) => {
-      const value = station._id;
+    (station: Station, isAllStops: boolean = false) => {
       const label = station.city;
       const name = station.name;
       const country = station.country || "";
+
+      // If "All Stops" is selected, get all station IDs for this city
+      const value = isAllStops
+        ? getAllStationIdsForCity(station.city)
+        : station._id!;
+
+      console.log("handleSelect called:", {
+        city: label,
+        isAllStops,
+        value,
+        departure,
+      });
 
       setSearchTerm(label);
       setIsTouched(true);
 
       if (departure === "from") {
         setFromCity(label);
-        setFrom(value!);
+        setFrom(value);
+        console.log("Set FROM:", value);
       } else {
         setToCity(label);
-        setTo(value!);
+        setTo(value);
+        console.log("Set TO:", value);
       }
 
       updateRecentStations(
         departure === "from" ? "recentFromStations" : "recentToStations",
         {
-          _id: value!,
+          _id: station._id!,
           city: label,
           name: name,
           country: country,
@@ -288,16 +340,18 @@ const StationSelect: React.FC<CustomSelectProps> = ({
 
       setOpenOptions(false);
       setHighlightedIndex(-1);
-
-      // Return focus to input
       inputRef.current?.focus();
 
       if (updateUrl) {
         const currentParams = new URLSearchParams(searchParams.toString());
-        currentParams.set(
-          departure === "from" ? "departureStation" : "arrivalStation",
-          value!
-        );
+
+        // Update the appropriate station parameter with the value (single ID or comma-separated IDs)
+        const paramName =
+          departure === "from" ? "departureStation" : "arrivalStation";
+        currentParams.set(paramName, value);
+
+        console.log("Updating URL param:", paramName, "=", value);
+        console.log("Full params:", currentParams.toString());
 
         const pathParts = pathname.split("/");
         if (departure === "from") {
@@ -308,7 +362,11 @@ const StationSelect: React.FC<CustomSelectProps> = ({
 
         const newPathname = pathParts.join("/");
         const newUrl = `${newPathname}?${currentParams.toString()}`;
-        router.push(newUrl);
+
+        console.log("Pushing new URL:", newUrl);
+
+        // Force router push to update URL
+        router.push(newUrl, { scroll: false });
       }
     },
     [
@@ -321,6 +379,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
       searchParams,
       pathname,
       router,
+      getAllStationIdsForCity,
     ]
   );
 
@@ -365,7 +424,6 @@ const StationSelect: React.FC<CustomSelectProps> = ({
   };
 
   const handleBlur = () => {
-    // Delay closing to allow for option clicks
     setTimeout(() => {
       setOpenOptions(false);
       setHighlightedIndex(-1);
@@ -375,7 +433,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     setIsTouched(true);
-    setHighlightedIndex(-1); // Reset highlight on new input
+    setHighlightedIndex(-1);
   };
 
   const updateRecentStations = (
@@ -510,7 +568,7 @@ const StationSelect: React.FC<CustomSelectProps> = ({
       {openOptions && (
         <div
           ref={dropdownRef}
-          className="absolute top-14 w-[130%] bg-background shadow-xl z-50 left-0 mt-2 rounded-lg border border-border animate-in fade-in-0 zoom-in-95 duration-200"
+          className="absolute top-14 w-[170%] bg-background shadow-xl z-50 left-0 mt-2 rounded-lg border border-border animate-in fade-in-0 zoom-in-95 duration-200"
           role="listbox"
           id={`${departure}-options`}
         >
@@ -519,154 +577,379 @@ const StationSelect: React.FC<CustomSelectProps> = ({
               <>
                 {recentStations.length > 0 && (
                   <>
-                    <div className="bg-muted/50 px-4 py-2 border-b border-border/50">
-                      <h3 className="font-medium text-sm text-foreground/70">
+                    <div className="px-4 py-3 border-b border-border/50">
+                      <h3 className="font-semibold text-sm text-foreground">
                         {t("searchForm.recentSearches")}
                       </h3>
                     </div>
-                    {recentStations.map((station: Station, index: number) => (
-                      <Button
-                        key={station._id}
-                        ref={(el: any) => (optionRefs.current[index] = el)}
-                        variant="ghost"
-                        className={cn(
-                          "w-full justify-start text-left h-15 px-4 rounded-none transition-colors duration-150",
-                          index === highlightedIndex
-                            ? "bg-primary-accent/10 text-primary-accent border-l-2 border-primary-accent"
-                            : "hover:bg-accent hover:text-accent-foreground"
-                        )}
-                        onClick={() => handleSelect(station)}
-                        type="button"
-                        role="option"
-                        aria-selected={index === highlightedIndex}
-                        id={`${departure}-option-${index}`}
-                      >
-                        {departure === "from" ? (
-                          <IoMdLocate className="size-4 mr-2 shrink-0 text-primary-accent" />
-                        ) : (
-                          <HiMapPin className="size-4 mr-2 shrink-0 text-primary-accent" />
-                        )}
-                        <div className="flex flex-col items-start gap-0.5">
-                          <span className="capitalize font-medium text-sm">
-                            {station.city}
-                          </span>
-                          <span className="text-muted-foreground text-xs">
-                            {station.name}
-                          </span>
-                        </div>
-                      </Button>
-                    ))}
-                    <div className="border-t border-border/50" />
+                    {recentStations.map((station: Station, index: number) => {
+                      const isLast = index === recentStations.length - 1;
+                      return (
+                        <React.Fragment key={station._id}>
+                          <Button
+                            ref={(el: any) => (optionRefs.current[index] = el)}
+                            variant="ghost"
+                            className={cn(
+                              "w-full justify-start text-left h-auto py-3 px-4 rounded-none transition-all duration-200 border-l-2 border-transparent",
+                              index === highlightedIndex
+                                ? "bg-primary-accent/10 text-primary-accent border-primary-accent"
+                                : "hover:bg-accent/50 hover:text-accent-foreground"
+                            )}
+                            onClick={() => handleSelect(station)}
+                            type="button"
+                            role="option"
+                            aria-selected={index === highlightedIndex}
+                            id={`${departure}-option-${index}`}
+                          >
+                            {departure === "from" ? (
+                              <IoMdLocate className="size-4 mr-2 text-primary-accent" />
+                            ) : (
+                              <HiMapPin className="size-4 mr-2 text-primary-accent" />
+                            )}
+                            <div className="flex flex-col items-start gap-0.5 w-full">
+                              <span className="capitalize font-medium text-base">
+                                {station.city}
+                              </span>
+                              <span className="text-muted-foreground text-xs capitalize">
+                                {station.country}
+                              </span>
+                            </div>
+                          </Button>
+                          {!isLast && <div className="" />}
+                        </React.Fragment>
+                      );
+                    })}
+                    <div className=" " />
                   </>
                 )}
 
                 {(() => {
-                  const stationsByCountry = stations.reduce(
-                    (acc: Record<string, Station[]>, station: Station) => {
+                  // Group stations by country and city
+                  const groupedByCountry = stations.reduce(
+                    (
+                      acc: Record<string, Record<string, Station[]>>,
+                      station: Station
+                    ) => {
                       const country = station.country || "Other";
+                      const city = station.city;
+
                       if (!acc[country]) {
-                        acc[country] = [];
+                        acc[country] = {};
                       }
-                      acc[country].push(station);
+                      if (!acc[country][city]) {
+                        acc[country][city] = [];
+                      }
+                      acc[country][city].push(station);
                       return acc;
                     },
                     {}
                   );
 
-                  const sortedCountries = Object.keys(stationsByCountry).sort();
+                  const sortedCountries = Object.keys(groupedByCountry).sort();
                   let optionIndex = recentStations.length;
 
-                  return sortedCountries.map((country) => (
-                    <React.Fragment key={country}>
-                      <div className="bg-muted/30 px-4 py-2 border-b border-border/30">
-                        <h3 className="font-medium text-sm text-foreground/70 capitalize">
-                          {country}
-                        </h3>
-                      </div>
-                      {stationsByCountry[country].map((station: Station) => {
-                        const currentIndex = optionIndex++;
-                        return (
-                          <Button
-                            key={station._id}
-                            ref={(el: any) =>
-                              (optionRefs.current[currentIndex] = el)
-                            }
-                            variant="ghost"
-                            className={cn(
-                              "w-full justify-start text-left h-15 px-4 rounded-none transition-colors duration-150",
-                              currentIndex === highlightedIndex
-                                ? "bg-primary-accent/10 text-primary-accent border-l-2 border-primary-accent"
-                                : "hover:bg-accent hover:text-accent-foreground"
-                            )}
-                            onClick={() => handleSelect(station)}
-                            type="button"
-                            role="option"
-                            aria-selected={currentIndex === highlightedIndex}
-                            id={`${departure}-option-${currentIndex}`}
-                          >
-                            {departure === "from" ? (
-                              <IoMdLocate className="size-4 mr-2 shrink-0 text-primary-accent" />
-                            ) : (
-                              <HiMapPin className="size-4 mr-2 shrink-0 text-primary-accent" />
-                            )}
-                            <div className="flex flex-col items-start gap-0.5">
-                              <span className="capitalize font-medium text-sm">
-                                {station.city}
-                              </span>
-                              <span className="text-muted-foreground text-xs">
-                                {station.name}
-                              </span>
-                            </div>
-                          </Button>
-                        );
-                      })}
-                    </React.Fragment>
-                  ));
+                  return sortedCountries.map((country, countryIdx) => {
+                    const cities = groupedByCountry[country];
+                    const isLastCountry =
+                      countryIdx === sortedCountries.length - 1;
+
+                    return (
+                      <React.Fragment key={country}>
+                        {Object.entries(cities).map(
+                          ([city, cityStations], cityIdx) => {
+                            const hasMultipleStations = cityStations.length > 1;
+                            const isLastCity =
+                              cityIdx === Object.keys(cities).length - 1;
+
+                            return (
+                              <React.Fragment key={`${country}-${city}`}>
+                                {hasMultipleStations ? (
+                                  <>
+                                    {/* "All Stops" option */}
+                                    <Button
+                                      ref={(el: any) =>
+                                        (optionRefs.current[optionIndex] = el)
+                                      }
+                                      variant="ghost"
+                                      className={cn(
+                                        "w-full justify-start text-left h-auto py-3 px-4 rounded-none transition-all duration-200 border-l-2 border-transparent",
+                                        optionIndex === highlightedIndex
+                                          ? "bg-primary-accent/10 text-primary-accent border-primary-accent"
+                                          : "hover:bg-accent/50 hover:text-accent-foreground"
+                                      )}
+                                      onClick={() =>
+                                        handleSelect(cityStations[0], true)
+                                      }
+                                      type="button"
+                                      role="option"
+                                      aria-selected={
+                                        optionIndex === highlightedIndex
+                                      }
+                                      id={`${departure}-option-${optionIndex++}`}
+                                    >
+                                      {departure === "from" ? (
+                                        <IoMdLocate className="size-4 mr-2 text-primary-accent" />
+                                      ) : (
+                                        <HiMapPin className="size-4 mr-2 text-primary-accent" />
+                                      )}
+                                      <div className="flex flex-col items-start gap-0.5 w-full">
+                                        <span className="font-medium text-base capitalize">
+                                          {city} (All Stops)
+                                        </span>
+                                        <span className="text-muted-foreground text-xs lowercase">
+                                          {city}, {country}
+                                        </span>
+                                      </div>
+                                    </Button>
+                                    <div className="" />
+
+                                    {/* Individual stations */}
+                                    {cityStations.map((station, stationIdx) => {
+                                      const currentIndex = optionIndex++;
+                                      const isLastStation =
+                                        stationIdx === cityStations.length - 1;
+                                      return (
+                                        <React.Fragment key={station._id}>
+                                          <Button
+                                            ref={(el: any) =>
+                                              (optionRefs.current[
+                                                currentIndex
+                                              ] = el)
+                                            }
+                                            variant="ghost"
+                                            className={cn(
+                                              "w-full justify-start text-left h-auto py-2.5 px-4 rounded-none transition-all duration-200 border-l-2 border-transparent",
+                                              currentIndex === highlightedIndex
+                                                ? "bg-primary-accent/10 text-primary-accent border-primary-accent"
+                                                : "hover:bg-accent/50 hover:text-accent-foreground"
+                                            )}
+                                            onClick={() =>
+                                              handleSelect(station)
+                                            }
+                                            type="button"
+                                            role="option"
+                                            aria-selected={
+                                              currentIndex === highlightedIndex
+                                            }
+                                            id={`${departure}-option-${currentIndex}`}
+                                          >
+                                            <div className="flex items-center w-full pl-6">
+                                              {departure === "from" ? (
+                                                <IoMdLocate className="size-3.5 mr-2 shrink-0 text-primary-accent" />
+                                              ) : (
+                                                <HiMapPin className="size-3.5 mr-2 shrink-0 text-primary-accent" />
+                                              )}
+                                              <span className="text-sm text-foreground/90">
+                                                {station.name}
+                                              </span>
+                                            </div>
+                                          </Button>
+                                          {!isLastStation && (
+                                            <div className="" />
+                                          )}
+                                        </React.Fragment>
+                                      );
+                                    })}
+                                    {!(isLastCity && isLastCountry) && (
+                                      <div className=" " />
+                                    )}
+                                  </>
+                                ) : (
+                                  /* Single station */
+                                  <React.Fragment>
+                                    <Button
+                                      ref={(el: any) =>
+                                        (optionRefs.current[optionIndex] = el)
+                                      }
+                                      variant="ghost"
+                                      className={cn(
+                                        "w-full justify-start text-left h-auto py-3 px-4 rounded-none transition-all duration-200 border-l-2 border-transparent",
+                                        optionIndex === highlightedIndex
+                                          ? "bg-primary-accent/10 text-primary-accent border-primary-accent"
+                                          : "hover:bg-accent/50 hover:text-accent-foreground"
+                                      )}
+                                      onClick={() =>
+                                        handleSelect(cityStations[0])
+                                      }
+                                      type="button"
+                                      role="option"
+                                      aria-selected={
+                                        optionIndex === highlightedIndex
+                                      }
+                                      id={`${departure}-option-${optionIndex++}`}
+                                    >
+                                      {" "}
+                                      {departure === "from" ? (
+                                        <IoMdLocate className="size-4 mr-2 text-primary-accent" />
+                                      ) : (
+                                        <HiMapPin className="size-4 mr-2 text-primary-accent" />
+                                      )}
+                                      <div className="flex flex-col items-start gap-0.5 w-full">
+                                        <span className="font-medium text-base capitalize">
+                                          {city}
+                                        </span>
+                                        <span className="text-muted-foreground text-xs capitalize">
+                                          {country}
+                                        </span>
+                                      </div>
+                                    </Button>
+                                    {!(isLastCity && isLastCountry) && (
+                                      <div className="" />
+                                    )}
+                                  </React.Fragment>
+                                )}
+                              </React.Fragment>
+                            );
+                          }
+                        )}
+                      </React.Fragment>
+                    );
+                  });
                 })()}
               </>
             ) : (
               <>
-                <div className="bg-muted/50 px-4 py-2 border-b border-border/50">
-                  <h3 className="font-medium text-sm text-foreground/70">
-                    {t("searchForm.searchResult")} ({filteredStations.length})
-                  </h3>
-                </div>
-                {filteredStations.length > 0 ? (
-                  filteredStations.map((station: Station, index: number) => (
-                    <Button
-                      key={station._id}
-                      ref={(el: any) => (optionRefs.current[index] = el)}
-                      variant="ghost"
-                      className={cn(
-                        "w-full justify-start text-left h-15 px-4 rounded-none transition-colors duration-150",
-                        index === highlightedIndex
-                          ? "bg-primary-accent/10 text-primary-accent border-l-2 border-primary-accent"
-                          : "hover:bg-accent hover:text-accent-foreground"
-                      )}
-                      onClick={() => handleSelect(station)}
-                      type="button"
-                      role="option"
-                      aria-selected={index === highlightedIndex}
-                      id={`${departure}-option-${index}`}
-                    >
-                      {departure === "from" ? (
-                        <IoMdLocate className="size-4 mr-2 shrink-0 text-primary-accent" />
-                      ) : (
-                        <HiMapPin className="size-4 mr-2 shrink-0 text-primary-accent" />
-                      )}
-                      <div className="flex flex-col items-start gap-0.5">
-                        <span className="capitalize font-medium text-sm">
-                          {station.city}
-                        </span>
-                        <span className="text-muted-foreground text-xs">
-                          {station.name}
-                        </span>
-                      </div>
-                    </Button>
-                  ))
+                {groupedStations.length > 0 ? (
+                  (() => {
+                    let optionIndex = 0;
+                    return groupedStations.map((group, groupIdx) => {
+                      const hasMultipleStations = group.stations.length > 1;
+                      const isLastGroup =
+                        groupIdx === groupedStations.length - 1;
+
+                      return (
+                        <React.Fragment key={`${group.city}-${group.country}`}>
+                          {hasMultipleStations ? (
+                            <>
+                              {/* "All Stops" option - only show when multiple stations */}
+                              <Button
+                                ref={(el: any) =>
+                                  (optionRefs.current[optionIndex] = el)
+                                }
+                                variant="ghost"
+                                className={cn(
+                                  "w-full justify-start text-left h-auto py-3 px-4 rounded-none transition-all duration-200",
+                                  optionIndex === highlightedIndex
+                                    ? "bg-primary-accent/10 text-primary-accent border-l-2 border-primary-accent"
+                                    : "hover:bg-accent/50 hover:text-accent-foreground"
+                                )}
+                                onClick={() =>
+                                  handleSelect(group.stations[0], true)
+                                }
+                                type="button"
+                                role="option"
+                                aria-selected={optionIndex === highlightedIndex}
+                                id={`${departure}-option-${optionIndex++}`}
+                              >
+                                {" "}
+                                {departure === "from" ? (
+                                  <IoMdLocate className="size-3.5 mr-2 shrink-0 text-primary-accent" />
+                                ) : (
+                                  <HiMapPin className="size-3.5 mr-2 shrink-0 text-primary-accent" />
+                                )}
+                                <div className="flex flex-col items-start gap-0.5 w-full">
+                                  <span className="font-medium text-base capitalize">
+                                    {group.city} (All Stops)
+                                  </span>
+                                  <span className="text-muted-foreground text-xs lowercase">
+                                    {group.city}, {group.country}
+                                  </span>
+                                </div>
+                              </Button>
+
+                              {/* Individual stations */}
+                              {group.stations.map((station, stationIdx) => {
+                                const currentIndex = optionIndex++;
+                                const isLastStation =
+                                  stationIdx === group.stations.length - 1;
+                                return (
+                                  <Button
+                                    key={station._id}
+                                    ref={(el: any) =>
+                                      (optionRefs.current[currentIndex] = el)
+                                    }
+                                    variant="ghost"
+                                    className={cn(
+                                      "w-full justify-start text-left h-auto py-2.5 px-4 rounded-none transition-all duration-200 border-l-2 border-transparent",
+                                      currentIndex === highlightedIndex
+                                        ? "bg-primary-accent/10 text-primary-accent border-primary-accent"
+                                        : "hover:bg-accent/50 hover:text-accent-foreground",
+                                      !isLastStation && ""
+                                    )}
+                                    onClick={() => handleSelect(station)}
+                                    type="button"
+                                    role="option"
+                                    aria-selected={
+                                      currentIndex === highlightedIndex
+                                    }
+                                    id={`${departure}-option-${currentIndex}`}
+                                  >
+                                    <div className="flex items-center w-full pl-4">
+                                      {departure === "from" ? (
+                                        <IoMdLocate className="size-3.5 mr-2 shrink-0 text-primary-accent" />
+                                      ) : (
+                                        <HiMapPin className="size-3.5 mr-2 shrink-0 text-primary-accent" />
+                                      )}
+                                      <span className="text-sm text-foreground/90 capitalize truncate">
+                                        {station.name}
+                                      </span>
+                                    </div>
+                                  </Button>
+                                );
+                              })}
+
+                              {/* Separator between city groups */}
+                              {!isLastGroup && <div className=" " />}
+                            </>
+                          ) : (
+                            /* Single station - show city name directly */
+                            <>
+                              <Button
+                                ref={(el: any) =>
+                                  (optionRefs.current[optionIndex] = el)
+                                }
+                                variant="ghost"
+                                className={cn(
+                                  "w-full justify-start text-left h-auto py-3 px-4 rounded-none transition-all duration-200 border-l-2 border-transparent",
+                                  optionIndex === highlightedIndex
+                                    ? "bg-primary-accent/10 text-primary-accent border-primary-accent"
+                                    : "hover:bg-accent/50 hover:text-accent-foreground"
+                                )}
+                                onClick={() => handleSelect(group.stations[0])}
+                                type="button"
+                                role="option"
+                                aria-selected={optionIndex === highlightedIndex}
+                                id={`${departure}-option-${optionIndex++}`}
+                              >
+                                {" "}
+                                {departure === "from" ? (
+                                  <IoMdLocate className="size-3.5 mr-2 shrink-0 text-primary-accent" />
+                                ) : (
+                                  <HiMapPin className="size-3.5 mr-2 shrink-0 text-primary-accent" />
+                                )}
+                                <div className="flex flex-col items-start gap-0.5 w-full">
+                                  <span className="font-medium text-base capitalize">
+                                    {group.city}
+                                  </span>
+                                  <span className="text-muted-foreground text-xs capitalize">
+                                    {group.country}
+                                  </span>
+                                </div>
+                              </Button>
+
+                              {/* Separator between city groups */}
+                              {!isLastGroup && <div className="" />}
+                            </>
+                          )}
+                        </React.Fragment>
+                      );
+                    });
+                  })()
                 ) : (
-                  <div className="px-4 py-3 text-muted-foreground text-sm">
-                    {t("searchForm.noResults", "No results found")}
+                  <div className="px-4 py-6 text-center">
+                    <p className="text-muted-foreground text-sm">
+                      {t("searchForm.noResults", "No results found")}
+                    </p>
                   </div>
                 )}
               </>
