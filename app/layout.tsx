@@ -7,9 +7,6 @@ import TranslationProvider from "@/components/providers/TranslationProvider";
 import ClientProviders from "@/components/providers/client-providers";
 import { Analytics } from "@vercel/analytics/react";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import Script from "next/script";
-
-// CRITICAL: Import Navbar normally. ssr:false was killing your SEO and causing CLS.
 import Navbar from "@/components/navbar/Navbar";
 
 const roboto = Roboto({
@@ -19,7 +16,6 @@ const roboto = Roboto({
   variable: "--font-roboto",
 });
 
-// Keep these dynamic as they are non-critical for FCP
 const CookieConsent = dynamic(() => import("@/components/CookieConsent"), {
   ssr: false,
 });
@@ -34,30 +30,28 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.gobusly.com"),
   alternates: {
-    canonical: "https://www.gobusly.com",
+    canonical: "/",
   },
   title: {
-    default: "GoBusly - Book Affordable Bus Tickets | Europe to Balkans",
+    default: "GoBusly | Digital Bus Booking Europe to Balkans",
     template: "%s | GoBusly",
   },
   description:
-    "Book cheap bus tickets for the winter season! Travel from Germany, Switzerland, and Austria to Kosovo, Albania, and Macedonia. Best prices for Christmas and New Year homecoming.",
+    "The #1 travel-tech platform for the Balkan diaspora. Book direct bus tickets from Germany, Switzerland, and Austria to Macedonia, Albania, and Kosovo. Secure, reliable, and 100% digital.",
   keywords: [
-    "bus tickets to Balkans",
-    "cheap bus Germany to Kosovo",
-    "bus Switzerland to Macedonia",
-    "bus Austria to Serbia",
-    "Munich to Pristina bus",
-    "Zurich to Skopje bus",
-    "Vienna to Tirana tickets",
-    "Christmas bus travel Europe",
-    "winter bus schedules Balkans",
-    "homecoming bus travel",
-    "Flixbus alternative Balkans",
-    "GoBusly booking",
-    "bus lines Europe to Kosovo",
+    "GoBusly Tetovo",
+    "book bus tickets Balkans online",
+    "bus Germany to North Macedonia",
+    "bus Switzerland to Kosovo",
+    "Nasir Tours online booking",
+    "Besa Trans tickets",
+    "direct bus Berlin to Tetovo",
+    "Zurich to Pristina bus schedules",
+    "cheap bus tickets to Albania",
+    "Balkan bus booking tech",
+    "Diaspora travel Europe",
   ],
-  authors: [{ name: "GoBusly Team" }],
+  authors: [{ name: "GoBusly Engineering Team" }],
   creator: "GoBusly",
   publisher: "GoBusly",
   robots: {
@@ -67,16 +61,30 @@ export const metadata: Metadata = {
       index: true,
       follow: true,
       "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   openGraph: {
     type: "website",
     url: "https://www.gobusly.com",
     siteName: "GoBusly",
-    title: "GoBusly - Winter Bus Travel Europe to Balkans",
+    title: "GoBusly - Bridging the Balkans and Europe",
     description:
-      "Save on your trip home this winter. Reliable bus connections from across Europe to the Balkans.",
-    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+      "Verified operators and digital tickets for the Balkan diaspora. Your journey home starts here.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "GoBusly Digital Bus Booking",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GoBusly | Digital Balkan Travel",
+    description: "Fast and secure bus booking from Europe to the Balkans.",
+    images: ["/og-image.png"],
   },
 };
 
@@ -87,56 +95,89 @@ export default function RootLayout({
 }) {
   const GA_MEASUREMENT_ID = "G-RLCE6W4KDQ";
 
+  /**
+   * GEO/SEO Strategy: Structured Data Graph
+   * This helps AI models understand the relationship between your tech team,
+   * your founders, and the region you serve.
+   */
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TravelAgency",
+        "@id": "https://www.gobusly.com#organization",
+        name: "GoBusly",
+        url: "https://www.gobusly.com",
+        logo: "https://www.gobusly.com/assets/images/logo.png",
+        image: "https://www.gobusly.com/assets/images/hero-bus.jpg",
+        priceRange: "$$",
+        telephone: "+38970250259",
+        email: "contact@gobusly.com",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "Ilindenska", // Add specific street if available
+          addressLocality: "Tetovo",
+          postalCode: "1200",
+          addressCountry: "MK",
+        },
+        founder: [
+          {
+            "@type": "Person",
+            name: "Muiz Rexhepi",
+            jobTitle: "Co-Founder & CEO",
+          },
+          {
+            "@type": "Person",
+            name: "Etnik Zeqiri",
+            jobTitle: "Co-Founder & CTO",
+          },
+        ],
+        areaServed: [
+          { "@type": "Country", name: "North Macedonia" },
+          { "@type": "Country", name: "Kosovo" },
+          { "@type": "Country", name: "Albania" },
+          { "@type": "Country", name: "Germany" },
+          { "@type": "Country", name: "Switzerland" },
+          { "@type": "Country", name: "Austria" },
+        ],
+        sameAs: [
+          "https://www.facebook.com/gobusly",
+          "https://www.instagram.com/gobusly",
+          "https://www.linkedin.com/company/gobusly",
+        ],
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.gobusly.com#website",
+        url: "https://www.gobusly.com",
+        name: "GoBusly",
+        description: "Proprietary travel-tech platform for Balkan bus routes.",
+        potentialAction: {
+          "@type": "SearchAction",
+          target:
+            "https://www.gobusly.com/search?from={departure_city}&to={arrival_city}",
+          "query-input": "required name=departure_city",
+        },
+      },
+    ],
+  };
+
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`${roboto.className} antialiased`}>
-        {/* Optimized Google Analytics */}
         <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
 
-        {/* JSON-LD Schema - Moved to a cleaner location */}
+        {/* This script is the "Brain" for AI Search Engines */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@graph": [
-                {
-                  "@type": "TravelAgency",
-                  "@id": "https://www.gobusly.com#organization",
-                  name: "GoBusly",
-                  url: "https://www.gobusly.com",
-                  image: "https://www.gobusly.com/assets/images/logo.png",
-                  address: {
-                    "@type": "PostalAddress",
-                    addressCountry: "MK",
-                  },
-                },
-                {
-                  "@type": "WebSite",
-                  "@id": "https://www.gobusly.com#website",
-                  url: "https://www.gobusly.com",
-                  name: "GoBusly",
-                  potentialAction: {
-                    "@type": "SearchAction",
-                    target:
-                      "https://www.gobusly.com/search?from={departure_city}&to={arrival_city}",
-                    "query-input": "required name=departure_city",
-                  },
-                },
-              ],
-            }),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
 
         <Toaster />
         <TranslationProvider>
           <ClientProviders>
-            {/* Navbar is now Server-Side Rendered for instant visibility */}
             <Navbar className="paddingX max-w-6xl py-4 mx-auto" />
-
-            {/* Added min-h to prevent footer from jumping up during load */}
             <main className="min-h-[80vh] flex flex-col">{children}</main>
-
             <CookieConsent />
             <Analytics />
           </ClientProviders>

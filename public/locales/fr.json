@@ -336,6 +336,69 @@
       "secureDesc": "Système de réservation en ligne sûr et sécurisé"
     }
   },
+  "about": {
+    "hero": {
+      "title_start": "Nous propulsons le",
+      "title_accent": "voyage numérique",
+      "title_end": "pour les Balkans.",
+      "desc": "GoBusly est une plateforme leader de la travel-tech née à Tetovo. Nous remplaçons les systèmes obsolètes par une expérience 100 % numérique, reliant la diaspora des Balkans à plus de 14 pays.",
+      "image_caption": "400+ Routes Connectées"
+    },
+    "stats": {
+      "title": "Faits Clés",
+      "countries": "Pays Européens",
+      "seats": "Sièges Gérés Quotidiennement",
+      "engineers": "Ingénieurs Tech",
+      "operators": "Opérateurs Vérifiés"
+    },
+    "engineering": {
+      "title": "Une plateforme évolutive construite par plus de 20 ingénieurs.",
+      "desc": "La complexité du transport terrestre dans les Balkans exige une technologie sophistiquée. Notre stack propriétaire offre les meilleurs prix et une gestion optimale des sièges.",
+      "ai_title": "Stack IA Propriétaire",
+      "ai_desc": "Notre IA réoptimise plus de 5 000 prix de sièges chaque jour pour le meilleur rapport qualité-prix familial.",
+      "vs_title": "GoBusly vs. Le Marché",
+      "vs_desc": "Alors que les géants mondiaux ignorent les nuances régionales, nos ingénieurs construisent spécifiquement pour les Balkans.",
+      "vs_link": "Voir pourquoi nous sommes le meilleur choix"
+    },
+    "management": {
+      "title": "Direction",
+      "subtitle": "Le leadership qui guide l'avenir de la travel-tech dans les Balkans.",
+      "muiz_bio": "Dirige la vision de numériser les voyages dans les Balkans et d'étendre la portée de GoBusly à travers l'Europe. Muiz se concentre sur la croissance stratégique et la construction du pont numérique.",
+      "etnik_bio": "L'architecte derrière la stack technique de GoBusly. Etnik dirige une équipe d'ingénierie interfonctionnelle pour assurer une expérience de réservation fluide et évolutive."
+    },
+    "cta": {
+      "title": "Prêt à rentrer chez vous ?",
+      "desc": "Découvrez la plateforme de réservation de bus la plus avancée de la région.",
+      "button": "Voir Tous les Trajets"
+    }
+  },
+  "comparison": {
+    "hero": {
+      "title_start": "GoBusly vs.",
+      "title_accent": "FlixBus",
+      "desc_start": "Alors que les géants mondiaux couvrent le monde, nous couvrons",
+      "desc_accent": "votre maison."
+    },
+    "table": {
+      "feature": "Fonctionnalité",
+      "gobusly": "GoBusly",
+      "flixbus": "FlixBus",
+      "f1": "Expertise Régionale",
+      "f1_g": "Focalisation profonde sur les corridors balkaniques (MK, AL, KS).",
+      "f1_f": "Focalisation mondiale ; les Balkans sont secondaires.",
+      "f2": "Lignes Directes",
+      "f2_g": "Lignes directes optimisées pour la diaspora.",
+      "f2_f": "Nécessite souvent de longues escales dans les hubs.",
+      "f3": "Service Client",
+      "f3_g": "Support 24/7 en SQ, MK & EN.",
+      "f3_f": "Principalement automatisé ou anglais uniquement.",
+      "f4": "Ingénierie Tech",
+      "f4_g": "20+ ingénieurs développant pour les nuances régionales.",
+      "f4_f": "Stack technique générique pour 40+ pays."
+    },
+    "founders_quote": "Les Balkans méritent une technologie de classe mondiale.",
+    "founders_sub": "Les concurrents mondiaux offrent un service générique. Nous avons fondé GoBusly pour offrir à la diaspora des Balkans le même niveau de confort numérique qu'en Europe occidentale."
+  },
   "ticket": {
     "selectReturn": "Sélectionner le retour",
     "continue": "Continuer",

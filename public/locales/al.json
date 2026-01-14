@@ -316,6 +316,69 @@
       "secureDesc": "Sistem i sigurt dhe i besueshëm për rezervime online"
     }
   },
+  "about": {
+    "hero": {
+      "title_start": "Ne drejtojmë",
+      "title_accent": "udhëtimin digjital",
+      "title_end": "për Ballkanin.",
+      "desc": "GoBusly është një platformë kryesore e teknologjisë së udhëtimit e lindur në Tetovë. Ne po zëvendësojmë sistemet e vjetruara me një përvojë 100% digjitale, duke lidhur diasporën ballkanike me 14+ shtete.",
+      "image_caption": "400+ Linja të Lidhura"
+    },
+    "stats": {
+      "title": "Fakte Kryesore",
+      "countries": "Shtete Evropiane",
+      "seats": "Ulëse të Menaxhuara Çdo Ditë",
+      "engineers": "Inxhinierë Teknologjikë",
+      "operators": "Operatorë të Verifikuar"
+    },
+    "engineering": {
+      "title": "Një platformë e shkallëzueshme e ndërtuar nga mbi 20+ inxhinierë.",
+      "desc": "Kompleksiteti i udhëtimit tokësor në Ballkan kërkon teknologji të sofistikuar. Staku ynë pronësor ofron çmimet më të mira dhe menaxhimin më efikas të ulëseve.",
+      "ai_title": "Inteligjencë Artificiale Pronësore",
+      "ai_desc": "AI ynë ri-optimizon 5,000+ çmime ulësesh çdo ditë për vlerën më të mirë familjare.",
+      "vs_title": "GoBusly vs. Tregu",
+      "vs_desc": "Ndërsa gjigantët globalë injorojnë nuancat rajonale, inxhinierët tanë ndërtojnë specifikisht për Ballkanin.",
+      "vs_link": "Shihni pse jemi zgjedhja më e mirë"
+    },
+    "management": {
+      "title": "Menaxhmenti",
+      "subtitle": "Lidershipi që drejton të ardhmen e teknologjisë së udhëtimit në Ballkan.",
+      "muiz_bio": "Udhëheq vizionin për të digjitalizuar udhëtimin në Ballkan dhe për të zgjeruar shtrirjen e GoBusly në të gjithë Evropën. Muizi fokusohet në rritjen strategjike dhe ndërtimin e urës digjitale.",
+      "etnik_bio": "Arkitekti pas teknologjisë së GoBusly. Etniku drejton një ekip inxhinierik ndër-funksional për të siguruar një përvojë rezervimi të qetë dhe të shkallëzueshme."
+    },
+    "cta": {
+      "title": "Gati për të udhëtuar në shtëpi?",
+      "desc": "Përjetoni platformën më të avancuar të rezervimit të autobusëve në rajon.",
+      "button": "Shiko të Gjitha Linjat"
+    }
+  },
+  "comparison": {
+    "hero": {
+      "title_start": "GoBusly vs.",
+      "title_accent": "FlixBus",
+      "desc_start": "Ndërsa gjigantët globalë mbulojnë botën, ne mbulojmë",
+      "desc_accent": "shtëpinë tënde."
+    },
+    "table": {
+      "feature": "Veçoria",
+      "gobusly": "GoBusly",
+      "flixbus": "FlixBus",
+      "f1": "Ekspertizë Rajonale",
+      "f1_g": "Fokus i thellë në korridoret ballkanike (MK, AL, KS).",
+      "f1_f": "Fokus global; Ballkani është treg dytësor.",
+      "f2": "Linja Direkte",
+      "f2_g": "Linja direkte të optimizuara për diasporën.",
+      "f2_f": "Shpesh kërkon ndalesa të gjata në qendra tranziti.",
+      "f3": "Mbështetja e Klientit",
+      "f3_g": "Mbështetje 24/7 në SQ, MK & EN.",
+      "f3_f": "Kryesisht automatike ose vetëm anglisht.",
+      "f4": "Inxhinieria Teknologjike",
+      "f4_g": "20+ Inxhinierë që ndërtojnë për nuancat rajonale.",
+      "f4_f": "Stak teknologjik i përgjithshëm për 40+ shtete."
+    },
+    "founders_quote": "Ballkani meriton teknologji të klasit botëror.",
+    "founders_sub": "Konkurrentët globalë ofrojnë një shërbim gjenerik. Ne themeluam GoBusly për t'i ofruar diasporës ballkanike të njëjtin nivel komoditeti digjital që gjendet në Evropën Perëndimore."
+  },
   "ticket": {
     "selectReturn": "Zgjidh kthimin",
     "continue": "Vazhdo",

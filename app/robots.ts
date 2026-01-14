@@ -13,14 +13,6 @@ export default function robots(): MetadataRoute.Robots {
           "/*?children=*", // Optional: specific problematic params
         ],
       },
-      {
-        userAgent: "GPTBot", // OpenAI's crawler
-        disallow: "/",
-      },
-      {
-        userAgent: "CCBot", // Common Crawl
-        disallow: "/",
-      },
     ],
     sitemap: "https://www.gobusly.com/sitemap.xml",
   };
