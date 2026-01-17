@@ -80,7 +80,7 @@ const RouteCard = ({ route }: { route: Route }) => {
           </div>
 
           {/* Action Section */}
-          <div className="flex items-center justify-between md:justify-end gap-6 md:border-l md:border-gray-100 md:pl-6 min-w-[160px]">
+          {/* <div className="flex items-center justify-between md:justify-end gap-6 md:border-l md:border-gray-100 md:pl-6 min-w-[160px]">
             <Button
               size="sm"
               className="rounded-full px-6 bg-primary-accent hover:bg-gray-800 text-white shadow-none transition-all"
@@ -90,7 +90,7 @@ const RouteCard = ({ route }: { route: Route }) => {
             >
               {t("operatorDetails.bookNow")}
             </Button>
-          </div>
+          </div> */}
         </div>
       </div>
     </Link>

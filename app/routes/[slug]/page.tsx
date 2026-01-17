@@ -3,16 +3,22 @@ import { notFound } from "next/navigation";
 import RoutePageContent from "./(components)/route-page-content";
 import { getRouteData } from "@/lib/route-data";
 
+/**
+ * In Next.js 15+, params is a Promise.
+ * We define the type to reflect this async nature.
+ */
 interface RoutePageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({
   params,
 }: RoutePageProps): Promise<Metadata> {
-  const routeData = await getRouteData(params.slug);
+  // ✅ NEXT.JS 16 FIX: Await the params object
+  const { slug } = await params;
+  const routeData = await getRouteData(slug);
 
   if (!routeData) {
     return {
@@ -23,18 +29,14 @@ export async function generateMetadata({
 
   const { fromCity, toCity, minPrice } = routeData;
   const base = process.env.NEXT_PUBLIC_BASE_URL ?? "https://www.gobusly.com";
-  const canonical = `${base}/routes/${params.slug}`;
+  const canonical = `${base}/routes/${slug}`;
 
-  // ✅ SEO-OPTIMIZED: 60 char max title
   const title = `Bus from ${fromCity} to ${toCity} | Prices & Tickets – GoBusly`;
-
-  // ✅ SEO-OPTIMIZED: 140-160 chars, includes key elements
   const description = `Book a bus from ${fromCity} to ${toCity}. Compare prices, schedules, travel time and reserve tickets online with GoBusly from €${minPrice}.`;
 
   return {
     title,
     description,
-    // ✅ CRITICAL: Canonical URL (fixes duplicate content)
     alternates: { canonical },
     robots: "index, follow",
     openGraph: {
@@ -62,7 +64,8 @@ export async function generateMetadata({
 }
 
 export default async function RoutePage({ params }: RoutePageProps) {
-  const routeData = await getRouteData(params.slug);
+  const { slug } = await params;
+  const routeData = await getRouteData(slug);
 
   if (!routeData) {
     notFound();

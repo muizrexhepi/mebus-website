@@ -252,12 +252,13 @@ const TicketList: React.FC = () => {
   const fetchingRef = useRef(false);
   const lastSearchParamsRef = useRef<string>("");
 
-  // Memoized search parameters
+  // Memoized search parameters with proper type safety
   const searchParameters = useMemo(
     () => ({
-      destination: Array.isArray(params.destination)
-        ? params.destination[0]
-        : params.destination,
+      destination:
+        (Array.isArray(params.destination)
+          ? params.destination[0]
+          : params.destination) ?? "",
       departureStation: searchParams.get("departureStation"),
       arrivalStation: searchParams.get("arrivalStation"),
       departureDate: searchParams.get("departureDate"),
@@ -912,10 +913,19 @@ const TicketList: React.FC = () => {
 
             return (
               <Sheet key={`${keyPrefix}-${ticket._id}-${index}`}>
-                <SheetTrigger className="w-full">
+                <SheetTrigger asChild>
+                  {/* 1. Change <button> to <div> */}
                   <div
+                    role="button" // 2. Add role for accessibility
+                    tabIndex={0} // 3. Make it focusable via keyboard
                     onClick={() => setSelectedTicket(ticket)}
-                    className="cursor-pointer"
+                    className="w-full cursor-pointer"
+                    // 4. (Optional) Add keyboard support for Enter/Space
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        setSelectedTicket(ticket);
+                      }
+                    }}
                   >
                     {isConnected ? (
                       <ConnectedTicketBlock

@@ -43,6 +43,11 @@ const CONTACT_INFO = {
 const SOCIAL_LINKS = [
   { icon: Facebook, link: "https://facebook.com", name: "Facebook" },
   { icon: Instagram, link: "https://instagram.com/gobusly", name: "Instagram" },
+  {
+    icon: Instagram,
+    link: "https://www.tiktok.com/@gobusly?lang=en",
+    name: "Tiktok",
+  },
 ];
 
 const PAYMENT_METHODS = [
@@ -143,7 +148,7 @@ const Footer = () => {
                           {t(
                             `footer.links.${link.name
                               .toLowerCase()
-                              .replace(/\s+/g, "")}`
+                              .replace(/\s+/g, "")}`,
                           )}
                         </Link>
                       </li>

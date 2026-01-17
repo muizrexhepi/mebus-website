@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -90,6 +90,18 @@ export default function MapComponent({
   const [mapZoom, setMapZoom] = useState<number>(5);
   const [openPopup, setOpenPopup] = useState<string | null>(null);
 
+  // ✅ Add ref to track if map is mounted
+  const mapRef = useRef<boolean>(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // ✅ Only render map after component is mounted
+  useEffect(() => {
+    setIsMounted(true);
+    return () => {
+      mapRef.current = false;
+    };
+  }, []);
+
   useEffect(() => {
     if (fromStation && toStation) {
       const bounds = L.latLngBounds(
@@ -124,6 +136,15 @@ export default function MapComponent({
     setOpenPopup(null); // Close the popup
   };
 
+  // ✅ Don't render map until mounted (prevents SSR issues)
+  if (!isMounted) {
+    return (
+      <div className="w-full h-full flex items-center justify-center bg-gray-100">
+        <div className="text-gray-500">Loading map...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full h-full relative">
       {/* Map */}
@@ -131,6 +152,8 @@ export default function MapComponent({
         center={mapCenter}
         zoom={mapZoom}
         style={{ height: "100%", width: "100%" }}
+        // ✅ Add key to force remount on critical changes
+        key={`map-${isMounted}`}
       >
         <ChangeView center={mapCenter} zoom={mapZoom} />
         <TileLayer

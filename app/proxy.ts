@@ -6,7 +6,7 @@ const rateLimit = new LRUCache({
   ttl: 60 * 1000, // 1 minute
 });
 
-export function middleware(req: NextRequest) {
+export default function proxy(req: NextRequest) {
   const ip = req.ip ?? "127.0.0.1";
 
   if (rateLimit.has(ip)) {

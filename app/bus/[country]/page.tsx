@@ -35,7 +35,10 @@ const capitalizeCity = (s?: string) =>
     .map((w) => (w ? w[0].toUpperCase() + w.slice(1) : ""))
     .join(" ");
 
-type PageProps = { params: { country: string } };
+// ✅ Updated: params is now a Promise
+type PageProps = {
+  params: Promise<{ country: string }>;
+};
 
 type CityWithStations = {
   cityName: string;
@@ -95,10 +98,12 @@ async function getCities(countryName: string): Promise<CityWithStations[]> {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const countryName = toTitleCaseFromSlug(params.country);
+  // ✅ Await params
+  const { country } = await params;
+  const countryName = toTitleCaseFromSlug(country);
 
   const base = process.env.NEXT_PUBLIC_BASE_URL ?? "https://www.gobusly.com";
-  const canonical = `${base}/bus/${params.country}`;
+  const canonical = `${base}/bus/${country}`;
 
   const title = `Bus Tickets in ${countryName} – Routes, Cities & Booking`;
   const description = `GoBusly helps you compare schedules, operators and prices across ${countryName}.`;
@@ -195,8 +200,10 @@ function faqJsonLd(countryName: string) {
 // Page Component
 // ----------------------
 export default async function CountryPage({ params }: PageProps) {
+  // ✅ Await params
+  const { country: countrySlug } = await params;
+
   const base = process.env.NEXT_PUBLIC_BASE_URL ?? "https://www.gobusly.com";
-  const countrySlug = params.country;
   const countryName = toTitleCaseFromSlug(countrySlug);
 
   const cities = await getCities(countryName);

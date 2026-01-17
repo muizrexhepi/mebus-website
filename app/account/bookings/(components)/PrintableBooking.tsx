@@ -11,11 +11,14 @@ import {
   Info,
   Globe,
   Bus,
+  Map,
 } from "lucide-react";
 import { Booking } from "@/models/booking";
 import { QRCodeSVG } from "qrcode.react";
 import { forwardRef } from "react";
 import Image from "next/image";
+import { IoMdLocate } from "react-icons/io";
+import { HiMapPin } from "react-icons/hi2";
 
 interface PrintableBookingProps {
   booking: Booking;
@@ -66,7 +69,7 @@ const PrintableBooking = forwardRef<HTMLDivElement, PrintableBookingProps>(
         </div>
       </div>
     );
-  }
+  },
 );
 
 PrintableBooking.displayName = "PrintableBooking";
@@ -212,10 +215,10 @@ const AdditionalInfo = ({ booking }: { booking: Booking }) => (
         <p className="text-primary-bg/70">FAQ: </p>
         <a
           target="_blank"
-          href="https://www.support.gobusly.com"
+          href="https://www.gobusly.com/help"
           className="font-medium hover:underline"
         >
-          support.gobusly.com
+          gobusly.com/help
         </a>
       </div>
     </div>
@@ -264,7 +267,7 @@ const MapInfo = ({ booking }: { booking: Booking }) => (
     <p className="font-medium text-lg">Map & Directions</p>
     <div className="space-y-4">
       <div className="flex items-start gap-3">
-        <MapPin className="w-5 h-5 mt-0.5 shrink-0" />
+        <IoMdLocate className="w-5 h-5 mt-0.5 shrink-0" />
         <div>
           <p className="text-primary-bg/70">Departure Location: </p>
           <p className="font-medium truncate">
@@ -273,7 +276,7 @@ const MapInfo = ({ booking }: { booking: Booking }) => (
         </div>
       </div>
       <div className="flex items-start gap-3">
-        <MapPin className="w-5 h-5 mt-0.5 shrink-0" />
+        <HiMapPin className="w-5 h-5 mt-0.5 shrink-0" />
         <div>
           <p className="text-primary-bg/70">Arrival Location: </p>
           <p className="font-medium truncate">
@@ -282,13 +285,13 @@ const MapInfo = ({ booking }: { booking: Booking }) => (
         </div>
       </div>
       <div className="flex items-start gap-3">
-        <QrCodeIcon className="w-5 h-5 mt-0.5 shrink-0" />
+        <Map className="w-5 h-5 mt-0.5 shrink-0" />
         <div>
-          <p className="text-primary-bg/70">Scan for Location on Map: </p>
+          <p className="text-primary-bg/70">Location on Map: </p>
           <a
             target="_blank"
             href={`https://www.google.com/maps/search/?q=${encodeURIComponent(
-              booking.destinations.arrival_station_label
+              booking.destinations.arrival_station_label,
             )}`}
             className="font-medium hover:underline"
           >
@@ -303,7 +306,7 @@ const MapInfo = ({ booking }: { booking: Booking }) => (
           <p className="font-medium">
             {format(
               new Date(booking.departure_date),
-              "EEEE, dd LLL yyyy, HH:mm"
+              "EEEE, dd LLL yyyy, HH:mm",
             )}
           </p>
         </div>

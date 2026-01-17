@@ -16,7 +16,7 @@ const MobileAppSection = () => {
       icon: <Bell className="w-6 h-6" />,
       title: t("mobileAppSection.features.smartNotifications.title"),
       description: t(
-        "mobileAppSection.features.smartNotifications.description"
+        "mobileAppSection.features.smartNotifications.description",
       ),
     },
     {
@@ -78,7 +78,7 @@ const MobileAppSection = () => {
             </div>
 
             {/* App Store Buttons */}
-            <div className="flex flex-wrap gap-4">
+            {/* <div className="flex flex-wrap gap-4">
               <a
                 href="https://apps.apple.com/za/app/gobusly/id6753230552"
                 target="_blank"
@@ -91,7 +91,7 @@ const MobileAppSection = () => {
                   className="h-12"
                 />
               </a>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

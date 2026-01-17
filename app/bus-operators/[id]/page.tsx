@@ -7,10 +7,10 @@ import {
   Phone,
   Mail,
   Calendar,
-  ChevronRight, // Changed back to ChevronRight for breadcrumbs
+  ChevronRight,
   ShieldCheck,
   BusFront,
-  ChevronLeft, // Kept for the 'Back to operators' link in the old header
+  ChevronLeft,
 } from "lucide-react";
 
 // Assuming types are defined correctly
@@ -23,8 +23,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import OperatorPageClient from "./OperatorPageClient";
-
-// Import the new Client Component
 
 // --- Server Component Helper: StatCard ---
 const StatCard = ({ label, value, icon: Icon }: any) => (
@@ -41,16 +39,21 @@ const StatCard = ({ label, value, icon: Icon }: any) => (
   </div>
 );
 
+// ✅ Updated: params is now a Promise
+type PageProps = {
+  params: Promise<{ id: string }>;
+};
+
 // --- Metadata Generation (Server) ---
 export async function generateMetadata({
   params,
-}: {
-  params: { id: string };
-}): Promise<Metadata> {
-  // ... (Metadata logic remains the same)
+}: PageProps): Promise<Metadata> {
+  // ✅ Await params
+  const { id } = await params;
+
   try {
     const operatorRes = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/operator/${params.id}`
+      `${process.env.NEXT_PUBLIC_API_URL}/operator/${id}`
     );
     const operator = operatorRes.data?.data;
 
@@ -68,9 +71,10 @@ export async function generateMetadata({
 }
 
 // --- Main Page Component (Server) ---
-const OperatorRoutesPage: React.FC<{ params: { id: string } }> = async ({
-  params: { id },
-}) => {
+const OperatorRoutesPage: React.FC<PageProps> = async ({ params }) => {
+  // ✅ Await params
+  const { id } = await params;
+
   let routes: Route[] = [];
   let operator: Operator | null = null;
   let error: string | null = null;
@@ -123,8 +127,8 @@ const OperatorRoutesPage: React.FC<{ params: { id: string } }> = async ({
       routes={routes}
       mockRating={mockRating}
       activeRoutesCount={activeRoutesCount}
-      countryCode={countryCode} // Passing the required string prop
-      countryName={countryName} // Passing country name for UI rendering
+      countryCode={countryCode}
+      countryName={countryName}
     >
       <StatCard icon={BusFront} label="Routes" value={activeRoutesCount} />
       <StatCard icon={MapPin} label="Country" value={countryCode} />

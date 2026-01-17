@@ -10,6 +10,7 @@ import { useLoadingStore } from "@/store";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Operator } from "@/models/operator";
 import DownloadableBookingPDF from "../(components)/DownloadableBooking";
+import { use } from "react";
 
 export interface AvailableDate {
   departure_date: string;
@@ -19,18 +20,22 @@ export interface AvailableDate {
   operator_info: Operator;
 }
 
+// ✅ Updated: params is now a Promise
 export default function BookingDetailsPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  // ✅ Unwrap the params Promise using React.use()
+  const { id } = use(params);
+
   const [booking, setBookings] = useState<Booking>();
   const { isLoading, setIsLoading } = useLoadingStore();
 
   const fetchBooking = async (noCache?: boolean) => {
     setIsLoading(true);
-    if (params.id) {
-      const data = await getBookingByIdWithChargeData(params.id, noCache);
+    if (id) {
+      const data = await getBookingByIdWithChargeData(id, noCache);
       setBookings(data);
       setIsLoading(false);
     }
@@ -38,7 +43,8 @@ export default function BookingDetailsPage({
 
   useEffect(() => {
     fetchBooking();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   if (isLoading) {
     return (

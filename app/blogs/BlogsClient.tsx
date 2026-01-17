@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Search, Clock, User, Tag } from "lucide-react";
 import { useState } from "react";
+import Footer from "@/components/Footer";
 
 export default function BlogsClientPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -140,6 +141,7 @@ export default function BlogsClientPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

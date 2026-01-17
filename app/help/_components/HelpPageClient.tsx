@@ -1,13 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Accordion,
   AccordionContent,
   AccordionItem,
@@ -24,7 +17,7 @@ const HelpPageClient = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-12 max-w-4xl mx-auto">
       <div className="mb-8 px-4">
-        <h1 className="text-3xl sm:text-4xl font-semibold text-gray-800 mb-2">
+        <h1 className="text-3xl sm:text-4xl font-normal text-primary-accent mb-2">
           {t("helpPage.title")}
         </h1>
         <p className="text-base text-gray-600 max-w-2xl">

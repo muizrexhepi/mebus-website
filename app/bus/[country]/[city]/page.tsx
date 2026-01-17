@@ -13,7 +13,7 @@ import {
 import Footer from "@/components/Footer";
 
 // =====================
-// Config (Next.js 15.15)
+// Config (Next.js 16)
 // =====================
 export const revalidate = 60 * 60 * 12; // ISR: 12h
 
@@ -41,11 +41,12 @@ const capitalizeCity = (s?: string) =>
     .map((w) => (w ? w[0].toUpperCase() + w.slice(1) : w))
     .join(" ");
 
+// ✅ Updated: params is now a Promise
 type PageProps = {
-  params: {
+  params: Promise<{
     country: string;
     city: string;
-  };
+  }>;
 };
 
 type CityRelation = {
@@ -75,10 +76,13 @@ const getRelationName = (rel: CityRelation): string => {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const countryName = toTitleCaseFromSlug(params.country);
-  const cityName = toTitleCaseFromSlug(params.city);
+  // ✅ Await params
+  const { country, city } = await params;
+
+  const countryName = toTitleCaseFromSlug(country);
+  const cityName = toTitleCaseFromSlug(city);
   const base = process.env.NEXT_PUBLIC_BASE_URL ?? "https://www.gobusly.com";
-  const canonical = `${base}/bus/${params.country}/${params.city}`;
+  const canonical = `${base}/bus/${country}/${city}`;
 
   const title = `Bus from ${cityName} – Routes, Schedules & Tickets`;
   const description =
@@ -230,14 +234,16 @@ function cityJsonLd(
 // Page (RSC)
 // ===============
 export default async function CityPage({ params }: PageProps) {
+  // ✅ Await params
+  const { country: countrySlug, city: citySlug } = await params;
+
   const base = process.env.NEXT_PUBLIC_BASE_URL ?? "https://www.gobusly.com";
-  const countrySlug = params.country;
-  const citySlug = params.city;
   const countryName = toTitleCaseFromSlug(countrySlug);
   const cityName = toTitleCaseFromSlug(citySlug);
 
   const cityData = await getCityRelations(citySlug);
   console.log({ cityData });
+
   // JSON-LD payloads
   const breadcrumbLD = breadcrumbJsonLd(
     base,
@@ -384,18 +390,18 @@ export default async function CityPage({ params }: PageProps) {
                       <Link
                         key={rel._id}
                         href={searchUrl}
-                        className="group bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition-all duration-300" // Use p-4 for a tighter look
+                        className="group bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition-all duration-300"
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3 flex-1">
-                            <MapPin className="w-5 h-5 text-gray-400 flex-shrink-0" />{" "}
+                            <MapPin className="w-5 h-5 text-gray-400 flex-shrink-0" />
                             <div className="flex items-baseline gap-2 flex-wrap">
                               <span className="font-semibold text-gray-900 capitalize">
                                 {cityData.city.name}
                               </span>
                               <span className="text-sm text-gray-400">
                                 &rarr;
-                              </span>{" "}
+                              </span>
                               <span className="font-semibold text-gray-900">
                                 {capitalizeCity(relName)}
                               </span>
@@ -453,25 +459,24 @@ export default async function CityPage({ params }: PageProps) {
                         <Link
                           key={rel._id}
                           href={searchUrl}
-                          className="group bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition-all duration-300" // Use p-4 for a tighter look
+                          className="group bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition-all duration-300"
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3 flex-1">
-                              <MapPin className="w-5 h-5 text-gray-400 flex-shrink-0" />{" "}
+                              <MapPin className="w-5 h-5 text-gray-400 flex-shrink-0" />
                               <div className="flex items-baseline gap-2 flex-wrap">
                                 <span className="font-semibold text-gray-900 capitalize">
                                   {cityData.city.name}
                                 </span>
                                 <span className="text-sm text-gray-400">
                                   &rarr;
-                                </span>{" "}
+                                </span>
                                 <span className="font-semibold text-gray-900">
                                   {capitalizeCity(relName)}
                                 </span>
                               </div>
                             </div>
 
-                            {/* This chevron is all you need for "click action" */}
                             <svg
                               className="w-5 h-5 text-gray-400 group-hover:text-primary-accent group-hover:translate-x-1 transition-all flex-shrink-0"
                               fill="none"
@@ -493,38 +498,6 @@ export default async function CityPage({ params }: PageProps) {
                 </section>
               );
             })}
-
-            {/* CTA Section */}
-            {/* <section className="bg-gradient-to-r from-[#ff284d] to-orange-500 rounded-2xl p-8 sm:p-12 text-white shadow-xl">
-              <div className="max-w-3xl mx-auto text-center space-y-6">
-                <h2 className="text-3xl sm:text-4xl font-bold">
-                  Ready to Travel?
-                </h2>
-                <p className="text-lg text-white/90">
-                  Book your bus tickets from {cityData.city.name} now. Compare
-                  prices and find the best deals.
-                </p>
-                <Link
-                  href="/"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#ff284d] rounded-xl font-semibold hover:shadow-2xl hover:scale-105 transition-all"
-                >
-                  Search All Routes
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 7l5 5m0 0l-5 5m5-5H6"
-                    />
-                  </svg>
-                </Link>
-              </div>
-            </section> */}
           </>
         )}
       </div>

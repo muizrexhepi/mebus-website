@@ -8,8 +8,8 @@ import { generateSEOKeywords } from "@/lib/keywords";
 import axios from "axios";
 
 type GenerateMetadataProps = {
-  params: { destination: string };
-  searchParams: { [key: string]: string | undefined };
+  params: Promise<{ destination: string }>; // ✅ Now a Promise
+  searchParams: Promise<{ [key: string]: string | undefined }>; // ✅ Now a Promise
 };
 
 const formatCityName = (cityEncoded: string) => {
@@ -43,7 +43,10 @@ export async function generateMetadata({
   params,
   searchParams,
 }: GenerateMetadataProps): Promise<Metadata> {
-  const { destination } = params;
+  // ✅ Await params and searchParams
+  const { destination } = await params;
+  const resolvedSearchParams = await searchParams;
+
   const [departureCityEncoded, arrivalCityEncoded] = destination.split("-");
   const departureCity = formatCityName(departureCityEncoded);
   const arrivalCity = formatCityName(arrivalCityEncoded);
@@ -70,7 +73,7 @@ export async function generateMetadata({
   const canonicalUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/search/${destination}`;
 
   // CRITICAL: If URL has parameters, tell Google not to index this specific variation
-  const hasParameters = Object.keys(searchParams).length > 0;
+  const hasParameters = Object.keys(resolvedSearchParams).length > 0;
   const robotsDirective = hasParameters
     ? "noindex, follow" // Don't index parameterized URLs, but follow links
     : "index, follow"; // Index only the clean URL
@@ -189,8 +192,14 @@ const generateStructuredData = (
   ];
 };
 
-export default async function SearchPage({ params, searchParams }: any) {
-  const { destination } = params;
+type PageProps = {
+  params: Promise<{ destination: string }>; // ✅ Now a Promise
+  searchParams: Promise<{ [key: string]: string | undefined }>; // ✅ Now a Promise
+};
+
+export default async function SearchPage({ params, searchParams }: PageProps) {
+  // ✅ Await params
+  const { destination } = await params;
 
   const [departureCityEncoded, arrivalCityEncoded] = destination.split("-");
   const departureCity = formatCityName(departureCityEncoded);
