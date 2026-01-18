@@ -15,7 +15,7 @@ import Footer from "@/components/Footer";
 // =====================
 // Config (Next.js 16)
 // =====================
-export const revalidate = 60 * 60 * 12; // ISR: 12h
+export const revalidate = 43200; // ISR: 12h
 
 // ============
 // Util helpers
@@ -144,7 +144,7 @@ async function getCityRelations(citySlug: string): Promise<CityData | null> {
 function buildSearchUrl(
   base: string,
   fromCity: { name: string; _id: string },
-  toCity: { name: string; _id: string }
+  toCity: { name: string; _id: string },
 ): string {
   console.log({ fromCity, toCity });
   const fromSlug = cityToSlug(fromCity.name);
@@ -169,7 +169,7 @@ function breadcrumbJsonLd(
   countrySlug: string,
   countryName: string,
   citySlug: string,
-  cityName: string
+  cityName: string,
 ) {
   return {
     "@context": "https://schema.org",
@@ -201,7 +201,7 @@ function cityJsonLd(
   base: string,
   cityName: string,
   countryName: string,
-  relations: CityRelation[]
+  relations: CityRelation[],
 ) {
   return {
     "@context": "https://schema.org",
@@ -250,22 +250,25 @@ export default async function CityPage({ params }: PageProps) {
     countrySlug,
     countryName,
     citySlug,
-    cityName
+    cityName,
   );
   const cityLD = cityJsonLd(
     base,
     cityData?.city?.name ?? cityName,
     countryName,
-    cityData?.relations ?? []
+    cityData?.relations ?? [],
   );
 
   // Group relations by country for better organization
-  const relationsByCountry = (cityData?.relations ?? []).reduce((acc, rel) => {
-    const country = rel.country || "Other";
-    if (!acc[country]) acc[country] = [];
-    acc[country].push(rel);
-    return acc;
-  }, {} as Record<string, CityRelation[]>);
+  const relationsByCountry = (cityData?.relations ?? []).reduce(
+    (acc, rel) => {
+      const country = rel.country || "Other";
+      if (!acc[country]) acc[country] = [];
+      acc[country].push(rel);
+      return acc;
+    },
+    {} as Record<string, CityRelation[]>,
+  );
 
   // Domestic routes first, then international
   const domesticRoutes = relationsByCountry[countryName] ?? [];
@@ -383,7 +386,7 @@ export default async function CityPage({ params }: PageProps) {
                     const searchUrl = buildSearchUrl(
                       base,
                       { name: cityData.city.name, _id: cityData.city._id },
-                      { name: relName, _id: rel._id }
+                      { name: relName, _id: rel._id },
                     );
 
                     return (
@@ -452,7 +455,7 @@ export default async function CityPage({ params }: PageProps) {
                       const searchUrl = buildSearchUrl(
                         base,
                         { name: cityData.city.name, _id: cityData.city._id },
-                        { name: relName, _id: rel._id }
+                        { name: relName, _id: rel._id },
                       );
 
                       return (

@@ -8,7 +8,7 @@ import PopularBusRoutes from "@/components/home/PopularRoutes";
 // =====================
 // Config (Next.js 15)
 // =====================
-export const revalidate = 60 * 60 * 12; // ISR: 12h
+export const revalidate = 43200; // ISR: 12h
 
 // =====================
 // Types
@@ -47,7 +47,7 @@ async function getCountries(): Promise<Country[]> {
     }));
     console.log({ countries });
     return countries.sort((a: Country, b: Country) =>
-      a.country.localeCompare(b.country)
+      a.country.localeCompare(b.country),
     );
   } catch (error) {
     console.error("Error fetching countries:", error);
@@ -192,12 +192,15 @@ export default async function BusPage() {
   console.log({ countries });
 
   // Group countries by first letter
-  const groupedCountries = countries.reduce((acc, country) => {
-    const firstLetter = country.country[0].toUpperCase();
-    if (!acc[firstLetter]) acc[firstLetter] = [];
-    acc[firstLetter].push(country);
-    return acc;
-  }, {} as Record<string, Country[]>);
+  const groupedCountries = countries.reduce(
+    (acc, country) => {
+      const firstLetter = country.country[0].toUpperCase();
+      if (!acc[firstLetter]) acc[firstLetter] = [];
+      acc[firstLetter].push(country);
+      return acc;
+    },
+    {} as Record<string, Country[]>,
+  );
 
   console.log({ groupedCountries });
 
@@ -279,7 +282,7 @@ export default async function BusPage() {
                         ))}
                       </div>
                     </div>
-                  )
+                  ),
                 )}
               </div>
             </div>

@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import Footer from "@/components/Footer";
 
-export const revalidate = 60 * 60 * 12; // 12h
+export const revalidate = 43200; // 12h
 
 // ----------------------
 // Util Helpers
@@ -143,7 +143,7 @@ export async function generateMetadata({
 function breadcrumbJsonLd(
   base: string,
   countrySlug: string,
-  countryName: string
+  countryName: string,
 ) {
   return {
     "@context": "https://schema.org",
