@@ -8,13 +8,12 @@ import useSearchStore from "@/store";
 /**
  * This component initializes the search when users land on clean URLs like:
  * /search/skopje-bern (without parameters)
- *
- * It fetches station IDs based on city names and redirects to the parameterized URL
  */
 export function SearchInitializer() {
   const params = useParams();
   const searchParams = useSearchParams();
   const router = useRouter();
+
   const {
     setFrom,
     setTo,
@@ -23,40 +22,48 @@ export function SearchInitializer() {
     setDepartureDate,
     setPassengers,
   } = useSearchStore();
+
   const hasInitialized = useRef(false);
 
   useEffect(() => {
-    // Only run once and only if we don't have required parameters
+    // 1. Validate params exist
+    if (!params?.destination) return;
+
+    // 2. Prevent double-invocation (Strict Mode / React 18+)
     if (hasInitialized.current) return;
 
-    const destination = Array.isArray(params.destination)
-      ? params.destination[0]
-      : params.destination;
-
+    // 3. Check if we already have query params (prevent loops)
     const hasDepartureStation = searchParams.get("departureStation");
     const hasArrivalStation = searchParams.get("arrivalStation");
     const hasDepartureDate = searchParams.get("departureDate");
 
-    // If we already have all required params, don't initialize
     if (hasDepartureStation && hasArrivalStation && hasDepartureDate) {
       return;
     }
 
-    // Mark as initialized to prevent multiple runs
+    // Lock: Mark as initialized immediately
     hasInitialized.current = true;
 
     const initializeSearch = async () => {
       try {
-        // Parse city names from URL slug
+        // Handle string | string[] safely
+        const destinationRaw = params.destination;
+        const destination = Array.isArray(destinationRaw)
+          ? destinationRaw[0]
+          : destinationRaw;
+
+        if (!destination) return;
+
         const [fromCitySlug, toCitySlug] = destination.split("-");
 
-        // Capitalize city names
+        // Helper: Capitalize city names (skopje -> Skopje)
         const formatCityName = (slug: string) => {
+          if (!slug) return "";
           return slug
             .split("-")
             .map(
               (word) =>
-                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
             )
             .join(" ");
         };
@@ -64,7 +71,7 @@ export function SearchInitializer() {
         const fromCity = formatCityName(fromCitySlug);
         const toCity = formatCityName(toCitySlug);
 
-        // Fetch station data to get IDs
+        // Fetch station data
         const apiBase =
           process.env.NEXT_PUBLIC_API_URL || "https://www.gobusly.com";
         const stationsResponse = await fetch(`${apiBase}/station`);
@@ -78,30 +85,27 @@ export function SearchInitializer() {
         const stations = stationsData.data || [];
 
         // Find matching stations (case-insensitive)
+        // Note: explicit 'any' used to match your previous code, preferably type this interface
         const departureStation = stations.find(
-          (s: any) => s.city.toLowerCase() === fromCity.toLowerCase()
+          (s: any) => s.city.toLowerCase() === fromCity.toLowerCase(),
         );
 
         const arrivalStation = stations.find(
-          (s: any) => s.city.toLowerCase() === toCity.toLowerCase()
+          (s: any) => s.city.toLowerCase() === toCity.toLowerCase(),
         );
 
         if (!departureStation || !arrivalStation) {
-          console.error(
-            "Could not find stations for cities:",
-            fromCity,
-            toCity
-          );
+          console.error("Stations not found for:", fromCity, toCity);
           return;
         }
 
-        // Set default values
+        // Default values
         const today = new Date();
         const formattedDate = format(today, "dd-MM-yyyy");
         const adults = 1;
         const children = 0;
 
-        // Update store
+        // Update Store
         setFrom(departureStation._id);
         setTo(arrivalStation._id);
         setFromCity(fromCity);
@@ -109,16 +113,15 @@ export function SearchInitializer() {
         setDepartureDate(formattedDate);
         setPassengers({ adults, children });
 
-        // Build search params
-        const newSearchParams = new URLSearchParams({
-          departureStation: departureStation._id,
-          arrivalStation: arrivalStation._id,
-          departureDate: formattedDate,
-          adult: adults.toString(),
-          children: children.toString(),
-        });
+        // Build new URL Params
+        const newSearchParams = new URLSearchParams();
+        newSearchParams.set("departureStation", departureStation._id);
+        newSearchParams.set("arrivalStation", arrivalStation._id);
+        newSearchParams.set("departureDate", formattedDate);
+        newSearchParams.set("adult", adults.toString());
+        newSearchParams.set("children", children.toString());
 
-        // Redirect to parameterized URL
+        // Redirect
         router.replace(`/search/${destination}?${newSearchParams.toString()}`);
       } catch (error) {
         console.error("Error initializing search:", error);
@@ -127,7 +130,7 @@ export function SearchInitializer() {
 
     initializeSearch();
   }, [
-    params.destination,
+    params, // Check the whole object reference
     searchParams,
     router,
     setFrom,
@@ -138,6 +141,5 @@ export function SearchInitializer() {
     setPassengers,
   ]);
 
-  // This component doesn't render anything
   return null;
 }
